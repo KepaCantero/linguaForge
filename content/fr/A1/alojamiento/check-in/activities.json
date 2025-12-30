@@ -1,0 +1,156 @@
+{
+  "topic": "alojamiento",
+  "subcontext": "check-in",
+  "activities": [
+    {
+      "id": "cloze-checkin-01",
+      "type": "cloze",
+      "dialogueId": "checkin-01",
+      "sentence": "Bonsoir ! Vous _____ Alex ?",
+      "translation": "¡Buenas noches! ¿_____ Alex?",
+      "blanks": [
+        { "position": 3, "answer": "êtes", "hint": "verbo être, usted" }
+      ],
+      "options": ["êtes", "suis", "est", "sommes"]
+    },
+    {
+      "id": "cloze-checkin-02",
+      "type": "cloze",
+      "dialogueId": "checkin-01",
+      "sentence": "Voici les _____. La salle de bain est à gauche.",
+      "translation": "Aquí están las _____. El baño está a la izquierda.",
+      "blanks": [
+        { "position": 2, "answer": "clés", "hint": "para abrir puertas" }
+      ],
+      "options": ["clés", "portes", "chambres", "serviettes"]
+    },
+    {
+      "id": "cloze-checkin-03",
+      "type": "cloze",
+      "dialogueId": "checkin-02",
+      "sentence": "L'appartement n'est _____ encore prêt.",
+      "translation": "El apartamento aún no _____ listo.",
+      "blanks": [
+        { "position": 3, "answer": "pas", "hint": "negación" }
+      ],
+      "options": ["pas", "plus", "jamais", "rien"]
+    },
+    {
+      "id": "cloze-checkin-04",
+      "type": "cloze",
+      "dialogueId": "checkin-03",
+      "sentence": "C'est _____ de la boulangerie. La porte bleue.",
+      "translation": "Está _____ la panadería. La puerta azul.",
+      "blanks": [
+        { "position": 2, "answer": "à côté", "hint": "al lado" }
+      ],
+      "options": ["à côté", "derrière", "devant", "loin"]
+    },
+    {
+      "id": "cloze-checkin-05",
+      "type": "cloze",
+      "dialogueId": "checkin-04",
+      "sentence": "Il _____ fermer la porte à clé.",
+      "translation": "_____ cerrar la puerta con llave.",
+      "blanks": [
+        { "position": 2, "answer": "faut", "hint": "hay que" }
+      ],
+      "options": ["faut", "fait", "peut", "doit"]
+    },
+    {
+      "id": "shadowing-checkin-01",
+      "type": "shadowing",
+      "dialogueId": "checkin-01",
+      "audioUrl": "/audio/fr/A1/alojamiento/check-in/dialogue-01-line-01.mp3",
+      "text": "Bonsoir ! Vous êtes Alex ?",
+      "translation": "¡Buenas noches! ¿Eres Alex?",
+      "speed": "slow",
+      "pauseDuration": 3000
+    },
+    {
+      "id": "shadowing-checkin-02",
+      "type": "shadowing",
+      "dialogueId": "checkin-01",
+      "audioUrl": "/audio/fr/A1/alojamiento/check-in/dialogue-01-line-03.mp3",
+      "text": "Pas de problème ! Voici les clés.",
+      "translation": "¡No hay problema! Aquí están las llaves.",
+      "speed": "normal",
+      "pauseDuration": 2500
+    },
+    {
+      "id": "shadowing-checkin-03",
+      "type": "shadowing",
+      "dialogueId": "checkin-02",
+      "audioUrl": "/audio/fr/A1/alojamiento/check-in/dialogue-02-line-03.mp3",
+      "text": "Je peux laisser ma valise ici ?",
+      "translation": "¿Puedo dejar mi maleta aquí?",
+      "speed": "slow",
+      "pauseDuration": 3000
+    },
+    {
+      "id": "shadowing-checkin-04",
+      "type": "shadowing",
+      "dialogueId": "checkin-04",
+      "audioUrl": "/audio/fr/A1/alojamiento/check-in/dialogue-04-line-03.mp3",
+      "text": "Il faut fermer la porte à clé.",
+      "translation": "Hay que cerrar la puerta con llave.",
+      "speed": "normal",
+      "pauseDuration": 2500
+    },
+    {
+      "id": "shadowing-checkin-05",
+      "type": "shadowing",
+      "dialogueId": "checkin-05",
+      "audioUrl": "/audio/fr/A1/alojamiento/check-in/dialogue-05-line-03.mp3",
+      "text": "Quel est le mot de passe ?",
+      "translation": "¿Cuál es la contraseña?",
+      "speed": "normal",
+      "pauseDuration": 2500
+    },
+    {
+      "id": "permutation-checkin-01",
+      "type": "permutation",
+      "matrixId": "janulus-checkin-01",
+      "baseStructure": "Je suis [nombre]. Où est [lugar]?",
+      "variations": [
+        { "french": "Je suis Alex. Où est la cuisine ?", "spanish": "Soy Alex. ¿Dónde está la cocina?", "isCorrect": true },
+        { "french": "Je suis l'hôte. Où est la chambre ?", "spanish": "Soy el anfitrión. ¿Dónde está la habitación?", "isCorrect": true },
+        { "french": "Je suis le WiFi. Où est Alex ?", "spanish": "Soy el WiFi. ¿Dónde está Alex?", "isCorrect": false },
+        { "french": "Je suis la clé. Où est la valise ?", "spanish": "Soy la llave. ¿Dónde está la maleta?", "isCorrect": false }
+      ]
+    },
+    {
+      "id": "permutation-checkin-02",
+      "type": "permutation",
+      "matrixId": "janulus-checkin-02",
+      "baseStructure": "[permiso] [acción] [objeto]?",
+      "variations": [
+        { "french": "Je peux utiliser la cuisine ?", "spanish": "¿Puedo usar la cocina?", "isCorrect": true },
+        { "french": "Est-ce que je peux avoir le WiFi ?", "spanish": "¿Puedo tener el WiFi?", "isCorrect": true },
+        { "french": "Je peux la cuisine utiliser ?", "spanish": "¿Puedo la cocina usar?", "isCorrect": false },
+        { "french": "La cuisine je peux utiliser ?", "spanish": "¿La cocina puedo usar?", "isCorrect": false }
+      ]
+    },
+    {
+      "id": "permutation-checkin-03",
+      "type": "permutation",
+      "matrixId": "janulus-checkin-03",
+      "baseStructure": "[existe] [servicio] [ubicación]?",
+      "variations": [
+        { "french": "Il y a du WiFi dans la chambre ?", "spanish": "¿Hay WiFi en la habitación?", "isCorrect": true },
+        { "french": "Est-ce qu'il y a Netflix sur la télé ?", "spanish": "¿Hay Netflix en la tele?", "isCorrect": true },
+        { "french": "WiFi il y a dans la chambre ?", "spanish": "¿WiFi hay en la habitación?", "isCorrect": false },
+        { "french": "Dans la chambre WiFi il y a ?", "spanish": "¿En la habitación WiFi hay?", "isCorrect": false }
+      ]
+    }
+  ],
+  "metadata": {
+    "totalActivities": 13,
+    "byType": {
+      "cloze": 5,
+      "shadowing": 5,
+      "permutation": 3
+    },
+    "lastUpdated": "2024-12-29"
+  }
+}

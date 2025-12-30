@@ -1,0 +1,548 @@
+{
+  "id": "fr-a1-airbnb",
+  "languageCode": "fr",
+  "levelCode": "A1",
+  "title": "Airbnb en París",
+  "description": "Comunícate con tu anfitrión en francés",
+  "imageUrl": "/images/worlds/airbnb.png",
+  "janusMatrix": {
+    "id": "janus-fr-a1-airbnb",
+    "worldId": "fr-a1-airbnb",
+    "title": "Frases de Reservación",
+    "description": "Combina elementos para crear frases de alojamiento",
+    "targetRepetitions": 25,
+    "columns": [
+      {
+        "id": "col-subject",
+        "label": "Sujeto",
+        "grammaticalRole": "subject",
+        "cells": [
+          { "id": "s1", "text": "Je", "translation": "Yo" },
+          { "id": "s2", "text": "Nous", "translation": "Nosotros" },
+          { "id": "s3", "text": "Vous", "translation": "Usted" },
+          { "id": "s4", "text": "On", "translation": "Uno/Se" }
+        ]
+      },
+      {
+        "id": "col-modal",
+        "label": "Modal",
+        "grammaticalRole": "modal",
+        "cells": [
+          { "id": "m1", "text": "veux", "translation": "quiero" },
+          { "id": "m2", "text": "dois", "translation": "debo" },
+          { "id": "m3", "text": "peux", "translation": "puedo" },
+          { "id": "m4", "text": "voudrais", "translation": "quisiera" }
+        ]
+      },
+      {
+        "id": "col-verb",
+        "label": "Acción",
+        "grammaticalRole": "verb",
+        "cells": [
+          { "id": "v1", "text": "réserver", "translation": "reservar" },
+          { "id": "v2", "text": "voir", "translation": "ver" },
+          { "id": "v3", "text": "utiliser", "translation": "usar" },
+          { "id": "v4", "text": "trouver", "translation": "encontrar" }
+        ]
+      },
+      {
+        "id": "col-complement",
+        "label": "Complemento",
+        "grammaticalRole": "complement",
+        "cells": [
+          { "id": "c1", "text": "la chambre", "translation": "la habitación" },
+          { "id": "c2", "text": "l'appartement", "translation": "el apartamento" },
+          { "id": "c3", "text": "la cuisine", "translation": "la cocina" },
+          { "id": "c4", "text": "les clés", "translation": "las llaves" }
+        ]
+      }
+    ]
+  },
+  "matrices": [
+    {
+      "id": "matrix-1-checkin",
+      "title": "Check-in",
+      "description": "Llegada y presentación al anfitrión",
+      "order": 1,
+      "context": "llegada",
+      "phrases": [
+        {
+          "id": "p1-1",
+          "text": "Bonjour, je suis votre invité.",
+          "translation": "Hola, soy su huésped.",
+          "clozeWord": "invité",
+          "clozeOptions": [
+            { "id": "o1", "text": "invité", "isCorrect": true },
+            { "id": "o2", "text": "hôte", "isCorrect": false },
+            { "id": "o3", "text": "voisin", "isCorrect": false },
+            { "id": "o4", "text": "ami", "isCorrect": false }
+          ],
+          "variations": [
+            { "id": "v1-1", "text": "Bonjour, je suis votre hôte.", "translation": "Hola, soy su anfitrión." },
+            { "id": "v1-2", "text": "Bonjour, nous sommes vos invités.", "translation": "Hola, somos sus huéspedes." }
+          ]
+        },
+        {
+          "id": "p1-2",
+          "text": "J'ai réservé pour deux nuits.",
+          "translation": "He reservado para dos noches.",
+          "clozeWord": "nuits",
+          "clozeOptions": [
+            { "id": "o1", "text": "nuits", "isCorrect": true },
+            { "id": "o2", "text": "jours", "isCorrect": false },
+            { "id": "o3", "text": "semaines", "isCorrect": false },
+            { "id": "o4", "text": "heures", "isCorrect": false }
+          ],
+          "variations": [
+            { "id": "v2-1", "text": "J'ai réservé pour trois nuits.", "translation": "He reservado para tres noches." },
+            { "id": "v2-2", "text": "J'ai réservé pour une semaine.", "translation": "He reservado para una semana." }
+          ]
+        },
+        {
+          "id": "p1-3",
+          "text": "Où puis-je mettre mes valises?",
+          "translation": "¿Dónde puedo poner mis maletas?",
+          "clozeWord": "valises",
+          "clozeOptions": [
+            { "id": "o1", "text": "valises", "isCorrect": true },
+            { "id": "o2", "text": "chaussures", "isCorrect": false },
+            { "id": "o3", "text": "clés", "isCorrect": false },
+            { "id": "o4", "text": "vêtements", "isCorrect": false }
+          ],
+          "variations": [
+            { "id": "v3-1", "text": "Où puis-je mettre mon sac?", "translation": "¿Dónde puedo poner mi bolsa?" },
+            { "id": "v3-2", "text": "Où est la chambre?", "translation": "¿Dónde está la habitación?" }
+          ]
+        },
+        {
+          "id": "p1-4",
+          "text": "À quelle heure est le check-in?",
+          "translation": "¿A qué hora es el check-in?",
+          "clozeWord": "heure",
+          "clozeOptions": [
+            { "id": "o1", "text": "heure", "isCorrect": true },
+            { "id": "o2", "text": "jour", "isCorrect": false },
+            { "id": "o3", "text": "moment", "isCorrect": false },
+            { "id": "o4", "text": "temps", "isCorrect": false }
+          ],
+          "variations": [
+            { "id": "v4-1", "text": "À quelle heure puis-je arriver?", "translation": "¿A qué hora puedo llegar?" },
+            { "id": "v4-2", "text": "À quelle heure est le check-out?", "translation": "¿A qué hora es el check-out?" }
+          ]
+        },
+        {
+          "id": "p1-5",
+          "text": "Merci beaucoup pour l'accueil.",
+          "translation": "Muchas gracias por la bienvenida.",
+          "clozeWord": "accueil",
+          "clozeOptions": [
+            { "id": "o1", "text": "accueil", "isCorrect": true },
+            { "id": "o2", "text": "séjour", "isCorrect": false },
+            { "id": "o3", "text": "voyage", "isCorrect": false },
+            { "id": "o4", "text": "visite", "isCorrect": false }
+          ],
+          "variations": [
+            { "id": "v5-1", "text": "Merci pour votre aide.", "translation": "Gracias por su ayuda." },
+            { "id": "v5-2", "text": "Merci pour tout.", "translation": "Gracias por todo." }
+          ]
+        }
+      ],
+      "miniTask": {
+        "id": "mt-1",
+        "prompt": "Escribe un mensaje presentándote a tu anfitrión de Airbnb.",
+        "promptTranslation": "Écrivez un message pour vous présenter à votre hôte Airbnb.",
+        "keywords": ["bonjour", "je", "suis", "réservé", "merci"],
+        "exampleResponse": "Bonjour! Je suis Maria et j'ai réservé votre appartement pour trois nuits. Merci beaucoup!",
+        "minWords": 8
+      }
+    },
+    {
+      "id": "matrix-2-habitacion",
+      "title": "La Habitación",
+      "description": "Comodidades y preguntas sobre el espacio",
+      "order": 2,
+      "context": "habitacion",
+      "phrases": [
+        {
+          "id": "p2-1",
+          "text": "L'appartement est très propre.",
+          "translation": "El apartamento está muy limpio.",
+          "clozeWord": "propre",
+          "clozeOptions": [
+            { "id": "o1", "text": "propre", "isCorrect": true },
+            { "id": "o2", "text": "grand", "isCorrect": false },
+            { "id": "o3", "text": "petit", "isCorrect": false },
+            { "id": "o4", "text": "beau", "isCorrect": false }
+          ],
+          "variations": [
+            { "id": "v1", "text": "L'appartement est très confortable.", "translation": "El apartamento es muy cómodo." },
+            { "id": "v2", "text": "L'appartement est bien situé.", "translation": "El apartamento está bien ubicado." }
+          ]
+        },
+        {
+          "id": "p2-2",
+          "text": "Le lit est très confortable.",
+          "translation": "La cama es muy cómoda.",
+          "clozeWord": "lit",
+          "clozeOptions": [
+            { "id": "o1", "text": "lit", "isCorrect": true },
+            { "id": "o2", "text": "canapé", "isCorrect": false },
+            { "id": "o3", "text": "fauteuil", "isCorrect": false },
+            { "id": "o4", "text": "table", "isCorrect": false }
+          ],
+          "variations": [
+            { "id": "v1", "text": "Le canapé est confortable.", "translation": "El sofá es cómodo." },
+            { "id": "v2", "text": "Les oreillers sont doux.", "translation": "Las almohadas son suaves." }
+          ]
+        },
+        {
+          "id": "p2-3",
+          "text": "Y a-t-il des serviettes?",
+          "translation": "¿Hay toallas?",
+          "clozeWord": "serviettes",
+          "clozeOptions": [
+            { "id": "o1", "text": "serviettes", "isCorrect": true },
+            { "id": "o2", "text": "draps", "isCorrect": false },
+            { "id": "o3", "text": "couvertures", "isCorrect": false },
+            { "id": "o4", "text": "oreillers", "isCorrect": false }
+          ],
+          "variations": [
+            { "id": "v1", "text": "Y a-t-il des draps propres?", "translation": "¿Hay sábanas limpias?" },
+            { "id": "v2", "text": "Y a-t-il une couverture?", "translation": "¿Hay una manta?" }
+          ]
+        },
+        {
+          "id": "p2-4",
+          "text": "Où est la salle de bain?",
+          "translation": "¿Dónde está el baño?",
+          "clozeWord": "salle de bain",
+          "clozeOptions": [
+            { "id": "o1", "text": "salle de bain", "isCorrect": true },
+            { "id": "o2", "text": "cuisine", "isCorrect": false },
+            { "id": "o3", "text": "chambre", "isCorrect": false },
+            { "id": "o4", "text": "salon", "isCorrect": false }
+          ],
+          "variations": [
+            { "id": "v1", "text": "Où sont les toilettes?", "translation": "¿Dónde están los aseos?" },
+            { "id": "v2", "text": "Y a-t-il une douche?", "translation": "¿Hay una ducha?" }
+          ]
+        },
+        {
+          "id": "p2-5",
+          "text": "La vue est magnifique.",
+          "translation": "La vista es magnífica.",
+          "clozeWord": "vue",
+          "clozeOptions": [
+            { "id": "o1", "text": "vue", "isCorrect": true },
+            { "id": "o2", "text": "chambre", "isCorrect": false },
+            { "id": "o3", "text": "terrasse", "isCorrect": false },
+            { "id": "o4", "text": "décoration", "isCorrect": false }
+          ],
+          "variations": [
+            { "id": "v1", "text": "La terrasse est magnifique.", "translation": "La terraza es magnífica." },
+            { "id": "v2", "text": "La décoration est jolie.", "translation": "La decoración es bonita." }
+          ]
+        }
+      ],
+      "miniTask": {
+        "id": "mt-2",
+        "prompt": "Describe tu habitación ideal en francés.",
+        "promptTranslation": "Décrivez votre chambre idéale en français.",
+        "keywords": ["chambre", "lit", "propre", "confortable", "vue"],
+        "exampleResponse": "Ma chambre idéale est grande et propre. Le lit est confortable et la vue est magnifique.",
+        "minWords": 10
+      }
+    },
+    {
+      "id": "matrix-3-cocina",
+      "title": "La Cocina",
+      "description": "Uso de la cocina y preguntas",
+      "order": 3,
+      "context": "cocina",
+      "phrases": [
+        {
+          "id": "p3-1",
+          "text": "Je peux utiliser la cuisine?",
+          "translation": "¿Puedo usar la cocina?",
+          "clozeWord": "cuisine",
+          "clozeOptions": [
+            { "id": "o1", "text": "cuisine", "isCorrect": true },
+            { "id": "o2", "text": "salle de bain", "isCorrect": false },
+            { "id": "o3", "text": "terrasse", "isCorrect": false },
+            { "id": "o4", "text": "chambre", "isCorrect": false }
+          ],
+          "variations": [
+            { "id": "v1", "text": "Je peux utiliser le four?", "translation": "¿Puedo usar el horno?" },
+            { "id": "v2", "text": "Je peux utiliser le micro-ondes?", "translation": "¿Puedo usar el microondas?" }
+          ]
+        },
+        {
+          "id": "p3-2",
+          "text": "Où sont les assiettes?",
+          "translation": "¿Dónde están los platos?",
+          "clozeWord": "assiettes",
+          "clozeOptions": [
+            { "id": "o1", "text": "assiettes", "isCorrect": true },
+            { "id": "o2", "text": "verres", "isCorrect": false },
+            { "id": "o3", "text": "couverts", "isCorrect": false },
+            { "id": "o4", "text": "casseroles", "isCorrect": false }
+          ],
+          "variations": [
+            { "id": "v1", "text": "Où sont les verres?", "translation": "¿Dónde están los vasos?" },
+            { "id": "v2", "text": "Où sont les couverts?", "translation": "¿Dónde están los cubiertos?" }
+          ]
+        },
+        {
+          "id": "p3-3",
+          "text": "Y a-t-il du café?",
+          "translation": "¿Hay café?",
+          "clozeWord": "café",
+          "clozeOptions": [
+            { "id": "o1", "text": "café", "isCorrect": true },
+            { "id": "o2", "text": "thé", "isCorrect": false },
+            { "id": "o3", "text": "lait", "isCorrect": false },
+            { "id": "o4", "text": "sucre", "isCorrect": false }
+          ],
+          "variations": [
+            { "id": "v1", "text": "Y a-t-il du thé?", "translation": "¿Hay té?" },
+            { "id": "v2", "text": "Y a-t-il du lait?", "translation": "¿Hay leche?" }
+          ]
+        },
+        {
+          "id": "p3-4",
+          "text": "Comment fonctionne la cafetière?",
+          "translation": "¿Cómo funciona la cafetera?",
+          "clozeWord": "cafetière",
+          "clozeOptions": [
+            { "id": "o1", "text": "cafetière", "isCorrect": true },
+            { "id": "o2", "text": "cuisinière", "isCorrect": false },
+            { "id": "o3", "text": "machine à laver", "isCorrect": false },
+            { "id": "o4", "text": "télévision", "isCorrect": false }
+          ],
+          "variations": [
+            { "id": "v1", "text": "Comment fonctionne le four?", "translation": "¿Cómo funciona el horno?" },
+            { "id": "v2", "text": "Comment fonctionne la cuisinière?", "translation": "¿Cómo funciona la cocina?" }
+          ]
+        },
+        {
+          "id": "p3-5",
+          "text": "Je dois laver la vaisselle?",
+          "translation": "¿Debo lavar los platos?",
+          "clozeWord": "vaisselle",
+          "clozeOptions": [
+            { "id": "o1", "text": "vaisselle", "isCorrect": true },
+            { "id": "o2", "text": "vêtements", "isCorrect": false },
+            { "id": "o3", "text": "serviettes", "isCorrect": false },
+            { "id": "o4", "text": "draps", "isCorrect": false }
+          ],
+          "variations": [
+            { "id": "v1", "text": "Où jeter les poubelles?", "translation": "¿Dónde tirar la basura?" },
+            { "id": "v2", "text": "Y a-t-il un lave-vaisselle?", "translation": "¿Hay lavavajillas?" }
+          ]
+        }
+      ],
+      "miniTask": {
+        "id": "mt-3",
+        "prompt": "Pregunta a tu anfitrión sobre la cocina.",
+        "promptTranslation": "Posez des questions à votre hôte sur la cuisine.",
+        "keywords": ["cuisine", "utiliser", "où", "comment", "fonctionne"],
+        "exampleResponse": "Bonjour! Je peux utiliser la cuisine? Où sont les assiettes? Comment fonctionne la cafetière?",
+        "minWords": 8
+      }
+    },
+    {
+      "id": "matrix-4-problemas",
+      "title": "Problemas",
+      "description": "Reportar problemas técnicos",
+      "order": 4,
+      "context": "problemas",
+      "phrases": [
+        {
+          "id": "p4-1",
+          "text": "Le wifi ne fonctionne pas.",
+          "translation": "El wifi no funciona.",
+          "clozeWord": "wifi",
+          "clozeOptions": [
+            { "id": "o1", "text": "wifi", "isCorrect": true },
+            { "id": "o2", "text": "télévision", "isCorrect": false },
+            { "id": "o3", "text": "chauffage", "isCorrect": false },
+            { "id": "o4", "text": "douche", "isCorrect": false }
+          ],
+          "variations": [
+            { "id": "v1", "text": "Le chauffage ne fonctionne pas.", "translation": "La calefacción no funciona." },
+            { "id": "v2", "text": "La climatisation ne fonctionne pas.", "translation": "El aire acondicionado no funciona." }
+          ]
+        },
+        {
+          "id": "p4-2",
+          "text": "Il n'y a pas d'eau chaude.",
+          "translation": "No hay agua caliente.",
+          "clozeWord": "chaude",
+          "clozeOptions": [
+            { "id": "o1", "text": "chaude", "isCorrect": true },
+            { "id": "o2", "text": "froide", "isCorrect": false },
+            { "id": "o3", "text": "propre", "isCorrect": false },
+            { "id": "o4", "text": "courante", "isCorrect": false }
+          ],
+          "variations": [
+            { "id": "v1", "text": "Il n'y a pas d'électricité.", "translation": "No hay electricidad." },
+            { "id": "v2", "text": "Il n'y a pas de chauffage.", "translation": "No hay calefacción." }
+          ]
+        },
+        {
+          "id": "p4-3",
+          "text": "Quel est le code du wifi?",
+          "translation": "¿Cuál es el código del wifi?",
+          "clozeWord": "code",
+          "clozeOptions": [
+            { "id": "o1", "text": "code", "isCorrect": true },
+            { "id": "o2", "text": "numéro", "isCorrect": false },
+            { "id": "o3", "text": "clé", "isCorrect": false },
+            { "id": "o4", "text": "adresse", "isCorrect": false }
+          ],
+          "variations": [
+            { "id": "v1", "text": "Quel est le code de la porte?", "translation": "¿Cuál es el código de la puerta?" },
+            { "id": "v2", "text": "Quel est le mot de passe?", "translation": "¿Cuál es la contraseña?" }
+          ]
+        },
+        {
+          "id": "p4-4",
+          "text": "La porte ne ferme pas bien.",
+          "translation": "La puerta no cierra bien.",
+          "clozeWord": "porte",
+          "clozeOptions": [
+            { "id": "o1", "text": "porte", "isCorrect": true },
+            { "id": "o2", "text": "fenêtre", "isCorrect": false },
+            { "id": "o3", "text": "serrure", "isCorrect": false },
+            { "id": "o4", "text": "clé", "isCorrect": false }
+          ],
+          "variations": [
+            { "id": "v1", "text": "La fenêtre ne ferme pas bien.", "translation": "La ventana no cierra bien." },
+            { "id": "v2", "text": "La serrure est cassée.", "translation": "La cerradura está rota." }
+          ]
+        },
+        {
+          "id": "p4-5",
+          "text": "Pouvez-vous m'aider, s'il vous plaît?",
+          "translation": "¿Puede ayudarme, por favor?",
+          "clozeWord": "aider",
+          "clozeOptions": [
+            { "id": "o1", "text": "aider", "isCorrect": true },
+            { "id": "o2", "text": "appeler", "isCorrect": false },
+            { "id": "o3", "text": "montrer", "isCorrect": false },
+            { "id": "o4", "text": "expliquer", "isCorrect": false }
+          ],
+          "variations": [
+            { "id": "v1", "text": "Pouvez-vous venir, s'il vous plaît?", "translation": "¿Puede venir, por favor?" },
+            { "id": "v2", "text": "Pouvez-vous appeler quelqu'un?", "translation": "¿Puede llamar a alguien?" }
+          ]
+        }
+      ],
+      "miniTask": {
+        "id": "mt-4",
+        "prompt": "Reporta un problema a tu anfitrión.",
+        "promptTranslation": "Signalez un problème à votre hôte.",
+        "keywords": ["ne", "fonctionne", "pas", "problème", "aider"],
+        "exampleResponse": "Bonjour, j'ai un problème. Le wifi ne fonctionne pas. Pouvez-vous m'aider, s'il vous plaît?",
+        "minWords": 10
+      }
+    },
+    {
+      "id": "matrix-5-checkout",
+      "title": "Check-out",
+      "description": "Despedida y agradecimientos",
+      "order": 5,
+      "context": "checkout",
+      "phrases": [
+        {
+          "id": "p5-1",
+          "text": "À quelle heure est le check-out?",
+          "translation": "¿A qué hora es el check-out?",
+          "clozeWord": "check-out",
+          "clozeOptions": [
+            { "id": "o1", "text": "check-out", "isCorrect": true },
+            { "id": "o2", "text": "check-in", "isCorrect": false },
+            { "id": "o3", "text": "départ", "isCorrect": false },
+            { "id": "o4", "text": "arrivée", "isCorrect": false }
+          ],
+          "variations": [
+            { "id": "v1", "text": "Je dois partir à quelle heure?", "translation": "¿A qué hora debo irme?" },
+            { "id": "v2", "text": "Puis-je partir plus tard?", "translation": "¿Puedo irme más tarde?" }
+          ]
+        },
+        {
+          "id": "p5-2",
+          "text": "Où dois-je laisser les clés?",
+          "translation": "¿Dónde debo dejar las llaves?",
+          "clozeWord": "clés",
+          "clozeOptions": [
+            { "id": "o1", "text": "clés", "isCorrect": true },
+            { "id": "o2", "text": "valises", "isCorrect": false },
+            { "id": "o3", "text": "serviettes", "isCorrect": false },
+            { "id": "o4", "text": "draps", "isCorrect": false }
+          ],
+          "variations": [
+            { "id": "v1", "text": "Je laisse les clés sur la table.", "translation": "Dejo las llaves en la mesa." },
+            { "id": "v2", "text": "Je laisse les clés dans la boîte.", "translation": "Dejo las llaves en la caja." }
+          ]
+        },
+        {
+          "id": "p5-3",
+          "text": "Le séjour était parfait.",
+          "translation": "La estancia fue perfecta.",
+          "clozeWord": "séjour",
+          "clozeOptions": [
+            { "id": "o1", "text": "séjour", "isCorrect": true },
+            { "id": "o2", "text": "voyage", "isCorrect": false },
+            { "id": "o3", "text": "visite", "isCorrect": false },
+            { "id": "o4", "text": "vacances", "isCorrect": false }
+          ],
+          "variations": [
+            { "id": "v1", "text": "J'ai passé un excellent séjour.", "translation": "Pasé una excelente estancia." },
+            { "id": "v2", "text": "Tout était parfait.", "translation": "Todo fue perfecto." }
+          ]
+        },
+        {
+          "id": "p5-4",
+          "text": "Je vous laisse un avis positif.",
+          "translation": "Le dejo una reseña positiva.",
+          "clozeWord": "avis",
+          "clozeOptions": [
+            { "id": "o1", "text": "avis", "isCorrect": true },
+            { "id": "o2", "text": "message", "isCorrect": false },
+            { "id": "o3", "text": "commentaire", "isCorrect": false },
+            { "id": "o4", "text": "note", "isCorrect": false }
+          ],
+          "variations": [
+            { "id": "v1", "text": "Je recommande cet appartement.", "translation": "Recomiendo este apartamento." },
+            { "id": "v2", "text": "Je reviendrai avec plaisir.", "translation": "Volveré con gusto." }
+          ]
+        },
+        {
+          "id": "p5-5",
+          "text": "Au revoir et merci pour tout!",
+          "translation": "¡Adiós y gracias por todo!",
+          "clozeWord": "revoir",
+          "clozeOptions": [
+            { "id": "o1", "text": "revoir", "isCorrect": true },
+            { "id": "o2", "text": "demain", "isCorrect": false },
+            { "id": "o3", "text": "bientôt", "isCorrect": false },
+            { "id": "o4", "text": "jamais", "isCorrect": false }
+          ],
+          "variations": [
+            { "id": "v1", "text": "À bientôt!", "translation": "¡Hasta pronto!" },
+            { "id": "v2", "text": "Bonne continuation!", "translation": "¡Que siga bien!" }
+          ]
+        }
+      ],
+      "miniTask": {
+        "id": "mt-5",
+        "prompt": "Escribe un mensaje de despedida a tu anfitrión.",
+        "promptTranslation": "Écrivez un message d'adieu à votre hôte.",
+        "keywords": ["merci", "séjour", "parfait", "revoir", "avis"],
+        "exampleResponse": "Merci beaucoup pour ce séjour parfait! L'appartement était magnifique. Je vous laisse un avis positif. Au revoir!",
+        "minWords": 10
+      }
+    }
+  ]
+}

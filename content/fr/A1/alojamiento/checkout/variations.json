@@ -1,0 +1,172 @@
+{
+  "topic": "alojamiento",
+  "subcontext": "checkout",
+  "matrices": [
+    {
+      "id": "janulus-checkout-01",
+      "topic": "alojamiento",
+      "subcontext": "checkout",
+      "targetStructure": "Despedirse y agradecer",
+      "columns": [
+        {
+          "id": "col-subject",
+          "type": "subject",
+          "items": [
+            { "id": "subj-01", "french": "Je dois", "spanish": "Tengo que" },
+            { "id": "subj-02", "french": "Merci pour", "spanish": "Gracias por" },
+            { "id": "subj-03", "french": "C'était", "spanish": "Fue" },
+            { "id": "subj-04", "french": "Au revoir", "spanish": "Adiós" }
+          ]
+        },
+        {
+          "id": "col-modal",
+          "type": "modal",
+          "items": [
+            { "id": "mod-01", "french": "partir", "spanish": "irme" },
+            { "id": "mod-02", "french": "tout", "spanish": "todo" },
+            { "id": "mod-03", "french": "parfait", "spanish": "perfecto" },
+            { "id": "mod-04", "french": "et", "spanish": "y" }
+          ]
+        },
+        {
+          "id": "col-action",
+          "type": "action",
+          "items": [
+            { "id": "act-01", "french": "maintenant", "spanish": "ahora" },
+            { "id": "act-02", "french": "le séjour", "spanish": "la estancia" },
+            { "id": "act-03", "french": "l'appartement", "spanish": "el apartamento" },
+            { "id": "act-04", "french": "bon voyage", "spanish": "buen viaje" }
+          ]
+        },
+        {
+          "id": "col-complement",
+          "type": "complement",
+          "items": [
+            { "id": "comp-01", "french": ".", "spanish": "." },
+            { "id": "comp-02", "french": "!", "spanish": "!" },
+            { "id": "comp-03", "french": "était génial.", "spanish": "fue genial." },
+            { "id": "comp-04", "french": "à bientôt !", "spanish": "hasta pronto!" }
+          ]
+        }
+      ],
+      "exampleCombinations": [
+        { "french": "Je dois partir maintenant.", "spanish": "Tengo que irme ahora." },
+        { "french": "Merci pour tout le séjour était génial.", "spanish": "Gracias por todo, la estancia fue genial." },
+        { "french": "C'était parfait l'appartement !", "spanish": "¡Fue perfecto el apartamento!" },
+        { "french": "Au revoir et bon voyage à bientôt !", "spanish": "¡Adiós y buen viaje, hasta pronto!" }
+      ]
+    },
+    {
+      "id": "janulus-checkout-02",
+      "topic": "alojamiento",
+      "subcontext": "checkout",
+      "targetStructure": "Pedir hora tardía de salida",
+      "columns": [
+        {
+          "id": "col-subject",
+          "type": "subject",
+          "items": [
+            { "id": "subj-01", "french": "Est-ce que je peux", "spanish": "¿Puedo" },
+            { "id": "subj-02", "french": "Mon train est", "spanish": "Mi tren es" },
+            { "id": "subj-03", "french": "Je voudrais", "spanish": "Quisiera" },
+            { "id": "subj-04", "french": "C'est possible de", "spanish": "¿Es posible" }
+          ]
+        },
+        {
+          "id": "col-modal",
+          "type": "modal",
+          "items": [
+            { "id": "mod-01", "french": "rester", "spanish": "quedarme" },
+            { "id": "mod-02", "french": "à", "spanish": "a las" },
+            { "id": "mod-03", "french": "partir", "spanish": "irme" },
+            { "id": "mod-04", "french": "avoir", "spanish": "tener" }
+          ]
+        },
+        {
+          "id": "col-action",
+          "type": "action",
+          "items": [
+            { "id": "act-01", "french": "jusqu'à midi", "spanish": "hasta mediodía" },
+            { "id": "act-02", "french": "quatorze heures", "spanish": "las catorce" },
+            { "id": "act-03", "french": "plus tard", "spanish": "más tarde" },
+            { "id": "act-04", "french": "un late checkout", "spanish": "un late checkout" }
+          ]
+        },
+        {
+          "id": "col-complement",
+          "type": "complement",
+          "items": [
+            { "id": "comp-01", "french": "?", "spanish": "?" },
+            { "id": "comp-02", "french": "s'il vous plaît ?", "spanish": "por favor?" },
+            { "id": "comp-03", "french": "si c'est possible ?", "spanish": "si es posible?" },
+            { "id": "comp-04", "french": "demain ?", "spanish": "mañana?" }
+          ]
+        }
+      ],
+      "exampleCombinations": [
+        { "french": "Est-ce que je peux rester jusqu'à midi ?", "spanish": "¿Puedo quedarme hasta mediodía?" },
+        { "french": "Mon train est à quatorze heures.", "spanish": "Mi tren es a las catorce." },
+        { "french": "Je voudrais partir plus tard s'il vous plaît ?", "spanish": "¿Quisiera irme más tarde por favor?" },
+        { "french": "C'est possible de avoir un late checkout demain ?", "spanish": "¿Es posible tener un late checkout mañana?" }
+      ]
+    },
+    {
+      "id": "janulus-checkout-03",
+      "topic": "alojamiento",
+      "subcontext": "checkout",
+      "targetStructure": "Dejar llaves y reportar estado",
+      "columns": [
+        {
+          "id": "col-subject",
+          "type": "subject",
+          "items": [
+            { "id": "subj-01", "french": "Voici", "spanish": "Aquí están" },
+            { "id": "subj-02", "french": "J'ai laissé", "spanish": "He dejado" },
+            { "id": "subj-03", "french": "L'appartement est", "spanish": "El apartamento está" },
+            { "id": "subj-04", "french": "Où est-ce que je laisse", "spanish": "¿Dónde dejo" }
+          ]
+        },
+        {
+          "id": "col-modal",
+          "type": "modal",
+          "items": [
+            { "id": "mod-01", "french": "les clés", "spanish": "las llaves" },
+            { "id": "mod-02", "french": "la clé", "spanish": "la llave" },
+            { "id": "mod-03", "french": "propre", "spanish": "limpio" },
+            { "id": "mod-04", "french": "en ordre", "spanish": "en orden" }
+          ]
+        },
+        {
+          "id": "col-action",
+          "type": "action",
+          "items": [
+            { "id": "act-01", "french": "sur la table", "spanish": "sobre la mesa" },
+            { "id": "act-02", "french": "sous le tapis", "spanish": "debajo del tapete" },
+            { "id": "act-03", "french": "dans la boîte", "spanish": "en la caja" },
+            { "id": "act-04", "french": "comme avant", "spanish": "como antes" }
+          ]
+        },
+        {
+          "id": "col-complement",
+          "type": "complement",
+          "items": [
+            { "id": "comp-01", "french": ".", "spanish": "." },
+            { "id": "comp-02", "french": "?", "spanish": "?" },
+            { "id": "comp-03", "french": "devant la porte.", "spanish": "frente a la puerta." },
+            { "id": "comp-04", "french": "maintenant.", "spanish": "ahora." }
+          ]
+        }
+      ],
+      "exampleCombinations": [
+        { "french": "Voici les clés sur la table.", "spanish": "Aquí están las llaves sobre la mesa." },
+        { "french": "J'ai laissé la clé sous le tapis devant la porte.", "spanish": "He dejado la llave debajo del tapete frente a la puerta." },
+        { "french": "L'appartement est propre comme avant.", "spanish": "El apartamento está limpio como antes." },
+        { "french": "Où est-ce que je laisse les clés ?", "spanish": "¿Dónde dejo las llaves?" }
+      ]
+    }
+  ],
+  "metadata": {
+    "totalCombinations": 192,
+    "lastUpdated": "2024-12-29"
+  }
+}

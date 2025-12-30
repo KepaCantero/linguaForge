@@ -1,0 +1,172 @@
+{
+  "topic": "alojamiento",
+  "subcontext": "problemas",
+  "matrices": [
+    {
+      "id": "janulus-problemas-01",
+      "topic": "alojamiento",
+      "subcontext": "problemas",
+      "targetStructure": "Reportar que algo no funciona",
+      "columns": [
+        {
+          "id": "col-subject",
+          "type": "subject",
+          "items": [
+            { "id": "subj-01", "french": "Le WiFi", "spanish": "El WiFi" },
+            { "id": "subj-02", "french": "Le chauffage", "spanish": "La calefacción" },
+            { "id": "subj-03", "french": "La douche", "spanish": "La ducha" },
+            { "id": "subj-04", "french": "La clé", "spanish": "La llave" }
+          ]
+        },
+        {
+          "id": "col-modal",
+          "type": "modal",
+          "items": [
+            { "id": "mod-01", "french": "ne marche pas", "spanish": "no funciona" },
+            { "id": "mod-02", "french": "ne fonctionne pas", "spanish": "no funciona" },
+            { "id": "mod-03", "french": "est cassé(e)", "spanish": "está roto/a" },
+            { "id": "mod-04", "french": "a un problème", "spanish": "tiene un problema" }
+          ]
+        },
+        {
+          "id": "col-action",
+          "type": "action",
+          "items": [
+            { "id": "act-01", "french": "depuis", "spanish": "desde" },
+            { "id": "act-02", "french": "ce matin", "spanish": "esta mañana" },
+            { "id": "act-03", "french": "hier", "spanish": "ayer" },
+            { "id": "act-04", "french": "maintenant", "spanish": "ahora" }
+          ]
+        },
+        {
+          "id": "col-complement",
+          "type": "complement",
+          "items": [
+            { "id": "comp-01", "french": ".", "spanish": "." },
+            { "id": "comp-02", "french": "soir.", "spanish": "por la noche." },
+            { "id": "comp-03", "french": "que je suis arrivé.", "spanish": "que llegué." },
+            { "id": "comp-04", "french": "encore.", "spanish": "todavía." }
+          ]
+        }
+      ],
+      "exampleCombinations": [
+        { "french": "Le WiFi ne marche pas depuis ce matin.", "spanish": "El WiFi no funciona desde esta mañana." },
+        { "french": "Le chauffage est cassé depuis hier soir.", "spanish": "La calefacción está rota desde anoche." },
+        { "french": "La douche ne fonctionne pas maintenant.", "spanish": "La ducha no funciona ahora." },
+        { "french": "La clé a un problème depuis que je suis arrivé.", "spanish": "La llave tiene un problema desde que llegué." }
+      ]
+    },
+    {
+      "id": "janulus-problemas-02",
+      "topic": "alojamiento",
+      "subcontext": "problemas",
+      "targetStructure": "Expresar necesidad y pedir ayuda",
+      "columns": [
+        {
+          "id": "col-subject",
+          "type": "subject",
+          "items": [
+            { "id": "subj-01", "french": "J'ai besoin", "spanish": "Necesito" },
+            { "id": "subj-02", "french": "Il n'y a pas", "spanish": "No hay" },
+            { "id": "subj-03", "french": "Pouvez-vous", "spanish": "¿Puede usted" },
+            { "id": "subj-04", "french": "Il fait", "spanish": "Hace" }
+          ]
+        },
+        {
+          "id": "col-modal",
+          "type": "modal",
+          "items": [
+            { "id": "mod-01", "french": "d'aide", "spanish": "ayuda" },
+            { "id": "mod-02", "french": "d'eau chaude", "spanish": "agua caliente" },
+            { "id": "mod-03", "french": "envoyer", "spanish": "enviar" },
+            { "id": "mod-04", "french": "très froid", "spanish": "mucho frío" }
+          ]
+        },
+        {
+          "id": "col-action",
+          "type": "action",
+          "items": [
+            { "id": "act-01", "french": "s'il vous plaît", "spanish": "por favor" },
+            { "id": "act-02", "french": "dans la douche", "spanish": "en la ducha" },
+            { "id": "act-03", "french": "un plombier", "spanish": "un fontanero" },
+            { "id": "act-04", "french": "dans l'appartement", "spanish": "en el apartamento" }
+          ]
+        },
+        {
+          "id": "col-complement",
+          "type": "complement",
+          "items": [
+            { "id": "comp-01", "french": ".", "spanish": "." },
+            { "id": "comp-02", "french": "?", "spanish": "?" },
+            { "id": "comp-03", "french": "rapidement ?", "spanish": "rápidamente?" },
+            { "id": "comp-04", "french": "maintenant.", "spanish": "ahora." }
+          ]
+        }
+      ],
+      "exampleCombinations": [
+        { "french": "J'ai besoin d'aide s'il vous plaît.", "spanish": "Necesito ayuda por favor." },
+        { "french": "Il n'y a pas d'eau chaude dans la douche.", "spanish": "No hay agua caliente en la ducha." },
+        { "french": "Pouvez-vous envoyer un plombier rapidement ?", "spanish": "¿Puede usted enviar un fontanero rápidamente?" },
+        { "french": "Il fait très froid dans l'appartement maintenant.", "spanish": "Hace mucho frío en el apartamento ahora." }
+      ]
+    },
+    {
+      "id": "janulus-problemas-03",
+      "topic": "alojamiento",
+      "subcontext": "problemas",
+      "targetStructure": "Ofrecer soluciones y disculparse",
+      "columns": [
+        {
+          "id": "col-subject",
+          "type": "subject",
+          "items": [
+            { "id": "subj-01", "french": "Je suis", "spanish": "Estoy" },
+            { "id": "subj-02", "french": "Je peux", "spanish": "Puedo" },
+            { "id": "subj-03", "french": "Je vais", "spanish": "Voy a" },
+            { "id": "subj-04", "french": "J'arrive", "spanish": "Llego" }
+          ]
+        },
+        {
+          "id": "col-modal",
+          "type": "modal",
+          "items": [
+            { "id": "mod-01", "french": "désolé(e)", "spanish": "apenado/a" },
+            { "id": "mod-02", "french": "envoyer", "spanish": "enviar" },
+            { "id": "mod-03", "french": "venir", "spanish": "venir" },
+            { "id": "mod-04", "french": "dans", "spanish": "en" }
+          ]
+        },
+        {
+          "id": "col-action",
+          "type": "action",
+          "items": [
+            { "id": "act-01", "french": "pour le problème", "spanish": "por el problema" },
+            { "id": "act-02", "french": "un technicien", "spanish": "un técnico" },
+            { "id": "act-03", "french": "avec un radiateur", "spanish": "con un calefactor" },
+            { "id": "act-04", "french": "dix minutes", "spanish": "diez minutos" }
+          ]
+        },
+        {
+          "id": "col-complement",
+          "type": "complement",
+          "items": [
+            { "id": "comp-01", "french": ".", "spanish": "." },
+            { "id": "comp-02", "french": "maintenant.", "spanish": "ahora." },
+            { "id": "comp-03", "french": "tout de suite.", "spanish": "enseguida." },
+            { "id": "comp-04", "french": "demain matin.", "spanish": "mañana por la mañana." }
+          ]
+        }
+      ],
+      "exampleCombinations": [
+        { "french": "Je suis désolé(e) pour le problème.", "spanish": "Estoy apenado/a por el problema." },
+        { "french": "Je peux envoyer un technicien maintenant.", "spanish": "Puedo enviar un técnico ahora." },
+        { "french": "Je vais venir avec un radiateur tout de suite.", "spanish": "Voy a venir con un calefactor enseguida." },
+        { "french": "J'arrive dans dix minutes.", "spanish": "Llego en diez minutos." }
+      ]
+    }
+  ],
+  "metadata": {
+    "totalCombinations": 192,
+    "lastUpdated": "2024-12-29"
+  }
+}

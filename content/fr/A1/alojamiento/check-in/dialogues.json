@@ -1,0 +1,221 @@
+{
+  "topic": "alojamiento",
+  "subcontext": "check-in",
+  "dialogues": [
+    {
+      "id": "checkin-01",
+      "topic": "alojamiento",
+      "subcontext": "check-in",
+      "scenario": "Huésped llega a un Airbnb en París a las 22:00. Anfitrión está cansado pero amable.",
+      "characters": [
+        { "name": "Marie", "role": "anfitriona", "age": "40s" },
+        { "name": "Alex", "role": "huésped", "age": "estudiante" }
+      ],
+      "targetStructures": ["Je suis...", "Où est...?", "Voici..."],
+      "lines": [
+        {
+          "id": "checkin-01-01",
+          "speaker": "Marie",
+          "text": "Bonsoir ! Vous êtes Alex ?",
+          "translation": "¡Buenas noches! ¿Eres Alex?"
+        },
+        {
+          "id": "checkin-01-02",
+          "speaker": "Alex",
+          "text": "Oui, bonsoir Madame. Désolé pour l'heure.",
+          "translation": "Sí, buenas noches señora. Perdón por la hora."
+        },
+        {
+          "id": "checkin-01-03",
+          "speaker": "Marie",
+          "text": "Pas de problème ! Voici les clés. La salle de bain est à gauche.",
+          "translation": "¡No hay problema! Aquí están las llaves. El baño está a la izquierda."
+        },
+        {
+          "id": "checkin-01-04",
+          "speaker": "Alex",
+          "text": "Merci beaucoup ! Où est la cuisine ?",
+          "translation": "¡Muchas gracias! ¿Dónde está la cocina?"
+        }
+      ],
+      "difficulty": "beginner",
+      "estimatedMinutes": 2
+    },
+    {
+      "id": "checkin-02",
+      "topic": "alojamiento",
+      "subcontext": "check-in",
+      "scenario": "Huésped llega temprano y el apartamento aún no está listo. Anfitrión ofrece solución.",
+      "characters": [
+        { "name": "Pierre", "role": "anfitrión", "age": "30s" },
+        { "name": "Laura", "role": "huésped", "age": "joven profesional" }
+      ],
+      "targetStructures": ["Je peux...?", "pas encore", "dans + tiempo"],
+      "lines": [
+        {
+          "id": "checkin-02-01",
+          "speaker": "Laura",
+          "text": "Bonjour ! Je suis Laura. Je suis un peu en avance.",
+          "translation": "¡Hola! Soy Laura. Llego un poco temprano."
+        },
+        {
+          "id": "checkin-02-02",
+          "speaker": "Pierre",
+          "text": "Bonjour Laura ! L'appartement n'est pas encore prêt.",
+          "translation": "¡Hola Laura! El apartamento aún no está listo."
+        },
+        {
+          "id": "checkin-02-03",
+          "speaker": "Laura",
+          "text": "Pas de problème. Je peux laisser ma valise ici ?",
+          "translation": "No hay problema. ¿Puedo dejar mi maleta aquí?"
+        },
+        {
+          "id": "checkin-02-04",
+          "speaker": "Pierre",
+          "text": "Oui, bien sûr ! L'appartement est prêt dans une heure.",
+          "translation": "¡Sí, claro! El apartamento estará listo en una hora."
+        }
+      ],
+      "difficulty": "beginner",
+      "estimatedMinutes": 2
+    },
+    {
+      "id": "checkin-03",
+      "topic": "alojamiento",
+      "subcontext": "check-in",
+      "scenario": "Huésped tiene problemas para encontrar la dirección. Llama al anfitrión por teléfono.",
+      "characters": [
+        { "name": "Sophie", "role": "anfitriona", "age": "35" },
+        { "name": "Marco", "role": "huésped", "age": "turista" }
+      ],
+      "targetStructures": ["Je suis devant...", "C'est où...?", "à côté de..."],
+      "lines": [
+        {
+          "id": "checkin-03-01",
+          "speaker": "Marco",
+          "text": "Allô ? Sophie ? Je suis Marco. Je suis devant une boulangerie.",
+          "translation": "¿Hola? ¿Sophie? Soy Marco. Estoy frente a una panadería."
+        },
+        {
+          "id": "checkin-03-02",
+          "speaker": "Sophie",
+          "text": "Ah, bonjour Marco ! La boulangerie Paul ?",
+          "translation": "¡Ah, hola Marco! ¿La panadería Paul?"
+        },
+        {
+          "id": "checkin-03-03",
+          "speaker": "Marco",
+          "text": "Oui, c'est ça ! Votre appartement, c'est où ?",
+          "translation": "¡Sí, eso es! ¿Dónde está su apartamento?"
+        },
+        {
+          "id": "checkin-03-04",
+          "speaker": "Sophie",
+          "text": "C'est à côté de la boulangerie. La porte bleue, numéro douze.",
+          "translation": "Está al lado de la panadería. La puerta azul, número doce."
+        }
+      ],
+      "difficulty": "beginner",
+      "estimatedMinutes": 2
+    },
+    {
+      "id": "checkin-04",
+      "topic": "alojamiento",
+      "subcontext": "check-in",
+      "scenario": "Anfitrión explica las reglas básicas de la casa al huésped.",
+      "characters": [
+        { "name": "Jean", "role": "anfitrión", "age": "50s" },
+        { "name": "Emma", "role": "huésped", "age": "estudiante Erasmus" }
+      ],
+      "targetStructures": ["Il faut...", "Ne pas...", "Est-ce que...?"],
+      "lines": [
+        {
+          "id": "checkin-04-01",
+          "speaker": "Jean",
+          "text": "Bienvenue Emma ! Voici quelques règles simples.",
+          "translation": "¡Bienvenida Emma! Aquí hay algunas reglas simples."
+        },
+        {
+          "id": "checkin-04-02",
+          "speaker": "Emma",
+          "text": "D'accord, je vous écoute.",
+          "translation": "De acuerdo, le escucho."
+        },
+        {
+          "id": "checkin-04-03",
+          "speaker": "Jean",
+          "text": "Il faut fermer la porte à clé. Et ne pas fumer dans l'appartement.",
+          "translation": "Hay que cerrar la puerta con llave. Y no fumar en el apartamento."
+        },
+        {
+          "id": "checkin-04-04",
+          "speaker": "Emma",
+          "text": "Pas de problème ! Est-ce que je peux faire la cuisine ?",
+          "translation": "¡No hay problema! ¿Puedo cocinar?"
+        }
+      ],
+      "difficulty": "beginner",
+      "estimatedMinutes": 2
+    },
+    {
+      "id": "checkin-05",
+      "topic": "alojamiento",
+      "subcontext": "check-in",
+      "scenario": "Huésped pregunta sobre el código WiFi y servicios básicos.",
+      "characters": [
+        { "name": "Claire", "role": "anfitriona", "age": "28" },
+        { "name": "David", "role": "huésped", "age": "trabajador remoto" }
+      ],
+      "targetStructures": ["Quel est...?", "Le mot de passe...", "Il y a..."],
+      "lines": [
+        {
+          "id": "checkin-05-01",
+          "speaker": "David",
+          "text": "Bonjour Claire ! L'appartement est très joli.",
+          "translation": "¡Hola Claire! El apartamento es muy bonito."
+        },
+        {
+          "id": "checkin-05-02",
+          "speaker": "Claire",
+          "text": "Merci David ! Vous avez besoin du WiFi ?",
+          "translation": "¡Gracias David! ¿Necesita el WiFi?"
+        },
+        {
+          "id": "checkin-05-03",
+          "speaker": "David",
+          "text": "Oui, s'il vous plaît. Quel est le mot de passe ?",
+          "translation": "Sí, por favor. ¿Cuál es la contraseña?"
+        },
+        {
+          "id": "checkin-05-04",
+          "speaker": "Claire",
+          "text": "Le mot de passe est 'Paris2024'. Il y a aussi Netflix sur la télé.",
+          "translation": "La contraseña es 'Paris2024'. También hay Netflix en la tele."
+        }
+      ],
+      "difficulty": "beginner",
+      "estimatedMinutes": 2
+    }
+  ],
+  "metadata": {
+    "totalDialogues": 5,
+    "avgWordsPerDialogue": 42,
+    "targetStructuresCovered": [
+      "Je suis...",
+      "Où est...?",
+      "Voici...",
+      "Je peux...?",
+      "pas encore",
+      "dans + tiempo",
+      "C'est où...?",
+      "à côté de...",
+      "Il faut...",
+      "Ne pas...",
+      "Est-ce que...?",
+      "Quel est...?",
+      "Il y a..."
+    ],
+    "lastUpdated": "2024-12-29"
+  }
+}

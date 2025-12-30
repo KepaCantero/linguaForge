@@ -1,0 +1,83 @@
+{
+  "topic": "alojamiento",
+  "subcontext": "problemas",
+  "stories": [
+    {
+      "id": "story-problemas-01",
+      "topic": "alojamiento",
+      "subcontext": "problemas",
+      "scenario": "Un estudiante descubre que el WiFi no funciona en su apartamento de intercambio.",
+      "wordCount": 85,
+      "text": "Lucas arrive à Bordeaux pour ses études. Il ouvre son ordinateur.\n\"Le WiFi ne marche pas !\" dit-il.\n\nIl appelle Madame Leclerc, son hôte.\n\"Bonjour, j'ai un problème. Internet ne fonctionne pas.\"\n\"Oh, je suis désolée ! J'arrive dans dix minutes.\"\n\nMadame Leclerc vient avec un routeur neuf.\n\"Voilà ! Maintenant, tu as internet,\" dit-elle.\n\nLucas est très content. Il envoie un message à sa famille.",
+      "translation": "Lucas llega a Burdeos para sus estudios. Abre su computadora.\n\"¡El WiFi no funciona!\" dice.\n\nLlama a Madame Leclerc, su anfitriona.\n\"Hola, tengo un problema. Internet no funciona.\"\n\"¡Oh, lo siento! Llego en diez minutos.\"\n\nMadame Leclerc viene con un router nuevo.\n\"¡Aquí tienes! Ahora tienes internet,\" dice ella.\n\nLucas está muy contento. Envía un mensaje a su familia.",
+      "targetStructures": ["...ne marche pas", "J'ai un problème", "J'arrive dans..."],
+      "keyVocabulary": ["ordinateur", "internet", "appeler", "problème", "routeur", "message"],
+      "comprehensionQuestions": [
+        {
+          "id": "story-problemas-01-q1",
+          "question": "Pourquoi Lucas est à Bordeaux ?",
+          "questionTranslation": "¿Por qué Lucas está en Burdeos?",
+          "options": [
+            { "id": "a", "text": "Pour le travail", "isCorrect": false },
+            { "id": "b", "text": "Pour ses études", "isCorrect": true },
+            { "id": "c", "text": "Pour les vacances", "isCorrect": false },
+            { "id": "d", "text": "Pour voir sa famille", "isCorrect": false }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "story-problemas-02",
+      "topic": "alojamiento",
+      "subcontext": "problemas",
+      "scenario": "Una turista tiene frío porque la calefacción no funciona.",
+      "wordCount": 88,
+      "text": "C'est décembre à Paris. Anna entre dans son Airbnb. Il fait très froid !\n\nElle regarde le chauffage. Il ne marche pas.\n\"Oh non !\" dit Anna.\n\nElle téléphone à Marc, l'hôte.\n\"Bonjour Marc. Le chauffage est cassé. Il fait froid.\"\n\"Je suis désolé ! Je viens maintenant avec un radiateur électrique.\"\n\nMarc arrive en vingt minutes. Il apporte un grand radiateur.\n\"Voilà ! Maintenant, c'est chaud.\"\n\nAnna dit merci. Elle est contente.",
+      "translation": "Es diciembre en París. Anna entra a su Airbnb. ¡Hace mucho frío!\n\nMira la calefacción. No funciona.\n\"¡Oh no!\" dice Anna.\n\nLlama a Marc, el anfitrión.\n\"Hola Marc. La calefacción está rota. Hace frío.\"\n\"¡Lo siento! Voy ahora con un calefactor eléctrico.\"\n\nMarc llega en veinte minutos. Trae un calefactor grande.\n\"¡Aquí tienes! Ahora está caliente.\"\n\nAnna da las gracias. Está contenta.",
+      "targetStructures": ["Il fait froid", "...est cassé(e)", "Je viens..."],
+      "keyVocabulary": ["décembre", "chauffage", "froid", "téléphoner", "radiateur", "chaud"],
+      "comprehensionQuestions": [
+        {
+          "id": "story-problemas-02-q1",
+          "question": "Qu'est-ce qui ne marche pas ?",
+          "questionTranslation": "¿Qué es lo que no funciona?",
+          "options": [
+            { "id": "a", "text": "Le WiFi", "isCorrect": false },
+            { "id": "b", "text": "La télévision", "isCorrect": false },
+            { "id": "c", "text": "Le chauffage", "isCorrect": true },
+            { "id": "d", "text": "La douche", "isCorrect": false }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "story-problemas-03",
+      "topic": "alojamiento",
+      "subcontext": "problemas",
+      "scenario": "Un viajero no puede abrir la puerta con la llave que le dieron.",
+      "wordCount": 90,
+      "text": "Il est minuit. Carlos est devant son Airbnb à Lyon.\n\nIl essaie d'ouvrir la porte. La clé ne fonctionne pas !\n\"C'est pas vrai !\" dit Carlos.\n\nIl appelle Julie, l'hôte.\n\"Allô Julie ? La clé ne marche pas.\"\n\"Oh pardon ! Je vous donne le code : 4521.\"\n\nCarlos tape le code. La porte s'ouvre !\n\"Ah, il y a un code et une clé,\" pense Carlos.\n\nIl entre dans l'appartement. Tout va bien.",
+      "translation": "Es medianoche. Carlos está frente a su Airbnb en Lyon.\n\nIntenta abrir la puerta. ¡La llave no funciona!\n\"¡No puede ser!\" dice Carlos.\n\nLlama a Julie, la anfitriona.\n\"¿Hola Julie? La llave no funciona.\"\n\"¡Oh perdón! Le doy el código: 4521.\"\n\nCarlos marca el código. ¡La puerta se abre!\n\"Ah, hay un código y una llave,\" piensa Carlos.\n\nEntra al apartamento. Todo está bien.",
+      "targetStructures": ["La clé ne...pas", "Le code est...", "Il y a..."],
+      "keyVocabulary": ["minuit", "essayer", "ouvrir", "clé", "code", "porte"],
+      "comprehensionQuestions": [
+        {
+          "id": "story-problemas-03-q1",
+          "question": "Quel est le code de la porte ?",
+          "questionTranslation": "¿Cuál es el código de la puerta?",
+          "options": [
+            { "id": "a", "text": "1234", "isCorrect": false },
+            { "id": "b", "text": "4521", "isCorrect": true },
+            { "id": "c", "text": "2024", "isCorrect": false },
+            { "id": "d", "text": "5678", "isCorrect": false }
+          ]
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "totalStories": 3,
+    "avgWordCount": 88,
+    "lastUpdated": "2024-12-29"
+  }
+}

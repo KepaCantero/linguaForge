@@ -1,0 +1,220 @@
+{
+  "topic": "alojamiento",
+  "subcontext": "problemas",
+  "dialogues": [
+    {
+      "id": "problemas-01",
+      "topic": "alojamiento",
+      "subcontext": "problemas",
+      "scenario": "El huésped reporta que no hay agua caliente en un Airbnb de Marsella.",
+      "characters": [
+        { "name": "Thomas", "role": "huésped", "age": "30s" },
+        { "name": "Sophie", "role": "anfitriona", "age": "45" }
+      ],
+      "targetStructures": ["Il n'y a pas...", "pouvoir + infinitivo", "Je peux envoyer..."],
+      "lines": [
+        {
+          "id": "problemas-01-01",
+          "speaker": "Thomas",
+          "text": "Bonjour Sophie, il y a un problème.",
+          "translation": "Hola Sophie, hay un problema."
+        },
+        {
+          "id": "problemas-01-02",
+          "speaker": "Sophie",
+          "text": "Bonjour Thomas ! Quel problème ?",
+          "translation": "¡Hola Thomas! ¿Qué problema?"
+        },
+        {
+          "id": "problemas-01-03",
+          "speaker": "Thomas",
+          "text": "Il n'y a pas d'eau chaude dans la douche.",
+          "translation": "No hay agua caliente en la ducha."
+        },
+        {
+          "id": "problemas-01-04",
+          "speaker": "Sophie",
+          "text": "Oh non ! Je suis désolée. Je peux envoyer un plombier.",
+          "translation": "¡Oh no! Lo siento. Puedo enviar un fontanero."
+        }
+      ],
+      "difficulty": "beginner",
+      "estimatedMinutes": 2
+    },
+    {
+      "id": "problemas-02",
+      "topic": "alojamiento",
+      "subcontext": "problemas",
+      "scenario": "El WiFi no funciona y el huésped necesita trabajar.",
+      "characters": [
+        { "name": "Lucas", "role": "huésped", "age": "trabajador remoto" },
+        { "name": "Madame Leclerc", "role": "anfitriona", "age": "60s" }
+      ],
+      "targetStructures": ["...ne marche pas", "J'ai besoin de...", "essayer de..."],
+      "lines": [
+        {
+          "id": "problemas-02-01",
+          "speaker": "Lucas",
+          "text": "Excusez-moi, le WiFi ne marche pas.",
+          "translation": "Disculpe, el WiFi no funciona."
+        },
+        {
+          "id": "problemas-02-02",
+          "speaker": "Madame Leclerc",
+          "text": "Oh, je suis désolée ! Vous avez essayé d'éteindre le routeur ?",
+          "translation": "¡Oh, lo siento! ¿Ha intentado apagar el router?"
+        },
+        {
+          "id": "problemas-02-03",
+          "speaker": "Lucas",
+          "text": "Oui, mais ça ne marche toujours pas. J'ai besoin d'internet pour travailler.",
+          "translation": "Sí, pero sigue sin funcionar. Necesito internet para trabajar."
+        },
+        {
+          "id": "problemas-02-04",
+          "speaker": "Madame Leclerc",
+          "text": "Je comprends. J'appelle un technicien maintenant.",
+          "translation": "Entiendo. Llamo a un técnico ahora."
+        }
+      ],
+      "difficulty": "beginner",
+      "estimatedMinutes": 2
+    },
+    {
+      "id": "problemas-03",
+      "topic": "alojamiento",
+      "subcontext": "problemas",
+      "scenario": "El calefactor no funciona y hace frío en el apartamento.",
+      "characters": [
+        { "name": "Anna", "role": "huésped", "age": "25" },
+        { "name": "Marc", "role": "anfitrión", "age": "40s" }
+      ],
+      "targetStructures": ["Il fait froid", "...est cassé(e)", "Je vais..."],
+      "lines": [
+        {
+          "id": "problemas-03-01",
+          "speaker": "Anna",
+          "text": "Bonjour Marc, il fait très froid dans l'appartement.",
+          "translation": "Hola Marc, hace mucho frío en el apartamento."
+        },
+        {
+          "id": "problemas-03-02",
+          "speaker": "Marc",
+          "text": "Oh, le chauffage marche ?",
+          "translation": "Oh, ¿funciona la calefacción?"
+        },
+        {
+          "id": "problemas-03-03",
+          "speaker": "Anna",
+          "text": "Non, je pense qu'il est cassé.",
+          "translation": "No, creo que está roto."
+        },
+        {
+          "id": "problemas-03-04",
+          "speaker": "Marc",
+          "text": "Je suis vraiment désolé. Je vais venir avec un chauffage électrique.",
+          "translation": "Lo siento mucho. Voy a venir con un calefactor eléctrico."
+        }
+      ],
+      "difficulty": "beginner",
+      "estimatedMinutes": 2
+    },
+    {
+      "id": "problemas-04",
+      "topic": "alojamiento",
+      "subcontext": "problemas",
+      "scenario": "Las llaves no funcionan para abrir la puerta.",
+      "characters": [
+        { "name": "Carlos", "role": "huésped", "age": "35" },
+        { "name": "Julie", "role": "anfitriona", "age": "30s" }
+      ],
+      "targetStructures": ["La clé ne...", "Vous pouvez...?", "J'arrive..."],
+      "lines": [
+        {
+          "id": "problemas-04-01",
+          "speaker": "Carlos",
+          "text": "Allô Julie ? La clé ne fonctionne pas.",
+          "translation": "¿Hola Julie? La llave no funciona."
+        },
+        {
+          "id": "problemas-04-02",
+          "speaker": "Julie",
+          "text": "C'est la porte de l'immeuble ou de l'appartement ?",
+          "translation": "¿Es la puerta del edificio o del apartamento?"
+        },
+        {
+          "id": "problemas-04-03",
+          "speaker": "Carlos",
+          "text": "La porte de l'appartement. J'ai essayé plusieurs fois.",
+          "translation": "La puerta del apartamento. He intentado varias veces."
+        },
+        {
+          "id": "problemas-04-04",
+          "speaker": "Julie",
+          "text": "D'accord, j'arrive dans dix minutes avec une autre clé.",
+          "translation": "Vale, llego en diez minutos con otra llave."
+        }
+      ],
+      "difficulty": "beginner",
+      "estimatedMinutes": 2
+    },
+    {
+      "id": "problemas-05",
+      "topic": "alojamiento",
+      "subcontext": "problemas",
+      "scenario": "Hay un ruido extraño en el apartamento por la noche.",
+      "characters": [
+        { "name": "Maria", "role": "huésped", "age": "28" },
+        { "name": "Paul", "role": "anfitrión", "age": "50s" }
+      ],
+      "targetStructures": ["Il y a un bruit...", "Ça vient de...", "C'est normal"],
+      "lines": [
+        {
+          "id": "problemas-05-01",
+          "speaker": "Maria",
+          "text": "Bonjour Paul, il y a un bruit bizarre la nuit.",
+          "translation": "Hola Paul, hay un ruido raro por la noche."
+        },
+        {
+          "id": "problemas-05-02",
+          "speaker": "Paul",
+          "text": "Un bruit ? Ça vient d'où ?",
+          "translation": "¿Un ruido? ¿De dónde viene?"
+        },
+        {
+          "id": "problemas-05-03",
+          "speaker": "Maria",
+          "text": "Je pense que ça vient du réfrigérateur.",
+          "translation": "Creo que viene del refrigerador."
+        },
+        {
+          "id": "problemas-05-04",
+          "speaker": "Paul",
+          "text": "Ah oui, c'est normal. Le frigo est un peu vieux. Je suis désolé.",
+          "translation": "Ah sí, es normal. El refri es un poco viejo. Lo siento."
+        }
+      ],
+      "difficulty": "beginner",
+      "estimatedMinutes": 2
+    }
+  ],
+  "metadata": {
+    "totalDialogues": 5,
+    "avgWordsPerDialogue": 45,
+    "targetStructuresCovered": [
+      "Il n'y a pas...",
+      "pouvoir + infinitivo",
+      "...ne marche pas",
+      "J'ai besoin de...",
+      "Il fait froid",
+      "...est cassé(e)",
+      "Je vais...",
+      "La clé ne...",
+      "J'arrive...",
+      "Il y a un bruit...",
+      "Ça vient de...",
+      "C'est normal"
+    ],
+    "lastUpdated": "2024-12-29"
+  }
+}

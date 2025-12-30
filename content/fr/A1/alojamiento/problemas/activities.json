@@ -1,0 +1,156 @@
+{
+  "topic": "alojamiento",
+  "subcontext": "problemas",
+  "activities": [
+    {
+      "id": "cloze-problemas-01",
+      "type": "cloze",
+      "dialogueId": "problemas-01",
+      "sentence": "Il n'y a _____ d'eau chaude dans la douche.",
+      "translation": "No _____ agua caliente en la ducha.",
+      "blanks": [
+        { "position": 4, "answer": "pas", "hint": "negación" }
+      ],
+      "options": ["pas", "plus", "jamais", "rien"]
+    },
+    {
+      "id": "cloze-problemas-02",
+      "type": "cloze",
+      "dialogueId": "problemas-02",
+      "sentence": "Le WiFi ne _____ pas.",
+      "translation": "El WiFi no _____.",
+      "blanks": [
+        { "position": 3, "answer": "marche", "hint": "funcionar" }
+      ],
+      "options": ["marche", "travaille", "fait", "va"]
+    },
+    {
+      "id": "cloze-problemas-03",
+      "type": "cloze",
+      "dialogueId": "problemas-03",
+      "sentence": "Il fait très _____ dans l'appartement.",
+      "translation": "Hace mucho _____ en el apartamento.",
+      "blanks": [
+        { "position": 3, "answer": "froid", "hint": "temperatura baja" }
+      ],
+      "options": ["froid", "chaud", "beau", "mauvais"]
+    },
+    {
+      "id": "cloze-problemas-04",
+      "type": "cloze",
+      "dialogueId": "problemas-04",
+      "sentence": "La clé ne _____ pas.",
+      "translation": "La llave no _____.",
+      "blanks": [
+        { "position": 3, "answer": "fonctionne", "hint": "trabajar/funcionar" }
+      ],
+      "options": ["fonctionne", "marche", "ouvre", "ferme"]
+    },
+    {
+      "id": "cloze-problemas-05",
+      "type": "cloze",
+      "dialogueId": "problemas-05",
+      "sentence": "Je pense que ça _____ du réfrigérateur.",
+      "translation": "Creo que _____ del refrigerador.",
+      "blanks": [
+        { "position": 4, "answer": "vient", "hint": "origen" }
+      ],
+      "options": ["vient", "va", "sort", "arrive"]
+    },
+    {
+      "id": "shadowing-problemas-01",
+      "type": "shadowing",
+      "dialogueId": "problemas-01",
+      "audioUrl": "/audio/fr/A1/alojamiento/problemas/dialogue-01-line-03.mp3",
+      "text": "Il n'y a pas d'eau chaude dans la douche.",
+      "translation": "No hay agua caliente en la ducha.",
+      "speed": "slow",
+      "pauseDuration": 3500
+    },
+    {
+      "id": "shadowing-problemas-02",
+      "type": "shadowing",
+      "dialogueId": "problemas-02",
+      "audioUrl": "/audio/fr/A1/alojamiento/problemas/dialogue-02-line-01.mp3",
+      "text": "Excusez-moi, le WiFi ne marche pas.",
+      "translation": "Disculpe, el WiFi no funciona.",
+      "speed": "normal",
+      "pauseDuration": 3000
+    },
+    {
+      "id": "shadowing-problemas-03",
+      "type": "shadowing",
+      "dialogueId": "problemas-03",
+      "audioUrl": "/audio/fr/A1/alojamiento/problemas/dialogue-03-line-01.mp3",
+      "text": "Bonjour Marc, il fait très froid dans l'appartement.",
+      "translation": "Hola Marc, hace mucho frío en el apartamento.",
+      "speed": "slow",
+      "pauseDuration": 3500
+    },
+    {
+      "id": "shadowing-problemas-04",
+      "type": "shadowing",
+      "dialogueId": "problemas-04",
+      "audioUrl": "/audio/fr/A1/alojamiento/problemas/dialogue-04-line-04.mp3",
+      "text": "J'arrive dans dix minutes avec une autre clé.",
+      "translation": "Llego en diez minutos con otra llave.",
+      "speed": "normal",
+      "pauseDuration": 3000
+    },
+    {
+      "id": "shadowing-problemas-05",
+      "type": "shadowing",
+      "dialogueId": "problemas-01",
+      "audioUrl": "/audio/fr/A1/alojamiento/problemas/dialogue-01-line-04.mp3",
+      "text": "Je suis désolée. Je peux envoyer un plombier.",
+      "translation": "Lo siento. Puedo enviar un fontanero.",
+      "speed": "normal",
+      "pauseDuration": 3000
+    },
+    {
+      "id": "permutation-problemas-01",
+      "type": "permutation",
+      "matrixId": "janulus-problemas-01",
+      "baseStructure": "[cosa] ne marche/fonctionne pas [tiempo].",
+      "variations": [
+        { "french": "Le WiFi ne marche pas depuis ce matin.", "spanish": "El WiFi no funciona desde esta mañana.", "isCorrect": true },
+        { "french": "Le chauffage ne fonctionne pas maintenant.", "spanish": "La calefacción no funciona ahora.", "isCorrect": true },
+        { "french": "Ne marche pas le WiFi ce matin.", "spanish": "No funciona el WiFi esta mañana.", "isCorrect": false },
+        { "french": "Le WiFi ce matin ne marche pas.", "spanish": "El WiFi esta mañana no funciona.", "isCorrect": false }
+      ]
+    },
+    {
+      "id": "permutation-problemas-02",
+      "type": "permutation",
+      "matrixId": "janulus-problemas-02",
+      "baseStructure": "[necesidad] [cosa] [lugar/tiempo].",
+      "variations": [
+        { "french": "J'ai besoin d'aide s'il vous plaît.", "spanish": "Necesito ayuda por favor.", "isCorrect": true },
+        { "french": "Il n'y a pas d'eau chaude dans la douche.", "spanish": "No hay agua caliente en la ducha.", "isCorrect": true },
+        { "french": "D'aide j'ai besoin s'il vous plaît.", "spanish": "De ayuda necesito por favor.", "isCorrect": false },
+        { "french": "Pas d'eau chaude il n'y a dans la douche.", "spanish": "No agua caliente hay en la ducha.", "isCorrect": false }
+      ]
+    },
+    {
+      "id": "permutation-problemas-03",
+      "type": "permutation",
+      "matrixId": "janulus-problemas-03",
+      "baseStructure": "[disculpa/solución] [acción] [tiempo].",
+      "variations": [
+        { "french": "Je suis désolé pour le problème.", "spanish": "Estoy apenado por el problema.", "isCorrect": true },
+        { "french": "Je peux envoyer un technicien maintenant.", "spanish": "Puedo enviar un técnico ahora.", "isCorrect": true },
+        { "french": "Désolé je suis pour le problème.", "spanish": "Apenado estoy por el problema.", "isCorrect": false },
+        { "french": "Maintenant je peux un technicien envoyer.", "spanish": "Ahora puedo un técnico enviar.", "isCorrect": false }
+      ]
+    }
+  ],
+  "metadata": {
+    "totalActivities": 13,
+    "byType": {
+      "cloze": 5,
+      "shadowing": 5,
+      "permutation": 3
+    },
+    "lastUpdated": "2024-12-29"
+  }
+}

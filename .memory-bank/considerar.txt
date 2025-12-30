@@ -1,0 +1,390 @@
+analiza las siguientes tareas y si son validas actualizas el memory-bank, tareas y progreso
+
+
+
+CONTEXTO DEL PROYECTO
+Eres un Ingeniero de Contenido Lingüístico + Diseñador de Experiencias de Aprendizaje especializado en apps móviles educativas. Estás generando contenido para FrenchA1Airbnb, una WebApp que enseña francés A1 mediante:
+
+Metodología Krashen: Input comprensible (i+1), bajo filtro afectivo.
+Matriz Janulus: Combinatoria de 4 columnas para fluidez automática.
+Gamificación Octalysis: Retención mediante recompensas cognitivas (no solo XP).
+Arquitectura técnica: Next.js 14 + Zustand + Supabase + PWA.
+Restricciones no negociables:
+
+Ninguna gramática avanzada: Solo presente, imperativo afirmativo, passé composé básico con avoir.
+Ningún vocabulario fuera de las 1,200 palabras A1 más frecuentes (basado en FrequencyLists CEFR A1).
+Contextos hiper-reales: Diálogos en alojamientos, transporte, etc., con matices culturales franceses.
+Multimodal: Cada unidad debe tener texto + audio + actividades interactivas.
+GENERACIÓN DE CONTENIDO POR TÓPICO (Estructura Obligatoria)
+A. Tópicos y Subcontextos A1
+Tabla de tópicos con subcontextos clave y palabras clave A1 para cada uno (alojamiento, comida, transporte, saludos).
+
+Reglas de generación:
+
+Para diálogos:
+Formato obligatorio:
+[TOPIC: Alojamiento - Check-in]
+[SCENARIO: Huesped llega a un Airbnb en París a las 22:00. Anfitrión está cansado pero amable.]
+[CHARACTERS: Marie (anfitriona, 40s), Alex (huésped, estudiante)]
+[TARGET STRUCTURES: "Je suis...", "Où est...?", "Est-ce que je peux...?"]
+Diálogo 1/5
+(Marie): Bonsoir ! Vous êtes Alex ?
+(Alex): Oui, bonsoir Madame. Désolé pour l'heure...
+(Marie): Pas de problème ! Voici les clés. La salle de bain est à gauche.
+(Alex): Merci beaucoup ! Où est la cuisine ?
+
+Máximo 4 turnos por diálogo.
+Traducción línea por línea debajo (no al final).
+Metadata técnica al inicio (topic, scenario, target structures).
+Palabras fuera de A1 en (paréntesis) con explicación breve.
+Para mini-historias:
+Formato obligatorio:
+[TOPIC: Comida - Alergias]
+[SCENARIO: Camille come en un café y necesita informar su alergia a los frutos secos]
+[WORD COUNT: 98 palabras]
+Histoire 1/3
+Camille entre dans un petit café à Lyon. Elle commande une salade.
+"Attention ! Je suis allergique aux noix," dit-elle au serveur.
+Le serveur note sur son carnet : "Aucune noix pour Camille."
+La salade arrive. Camille mange tranquillement. Elle est contente.
+Elle paie l'addition et dit : "Merci, c'était délicieux !"
+
+Máximo 100 palabras.
+Solo 3 estructuras gramaticales nuevas por historia.
+Vocabulario repetido del tópico para reforzar automatización.
+B. Variaciones para Cobertura Máxima
+Por cada diálogo/historia, genera 3 variaciones usando la matriz Janulus con columnas de sujeto, modal, acción y complemento.
+
+ESPECIFICACIONES TÉCNICAS DE AUDIO
+Servicio recomendado: ElevenLabs (mejor prosodia para francés) + Google Cloud TTS (fallback para offline).
+Parámetros:
+
+Voz: Charlotte (francés neutral, tono amable)
+Velocidades: 0.75x (lento), 1.0x (normal), 1.25x (rápido)
+Formato: MP3 44.1kHz, 128kbps mono
+Metadatos de audio: {topic}{subcontext}{line}_{speed}.mp3
+Duración máxima por línea: 8 segundos
+Workflow obligatorio:
+
+Generar texto → Validar con Zod Schema InputContentSchema.
+Convertir a audio con ElevenLabs API.
+Subir a Supabase Storage con metadata.
+Cache en Service Worker para offline.
+INTEGRACIÓN CON ARQUITECTURA EXISTENTE
+A. Estructura de Archivos
+content/
+└── fr/
+└── A1/
+├── alojamiento/
+│ ├── check-in/
+│ │ ├── dialogues.json
+│ │ ├── stories.json
+│ │ └── variations.json
+│ ├── problemas/
+│ └── checkout/
+├── comida/
+└── transporte/
+B. Schema de Validación (Zod)
+export const DialogueLineSchema = z.object({
+id: z.string(),
+text: z.string().max(80),
+translation: z.string(),
+audioUrl: z.string().url(),
+wordsPerMinute: z.number().min(80).max(120),
+});
+
+export const DialogueSchema = z.object({
+id: z.string(),
+topic: z.enum(['alojamiento', 'comida', ...]),
+subcontext: z.string(),
+scenario: z.string(),
+lines: z.array(DialogueLineSchema).length(4),
+targetStructures: z.array(z.string()).max(3),
+});
+
+C. Actividades Interactivas (MiniJuegos)
+Por cada diálogo, genera 3 actividades:
+
+Cloze Dinámico
+Shadowing Guiado
+Permutación Janulus
+GAMIFICACIÓN Y PROGRESIÓN
+A. Sistema de Desbloqueo
+Un diálogo se desbloquea tras:
+Completar 5 repeticiones en su matriz Janulus.
+Lograr 80% de precisión en su actividad Cloze.
+Recompensa inmediata: +10 XP + 5 monedas al completar con 100% en shadowing.
+B. Dashboard de Progreso
+INPUT FRANCÉS A1
+━━━━━━━━━━━━━━━━━━━━━━
+📖 Diálogos completados: 12/50
+🎧 Minutos de shadowing: 45/120
+🎯 Precisión media: 78%
+
+EJEMPLO COMPLETO (Listo para Ejecutar)
+Prompt para LLM:
+Actúa como ingeniero lingüístico certificado DELF A1. Genera contenido para el tópico "Alojamiento - Problemas Técnicos" siguiendo EXACTAMENTE este formato:
+[DIÁLOGOS]
+
+Cantidad: 5
+Formato:
+[TOPIC: Alojamiento]
+[SUBCONTEXT: Problemas Técnicos]
+[SCENARIO: El huésped reporta que no hay agua caliente en un Airbnb de Marsella]
+[CHARACTERS: Thomas (huésped), Sophie (anfitriona)]
+[TARGET STRUCTURES: "Il n'y a pas...", "pouvoir", "demander"]
+Diálogo 1/5
+(Thomas): Bonjour Sophie, il y a un problème.
+(Sophie): Bonjour Thomas ! Quel problème ?
+(Thomas): Il n'y a pas d'eau chaude dans la douche.
+(Sophie): Oh non ! Je peux envoyer un plombier.
+Traducciones:
+(Thomas): Hola Sophie, hay un problema.
+(Sophie): ¡Hola Thomas! ¿Qué problema?
+(Thomas): No hay agua caliente en la ducha.
+(Sophie): ¡Oh no! Puedo enviar un fontanero.
+[MINI-HISTORIAS]
+
+Cantidad: 3
+Formato:
+[TOPIC: Alojamiento]
+[SUBCONTEXT: Problemas Técnicos]
+[SCENARIO: Un estudiante descubre que el WiFi no funciona en su apartamento de intercambio]
+[WORD COUNT: 85 palabras]
+Histoire 1/3
+Lucas arrive à Bordeaux pour ses études. Il ouvre son ordinateur.
+"Le WiFi ne marche pas !" dit-il. Il appelle Madame Leclerc.
+Madame Leclerc vient avec un routeur neuf.
+"Voilà ! Maintenant, tu as internet," dit-elle.
+Lucas est très content. Il envoie un message à sa famille.
+Traducción:
+Lucas llega a Burdeos para sus estudios. Abre su computadora.
+"¡El WiFi no funciona!" dice. Llama a Madame Leclerc.
+Madame Leclerc viene con un router nuevo.
+"¡Aquí tienes! Ahora tienes internet," dice ella.
+Lucas está muy contento. Envía un mensaje a su familia.
+[DATOS TÉCNICOS]
+
+Palabras permitidas: Solo las 1,200 más frecuentes de A1.
+Prohibido: Pasado simple, subjuntivo, vocabulario de B1+.
+Metadata requerida: Incluir [TARGET STRUCTURES] y [SCENARIO] en cada bloque.
+CRITERIOS DE ACEPTACIÓN
+
+Validación automática: JSON debe pasar zod.parse(DialogueSchema).
+Pruebas de usuario: 95% de estudiantes A1 comprenden sin ayuda externa.
+Performance: Carga offline en < 1.5s en 3G (Lighthouse ≥ 90).
+Prompt 2:
+
+Analisis Critico de Monetizacion: FrenchA1Airbnb
+Basado en datos de mercado reales (2025), metricas de retencion y modelos de negocio validados
+
+FORTALEZAS DIFERENCIALES (Ventaja Competitiva Real)
+
+Metodologia Cientifica Unica
+Combinar Krashen (input comprensible) + Janulus (combinatoria) es pionero en apps moviles.
+Dato clave: Usuarios de apps con metodologia validada tienen 2.3x mayor LTV que apps genericas.
+Contexto Hiper-Especifico
+Airbnb en Paris resuelve un dolor real para 42 millones de viajeros anuales que visitan Francia.
+Ventaja vs Duolingo: No enseña frases genericas sino criticas como La douche ne fonctionne pas.
+Arquitectura Tecnica Sostenible
+Supabase + PWA + Zustand permite escalabilidad a bajo costo (infraestructura 65% mas barata que Firebase).
+PUNTOS CRITICOS PARA MONETIZAR (Lo que Falta HOY)
+
+Falta Volumen de Contenido
+Realidad del mercado: Duolingo tiene 50+ lecciones en 3 categorias, Babbel 15 unidades por nivel + 8 contextos, FrenchA1Airbnb actual tiene 1 mundo (Airbnb), 50 frases.
+Consecuencia: Usuarios abandonan tras 2 semanas.
+Solucion Minima Viable: 3 mundos A1 completos (Airbnb, Cafe, Mercado) + Certificado CEFR simulado.
+Costo estimado: $3,500 USD.
+Sin Elementos Sociales (Clave para Retencion)
+Datos duros: Apps con feedback humano tienen 34% mayor retencion a 90 dias.
+Deficiencia actual: Sistema es 100% solitario.
+Solucion low-code: Asincronico - usuarios comparten frases de supervivencia en feed tipo Twitter. Validacion por pares con incentivos en XP.
+Ausencia de Valor Percibido para Pago
+Modelo validado:
+Babbel: Certificaciones CEFR oficial, Feedback humano NO, Contenido offline SI, Contextos practicos 8 temas
+Busuu: Certificaciones CEFR + McGraw-Hill, Feedback humano SI, Contenido offline SI, Contextos practicos 12 temas
+FrenchA1Airbnb Necesita: Certificados descargables, Feedback humano NO (v1), Contenido offline SI, Contextos practicos 3+ temas
+Urgente: Implementar certificados descargables con sello A1 Validado.
+MODELO DE MONETIZACION RECOMENDADO (Priorizado)
+Fase 1: Freemium Basico (Meses 1-3)
+
+Gratis: 1 mundo (Airbnb), limite 20 min/dia, sin certificados - $0
+Premium: Todos los mundos A1, analisis de voz offline, certificados descargables, sin limites - $5.99/mes
+Proyeccion: 10,000 usuarios activos/mes → 5% conversion → 500 suscriptores = $3,000/mes. Margen bruto: 85%.
+Fase 2: B2B para Escuelas de Idiomas (Meses 4-6)
+
+Producto: Dashboard de clase con seguimiento de progreso.
+Precio: $12/usuario/año (minimo 25 licencias).
+Mercado objetivo: 15,000 escuelas de idiomas en UE/EE.UU. → 1% penetracion = $450,000/año.
+Fase 3: Microtransacciones Contextuales (Meses 7-12)
+
+Ejemplos viables: Paquete Emergencias: 25 frases para problemas en alojamientos ($1.99). Feedback Express: Correccion de 3 MiniTasks ($0.99).
+ANALISIS DE COMPETIDORES (Datos Reales 2025)
+App | Modelo | Retencion (90 dias) | Precio Promedio | Leccion para FrenchA1Airbnb
+Duolingo | Freemium + Ads | 7.2% | $6.99/mes | No competir en entretenimiento; enfocarse en utilidad practica
+Babbel | Suscripcion | 22.1% | $13.95/mes | Ofrecer certificados reconocibles aunque no sean oficiales
+Memrise | Freemium + Videos | 15.6% | $8.99/mes | Usar videos de nativos en contexto real
+Glossika | Suscripcion pura | 18.9% | $30/mes | No imitar su complejidad; mantener simplicidad mobile-first
+Tandem | Freemium + Tutorias | 9.8% | $12.99/mes | Evitar chat en vivo; usar interacciones asincronicas
+
+Hallazgo clave: Las apps con contexto practico + certificados tienen 3x mayor retencion que las genericas.
+
+RIESGOS QUE AMENAZAN LA MONETIZACION
+
+El Sindrome del Mundo Unico
+89% de usuarios abandonan apps educativas despues de completar el primer modulo.
+Mitigacion: Mostrar roadmap visible de nuevos mundos desde el inicio.
+Percepcion de Solo para Frances
+Sin roadmap multi-idioma, los usuarios no ven futuro.
+Solucion: Pantalla de Proximos idiomas con contador de dias para Aleman A1.
+Costo de Contenido de Calidad
+Un mundo CEFR-validado con audios de nativos cuesta ~$5,000.
+Estrategia: Alianzas con escuelas de idiomas (ej: ofrecer acceso gratuito a cambio de contenido autentico).
+HOJA DE RUTA REALISTA PARA MONETIZACION
+Timeline | Acciones Clave | Metrica de Exito
+Mes 1-3 | Lanzar MVP con 3 mundos A1 + certificados descargables | 5% conversion a premium
+Mes 4 | Integrar analisis de voz offline (Vosk.js) | Retencion a 30 dias > 35%
+Mes 6 | Piloto B2B con 5 escuelas de idiomas | 1 contrato B2B cerrado ($1,500/año)
+Mes 9 | Lanzar Mercado de Frases (microtransacciones) | 15% de usuarios compran al menos 1 paquete
+Mes 12 | Expansion a Aleman A1 + version para empresas | $8,000/mes en ingresos recurrentes
+
+Conclusion Sincera
+Puede monetizarse? Si, pero NO en su estado actual. La arquitectura tecnica es impecable y la metodologia es cientificamente superior a Duolingo, pero sin contenido suficiente y sin elementos sociales, es imposible generar valor percibido para el pago.
+
+Ventana de oportunidad: 6 meses para construir 3 mundos A1 + certificados + analisis de voz offline. Si se hace, el potencial es $25,000-$50,000/mes en ingresos recurrentes a los 18 meses.
+
+Recomendacion final:
+
+Completa las 27 tareas tecnicas (tu MVP es solido).
+Invierte $3,500 en contenido para 2 mundos adicionales (Cafe y Mercado).
+Implementa certificados CEFR simulados (diseno profesional + sello de validacion).
+Lanza freemium con limite de 20 minutos/dia.
+El mercado no paga por teoria linguistica. Paga por resolver problemas urgentes (como no poder comunicarse en un Airbnb en Paris). Transforma cada mundo en una solucion de supervivencia, y tendras un negocio escalable.
+
+Prompt 3:
+
+Diagnostico y Solucion Inmediata: Tu App Necesita Vitalidad Visual
+Sin sacrificar seriedad metodologica
+
+Tu intuicion es 100% correcta: un diseno sobrio en una app de aprendizaje de idiomas para adultos jovenes es un error estrategico. Datos duros:
+
+El 68% de usuarios abandonan apps educativas en 7 dias si la UI no genera emocion inmediata.
+Duolingo no triunfa por su metodologia, sino por su diseno emocional que convierte el aprendizaje en una experiencia adictiva.
+Pero no es necesario caer en lo infantil! Aqui la solucion:
+
+ESTRATEGIA DE DISENO: Seriedad con Alma
+Transforma tu interfaz sobria en una experiencia visualmente vibrante pero intelectualmente seria.
+
+Paleta de Color con Profundidad
+Fondo blanco/gris → Fondo degradé sutil: #f8f9ff → #eef2ff (azul muy claro que sugiere cielo de Paris al amanecer)
+Botones planos → Botones con micro-brillo: Hover con brillo interno (box-shadow: 0 0 8px #4F46E5) + transicion de 0.2s
+Texto negro → Textos en azul inteligencia: #2d3748 (no negro) + titulos en #4F46E5 (azul profundo)
+Ejemplo visual CSS:
+/* Antes (sobrio) */
+.button { background: #3b82f6; color: white; }
+
+/* Despues (con alma) */
+.button {
+background: linear-gradient(145deg, #4338ca, #5b21b6);
+color: white;
+border: none;
+box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2);
+transition: all 0.2s ease;
+}
+.button:hover {
+transform: translateY(-2px);
+box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3);
+}
+
+Micro-Animaciones con Proposito Cognitivo
+Mapa de Topicos: Nodos estaticos → Nodos que respiran: Brillo suave en el nodo activo + animacion de conexion entre nodos
+Janus Matrix: Cuadricula plana → Columnas con profundidad: Sombra suave en columnas + efecto de flotacion en celdas al pasar el mouse
+Input Player: Barra de progreso gris → Barra de progreso emocional: Degradé de #38bdf8 → #8b5cf6 que se llena con particulas
+Codigo Framer Motion (ejemplo para nodos):
+<motion.div
+whileHover={{ scale: 1.05, boxShadow: "0 0 15px #4F46E540" }}
+whileTap={{ scale: 0.95 }}
+transition={{ type: "spring", damping: 15 }}
+className="relative group"
+
+{prevNode && (
+<motion.div
+initial={{ width: 0 }}
+animate={{ width: "100%" }}
+transition={{ delay: 0.3 }}
+className="absolute top-1/2 left-0 h-0.5 bg-gradient-to-r from-transparent to-blue-300"
+/>
+)}
+
+Airbnb
+
+</motion.div>
+
+Tipografia con Personalidad (Sin Perdida de Legibilidad)
+Titulos: Manrope (Google Fonts) - no Inter
+Cuerpo: Atkinson Hyperlegible - no sistema default
+Detalles clave: Sombra de texto sutil en titulos, espaciado generoso: line-height: 1.6
+Ilustraciones Contextuales (No Decorativas)
+Home: Logo generico → Mapa estilizado de Paris con nodos como edificios iluminados
+Janus Matrix: Cuadricula vacia → Columnas como pilares de Notre Dame
+Dashboard: Graficas frias → Huella digital linguistica que visualiza el progreso como constelacion
+Ejemplo de implementacion:
+
+
+
+
+
+
+SUJETO
+
+
+
+
+VALIDACION CIENTIFICA: Por Que Esto Funciona?
+
+La Paradoja del Diseno Educativo:
+Los adultos serios confian mas en interfaces vibrantes si hay rigor metodologico detras.
+Ejemplo: Khan Academy usa colores primarios + personajes, pero su contenido es PhD-level.
+Neurociencia del Color:
+El azul profundo (#4F46E5) activa areas cerebrales asociadas con confianza y profundidad intelectual.
+El degrada suave reduce la fatiga visual en sesiones largas.
+Micro-Interacciones y Retencion:
+Cada animacion debe reforzar la metafora del aprendizaje:
+Brillo en nodos = iluminacion cognitiva
+Particulas en progreso = conexiones neuronales
+Nunca animar por animar.
+PLAN DE ACCION EN 72 HORAS (Priorizado)
+Tarea | Esfuerzo | Impacto en Engagement
+
+Reemplazar paleta con degrades + azul profundo | 2 horas | Alto
+Anadir micro-animaciones en botones y nodos | 4 horas | Maximo
+Cambiar tipografia a Manrope + Atkinson | 1 hora | Medio
+Implementar 3 ilustraciones contextuales | 8 horas | Alto
+Anadir particulas en transiciones criticas | 3 horas | Medio
+Resultado esperado:
+
++40% en tiempo de sesion
++25% en tasa de completacion de matrices Janus
+Percepcion de profesional pero humano en encuestas de usuarios
+CRITERIOS DE EXITO PARA EL REDISENO
+
+Test de Primeros 5 Segundos:
+Un usuario nuevo debe entender al instante que esta app es diferente a Duolingo.
+Test de Fatiga Visual:
+Tras 20 minutos de uso, el usuario no reporta cansancio ocular.
+Test de Percepcion de Seriedad:
+En encuestas, el 85%+ de usuarios dice: Esta app parece tener metodologia seria.
+Palabra Final
+No sacrifiques tu metodologia Krashen/Janulus por diseno.
+Sacrifica la sobriedad por una vitalidad que refleje la profundidad de tu metodo.
+
+Tu app no es un libro de texto academico. Es una herramienta de supervivencia para adultos que quieren hablar frances en Paris. Su diseno debe transmitir calma intelectual + energia practica.
+
+Proximo paso:
+Dame 1 pantalla especifica (ej: Mapa de Topicos) y te entrego el codigo CSS/JS listo para copiar/pegar con todos estos cambios implementados.
+
+
+
+
+
+otra cosa: cuando cliqueo un elemento del mapa una tarjeta aparece, visualmente es super pobre mostrar cuadrdaos y tarjetas, quiero que lo mejores, el mapa es un poco pobre porque es circular y los nodos estan en los radios, mejora este diseño no es visualmente atractivo,

@@ -1,0 +1,156 @@
+{
+  "topic": "alojamiento",
+  "subcontext": "checkout",
+  "activities": [
+    {
+      "id": "cloze-checkout-01",
+      "type": "cloze",
+      "dialogueId": "checkout-01",
+      "sentence": "Je _____ partir maintenant.",
+      "translation": "_____ irme ahora.",
+      "blanks": [
+        { "position": 2, "answer": "dois", "hint": "tener que (yo)" }
+      ],
+      "options": ["dois", "peux", "veux", "sais"]
+    },
+    {
+      "id": "cloze-checkout-02",
+      "type": "cloze",
+      "dialogueId": "checkout-01",
+      "sentence": "C'était _____ ! Merci pour tout.",
+      "translation": "¡Fue _____! Gracias por todo.",
+      "blanks": [
+        { "position": 2, "answer": "parfait", "hint": "excelente" }
+      ],
+      "options": ["parfait", "bien", "bon", "super"]
+    },
+    {
+      "id": "cloze-checkout-03",
+      "type": "cloze",
+      "dialogueId": "checkout-02",
+      "sentence": "Est-ce que je peux _____ jusqu'à midi ?",
+      "translation": "¿Puedo _____ hasta mediodía?",
+      "blanks": [
+        { "position": 5, "answer": "rester", "hint": "quedarse" }
+      ],
+      "options": ["rester", "partir", "dormir", "manger"]
+    },
+    {
+      "id": "cloze-checkout-04",
+      "type": "cloze",
+      "dialogueId": "checkout-03",
+      "sentence": "_____ le tapis, devant la porte.",
+      "translation": "_____ el tapete, frente a la puerta.",
+      "blanks": [
+        { "position": 1, "answer": "Sous", "hint": "debajo de" }
+      ],
+      "options": ["Sous", "Sur", "Dans", "Devant"]
+    },
+    {
+      "id": "cloze-checkout-05",
+      "type": "cloze",
+      "dialogueId": "checkout-04",
+      "sentence": "J'ai _____ un verre. Je suis désolée.",
+      "translation": "_____ un vaso. Lo siento.",
+      "blanks": [
+        { "position": 2, "answer": "cassé", "hint": "romper (passé composé)" }
+      ],
+      "options": ["cassé", "pris", "laissé", "vu"]
+    },
+    {
+      "id": "shadowing-checkout-01",
+      "type": "shadowing",
+      "dialogueId": "checkout-01",
+      "audioUrl": "/audio/fr/A1/alojamiento/checkout/dialogue-01-line-01.mp3",
+      "text": "Je dois partir maintenant. Voici les clés.",
+      "translation": "Tengo que irme ahora. Aquí están las llaves.",
+      "speed": "slow",
+      "pauseDuration": 3500
+    },
+    {
+      "id": "shadowing-checkout-02",
+      "type": "shadowing",
+      "dialogueId": "checkout-01",
+      "audioUrl": "/audio/fr/A1/alojamiento/checkout/dialogue-01-line-03.mp3",
+      "text": "Oui, c'était parfait ! Merci pour tout.",
+      "translation": "¡Sí, fue perfecto! Gracias por todo.",
+      "speed": "normal",
+      "pauseDuration": 3000
+    },
+    {
+      "id": "shadowing-checkout-03",
+      "type": "shadowing",
+      "dialogueId": "checkout-02",
+      "audioUrl": "/audio/fr/A1/alojamiento/checkout/dialogue-02-line-03.mp3",
+      "text": "Est-ce que je peux rester jusqu'à midi ?",
+      "translation": "¿Puedo quedarme hasta mediodía?",
+      "speed": "slow",
+      "pauseDuration": 3000
+    },
+    {
+      "id": "shadowing-checkout-04",
+      "type": "shadowing",
+      "dialogueId": "checkout-04",
+      "audioUrl": "/audio/fr/A1/alojamiento/checkout/dialogue-04-line-03.mp3",
+      "text": "J'ai cassé un verre. Je suis vraiment désolée.",
+      "translation": "Rompí un vaso. Lo siento mucho.",
+      "speed": "normal",
+      "pauseDuration": 3000
+    },
+    {
+      "id": "shadowing-checkout-05",
+      "type": "shadowing",
+      "dialogueId": "checkout-01",
+      "audioUrl": "/audio/fr/A1/alojamiento/checkout/dialogue-01-line-04.mp3",
+      "text": "Avec plaisir ! Bon voyage et à bientôt !",
+      "translation": "¡Con gusto! ¡Buen viaje y hasta pronto!",
+      "speed": "normal",
+      "pauseDuration": 3000
+    },
+    {
+      "id": "permutation-checkout-01",
+      "type": "permutation",
+      "matrixId": "janulus-checkout-01",
+      "baseStructure": "[despedida] [agradecimiento].",
+      "variations": [
+        { "french": "Je dois partir maintenant. Merci pour tout !", "spanish": "Tengo que irme ahora. ¡Gracias por todo!", "isCorrect": true },
+        { "french": "C'était parfait ! Au revoir et bon voyage !", "spanish": "¡Fue perfecto! ¡Adiós y buen viaje!", "isCorrect": true },
+        { "french": "Partir je dois maintenant. Merci tout pour !", "spanish": "Irme tengo que ahora. ¡Gracias todo por!", "isCorrect": false },
+        { "french": "Maintenant partir je dois. Tout pour merci !", "spanish": "Ahora irme tengo que. ¡Todo por gracias!", "isCorrect": false }
+      ]
+    },
+    {
+      "id": "permutation-checkout-02",
+      "type": "permutation",
+      "matrixId": "janulus-checkout-02",
+      "baseStructure": "[permiso] [acción] [tiempo]?",
+      "variations": [
+        { "french": "Est-ce que je peux rester jusqu'à midi ?", "spanish": "¿Puedo quedarme hasta mediodía?", "isCorrect": true },
+        { "french": "Je voudrais partir plus tard s'il vous plaît.", "spanish": "Quisiera irme más tarde por favor.", "isCorrect": true },
+        { "french": "Rester je peux jusqu'à midi ?", "spanish": "¿Quedarme puedo hasta mediodía?", "isCorrect": false },
+        { "french": "Midi jusqu'à rester je peux ?", "spanish": "¿Mediodía hasta quedarme puedo?", "isCorrect": false }
+      ]
+    },
+    {
+      "id": "permutation-checkout-03",
+      "type": "permutation",
+      "matrixId": "janulus-checkout-03",
+      "baseStructure": "[acción con llaves] [ubicación].",
+      "variations": [
+        { "french": "Voici les clés sur la table.", "spanish": "Aquí están las llaves sobre la mesa.", "isCorrect": true },
+        { "french": "J'ai laissé la clé sous le tapis.", "spanish": "He dejado la llave debajo del tapete.", "isCorrect": true },
+        { "french": "Les clés voici sur la table.", "spanish": "Las llaves aquí están sobre la mesa.", "isCorrect": false },
+        { "french": "Sous le tapis j'ai la clé laissé.", "spanish": "Debajo del tapete he la llave dejado.", "isCorrect": false }
+      ]
+    }
+  ],
+  "metadata": {
+    "totalActivities": 13,
+    "byType": {
+      "cloze": 5,
+      "shadowing": 5,
+      "permutation": 3
+    },
+    "lastUpdated": "2024-12-29"
+  }
+}

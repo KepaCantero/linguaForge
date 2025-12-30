@@ -1,0 +1,221 @@
+{
+  "topic": "alojamiento",
+  "subcontext": "checkout",
+  "dialogues": [
+    {
+      "id": "checkout-01",
+      "topic": "alojamiento",
+      "subcontext": "checkout",
+      "scenario": "Huésped se despide y devuelve las llaves al anfitrión.",
+      "characters": [
+        { "name": "Alex", "role": "huésped", "age": "estudiante" },
+        { "name": "Marie", "role": "anfitriona", "age": "40s" }
+      ],
+      "targetStructures": ["Je dois partir...", "Merci pour...", "Bon voyage !"],
+      "lines": [
+        {
+          "id": "checkout-01-01",
+          "speaker": "Alex",
+          "text": "Bonjour Marie, je dois partir maintenant. Voici les clés.",
+          "translation": "Hola Marie, tengo que irme ahora. Aquí están las llaves."
+        },
+        {
+          "id": "checkout-01-02",
+          "speaker": "Marie",
+          "text": "Merci Alex ! Le séjour était bien ?",
+          "translation": "¡Gracias Alex! ¿La estancia fue bien?"
+        },
+        {
+          "id": "checkout-01-03",
+          "speaker": "Alex",
+          "text": "Oui, c'était parfait ! Merci pour tout.",
+          "translation": "¡Sí, fue perfecto! Gracias por todo."
+        },
+        {
+          "id": "checkout-01-04",
+          "speaker": "Marie",
+          "text": "Avec plaisir ! Bon voyage et à bientôt !",
+          "translation": "¡Con gusto! ¡Buen viaje y hasta pronto!"
+        }
+      ],
+      "difficulty": "beginner",
+      "estimatedMinutes": 2
+    },
+    {
+      "id": "checkout-02",
+      "topic": "alojamiento",
+      "subcontext": "checkout",
+      "scenario": "Huésped pide una hora de salida tardía.",
+      "characters": [
+        { "name": "Laura", "role": "huésped", "age": "joven profesional" },
+        { "name": "Pierre", "role": "anfitrión", "age": "30s" }
+      ],
+      "targetStructures": ["Est-ce que je peux...?", "rester jusqu'à...", "pas de problème"],
+      "lines": [
+        {
+          "id": "checkout-02-01",
+          "speaker": "Laura",
+          "text": "Bonjour Pierre, mon train est à quatorze heures.",
+          "translation": "Hola Pierre, mi tren es a las catorce."
+        },
+        {
+          "id": "checkout-02-02",
+          "speaker": "Pierre",
+          "text": "D'accord. Le check-out normal est à onze heures.",
+          "translation": "Vale. El check-out normal es a las once."
+        },
+        {
+          "id": "checkout-02-03",
+          "speaker": "Laura",
+          "text": "Est-ce que je peux rester jusqu'à midi ?",
+          "translation": "¿Puedo quedarme hasta mediodía?"
+        },
+        {
+          "id": "checkout-02-04",
+          "speaker": "Pierre",
+          "text": "Oui, pas de problème ! Midi, c'est parfait.",
+          "translation": "¡Sí, no hay problema! Mediodía está perfecto."
+        }
+      ],
+      "difficulty": "beginner",
+      "estimatedMinutes": 2
+    },
+    {
+      "id": "checkout-03",
+      "topic": "alojamiento",
+      "subcontext": "checkout",
+      "scenario": "Huésped pregunta dónde dejar las llaves porque el anfitrión no está.",
+      "characters": [
+        { "name": "Marco", "role": "huésped", "age": "turista" },
+        { "name": "Sophie", "role": "anfitriona", "age": "35" }
+      ],
+      "targetStructures": ["Où est-ce que je...?", "sous...", "dans..."],
+      "lines": [
+        {
+          "id": "checkout-03-01",
+          "speaker": "Marco",
+          "text": "Bonjour Sophie, je pars à huit heures. Vous êtes là ?",
+          "translation": "Hola Sophie, me voy a las ocho. ¿Está usted?"
+        },
+        {
+          "id": "checkout-03-02",
+          "speaker": "Sophie",
+          "text": "Non, je suis au travail. Désolée !",
+          "translation": "No, estoy en el trabajo. ¡Lo siento!"
+        },
+        {
+          "id": "checkout-03-03",
+          "speaker": "Marco",
+          "text": "Pas de problème. Où est-ce que je laisse les clés ?",
+          "translation": "No hay problema. ¿Dónde dejo las llaves?"
+        },
+        {
+          "id": "checkout-03-04",
+          "speaker": "Sophie",
+          "text": "Sous le tapis, devant la porte. Merci et bon voyage !",
+          "translation": "Debajo del tapete, frente a la puerta. ¡Gracias y buen viaje!"
+        }
+      ],
+      "difficulty": "beginner",
+      "estimatedMinutes": 2
+    },
+    {
+      "id": "checkout-04",
+      "topic": "alojamiento",
+      "subcontext": "checkout",
+      "scenario": "Huésped reporta un pequeño daño accidental antes de irse.",
+      "characters": [
+        { "name": "Emma", "role": "huésped", "age": "estudiante Erasmus" },
+        { "name": "Jean", "role": "anfitrión", "age": "50s" }
+      ],
+      "targetStructures": ["J'ai cassé...", "Je suis désolé(e)", "Ce n'est pas grave"],
+      "lines": [
+        {
+          "id": "checkout-04-01",
+          "speaker": "Emma",
+          "text": "Bonjour Jean, j'ai quelque chose à dire.",
+          "translation": "Hola Jean, tengo algo que decir."
+        },
+        {
+          "id": "checkout-04-02",
+          "speaker": "Jean",
+          "text": "Oui, qu'est-ce qu'il y a ?",
+          "translation": "Sí, ¿qué hay?"
+        },
+        {
+          "id": "checkout-04-03",
+          "speaker": "Emma",
+          "text": "J'ai cassé un verre. Je suis vraiment désolée.",
+          "translation": "Rompí un vaso. Lo siento mucho."
+        },
+        {
+          "id": "checkout-04-04",
+          "speaker": "Jean",
+          "text": "Oh, ce n'est pas grave ! Ça arrive. Merci de me dire.",
+          "translation": "¡Oh, no es grave! Pasa. Gracias por decirme."
+        }
+      ],
+      "difficulty": "beginner",
+      "estimatedMinutes": 2
+    },
+    {
+      "id": "checkout-05",
+      "topic": "alojamiento",
+      "subcontext": "checkout",
+      "scenario": "Huésped pide recomendaciones al anfitrión antes de irse.",
+      "characters": [
+        { "name": "David", "role": "huésped", "age": "trabajador remoto" },
+        { "name": "Claire", "role": "anfitriona", "age": "28" }
+      ],
+      "targetStructures": ["Vous connaissez...?", "Je vous recommande...", "près de..."],
+      "lines": [
+        {
+          "id": "checkout-05-01",
+          "speaker": "David",
+          "text": "Merci Claire pour ce super séjour !",
+          "translation": "¡Gracias Claire por esta súper estancia!"
+        },
+        {
+          "id": "checkout-05-02",
+          "speaker": "Claire",
+          "text": "Merci à vous ! Vous partez où maintenant ?",
+          "translation": "¡Gracias a usted! ¿A dónde parte ahora?"
+        },
+        {
+          "id": "checkout-05-03",
+          "speaker": "David",
+          "text": "À Lyon. Vous connaissez un bon restaurant là-bas ?",
+          "translation": "A Lyon. ¿Conoce un buen restaurante allá?"
+        },
+        {
+          "id": "checkout-05-04",
+          "speaker": "Claire",
+          "text": "Oui ! Je vous recommande 'Le Bouchon'. C'est près de la gare.",
+          "translation": "¡Sí! Le recomiendo 'Le Bouchon'. Está cerca de la estación."
+        }
+      ],
+      "difficulty": "beginner",
+      "estimatedMinutes": 2
+    }
+  ],
+  "metadata": {
+    "totalDialogues": 5,
+    "avgWordsPerDialogue": 43,
+    "targetStructuresCovered": [
+      "Je dois partir...",
+      "Merci pour...",
+      "Bon voyage !",
+      "Est-ce que je peux...?",
+      "rester jusqu'à...",
+      "Où est-ce que je...?",
+      "sous...",
+      "dans...",
+      "J'ai cassé...",
+      "Je suis désolé(e)",
+      "Ce n'est pas grave",
+      "Vous connaissez...?",
+      "Je vous recommande..."
+    ],
+    "lastUpdated": "2024-12-29"
+  }
+}

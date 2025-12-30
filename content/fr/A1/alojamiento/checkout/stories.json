@@ -1,0 +1,83 @@
+{
+  "topic": "alojamiento",
+  "subcontext": "checkout",
+  "stories": [
+    {
+      "id": "story-checkout-01",
+      "topic": "alojamiento",
+      "subcontext": "checkout",
+      "scenario": "Una estudiante se despide de su anfitriona después de una semana en París.",
+      "wordCount": 82,
+      "text": "C'est dimanche. Emma doit partir. Elle a passé une semaine à Paris.\n\nElle met sa valise près de la porte.\n\"Madame Bernard, je dois partir maintenant.\"\n\"Déjà ? Le séjour était bien ?\"\n\"Oui, c'était parfait ! Merci pour tout.\"\n\nEmma donne les clés à Madame Bernard.\n\"Voici les clés. L'appartement est propre.\"\n\"Merci Emma ! Bon voyage et à bientôt !\"\n\nEmma sourit et part.",
+      "translation": "Es domingo. Emma tiene que irse. Pasó una semana en París.\n\nPone su maleta cerca de la puerta.\n\"Madame Bernard, tengo que irme ahora.\"\n\"¿Ya? ¿La estancia estuvo bien?\"\n\"¡Sí, fue perfecta! Gracias por todo.\"\n\nEmma da las llaves a Madame Bernard.\n\"Aquí están las llaves. El apartamento está limpio.\"\n\"¡Gracias Emma! ¡Buen viaje y hasta pronto!\"\n\nEmma sonríe y se va.",
+      "targetStructures": ["Je dois partir", "C'était...", "Merci pour..."],
+      "keyVocabulary": ["dimanche", "partir", "valise", "séjour", "clés", "propre"],
+      "comprehensionQuestions": [
+        {
+          "id": "story-checkout-01-q1",
+          "question": "Combien de temps Emma est restée à Paris ?",
+          "questionTranslation": "¿Cuánto tiempo Emma se quedó en París?",
+          "options": [
+            { "id": "a", "text": "Un jour", "isCorrect": false },
+            { "id": "b", "text": "Trois jours", "isCorrect": false },
+            { "id": "c", "text": "Une semaine", "isCorrect": true },
+            { "id": "d", "text": "Un mois", "isCorrect": false }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "story-checkout-02",
+      "topic": "alojamiento",
+      "subcontext": "checkout",
+      "scenario": "Un turista rompe accidentalmente algo antes de irse.",
+      "wordCount": 95,
+      "text": "David fait ses valises. Il part demain. Mais il y a un problème.\n\nHier, il a cassé un verre dans la cuisine.\n\"Oh non, qu'est-ce que je fais ?\" pense David.\n\nIl décide de dire la vérité à Claire, l'hôte.\n\"Claire, je suis désolé. J'ai cassé un verre.\"\n\"Oh, ce n'est pas grave ! Ça arrive,\" dit Claire.\n\"Je peux payer pour le verre ?\"\n\"Non, non ! C'est un vieux verre. Pas de problème.\"\n\nDavid est soulagé. Il remercie Claire.",
+      "translation": "David hace sus maletas. Se va mañana. Pero hay un problema.\n\nAyer, rompió un vaso en la cocina.\n\"Oh no, ¿qué hago?\" piensa David.\n\nDecide decir la verdad a Claire, la anfitriona.\n\"Claire, lo siento. Rompí un vaso.\"\n\"¡Oh, no es grave! Pasa,\" dice Claire.\n\"¿Puedo pagar por el vaso?\"\n\"¡No, no! Es un vaso viejo. No hay problema.\"\n\nDavid está aliviado. Agradece a Claire.",
+      "targetStructures": ["J'ai cassé...", "Ce n'est pas grave", "Je peux...?"],
+      "keyVocabulary": ["valise", "casser", "verre", "cuisine", "vérité", "payer"],
+      "comprehensionQuestions": [
+        {
+          "id": "story-checkout-02-q1",
+          "question": "Qu'est-ce que David a cassé ?",
+          "questionTranslation": "¿Qué rompió David?",
+          "options": [
+            { "id": "a", "text": "Une assiette", "isCorrect": false },
+            { "id": "b", "text": "Un verre", "isCorrect": true },
+            { "id": "c", "text": "Une lampe", "isCorrect": false },
+            { "id": "d", "text": "Une chaise", "isCorrect": false }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "story-checkout-03",
+      "topic": "alojamiento",
+      "subcontext": "checkout",
+      "scenario": "Una pareja pide una hora de salida tardía porque su tren es por la tarde.",
+      "wordCount": 88,
+      "text": "Marie et Paul sont à Nice. Leur train est à seize heures.\n\nLe check-out normal est à onze heures. C'est trop tôt !\n\nMarie appelle Monsieur Bernard.\n\"Bonjour ! Est-ce qu'on peut rester jusqu'à quatorze heures ?\"\n\"Oui, pas de problème ! C'est vingt euros extra.\"\n\"D'accord, merci beaucoup !\"\n\nMarie et Paul profitent de la matinée. Ils visitent le marché.\nÀ quatorze heures, ils laissent les clés sous le tapis.\n\"Au revoir, Nice !\"",
+      "translation": "Marie y Paul están en Niza. Su tren es a las dieciséis.\n\nEl check-out normal es a las once. ¡Es muy temprano!\n\nMarie llama al señor Bernard.\n\"¡Hola! ¿Podemos quedarnos hasta las catorce?\"\n\"¡Sí, no hay problema! Son veinte euros extra.\"\n\"¡De acuerdo, muchas gracias!\"\n\nMarie y Paul aprovechan la mañana. Visitan el mercado.\nA las catorce, dejan las llaves debajo del tapete.\n\"¡Adiós, Niza!\"",
+      "targetStructures": ["Est-ce qu'on peut...?", "jusqu'à...", "C'est...euros"],
+      "keyVocabulary": ["train", "tôt", "rester", "extra", "matinée", "marché", "tapis"],
+      "comprehensionQuestions": [
+        {
+          "id": "story-checkout-03-q1",
+          "question": "À quelle heure est le train de Marie et Paul ?",
+          "questionTranslation": "¿A qué hora es el tren de Marie y Paul?",
+          "options": [
+            { "id": "a", "text": "À onze heures", "isCorrect": false },
+            { "id": "b", "text": "À quatorze heures", "isCorrect": false },
+            { "id": "c", "text": "À seize heures", "isCorrect": true },
+            { "id": "d", "text": "À dix-huit heures", "isCorrect": false }
+          ]
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "totalStories": 3,
+    "avgWordCount": 88,
+    "lastUpdated": "2024-12-29"
+  }
+}

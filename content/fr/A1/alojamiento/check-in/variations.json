@@ -1,0 +1,172 @@
+{
+  "topic": "alojamiento",
+  "subcontext": "check-in",
+  "matrices": [
+    {
+      "id": "janulus-checkin-01",
+      "topic": "alojamiento",
+      "subcontext": "check-in",
+      "targetStructure": "Presentarse y preguntar ubicación",
+      "columns": [
+        {
+          "id": "col-subject",
+          "type": "subject",
+          "items": [
+            { "id": "subj-01", "french": "Je suis", "spanish": "Soy" },
+            { "id": "subj-02", "french": "Vous êtes", "spanish": "Usted es" },
+            { "id": "subj-03", "french": "C'est", "spanish": "Es" },
+            { "id": "subj-04", "french": "Voici", "spanish": "Aquí está" }
+          ]
+        },
+        {
+          "id": "col-modal",
+          "type": "modal",
+          "items": [
+            { "id": "mod-01", "french": "Alex", "spanish": "Alex" },
+            { "id": "mod-02", "french": "l'hôte", "spanish": "el anfitrión" },
+            { "id": "mod-03", "french": "la clé", "spanish": "la llave" },
+            { "id": "mod-04", "french": "l'appartement", "spanish": "el apartamento" }
+          ]
+        },
+        {
+          "id": "col-action",
+          "type": "action",
+          "items": [
+            { "id": "act-01", "french": "Où est", "spanish": "Dónde está" },
+            { "id": "act-02", "french": "C'est où", "spanish": "Dónde queda" },
+            { "id": "act-03", "french": "Est-ce que c'est", "spanish": "¿Es" },
+            { "id": "act-04", "french": "Voilà", "spanish": "Aquí está" }
+          ]
+        },
+        {
+          "id": "col-complement",
+          "type": "complement",
+          "items": [
+            { "id": "comp-01", "french": "la cuisine ?", "spanish": "la cocina?" },
+            { "id": "comp-02", "french": "la salle de bain ?", "spanish": "el baño?" },
+            { "id": "comp-03", "french": "la chambre ?", "spanish": "la habitación?" },
+            { "id": "comp-04", "french": "l'entrée ?", "spanish": "la entrada?" }
+          ]
+        }
+      ],
+      "exampleCombinations": [
+        { "french": "Je suis Alex. Où est la cuisine ?", "spanish": "Soy Alex. ¿Dónde está la cocina?" },
+        { "french": "Voici la clé. C'est où la chambre ?", "spanish": "Aquí está la llave. ¿Dónde queda la habitación?" },
+        { "french": "Vous êtes l'hôte ? Voilà la salle de bain.", "spanish": "¿Usted es el anfitrión? Aquí está el baño." },
+        { "french": "C'est l'appartement. Où est l'entrée ?", "spanish": "Es el apartamento. ¿Dónde está la entrada?" }
+      ]
+    },
+    {
+      "id": "janulus-checkin-02",
+      "topic": "alojamiento",
+      "subcontext": "check-in",
+      "targetStructure": "Pedir permiso y expresar necesidades",
+      "columns": [
+        {
+          "id": "col-subject",
+          "type": "subject",
+          "items": [
+            { "id": "subj-01", "french": "Je peux", "spanish": "Puedo" },
+            { "id": "subj-02", "french": "Est-ce que je peux", "spanish": "¿Puedo" },
+            { "id": "subj-03", "french": "Je voudrais", "spanish": "Quisiera" },
+            { "id": "subj-04", "french": "J'ai besoin de", "spanish": "Necesito" }
+          ]
+        },
+        {
+          "id": "col-modal",
+          "type": "modal",
+          "items": [
+            { "id": "mod-01", "french": "laisser", "spanish": "dejar" },
+            { "id": "mod-02", "french": "utiliser", "spanish": "usar" },
+            { "id": "mod-03", "french": "avoir", "spanish": "tener" },
+            { "id": "mod-04", "french": "prendre", "spanish": "tomar" }
+          ]
+        },
+        {
+          "id": "col-action",
+          "type": "action",
+          "items": [
+            { "id": "act-01", "french": "ma valise", "spanish": "mi maleta" },
+            { "id": "act-02", "french": "la cuisine", "spanish": "la cocina" },
+            { "id": "act-03", "french": "le WiFi", "spanish": "el WiFi" },
+            { "id": "act-04", "french": "une serviette", "spanish": "una toalla" }
+          ]
+        },
+        {
+          "id": "col-complement",
+          "type": "complement",
+          "items": [
+            { "id": "comp-01", "french": "ici ?", "spanish": "aquí?" },
+            { "id": "comp-02", "french": "s'il vous plaît ?", "spanish": "por favor?" },
+            { "id": "comp-03", "french": "maintenant ?", "spanish": "ahora?" },
+            { "id": "comp-04", "french": "ce soir ?", "spanish": "esta noche?" }
+          ]
+        }
+      ],
+      "exampleCombinations": [
+        { "french": "Je peux laisser ma valise ici ?", "spanish": "¿Puedo dejar mi maleta aquí?" },
+        { "french": "Est-ce que je peux utiliser la cuisine s'il vous plaît ?", "spanish": "¿Puedo usar la cocina por favor?" },
+        { "french": "J'ai besoin de le WiFi maintenant.", "spanish": "Necesito el WiFi ahora." },
+        { "french": "Je voudrais prendre une serviette ce soir.", "spanish": "Quisiera tomar una toalla esta noche." }
+      ]
+    },
+    {
+      "id": "janulus-checkin-03",
+      "topic": "alojamiento",
+      "subcontext": "check-in",
+      "targetStructure": "Preguntar sobre servicios y reglas",
+      "columns": [
+        {
+          "id": "col-subject",
+          "type": "subject",
+          "items": [
+            { "id": "subj-01", "french": "Il y a", "spanish": "Hay" },
+            { "id": "subj-02", "french": "Est-ce qu'il y a", "spanish": "¿Hay" },
+            { "id": "subj-03", "french": "Quel est", "spanish": "Cuál es" },
+            { "id": "subj-04", "french": "Il faut", "spanish": "Hay que" }
+          ]
+        },
+        {
+          "id": "col-modal",
+          "type": "modal",
+          "items": [
+            { "id": "mod-01", "french": "le mot de passe", "spanish": "la contraseña" },
+            { "id": "mod-02", "french": "du WiFi", "spanish": "WiFi" },
+            { "id": "mod-03", "french": "Netflix", "spanish": "Netflix" },
+            { "id": "mod-04", "french": "fermer", "spanish": "cerrar" }
+          ]
+        },
+        {
+          "id": "col-action",
+          "type": "action",
+          "items": [
+            { "id": "act-01", "french": "sur la télé", "spanish": "en la tele" },
+            { "id": "act-02", "french": "dans la chambre", "spanish": "en la habitación" },
+            { "id": "act-03", "french": "à clé", "spanish": "con llave" },
+            { "id": "act-04", "french": "le soir", "spanish": "por la noche" }
+          ]
+        },
+        {
+          "id": "col-complement",
+          "type": "complement",
+          "items": [
+            { "id": "comp-01", "french": "?", "spanish": "?" },
+            { "id": "comp-02", "french": "s'il vous plaît ?", "spanish": "por favor?" },
+            { "id": "comp-03", "french": "la porte.", "spanish": "la puerta." },
+            { "id": "comp-04", "french": "toujours.", "spanish": "siempre." }
+          ]
+        }
+      ],
+      "exampleCombinations": [
+        { "french": "Quel est le mot de passe du WiFi ?", "spanish": "¿Cuál es la contraseña del WiFi?" },
+        { "french": "Est-ce qu'il y a Netflix sur la télé ?", "spanish": "¿Hay Netflix en la tele?" },
+        { "french": "Il faut fermer la porte à clé toujours.", "spanish": "Hay que cerrar la puerta con llave siempre." },
+        { "french": "Il y a du WiFi dans la chambre ?", "spanish": "¿Hay WiFi en la habitación?" }
+      ]
+    }
+  ],
+  "metadata": {
+    "totalCombinations": 192,
+    "lastUpdated": "2024-12-29"
+  }
+}

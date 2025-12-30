@@ -1,101 +1,211 @@
-import Image from "next/image";
+'use client';
+
+import { useEffect } from 'react';
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { LinguaShard, GlyphFrame } from '@/components/ui';
+import { useGamificationStore } from '@/store/useGamificationStore';
+import { useTreeProgressStore } from '@/store/useTreeProgressStore';
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const router = useRouter();
+  const { xp } = useGamificationStore();
+  const { getOverallProgress, initTreeProgress } = useTreeProgressStore();
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+  useEffect(() => {
+    initTreeProgress('fr-a1-topic-tree');
+  }, [initTreeProgress]);
+
+  const progress = getOverallProgress('fr-a1-topic-tree');
+  const resonance = progress.total > 0 ? Math.round((progress.completed / progress.total) * 100) : 0;
+
+  return (
+    <div className="space-y-6 -mt-2">
+      {/* Hero Section */}
+      <motion.div
+        className="text-center py-6"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+      >
+        <motion.h1
+          className="font-rajdhani text-3xl font-bold text-transparent bg-clip-text bg-resonance-gradient mb-2"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.2 }}
+        >
+          LinguaForge
+        </motion.h1>
+        <motion.p
+          className="font-atkinson text-lf-muted text-sm"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3 }}
+        >
+          Forja tu dominio del francés
+        </motion.p>
+      </motion.div>
+
+      {/* Resonance Crystal */}
+      <motion.div
+        className="flex justify-center"
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 0.4, type: 'spring' }}
+      >
+        <LinguaShard resonance={resonance} label="Francés A1" size="lg" />
+      </motion.div>
+
+      {/* Main CTA */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5 }}
+      >
+        <Link href="/tree">
+          <GlyphFrame variant="accent" className="hover:shadow-resonance transition-shadow cursor-pointer">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="font-rajdhani text-lg font-bold text-white mb-1">
+                  Linguistic Lattice
+                </h2>
+                <p className="font-atkinson text-sm text-lf-muted">
+                  Explora el árbol de tópicos A1
+                </p>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-lf-accent font-rajdhani font-bold">
+                  {progress.completed}/{progress.total}
+                </span>
+                <motion.span
+                  className="text-2xl"
+                  animate={{ x: [0, 5, 0] }}
+                  transition={{ repeat: Infinity, duration: 1.5 }}
+                >
+                  ⬡
+                </motion.span>
+              </div>
+            </div>
+          </GlyphFrame>
+        </Link>
+      </motion.div>
+
+      {/* Quick Stats */}
+      <motion.div
+        className="grid grid-cols-3 gap-3"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.6 }}
+      >
+        <GlyphFrame variant="muted" animate={false}>
+          <div className="text-center py-2">
+            <span className="block text-lf-accent font-rajdhani text-xl font-bold">{xp}</span>
+            <span className="block text-xs text-lf-muted font-atkinson">Resonance</span>
+          </div>
+        </GlyphFrame>
+
+        <GlyphFrame variant="muted" animate={false}>
+          <div className="text-center py-2">
+            <span className="block text-lf-secondary font-rajdhani text-xl font-bold">11</span>
+            <span className="block text-xs text-lf-muted font-atkinson">Branches</span>
+          </div>
+        </GlyphFrame>
+
+        <GlyphFrame variant="muted" animate={false}>
+          <div className="text-center py-2">
+            <span className="block text-lf-primary font-rajdhani text-xl font-bold">33</span>
+            <span className="block text-xs text-lf-muted font-atkinson">Glyphs</span>
+          </div>
+        </GlyphFrame>
+      </motion.div>
+
+      {/* Mastery Levels */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.7 }}
+      >
+        <GlyphFrame title="Tongue Mastery">
+          <div className="space-y-3">
+            <MasteryLevel
+              name="Novato"
+              range="0-33%"
+              isActive={resonance < 33}
+              isCompleted={resonance >= 33}
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+            <MasteryLevel
+              name="Forjador"
+              range="33-66%"
+              isActive={resonance >= 33 && resonance < 66}
+              isCompleted={resonance >= 66}
+            />
+            <MasteryLevel
+              name="Maestro"
+              range="66-100%"
+              isActive={resonance >= 66}
+              isCompleted={resonance >= 100}
+            />
+          </div>
+        </GlyphFrame>
+      </motion.div>
+
+      {/* Enter Button */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 0.8 }}
+      >
+        <button
+          onClick={() => router.push('/tree')}
+          className="w-full py-4 bg-resonance-gradient text-white font-rajdhani font-bold text-lg rounded-glyph shadow-resonance hover:shadow-resonance-lg transition-all hover:scale-[1.02] active:scale-[0.98] uppercase tracking-wider"
         >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+          Enter the Forge
+        </button>
+      </motion.div>
+    </div>
+  );
+}
+
+function MasteryLevel({
+  name,
+  range,
+  isActive,
+  isCompleted,
+}: {
+  name: string;
+  range: string;
+  isActive: boolean;
+  isCompleted: boolean;
+}) {
+  return (
+    <div
+      className={`flex items-center justify-between p-2 rounded-glyph transition-all ${
+        isActive
+          ? 'bg-lf-primary/20 border border-lf-primary/40'
+          : isCompleted
+          ? 'bg-emerald-500/10 border border-emerald-500/30'
+          : 'bg-lf-soft/50'
+      }`}
+    >
+      <div className="flex items-center gap-2">
+        <div
+          className={`w-3 h-3 rounded-sm ${
+            isCompleted
+              ? 'bg-emerald-500'
+              : isActive
+              ? 'bg-lf-accent animate-resonance-pulse'
+              : 'bg-lf-muted'
+          }`}
+        />
+        <span
+          className={`font-rajdhani font-semibold ${
+            isActive ? 'text-lf-accent' : isCompleted ? 'text-emerald-400' : 'text-lf-muted'
+          }`}
         >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+          {name}
+        </span>
+      </div>
+      <span className="font-atkinson text-xs text-lf-muted">{range}</span>
     </div>
   );
 }

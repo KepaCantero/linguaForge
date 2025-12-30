@@ -1,0 +1,396 @@
+{
+  "id": "fr-a1-topic-tree",
+  "languageCode": "fr",
+  "levelCode": "A1",
+  "trunk": {
+    "title": "Puedo sobrevivir en situaciones cotidianas muy simples",
+    "titleFr": "Je peux survivre dans des situations quotidiennes très simples"
+  },
+  "branches": [
+    {
+      "id": "branch-1-identity",
+      "order": 1,
+      "title": "Identidad & Supervivencia Social",
+      "titleFr": "Identité & Survie Sociale",
+      "description": "Quién soy / quién eres",
+      "icon": "👋",
+      "color": "#4F46E5",
+      "leaves": [
+        {
+          "id": "leaf-1-1-greetings",
+          "title": "Saludos y cortesía",
+          "titleFr": "Salutations et politesse",
+          "grammar": ["Bonjour / Salut / Au revoir", "Politesse (merci, s'il vous plaît)", "Tu vs Vous"],
+          "icon": "🤝",
+          "estimatedMinutes": 15
+        },
+        {
+          "id": "leaf-1-2-introduce",
+          "title": "Presentarse",
+          "titleFr": "Se présenter",
+          "grammar": ["Je m'appelle…", "Nacionalidad", "Idiomas", "Deletrear el nombre"],
+          "icon": "🙋",
+          "estimatedMinutes": 20
+        },
+        {
+          "id": "leaf-1-3-personal-info",
+          "title": "Información personal",
+          "titleFr": "Informations personnelles",
+          "grammar": ["Edad", "Dirección", "Teléfono / email", "Estado civil"],
+          "icon": "📝",
+          "estimatedMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "branch-2-time",
+      "order": 2,
+      "title": "Tiempo, Números y Ritmo Diario",
+      "titleFr": "Temps, Nombres et Rythme Quotidien",
+      "description": "Ordenar el mundo",
+      "icon": "🔢",
+      "color": "#7C3AED",
+      "leaves": [
+        {
+          "id": "leaf-2-1-numbers",
+          "title": "Números",
+          "titleFr": "Les nombres",
+          "grammar": ["0-20", "20-100", "Precios"],
+          "icon": "🔢",
+          "estimatedMinutes": 20
+        },
+        {
+          "id": "leaf-2-2-dates",
+          "title": "Fechas y tiempo",
+          "titleFr": "Dates et temps",
+          "grammar": ["Días de la semana", "Meses", "Estaciones"],
+          "icon": "📅",
+          "estimatedMinutes": 15
+        },
+        {
+          "id": "leaf-2-3-hour",
+          "title": "La hora",
+          "titleFr": "L'heure",
+          "grammar": ["Quelle heure est-il ?", "Rutinas diarias", "Preposiciones temporales"],
+          "icon": "🕐",
+          "estimatedMinutes": 20
+        }
+      ]
+    },
+    {
+      "id": "branch-3-location",
+      "order": 3,
+      "title": "Lugar & Orientación",
+      "titleFr": "Lieu & Orientation",
+      "description": "Dónde estoy",
+      "icon": "📍",
+      "color": "#2563EB",
+      "leaves": [
+        {
+          "id": "leaf-3-1-countries",
+          "title": "Países y ciudades",
+          "titleFr": "Pays et villes",
+          "grammar": ["Países", "Nacionalidades", "Vivir en…"],
+          "icon": "🌍",
+          "estimatedMinutes": 15
+        },
+        {
+          "id": "leaf-3-2-city",
+          "title": "La ciudad",
+          "titleFr": "La ville",
+          "grammar": ["Lugares comunes (gare, banque, café)", "Direcciones", "À gauche / à droite"],
+          "icon": "🏙️",
+          "estimatedMinutes": 20
+        },
+        {
+          "id": "leaf-3-3-transport",
+          "title": "Transporte",
+          "titleFr": "Les transports",
+          "grammar": ["Métro, bus, vélo", "Aller à…", "Preposiciones de movimiento"],
+          "icon": "🚇",
+          "estimatedMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "branch-4-housing",
+      "order": 4,
+      "title": "Alojamiento & Vida Práctica",
+      "titleFr": "Logement & Vie Pratique",
+      "description": "Airbnb entra aquí",
+      "icon": "🏠",
+      "color": "#0891B2",
+      "leaves": [
+        {
+          "id": "leaf-4-1-housing-types",
+          "title": "Tipos de alojamiento",
+          "titleFr": "Types de logement",
+          "grammar": ["Hôtel", "Appartement", "Airbnb"],
+          "icon": "🏨",
+          "estimatedMinutes": 15
+        },
+        {
+          "id": "leaf-4-2-in-housing",
+          "title": "En el alojamiento",
+          "titleFr": "Dans le logement",
+          "grammar": ["Chambre, salle de bain", "Clés", "Problèmes simples (eau, chauffage)"],
+          "icon": "🛏️",
+          "estimatedMinutes": 20
+        },
+        {
+          "id": "leaf-4-3-arrival",
+          "title": "Llegada y normas",
+          "titleFr": "Arrivée et règles",
+          "grammar": ["Check-in", "Horarios", "Reglas básicas"],
+          "icon": "🚪",
+          "estimatedMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "branch-5-food",
+      "order": 5,
+      "title": "Comida & Vida Diaria",
+      "titleFr": "Nourriture & Vie Quotidienne",
+      "description": "Sobrevivir comiendo",
+      "icon": "🍽️",
+      "color": "#059669",
+      "leaves": [
+        {
+          "id": "leaf-5-1-meals",
+          "title": "Comidas",
+          "titleFr": "Les repas",
+          "grammar": ["Petit-déjeuner", "Déjeuner", "Dîner"],
+          "icon": "🥐",
+          "estimatedMinutes": 15
+        },
+        {
+          "id": "leaf-5-2-restaurant",
+          "title": "En el café / restaurante",
+          "titleFr": "Au café / restaurant",
+          "grammar": ["Commander", "Pagar", "Preferencias"],
+          "icon": "☕",
+          "estimatedMinutes": 20
+        },
+        {
+          "id": "leaf-5-3-shopping",
+          "title": "Compras básicas",
+          "titleFr": "Achats de base",
+          "grammar": ["Supermercado", "Precios", "Cantidades"],
+          "icon": "🛒",
+          "estimatedMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "branch-6-people",
+      "order": 6,
+      "title": "Personas & Relaciones",
+      "titleFr": "Personnes & Relations",
+      "description": "Los otros",
+      "icon": "👥",
+      "color": "#D97706",
+      "leaves": [
+        {
+          "id": "leaf-6-1-family",
+          "title": "Familia",
+          "titleFr": "La famille",
+          "grammar": ["Miembros", "Relaciones", "Posesivos"],
+          "icon": "👨‍👩‍👧",
+          "estimatedMinutes": 15
+        },
+        {
+          "id": "leaf-6-2-physical",
+          "title": "Descripción física",
+          "titleFr": "Description physique",
+          "grammar": ["Alto/bajo", "Pelo, ojos", "Adjetivos de descripción"],
+          "icon": "🧍",
+          "estimatedMinutes": 15
+        },
+        {
+          "id": "leaf-6-3-character",
+          "title": "Carácter y gustos",
+          "titleFr": "Caractère et goûts",
+          "grammar": ["Aimer / adorer / détester", "Deportes y ocio", "Adjetivos de personalidad"],
+          "icon": "❤️",
+          "estimatedMinutes": 20
+        }
+      ]
+    },
+    {
+      "id": "branch-7-work",
+      "order": 7,
+      "title": "Trabajo & Actividades",
+      "titleFr": "Travail & Activités",
+      "description": "Qué hago",
+      "icon": "💼",
+      "color": "#DC2626",
+      "leaves": [
+        {
+          "id": "leaf-7-1-professions",
+          "title": "Profesiones",
+          "titleFr": "Les professions",
+          "grammar": ["Trabajo", "Estudiar", "Verbos de profesión"],
+          "icon": "👔",
+          "estimatedMinutes": 15
+        },
+        {
+          "id": "leaf-7-2-routine",
+          "title": "Rutina laboral",
+          "titleFr": "Routine de travail",
+          "grammar": ["Horarios", "Actividades", "Verbos regulares -er"],
+          "icon": "⏰",
+          "estimatedMinutes": 20
+        },
+        {
+          "id": "leaf-7-3-leisure",
+          "title": "Tiempo libre",
+          "titleFr": "Temps libre",
+          "grammar": ["Loisirs", "Deportes", "Artes"],
+          "icon": "🎨",
+          "estimatedMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "branch-8-health",
+      "order": 8,
+      "title": "Salud & Necesidades Básicas",
+      "titleFr": "Santé & Besoins de Base",
+      "description": "Problemas simples",
+      "icon": "🏥",
+      "color": "#DB2777",
+      "leaves": [
+        {
+          "id": "leaf-8-1-body",
+          "title": "El cuerpo",
+          "titleFr": "Le corps",
+          "grammar": ["Partes del cuerpo", "Sensaciones", "Vocabulario anatómico"],
+          "icon": "🦴",
+          "estimatedMinutes": 15
+        },
+        {
+          "id": "leaf-8-2-pain",
+          "title": "Dolor y malestar",
+          "titleFr": "Douleur et malaise",
+          "grammar": ["J'ai mal à…", "Fatiga", "Síntomas básicos"],
+          "icon": "🤒",
+          "estimatedMinutes": 15
+        },
+        {
+          "id": "leaf-8-3-advice",
+          "title": "Consejos simples",
+          "titleFr": "Conseils simples",
+          "grammar": ["Il faut…", "Devoir (intro)", "Recomendaciones"],
+          "icon": "💊",
+          "estimatedMinutes": 20
+        }
+      ]
+    },
+    {
+      "id": "branch-9-communication",
+      "order": 9,
+      "title": "Comunicación Funcional",
+      "titleFr": "Communication Fonctionnelle",
+      "description": "Interactuar",
+      "icon": "💬",
+      "color": "#7C3AED",
+      "leaves": [
+        {
+          "id": "leaf-9-1-questions",
+          "title": "Preguntar",
+          "titleFr": "Poser des questions",
+          "grammar": ["Où / Quand / Combien", "Est-ce que", "Formas interrogativas"],
+          "icon": "❓",
+          "estimatedMinutes": 20
+        },
+        {
+          "id": "leaf-9-2-negation",
+          "title": "Negar",
+          "titleFr": "La négation",
+          "grammar": ["Ne…pas", "Ne…jamais", "Ne…rien (intro)"],
+          "icon": "🚫",
+          "estimatedMinutes": 15
+        },
+        {
+          "id": "leaf-9-3-invitations",
+          "title": "Invitar y responder",
+          "titleFr": "Inviter et répondre",
+          "grammar": ["Proposer", "Accepter / Refuser", "Imperativo"],
+          "icon": "🎉",
+          "estimatedMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "branch-10-past-future",
+      "order": 10,
+      "title": "Tiempo Pasado & Proyectos",
+      "titleFr": "Passé & Projets",
+      "description": "Inicio del relato",
+      "icon": "⏳",
+      "color": "#0D9488",
+      "leaves": [
+        {
+          "id": "leaf-10-1-recent-past",
+          "title": "Pasado reciente",
+          "titleFr": "Passé récent",
+          "grammar": ["Je viens de…", "Acciones recientes", "Venir de + infinitif"],
+          "icon": "🔙",
+          "estimatedMinutes": 15
+        },
+        {
+          "id": "leaf-10-2-passe-compose",
+          "title": "Pasado simple vivido",
+          "titleFr": "Passé composé",
+          "grammar": ["Passé composé (intro)", "Avoir/Être auxiliar", "Participios comunes"],
+          "icon": "📖",
+          "estimatedMinutes": 25
+        },
+        {
+          "id": "leaf-10-3-future",
+          "title": "Futuro cercano",
+          "titleFr": "Futur proche",
+          "grammar": ["Aller + infinitif", "Proyectos inmediatos", "Planes"],
+          "icon": "🔜",
+          "estimatedMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "branch-11-culture",
+      "order": 11,
+      "title": "Cultura & Contexto",
+      "titleFr": "Culture & Contexte",
+      "description": "Francia real",
+      "icon": "🇫🇷",
+      "color": "#6366F1",
+      "leaves": [
+        {
+          "id": "leaf-11-1-daily-culture",
+          "title": "Cultura cotidiana",
+          "titleFr": "Culture quotidienne",
+          "grammar": ["Saludos culturales", "Etiqueta", "Costumbres"],
+          "icon": "🥖",
+          "estimatedMinutes": 15
+        },
+        {
+          "id": "leaf-11-2-french-food",
+          "title": "Comida francesa",
+          "titleFr": "Cuisine française",
+          "grammar": ["Platos típicos", "Vocabulario gastronómico", "Artículos partitivos"],
+          "icon": "🧀",
+          "estimatedMinutes": 15
+        },
+        {
+          "id": "leaf-11-3-social-life",
+          "title": "Vida social",
+          "titleFr": "Vie sociale",
+          "grammar": ["Salidas", "Eventos simples", "Expresiones coloquiales"],
+          "icon": "🎭",
+          "estimatedMinutes": 15
+        }
+      ]
+    }
+  ]
+}

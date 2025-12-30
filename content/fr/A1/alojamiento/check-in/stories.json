@@ -1,0 +1,83 @@
+{
+  "topic": "alojamiento",
+  "subcontext": "check-in",
+  "stories": [
+    {
+      "id": "story-checkin-01",
+      "topic": "alojamiento",
+      "subcontext": "check-in",
+      "scenario": "Una estudiante llega a su primer Airbnb en París después de un largo viaje.",
+      "wordCount": 78,
+      "text": "Sophie arrive à Paris. Elle est fatiguée. Son Airbnb est dans le quartier Marais.\n\nElle sonne à la porte. Une femme ouvre.\n\"Bonjour ! Je suis Sophie,\" dit-elle.\n\"Bienvenue Sophie ! Je suis Madame Dupont. Voici les clés.\"\n\nSophie entre dans l'appartement. Il est petit mais joli. La chambre a une grande fenêtre. Sophie sourit. Elle est contente.",
+      "translation": "Sophie llega a París. Está cansada. Su Airbnb está en el barrio Marais.\n\nElla toca a la puerta. Una mujer abre.\n\"¡Hola! Soy Sophie,\" dice ella.\n\"¡Bienvenida Sophie! Soy Madame Dupont. Aquí están las llaves.\"\n\nSophie entra al apartamento. Es pequeño pero bonito. La habitación tiene una ventana grande. Sophie sonríe. Está contenta.",
+      "targetStructures": ["Je suis...", "Voici...", "Il/Elle est..."],
+      "keyVocabulary": ["arriver", "sonner", "clés", "appartement", "chambre", "fenêtre"],
+      "comprehensionQuestions": [
+        {
+          "id": "story-checkin-01-q1",
+          "question": "Où est l'Airbnb de Sophie ?",
+          "questionTranslation": "¿Dónde está el Airbnb de Sophie?",
+          "options": [
+            { "id": "a", "text": "Dans le quartier Marais", "isCorrect": true },
+            { "id": "b", "text": "À Lyon", "isCorrect": false },
+            { "id": "c", "text": "À Marseille", "isCorrect": false },
+            { "id": "d", "text": "Dans le quartier Latin", "isCorrect": false }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "story-checkin-02",
+      "topic": "alojamiento",
+      "subcontext": "check-in",
+      "scenario": "Un turista español tiene dificultades para encontrar la dirección de su Airbnb.",
+      "wordCount": 85,
+      "text": "Carlos cherche son Airbnb à Bordeaux. Il a l'adresse : 25 rue Victor Hugo.\n\nIl marche dans la rue. Il ne trouve pas le numéro 25.\n\"Excusez-moi, où est le numéro 25 ?\" demande Carlos à une dame.\n\"C'est là-bas, la porte verte,\" répond la dame.\n\nCarlos voit la porte verte. Il sonne. L'hôte ouvre.\n\"Bonjour ! Vous êtes Carlos ? Entrez !\"",
+      "translation": "Carlos busca su Airbnb en Burdeos. Tiene la dirección: 25 calle Victor Hugo.\n\nCamina por la calle. No encuentra el número 25.\n\"Disculpe, ¿dónde está el número 25?\" pregunta Carlos a una señora.\n\"Está allá, la puerta verde,\" responde la señora.\n\nCarlos ve la puerta verde. Toca. El anfitrión abre.\n\"¡Hola! ¿Es usted Carlos? ¡Entre!\"",
+      "targetStructures": ["Où est...?", "C'est là-bas", "Vous êtes...?"],
+      "keyVocabulary": ["chercher", "adresse", "rue", "numéro", "porte", "entrer"],
+      "comprehensionQuestions": [
+        {
+          "id": "story-checkin-02-q1",
+          "question": "De quelle couleur est la porte de l'Airbnb ?",
+          "questionTranslation": "¿De qué color es la puerta del Airbnb?",
+          "options": [
+            { "id": "a", "text": "Bleue", "isCorrect": false },
+            { "id": "b", "text": "Rouge", "isCorrect": false },
+            { "id": "c", "text": "Verte", "isCorrect": true },
+            { "id": "d", "text": "Blanche", "isCorrect": false }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "story-checkin-03",
+      "topic": "alojamiento",
+      "subcontext": "check-in",
+      "scenario": "Una pareja llega tarde a su Airbnb y el anfitrión les muestra todo rápidamente.",
+      "wordCount": 92,
+      "text": "Il est vingt-deux heures. Marie et Paul arrivent à Nice. Ils sont très fatigués.\n\nL'hôte, Monsieur Bernard, les attend.\n\"Bonsoir ! Vous avez fait bon voyage ?\"\n\"Oui, merci ! Désolés pour l'heure,\" dit Marie.\n\nMonsieur Bernard montre l'appartement rapidement.\n\"Voilà la chambre. La salle de bain est ici. Le WiFi, c'est 'Nice2024'.\"\n\nMarie et Paul disent merci. Ils vont dormir. Demain, ils visitent la ville.",
+      "translation": "Son las veintidós. Marie y Paul llegan a Niza. Están muy cansados.\n\nEl anfitrión, el señor Bernard, los espera.\n\"¡Buenas noches! ¿Tuvieron buen viaje?\"\n\"¡Sí, gracias! Perdón por la hora,\" dice Marie.\n\nEl señor Bernard muestra el apartamento rápidamente.\n\"Aquí está la habitación. El baño está aquí. El WiFi es 'Nice2024'.\"\n\nMarie y Paul dan las gracias. Van a dormir. Mañana visitan la ciudad.",
+      "targetStructures": ["Voilà...", "Désolé(e) pour...", "Vous avez...?"],
+      "keyVocabulary": ["heure", "fatigué", "attendre", "montrer", "chambre", "salle de bain", "dormir"],
+      "comprehensionQuestions": [
+        {
+          "id": "story-checkin-03-q1",
+          "question": "Quel est le mot de passe WiFi ?",
+          "questionTranslation": "¿Cuál es la contraseña del WiFi?",
+          "options": [
+            { "id": "a", "text": "Paris2024", "isCorrect": false },
+            { "id": "b", "text": "Nice2024", "isCorrect": true },
+            { "id": "c", "text": "France2024", "isCorrect": false },
+            { "id": "d", "text": "Bernard2024", "isCorrect": false }
+          ]
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "totalStories": 3,
+    "avgWordCount": 85,
+    "lastUpdated": "2024-12-29"
+  }
+}

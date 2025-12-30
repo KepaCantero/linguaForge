@@ -1,0 +1,24 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Main fracture lines - circuit/calligraphy hybrid -->
+  <path d="M100 0L105 40L150 60L145 90L190 110L200 200" stroke="#FACC15" stroke-width="0.5" opacity="0.6"/>
+  <path d="M0 50L40 70L35 110L80 130L75 170L120 200" stroke="#FACC15" stroke-width="0.5" opacity="0.4"/>
+  <path d="M100 200L90 150L40 130L50 80L10 60L0 0" stroke="#FACC15" stroke-width="0.5" opacity="0.5"/>
+
+  <!-- Secondary fractures -->
+  <path d="M50 0L60 50L100 80L90 120L130 150L140 200" stroke="#FACC15" stroke-width="0.3" opacity="0.3"/>
+  <path d="M200 80L160 90L140 60L100 70L70 40L30 50L0 30" stroke="#FACC15" stroke-width="0.3" opacity="0.25"/>
+
+  <!-- Junction nodes - energy points -->
+  <circle cx="105" cy="40" r="1.5" fill="#FACC15" opacity="0.8"/>
+  <circle cx="150" cy="60" r="1" fill="#FACC15" opacity="0.6"/>
+  <circle cx="80" cy="130" r="1.5" fill="#FACC15" opacity="0.8"/>
+  <circle cx="40" cy="70" r="1" fill="#FACC15" opacity="0.6"/>
+  <circle cx="100" cy="80" r="1.2" fill="#FACC15" opacity="0.7"/>
+  <circle cx="50" cy="80" r="1" fill="#FACC15" opacity="0.5"/>
+  <circle cx="145" cy="90" r="1" fill="#FACC15" opacity="0.5"/>
+
+  <!-- Micro fractures for texture -->
+  <path d="M60 20L70 35" stroke="#FACC15" stroke-width="0.2" opacity="0.2"/>
+  <path d="M140 140L155 160" stroke="#FACC15" stroke-width="0.2" opacity="0.2"/>
+  <path d="M20 170L35 180" stroke="#FACC15" stroke-width="0.2" opacity="0.2"/>
+</svg>

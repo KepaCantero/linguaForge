@@ -2,26 +2,251 @@
 @tailwind components;
 @tailwind utilities;
 
+/* LinguaForge Theme Variables */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0F172A;
+  --foreground: #F8FAFC;
+  --lf-primary: #7E22CE;
+  --lf-secondary: #D946EF;
+  --lf-accent: #FACC15;
+  --lf-dark: #0F172A;
+  --lf-soft: #1E293B;
+  --lf-muted: #334155;
+
+  /* Vitality colors - subtle gradients */
+  --gradient-start: #0F172A;
+  --gradient-mid: #1a1f35;
+  --gradient-end: #0d1424;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  body {
+    @apply text-white antialiased;
+    background: linear-gradient(
+      180deg,
+      var(--gradient-start) 0%,
+      var(--gradient-mid) 50%,
+      var(--gradient-end) 100%
+    );
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+
+  /* Subtle ambient glow on main content areas */
+  main {
+    position: relative;
+  }
+
+  main::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    height: 60%;
+    background: radial-gradient(
+      ellipse 80% 50% at 50% 0%,
+      rgba(126, 34, 206, 0.08) 0%,
+      transparent 70%
+    );
+    pointer-events: none;
+    z-index: 0;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  /* Glowing button effect */
+  .btn-glow {
+    @apply relative overflow-hidden;
+    transition: all 0.3s ease;
+  }
+
+  .btn-glow::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      transparent 50%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .btn-glow:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 10px 20px -5px rgba(126, 34, 206, 0.4),
+      0 0 15px rgba(217, 70, 239, 0.2);
+  }
+
+  .btn-glow:hover::before {
+    opacity: 1;
+  }
+
+  .btn-glow:active {
+    transform: translateY(0);
+  }
+
+  /* Card with subtle glow on hover */
+  .card-glow {
+    @apply transition-all duration-300;
+  }
+
+  .card-glow:hover {
+    box-shadow:
+      0 4px 20px rgba(126, 34, 206, 0.15),
+      inset 0 0 20px rgba(126, 34, 206, 0.05);
+  }
+
+  /* Progress bar with particle effect */
+  .progress-particles {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .progress-particles::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.3) 50%,
+      transparent 100%
+    );
+    animation: shimmer 2s infinite;
+  }
+
+  @keyframes shimmer {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  /* Breathing animation for active nodes */
+  .node-breathing {
+    animation: breathing 3s ease-in-out infinite;
+  }
+
+  @keyframes breathing {
+    0%, 100% {
+      box-shadow:
+        0 0 0 0 rgba(126, 34, 206, 0.4),
+        0 0 20px rgba(126, 34, 206, 0.2);
+    }
+    50% {
+      box-shadow:
+        0 0 0 10px rgba(126, 34, 206, 0),
+        0 0 30px rgba(126, 34, 206, 0.4);
+    }
+  }
+
+  /* Text glow for important headings */
+  .text-glow {
+    text-shadow:
+      0 0 20px rgba(126, 34, 206, 0.5),
+      0 0 40px rgba(217, 70, 239, 0.3);
+  }
+
+  /* Floating animation */
+  .float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  /* Particle burst effect for rewards */
+  .particle-burst {
+    position: relative;
+  }
+
+  .particle-burst::before,
+  .particle-burst::after {
+    content: '';
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: var(--lf-accent);
+    border-radius: 50%;
+    animation: burst 0.6s ease-out forwards;
+    opacity: 0;
+  }
+
+  @keyframes burst {
+    0% {
+      transform: scale(0) translate(0, 0);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1) translate(var(--tx, 20px), var(--ty, -20px));
+      opacity: 0;
+    }
+  }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+
+  /* Safe area padding for mobile */
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-lf-primary via-lf-secondary to-fuchsia-400;
+  }
+
+  /* Glass morphism effect */
+  .glass {
+    @apply bg-white/5 backdrop-blur-md border border-white/10;
+  }
+
+  /* Subtle inner glow */
+  .inner-glow {
+    box-shadow: inset 0 0 20px rgba(126, 34, 206, 0.1);
+  }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--lf-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--lf-muted);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--lf-primary);
+}
+
+/* Selection color */
+::selection {
+  background: rgba(126, 34, 206, 0.4);
+  color: white;
 }
