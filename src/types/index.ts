@@ -27,6 +27,25 @@ export type {
   GamificationState,
   WorldProgress,
   UserProgress,
+  Vocabulary,
+  VocabularyOption,
+  ShardDetection,
+  ShardDetectionShard,
+  PragmaStrike,
+  PragmaStrikeOption,
+  ResonancePath,
+  EchoStream,
+  EchoStreamPowerWord,
+  GlyphWeaving,
+  GlyphWeavingGlyph,
+  GlyphWeavingPattern,
+  BlockComponent,
+  ConversationalBlock,
+  BlockBuilder,
+  BlockSwap,
+  BlockEcho,
+  LessonContent,
+  LessonMode,
 } from '@/schemas/content';
 
 // Re-export topic tree types
@@ -66,6 +85,18 @@ export {
   GamificationStateSchema,
   WorldProgressSchema,
   UserProgressSchema,
+  VocabularySchema,
+  ShardDetectionSchema,
+  PragmaStrikeSchema,
+  ResonancePathSchema,
+  EchoStreamSchema,
+  GlyphWeavingSchema,
+  BlockComponentSchema,
+  ConversationalBlockSchema,
+  BlockBuilderSchema,
+  BlockSwapSchema,
+  BlockEchoSchema,
+  LessonContentSchema,
 } from '@/schemas/content';
 
 // Re-export topic tree schemas
@@ -95,12 +126,19 @@ export {
   STREAK_CONFIG,
   APP_COLORS,
   BRANCH_COLORS,
+  HUNTER_RANKS,
+  RANK_UNLOCK_RULES,
   getLevelByXP,
   getXPToNextLevel,
   getLevelProgress,
+  getRankByXP,
+  getRankProgress,
+  canAccessContent,
 } from '@/lib/constants';
 
 export type {
   SupportedLanguage,
   SupportedLevel,
+  HunterRank,
+  HunterRankInfo,
 } from '@/lib/constants';

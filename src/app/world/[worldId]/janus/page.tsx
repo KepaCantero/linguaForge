@@ -30,9 +30,32 @@ export default function JanusPage({ params }: JanusPageProps) {
     async function load() {
       try {
         setLoading(true);
+        setError(null);
         const data = await loadWorld(activeLanguage, activeLevel, worldId);
+        console.log('[JanusPage] World loaded:', data);
+        console.log('[JanusPage] JanusMatrix:', data?.janusMatrix);
+        console.log('[JanusPage] JanusMatrix columns:', data?.janusMatrix?.columns?.length);
+        
+        if (!data) {
+          throw new Error('No world data returned');
+        }
+        
+        if (!data.janusMatrix) {
+          console.error('[JanusPage] No janusMatrix found in world data');
+          throw new Error('Janus Matrix no encontrada en los datos del mundo');
+        }
+        
+        if (!data.janusMatrix.columns || data.janusMatrix.columns.length !== 4) {
+          console.error('[JanusPage] Invalid janusMatrix structure:', {
+            columnsCount: data.janusMatrix.columns?.length,
+            columns: data.janusMatrix.columns
+          });
+          throw new Error(`La matriz de Janus debe tener exactamente 4 columnas. Encontradas: ${data.janusMatrix.columns?.length || 0}`);
+        }
+        
         setWorld(data);
       } catch (err) {
+        console.error('[JanusPage] Error loading world:', err);
         setError(err instanceof Error ? err.message : 'Error loading world');
       } finally {
         setLoading(false);
@@ -65,12 +88,36 @@ export default function JanusPage({ params }: JanusPageProps) {
 
   if (error || !world) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] text-center">
+      <div className="flex flex-col items-center justify-center min-h-[400px] text-center p-4">
         <span className="text-4xl mb-4">😢</span>
-        <p className="text-gray-600 dark:text-gray-400">{error || 'World not found'}</p>
+        <p className="text-gray-600 dark:text-gray-400 mb-2 font-medium">
+          {error || 'World not found'}
+        </p>
+        {error && (
+          <p className="text-sm text-gray-500 dark:text-gray-500 mb-4">
+            WorldId: {worldId} | Language: {activeLanguage} | Level: {activeLevel}
+          </p>
+        )}
         <button
           onClick={() => router.back()}
-          className="mt-4 px-4 py-2 bg-indigo-500 text-white rounded-lg"
+          className="mt-4 px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition-colors"
+        >
+          Volver
+        </button>
+      </div>
+    );
+  }
+
+  if (!world.janusMatrix) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[400px] text-center p-4">
+        <span className="text-4xl mb-4">⚠️</span>
+        <p className="text-gray-600 dark:text-gray-400 mb-2 font-medium">
+          La matriz de Janus no está disponible en este mundo
+        </p>
+        <button
+          onClick={() => router.back()}
+          className="mt-4 px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition-colors"
         >
           Volver
         </button>

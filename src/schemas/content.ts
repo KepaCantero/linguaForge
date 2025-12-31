@@ -50,7 +50,7 @@ export const JanusCombinationSchema = z.object({
 });
 
 // ============================================================
-// EJERCICIOS CLÁSICOS
+// EJERCICIOS CLÁSICOS (Mantenidos para compatibilidad)
 // ============================================================
 
 export const VariationSchema = z.object({
@@ -76,6 +76,29 @@ export const PhraseSchema = z.object({
   variations: z.array(VariationSchema).min(2),
 });
 
+// ============================================================
+// BLOQUES CONVERSACIONALES (Sistema de aprendizaje por interacción)
+// ============================================================
+
+export const BlockComponentSchema = z.object({
+  id: z.string(),
+  text: z.string(),
+  translation: z.string(),
+  audioUrl: z.string().optional(),
+  speaker: z.enum(['user', 'other']), // Quién dice esta parte
+});
+
+export const ConversationalBlockSchema = z.object({
+  id: z.string(),
+  title: z.string(), // Título descriptivo del bloque
+  context: z.string(), // Situación donde ocurre
+  blockType: z.enum(['emergency', 'routine', 'courtesy']), // Tipo de bloque
+  // Frases dentro del bloque (cada frase tiene sus ejercicios Cloze y Variations)
+  phrases: z.array(PhraseSchema).min(2), // Mínimo 2 frases por bloque
+  audioUrl: z.string().optional(), // Audio completo del bloque
+  durationSeconds: z.number().optional(),
+});
+
 export const MiniTaskSchema = z.object({
   id: z.string(),
   prompt: z.string(),
@@ -83,6 +106,157 @@ export const MiniTaskSchema = z.object({
   keywords: z.array(z.string()).min(3),
   exampleResponse: z.string(),
   minWords: z.number().default(5),
+});
+
+// ============================================================
+// EJERCICIOS CORE v2.0 (GDD)
+// ============================================================
+
+export const ShardDetectionSchema = z.object({
+  id: z.string(),
+  audioUrl: z.string(),
+  audioDuration: z.number(), // 3-8 segundos
+  shards: z
+    .array(
+      z.object({
+        id: z.string(),
+        imageUrl: z.string(),
+        isCorrect: z.boolean(),
+      })
+    )
+    .length(3),
+  phrase: z.string(),
+  translation: z.string(),
+});
+
+export const VocabularySchema = z.object({
+  id: z.string(),
+  imageUrl: z.string(),
+  word: z.string(), // Palabra correcta en francés
+  translation: z.string(), // Traducción al español
+  options: z
+    .array(
+      z.object({
+        id: z.string(),
+        text: z.string(),
+        isCorrect: z.boolean(),
+      })
+    )
+    .length(4), // Exactamente 4 opciones
+});
+
+export const PragmaStrikeSchema = z.object({
+  id: z.string(),
+  situationImage: z.string(),
+  situationDescription: z.string(),
+  options: z
+    .array(
+      z.object({
+        id: z.string(),
+        text: z.string(),
+        isCorrect: z.boolean(),
+        explanation: z.string(), // Por qué es más/menos cortés
+      })
+    )
+    .min(3)
+    .max(4),
+  timeLimit: z.number().default(5), // segundos
+});
+
+export const ResonancePathSchema = z.object({
+  id: z.string(),
+  phrase: z.string(),
+  audioUrl: z.string(),
+  nativeIntonation: z.array(z.number()), // Array de valores de frecuencia (0-100 normalizados)
+  targetAccuracy: z.number().default(80), // 0-100
+});
+
+export const EchoStreamSchema = z.object({
+  id: z.string(),
+  audioUrl: z.string(),
+  audioDuration: z.number(),
+  powerWords: z.array(
+    z.object({
+      word: z.string(),
+      timestamp: z.number(), // Segundos desde inicio
+      tolerance: z.number().default(0.5), // Tolerancia en segundos
+    })
+  ),
+  phrase: z.string(),
+  translation: z.string(),
+});
+
+export const GlyphWeavingSchema = z.object({
+  id: z.string(),
+  audioUrl: z.string(),
+  bpm: z.number(), // Beats per minute
+  pattern: z.array(
+    z.object({
+      fromGlyph: z.string(), // ID del glifo origen
+      toGlyph: z.string(), // ID del glifo destino
+      beat: z.number(), // Beat número (1, 2, 3, 4...)
+    })
+  ),
+  glyphs: z.array(
+    z.object({
+      id: z.string(),
+      symbol: z.string(), // Carácter Unicode o emoji
+      position: z.object({ x: z.number(), y: z.number() }),
+    })
+  ),
+});
+
+// ============================================================
+// EJERCICIOS DE BLOQUES CONVERSACIONALES
+// ============================================================
+
+// Block Builder: Construir un bloque válido uniendo componentes
+export const BlockBuilderSchema = z.object({
+  id: z.string(),
+  blockId: z.string(), // ID del bloque conversacional de referencia
+  components: z.array(
+    z.object({
+      id: z.string(),
+      text: z.string(),
+      translation: z.string(),
+      componentType: z.enum(['inicio', 'desarrollo', 'resolucion', 'cierre']),
+      isCorrect: z.boolean(), // Si pertenece al bloque correcto
+      position: z.number(), // Posición correcta en el bloque (0, 1, 2, 3...)
+    })
+  ).min(4), // Mínimo 4 componentes (inicio, desarrollo, resolución, cierre)
+  distractors: z.array(
+    z.object({
+      id: z.string(),
+      text: z.string(),
+      translation: z.string(),
+      componentType: z.enum(['inicio', 'desarrollo', 'resolucion', 'cierre']),
+    })
+  ).optional(), // Componentes distractores de otros bloques
+});
+
+// Block Swap: Cambiar un componente para crear una nueva situación
+export const BlockSwapSchema = z.object({
+  id: z.string(),
+  blockId: z.string(), // ID del bloque base
+  componentToSwap: z.enum(['inicio', 'desarrollo', 'resolucion', 'cierre']),
+  swapOptions: z.array(
+    z.object({
+      id: z.string(),
+      text: z.string(),
+      translation: z.string(),
+      createsValidBlock: z.boolean(), // Si crea un bloque válido
+      newContext: z.string().optional(), // Nueva situación creada
+    })
+  ).min(2).max(4),
+});
+
+// Block Echo: Repetición de bloques completos (no frases)
+export const BlockEchoSchema = z.object({
+  id: z.string(),
+  blockId: z.string(), // ID del bloque a repetir
+  audioUrl: z.string(),
+  audioDuration: z.number(),
+  targetAccuracy: z.number().default(75), // Precisión objetivo (0-100)
 });
 
 // ============================================================
@@ -367,6 +541,77 @@ export const ActivitiesCollectionSchema = z.object({
 });
 
 // ============================================================
+// LESSON CONTENT (Topic Tree Leaves)
+// ============================================================
+
+export const LessonModeSchema = z.enum(['academia', 'desafio']);
+
+export const LessonContentSchema = z.object({
+  leafId: z.string(), // ID del leaf del topic-tree
+  languageCode: LanguageCodeSchema,
+  levelCode: LevelCodeSchema,
+  title: z.string(),
+  titleFr: z.string(),
+  // Bloques conversacionales (nuevo sistema - cada bloque contiene múltiples frases)
+  conversationalBlocks: z.array(ConversationalBlockSchema).optional(),
+  // Frases con ejercicios clásicos (cloze, variations) - DEPRECATED pero mantenido para compatibilidad
+  phrases: z.array(PhraseSchema).min(3).max(10).optional(),
+  // Ejercicios core v2.0 (según architectureStrategy.md)
+  coreExercises: z.object({
+    vocabulary: z.array(VocabularySchema).optional(),
+    shardDetection: z.array(ShardDetectionSchema).optional(),
+    pragmaStrike: z.array(PragmaStrikeSchema).optional(),
+    echoStream: z.array(EchoStreamSchema).optional(),
+    glyphWeaving: z.array(GlyphWeavingSchema).optional(),
+    resonancePath: z.array(ResonancePathSchema).optional(),
+  }).optional(),
+  // Input comprensible (diálogos)
+  inputContent: z.array(InputContentSchema).min(1).max(3),
+  // Mini-test al final
+  miniTest: z.object({
+    id: z.string(),
+    questions: z.array(ComprehensionQuestionSchema).min(3).max(5),
+  }),
+  // Mini-task de producción
+  miniTask: MiniTaskSchema.optional(),
+  // Configuración de modos
+  modeConfig: z.object({
+    academia: z.object({
+      timeLimit: z.number().nullable().optional(), // Sin límite por defecto (null o undefined)
+      showHints: z.boolean().default(true),
+      showExplanations: z.boolean().default(true),
+      allowRetries: z.boolean().default(true),
+      xpMultiplier: z.number().default(1.0),
+    }),
+    desafio: z.object({
+      timeLimit: z.number().default(15), // Minutos totales
+      showHints: z.boolean().default(false),
+      showExplanations: z.boolean().default(false),
+      allowRetries: z.boolean().default(false),
+      xpMultiplier: z.number().default(1.5),
+      gemsReward: z.number().default(10), // Gems adicionales por completar
+    }),
+  }).optional(),
+}).refine(
+  (data) => {
+    // Debe tener al menos bloques conversacionales, phrases o algún ejercicio core
+    const hasBlocks = data.conversationalBlocks && data.conversationalBlocks.length > 0;
+    const hasPhrases = data.phrases && data.phrases.length > 0;
+    const hasCoreExercises = data.coreExercises && (
+      (data.coreExercises.shardDetection && data.coreExercises.shardDetection.length > 0) ||
+      (data.coreExercises.pragmaStrike && data.coreExercises.pragmaStrike.length > 0) ||
+      (data.coreExercises.echoStream && data.coreExercises.echoStream.length > 0) ||
+      (data.coreExercises.glyphWeaving && data.coreExercises.glyphWeaving.length > 0) ||
+      (data.coreExercises.resonancePath && data.coreExercises.resonancePath.length > 0)
+    );
+    return hasBlocks || hasPhrases || hasCoreExercises;
+  },
+  {
+    message: "Lesson must have at least conversational blocks, phrases or core exercises",
+  }
+);
+
+// ============================================================
 // TYPE INFERENCE
 // ============================================================
 
@@ -390,6 +635,25 @@ export type Phrase = z.infer<typeof PhraseSchema>;
 export type MiniTask = z.infer<typeof MiniTaskSchema>;
 export type Matrix = z.infer<typeof MatrixSchema>;
 export type World = z.infer<typeof WorldSchema>;
+
+// Ejercicios Core v2.0
+export type ShardDetection = z.infer<typeof ShardDetectionSchema>;
+export type ShardDetectionShard = z.infer<typeof ShardDetectionSchema>['shards'][number];
+export type PragmaStrike = z.infer<typeof PragmaStrikeSchema>;
+export type PragmaStrikeOption = z.infer<typeof PragmaStrikeSchema>['options'][number];
+export type ResonancePath = z.infer<typeof ResonancePathSchema>;
+export type EchoStream = z.infer<typeof EchoStreamSchema>;
+export type EchoStreamPowerWord = z.infer<typeof EchoStreamSchema>['powerWords'][number];
+export type GlyphWeaving = z.infer<typeof GlyphWeavingSchema>;
+export type GlyphWeavingGlyph = z.infer<typeof GlyphWeavingSchema>['glyphs'][number];
+export type GlyphWeavingPattern = z.infer<typeof GlyphWeavingSchema>['pattern'][number];
+
+// Bloques Conversacionales
+export type BlockComponent = z.infer<typeof BlockComponentSchema>;
+export type ConversationalBlock = z.infer<typeof ConversationalBlockSchema>;
+export type BlockBuilder = z.infer<typeof BlockBuilderSchema>;
+export type BlockSwap = z.infer<typeof BlockSwapSchema>;
+export type BlockEcho = z.infer<typeof BlockEchoSchema>;
 
 export type ComprehensionOption = z.infer<typeof ComprehensionOptionSchema>;
 export type ComprehensionQuestion = z.infer<typeof ComprehensionQuestionSchema>;
@@ -417,3 +681,7 @@ export type ShadowingActivity = z.infer<typeof ShadowingActivitySchema>;
 export type PermutationActivity = z.infer<typeof PermutationActivitySchema>;
 export type Activity = z.infer<typeof ActivitySchema>;
 export type ActivitiesCollection = z.infer<typeof ActivitiesCollectionSchema>;
+
+// Lesson Content
+export type LessonMode = z.infer<typeof LessonModeSchema>;
+export type LessonContent = z.infer<typeof LessonContentSchema>;

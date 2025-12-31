@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { MapNode } from './MapNode';
+import { MatrixModal } from './MatrixModal';
 import { World, NodeStatus, Matrix } from '@/types';
 import { useProgressStore } from '@/store/useProgressStore';
 import { loadWorld } from '@/services/contentLoader';
@@ -19,6 +20,7 @@ export function WorldMap({ lang, level, worldId }: WorldMapProps) {
   const [world, setWorld] = useState<World | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedMatrix, setSelectedMatrix] = useState<Matrix | null>(null);
 
   const { worldProgress, initWorldProgress } = useProgressStore();
   const progress = worldProgress[worldId];
@@ -39,37 +41,43 @@ export function WorldMap({ lang, level, worldId }: WorldMapProps) {
     load();
   }, [lang, level, worldId, initWorldProgress]);
 
-  const getNodeStatus = (matrixId: string, order: number): NodeStatus => {
+  const getNodeStatus = (matrixId: string): NodeStatus => {
+    // DESBLOQUEAR TODOS LOS NIVELES
     if (!progress) {
-      return order === 0 ? 'active' : 'locked';
+      return 'active';
     }
 
     if (progress.completedMatrices.includes(matrixId)) {
       return 'completed';
     }
 
-    // La primera matriz no completada está activa
-    const completedCount = progress.completedMatrices.length;
-    if (order === completedCount) {
-      return 'active';
-    }
-
-    return order < completedCount ? 'completed' : 'locked';
+    // Todos los nodos están activos (desbloqueados)
+    return 'active';
   };
 
   const getJanusStatus = (): NodeStatus => {
-    if (!progress?.janusProgress) return 'active'; // Janus siempre disponible
+    if (!progress?.janusProgress) return 'active';
     if (progress.janusProgress.isComplete) return 'completed';
     return 'active';
   };
 
   const handleNodeClick = (matrix: Matrix, status: NodeStatus) => {
     if (status === 'locked') return;
-    router.push(`/world/${worldId}/matrix/${matrix.id}`);
+    // Mostrar modal en lugar de navegar directamente
+    setSelectedMatrix(matrix);
   };
 
   const handleJanusClick = () => {
     router.push(`/world/${worldId}/janus`);
+  };
+
+  const handleStartMatrix = (matrixId: string) => {
+    setSelectedMatrix(null);
+    router.push(`/world/${worldId}/matrix/${matrixId}`);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedMatrix(null);
   };
 
   if (loading) {
@@ -107,10 +115,10 @@ export function WorldMap({ lang, level, worldId }: WorldMapProps) {
         <p className="text-gray-600 dark:text-gray-400">{world.description}</p>
       </motion.div>
 
-      {/* Mapa de nodos */}
-      <div className="relative flex flex-col items-center gap-8">
-        {/* Janus Matrix Node (siempre primero y especial) */}
-        <div className="relative">
+      {/* Mapa de nodos mejorado */}
+      <div className="relative flex flex-col items-center gap-0 py-8">
+        {/* Janus Matrix Node */}
+        <div className="relative z-10">
           <MapNode
             title="Janus Matrix"
             order={0}
@@ -120,56 +128,80 @@ export function WorldMap({ lang, level, worldId }: WorldMapProps) {
           />
         </div>
 
-        {/* Línea conectora desde Janus */}
-        <motion.div
-          className="w-1 h-8 bg-gradient-to-b from-yellow-400 to-indigo-400 rounded-full"
-          initial={{ scaleY: 0 }}
-          animate={{ scaleY: 1 }}
-          transition={{ delay: 0.2 }}
-        />
+        {/* Conector SVG desde Janus - Mejorado para tocar el nodo */}
+        <svg
+          className="absolute top-16 left-1/2 -translate-x-1/2 z-0"
+          width="4"
+          height="32"
+          style={{ top: '64px' }}
+        >
+          <motion.line
+            x1="2"
+            y1="0"
+            x2="2"
+            y2="32"
+            stroke="url(#gradient-connector)"
+            strokeWidth="4"
+            strokeLinecap="round"
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: 1 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+          />
+          <defs>
+            <linearGradient id="gradient-connector" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="#fbbf24" />
+              <stop offset="100%" stopColor="#6366f1" />
+            </linearGradient>
+          </defs>
+        </svg>
 
         {/* Matrices de ejercicios */}
         {world.matrices.map((matrix, index) => {
-          const status = getNodeStatus(matrix.id, index);
-          const isOdd = index % 2 === 0;
+          const status = getNodeStatus(matrix.id);
 
           return (
-            <div key={matrix.id} className="relative">
-              {/* Línea conectora (excepto el primero) */}
+            <div key={matrix.id} className="relative z-10" style={{ marginTop: index === 0 ? '32px' : '64px' }}>
+              {/* Conector SVG mejorado - Toca ambos nodos */}
               {index > 0 && (
-                <motion.div
-                  className={`
-                    absolute -top-8 left-1/2 -translate-x-1/2
-                    w-1 h-8 rounded-full
-                    ${status === 'locked'
-                      ? 'bg-gray-300 dark:bg-gray-600'
-                      : 'bg-gradient-to-b from-indigo-400 to-emerald-400'}
-                  `}
-                  initial={{ scaleY: 0 }}
-                  animate={{ scaleY: 1 }}
-                  transition={{ delay: (index + 1) * 0.1 }}
-                />
+                <svg
+                  className="absolute -top-16 left-1/2 -translate-x-1/2 z-0"
+                  width="4"
+                  height="64"
+                >
+                  <motion.line
+                    x1="2"
+                    y1="0"
+                    x2="2"
+                    y2="64"
+                    stroke={status === 'locked' ? '#9ca3af' : 'url(#gradient-connector-main)'}
+                    strokeWidth="4"
+                    strokeLinecap="round"
+                    initial={{ pathLength: 0 }}
+                    animate={{ pathLength: 1 }}
+                    transition={{ delay: (index + 1) * 0.1, duration: 0.5 }}
+                  />
+                  <defs>
+                    <linearGradient id="gradient-connector-main" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stopColor="#6366f1" />
+                      <stop offset="100%" stopColor="#10b981" />
+                    </linearGradient>
+                  </defs>
+                </svg>
               )}
 
-              {/* Posición alternada para efecto de camino */}
-              <motion.div
-                className={isOdd ? 'ml-0' : 'mr-0'}
-                style={{ marginLeft: isOdd ? 0 : 40, marginRight: isOdd ? 40 : 0 }}
-              >
-                <MapNode
-                  title={matrix.title}
-                  order={index + 1}
-                  status={status}
-                  onClick={() => handleNodeClick(matrix, status)}
-                />
-              </motion.div>
+              <MapNode
+                title={matrix.title}
+                order={index + 1}
+                status={status}
+                onClick={() => handleNodeClick(matrix, status)}
+              />
             </div>
           );
         })}
 
         {/* Indicador de progreso general */}
         <motion.div
-          className="mt-4 bg-white dark:bg-gray-800 rounded-xl p-4 shadow-lg w-full max-w-sm"
+          className="mt-8 bg-white dark:bg-gray-800 rounded-xl p-4 shadow-lg w-full max-w-sm"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
@@ -194,6 +226,16 @@ export function WorldMap({ lang, level, worldId }: WorldMapProps) {
           </div>
         </motion.div>
       </div>
+
+      {/* Modal de matriz mejorado */}
+      {selectedMatrix && (
+        <MatrixModal
+          matrix={selectedMatrix}
+          worldId={worldId}
+          onStart={handleStartMatrix}
+          onClose={handleCloseModal}
+        />
+      )}
     </div>
   );
 }

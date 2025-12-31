@@ -47,6 +47,23 @@ export const XP_RULES = {
   inputTextComplete: 20,
   comprehensionPass: 15,
   perfectMatrix: 50,
+  // Ejercicios Core v2.0
+  vocabularyCorrect: 10,       // Correcto
+  vocabularyIncorrect: 2,       // Incorrecto
+  shardDetectionFast: 20,      // <3s correcto
+  shardDetectionNormal: 15,    // >=3s correcto
+  shardDetectionIncorrect: 5,  // Incorrecto
+  pragmaStrikeFast: 25,        // <3s correcto
+  pragmaStrikeNormal: 20,      // >=3s correcto
+  pragmaStrikeIncorrect: 10,  // Incorrecto + explicación
+  resonancePath80: 30,         // Sincronización >80%
+  resonancePath90: 50,         // Sincronización >90%
+  echoStreamPowerWord: 10,     // Power Word detectada
+  echoStreamComplete: 30,     // Stream completo
+  glyphWeavingBeat: 15,        // Conexión en beat (doble)
+  glyphWeavingOffBeat: 7,      // Conexión fuera de beat
+  glyphWeavingComplete: 50,    // Patrón completo
+  forgeMandateComplete: 100,    // Completar Forge Mandate
 } as const;
 
 // Reglas de monedas
@@ -111,6 +128,17 @@ export const STREAK_CONFIG = {
   milestones: [7, 14, 30, 60, 100, 365] as const,
 } as const;
 
+// ============================================================
+// SISTEMA DE HP (v2.0)
+// ============================================================
+
+export const HP_CONFIG = {
+  maxHP: 100,
+  dailyMissionHP: 20, // HP perdido por misión no completada
+  recoveryPerMission: 10, // HP recuperado por misión completada
+  minHPForPremium: 50, // HP mínimo para contenido premium
+} as const;
+
 // Colores de la app
 export const APP_COLORS = {
   primary: '#4F46E5', // Indigo
@@ -173,4 +201,65 @@ export function getLevelProgress(xp: number): number {
   const xpNeeded = nextThreshold - currentThreshold;
 
   return Math.round((xpInLevel / xpNeeded) * 100);
+}
+
+// ============================================================
+// SISTEMA DE RANGOS SOLO LEVELING (v2.0)
+// ============================================================
+
+// Rangos de cazador lingüístico
+export const HUNTER_RANKS = [
+  { rank: 'E', name: 'Novato', xpRequired: 0, color: '#9CA3AF' },
+  { rank: 'D', name: 'Aprendiz', xpRequired: 500, color: '#3B82F6' },
+  { rank: 'C', name: 'Competente', xpRequired: 1500, color: '#10B981' },
+  { rank: 'B', name: 'Experto', xpRequired: 3000, color: '#F59E0B' },
+  { rank: 'A', name: 'Maestro', xpRequired: 5000, color: '#EF4444' },
+  { rank: 'S', name: 'Leyenda Lingüística', xpRequired: 8000, color: '#8B5CF6' },
+] as const;
+
+export type HunterRank = (typeof HUNTER_RANKS)[number]['rank'];
+export type HunterRankInfo = (typeof HUNTER_RANKS)[number];
+
+// Reglas de desbloqueo de contenido por rango
+export const RANK_UNLOCK_RULES: Record<HunterRank, { contentLevels: SupportedLevel[] }> = {
+  E: { contentLevels: ['A1'] },
+  D: { contentLevels: ['A1', 'A2'] },
+  C: { contentLevels: ['A1', 'A2', 'B1'] },
+  B: { contentLevels: ['A1', 'A2', 'B1', 'B2'] },
+  A: { contentLevels: ['A1', 'A2', 'B1', 'B2', 'C1'] },
+  S: { contentLevels: ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] },
+};
+
+// Función helper para obtener rango por XP
+export function getRankByXP(xp: number): HunterRankInfo {
+  for (let i = HUNTER_RANKS.length - 1; i >= 0; i--) {
+    if (xp >= HUNTER_RANKS[i].xpRequired) {
+      return HUNTER_RANKS[i];
+    }
+  }
+  return HUNTER_RANKS[0];
+}
+
+// Función helper para calcular progreso hacia siguiente rango (0-100)
+export function getRankProgress(xp: number): number {
+  const currentRank = getRankByXP(xp);
+  const currentRankIndex = HUNTER_RANKS.findIndex(r => r.rank === currentRank.rank);
+  const nextRankIndex = currentRankIndex + 1;
+
+  if (nextRankIndex >= HUNTER_RANKS.length) {
+    return 100; // Ya está en el rango máximo
+  }
+
+  const currentThreshold = HUNTER_RANKS[currentRankIndex].xpRequired;
+  const nextThreshold = HUNTER_RANKS[nextRankIndex].xpRequired;
+  const xpInRank = xp - currentThreshold;
+  const xpNeeded = nextThreshold - currentThreshold;
+
+  return Math.round((xpInRank / xpNeeded) * 100);
+}
+
+// Función helper para verificar si puede acceder a contenido según rango
+export function canAccessContent(rank: HunterRank, level: SupportedLevel): boolean {
+  const unlockRules = RANK_UNLOCK_RULES[rank];
+  return unlockRules.contentLevels.includes(level);
 }

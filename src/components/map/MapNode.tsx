@@ -47,7 +47,7 @@ export function MapNode({ title, order, status, isJanus = false, onClick }: MapN
       whileHover={isClickable ? { scale: 1.05 } : {}}
       whileTap={isClickable ? { scale: 0.95 } : {}}
     >
-      {/* Nodo circular */}
+      {/* Nodo circular - Mejorado para estabilidad */}
       <motion.div
         className={`
           relative w-16 h-16 rounded-full flex items-center justify-center
@@ -57,7 +57,8 @@ export function MapNode({ title, order, status, isJanus = false, onClick }: MapN
         `}
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        transition={{ delay: order * 0.1, type: 'spring', stiffness: 200 }}
+        transition={{ delay: order * 0.1, type: 'spring', stiffness: 200, damping: 20 }}
+        style={{ willChange: 'transform' }}
       >
         {isJanus ? (
           <span className="text-2xl">🧩</span>

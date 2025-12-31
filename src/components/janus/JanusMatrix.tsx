@@ -7,6 +7,7 @@ import { JanusMatrix as JanusMatrixType, JanusCombination } from '@/types';
 import { useProgressStore } from '@/store/useProgressStore';
 import { useGamificationStore } from '@/store/useGamificationStore';
 import { XP_RULES, JANUS_CONFIG } from '@/lib/constants';
+import { useUndo } from '@/hooks/useUndo';
 
 interface JanusMatrixProps {
   matrix: JanusMatrixType;
@@ -18,14 +19,45 @@ export function JanusMatrix({ matrix, worldId, onComplete }: JanusMatrixProps) {
   const { worldProgress, updateJanusProgress } = useProgressStore();
   const { addXP, addCoins } = useGamificationStore();
 
+  console.log('[JanusMatrix] Rendering with matrix:', matrix);
+  console.log('[JanusMatrix] Columns count:', matrix?.columns?.length);
+  console.log('[JanusMatrix] WorldId:', worldId);
+
   const progress = worldProgress[worldId]?.janusProgress;
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const cellUsage = useMemo(() => progress?.cellUsage || {}, [progress]);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const combinations = useMemo(() => progress?.combinations || [], [progress]);
 
-  // Estado local para selección actual
-  const [selectedCells, setSelectedCells] = useState<(string | null)[]>([null, null, null, null]);
+  // Validar que matrix tiene la estructura correcta
+  if (!matrix || !matrix.columns || matrix.columns.length !== 4) {
+    console.error('[JanusMatrix] Invalid matrix structure:', matrix);
+    return (
+      <div className="bg-red-100 dark:bg-red-900 border border-red-300 dark:border-red-700 rounded-xl p-4 text-center">
+        <p className="text-red-700 dark:text-red-300 font-medium">
+          Error: La matriz de Janus no tiene la estructura correcta. Se esperan 4 columnas.
+        </p>
+        <p className="text-red-600 dark:text-red-400 text-sm mt-2">
+          Columnas encontradas: {matrix?.columns?.length || 0}
+        </p>
+      </div>
+    );
+  }
+
+  // Estado local para selección actual con historial de deshacer
+  const {
+    state: selectedCellsState,
+    set: setSelectedCells,
+    undo,
+    redo,
+    canUndo,
+    canRedo,
+  } = useUndo<(string | null)[]>([null, null, null, null]);
+
+  // Asegurar que selectedCells siempre sea un array
+  const selectedCells: (string | null)[] = Array.isArray(selectedCellsState) 
+    ? selectedCellsState 
+    : [null, null, null, null];
 
   // Calcular estadísticas
   const totalCombinations = combinations.length;
@@ -35,12 +67,12 @@ export function JanusMatrix({ matrix, worldId, onComplete }: JanusMatrixProps) {
 
   // Manejar clic en celda
   const handleCellClick = useCallback((columnIndex: number, cellId: string) => {
-    setSelectedCells(prev => {
-      const newSelection = [...prev];
-      newSelection[columnIndex] = prev[columnIndex] === cellId ? null : cellId;
-      return newSelection;
-    });
-  }, []);
+    // Obtener el estado actual más reciente
+    const currentState = Array.isArray(selectedCellsState) ? selectedCellsState : [null, null, null, null];
+    const newSelection = [...currentState];
+    newSelection[columnIndex] = currentState[columnIndex] === cellId ? null : cellId;
+    setSelectedCells(newSelection as [string | null, string | null, string | null, string | null]);
+  }, [selectedCellsState, setSelectedCells]);
 
   // Generar frase combinada
   const generatedPhrase = useMemo(() => {
@@ -181,6 +213,34 @@ export function JanusMatrix({ matrix, worldId, onComplete }: JanusMatrixProps) {
           />
         </div>
       </div>
+
+      {/* Controles de deshacer/rehacer */}
+      {(canUndo || canRedo) && (
+        <div className="flex gap-2 justify-end">
+          <button
+            onClick={undo}
+            disabled={!canUndo}
+            className={`px-4 py-2 rounded-lg font-medium text-sm transition-all ${
+              canUndo
+                ? 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+                : 'bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-600 cursor-not-allowed'
+            }`}
+          >
+            ↶ Deshacer
+          </button>
+          <button
+            onClick={redo}
+            disabled={!canRedo}
+            className={`px-4 py-2 rounded-lg font-medium text-sm transition-all ${
+              canRedo
+                ? 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+                : 'bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-600 cursor-not-allowed'
+            }`}
+          >
+            ↷ Rehacer
+          </button>
+        </div>
+      )}
 
       {/* Grid de 4 columnas */}
       <div className="grid grid-cols-4 gap-2">

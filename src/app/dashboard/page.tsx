@@ -7,6 +7,9 @@ import { useGamificationStore } from '@/store/useGamificationStore';
 import { calculateLevelProgress, getStatsSummary } from '@/services/inputTracker';
 import { getLevelByXP, getLevelProgress, getXPToNextLevel, LEVEL_THRESHOLDS, USER_LEVELS } from '@/lib/constants';
 import { SPRING, DELAY, DURATION, staggerDelay } from '@/lib/motion';
+import { DailyMissions } from '@/components/dashboard/DailyMissions';
+import { KrashenCharts } from '@/components/dashboard/KrashenCharts';
+import { CountUpNumber } from '@/components/ui/CountUpNumber';
 
 // Animation variants
 const containerVariants = {
@@ -166,9 +169,17 @@ export default function DashboardPage() {
               <div className="flex justify-between text-xs text-white/70 mb-1.5 font-rajdhani">
                 <span className="flex items-center gap-1">
                   <span className="text-lf-accent">⭐</span>
-                  {xp.toLocaleString()} XP
+                  <CountUpNumber value={xp} duration={0.8} /> XP
                 </span>
-                <span>{xpToNext > 0 ? `${xpToNext.toLocaleString()} para subir` : 'Nivel máximo'}</span>
+                <span>
+                  {xpToNext > 0 ? (
+                    <>
+                      <CountUpNumber value={xpToNext} duration={0.6} /> para subir
+                    </>
+                  ) : (
+                    'Nivel máximo'
+                  )}
+                </span>
               </div>
               <div className="w-full h-2.5 bg-white/20 rounded-full overflow-hidden backdrop-blur-sm">
                 <motion.div
@@ -186,6 +197,11 @@ export default function DashboardPage() {
         <div className="absolute top-0 right-0 w-24 h-24">
           <div className="absolute top-0 right-0 w-32 h-8 bg-lf-accent/30 transform rotate-45 translate-x-10 -translate-y-4" />
         </div>
+      </motion.div>
+
+      {/* Daily Missions */}
+      <motion.div variants={itemVariants}>
+        <DailyMissions />
       </motion.div>
 
       {/* Quick Stats */}
@@ -216,7 +232,7 @@ export default function DashboardPage() {
               animate={{ scale: 1, opacity: 1 }}
               transition={SPRING.bouncy}
             >
-              {stat.value}
+              <CountUpNumber value={stat.value} duration={0.8} />
             </motion.p>
             <p className="font-atkinson text-xs text-gray-500 relative">{stat.label}</p>
           </motion.div>
@@ -238,7 +254,7 @@ export default function DashboardPage() {
             transition={{ duration: 2, repeat: Infinity }}
           >
             <span className="font-rajdhani text-sm font-bold text-lf-secondary">
-              {krashenProgress.overallProgress}%
+              <CountUpNumber value={krashenProgress.overallProgress} duration={1} suffix="%" />
             </span>
           </motion.div>
         </div>
@@ -288,7 +304,7 @@ export default function DashboardPage() {
                   animate={{ scale: 1, opacity: 1 }}
                   transition={SPRING.bouncy}
                 >
-                  {krashenProgress.overallProgress}%
+                  <CountUpNumber value={krashenProgress.overallProgress} duration={1} suffix="%" />
                 </motion.span>
               </div>
             </div>
@@ -308,6 +324,22 @@ export default function DashboardPage() {
             </div>
           </motion.div>
         </div>
+      </motion.div>
+
+      {/* Krashen Charts */}
+      <motion.div variants={itemVariants}>
+        <KrashenCharts
+          stats={{
+            wordsRead: stats.wordsRead,
+            wordsHeard: stats.wordsHeard,
+            wordsSpoken: stats.wordsSpoken,
+            minutesListened: statsSummary.totalMinutes,
+            minutesRead: 0, // Calcular si es necesario
+          }}
+          thresholds={thresholds}
+          languageCode={activeLanguage}
+          levelCode={activeLevel}
+        />
       </motion.div>
 
       {/* Learning Stats Grid */}
@@ -337,7 +369,7 @@ export default function DashboardPage() {
                     initial={{ y: 10, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                   >
-                    {stat.value}
+                    <CountUpNumber value={parseInt(stat.value.replace(/,/g, '')) || 0} duration={1} />
                   </motion.p>
                   <p className="font-atkinson text-xs text-gray-500 mt-0.5">{stat.label}</p>
                 </div>

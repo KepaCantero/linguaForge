@@ -2,9 +2,12 @@
 
 import { useGamificationStore } from '@/store/useGamificationStore';
 import { getLevelProgress } from '@/lib/constants';
+import { RankBadgeWithTooltip } from '@/components/ui/RankBadge';
+import { HPIndicator } from '@/components/ui/HPIndicator';
+import { CountUpNumber } from '@/components/ui/CountUpNumber';
 
 export function Header() {
-  const { xp, coins, streak } = useGamificationStore();
+  const { xp, coins, streak, rank, hp } = useGamificationStore();
   const progress = getLevelProgress(xp);
 
   return (
@@ -20,13 +23,18 @@ export function Header() {
 
         {/* Stats */}
         <div className="flex items-center gap-4 text-sm">
+          {/* Rank Badge */}
+          <RankBadgeWithTooltip rank={rank} size="sm" tooltip />
+
           {/* Resonance (XP) */}
           <div className="flex items-center gap-1.5">
             <div className="w-4 h-4 bg-lf-accent/20 rounded-sm flex items-center justify-center">
               <div className="w-2 h-2 bg-lf-accent rounded-sm animate-resonance-pulse" />
             </div>
             <div className="flex flex-col">
-              <span className="font-rajdhani font-semibold text-lf-accent text-xs">{xp}</span>
+              <span className="font-rajdhani font-semibold text-lf-accent text-xs">
+                <CountUpNumber value={xp} duration={0.8} />
+              </span>
               <div className="w-10 h-1 bg-lf-muted rounded-full overflow-hidden">
                 <div
                   className="h-full bg-resonance-gradient rounded-full transition-all duration-500"
@@ -39,7 +47,9 @@ export function Header() {
           {/* Shards (Coins) */}
           <div className="flex items-center gap-1">
             <span className="text-lf-secondary text-sm">◈</span>
-            <span className="font-rajdhani font-medium text-white">{coins}</span>
+            <span className="font-rajdhani font-medium text-white">
+              <CountUpNumber value={coins} duration={0.6} />
+            </span>
           </div>
 
           {/* Forge Streak */}
@@ -48,6 +58,11 @@ export function Header() {
               ⬡
             </span>
             <span className="font-rajdhani font-medium text-white">{streak}</span>
+          </div>
+
+          {/* HP Indicator */}
+          <div className="hidden sm:block w-16">
+            <HPIndicator hp={hp} showLabel={false} size="sm" />
           </div>
         </div>
       </div>

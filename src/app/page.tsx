@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -11,14 +11,19 @@ import { useTreeProgressStore } from '@/store/useTreeProgressStore';
 export default function Home() {
   const router = useRouter();
   const { xp } = useGamificationStore();
-  const { getOverallProgress, initTreeProgress } = useTreeProgressStore();
+  const { getOverallProgress, initTreeProgress, treeProgress } = useTreeProgressStore();
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    setIsMounted(true);
     initTreeProgress('fr-a1-topic-tree');
   }, [initTreeProgress]);
 
-  const progress = getOverallProgress('fr-a1-topic-tree');
-  const resonance = progress.total > 0 ? Math.round((progress.completed / progress.total) * 100) : 0;
+  // Calcular progress y resonance solo después de montar para evitar errores de hidratación
+  const progress = isMounted ? getOverallProgress('fr-a1-topic-tree') : { completed: 0, total: 0 };
+  const resonance = isMounted && progress.total > 0 
+    ? Math.round((progress.completed / progress.total) * 100) 
+    : 0;
 
   return (
     <div className="space-y-6 -mt-2">

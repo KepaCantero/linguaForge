@@ -19,6 +19,7 @@ export function ShadowingExercise({ phrase, onComplete }: ShadowingExerciseProps
   const { speak, isSpeaking, isAvailable } = useTTS();
   const [phase, setPhase] = useState<ShadowingPhase>('intro');
   const [listenCount, setListenCount] = useState(0);
+  const [showTranslation, setShowTranslation] = useState(false);
 
   // Reproducir audio con TTS real
   const playAudio = useCallback(() => {
@@ -120,9 +121,22 @@ export function ShadowingExercise({ phrase, onComplete }: ShadowingExerciseProps
               <p className="text-white text-xl font-medium mb-2">
                 {phrase.text}
               </p>
-              <p className="text-white/60 text-sm">
-                {phrase.translation}
-              </p>
+              <button
+                onClick={() => setShowTranslation(!showTranslation)}
+                className="mb-2 flex items-center gap-2 px-3 py-1 rounded-lg text-xs font-medium transition-all bg-white/20 hover:bg-white/30 text-white"
+              >
+                <span>{showTranslation ? "👁️" : "👁️‍🗨️"}</span>
+                <span>{showTranslation ? "Ocultar traducción" : "Mostrar traducción"}</span>
+              </button>
+              {showTranslation && (
+                <motion.p
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="text-white/60 text-sm"
+                >
+                  {phrase.translation}
+                </motion.p>
+              )}
             </motion.div>
 
             {/* Contador de escuchas */}
@@ -204,9 +218,24 @@ export function ShadowingExercise({ phrase, onComplete }: ShadowingExerciseProps
               <p className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
                 {phrase.text}
               </p>
-              <p className="text-gray-500 dark:text-gray-400 text-sm mb-6">
-                {phrase.translation}
-              </p>
+              <div className="mb-4 flex items-center justify-center">
+                <button
+                  onClick={() => setShowTranslation(!showTranslation)}
+                  className="flex items-center gap-2 px-3 py-1 rounded-lg text-xs font-medium transition-all bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600"
+                >
+                  <span>{showTranslation ? "👁️" : "👁️‍🗨️"}</span>
+                  <span>{showTranslation ? "Ocultar traducción" : "Mostrar traducción"}</span>
+                </button>
+              </div>
+              {showTranslation && (
+                <motion.p
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="text-gray-500 dark:text-gray-400 text-sm mb-6"
+                >
+                  {phrase.translation}
+                </motion.p>
+              )}
 
               <button
                 onClick={completeShadowing}

@@ -3,6 +3,7 @@ import { Rajdhani, Atkinson_Hyperlegible } from 'next/font/google';
 import './globals.css';
 import { Header } from '@/components/layout/Header';
 import { BottomNav } from '@/components/layout/BottomNav';
+import { XPSurgeEffect } from '@/components/ui/XPSurgeEffect';
 
 const rajdhani = Rajdhani({
   subsets: ['latin'],
@@ -43,6 +44,7 @@ export default function RootLayout({
   return (
     <html lang="es" className={`${rajdhani.variable} ${atkinson.variable}`}>
       <body className="font-atkinson antialiased bg-lf-dark text-white">
+        <XPSurgeEffect />
         <Header />
         <main className="pt-14 pb-16 min-h-screen">
           <div className="max-w-lg mx-auto px-4 py-4">{children}</div>

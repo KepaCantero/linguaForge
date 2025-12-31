@@ -1,0 +1,784 @@
+{
+  "worldId": "fr-a1-airbnb",
+  "matrixId": "matrix-1-checkin",
+  "context": "check-in",
+  "exercises": {
+    "shardDetection": [
+      {
+        "id": "shard-checkin-1",
+        "audioUrl": "/audio/fr/a1/airbnb/checkin/shard-1.mp3",
+        "audioDuration": 4.5,
+        "phrase": "Bonjour, je suis votre invité.",
+        "translation": "Hola, soy su huésped.",
+        "shards": [
+          {
+            "id": "shard-1-1",
+            "imageUrl": "/images/exercises/checkin/handshake.jpg",
+            "isCorrect": true
+          },
+          {
+            "id": "shard-1-2",
+            "imageUrl": "/images/exercises/checkin/keys.jpg",
+            "isCorrect": false
+          },
+          {
+            "id": "shard-1-3",
+            "imageUrl": "/images/exercises/checkin/luggage.jpg",
+            "isCorrect": false
+          }
+        ]
+      },
+      {
+        "id": "shard-checkin-2",
+        "audioUrl": "/audio/fr/a1/airbnb/checkin/shard-2.mp3",
+        "audioDuration": 5.2,
+        "phrase": "Où puis-je mettre mes valises?",
+        "translation": "¿Dónde puedo poner mis maletas?",
+        "shards": [
+          {
+            "id": "shard-2-1",
+            "imageUrl": "/images/exercises/checkin/luggage.jpg",
+            "isCorrect": true
+          },
+          {
+            "id": "shard-2-2",
+            "imageUrl": "/images/exercises/checkin/keys.jpg",
+            "isCorrect": false
+          },
+          {
+            "id": "shard-2-3",
+            "imageUrl": "/images/exercises/checkin/handshake.jpg",
+            "isCorrect": false
+          }
+        ]
+      },
+      {
+        "id": "shard-checkin-3",
+        "audioUrl": "/audio/fr/a1/airbnb/checkin/shard-3.mp3",
+        "audioDuration": 3.8,
+        "phrase": "J'ai réservé pour deux nuits.",
+        "translation": "He reservado para dos noches.",
+        "shards": [
+          {
+            "id": "shard-3-1",
+            "imageUrl": "/images/exercises/checkin/calendar.jpg",
+            "isCorrect": true
+          },
+          {
+            "id": "shard-3-2",
+            "imageUrl": "/images/exercises/checkin/keys.jpg",
+            "isCorrect": false
+          },
+          {
+            "id": "shard-3-3",
+            "imageUrl": "/images/exercises/checkin/handshake.jpg",
+            "isCorrect": false
+          }
+        ]
+      },
+      {
+        "id": "shard-checkin-4",
+        "audioUrl": "/audio/fr/a1/airbnb/checkin/shard-4.mp3",
+        "audioDuration": 4.1,
+        "phrase": "À quelle heure est le check-in?",
+        "translation": "¿A qué hora es el check-in?",
+        "shards": [
+          {
+            "id": "shard-4-1",
+            "imageUrl": "/images/exercises/checkin/clock.jpg",
+            "isCorrect": true
+          },
+          {
+            "id": "shard-4-2",
+            "imageUrl": "/images/exercises/checkin/calendar.jpg",
+            "isCorrect": false
+          },
+          {
+            "id": "shard-4-3",
+            "imageUrl": "/images/exercises/checkin/luggage.jpg",
+            "isCorrect": false
+          }
+        ]
+      },
+      {
+        "id": "shard-checkin-5",
+        "audioUrl": "/audio/fr/a1/airbnb/checkin/shard-5.mp3",
+        "audioDuration": 4.7,
+        "phrase": "Merci beaucoup pour l'accueil.",
+        "translation": "Muchas gracias por la bienvenida.",
+        "shards": [
+          {
+            "id": "shard-5-1",
+            "imageUrl": "/images/exercises/checkin/handshake.jpg",
+            "isCorrect": true
+          },
+          {
+            "id": "shard-5-2",
+            "imageUrl": "/images/exercises/checkin/keys.jpg",
+            "isCorrect": false
+          },
+          {
+            "id": "shard-5-3",
+            "imageUrl": "/images/exercises/checkin/clock.jpg",
+            "isCorrect": false
+          }
+        ]
+      }
+    ],
+    "pragmaStrike": [
+      {
+        "id": "pragma-checkin-1",
+        "situationImage": "/images/exercises/checkin/situation-1.jpg",
+        "situationDescription": "Llegas tarde al check-in. El anfitrión parece un poco impaciente.",
+        "timeLimit": 5,
+        "options": [
+          {
+            "id": "opt-1-1",
+            "text": "Désolé pour le retard.",
+            "isCorrect": true,
+            "explanation": "Es la forma más cortés y directa de disculparse. 'Désolé' es apropiado para situaciones formales e informales."
+          },
+          {
+            "id": "opt-1-2",
+            "text": "Je suis en retard.",
+            "isCorrect": false,
+            "explanation": "Es demasiado directo y no muestra cortesía. Falta la disculpa."
+          },
+          {
+            "id": "opt-1-3",
+            "text": "Excusez-moi, je suis désolé pour le retard.",
+            "isCorrect": true,
+            "explanation": "Muy cortés con doble disculpa. Perfecto para situaciones formales."
+          },
+          {
+            "id": "opt-1-4",
+            "text": "C'est pas grave.",
+            "isCorrect": false,
+            "explanation": "Muy informal y puede sonar descortés. No es apropiado cuando llegas tarde."
+          }
+        ]
+      },
+      {
+        "id": "pragma-checkin-2",
+        "situationImage": "/images/exercises/checkin/situation-2.jpg",
+        "situationDescription": "El anfitrión te pregunta si necesitas algo más después de darte las llaves.",
+        "timeLimit": 5,
+        "options": [
+          {
+            "id": "opt-2-1",
+            "text": "Non, merci beaucoup. C'est parfait.",
+            "isCorrect": true,
+            "explanation": "Cortés, agradecido y positivo. Perfecto para cerrar la conversación."
+          },
+          {
+            "id": "opt-2-2",
+            "text": "Non.",
+            "isCorrect": false,
+            "explanation": "Demasiado breve y puede sonar brusco. Falta cortesía."
+          },
+          {
+            "id": "opt-2-3",
+            "text": "Oui, j'ai besoin de quelque chose.",
+            "isCorrect": false,
+            "explanation": "Correcto gramaticalmente pero no es la respuesta más cortés si realmente no necesitas nada."
+          },
+          {
+            "id": "opt-2-4",
+            "text": "Merci, c'est bon.",
+            "isCorrect": true,
+            "explanation": "Informal pero cortés. Apropiado para situaciones casuales."
+          }
+        ]
+      },
+      {
+        "id": "pragma-checkin-3",
+        "situationImage": "/images/exercises/checkin/situation-3.jpg",
+        "situationDescription": "Quieres preguntar dónde está el baño de forma cortés.",
+        "timeLimit": 5,
+        "options": [
+          {
+            "id": "opt-3-1",
+            "text": "Où est la salle de bain, s'il vous plaît?",
+            "isCorrect": true,
+            "explanation": "Forma más cortés con 's'il vous plaît'. Perfecto para situaciones formales."
+          },
+          {
+            "id": "opt-3-2",
+            "text": "Où est le WC?",
+            "isCorrect": false,
+            "explanation": "Muy directo e informal. Puede sonar brusco en un contexto de check-in."
+          },
+          {
+            "id": "opt-3-3",
+            "text": "Je veux aller aux toilettes.",
+            "isCorrect": false,
+            "explanation": "Demasiado directo y personal. No es la forma más cortés de preguntar."
+          },
+          {
+            "id": "opt-3-4",
+            "text": "Excusez-moi, où se trouve la salle de bain?",
+            "isCorrect": true,
+            "explanation": "Muy cortés con 'Excusez-moi' y forma indirecta 'où se trouve'. Excelente para situaciones formales."
+          }
+        ]
+      },
+      {
+        "id": "pragma-checkin-4",
+        "situationImage": "/images/exercises/checkin/situation-4.jpg",
+        "situationDescription": "El anfitrión te explica las reglas de la casa. Quieres mostrar que entiendes.",
+        "timeLimit": 5,
+        "options": [
+          {
+            "id": "opt-4-1",
+            "text": "D'accord, je comprends. Merci.",
+            "isCorrect": true,
+            "explanation": "Cortés, muestra comprensión y agradecimiento. Perfecto para esta situación."
+          },
+          {
+            "id": "opt-4-2",
+            "text": "Oui.",
+            "isCorrect": false,
+            "explanation": "Demasiado breve. No muestra cortesía ni comprensión activa."
+          },
+          {
+            "id": "opt-4-3",
+            "text": "Je ne comprends pas.",
+            "isCorrect": false,
+            "explanation": "No es apropiado si realmente entiendes. Puede crear confusión."
+          },
+          {
+            "id": "opt-4-4",
+            "text": "Parfait, merci beaucoup pour les explications.",
+            "isCorrect": true,
+            "explanation": "Muy cortés y positivo. Muestra aprecio por las explicaciones."
+          }
+        ]
+      },
+      {
+        "id": "pragma-checkin-5",
+        "situationImage": "/images/exercises/checkin/situation-5.jpg",
+        "situationDescription": "Quieres preguntar sobre el WiFi de forma cortés.",
+        "timeLimit": 5,
+        "options": [
+          {
+            "id": "opt-5-1",
+            "text": "Quel est le mot de passe WiFi, s'il vous plaît?",
+            "isCorrect": true,
+            "explanation": "Cortés y directo. 'S'il vous plaît' hace la diferencia."
+          },
+          {
+            "id": "opt-5-2",
+            "text": "Donne-moi le WiFi.",
+            "isCorrect": false,
+            "explanation": "Muy informal y puede sonar exigente. Falta cortesía."
+          },
+          {
+            "id": "opt-5-3",
+            "text": "Je veux le mot de passe.",
+            "isCorrect": false,
+            "explanation": "Demasiado directo y puede sonar brusco. Falta cortesía."
+          },
+          {
+            "id": "opt-5-4",
+            "text": "Pourriez-vous me donner le mot de passe WiFi?",
+            "isCorrect": true,
+            "explanation": "Muy cortés usando forma condicional 'Pourriez-vous'. Excelente para situaciones formales."
+          }
+        ]
+      }
+    ],
+    "echoStream": [
+      {
+        "id": "echo-checkin-1",
+        "audioUrl": "/audio/fr/a1/airbnb/checkin/echo-1.mp3",
+        "audioDuration": 12.5,
+        "phrase": "Bonjour, je suis votre invité. J'ai réservé pour deux nuits.",
+        "translation": "Hola, soy su huésped. He reservado para dos noches.",
+        "powerWords": [
+          {
+            "word": "Bonjour",
+            "timestamp": 0.5,
+            "tolerance": 0.5
+          },
+          {
+            "word": "réservé",
+            "timestamp": 6.2,
+            "tolerance": 0.5
+          },
+          {
+            "word": "nuits",
+            "timestamp": 9.8,
+            "tolerance": 0.5
+          }
+        ]
+      },
+      {
+        "id": "echo-checkin-2",
+        "audioUrl": "/audio/fr/a1/airbnb/checkin/echo-2.mp3",
+        "audioDuration": 15.3,
+        "phrase": "Où puis-je mettre mes valises? Et à quelle heure est le check-in?",
+        "translation": "¿Dónde puedo poner mis maletas? ¿Y a qué hora es el check-in?",
+        "powerWords": [
+          {
+            "word": "Où",
+            "timestamp": 0.3,
+            "tolerance": 0.5
+          },
+          {
+            "word": "valises",
+            "timestamp": 5.1,
+            "tolerance": 0.5
+          },
+          {
+            "word": "heure",
+            "timestamp": 10.7,
+            "tolerance": 0.5
+          },
+          {
+            "word": "check-in",
+            "timestamp": 13.5,
+            "tolerance": 0.5
+          }
+        ]
+      },
+      {
+        "id": "echo-checkin-3",
+        "audioUrl": "/audio/fr/a1/airbnb/checkin/echo-3.mp3",
+        "audioDuration": 18.2,
+        "phrase": "Merci beaucoup pour l'accueil. L'appartement est très beau.",
+        "translation": "Muchas gracias por la bienvenida. El apartamento es muy bonito.",
+        "powerWords": [
+          {
+            "word": "Merci",
+            "timestamp": 0.2,
+            "tolerance": 0.5
+          },
+          {
+            "word": "accueil",
+            "timestamp": 4.8,
+            "tolerance": 0.5
+          },
+          {
+            "word": "appartement",
+            "timestamp": 9.5,
+            "tolerance": 0.5
+          },
+          {
+            "word": "beau",
+            "timestamp": 15.1,
+            "tolerance": 0.5
+          }
+        ]
+      },
+      {
+        "id": "echo-checkin-4",
+        "audioUrl": "/audio/fr/a1/airbnb/checkin/echo-4.mp3",
+        "audioDuration": 14.7,
+        "phrase": "Excusez-moi, où se trouve la salle de bain, s'il vous plaît?",
+        "translation": "Disculpe, ¿dónde se encuentra el baño, por favor?",
+        "powerWords": [
+          {
+            "word": "Excusez-moi",
+            "timestamp": 0.4,
+            "tolerance": 0.5
+          },
+          {
+            "word": "trouve",
+            "timestamp": 6.2,
+            "tolerance": 0.5
+          },
+          {
+            "word": "salle",
+            "timestamp": 8.9,
+            "tolerance": 0.5
+          },
+          {
+            "word": "s'il vous plaît",
+            "timestamp": 12.1,
+            "tolerance": 0.5
+          }
+        ]
+      },
+      {
+        "id": "echo-checkin-5",
+        "audioUrl": "/audio/fr/a1/airbnb/checkin/echo-5.mp3",
+        "audioDuration": 16.8,
+        "phrase": "Pourriez-vous me donner le mot de passe WiFi? Merci beaucoup.",
+        "translation": "¿Podría darme la contraseña del WiFi? Muchas gracias.",
+        "powerWords": [
+          {
+            "word": "Pourriez-vous",
+            "timestamp": 0.3,
+            "tolerance": 0.5
+          },
+          {
+            "word": "donner",
+            "timestamp": 4.1,
+            "tolerance": 0.5
+          },
+          {
+            "word": "mot de passe",
+            "timestamp": 7.8,
+            "tolerance": 0.5
+          },
+          {
+            "word": "Merci",
+            "timestamp": 13.2,
+            "tolerance": 0.5
+          }
+        ]
+      }
+    ],
+    "glyphWeaving": [
+      {
+        "id": "glyph-checkin-1",
+        "audioUrl": "/audio/fr/a1/airbnb/checkin/glyph-1.mp3",
+        "bpm": 90,
+        "phrase": "Bonjour, je suis votre invité.",
+        "translation": "Hola, soy su huésped.",
+        "glyphs": [
+          {
+            "id": "g1",
+            "symbol": "👋",
+            "position": { "x": 0, "y": 0 }
+          },
+          {
+            "id": "g2",
+            "symbol": "Je",
+            "position": { "x": 1, "y": 0 }
+          },
+          {
+            "id": "g3",
+            "symbol": "suis",
+            "position": { "x": 2, "y": 0 }
+          },
+          {
+            "id": "g4",
+            "symbol": "votre",
+            "position": { "x": 3, "y": 0 }
+          },
+          {
+            "id": "g5",
+            "symbol": "invité",
+            "position": { "x": 0, "y": 1 }
+          },
+          {
+            "id": "g6",
+            "symbol": "Bonjour",
+            "position": { "x": 1, "y": 1 }
+          },
+          {
+            "id": "g7",
+            "symbol": "🏠",
+            "position": { "x": 2, "y": 1 }
+          },
+          {
+            "id": "g8",
+            "symbol": "👤",
+            "position": { "x": 3, "y": 1 }
+          },
+          {
+            "id": "g9",
+            "symbol": "🔑",
+            "position": { "x": 0, "y": 2 }
+          },
+          {
+            "id": "g10",
+            "symbol": "📅",
+            "position": { "x": 1, "y": 2 }
+          },
+          {
+            "id": "g11",
+            "symbol": "💼",
+            "position": { "x": 2, "y": 2 }
+          },
+          {
+            "id": "g12",
+            "symbol": "⏰",
+            "position": { "x": 3, "y": 2 }
+          },
+          {
+            "id": "g13",
+            "symbol": "🌐",
+            "position": { "x": 0, "y": 3 }
+          },
+          {
+            "id": "g14",
+            "symbol": "🚿",
+            "position": { "x": 1, "y": 3 }
+          },
+          {
+            "id": "g15",
+            "symbol": "🛏️",
+            "position": { "x": 2, "y": 3 }
+          },
+          {
+            "id": "g16",
+            "symbol": "✨",
+            "position": { "x": 3, "y": 3 }
+          }
+        ],
+        "pattern": [
+          {
+            "fromGlyph": "g6",
+            "toGlyph": "g2",
+            "beat": 1
+          },
+          {
+            "fromGlyph": "g2",
+            "toGlyph": "g3",
+            "beat": 2
+          },
+          {
+            "fromGlyph": "g3",
+            "toGlyph": "g4",
+            "beat": 3
+          },
+          {
+            "fromGlyph": "g4",
+            "toGlyph": "g5",
+            "beat": 4
+          }
+        ]
+      },
+      {
+        "id": "glyph-checkin-2",
+        "audioUrl": "/audio/fr/a1/airbnb/checkin/glyph-2.mp3",
+        "bpm": 85,
+        "phrase": "Où puis-je mettre mes valises?",
+        "translation": "¿Dónde puedo poner mis maletas?",
+        "glyphs": [
+          {
+            "id": "g1",
+            "symbol": "❓",
+            "position": { "x": 0, "y": 0 }
+          },
+          {
+            "id": "g2",
+            "symbol": "Où",
+            "position": { "x": 1, "y": 0 }
+          },
+          {
+            "id": "g3",
+            "symbol": "puis-je",
+            "position": { "x": 2, "y": 0 }
+          },
+          {
+            "id": "g4",
+            "symbol": "mettre",
+            "position": { "x": 3, "y": 0 }
+          },
+          {
+            "id": "g5",
+            "symbol": "mes",
+            "position": { "x": 0, "y": 1 }
+          },
+          {
+            "id": "g6",
+            "symbol": "valises",
+            "position": { "x": 1, "y": 1 }
+          },
+          {
+            "id": "g7",
+            "symbol": "💼",
+            "position": { "x": 2, "y": 1 }
+          },
+          {
+            "id": "g8",
+            "symbol": "📍",
+            "position": { "x": 3, "y": 1 }
+          },
+          {
+            "id": "g9",
+            "symbol": "🚪",
+            "position": { "x": 0, "y": 2 }
+          },
+          {
+            "id": "g10",
+            "symbol": "🏠",
+            "position": { "x": 1, "y": 2 }
+          },
+          {
+            "id": "g11",
+            "symbol": "📦",
+            "position": { "x": 2, "y": 2 }
+          },
+          {
+            "id": "g12",
+            "symbol": "⬆️",
+            "position": { "x": 3, "y": 2 }
+          },
+          {
+            "id": "g13",
+            "symbol": "🔑",
+            "position": { "x": 0, "y": 3 }
+          },
+          {
+            "id": "g14",
+            "symbol": "⏰",
+            "position": { "x": 1, "y": 3 }
+          },
+          {
+            "id": "g15",
+            "symbol": "✨",
+            "position": { "x": 2, "y": 3 }
+          },
+          {
+            "id": "g16",
+            "symbol": "🎯",
+            "position": { "x": 3, "y": 3 }
+          }
+        ],
+        "pattern": [
+          {
+            "fromGlyph": "g2",
+            "toGlyph": "g3",
+            "beat": 1
+          },
+          {
+            "fromGlyph": "g3",
+            "toGlyph": "g4",
+            "beat": 2
+          },
+          {
+            "fromGlyph": "g4",
+            "toGlyph": "g5",
+            "beat": 3
+          },
+          {
+            "fromGlyph": "g5",
+            "toGlyph": "g6",
+            "beat": 4
+          }
+        ]
+      },
+      {
+        "id": "glyph-checkin-3",
+        "audioUrl": "/audio/fr/a1/airbnb/checkin/glyph-3.mp3",
+        "bpm": 95,
+        "phrase": "Merci beaucoup pour l'accueil.",
+        "translation": "Muchas gracias por la bienvenida.",
+        "glyphs": [
+          {
+            "id": "g1",
+            "symbol": "🙏",
+            "position": { "x": 0, "y": 0 }
+          },
+          {
+            "id": "g2",
+            "symbol": "Merci",
+            "position": { "x": 1, "y": 0 }
+          },
+          {
+            "id": "g3",
+            "symbol": "beaucoup",
+            "position": { "x": 2, "y": 0 }
+          },
+          {
+            "id": "g4",
+            "symbol": "pour",
+            "position": { "x": 3, "y": 0 }
+          },
+          {
+            "id": "g5",
+            "symbol": "l'accueil",
+            "position": { "x": 0, "y": 1 }
+          },
+          {
+            "id": "g6",
+            "symbol": "👋",
+            "position": { "x": 1, "y": 1 }
+          },
+          {
+            "id": "g7",
+            "symbol": "🏠",
+            "position": { "x": 2, "y": 1 }
+          },
+          {
+            "id": "g8",
+            "symbol": "✨",
+            "position": { "x": 3, "y": 1 }
+          },
+          {
+            "id": "g9",
+            "symbol": "💼",
+            "position": { "x": 0, "y": 2 }
+          },
+          {
+            "id": "g10",
+            "symbol": "🔑",
+            "position": { "x": 1, "y": 2 }
+          },
+          {
+            "id": "g11",
+            "symbol": "📅",
+            "position": { "x": 2, "y": 2 }
+          },
+          {
+            "id": "g12",
+            "symbol": "⏰",
+            "position": { "x": 3, "y": 2 }
+          },
+          {
+            "id": "g13",
+            "symbol": "🌐",
+            "position": { "x": 0, "y": 3 }
+          },
+          {
+            "id": "g14",
+            "symbol": "🚿",
+            "position": { "x": 1, "y": 3 }
+          },
+          {
+            "id": "g15",
+            "symbol": "🛏️",
+            "position": { "x": 2, "y": 3 }
+          },
+          {
+            "id": "g16",
+            "symbol": "🎉",
+            "position": { "x": 3, "y": 3 }
+          }
+        ],
+        "pattern": [
+          {
+            "fromGlyph": "g2",
+            "toGlyph": "g3",
+            "beat": 1
+          },
+          {
+            "fromGlyph": "g3",
+            "toGlyph": "g4",
+            "beat": 2
+          },
+          {
+            "fromGlyph": "g4",
+            "toGlyph": "g5",
+            "beat": 3
+          }
+        ]
+      }
+    ],
+    "resonancePath": [
+      {
+        "id": "resonance-checkin-1",
+        "phrase": "Bonjour, je suis votre invité.",
+        "audioUrl": "/audio/fr/a1/airbnb/checkin/resonance-1.mp3",
+        "nativeIntonation": [45, 52, 58, 55, 48, 50, 55, 60, 58, 52, 48, 45]
+      },
+      {
+        "id": "resonance-checkin-2",
+        "phrase": "Où puis-je mettre mes valises?",
+        "audioUrl": "/audio/fr/a1/airbnb/checkin/resonance-2.mp3",
+        "nativeIntonation": [50, 55, 60, 58, 52, 48, 50, 55, 60, 58, 55, 50]
+      },
+      {
+        "id": "resonance-checkin-3",
+        "phrase": "Merci beaucoup pour l'accueil.",
+        "audioUrl": "/audio/fr/a1/airbnb/checkin/resonance-3.mp3",
+        "nativeIntonation": [48, 52, 58, 60, 58, 55, 50, 48, 52, 55, 50, 45]
+      }
+    ]
+  }
+}
+
