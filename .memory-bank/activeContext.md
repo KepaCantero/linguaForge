@@ -1,227 +1,293 @@
-# Active Context — Sesión Actual
+# Active Context — Contexto Activo
 
 > Última actualización: 2025-01-XX
 
 ## Estado Actual
 
-**Versión del Plan:** v4.0 (Base) + v2.0 (Expansión LinguaForge)
-**Fase:** v2.0 - Implementación de Lecciones y Ejercicios Core
-**Tarea activa:** Integración completa de ejercicios y mejoras UX
-**Próxima expansión:** Completar contenido y optimizaciones
+**Versión del Plan:** v4.0 (Base) + v2.0 (Expansión LinguaForge) + Sistema INPUT + SRS
+**Fase:** Sistema INPUT completo + SRS integrado + Ejercicios para contenido importado
+**Tarea activa:** Mejoras en generación de ejercicios Janus y organización del memory bank
+**Próxima expansión:** Sistema de misiones con warm-ups cognitivos
 
-## Resumen de Sesión Reciente
+## Resumen de Trabajo Reciente
 
-### Implementación de Sistema de Lecciones (Topic Tree)
+### Sistema INPUT Completo (Video/Audio/Texto)
 
-1. **Estructura de Lecciones Completa:**
-   - Sistema Topic Tree con `TopicBranch` y `TopicLeaf`
-   - Página dinámica `/tree/leaf/[leafId]` para cada lección
-   - Carga dinámica de contenido JSON con `lessonLoader.ts`
-   - Schema `LessonContentSchema` con soporte para:
-     - Frases clásicas (Cloze, Shadowing, Variations)
-     - Input comprensible (audio, video, texto)
-     - Mini-test y Mini-task
-     - Ejercicios core v2.0 (6 tipos)
-     - Configuración de modos (Academia/Desafío)
+1. **Página Hub INPUT (`/input`):**
+   - Vista centralizada para todos los tipos de input
+   - Métricas agregadas (visualizaciones, escuchas, lecturas)
+   - Navegación a video/audio/texto
+   - Contadores únicos por contenido
 
-2. **Modos de Lección:**
-   - **Academia (Training):** Sin límite de tiempo, con pistas, reintentos ilimitados, XP 1.0x
-   - **Desafío (Challenge):** Límite de tiempo (15 min), sin pistas, sin reintentos, XP 1.5x, recompensa de gemas
+2. **Reproductor de Video (`/input/video`):**
+   - Integración con YouTube IFrame API
+   - Tracking de tiempo de visualización
+   - Extracción automática de transcripciones (youtube-transcript.io API)
+   - Contador de visualizaciones únicas
+   - Selección de palabras clave del transcript
+   - Botón Quick Review para repaso rápido
 
-3. **Ejercicios Core v2.0 Implementados:**
-   - ✅ **Shard Detection** (4 ejercicios con imágenes)
-   - ✅ **Pragma Strike** (3 ejercicios situacionales)
-   - ✅ **Echo Stream** (2 ejercicios con audio y visualización de ondas)
-   - ✅ **Glyph Weaving** (1 ejercicio con matriz dinámica)
-   - ✅ **Resonance Path** (3 ejercicios de entonación)
-   - ⏳ **Forge Mandate** (pendiente - orquestador de ejercicios)
+3. **Reproductor de Audio (`/input/audio`):**
+   - Player de audio con controles
+   - Tracking de tiempo de escucha
+   - Transcripción manual o automática
+   - Contador de escuchas únicas
+   - Selección de palabras clave
+   - Botón Quick Review
 
-4. **Ejercicios Clásicos Mejorados:**
-   - Cloze, Shadowing, Variations con traducciones opcionales
-   - Navegación mejorada en modo Academia
-   - Progreso granular por tipo de ejercicio
+4. **Lector de Texto (`/input/text`):**
+   - Textarea para contenido de texto
+   - Generación de audio con TTS (Web Speech API)
+   - Contador de palabras leídas
+   - Selección de palabras clave
+   - Botón Quick Review
 
-### Mejoras UX/Behavioral Design
+### Sistema SRS (Spaced Repetition System)
 
-Basado en análisis UX (`ux-analysis.md`), se implementaron:
+1. **Store SRS (`useSRSStore`):**
+   - Algoritmo SuperMemo 2 (SM-2) implementado
+   - Cards con metadata completa (fuente, contexto)
+   - Estadísticas de repaso
+   - Filtros por fuente (video/audio/texto)
+   - Método `addCards` para agregar múltiples cards eficientemente
 
-1. **Feedback Háptico:**
-   - Vibración en móviles al seleccionar opciones
-   - Implementado en Cloze, Pragma Strike, Shard Detection
+2. **Extracción de Palabras Clave:**
+   - Servicio `wordExtractor.ts` que identifica verbos, sustantivos, adverbios, adjetivos
+   - Filtrado de palabras comunes
+   - Normalización (minúsculas, sin acentos)
+   - Contexto preservado (frase original)
+   - Mejoras en detección de adjetivos
 
-2. **Traducciones Opcionales:**
-   - Botón toggle para mostrar/ocultar traducciones
-   - Permite aprendizaje sin traducciones
-   - Implementado en: Cloze, Shadowing, Variations, Shard Detection, Echo Stream
+3. **Diccionario de Palabras (`useWordDictionaryStore`):**
+   - Tracking de palabras ya estudiadas
+   - Evita duplicados en extracción
+   - Vinculación con cards SRS
+   - Método `getNewWords` para filtrar palabras nuevas
 
-3. **Menú de Ejercicios Mejorado:**
-   - Diseño visual atractivo con gradientes y animaciones
-   - Layout compacto que muestra todo "en un golpe de vista"
-   - Progreso visible por ejercicio y tipo
-   - Grid responsive (más columnas en desktop)
+4. **Generación Automática de Ejercicios:**
+   - `wordExerciseGenerator.ts` genera Cloze y Detection desde palabras
+   - Traducción automática con `translationService.ts`
+   - Cards creadas automáticamente
+   - Integración con diccionario de palabras
 
-4. **Navegación Optimizada:**
-   - Eliminada pantalla intermedia de selección de modo
-   - Modo seleccionado directamente desde intro
-   - En Academia: completar todas las frases de un tipo antes de volver al menú
-   - Confirmación al salir de ejercicio después de 10 segundos
+5. **Dashboard SRS (`/decks`):**
+   - Vista de todos los decks organizados por fuente
+   - Estadísticas (total, new, due, mastered)
+   - Filtros por estado y fuente
+   - Búsqueda de frases/traducciones
+   - Vista previa de palabras en cada deck
 
-5. **Atajos de Teclado:**
-   - `SPACE`: Reproducir audio
-   - `1-4`: Seleccionar opción en ejercicios de opción múltiple
-   - Implementado en Cloze Exercise
+6. **Sesiones de Repaso (`/decks/review`):**
+   - Ejercicios generados dinámicamente
+   - Respuestas SM-2 (again/hard/good/easy)
+   - Actualización automática de intervalos
+   - Estadísticas de sesión
+   - Filtrado por fuente (opcional)
 
-6. **Recompensas Variables:**
-   - 10% de probabilidad de "critical surge" (doble XP)
-   - Efectos de partículas para feedback visual
-   - Implementado en `useGamificationStore`
+### Sistema de Contenido Importado
 
-### Integración de Nuevas Librerías
+1. **Nodos Importados (`useImportedNodesStore`):**
+   - Estructura: Nodo → Subtopic → Phrases
+   - Persistencia local con Zustand
+   - Tracking de progreso por subtopic
+   - Métodos: createNode, addSubtopic, completeSubtopic
 
-1. **react-countup:**
-   - Componente `CountUpNumber` para animar números (XP, coins, stats)
-   - Integrado en Header y Dashboard
-   - Compatible con SSR (evita errores de hidratación)
+2. **Generación de Ejercicios desde Frases:**
+   - `generateExercisesFromPhrases.ts` genera todos los tipos:
+     - Cloze exercises
+     - Variations exercises
+     - ConversationalEcho exercises
+     - DialogueIntonation exercises
+     - **JanusComposer exercises** (mejorado recientemente)
 
-2. **@tsparticles/react + @tsparticles/engine:**
-   - Componente `ParticlesSurge` para efectos de partículas
-   - `XPSurgeEffect` escucha eventos globales de XP surge
-   - Integrado en `layout.tsx` para efectos globales
+3. **Página de Ejercicios (`/learn/imported/[nodeId]/exercises`):**
+   - Menú de ejercicios con todos los tipos disponibles
+   - Modos Academia y Desafío
+   - Navegación entre ejercicios
+   - Progreso por tipo de ejercicio
+   - Logs de depuración para troubleshooting
 
-3. **reactflow:**
-   - Componente `JanusMatrixFlow` para visualización avanzada de matrices
-   - Nodos arrastrables, zoom, paneo
-   - Ejemplo en `JanusMatrixFlowExample.tsx`
+4. **Mejoras en Janus Composer:**
+   - Extracción mejorada de verbos y complementos
+   - Detección de verbos por patrones y terminaciones
+   - Valores por defecto cuando no hay suficientes elementos
+   - Reglas de conjugación generadas automáticamente
+   - Siempre genera al menos un ejercicio
+   - Validaciones mejoradas (mínimo 2 opciones por columna)
 
-4. **recharts:**
-   - Componente `KrashenCharts` para visualizar estadísticas de input
-   - Gráficos de barras y área
-   - Integrado en Dashboard
+### Componentes Nuevos
 
-5. **use-undo:**
-   - Hook `useUndo` para funcionalidad deshacer/rehacer
-   - Integrado en `JanusMatrix` para deshacer selecciones de celdas
+1. **WordSelector (`src/components/transcript/WordSelector.tsx`):**
+   - Selección directa de palabras en transcript
+   - Lista compacta de palabras seleccionadas
+   - Traducción automática
+   - Creación de cards SRS
+   - Integración con diccionario de palabras
 
-### Correcciones Técnicas
+2. **QuickReviewButton (`src/components/transcript/QuickReviewButton.tsx`):**
+   - Botón flotante para iniciar repaso rápido
+   - Muestra contador de cards pendientes
+   - Filtrado por fuente actual
+   - Disponible en todas las páginas INPUT
 
-1. **Errores de Hidratación SSR:**
-   - `CountUpNumber` ahora detecta montaje del cliente
-   - Renderiza valor estático en servidor, anima en cliente
-   - Evita discrepancias entre servidor y cliente
+3. **TranscriptSelector (`src/components/transcript/TranscriptSelector.tsx`):**
+   - Visualización de transcript
+   - Selección de texto y palabras
+   - Integración con WordSelector
+   - Modos de selección (text/phrase)
 
-2. **Carga de Imágenes:**
-   - Configurado `next.config.mjs` con `remotePatterns` para `picsum.photos`
-   - Cambiadas URLs de Unsplash a Picsum para evitar 404s
+### Integraciones Externas
 
-3. **Carga de Audio:**
-   - Audio cargado solo cuando el usuario inicia el ejercicio
-   - Manejo de errores con `onloaderror` en Howler.js
-   - Ejercicios funcionan sin audio si falla la carga
+1. **YouTube Transcript API:**
+   - Integración con youtube-transcript.io
+   - API route `/api/youtube/transcript`
+   - Fallback a scraping manual
+   - Manejo de errores robusto
+   - Logging extensivo para debugging
 
-4. **Canvas Rendering:**
-   - Glyph Weaving y Echo Stream ahora renderizan correctamente
-   - Canvas dimensionado dinámicamente según contenido
-   - Lógica de dibujo mejorada con `useEffect` dependencies
+2. **Servicio de Traducción:**
+   - Google Translate API (si está configurado)
+   - Fallback a MyMemory Translation API
+   - API route `/api/translate`
+   - Traducción automática de palabras extraídas
 
-### Archivos Creados/Modificados Recientemente
+### Mejoras UX
 
-**Nuevos Componentes:**
-- `src/components/ui/CountUpNumber.tsx`
-- `src/components/ui/ParticlesSurge.tsx`
-- `src/components/ui/XPSurgeEffect.tsx`
-- `src/components/janus/JanusMatrixFlow.tsx`
-- `src/components/janus/JanusMatrixFlowExample.tsx`
-- `src/components/dashboard/KrashenCharts.tsx`
-- `src/hooks/useUndo.ts`
+1. **Navegación:**
+   - BottomNav actualizado con "Input" y "Decks"
+   - Flujo intuitivo entre consumo y repaso
+   - Navegación clara entre páginas relacionadas
 
-**Componentes Modificados:**
-- `src/app/tree/leaf/[leafId]/page.tsx` (sistema completo de lecciones)
-- `src/components/exercises/ClozeExercise.tsx` (traducciones opcionales, haptic, keyboard shortcuts)
-- `src/components/exercises/ShadowingExercise.tsx` (traducciones opcionales)
-- `src/components/exercises/VariationsExercise.tsx` (traducciones opcionales)
-- `src/components/exercises/ShardDetectionExercise.tsx` (traducciones opcionales)
-- `src/components/exercises/EchoStreamExercise.tsx` (traducciones opcionales, carga de audio mejorada)
-- `src/components/exercises/GlyphWeavingExercise.tsx` (canvas rendering mejorado)
-- `src/components/layout/Header.tsx` (integración CountUpNumber)
-- `src/app/dashboard/page.tsx` (integración KrashenCharts y CountUpNumber)
-- `src/app/layout.tsx` (integración XPSurgeEffect)
-- `src/components/janus/JanusMatrix.tsx` (integración useUndo)
+2. **Perfil de Usuario:**
+   - Selector de modo (Guiado/Autónomo)
+   - Persistencia de preferencias en `useUserStore`
+   - Descripción de cada modo
 
-**Servicios:**
-- `src/services/lessonLoader.ts` (carga dinámica de lecciones)
+3. **Feedback Visual:**
+   - Contadores de progreso visibles
+   - Indicadores de estado (new, due, mastered)
+   - Botones Quick Review con contadores
 
-**Schemas:**
-- `src/schemas/content.ts` (LessonContentSchema con modos y ejercicios core)
+### Correcciones Técnicas Recientes
 
-**Contenido:**
-- `content/fr/A1/lessons/leaf-1-1-greetings.json` (lección completa con todos los ejercicios)
+1. **Generación de Ejercicios Janus:**
+   - Mejoras en extracción de componentes
+   - Validaciones mejoradas
+   - Logs de depuración añadidos
+   - Manejo de casos edge (pocas frases)
 
-**Configuración:**
-- `next.config.mjs` (remotePatterns para imágenes)
-- `package.json` (nuevas dependencias)
+2. **Hooks de React:**
+   - Consolidación de múltiples `useInputStore` calls
+   - Uso de `useMemo` para cálculos costosos
+   - Prevención de "Maximum update depth exceeded"
 
-**Documentación:**
-- `src/lib/integrations-guide.md` (guía de uso de nuevas librerías)
+3. **Validaciones:**
+   - Validación de frases antes de generar ejercicios
+   - Filtrado de frases vacías
+   - Manejo de arrays vacíos
+
+## Archivos Creados/Modificados Recientemente
+
+### Nuevos Componentes
+- `src/components/transcript/WordSelector.tsx`
+- `src/components/transcript/QuickReviewButton.tsx`
+- `src/components/transcript/TranscriptSelector.tsx` (mejorado)
+
+### Nuevos Servicios
+- `src/services/wordExtractor.ts`
+- `src/services/wordExerciseGenerator.ts`
+- `src/services/translationService.ts`
+- `src/services/generateExercisesFromPhrases.ts` (mejorado)
+
+### Nuevos Stores
+- `src/store/useWordDictionaryStore.ts`
+- `src/store/useSRSStore.ts` (mejorado)
+- `src/store/useInputStore.ts` (mejorado)
+- `src/store/useUserStore.ts` (mejorado con modo de aprendizaje)
+
+### Nuevas Páginas
+- `src/app/input/page.tsx` (hub INPUT)
+- `src/app/input/video/page.tsx`
+- `src/app/input/audio/page.tsx`
+- `src/app/input/text/page.tsx`
+- `src/app/decks/page.tsx` (dashboard SRS)
+- `src/app/decks/review/page.tsx` (sesiones de repaso)
+- `src/app/learn/imported/[nodeId]/exercises/page.tsx` (mejorado)
+
+### Nuevas API Routes
+- `src/app/api/youtube/transcript/route.ts`
+- `src/app/api/translate/route.ts`
+
+### Nuevos Types
+- `src/types/srs.ts`
+- `src/types/wordDictionary.ts`
 
 ## Próximos Pasos
 
-### Contenido Pendiente
-1. **Audio Files:** Crear archivos de audio para ejercicios Echo Stream, Glyph Weaving, Resonance Path
-2. **Más Lecciones:** Expandir contenido para otras lecciones del Topic Tree
-3. **Forge Mandate:** Implementar ejercicio orquestador que combina otros ejercicios
+### Inmediatos
+1. **Sistema de Misiones:**
+   - Integrar warm-ups cognitivos
+   - Crear sistema de misiones diarias
+   - Transiciones fluidas entre warm-up y misión
 
-### Optimizaciones
-1. **Performance:** Lazy loading de ejercicios core
-2. **Caching:** Mejorar caché de contenido de lecciones
-3. **Offline:** Preparar contenido para modo offline (PWA)
+2. **Mejoras en Ejercicios:**
+   - Optimizar generación de ejercicios Janus
+   - Añadir más variaciones de ejercicios
+   - Mejorar feedback visual
 
-### Testing
-1. **E2E Tests:** Tests de flujo completo de lección
-2. **Unit Tests:** Tests para nuevos componentes
-3. **Visual Regression:** Tests de UI para ejercicios
+### Corto Plazo
+1. **Backend:**
+   - Integrar Supabase Auth
+   - Implementar Sync Service
+   - Service Worker / PWA
+
+2. **Contenido:**
+   - Expandir contenido importado
+   - Crear más ejemplos de ejercicios
+   - Mejorar traducciones automáticas
+
+### Medio Plazo
+1. **Optimizaciones:**
+   - Lazy loading de ejercicios
+   - Cache de traducciones
+   - Mejorar performance general
+
+2. **Testing:**
+   - Tests E2E para flujos principales
+   - Tests unitarios para servicios
+   - Visual regression tests
 
 ## Decisiones Técnicas Recientes
 
-1. **SSR Compatibility:** Todos los componentes con animaciones deben ser compatibles con SSR
-2. **Image Loading:** Usar Picsum en lugar de Unsplash para desarrollo (más confiable)
-3. **Audio Loading:** Cargar audio solo cuando el usuario inicia el ejercicio (mejor performance)
-4. **Translation Visibility:** Traducciones ocultas por defecto, toggle explícito del usuario
-5. **Exercise Flow:** En Academia, completar todas las frases de un tipo antes de volver al menú
+1. **Generación de Ejercicios:** Siempre generar al menos un ejercicio, incluso con pocas frases
+2. **Extracción de Palabras:** Usar heurísticas mejoradas para identificar tipos de palabras
+3. **Traducción:** Automática para todas las palabras extraídas
+4. **SRS:** Algoritmo SM-2 con metadata completa de fuente
+5. **Validaciones:** Validar datos antes de procesar para evitar errores
 
 ## Métricas Actuales
 
-### Ejercicios Implementados
-| Tipo | Estado | Cantidad en Lección |
-|------|--------|---------------------|
-| Cloze | ✅ | 8 frases |
-| Shadowing | ✅ | 8 frases |
-| Variations | ✅ | 8 frases |
-| Pragma Strike | ✅ | 3 ejercicios |
-| Shard Detection | ✅ | 4 ejercicios |
-| Echo Stream | ✅ | 2 ejercicios |
-| Glyph Weaving | ✅ | 1 ejercicio |
-| Resonance Path | ✅ | 3 ejercicios |
-| **Total** | | **37 ejercicios** |
+### Sistema INPUT
+- ✅ 3 tipos de input (video/audio/texto)
+- ✅ Tracking completo de métricas
+- ✅ Extracción automática de transcripciones
+- ✅ Selección de palabras clave
 
-### Librerías Integradas
-- ✅ react-countup
-- ✅ @tsparticles/react + @tsparticles/engine
-- ✅ reactflow
-- ✅ recharts
-- ✅ use-undo
+### Sistema SRS
+- ✅ Algoritmo SM-2 implementado
+- ✅ Dashboard completo
+- ✅ Sesiones de repaso funcionales
+- ✅ Integración con INPUT
 
-### Mejoras UX Implementadas
-- ✅ Feedback háptico
-- ✅ Traducciones opcionales
-- ✅ Menú de ejercicios mejorado
-- ✅ Navegación optimizada
-- ✅ Atajos de teclado
-- ✅ Recompensas variables
-- ✅ Efectos de partículas
+### Ejercicios Importados
+- ✅ 5 tipos de ejercicios generados automáticamente
+- ✅ Modos Academia y Desafío
+- ✅ Progreso tracking
+- ✅ Mejoras en Janus Composer
 
 ## Bloqueadores Actuales
 
-Ninguno. El sistema está funcional y listo para expandir contenido.
+Ninguno. El sistema está funcional y listo para expandir funcionalidades.
 
 ## Notas de Desarrollo
 
@@ -233,25 +299,26 @@ npm run dev
 # Build
 npm run build
 
-# Tests
-npm run test
-npm run test:watch
-npm run test:coverage
+# Linting
+npm run lint
 ```
 
-### Estructura de Lecciones
+### Estructura de Stores
 ```
-content/
-└── {language}/
-    └── {level}/
-        └── lessons/
-            └── leaf-{id}-{name}.json
+src/store/
+├── useSRSStore.ts          # Sistema SRS
+├── useInputStore.ts        # Métricas INPUT
+├── useImportedNodesStore.ts # Contenido importado
+├── useWordDictionaryStore.ts # Diccionario de palabras
+└── useUserStore.ts         # Configuración usuario
 ```
 
-### Estructura de Ejercicios Core
-Cada ejercicio tiene su propio componente en `src/components/exercises/`:
-- `ShardDetectionExercise.tsx`
-- `PragmaStrikeExercise.tsx`
-- `EchoStreamExercise.tsx`
-- `GlyphWeavingExercise.tsx`
-- `ResonancePathExercise.tsx`
+### Estructura de Servicios
+```
+src/services/
+├── generateExercisesFromPhrases.ts  # Generación ejercicios
+├── wordExtractor.ts                  # Extracción palabras
+├── wordExerciseGenerator.ts          # Generación ejercicios desde palabras
+├── translationService.ts             # Traducción automática
+└── conjugationService.ts             # Conjugación francesa
+```
