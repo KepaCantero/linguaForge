@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { STREAK_CONFIG, HP_CONFIG } from '@/lib/constants';
 import { useGamificationStore } from './useGamificationStore';
+import type { MissionType as WarmupMissionType } from '@/schemas/warmup';
 
 export type MissionType =
   | { type: 'input'; targetMinutes: number; currentMinutes: number }
@@ -24,6 +25,10 @@ export interface Mission {
   };
   completed: boolean;
   completedAt?: string;
+  // Nuevos campos para calentamientos
+  warmupId?: string;
+  warmupMissionType?: WarmupMissionType; // 'grammar' | 'vocabulary' | 'pronunciation' | 'mixed'
+  difficulty?: 'low' | 'medium' | 'high';
 }
 
 export interface MissionCompletion {
@@ -48,6 +53,10 @@ interface MissionStore {
   getMissionProgress: (missionId: string) => number;
   areAllMissionsComplete: () => boolean;
   checkDailyHP: () => void; // Verificar y reducir HP si es necesario
+  
+  // Nuevos métodos para calentamientos
+  getWarmupForMission: (missionId: string) => { warmupId?: string; warmupMissionType?: WarmupMissionType } | null;
+  setWarmupForMission: (missionId: string, warmupId: string, warmupMissionType: WarmupMissionType) => void;
 }
 
 function getDateString(date: Date): string {
@@ -84,7 +93,15 @@ export const useMissionStore = create<MissionStore>()(
         // Generar 3-4 misiones diarias
         const missions: Mission[] = [];
 
-        // Misión 1: Input (siempre presente)
+        // Determinar dificultad basada en nivel
+        const getDifficulty = (): 'low' | 'medium' | 'high' => {
+          if (userLevel <= 3) return 'low';
+          if (userLevel <= 6) return 'medium';
+          return 'high';
+        };
+        const difficulty = getDifficulty();
+
+        // Misión 1: Input (siempre presente) - Calentamiento: Visual Match (vocabulario)
         missions.push({
           id: generateMissionId('input', 0),
           type: 'input',
@@ -94,9 +111,11 @@ export const useMissionStore = create<MissionStore>()(
           current: 0,
           reward: { xp: 25, coins: 10 },
           completed: false,
+          warmupMissionType: 'vocabulary', // Input activa vocabulario
+          difficulty,
         });
 
-        // Misión 2: Ejercicios
+        // Misión 2: Ejercicios - Calentamiento: Rhythm Sequence (gramática)
         missions.push({
           id: generateMissionId('exercises', 1),
           type: 'exercises',
@@ -106,9 +125,11 @@ export const useMissionStore = create<MissionStore>()(
           current: 0,
           reward: { xp: 30, coins: 15 },
           completed: false,
+          warmupMissionType: 'grammar', // Ejercicios activan gramática
+          difficulty,
         });
 
-        // Misión 3: Janus (si el usuario tiene nivel suficiente)
+        // Misión 3: Janus (si el usuario tiene nivel suficiente) - Calentamiento: Rhythm Sequence (gramática)
         if (userLevel >= 2) {
           missions.push({
             id: generateMissionId('janus', 2),
@@ -119,10 +140,12 @@ export const useMissionStore = create<MissionStore>()(
             current: 0,
             reward: { xp: 20, coins: 10 },
             completed: false,
+            warmupMissionType: 'grammar', // Janus activa gramática
+            difficulty: userLevel <= 4 ? 'medium' : 'high',
           });
         }
 
-        // Misión 4: Forge Mandate (siempre presente)
+        // Misión 4: Forge Mandate (siempre presente) - Calentamiento: Mixed (usa el más relevante)
         missions.push({
           id: generateMissionId('forgeMandate', 3),
           type: 'forgeMandate',
@@ -132,6 +155,8 @@ export const useMissionStore = create<MissionStore>()(
           current: 0,
           reward: { xp: 100, coins: 50, gems: 20 },
           completed: false,
+          warmupMissionType: 'mixed', // Forge Mandate es mixto
+          difficulty: 'medium',
         });
 
         set({
@@ -238,6 +263,30 @@ export const useMissionStore = create<MissionStore>()(
 
         // Generar nuevas misiones para hoy
         get().generateDailyMissions();
+      },
+      
+      // Obtener información de calentamiento para una misión
+      getWarmupForMission: (missionId: string) => {
+        const state = get();
+        const mission = state.dailyMissions.find(m => m.id === missionId);
+        if (!mission) return null;
+        
+        return {
+          warmupId: mission.warmupId,
+          warmupMissionType: mission.warmupMissionType,
+        };
+      },
+      
+      // Establecer calentamiento para una misión
+      setWarmupForMission: (missionId: string, warmupId: string, warmupMissionType: WarmupMissionType) => {
+        const state = get();
+        const updatedMissions = state.dailyMissions.map(m =>
+          m.id === missionId
+            ? { ...m, warmupId, warmupMissionType }
+            : m
+        );
+        
+        set({ dailyMissions: updatedMissions });
       },
     }),
     {

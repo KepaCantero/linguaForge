@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useRef } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTreeProgressStore } from '@/store/useTreeProgressStore';
 import {
@@ -16,14 +16,24 @@ import {
 export function useProgressSync() {
   const { user } = useAuth();
   const { treeProgress } = useTreeProgressStore();
+  const syncedRef = useRef<Set<string>>(new Set());
 
   // Sincronizar progreso al montar si hay usuario
   useEffect(() => {
     if (!user) return;
 
     const syncAllProgress = async () => {
-      for (const [, progress] of Object.entries(treeProgress)) {
-        await syncProgressToSupabase(user.id, progress);
+      const progressKeys = Object.keys(treeProgress);
+      const newKeys = progressKeys.filter(key => !syncedRef.current.has(key));
+      
+      if (newKeys.length === 0) return;
+
+      for (const key of newKeys) {
+        const progress = treeProgress[key];
+        if (progress) {
+          await syncProgressToSupabase(user.id, progress);
+          syncedRef.current.add(key);
+        }
       }
     };
 

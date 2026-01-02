@@ -151,6 +151,103 @@ export type {
   HunterRankInfo,
 } from '@/lib/constants';
 
+// Re-export new exercise types
+export type {
+  ConversationalEcho,
+  ConversationalEchoResponse,
+  DialogueIntonation,
+  DialogueIntonationTurn,
+  InteractiveSpeech,
+  InteractiveSpeechNode,
+  JanusComposer,
+  JanusComposerColumn,
+} from '@/schemas/content';
+
+export {
+  ConversationalEchoSchema,
+  DialogueIntonationSchema,
+  InteractiveSpeechSchema,
+  JanusComposerSchema,
+} from '@/schemas/content';
+
+// ============================================================
+// EVALUATION RESULT TYPES (for new exercises)
+// ============================================================
+
+// Conversational Echo evaluation
+export interface EchoEvaluationResult {
+  isValid: boolean;
+  matchedResponse: string | null;
+  scores: {
+    intention: number; // 0-100: ¿La respuesta tiene sentido?
+    keywords: number; // 0-100: ¿Contiene palabras clave?
+    rhythm: number; // 0-100: ¿Fluye naturalmente?
+  };
+  feedback: {
+    type: 'perfect' | 'acceptable' | 'poor' | 'out_of_context' | 'timeout';
+    message: string;
+    tip?: string;
+  };
+  xpEarned: number;
+}
+
+// Dialogue Intonation evaluation
+export interface RhythmAnalysis {
+  pattern: number[]; // Duración de cada segmento en ms
+  pauses: number[]; // Duración de pausas en ms
+  overallSimilarity: number; // 0-100 comparado con nativo
+  feedback?: string;
+}
+
+export interface IntonationEvaluationResult {
+  turnIndex: number;
+  rhythmAnalysis: RhythmAnalysis;
+  isAcceptable: boolean; // >= 70% similarity
+  xpEarned: number;
+}
+
+// Interactive Speech evaluation
+export interface SpeechTurnResult {
+  turnIndex: number;
+  responseTime: number; // ms
+  detectedText: string;
+  isValidResponse: boolean;
+  fluencyScore: number; // 0-100
+}
+
+export interface InteractiveSpeechResult {
+  completedTurns: number;
+  totalTurns: number;
+  averageResponseTime: number;
+  overallFluency: number;
+  xpEarned: number;
+}
+
+// Janus Composer evaluation
+export interface JanusCompositionResult {
+  selectedOptions: Record<string, string>; // columnId -> optionId
+  generatedPhrase: string;
+  conjugatedPhrase: string; // Con conjugación automática
+  translation: string;
+  audioUrl?: string;
+  isGrammaticallyCorrect: boolean;
+}
+
+// Speech Recording types
+export interface SpeechRecordingResult {
+  audioBlob: Blob;
+  duration: number; // ms
+  transcript?: string; // Si se usa Web Speech API
+  confidence?: number; // 0-1
+}
+
+export interface SpeechRecorderConfig {
+  maxDuration: number; // segundos
+  silenceThreshold: number; // 0-1
+  silenceTimeout: number; // ms antes de auto-stop
+  autoStart: boolean;
+}
+
 // Re-export SRS types
 export type {
   ReviewResponse,

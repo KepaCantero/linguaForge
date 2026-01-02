@@ -740,6 +740,353 @@
         "nativeIntonation": [50, 55, 60, 65, 70, 65, 60],
         "targetAccuracy": 75
       }
+    ],
+    "conversationalEcho": [
+      {
+        "id": "echo-a0-saludos-tienda",
+        "blockId": "bloque-a1-saludo-formal-tienda",
+        "systemPhrase": {
+          "text": "Bonjour, comment puis-je vous aider ?",
+          "translation": "Buenos días, ¿cómo puedo ayudarle?",
+          "audioUrl": "/audio/fr/a0/saludos/bonjour-comment-puis-je-vous-aider.mp3",
+          "duration": 3.5
+        },
+        "expectedResponses": [
+          {
+            "text": "Bonjour, je cherche un café, s'il vous plaît.",
+            "keywords": ["Bonjour", "cherche", "café", "s'il vous plaît"],
+            "isOptimal": true
+          },
+          {
+            "text": "Bonjour, merci beaucoup.",
+            "keywords": ["Bonjour", "merci"],
+            "isOptimal": false
+          },
+          {
+            "text": "Bonjour, je voudrais quelque chose.",
+            "keywords": ["Bonjour", "voudrais"],
+            "isOptimal": false
+          }
+        ],
+        "context": {
+          "scene": "Llegando a una tienda",
+          "role": "customer",
+          "formality": "formal"
+        },
+        "config": {
+          "maxRecordingTime": 5,
+          "silenceTimeout": 3,
+          "showHint": true
+        }
+      },
+      {
+        "id": "echo-a0-saludos-airbnb",
+        "blockId": "bloque-a1-saludo-formal-tienda",
+        "systemPhrase": {
+          "text": "Bonjour Madame ! Bienvenue !",
+          "translation": "¡Buenos días señora! ¡Bienvenida!",
+          "audioUrl": "/audio/fr/a0/saludos/bonjour-bienvenue.mp3",
+          "duration": 3.0
+        },
+        "expectedResponses": [
+          {
+            "text": "Bonjour, merci beaucoup !",
+            "keywords": ["Bonjour", "merci"],
+            "isOptimal": true
+          },
+          {
+            "text": "Bonjour, c'est très gentil.",
+            "keywords": ["Bonjour", "gentil"],
+            "isOptimal": false
+          },
+          {
+            "text": "Merci, bonjour !",
+            "keywords": ["Merci", "bonjour"],
+            "isOptimal": false
+          }
+        ],
+        "context": {
+          "scene": "Llegando al Airbnb",
+          "role": "guest",
+          "formality": "formal"
+        },
+        "config": {
+          "maxRecordingTime": 4,
+          "silenceTimeout": 3,
+          "showHint": true
+        }
+      }
+    ],
+    "dialogueIntonation": [
+      {
+        "id": "dialogue-a0-saludos-tienda",
+        "blockId": "bloque-a1-saludo-formal-tienda",
+        "dialogue": [
+          {
+            "speaker": "system",
+            "text": "Bonjour, comment puis-je vous aider ?",
+            "translation": "Buenos días, ¿cómo puedo ayudarle?",
+            "audioUrl": "/audio/fr/a0/saludos/dialogue-system-1.mp3",
+            "duration": 3.5
+          },
+          {
+            "speaker": "user",
+            "text": "Bonjour, je cherche un café, s'il vous plaît.",
+            "translation": "Buenos días, busco un café, por favor.",
+            "audioUrl": "/audio/fr/a0/saludos/dialogue-user-1.mp3",
+            "duration": 3.0
+          },
+          {
+            "speaker": "system",
+            "text": "Bien sûr, c'est par là.",
+            "translation": "Por supuesto, está por ahí.",
+            "audioUrl": "/audio/fr/a0/saludos/dialogue-system-2.mp3",
+            "duration": 2.5
+          },
+          {
+            "speaker": "user",
+            "text": "Merci beaucoup !",
+            "translation": "¡Muchas gracias!",
+            "audioUrl": "/audio/fr/a0/saludos/dialogue-user-2.mp3",
+            "duration": 1.5
+          }
+        ],
+        "userTurns": [1, 3],
+        "rhythmPatterns": [
+          {
+            "turnIndex": 1,
+            "segments": [800, 600, 900, 700, 500],
+            "pauses": [200, 150, 200, 150]
+          },
+          {
+            "turnIndex": 3,
+            "segments": [600, 900],
+            "pauses": [200]
+          }
+        ]
+      }
+    ],
+    "interactiveSpeech": [
+      {
+        "id": "interactive-a0-saludos-completo",
+        "blockId": "bloque-a1-saludo-formal-tienda",
+        "conversationFlow": [
+          {
+            "type": "system_speak",
+            "text": "Bonjour Madame ! Bienvenue dans notre magasin.",
+            "translation": "¡Buenos días señora! Bienvenida a nuestra tienda.",
+            "audioUrl": "/audio/fr/a0/saludos/interactive-system-1.mp3",
+            "expectedResponses": [
+              "Bonjour, merci beaucoup !",
+              "Bonjour, c'est très gentil.",
+              "Merci, bonjour !"
+            ]
+          },
+          {
+            "type": "user_response",
+            "text": "",
+            "translation": "",
+            "audioUrl": "",
+            "expectedResponses": [
+              "Bonjour, merci beaucoup !",
+              "Bonjour, c'est très gentil.",
+              "Merci, bonjour !"
+            ]
+          },
+          {
+            "type": "system_speak",
+            "text": "Comment puis-je vous aider aujourd'hui ?",
+            "translation": "¿Cómo puedo ayudarle hoy?",
+            "audioUrl": "/audio/fr/a0/saludos/interactive-system-2.mp3",
+            "expectedResponses": [
+              "Je cherche un café, s'il vous plaît.",
+              "Je voudrais un café.",
+              "Où est le café, s'il vous plaît ?"
+            ]
+          },
+          {
+            "type": "user_response",
+            "text": "",
+            "translation": "",
+            "audioUrl": "",
+            "expectedResponses": [
+              "Je cherche un café, s'il vous plaît.",
+              "Je voudrais un café.",
+              "Où est le café, s'il vous plaît ?"
+            ]
+          },
+          {
+            "type": "closing",
+            "text": "Parfait, c'est par là. Bonne journée !",
+            "translation": "Perfecto, está por ahí. ¡Que tenga un buen día!",
+            "audioUrl": "/audio/fr/a0/saludos/interactive-system-3.mp3",
+            "closingPhrases": [
+              "Merci beaucoup, bonne journée !",
+              "Merci, au revoir !",
+              "Au revoir et merci !"
+            ]
+          }
+        ],
+        "silenceHandling": {
+          "hintAfter": 3,
+          "exampleAfter": 6,
+          "autoPromptAfter": 10
+        }
+      }
+    ],
+    "janusComposer": [
+      {
+        "id": "janus-a0-saludos",
+        "columns": [
+          {
+            "id": "subject",
+            "title": "SUJETO",
+            "type": "subject",
+            "options": [
+              {
+                "id": "je",
+                "text": "Je",
+                "translation": "Yo"
+              },
+              {
+                "id": "tu",
+                "text": "Tu",
+                "translation": "Tú"
+              },
+              {
+                "id": "vous",
+                "text": "Vous",
+                "translation": "Usted/Ustedes"
+              }
+            ]
+          },
+          {
+            "id": "verb",
+            "title": "VERBO",
+            "type": "verb",
+            "options": [
+              {
+                "id": "dire",
+                "text": "dire",
+                "translation": "decir"
+              },
+              {
+                "id": "vouloir",
+                "text": "vouloir",
+                "translation": "querer"
+              },
+              {
+                "id": "chercher",
+                "text": "chercher",
+                "translation": "buscar"
+              }
+            ]
+          },
+          {
+            "id": "greeting",
+            "title": "SALUDO",
+            "type": "complement",
+            "options": [
+              {
+                "id": "bonjour",
+                "text": "Bonjour",
+                "translation": "Buenos días"
+              },
+              {
+                "id": "salut",
+                "text": "Salut",
+                "translation": "Hola"
+              },
+              {
+                "id": "merci",
+                "text": "merci",
+                "translation": "gracias"
+              }
+            ]
+          },
+          {
+            "id": "polite",
+            "title": "CORTESÍA",
+            "type": "complement",
+            "options": [
+              {
+                "id": "s'il vous plaît",
+                "text": "s'il vous plaît",
+                "translation": "por favor"
+              },
+              {
+                "id": "beaucoup",
+                "text": "beaucoup",
+                "translation": "mucho/muchas"
+              },
+              {
+                "id": "madame",
+                "text": "Madame",
+                "translation": "señora"
+              }
+            ]
+          }
+        ],
+        "conjugationRules": [
+          {
+            "verb": "dire",
+            "subject": "je",
+            "conjugated": "dis"
+          },
+          {
+            "verb": "dire",
+            "subject": "tu",
+            "conjugated": "dis"
+          },
+          {
+            "verb": "dire",
+            "subject": "vous",
+            "conjugated": "dites"
+          },
+          {
+            "verb": "vouloir",
+            "subject": "je",
+            "conjugated": "veux"
+          },
+          {
+            "verb": "vouloir",
+            "subject": "tu",
+            "conjugated": "veux"
+          },
+          {
+            "verb": "vouloir",
+            "subject": "vous",
+            "conjugated": "voulez"
+          },
+          {
+            "verb": "chercher",
+            "subject": "je",
+            "conjugated": "cherche"
+          },
+          {
+            "verb": "chercher",
+            "subject": "tu",
+            "conjugated": "cherches"
+          },
+          {
+            "verb": "chercher",
+            "subject": "vous",
+            "conjugated": "cherchez"
+          }
+        ],
+        "practiceDialogues": [
+          {
+            "id": "dialogue-1",
+            "prompt": "Comment saluer quelqu'un dans un magasin ?",
+            "response": "Ah super ! Bonne journée !"
+          },
+          {
+            "id": "dialogue-2",
+            "prompt": "Comment demander quelque chose poliment ?",
+            "response": "Parfait, c'est par là."
+          }
+        ]
+      }
     ]
   },
   "miniTest": {

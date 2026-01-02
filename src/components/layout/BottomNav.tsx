@@ -6,27 +6,27 @@ import { motion } from "framer-motion";
 
 const navItems = [
   {
-    href: "/tree",
+    href: "/learn",
     icon: "⬡",
-    label: "Lattice",
-    ariaLabel: "Árbol de aprendizaje",
+    label: "Mapa",
+    ariaLabel: "Mapa de aprendizaje",
   },
   {
     href: "/input",
     icon: "◎",
-    label: "Echo",
-    ariaLabel: "Contenido de escucha",
+    label: "Input",
+    ariaLabel: "Input de contenido",
   },
   {
-    href: "/dashboard",
-    icon: "◈",
-    label: "Forge",
-    ariaLabel: "Panel de progreso",
+    href: "/decks",
+    icon: "📚",
+    label: "Decks",
+    ariaLabel: "Dashboard de decks y repaso",
   },
   {
     href: "/profile",
     icon: "⬢",
-    label: "Glyph",
+    label: "Perfil",
     ariaLabel: "Perfil de usuario",
   },
 ];

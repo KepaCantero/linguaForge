@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { useProgressStore } from '@/store/useProgressStore';
 import { useInputStore } from '@/store/useInputStore';
 import { useGamificationStore } from '@/store/useGamificationStore';
+import { useUserStore } from '@/store/useUserStore';
 import { getLevelByXP, SUPPORTED_LANGUAGES, SUPPORTED_LEVELS } from '@/lib/constants';
 
 const LANGUAGE_INFO: Record<string, { flag: string; name: string }> = {
@@ -21,6 +22,7 @@ export default function ProfilePage() {
   } = useProgressStore();
   const { resetStats } = useInputStore();
   const { xp, level, resetGamification } = useGamificationStore();
+  const { mode, setMode } = useUserStore();
 
   const userLevel = getLevelByXP(xp);
 
@@ -132,6 +134,67 @@ export default function ProfilePage() {
         <p className="text-xs text-gray-500 dark:text-gray-400 mt-3 text-center">
           Niveles B1-C2 próximamente
         </p>
+      </motion.div>
+
+      {/* Selector de modo de aprendizaje */}
+      <motion.div
+        className="bg-white dark:bg-gray-800 rounded-xl p-6"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.17 }}
+      >
+        <h3 className="font-bold text-gray-900 dark:text-white mb-4">
+          Modo de aprendizaje
+        </h3>
+        <div className="grid grid-cols-2 gap-3">
+          <button
+            onClick={() => setMode('guided')}
+            className={`
+              p-4 rounded-xl flex flex-col items-start gap-2 transition-all
+              ${mode === 'guided'
+                ? 'bg-indigo-100 dark:bg-indigo-900 ring-2 ring-indigo-500'
+                : 'bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600'
+              }
+            `}
+          >
+            <div className="flex items-center gap-2">
+              <span className="text-2xl">🎯</span>
+              <span className={`font-bold ${mode === 'guided' ? 'text-indigo-700 dark:text-indigo-300' : 'text-gray-900 dark:text-white'}`}>
+                Modo Guiado
+              </span>
+            </div>
+            <p className={`text-xs text-left ${mode === 'guided' ? 'text-indigo-600 dark:text-indigo-400' : 'text-gray-500 dark:text-gray-400'}`}>
+              Ideal para principiantes. Aprende con lecciones estructuradas paso a paso.
+            </p>
+            {mode === 'guided' && (
+              <span className="text-xs text-indigo-600 dark:text-indigo-400 font-medium">✓ Activo</span>
+            )}
+          </button>
+
+          <button
+            onClick={() => setMode('autonomous')}
+            className={`
+              p-4 rounded-xl flex flex-col items-start gap-2 transition-all
+              ${mode === 'autonomous'
+                ? 'bg-indigo-100 dark:bg-indigo-900 ring-2 ring-indigo-500'
+                : 'bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600'
+              }
+            `}
+          >
+            <div className="flex items-center gap-2">
+              <span className="text-2xl">🚀</span>
+              <span className={`font-bold ${mode === 'autonomous' ? 'text-indigo-700 dark:text-indigo-300' : 'text-gray-900 dark:text-white'}`}>
+                Modo Autónomo
+              </span>
+            </div>
+            <p className={`text-xs text-left ${mode === 'autonomous' ? 'text-indigo-600 dark:text-indigo-400' : 'text-gray-500 dark:text-gray-400'}`}>
+              Para usuarios con base. Aprende desde contenido real que importes.
+            </p>
+            {mode === 'autonomous' && (
+              <span className="text-xs text-indigo-600 dark:text-indigo-400 font-medium">✓ Activo</span>
+            )}
+          </button>
+        </div>
       </motion.div>
 
       {/* Configuración */}

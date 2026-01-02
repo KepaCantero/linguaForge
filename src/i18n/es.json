@@ -1,0 +1,78 @@
+{
+  "app": {
+    "name": "LinguaForge",
+    "tagline": "Aprende francés de forma natural"
+  },
+  "onboarding": {
+    "welcome": "Bienvenido a LinguaForge",
+    "selectLanguage": "Selecciona el idioma de la app",
+    "selectMode": "¿Cómo quieres aprender francés?",
+    "guidedMode": {
+      "title": "Modo Guiado",
+      "description": "Empiezo desde cero",
+      "detail": "5 situaciones esenciales para sobrevivir",
+      "badge": "GRATIS"
+    },
+    "autonomousMode": {
+      "title": "Modo Autónomo",
+      "description": "Ya tengo una base",
+      "detail": "Aprende de podcasts y artículos reales"
+    },
+    "continue": "Continuar",
+    "start": "Comenzar"
+  },
+  "learn": {
+    "title": "Tu Camino",
+    "progress": "Progreso",
+    "locked": "Bloqueado",
+    "completed": "Completado",
+    "continue": "Continuar",
+    "start": "Empezar",
+    "nodes": {
+      "accommodation": {
+        "title": "Alojamiento",
+        "description": "Check-in, problemas, checkout"
+      },
+      "food": {
+        "title": "Comida",
+        "description": "Restaurantes, cafés, pedidos"
+      },
+      "transport": {
+        "title": "Transporte",
+        "description": "Metro, taxi, direcciones"
+      },
+      "health": {
+        "title": "Salud",
+        "description": "Farmacia, emergencias"
+      },
+      "recovery": {
+        "title": "Recuperación",
+        "description": "Pedir ayuda, repetir, clarificar"
+      }
+    }
+  },
+  "import": {
+    "title": "Importar Contenido",
+    "podcast": "Podcast",
+    "article": "Artículo",
+    "youtube": "YouTube",
+    "pasteUrl": "Pega una URL o texto",
+    "analyze": "Analizar",
+    "createNode": "Crear Nodo"
+  },
+  "profile": {
+    "title": "Perfil",
+    "appLanguage": "Idioma de la app",
+    "learningMode": "Modo de aprendizaje",
+    "settings": "Configuración",
+    "logout": "Cerrar sesión"
+  },
+  "common": {
+    "loading": "Cargando...",
+    "error": "Error",
+    "retry": "Reintentar",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "back": "Volver"
+  }
+}

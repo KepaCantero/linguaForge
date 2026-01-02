@@ -1,8 +1,21 @@
 'use client';
 
+import { Suspense } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { LoginForm } from '@/components/auth/LoginForm';
+
+function LoginFormFallback() {
+  return (
+    <div className="w-full max-w-md mx-auto p-6">
+      <div className="animate-pulse">
+        <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded mb-4" />
+        <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded mb-4" />
+        <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded" />
+      </div>
+    </div>
+  );
+}
 
 export default function LoginPage() {
   return (
@@ -21,7 +34,9 @@ export default function LoginPage() {
           </p>
         </motion.div>
 
-        <LoginForm />
+        <Suspense fallback={<LoginFormFallback />}>
+          <LoginForm />
+        </Suspense>
 
         <motion.div
           initial={{ opacity: 0 }}
@@ -43,4 +58,3 @@ export default function LoginPage() {
     </div>
   );
 }
-

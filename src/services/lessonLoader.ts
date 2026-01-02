@@ -77,7 +77,7 @@ export async function loadLesson(
     } catch (validationError) {
       console.error(`[LessonLoader] Validation error for ${leafId}:`, validationError);
       if (validationError instanceof z.ZodError) {
-        console.error('[LessonLoader] Validation errors:', validationError.errors);
+        console.error('[LessonLoader] Validation errors:', validationError.issues);
       }
       throw validationError;
     }

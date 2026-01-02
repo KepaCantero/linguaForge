@@ -1,0 +1,78 @@
+{
+  "app": {
+    "name": "LinguaForge",
+    "tagline": "Learn French naturally"
+  },
+  "onboarding": {
+    "welcome": "Welcome to LinguaForge",
+    "selectLanguage": "Select app language",
+    "selectMode": "How do you want to learn French?",
+    "guidedMode": {
+      "title": "Guided Mode",
+      "description": "I'm starting from scratch",
+      "detail": "5 essential situations to survive",
+      "badge": "FREE"
+    },
+    "autonomousMode": {
+      "title": "Autonomous Mode",
+      "description": "I already have a foundation",
+      "detail": "Learn from real podcasts and articles"
+    },
+    "continue": "Continue",
+    "start": "Start"
+  },
+  "learn": {
+    "title": "Your Path",
+    "progress": "Progress",
+    "locked": "Locked",
+    "completed": "Completed",
+    "continue": "Continue",
+    "start": "Start",
+    "nodes": {
+      "accommodation": {
+        "title": "Accommodation",
+        "description": "Check-in, problems, checkout"
+      },
+      "food": {
+        "title": "Food",
+        "description": "Restaurants, cafes, ordering"
+      },
+      "transport": {
+        "title": "Transport",
+        "description": "Metro, taxi, directions"
+      },
+      "health": {
+        "title": "Health",
+        "description": "Pharmacy, emergencies"
+      },
+      "recovery": {
+        "title": "Recovery",
+        "description": "Ask for help, repeat, clarify"
+      }
+    }
+  },
+  "import": {
+    "title": "Import Content",
+    "podcast": "Podcast",
+    "article": "Article",
+    "youtube": "YouTube",
+    "pasteUrl": "Paste a URL or text",
+    "analyze": "Analyze",
+    "createNode": "Create Node"
+  },
+  "profile": {
+    "title": "Profile",
+    "appLanguage": "App language",
+    "learningMode": "Learning mode",
+    "settings": "Settings",
+    "logout": "Log out"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "retry": "Retry",
+    "cancel": "Cancel",
+    "save": "Save",
+    "back": "Back"
+  }
+}

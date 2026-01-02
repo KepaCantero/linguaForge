@@ -239,6 +239,116 @@ export const GlyphWeavingSchema = z.object({
 });
 
 // ============================================================
+// NUEVOS EJERCICIOS REDISEÑADOS (v2.0)
+// ============================================================
+
+// Conversational Echo: Unifica EchoStream + ShardDetection
+export const ConversationalEchoSchema = z.object({
+  id: z.string(),
+  blockId: z.string(), // Referencia al bloque conversacional
+  systemPhrase: z.object({
+    text: z.string(),
+    translation: z.string(),
+    audioUrl: z.string(),
+    duration: z.number(),
+  }),
+  expectedResponses: z.array(
+    z.object({
+      text: z.string(),
+      keywords: z.array(z.string()), // Palabras clave obligatorias
+      isOptimal: z.boolean(), // Si es la mejor respuesta
+    })
+  ).min(1),
+  context: z.object({
+    scene: z.string(), // "Llegando al Airbnb"
+    role: z.enum(['guest', 'host', 'waiter', 'customer', 'other']),
+    formality: z.enum(['formal', 'informal']),
+  }),
+  config: z.object({
+    maxRecordingTime: z.number().default(5), // segundos
+    silenceTimeout: z.number().default(3), // segundos antes de prompt
+    showHint: z.boolean().default(true), // Mostrar respuestas esperadas
+  }).optional(),
+});
+
+// Dialogue Intonation: Reemplaza Shadowing clásico
+export const DialogueIntonationSchema = z.object({
+  id: z.string(),
+  blockId: z.string(), // Referencia al bloque conversacional
+  dialogue: z.array(
+    z.object({
+      speaker: z.enum(['system', 'user']),
+      text: z.string(),
+      translation: z.string(),
+      audioUrl: z.string(),
+      duration: z.number(),
+    })
+  ).min(2),
+  userTurns: z.array(z.number()), // Índices de turnos del usuario
+  rhythmPatterns: z.array(
+    z.object({
+      turnIndex: z.number(),
+      segments: z.array(z.number()), // Duración de segmentos en ms
+      pauses: z.array(z.number()), // Duración de pausas en ms
+    })
+  ).optional(),
+});
+
+// Interactive Speech: Pregunta ↔ Respuesta real
+export const InteractiveSpeechSchema = z.object({
+  id: z.string(),
+  blockId: z.string(),
+  conversationFlow: z.array(
+    z.object({
+      type: z.enum(['system_speak', 'user_response', 'user_initiate', 'closing']),
+      text: z.string(),
+      translation: z.string(),
+      audioUrl: z.string(),
+      expectedResponses: z.array(z.string()).optional(), // Para user_response
+      closingPhrases: z.array(z.string()).optional(), // Para closing
+    })
+  ).min(2),
+  silenceHandling: z.object({
+    hintAfter: z.number().default(3), // segundos
+    exampleAfter: z.number().default(6), // segundos
+    autoPromptAfter: z.number().default(10), // segundos
+  }).optional(),
+});
+
+// Janus Composer: Rediseño de Matrices Janus
+export const JanusComposerSchema = z.object({
+  id: z.string(),
+  columns: z.array(
+    z.object({
+      id: z.string(),
+      title: z.string(), // "SUJETO", "VERBO", etc.
+      type: z.enum(['subject', 'verb', 'complement', 'time', 'other']),
+      options: z.array(
+        z.object({
+          id: z.string(),
+          text: z.string(),
+          translation: z.string().optional(),
+        })
+      ).min(2),
+    })
+  ).min(2),
+  conjugationRules: z.array(
+    z.object({
+      verb: z.string(), // Infinitivo
+      subject: z.string(), // "je", "tu", etc.
+      conjugated: z.string(), // Forma conjugada
+    })
+  ).optional(),
+  practiceDialogues: z.array(
+    z.object({
+      id: z.string(),
+      prompt: z.string(),
+      response: z.string(),
+    })
+  ).optional(),
+});
+
+// ============================================================
 // EJERCICIOS DE BLOQUES CONVERSACIONALES
 // ============================================================
 
@@ -591,11 +701,16 @@ export const LessonContentSchema = z.object({
   // Ejercicios core v2.0 (según architectureStrategy.md)
   coreExercises: z.object({
     vocabulary: z.array(VocabularySchema).optional(),
-    shardDetection: z.array(ShardDetectionSchema).optional(),
+    shardDetection: z.array(ShardDetectionSchema).optional(), // DEPRECATED: usar conversationalEcho
     pragmaStrike: z.array(PragmaStrikeSchema).optional(),
-    echoStream: z.array(EchoStreamSchema).optional(),
-    glyphWeaving: z.array(GlyphWeavingSchema).optional(),
-    resonancePath: z.array(ResonancePathSchema).optional(),
+    echoStream: z.array(EchoStreamSchema).optional(), // DEPRECATED: usar conversationalEcho
+    glyphWeaving: z.array(GlyphWeavingSchema).optional(), // DEPRECATED: será eliminado
+    resonancePath: z.array(ResonancePathSchema).optional(), // DEPRECATED: usar dialogueIntonation
+    // Nuevos ejercicios rediseñados
+    conversationalEcho: z.array(ConversationalEchoSchema).optional(),
+    dialogueIntonation: z.array(DialogueIntonationSchema).optional(),
+    interactiveSpeech: z.array(InteractiveSpeechSchema).optional(),
+    janusComposer: z.array(JanusComposerSchema).optional(),
   }).optional(),
   // Input comprensible (diálogos)
   inputContent: z.array(InputContentSchema).min(1).max(3),
@@ -725,3 +840,13 @@ export type ActivitiesCollection = z.infer<typeof ActivitiesCollectionSchema>;
 // Lesson Content
 export type LessonMode = z.infer<typeof LessonModeSchema>;
 export type LessonContent = z.infer<typeof LessonContentSchema>;
+
+// Nuevos ejercicios rediseñados
+export type ConversationalEcho = z.infer<typeof ConversationalEchoSchema>;
+export type ConversationalEchoResponse = z.infer<typeof ConversationalEchoSchema>['expectedResponses'][number];
+export type DialogueIntonation = z.infer<typeof DialogueIntonationSchema>;
+export type DialogueIntonationTurn = z.infer<typeof DialogueIntonationSchema>['dialogue'][number];
+export type InteractiveSpeech = z.infer<typeof InteractiveSpeechSchema>;
+export type InteractiveSpeechNode = z.infer<typeof InteractiveSpeechSchema>['conversationFlow'][number];
+export type JanusComposer = z.infer<typeof JanusComposerSchema>;
+export type JanusComposerColumn = z.infer<typeof JanusComposerSchema>['columns'][number];
