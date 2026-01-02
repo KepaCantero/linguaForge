@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { useState, useCallback, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Howl } from 'howler';
-import { BlockEcho, ConversationalBlock } from '@/types';
-import { useGamificationStore } from '@/store/useGamificationStore';
-import { XP_RULES } from '@/lib/constants';
+import { useState, useCallback, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Howl } from "howler";
+import { BlockEcho, ConversationalBlock } from "@/types";
+import { useGamificationStore } from "@/store/useGamificationStore";
+import { XP_RULES } from "@/lib/constants";
 
 interface BlockEchoExerciseProps {
   exercise: BlockEcho;
@@ -13,11 +13,15 @@ interface BlockEchoExerciseProps {
   onComplete: (accuracy: number) => void;
 }
 
-type BlockEchoPhase = 'listening' | 'repeating' | 'complete';
+type BlockEchoPhase = "listening" | "repeating" | "complete";
 
-export function BlockEchoExercise({ exercise, block, onComplete }: BlockEchoExerciseProps) {
+export function BlockEchoExercise({
+  exercise,
+  block,
+  onComplete,
+}: BlockEchoExerciseProps) {
   const { addXP } = useGamificationStore();
-  const [phase, setPhase] = useState<BlockEchoPhase>('listening');
+  const [phase, setPhase] = useState<BlockEchoPhase>("listening");
   const [isPlaying, setIsPlaying] = useState(false);
   const [showTranslation, setShowTranslation] = useState(false);
   const soundRef = useRef<Howl | null>(null);
@@ -26,17 +30,17 @@ export function BlockEchoExercise({ exercise, block, onComplete }: BlockEchoExer
   useEffect(() => {
     soundRef.current = new Howl({
       src: [exercise.audioUrl],
-      format: ['mp3', 'ogg', 'wav'],
+      format: ["mp3", "ogg", "wav"],
       autoplay: false,
       onplay: () => setIsPlaying(true),
       onend: () => {
         setIsPlaying(false);
-        if (phase === 'listening') {
-          setPhase('repeating');
+        if (phase === "listening") {
+          setPhase("repeating");
         }
       },
       onloaderror: () => {
-        console.warn('Error loading audio, continuing without audio');
+        console.warn("Error loading audio, continuing without audio");
         setIsPlaying(false);
       },
     });
@@ -58,7 +62,7 @@ export function BlockEchoExercise({ exercise, block, onComplete }: BlockEchoExer
   }, [isPlaying]);
 
   const handleComplete = useCallback(() => {
-    setPhase('complete');
+    setPhase("complete");
     // Calcular precisión (simplificado - en producción usar análisis de audio real)
     const accuracy = 85; // Placeholder
     addXP(XP_RULES.shadowingComplete || 25);
@@ -72,7 +76,7 @@ export function BlockEchoExercise({ exercise, block, onComplete }: BlockEchoExer
     <div className="space-y-6">
       <AnimatePresence mode="wait">
         {/* Fase: Listening */}
-        {phase === 'listening' && (
+        {phase === "listening" && (
           <motion.div
             key="listening"
             initial={{ opacity: 0 }}
@@ -91,67 +95,45 @@ export function BlockEchoExercise({ exercise, block, onComplete }: BlockEchoExer
 
             {/* Bloque completo visualizado */}
             <div className="bg-white dark:bg-gray-800 rounded-xl p-6 space-y-4">
-              {/* Inicio */}
-              <div className="border-l-4 border-indigo-500 pl-4">
-                <div className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 mb-1">
-                  Inicio
-                </div>
-                <p className="text-sm font-medium text-gray-900 dark:text-white">
-                  {block.inicio.text}
-                </p>
-                {showTranslation && (
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                    {block.inicio.translation}
-                  </p>
-                )}
-              </div>
+              {/* Mostrar todas las frases del bloque */}
+              {block.phrases.map((phrase, idx) => {
+                const borderColors = [
+                  "border-indigo-500",
+                  "border-purple-500",
+                  "border-emerald-500",
+                  "border-amber-500",
+                ];
+                const textColors = [
+                  "text-indigo-600 dark:text-indigo-400",
+                  "text-purple-600 dark:text-purple-400",
+                  "text-emerald-600 dark:text-emerald-400",
+                  "text-amber-600 dark:text-amber-400",
+                ];
+                const labels = ["Inicio", "Desarrollo", "Resolución", "Cierre"];
+                const borderColor = borderColors[idx % borderColors.length];
+                const textColor = textColors[idx % textColors.length];
+                const label =
+                  idx < labels.length ? labels[idx] : `Frase ${idx + 1}`;
 
-              {/* Desarrollo */}
-              {block.desarrollo.map((comp, idx) => (
-                <div key={comp.id} className="border-l-4 border-purple-500 pl-4">
-                  <div className="text-xs font-semibold text-purple-600 dark:text-purple-400 mb-1">
-                    Desarrollo {idx + 1}
-                  </div>
-                  <p className="text-sm font-medium text-gray-900 dark:text-white">
-                    {comp.text}
-                  </p>
-                  {showTranslation && (
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                      {comp.translation}
+                return (
+                  <div
+                    key={phrase.id}
+                    className={`border-l-4 ${borderColor} pl-4`}
+                  >
+                    <div className={`text-xs font-semibold ${textColor} mb-1`}>
+                      {label}
+                    </div>
+                    <p className="text-sm font-medium text-gray-900 dark:text-white">
+                      {phrase.text}
                     </p>
-                  )}
-                </div>
-              ))}
-
-              {/* Resolución */}
-              <div className="border-l-4 border-emerald-500 pl-4">
-                <div className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 mb-1">
-                  Resolución
-                </div>
-                <p className="text-sm font-medium text-gray-900 dark:text-white">
-                  {block.resolucion.text}
-                </p>
-                {showTranslation && (
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                    {block.resolucion.translation}
-                  </p>
-                )}
-              </div>
-
-              {/* Cierre */}
-              <div className="border-l-4 border-amber-500 pl-4">
-                <div className="text-xs font-semibold text-amber-600 dark:text-amber-400 mb-1">
-                  Cierre
-                </div>
-                <p className="text-sm font-medium text-gray-900 dark:text-white">
-                  {block.cierre.text}
-                </p>
-                {showTranslation && (
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                    {block.cierre.translation}
-                  </p>
-                )}
-              </div>
+                    {showTranslation && (
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                        {phrase.translation}
+                      </p>
+                    )}
+                  </div>
+                );
+              })}
             </div>
 
             {/* Controles */}
@@ -160,27 +142,28 @@ export function BlockEchoExercise({ exercise, block, onComplete }: BlockEchoExer
                 onClick={() => setShowTranslation(!showTranslation)}
                 className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-300 dark:hover:bg-gray-600 transition-all"
               >
-                {showTranslation ? 'Ocultar' : 'Mostrar'} traducción
+                {showTranslation ? "Ocultar" : "Mostrar"} traducción
               </button>
               <button
                 onClick={handleRepeat}
                 disabled={isPlaying}
                 className={`
                   px-6 py-2 rounded-lg font-medium transition-all
-                  ${isPlaying
-                    ? 'bg-gray-200 dark:bg-gray-700 text-gray-500 cursor-not-allowed'
-                    : 'bg-indigo-500 text-white hover:bg-indigo-600'
+                  ${
+                    isPlaying
+                      ? "bg-gray-200 dark:bg-gray-700 text-gray-500 cursor-not-allowed"
+                      : "bg-indigo-500 text-white hover:bg-indigo-600"
                   }
                 `}
               >
-                {isPlaying ? '🔊 Reproduciendo...' : '🔈 Repetir'}
+                {isPlaying ? "🔊 Reproduciendo..." : "🔈 Repetir"}
               </button>
             </div>
           </motion.div>
         )}
 
         {/* Fase: Repeating */}
-        {phase === 'repeating' && (
+        {phase === "repeating" && (
           <motion.div
             key="repeating"
             initial={{ opacity: 0, scale: 0.9 }}
@@ -199,20 +182,14 @@ export function BlockEchoExercise({ exercise, block, onComplete }: BlockEchoExer
 
             {/* Bloque para repetir */}
             <div className="bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-xl p-6 space-y-3">
-              <p className="text-center text-sm font-medium text-gray-700 dark:text-gray-300">
-                {block.inicio.text}
-              </p>
-              {block.desarrollo.map((comp) => (
-                <p key={comp.id} className="text-center text-sm font-medium text-gray-700 dark:text-gray-300">
-                  {comp.text}
+              {block.phrases.map((phrase) => (
+                <p
+                  key={phrase.id}
+                  className="text-center text-sm font-medium text-gray-700 dark:text-gray-300"
+                >
+                  {phrase.text}
                 </p>
               ))}
-              <p className="text-center text-sm font-medium text-gray-700 dark:text-gray-300">
-                {block.resolucion.text}
-              </p>
-              <p className="text-center text-sm font-medium text-gray-700 dark:text-gray-300">
-                {block.cierre.text}
-              </p>
             </div>
 
             <div className="flex justify-center">
@@ -227,7 +204,7 @@ export function BlockEchoExercise({ exercise, block, onComplete }: BlockEchoExer
         )}
 
         {/* Fase: Complete */}
-        {phase === 'complete' && (
+        {phase === "complete" && (
           <motion.div
             key="complete"
             initial={{ opacity: 0, scale: 0.9 }}
@@ -247,4 +224,3 @@ export function BlockEchoExercise({ exercise, block, onComplete }: BlockEchoExer
     </div>
   );
 }
-

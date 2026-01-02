@@ -25,20 +25,9 @@ export function ClozeExercise({ phrase, block, onComplete }: ClozeExerciseProps)
 
   // Si hay un bloque, mostrar todas las frases del bloque con contexto
   const phrasesToShow = block?.phrases || [phrase];
-  const currentPhraseIndex = block?.phrases.findIndex(p => p.id === phrase.id) ?? 0;
 
   // Crear texto con hueco solo para la frase actual
   const textWithGap = phrase.text.replace(phrase.clozeWord, "______");
-  
-  // Crear texto completo del bloque con hueco solo en la frase actual
-  const blockTextWithGap = block 
-    ? block.phrases.map((p, idx) => {
-        if (p.id === phrase.id) {
-          return p.text.replace(p.clozeWord, "______");
-        }
-        return p.text;
-      }).join(" ")
-    : textWithGap;
 
   // Texto completo del bloque para reproducir
   const fullBlockText = block 
@@ -148,7 +137,7 @@ export function ClozeExercise({ phrase, block, onComplete }: ClozeExerciseProps)
         animate={{ opacity: 1, y: 0 }}
       >
         <div className="space-y-3">
-          {phrasesToShow.map((p, idx) => {
+          {phrasesToShow.map((p) => {
             const isCurrentPhrase = p.id === phrase.id;
             const phraseText = isCurrentPhrase 
               ? textWithGap 
@@ -161,7 +150,7 @@ export function ClozeExercise({ phrase, block, onComplete }: ClozeExerciseProps)
                     <span key={index}>
                       {part}
                       {index < array.length - 1 && (
-                        <span
+                        <motion.span
                           className={`
                           inline-block min-w-24 mx-1 px-3 py-1 rounded-lg font-bold
                           ${
@@ -172,13 +161,16 @@ export function ClozeExercise({ phrase, block, onComplete }: ClozeExerciseProps)
                               : "bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300"
                           }
                         `}
+                          initial={showResult && isCorrect ? { scale: 0.8 } : {}}
+                          animate={showResult && isCorrect ? { scale: [0.8, 1.1, 1] } : {}}
+                          transition={showResult && isCorrect ? { duration: 0.4 } : {}}
                         >
                           {showResult
                             ? isCorrect
                               ? selectedOption?.text
                               : correctOption?.text
                             : selectedOption?.text || "?"}
-                        </span>
+                        </motion.span>
                       )}
                     </span>
                   ))}
@@ -279,8 +271,21 @@ export function ClozeExercise({ phrase, block, onComplete }: ClozeExerciseProps)
                 border border-gray-200 dark:border-gray-700
               `}
               initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: index * 0.1 }}
+              animate={
+                showCorrect
+                  ? { 
+                      scale: [1, 1.15, 1], 
+                      boxShadow: [
+                        "0 0 0px rgba(16, 185, 129, 0)", 
+                        "0 0 25px rgba(16, 185, 129, 0.6)", 
+                        "0 0 15px rgba(16, 185, 129, 0.4)"
+                      ] 
+                    }
+                  : showIncorrect
+                  ? { x: [0, -8, 8, -8, 8, 0] }
+                  : { opacity: 1, scale: 1 }
+              }
+              transition={showCorrect || showIncorrect ? { duration: 0.5 } : { delay: index * 0.1 }}
               whileHover={!showResult ? { scale: 1.02 } : {}}
               whileTap={!showResult ? { scale: 0.95 } : {}}
             >
@@ -304,9 +309,10 @@ export function ClozeExercise({ phrase, block, onComplete }: ClozeExerciseProps)
                   : "bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-300"
               }
             `}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, y: -20 }}
+            transition={{ type: "spring", stiffness: 300 }}
           >
             <span className="text-2xl mr-2">{isCorrect ? "🎉" : "💡"}</span>
             <span className="font-medium">

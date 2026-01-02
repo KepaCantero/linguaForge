@@ -117,25 +117,40 @@ export function ShardDetectionExercise({ exercise, onComplete }: ShardDetectionE
       </div>
 
       {/* Audio controls */}
-      <div className="flex justify-center">
+      <div className="flex justify-center relative">
         <button
           onClick={playAudio}
           disabled={isPlaying || showResult}
           className={`
-            px-4 py-2 rounded-lg flex items-center gap-2 transition-all
+            relative px-4 py-2 rounded-lg flex items-center gap-2 transition-all
             ${isPlaying || showResult
               ? 'bg-gray-100 dark:bg-gray-800 text-gray-400 cursor-not-allowed'
               : 'bg-indigo-500 text-white hover:bg-indigo-600'
             }
           `}
         >
+          {isPlaying && (
+            <>
+              <motion.div
+                className="absolute inset-0 rounded-lg border-2 border-indigo-400"
+                animate={{ scale: [1, 1.2, 1], opacity: [0.8, 0, 0.8] }}
+                transition={{ duration: 1, repeat: Infinity }}
+              />
+              <motion.div
+                className="absolute inset-0 rounded-lg border-2 border-indigo-400"
+                animate={{ scale: [1, 1.3, 1], opacity: [0.6, 0, 0.6] }}
+                transition={{ duration: 1, repeat: Infinity, delay: 0.3 }}
+              />
+            </>
+          )}
           <motion.span
+            className="relative z-10"
             animate={isPlaying ? { scale: [1, 1.2, 1] } : {}}
             transition={{ repeat: Infinity, duration: 0.5 }}
           >
             {isPlaying ? '🔊' : '🔈'}
           </motion.span>
-          <span>{isPlaying ? 'Reproduciendo...' : 'Reproducir'}</span>
+          <span className="relative z-10">{isPlaying ? 'Reproduciendo...' : 'Reproducir'}</span>
         </button>
       </div>
 
@@ -164,9 +179,16 @@ export function ShardDetectionExercise({ exercise, onComplete }: ShardDetectionE
                 ${showResult ? 'cursor-default' : 'cursor-pointer'}
               `}
               initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: index * 0.1 }}
-              whileHover={!showResult ? { scale: 1.02 } : {}}
+              animate={showCorrect ? { 
+                scale: [1, 1.1, 1.05],
+                rotate: [0, 2, -2, 0]
+              } : { opacity: 1, scale: 1 }}
+              transition={showCorrect ? { duration: 0.5 } : { delay: index * 0.1 }}
+              whileHover={!showResult ? { 
+                scale: 1.05, 
+                y: -5,
+                boxShadow: "0 10px 30px rgba(0, 0, 0, 0.2)" 
+              } : {}}
               whileTap={!showResult ? { scale: 0.98 } : {}}
             >
               <Image
@@ -185,14 +207,24 @@ export function ShardDetectionExercise({ exercise, onComplete }: ShardDetectionE
                   animate={{ opacity: 1 }}
                 >
                   {showCorrect && (
-                    <div className="bg-emerald-500/90 text-white text-4xl font-bold p-4 rounded-full">
+                    <motion.div
+                      className="bg-emerald-500/90 text-white text-4xl font-bold p-4 rounded-full"
+                      initial={{ scale: 0, rotate: -180 }}
+                      animate={{ scale: 1, rotate: 0 }}
+                      transition={{ type: "spring", stiffness: 300, damping: 15 }}
+                    >
                       ✓
-                    </div>
+                    </motion.div>
                   )}
                   {showIncorrect && (
-                    <div className="bg-red-500/90 text-white text-4xl font-bold p-4 rounded-full">
+                    <motion.div
+                      className="bg-red-500/90 text-white text-4xl font-bold p-4 rounded-full"
+                      initial={{ scale: 0, rotate: 180 }}
+                      animate={{ scale: 1, rotate: 0 }}
+                      transition={{ type: "spring", stiffness: 300, damping: 15 }}
+                    >
                       ✗
-                    </div>
+                    </motion.div>
                   )}
                 </motion.div>
               )}

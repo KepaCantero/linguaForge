@@ -1,0 +1,231 @@
+{
+  "id": "a0-base-absoluta-verbos-clave",
+  "languageCode": "fr",
+  "levelCode": "A0",
+  "title": "Verbos Clave - Los 5 Verbos",
+  "titleFr": "Verbes clés - Les 5 verbes",
+  "description": "Construir 80% de frases A1 con solo 5 verbos: être, avoir, aller, vouloir, pouvoir",
+  "estimatedMinutes": 23,
+  "conversationalBlocks": [
+    {
+      "id": "bloque-c1-estructuras-etre",
+      "title": "Estructuras básicas con être (ser/estar)",
+      "context": "Presentarte a alguien nuevo",
+      "blockType": "routine",
+      "phrases": [
+        {
+          "id": "frase-c1-1",
+          "text": "Bonjour, je m'appelle Alex.",
+          "translation": "Buenos días, me llamo Alex.",
+          "audioUrl": "/audio/fr/a0/verbos/je-m-appelle-alex.mp3",
+          "clozeWord": "appelle",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "appelle", "isCorrect": true },
+            { "id": "opt-2", "text": "suis", "isCorrect": false },
+            { "id": "opt-3", "text": "ai", "isCorrect": false },
+            { "id": "opt-4", "text": "vais", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Salut, je suis Alex.",
+              "translation": "Hola, soy Alex.",
+              "audioUrl": "/audio/fr/a0/verbos/je-suis-alex.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-c1-2",
+          "text": "Enchanté ! D'où venez-vous ?",
+          "translation": "¡Encantado! ¿De dónde viene usted?",
+          "audioUrl": "/audio/fr/a0/verbos/d-ou-venez-vous.mp3",
+          "clozeWord": "venez",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "venez", "isCorrect": true },
+            { "id": "opt-2", "text": "êtes", "isCorrect": false },
+            { "id": "opt-3", "text": "allez", "isCorrect": false },
+            { "id": "opt-4", "text": "voulez", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "D'où êtes-vous ?",
+              "translation": "¿De dónde es usted?",
+              "audioUrl": "/audio/fr/a0/verbos/d-ou-etes-vous.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-c1-3",
+          "text": "Je suis espagnol, de Madrid.",
+          "translation": "Soy español, de Madrid.",
+          "audioUrl": "/audio/fr/a0/verbos/je-suis-espagnol.mp3",
+          "clozeWord": "suis",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "suis", "isCorrect": true },
+            { "id": "opt-2", "text": "ai", "isCorrect": false },
+            { "id": "opt-3", "text": "vais", "isCorrect": false },
+            { "id": "opt-4", "text": "veux", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Je suis de Madrid, en Espagne.",
+              "translation": "Soy de Madrid, en España.",
+              "audioUrl": "/audio/fr/a0/verbos/je-suis-de-madrid.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-c1-4",
+          "text": "Ravi de vous rencontrer, Alex !",
+          "translation": "¡Encantado de conocerte, Alex!",
+          "audioUrl": "/audio/fr/a0/verbos/ravi-de-vous-rencontrer.mp3",
+          "clozeWord": "rencontrer",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "rencontrer", "isCorrect": true },
+            { "id": "opt-2", "text": "voir", "isCorrect": false },
+            { "id": "opt-3", "text": "connaître", "isCorrect": false },
+            { "id": "opt-4", "text": "parler", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Enchanté de vous rencontrer !",
+              "translation": "¡Encantado de conocerle!",
+              "audioUrl": "/audio/fr/a0/verbos/enchante-rencontrer.mp3"
+            }
+          ]
+        }
+      ],
+      "audioUrl": "/audio/fr/a0/verbos/bloque-c1-completo.mp3",
+      "durationSeconds": 18,
+      "audioTags": ["slow"],
+      "commonErrors": [
+        {
+          "id": "error-1",
+          "error": "Je suis de España",
+          "correct": "Je suis espagnol",
+          "explanation": "NO decir 'Je suis de España' → siempre usar gentilicio ('espagnol', 'français', etc.)"
+        }
+      ],
+      "pronunciationTips": [
+        "'Je suis' se pronuncia 'je sui' (la 's' final de 'suis' no se pronuncia)",
+        "'Espagnol' se pronuncia 'es-pa-ñol' con la 'ñ' nasal"
+      ]
+    },
+    {
+      "id": "bloque-c2-pedir-ayuda-pouvoir",
+      "title": "Pedir ayuda con pouvoir (poder)",
+      "context": "Emergencia en la calle, necesitas ayuda",
+      "blockType": "emergency",
+      "phrases": [
+        {
+          "id": "frase-c2-1",
+          "text": "Excusez-moi, pourriez-vous m'aider ?",
+          "translation": "Disculpe, ¿podría ayudarme?",
+          "audioUrl": "/audio/fr/a0/verbos/pourriez-vous-m-aider.mp3",
+          "clozeWord": "pourriez",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "pourriez", "isCorrect": true },
+            { "id": "opt-2", "text": "pouvez", "isCorrect": false },
+            { "id": "opt-3", "text": "voulez", "isCorrect": false },
+            { "id": "opt-4", "text": "devez", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Excusez-moi, pouvez-vous m'aider ?",
+              "translation": "Disculpe, ¿puede ayudarme?",
+              "audioUrl": "/audio/fr/a0/verbos/pouvez-vous-m-aider.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-c2-2",
+          "text": "Bien sûr, que se passe-t-il ?",
+          "translation": "Por supuesto, ¿qué pasa?",
+          "audioUrl": "/audio/fr/a0/verbos/bien-sur-que-se-passe-t-il.mp3",
+          "clozeWord": "passe",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "passe", "isCorrect": true },
+            { "id": "opt-2", "text": "fait", "isCorrect": false },
+            { "id": "opt-3", "text": "arrive", "isCorrect": false },
+            { "id": "opt-4", "text": "va", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Bien sûr, comment puis-je vous aider ?",
+              "translation": "Por supuesto, ¿cómo puedo ayudarle?",
+              "audioUrl": "/audio/fr/a0/verbos/comment-puis-je-vous-aider.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-c2-3",
+          "text": "Je ne trouve pas la rue République.",
+          "translation": "No encuentro la calle República.",
+          "audioUrl": "/audio/fr/a0/verbos/je-ne-trouve-pas-rue.mp3",
+          "clozeWord": "trouve",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "trouve", "isCorrect": true },
+            { "id": "opt-2", "text": "suis", "isCorrect": false },
+            { "id": "opt-3", "text": "vais", "isCorrect": false },
+            { "id": "opt-4", "text": "veux", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Je suis perdu, où est la rue République ?",
+              "translation": "Estoy perdido, ¿dónde está la calle República?",
+              "audioUrl": "/audio/fr/a0/verbos/je-suis-perdu.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-c2-4",
+          "text": "Merci infiniment, vous me sauvez !",
+          "translation": "Gracias infinitas, ¡me salva!",
+          "audioUrl": "/audio/fr/a0/verbos/merci-infiniment.mp3",
+          "clozeWord": "sauvez",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "sauvez", "isCorrect": true },
+            { "id": "opt-2", "text": "aidez", "isCorrect": false },
+            { "id": "opt-3", "text": "trouvez", "isCorrect": false },
+            { "id": "opt-4", "text": "montrez", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Merci beaucoup pour votre aide !",
+              "translation": "¡Muchas gracias por su ayuda!",
+              "audioUrl": "/audio/fr/a0/verbos/merci-beaucoup-aide.mp3"
+            }
+          ]
+        }
+      ],
+      "audioUrl": "/audio/fr/a0/verbos/bloque-c2-completo.mp3",
+      "durationSeconds": 20,
+      "audioTags": ["slow"],
+      "survivalStrategies": [
+        {
+          "id": "strategy-1",
+          "phrase": "Pourriez-vous écrire le nom ?",
+          "whenToUse": "Si no entiendes la dirección hablada",
+          "translation": "¿Podría escribir el nombre?"
+        }
+      ],
+      "pronunciationTips": [
+        "'Pourriez-vous' se pronuncia 'pu-rié-vu' - práctica la forma condicional",
+        "'M'aider' se pronuncia 'mè-dé' (el 'ai' suena como 'è')"
+      ]
+    }
+  ],
+  "coreExercises": {
+    "cloze": [],
+    "variations": [],
+    "vocabulary": []
+  }
+}
+

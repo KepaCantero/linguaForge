@@ -5,7 +5,7 @@ import { z } from 'zod';
 // ============================================================
 
 export const LanguageCodeSchema = z.enum(['fr', 'de', 'es', 'it', 'pt']);
-export const LevelCodeSchema = z.enum(['A1', 'A2', 'B1', 'B2', 'C1', 'C2']);
+export const LevelCodeSchema = z.enum(['A0', 'A1', 'A2', 'B1', 'B2', 'C1', 'C2']);
 export const InputTypeSchema = z.enum(['audio', 'video', 'text']);
 export const NodeStatusSchema = z.enum(['locked', 'active', 'completed']);
 export const WeaknessTypeSchema = z.enum(['listening', 'reading', 'speaking']);
@@ -88,6 +88,32 @@ export const BlockComponentSchema = z.object({
   speaker: z.enum(['user', 'other']), // Quién dice esta parte
 });
 
+// ============================================================
+// ÁREA 0 - BASE ABSOLUTA (Campos adicionales)
+// ============================================================
+
+export const AudioTagSchema = z.enum(['slow', 'fast', 'office_background', 'street_background', 'quiet', 'noisy']);
+
+export const CulturalNoteSchema = z.object({
+  id: z.string(),
+  text: z.string(),
+  context: z.string().optional(), // Cuándo aplicar esta nota
+});
+
+export const SurvivalStrategySchema = z.object({
+  id: z.string(),
+  phrase: z.string(), // Frase de recuperación
+  whenToUse: z.string(), // Cuándo usar esta estrategia
+  translation: z.string(),
+});
+
+export const CommonErrorSchema = z.object({
+  id: z.string(),
+  error: z.string(), // Error común que se comete
+  correct: z.string(), // Forma correcta
+  explanation: z.string().optional(),
+});
+
 export const ConversationalBlockSchema = z.object({
   id: z.string(),
   title: z.string(), // Título descriptivo del bloque
@@ -97,6 +123,12 @@ export const ConversationalBlockSchema = z.object({
   phrases: z.array(PhraseSchema).min(2), // Mínimo 2 frases por bloque
   audioUrl: z.string().optional(), // Audio completo del bloque
   durationSeconds: z.number().optional(),
+  // Campos adicionales para ÁREA 0 (Base Absoluta)
+  audioTags: z.array(AudioTagSchema).optional(), // Tags para audio (slow, office_background, etc.)
+  culturalNotes: z.array(CulturalNoteSchema).optional(), // Notas culturales importantes
+  survivalStrategies: z.array(SurvivalStrategySchema).optional(), // Estrategias de supervivencia
+  commonErrors: z.array(CommonErrorSchema).optional(), // Errores comunes a evitar
+  pronunciationTips: z.array(z.string()).optional(), // Tips de pronunciación específicos
 });
 
 export const MiniTaskSchema = z.object({
@@ -641,6 +673,8 @@ export type ShardDetection = z.infer<typeof ShardDetectionSchema>;
 export type ShardDetectionShard = z.infer<typeof ShardDetectionSchema>['shards'][number];
 export type PragmaStrike = z.infer<typeof PragmaStrikeSchema>;
 export type PragmaStrikeOption = z.infer<typeof PragmaStrikeSchema>['options'][number];
+export type Vocabulary = z.infer<typeof VocabularySchema>;
+export type VocabularyOption = z.infer<typeof VocabularySchema>['options'][number];
 export type ResonancePath = z.infer<typeof ResonancePathSchema>;
 export type EchoStream = z.infer<typeof EchoStreamSchema>;
 export type EchoStreamPowerWord = z.infer<typeof EchoStreamSchema>['powerWords'][number];
@@ -654,6 +688,12 @@ export type ConversationalBlock = z.infer<typeof ConversationalBlockSchema>;
 export type BlockBuilder = z.infer<typeof BlockBuilderSchema>;
 export type BlockSwap = z.infer<typeof BlockSwapSchema>;
 export type BlockEcho = z.infer<typeof BlockEchoSchema>;
+
+// ÁREA 0 - Base Absoluta
+export type AudioTag = z.infer<typeof AudioTagSchema>;
+export type CulturalNote = z.infer<typeof CulturalNoteSchema>;
+export type SurvivalStrategy = z.infer<typeof SurvivalStrategySchema>;
+export type CommonError = z.infer<typeof CommonErrorSchema>;
 
 export type ComprehensionOption = z.infer<typeof ComprehensionOptionSchema>;
 export type ComprehensionQuestion = z.infer<typeof ComprehensionQuestionSchema>;

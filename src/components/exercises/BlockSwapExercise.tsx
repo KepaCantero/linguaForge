@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { BlockSwap } from '@/types';
 import { useGamificationStore } from '@/store/useGamificationStore';
 import { XP_RULES } from '@/lib/constants';

@@ -332,9 +332,15 @@ export function EchoStreamExercise({ exercise, onComplete }: EchoStreamExerciseP
             {/* Estadísticas */}
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-white dark:bg-gray-800 rounded-xl p-4 text-center">
-                <div className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
+                <motion.div
+                  className="text-2xl font-bold text-indigo-600 dark:text-indigo-400"
+                  key={powerWordsDetected.size}
+                  initial={{ scale: 1.5, color: "#10B981" }}
+                  animate={{ scale: 1, color: "#4F46E5" }}
+                  transition={{ duration: 0.3 }}
+                >
                   {powerWordsDetected.size}/{exercise.powerWords.length}
-                </div>
+                </motion.div>
                 <div className="text-sm text-gray-600 dark:text-gray-400">
                   Power Words
                 </div>
@@ -353,10 +359,20 @@ export function EchoStreamExercise({ exercise, onComplete }: EchoStreamExerciseP
             <div className="bg-white dark:bg-gray-800 rounded-xl p-4">
               <div className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
                 <motion.div
-                  className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full"
+                  className="h-full rounded-full"
+                  style={{
+                    background: "linear-gradient(90deg, #4F46E5, #8B5CF6, #4F46E5)",
+                    backgroundSize: "200% 100%",
+                  }}
                   initial={{ width: 0 }}
-                  animate={{ width: `${progress}%` }}
-                  transition={{ duration: 0.1 }}
+                  animate={{
+                    width: `${progress}%`,
+                    backgroundPosition: ["0% 0%", "100% 0%", "0% 0%"],
+                  }}
+                  transition={{
+                    width: { duration: 0.1 },
+                    backgroundPosition: { duration: 3, repeat: Infinity },
+                  }}
                 />
               </div>
               <div className="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center">
@@ -402,13 +418,18 @@ export function EchoStreamExercise({ exercise, onComplete }: EchoStreamExerciseP
                 : 'bg-gradient-to-br from-indigo-400 to-purple-500'
               }
             `}
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, scale: 0.5, rotateZ: -5 }}
+            animate={{ opacity: 1, scale: 1, rotateZ: 0 }}
             exit={{ opacity: 0 }}
+            transition={{ type: "spring", stiffness: 200 }}
           >
-            <span className="text-6xl mb-4 block">
+            <motion.span
+              className="text-6xl mb-4 block"
+              animate={{ rotate: [0, 10, -10, 0], scale: [1, 1.1, 1] }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
               {accuracy >= 90 ? '🎉' : '✨'}
-            </span>
+            </motion.span>
             <h3 className="text-white text-xl font-bold mb-2">
               {accuracy >= 90 ? '¡Perfecto!' : '¡Bien hecho!'}
             </h3>

@@ -1,105 +1,123 @@
-# Memory Bank — FrenchA1Airbnb WebApp v4.0
+# Memory Bank — LinguaForge v5.1
+
+> Última actualización: 2026-01-01
 
 Este directorio contiene la documentación de contexto para el desarrollo del proyecto.
 
-## Propósito
+## Estado del Proyecto
 
-El Memory Bank permite:
-- Mantener contexto entre sesiones
-- Tracking de progreso (27 tareas)
-- Referencia rápida de arquitectura
-- Documentación de metodologías (Janulus, Krashen, Octalysis)
+- **Progreso técnico:** ~45% completado (22/49 tareas)
+- **Arquitectura core:** Completada
+- **Sistema INPUT:** MVP implementado (SRS + YouTube + Transcripts)
+- **Ejercicios:** En rediseño (ver EXERCISES_REDESIGN.md)
 
-## Archivos
+---
 
-### Core
-| Archivo | Descripción | Cuándo consultar |
-|---------|-------------|------------------|
-| `projectBrief.md` | Visión v4.0, stack, objetivos | Al inicio de cada sesión |
-| `taskProgress.md` | 27 tareas atómicas con código | Para ver qué hacer next |
-| `activeContext.md` | Sesión actual de trabajo | Durante el desarrollo |
+## Archivos Principales
 
-### Técnicos
-| Archivo | Descripción | Cuándo consultar |
-|---------|-------------|------------------|
-| `schemas.md` | Zod schemas + ejemplos JSON | Al implementar tipos |
-| `fileStructure.md` | Arquitectura de directorios | Al crear archivos |
-| `techDecisions.md` | Log de decisiones | Al tomar decisiones |
+### Core (Leer al inicio de cada sesión)
+| Archivo | Descripción |
+|---------|-------------|
+| `projectBrief.md` | Visión, stack, objetivos |
+| `taskProgress.md` | 49 tareas con estado |
+| `activeContext.md` | Notas de sesión actual |
+
+### Diseño y Arquitectura
+| Archivo | Descripción |
+|---------|-------------|
+| `architectureStrategy.md` | Estrategia de arquitectura |
+| `INPUT_SYSTEM_REDESIGN.md` | **Sistema INPUT completo (SRS, Video, etc.)** |
+| `EXERCISES_REDESIGN.md` | **Rediseño de ejercicios Audio/Habla/Matrices** |
+| `ux-analysis.md` | Análisis UX detallado |
+
+### Contenido
+| Archivo | Descripción |
+|---------|-------------|
+| `contentStructure.md` | 50 ramas, 209 hojas A1 |
+| `contentTracking.md` | Progreso de creación de contenido |
+| `TAREAS_AREA_0_Y_EXPANSIONES.md` | ÁREA 0 (Base Absoluta) |
 
 ### Metodologías
-| Archivo | Descripción | Cuándo consultar |
-|---------|-------------|------------------|
-| `janulus.md` | Método Janulus (4 columnas) | Tareas 11-13 |
-| `octalysis.md` | Gamificación (XP, coins, etc) | Tarea 22 |
-| `krashenMethodology.md` | Input comprensible | Tareas 8, 18-21 |
+| Archivo | Descripción |
+|---------|-------------|
+| `janulus.md` | Método Janulus (4 columnas) |
+| `krashenMethodology.md` | Input comprensible |
+| `octalysis.md` | Gamificación |
 
-## Cómo Usar
+### Referencia Técnica
+| Archivo | Descripción |
+|---------|-------------|
+| `schemas.md` | Zod schemas + ejemplos JSON |
+| `fileStructure.md` | Arquitectura de directorios |
+| `techDecisions.md` | Log de decisiones técnicas |
 
-### Al Iniciar Sesión
+### Análisis Visual
+| Archivo | Descripción |
+|---------|-------------|
+| `ANALISIS_PALETA_COLORES.md` | Paleta de colores del proyecto |
+
+---
+
+## Stack Tecnológico
+
+```
+Frontend:  Next.js 14 + TypeScript + Tailwind
+Estado:    Zustand (persist)
+Validación: Zod
+Animaciones: Framer Motion
+Audio:     Web Audio API
+Backend:   Supabase (auth + db)
+```
+
+---
+
+## Sistemas Implementados
+
+### Sistema INPUT (MVP Completo)
+- SRS con algoritmo SM-2
+- YouTube Player con tracking
+- Transcript interactivo con guardado SRS
+- Input Hub con métricas
+
+### Ejercicios Core
+- Cloze (rellenar huecos)
+- Variations (variaciones de frase)
+- PragmaStrike (comunicación situacional)
+- ShardDetection (reconocimiento audio)
+- EchoStream (repetición de palabras clave)
+- GlyphWeaving (patrones rítmicos)
+
+### Gamificación
+- XP, Coins, Gems
+- Streaks con freeze
+- Ranks (E → S)
+- Misiones diarias
+
+---
+
+## Próximos Pasos Prioritarios
+
+1. **Rediseño de ejercicios** (EXERCISES_REDESIGN.md)
+   - Unificar Audio + Repetición
+   - Mejorar práctica oral interactiva
+   - Rediseñar Matrices Janus
+
+2. **Contenido ÁREA 0** (7 nodos críticos)
+   - Saludos, Números, Verbos clave, etc.
+
+3. **Supabase Auth** (Tarea 23)
+
+---
+
+## Quick Commands
+
 ```bash
-# Leer brief del proyecto
-cat .memory-bank/projectBrief.md
+# Desarrollo
+npm run dev
 
-# Ver estado de tareas
-cat .memory-bank/taskProgress.md | head -100
+# Tests
+npm run test
 
-# Ver contexto actual
-cat .memory-bank/activeContext.md
+# Build
+npm run build
 ```
-
-### Durante el Desarrollo
-1. Marcar tarea como `[~]` en progreso
-2. Seguir especificaciones exactas de `taskProgress.md`
-3. Copiar código de `schemas.md` cuando corresponda
-4. Actualizar `activeContext.md` con notas
-
-### Al Finalizar Sesión
-1. Marcar tareas completadas `[x]`
-2. Actualizar contador en `taskProgress.md`
-3. Actualizar `activeContext.md` con próximos pasos
-
-## Estructura del Proyecto (27 Tareas)
-
-```
-FASE 0:  [0.1] Constantes
-FASE 1:  [1-2] Bootstrap & Shell
-FASE 2:  [3-4] Modelos & Schemas
-FASE 3:  [5-6] Contenido JSON
-FASE 4:  [7-8] Estado Global
-FASE 5:  [9-10] Mapa & Progresión
-FASE 6:  [11-13] Janulus Matrix ← CORE
-FASE 7:  [14-17] Ejercicios
-FASE 8:  [18-20] Input Comprensible
-FASE 9:  [21] Dashboard
-FASE 10: [22] Gamificación
-FASE 11: [23-24] Backend
-FASE 12: [25] PWA
-FASE 13: [26-27] Extensibilidad
-```
-
-## Principios de Implementación
-
-1. **Cada tarea es atómica** - Código exacto incluido
-2. **Sin decisiones implícitas** - Todo en constants.ts
-3. **Validación con Zod** - Nada sin schema
-4. **UI specs incluidas** - ASCII mockups en cada tarea
-5. **Criterios de éxito claros** - Verificación objetiva
-
-## Quick Reference
-
-### Stack
-- Next.js 14 + TypeScript + Tailwind
-- Zustand (estado) + Zod (validación)
-- Framer Motion (animaciones) + Howler.js (audio)
-- Supabase (auth + db) + PWA
-
-### Contenido v1
-- Idioma: Francés (fr)
-- Nivel: A1
-- World: Airbnb
-- 1 Janus Matrix + 5 Matrices + 50 frases
-
-### Métricas
-- wordsRead, wordsHeard, wordsSpoken
-- minutesListened, minutesRead
-- XP, coins, gems, streak

@@ -35,7 +35,6 @@ export function VariationsExercise({ phrase, block, onComplete }: VariationsExer
   
   // Si hay un bloque, mostrar todas las frases del bloque con contexto
   const phrasesToShow = block?.phrases || [phrase];
-  const currentPhraseIndex = block?.phrases.findIndex(p => p.id === phrase.id) ?? 0;
   
   // Texto completo del bloque para reproducir
   const fullBlockText = block 
@@ -78,7 +77,7 @@ export function VariationsExercise({ phrase, block, onComplete }: VariationsExer
         </span>
         <div className="flex justify-center gap-2 mt-3">
           {allVariations.map((variation, index) => (
-            <button
+            <motion.button
               key={variation.id}
               onClick={() => goToVariation(index)}
               className={`
@@ -90,6 +89,9 @@ export function VariationsExercise({ phrase, block, onComplete }: VariationsExer
                     : 'bg-gray-300 dark:bg-gray-600'
                 }
               `}
+              animate={index === currentIndex ? { scale: [1, 1.3, 1] } : {}}
+              transition={{ duration: 0.3 }}
+              whileHover={{ scale: 1.2 }}
             />
           ))}
         </div>
@@ -122,7 +124,7 @@ export function VariationsExercise({ phrase, block, onComplete }: VariationsExer
             Contexto completo:
           </div>
           <div className="space-y-2">
-            {phrasesToShow.map((p, idx) => {
+            {phrasesToShow.map((p) => {
               const isCurrentPhrase = p.id === phrase.id;
               return (
                 <div key={p.id} className={isCurrentPhrase ? "bg-indigo-50 dark:bg-indigo-900/20 rounded-lg p-2 border border-indigo-200 dark:border-indigo-800" : ""}>
@@ -141,9 +143,10 @@ export function VariationsExercise({ phrase, block, onComplete }: VariationsExer
         <motion.div
           key={currentVariation.id}
           className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg"
-          initial={{ opacity: 0, x: 50 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -50 }}
+          initial={{ opacity: 0, x: 100, rotateY: 15 }}
+          animate={{ opacity: 1, x: 0, rotateY: 0 }}
+          exit={{ opacity: 0, x: -100, rotateY: -15 }}
+          transition={{ type: "spring", stiffness: 200, damping: 25 }}
         >
           {/* Etiqueta */}
           <div className="flex justify-between items-center mb-4">
@@ -246,12 +249,21 @@ export function VariationsExercise({ phrase, block, onComplete }: VariationsExer
         </button>
 
         {!readVariations.has(currentVariation.id) ? (
-          <button
+          <motion.button
             onClick={markAsRead}
-            className="flex-1 py-3 rounded-xl font-bold bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg hover:shadow-xl transition-all"
+            className="flex-1 py-3 rounded-xl font-bold bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg relative overflow-hidden"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
           >
-            Entendido (+{XP_RULES.variationRead} XP)
-          </button>
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+              animate={{ x: ["-100%", "200%"] }}
+              transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
+            />
+            <span className="relative z-10">
+              Entendido (+{XP_RULES.variationRead} XP)
+            </span>
+          </motion.button>
         ) : currentIndex < allVariations.length - 1 ? (
           <button
             onClick={() => goToVariation(currentIndex + 1)}
@@ -280,7 +292,13 @@ export function VariationsExercise({ phrase, block, onComplete }: VariationsExer
           <motion.div
             className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full"
             initial={{ width: 0 }}
-            animate={{ width: `${(readVariations.size / allVariations.length) * 100}%` }}
+            animate={{
+              width: `${(readVariations.size / allVariations.length) * 100}%`,
+              boxShadow:
+                readVariations.size === allVariations.length
+                  ? "0 0 20px rgba(99, 102, 241, 0.6)"
+                  : "none",
+            }}
           />
         </div>
       </div>

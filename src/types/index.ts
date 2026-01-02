@@ -46,6 +46,10 @@ export type {
   BlockEcho,
   LessonContent,
   LessonMode,
+  AudioTag,
+  CulturalNote,
+  SurvivalStrategy,
+  CommonError,
 } from '@/schemas/content';
 
 // Re-export topic tree types
@@ -97,6 +101,10 @@ export {
   BlockSwapSchema,
   BlockEchoSchema,
   LessonContentSchema,
+  AudioTagSchema,
+  CulturalNoteSchema,
+  SurvivalStrategySchema,
+  CommonErrorSchema,
 } from '@/schemas/content';
 
 // Re-export topic tree schemas
@@ -142,3 +150,36 @@ export type {
   HunterRank,
   HunterRankInfo,
 } from '@/lib/constants';
+
+// Re-export SRS types
+export type {
+  ReviewResponse,
+  ContentSourceType,
+  CardStatus,
+  ContentSource,
+  ReviewHistoryEntry,
+  SRSCard,
+  SRSStats,
+  CreateSRSCardInput,
+  ReviewSessionResult,
+  TranscriptPhrase,
+  Transcript,
+  DetectedWord,
+  SRSConfig,
+} from './srs';
+
+export {
+  ReviewResponseValues,
+  ContentSourceTypeValues,
+  CardStatusValues,
+  ContentSourceSchema,
+  ReviewHistoryEntrySchema,
+  SRSCardSchema,
+  SRSStatsSchema,
+  CreateSRSCardInputSchema,
+  ReviewSessionResultSchema,
+  TranscriptPhraseSchema,
+  TranscriptSchema,
+  DetectedWordSchema,
+  SRS_CONFIG,
+} from './srs';

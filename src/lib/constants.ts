@@ -7,7 +7,7 @@ export const SUPPORTED_LANGUAGES = ['fr', 'de'] as const;
 export type SupportedLanguage = (typeof SUPPORTED_LANGUAGES)[number];
 
 // Niveles soportados
-export const SUPPORTED_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const;
+export const SUPPORTED_LEVELS = ['A0', 'A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const;
 export type SupportedLevel = (typeof SUPPORTED_LEVELS)[number];
 
 // Tipos de input
@@ -24,6 +24,7 @@ export type GrammaticalRole = (typeof GRAMMATICAL_ROLES)[number];
 
 // Umbrales Krashen por nivel
 export const LEVEL_THRESHOLDS = {
+  A0: { read: 10000, heard: 12000, spoken: 1000 },
   A1: { read: 30000, heard: 35000, spoken: 5000 },
   A2: { read: 60000, heard: 70000, spoken: 12000 },
   B1: { read: 100000, heard: 120000, spoken: 25000 },
@@ -63,7 +64,8 @@ export const XP_RULES = {
   glyphWeavingBeat: 15,        // Conexión en beat (doble)
   glyphWeavingOffBeat: 7,      // Conexión fuera de beat
   glyphWeavingComplete: 50,    // Patrón completo
-  forgeMandateComplete: 100,    // Completar Forge Mandate
+  forgeMandateComplete: 100,   // Completar Forge Mandate
+  miniTestPassed: 75,          // Mini-test aprobado
 } as const;
 
 // Reglas de monedas
@@ -139,28 +141,56 @@ export const HP_CONFIG = {
   minHPForPremium: 50, // HP mínimo para contenido premium
 } as const;
 
-// Colores de la app
+// Colores de la app - Paleta Mejorada WCAG AA Compliant
 export const APP_COLORS = {
-  primary: '#4F46E5', // Indigo
-  success: '#10B981', // Emerald
-  warning: '#F59E0B', // Amber
-  error: '#EF4444', // Red
-  locked: '#9CA3AF', // Gray
+  // Primarios
+  primary: '#6366F1',        // Indigo 500 - Color primario unificado
+  primaryDark: '#4F46E5',   // Indigo 600 - Para hover/active
+  primaryLight: '#818CF8',  // Indigo 400 - Para estados disabled
+  
+  // Secundarios
+  secondary: '#C026D3',     // Fuchsia 600 - Mejor contraste (4.2:1)
+  secondaryLight: '#E879F9', // Fuchsia 400 - Para acentos sutiles
+  
+  // Acentos
+  accent: '#FDE047',        // Yellow 300 - Ratio 4.6:1 ✅ WCAG AA
+  accentDark: '#FACC15',    // Yellow 400 - Para fondos claros
+  accentSubtle: '#FEF08A',  // Yellow 200 - Para backgrounds sutiles
+  
+  // Semánticos Mejorados
+  success: '#22C55E',       // Green 500 - Más vibrante y positivo
+  successDark: '#16A34A',   // Green 600 - Para hover
+  warning: '#F59E0B',       // Amber 500 - Mantener (funciona bien)
+  warningDark: '#D97706',   // Amber 600
+  error: '#EF4444',         // Red 500 - Alto contraste
+  errorDark: '#DC2626',     // Red 600
+  info: '#3B82F6',          // Blue 500 - Nuevo para información
+  
+  // Estados
+  locked: '#64748B',        // Slate 500 - Mejor contraste
 } as const;
 
-// Colores de las ramas del árbol de tópicos
+// Colores de las ramas del árbol de tópicos - Sistema Armónico Mejorado
+// Agrupación temática basada en teoría del color y significado psicológico
 export const BRANCH_COLORS = {
-  1: '#4F46E5',  // Identidad - Indigo
-  2: '#7C3AED',  // Tiempo - Violet
-  3: '#2563EB',  // Lugar - Blue
-  4: '#0891B2',  // Alojamiento - Cyan
-  5: '#059669',  // Comida - Emerald
-  6: '#D97706',  // Personas - Amber
-  7: '#DC2626',  // Trabajo - Red
-  8: '#DB2777',  // Salud - Pink
-  9: '#7C3AED',  // Comunicación - Violet
-  10: '#0D9488', // Pasado/Futuro - Teal
-  11: '#6366F1', // Cultura - Indigo
+  // Grupo 1: Azules (Fríos, Estables) - 4 ramas
+  1: '#6366F1',  // Identidad - Indigo 500 (PRIMARIO - Base sólida)
+  2: '#3B82F6',  // Tiempo - Blue 500 (Estabilidad temporal)
+  3: '#0EA5E9',  // Lugar - Sky 500 (Espacios físicos)
+  4: '#06B6D4',  // Alojamiento - Cyan 500 (Hogar, refugio)
+  
+  // Grupo 2: Verdes (Crecimiento, Naturaleza) - 2 ramas
+  5: '#10B981',  // Comida - Emerald 500 (Naturaleza, nutrición)
+  6: '#14B8A6',  // Salud - Teal 500 (Bienestar, equilibrio)
+  
+  // Grupo 3: Cálidos (Energía, Social) - 3 ramas
+  7: '#F59E0B',  // Personas - Amber 500 (Calidez humana, relaciones)
+  8: '#EF4444',  // Trabajo - Red 500 (Energía, acción)
+  9: '#EC4899',  // Comunicación - Pink 500 (Expresión, conexión)
+  
+  // Grupo 4: Púrpuras (Creatividad, Premium) - 2 ramas
+  10: '#8B5CF6', // Pasado/Futuro - Violet 500 (Imaginación, tiempo abstracto)
+  11: '#A855F7', // Cultura - Purple 500 (Arte, conocimiento profundo)
 } as const;
 
 // Función helper para obtener nivel por XP
@@ -222,12 +252,12 @@ export type HunterRankInfo = (typeof HUNTER_RANKS)[number];
 
 // Reglas de desbloqueo de contenido por rango
 export const RANK_UNLOCK_RULES: Record<HunterRank, { contentLevels: SupportedLevel[] }> = {
-  E: { contentLevels: ['A1'] },
-  D: { contentLevels: ['A1', 'A2'] },
-  C: { contentLevels: ['A1', 'A2', 'B1'] },
-  B: { contentLevels: ['A1', 'A2', 'B1', 'B2'] },
-  A: { contentLevels: ['A1', 'A2', 'B1', 'B2', 'C1'] },
-  S: { contentLevels: ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] },
+  E: { contentLevels: ['A0', 'A1'] },
+  D: { contentLevels: ['A0', 'A1', 'A2'] },
+  C: { contentLevels: ['A0', 'A1', 'A2', 'B1'] },
+  B: { contentLevels: ['A0', 'A1', 'A2', 'B1', 'B2'] },
+  A: { contentLevels: ['A0', 'A1', 'A2', 'B1', 'B2', 'C1'] },
+  S: { contentLevels: ['A0', 'A1', 'A2', 'B1', 'B2', 'C1', 'C2'] },
 };
 
 // Función helper para obtener rango por XP

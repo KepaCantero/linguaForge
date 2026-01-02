@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { useState, useCallback, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { JanusCell } from './JanusCell';
-import { JanusMatrix as JanusMatrixType, JanusCombination } from '@/types';
-import { useProgressStore } from '@/store/useProgressStore';
-import { useGamificationStore } from '@/store/useGamificationStore';
-import { XP_RULES, JANUS_CONFIG } from '@/lib/constants';
-import { useUndo } from '@/hooks/useUndo';
+import { useCallback, useMemo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { JanusCell } from "./JanusCell";
+import { JanusMatrix as JanusMatrixType, JanusCombination } from "@/types";
+import { useProgressStore } from "@/store/useProgressStore";
+import { useGamificationStore } from "@/store/useGamificationStore";
+import { XP_RULES, JANUS_CONFIG } from "@/lib/constants";
+import { useUndo } from "@/hooks/useUndo";
 
 interface JanusMatrixProps {
   matrix: JanusMatrixType;
@@ -19,9 +19,9 @@ export function JanusMatrix({ matrix, worldId, onComplete }: JanusMatrixProps) {
   const { worldProgress, updateJanusProgress } = useProgressStore();
   const { addXP, addCoins } = useGamificationStore();
 
-  console.log('[JanusMatrix] Rendering with matrix:', matrix);
-  console.log('[JanusMatrix] Columns count:', matrix?.columns?.length);
-  console.log('[JanusMatrix] WorldId:', worldId);
+  console.log("[JanusMatrix] Rendering with matrix:", matrix);
+  console.log("[JanusMatrix] Columns count:", matrix?.columns?.length);
+  console.log("[JanusMatrix] WorldId:", worldId);
 
   const progress = worldProgress[worldId]?.janusProgress;
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -29,22 +29,8 @@ export function JanusMatrix({ matrix, worldId, onComplete }: JanusMatrixProps) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const combinations = useMemo(() => progress?.combinations || [], [progress]);
 
-  // Validar que matrix tiene la estructura correcta
-  if (!matrix || !matrix.columns || matrix.columns.length !== 4) {
-    console.error('[JanusMatrix] Invalid matrix structure:', matrix);
-    return (
-      <div className="bg-red-100 dark:bg-red-900 border border-red-300 dark:border-red-700 rounded-xl p-4 text-center">
-        <p className="text-red-700 dark:text-red-300 font-medium">
-          Error: La matriz de Janus no tiene la estructura correcta. Se esperan 4 columnas.
-        </p>
-        <p className="text-red-600 dark:text-red-400 text-sm mt-2">
-          Columnas encontradas: {matrix?.columns?.length || 0}
-        </p>
-      </div>
-    );
-  }
-
   // Estado local para selección actual con historial de deshacer
+  // Hooks must be called before any early returns
   const {
     state: selectedCellsState,
     set: setSelectedCells,
@@ -55,47 +41,71 @@ export function JanusMatrix({ matrix, worldId, onComplete }: JanusMatrixProps) {
   } = useUndo<(string | null)[]>([null, null, null, null]);
 
   // Asegurar que selectedCells siempre sea un array
-  const selectedCells: (string | null)[] = Array.isArray(selectedCellsState) 
-    ? selectedCellsState 
+  const selectedCells: (string | null)[] = Array.isArray(selectedCellsState)
+    ? selectedCellsState
     : [null, null, null, null];
 
-  // Calcular estadísticas
+  // Validar que matrix tiene la estructura correcta - AFTER all hooks
+  const isValidMatrix = matrix && matrix.columns && matrix.columns.length === 4;
+
+  // Calcular estadísticas (safe even if matrix is invalid)
   const totalCombinations = combinations.length;
-  const possibleCombinations = matrix.columns.reduce((acc, col) => acc * col.cells.length, 1);
-  const uniqueCombinations = new Set(combinations.map(c => c.cellIds.join('-'))).size;
+  const possibleCombinations = isValidMatrix
+    ? matrix.columns.reduce((acc, col) => acc * col.cells.length, 1)
+    : 0;
+  const uniqueCombinations = new Set(
+    combinations.map((c) => c.cellIds.join("-"))
+  ).size;
   const isComplete = uniqueCombinations >= JANUS_CONFIG.targetRepetitions;
 
   // Manejar clic en celda
-  const handleCellClick = useCallback((columnIndex: number, cellId: string) => {
-    // Obtener el estado actual más reciente
-    const currentState = Array.isArray(selectedCellsState) ? selectedCellsState : [null, null, null, null];
-    const newSelection = [...currentState];
-    newSelection[columnIndex] = currentState[columnIndex] === cellId ? null : cellId;
-    setSelectedCells(newSelection as [string | null, string | null, string | null, string | null]);
-  }, [selectedCellsState, setSelectedCells]);
+  const handleCellClick = useCallback(
+    (columnIndex: number, cellId: string) => {
+      // Obtener el estado actual más reciente
+      const currentState = Array.isArray(selectedCellsState)
+        ? selectedCellsState
+        : [null, null, null, null];
+      const newSelection = [...currentState];
+      newSelection[columnIndex] =
+        currentState[columnIndex] === cellId ? null : cellId;
+      setSelectedCells(
+        newSelection as [
+          string | null,
+          string | null,
+          string | null,
+          string | null
+        ]
+      );
+    },
+    [selectedCellsState, setSelectedCells]
+  );
 
   // Generar frase combinada
   const generatedPhrase = useMemo(() => {
-    if (selectedCells.some(c => c === null)) return null;
+    if (!isValidMatrix) return null;
+    if (selectedCells.some((c) => c === null)) return null;
 
     const parts = matrix.columns.map((column, index) => {
       const cellId = selectedCells[index];
-      const cell = column.cells.find(c => c.id === cellId);
-      return cell?.text || '';
+      const cell = column.cells.find((c) => c.id === cellId);
+      return cell?.text || "";
     });
 
-    return parts.join(' ');
-  }, [selectedCells, matrix.columns]);
+    return parts.join(" ");
+  }, [selectedCells, matrix?.columns, isValidMatrix]);
 
   // Confirmar combinación
   const confirmCombination = useCallback(() => {
-    if (!generatedPhrase || selectedCells.some(c => c === null)) return;
+    if (!isValidMatrix) return;
+    if (!generatedPhrase || selectedCells.some((c) => c === null)) return;
 
     const cellIds = selectedCells as [string, string, string, string];
-    const combinationKey = cellIds.join('-');
+    const combinationKey = cellIds.join("-");
 
     // Verificar si ya existe
-    const isNewCombination = !combinations.some(c => c.cellIds.join('-') === combinationKey);
+    const isNewCombination = !combinations.some(
+      (c) => c.cellIds.join("-") === combinationKey
+    );
 
     // Crear nueva combinación
     const newCombination: JanusCombination = {
@@ -106,13 +116,14 @@ export function JanusMatrix({ matrix, worldId, onComplete }: JanusMatrixProps) {
 
     // Actualizar uso de celdas
     const newCellUsage = { ...cellUsage };
-    cellIds.forEach(id => {
+    cellIds.forEach((id) => {
       newCellUsage[id] = (newCellUsage[id] || 0) + 1;
     });
 
     // Calcular nuevo progreso
     const newCombinations = [...combinations, newCombination];
-    const newUnique = new Set(newCombinations.map(c => c.cellIds.join('-'))).size;
+    const newUnique = new Set(newCombinations.map((c) => c.cellIds.join("-")))
+      .size;
     const newIsComplete = newUnique >= JANUS_CONFIG.targetRepetitions;
 
     // Actualizar store
@@ -146,13 +157,31 @@ export function JanusMatrix({ matrix, worldId, onComplete }: JanusMatrixProps) {
     combinations,
     cellUsage,
     worldId,
-    matrix.id,
+    matrix?.id,
     updateJanusProgress,
     addXP,
     addCoins,
     isComplete,
     onComplete,
+    isValidMatrix,
+    setSelectedCells,
   ]);
+
+  // Early return AFTER all hooks
+  if (!isValidMatrix) {
+    console.error("[JanusMatrix] Invalid matrix structure:", matrix);
+    return (
+      <div className="bg-red-100 dark:bg-red-900 border border-red-300 dark:border-red-700 rounded-xl p-4 text-center">
+        <p className="text-red-700 dark:text-red-300 font-medium">
+          Error: La matriz de Janus no tiene la estructura correcta. Se esperan
+          4 columnas.
+        </p>
+        <p className="text-red-600 dark:text-red-400 text-sm mt-2">
+          Columnas encontradas: {matrix?.columns?.length || 0}
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -172,7 +201,9 @@ export function JanusMatrix({ matrix, worldId, onComplete }: JanusMatrixProps) {
           <div className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
             {totalCombinations}
           </div>
-          <div className="text-xs text-gray-500 dark:text-gray-400">Generadas</div>
+          <div className="text-xs text-gray-500 dark:text-gray-400">
+            Generadas
+          </div>
         </div>
         <div className="bg-white dark:bg-gray-800 rounded-lg p-3 text-center">
           <div className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">
@@ -184,7 +215,9 @@ export function JanusMatrix({ matrix, worldId, onComplete }: JanusMatrixProps) {
           <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">
             {possibleCombinations}
           </div>
-          <div className="text-xs text-gray-500 dark:text-gray-400">Posibles</div>
+          <div className="text-xs text-gray-500 dark:text-gray-400">
+            Posibles
+          </div>
         </div>
       </div>
 
@@ -202,12 +235,15 @@ export function JanusMatrix({ matrix, worldId, onComplete }: JanusMatrixProps) {
           <motion.div
             className={`h-full rounded-full ${
               isComplete
-                ? 'bg-gradient-to-r from-emerald-400 to-emerald-600'
-                : 'bg-gradient-to-r from-indigo-400 to-purple-500'
+                ? "bg-gradient-to-r from-emerald-400 to-emerald-600"
+                : "bg-gradient-to-r from-indigo-400 to-purple-500"
             }`}
             initial={{ width: 0 }}
             animate={{
-              width: `${Math.min(100, (uniqueCombinations / JANUS_CONFIG.targetRepetitions) * 100)}%`,
+              width: `${Math.min(
+                100,
+                (uniqueCombinations / JANUS_CONFIG.targetRepetitions) * 100
+              )}%`,
             }}
             transition={{ duration: 0.5 }}
           />
@@ -222,8 +258,8 @@ export function JanusMatrix({ matrix, worldId, onComplete }: JanusMatrixProps) {
             disabled={!canUndo}
             className={`px-4 py-2 rounded-lg font-medium text-sm transition-all ${
               canUndo
-                ? 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
-                : 'bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-600 cursor-not-allowed'
+                ? "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
+                : "bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-600 cursor-not-allowed"
             }`}
           >
             ↶ Deshacer
@@ -233,8 +269,8 @@ export function JanusMatrix({ matrix, worldId, onComplete }: JanusMatrixProps) {
             disabled={!canRedo}
             className={`px-4 py-2 rounded-lg font-medium text-sm transition-all ${
               canRedo
-                ? 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
-                : 'bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-600 cursor-not-allowed'
+                ? "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
+                : "bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-600 cursor-not-allowed"
             }`}
           >
             ↷ Rehacer
@@ -302,7 +338,8 @@ export function JanusMatrix({ matrix, worldId, onComplete }: JanusMatrixProps) {
         >
           <span className="text-3xl mb-2 block">🎉</span>
           <p className="text-emerald-700 dark:text-emerald-300 font-medium">
-            ¡Janus Matrix completada! Has alcanzado {JANUS_CONFIG.targetRepetitions} combinaciones únicas.
+            ¡Janus Matrix completada! Has alcanzado{" "}
+            {JANUS_CONFIG.targetRepetitions} combinaciones únicas.
           </p>
         </motion.div>
       )}

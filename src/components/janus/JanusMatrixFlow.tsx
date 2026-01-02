@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo } from "react";
 import ReactFlow, {
   Node,
   Edge,
@@ -13,9 +13,9 @@ import ReactFlow, {
   useEdgesState,
   BackgroundVariant,
   MarkerType,
-} from 'reactflow';
-import 'reactflow/dist/style.css';
-import { JanusMatrix as JanusMatrixType } from '@/types';
+} from "reactflow";
+import "reactflow/dist/style.css";
+import { JanusMatrix as JanusMatrixType } from "@/types";
 
 interface JanusMatrixFlowProps {
   matrix: JanusMatrixType;
@@ -38,19 +38,18 @@ export function JanusMatrixFlow({
   const initialNodes: Node[] = useMemo(() => {
     const nodes: Node[] = [];
     const columnWidth = 200;
-    const nodeHeight = 80;
     const columnSpacing = 250;
     const rowSpacing = 100;
 
     matrix.columns.forEach((column, colIndex) => {
       const x = colIndex * columnSpacing + 100;
-      
+
       column.cells.forEach((cell, cellIndex) => {
         const y = cellIndex * rowSpacing + 100;
-        
+
         nodes.push({
           id: cell.id,
-          type: 'default',
+          type: "default",
           position: { x, y },
           data: {
             label: cell.text,
@@ -58,14 +57,16 @@ export function JanusMatrixFlow({
             columnLabel: column.label,
           },
           style: {
-            background: selectedNodes.includes(cell.id) ? '#4F46E5' : '#1F2937',
-            color: '#FFFFFF',
-            border: selectedNodes.includes(cell.id) ? '2px solid #F59E0B' : '1px solid #374151',
-            borderRadius: '8px',
-            padding: '12px',
+            background: selectedNodes.includes(cell.id) ? "#4F46E5" : "#1F2937",
+            color: "#FFFFFF",
+            border: selectedNodes.includes(cell.id)
+              ? "2px solid #F59E0B"
+              : "1px solid #374151",
+            borderRadius: "8px",
+            padding: "12px",
             minWidth: columnWidth,
-            textAlign: 'center',
-            fontWeight: '500',
+            textAlign: "center",
+            fontWeight: "500",
           },
         });
       });
@@ -80,17 +81,17 @@ export function JanusMatrixFlow({
       id: `edge-${index}`,
       source: conn.from,
       target: conn.to,
-      type: 'smoothstep',
+      type: "smoothstep",
       animated: true,
-      style: { stroke: '#4F46E5', strokeWidth: 2 },
+      style: { stroke: "#4F46E5", strokeWidth: 2 },
       markerEnd: {
         type: MarkerType.ArrowClosed,
-        color: '#4F46E5',
+        color: "#4F46E5",
       },
     }));
   }, [connections]);
 
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [nodes, , onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
   const onConnect = useCallback(
@@ -124,7 +125,7 @@ export function JanusMatrixFlow({
         <Controls />
         <MiniMap
           nodeColor={(node) => {
-            return selectedNodes.includes(node.id) ? '#4F46E5' : '#6B7280';
+            return selectedNodes.includes(node.id) ? "#4F46E5" : "#6B7280";
           }}
           maskColor="rgba(0, 0, 0, 0.3)"
         />
@@ -132,4 +133,3 @@ export function JanusMatrixFlow({
     </div>
   );
 }
-

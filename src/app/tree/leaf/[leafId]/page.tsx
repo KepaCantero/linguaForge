@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { TopicTreeSchema } from "@/types";
@@ -23,6 +23,9 @@ import { ComprehensionTest } from "@/components/input/ComprehensionTest";
 import { MiniTaskExercise } from "@/components/exercises/MiniTaskExercise";
 import { useGamificationStore } from "@/store/useGamificationStore";
 import { useProgressStore } from "@/store/useProgressStore";
+import { useTreeProgressStore } from "@/store/useTreeProgressStore";
+import { useAuth } from "@/contexts/AuthContext";
+import { useProgressSync } from "@/hooks/useProgressSync";
 import { loadLesson } from "@/services/lessonLoader";
 import { loadWorld } from "@/services/contentLoader";
 import { XP_RULES, getLevelByXP } from "@/lib/constants";
@@ -43,6 +46,9 @@ export default function LeafPage() {
   const leafId = params.leafId as string;
   const { addXP, addGems, xp } = useGamificationStore();
   const { activeLanguage, activeLevel } = useProgressStore();
+  const { completeLeaf } = useTreeProgressStore();
+  const { user } = useAuth();
+  const { saveExercise, completeLessonWithSync, loadLessonProgress } = useProgressSync();
   const levelInfo = getLevelByXP(xp);
 
   const [leaf, setLeaf] = useState<TopicLeaf | null>(null);
@@ -50,7 +56,15 @@ export default function LeafPage() {
   const [lessonContent, setLessonContent] = useState<LessonContent | null>(
     null
   );
-  const [world, setWorld] = useState<{ id: string; janusMatrix: any } | null>(null);
+  const [world, setWorld] = useState<{
+    id: string;
+    janusMatrix: {
+      id: string;
+      title: string;
+      description?: string;
+      columns: unknown[];
+    };
+  } | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -61,7 +75,7 @@ export default function LeafPage() {
   const [currentInputIndex, setCurrentInputIndex] = useState(0);
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [timeRemaining, setTimeRemaining] = useState<number | null>(null);
-  const [startTime, setStartTime] = useState<number | null>(null);
+  const [, setStartTime] = useState<number | null>(null);
   const [showExitConfirm, setShowExitConfirm] = useState(false);
   const [exerciseStartTime, setExerciseStartTime] = useState<number | null>(
     null
@@ -137,28 +151,56 @@ export default function LeafPage() {
         setLeaf(foundLeaf);
         setBranch(foundBranch);
 
+        // Determinar nivel basado en leafId (ÁREA 0 usa A0, otras usan A1)
+        const detectedLevel: "A0" | "A1" | "A2" = 
+          leafId.startsWith("nodo-0-") || leafId.startsWith("a0-") 
+            ? "A0" 
+            : (activeLevel as "A1" | "A2") || "A1";
+
+        console.log("[LeafPage] Loading lesson:", {
+          leafId,
+          activeLanguage: activeLanguage || "fr",
+          detectedLevel,
+          activeLevel
+        });
+
         // Try to load lesson content using lessonLoader
         const loadedLesson = await loadLesson(
           activeLanguage || "fr",
-          activeLevel || "A1",
+          detectedLevel,
           leafId
         );
 
         if (loadedLesson) {
-          console.log("Successfully loaded lesson content:", loadedLesson);
+          console.log("[LeafPage] Successfully loaded lesson content:", {
+            leafId: loadedLesson.leafId,
+            title: loadedLesson.title,
+            hasConversationalBlocks: !!loadedLesson.conversationalBlocks?.length,
+            hasInputContent: !!loadedLesson.inputContent?.length,
+            hasMiniTest: !!loadedLesson.miniTest
+          });
           setLessonContent(loadedLesson);
         } else {
-          console.log("Lesson content not available for:", leafId);
+          console.error("[LeafPage] Lesson content not available for:", {
+            leafId,
+            detectedLevel,
+            activeLanguage: activeLanguage || "fr"
+          });
         }
 
         // Cargar mundo para obtener Janus Matrix
         try {
-          const worldId = activeLanguage === 'fr' && activeLevel === 'A1' ? 'airbnb' : 
-                         activeLanguage === 'fr' && activeLevel === 'A2' ? 'restaurant' :
-                         activeLanguage === 'de' && activeLevel === 'A1' ? 'airbnb' : 'airbnb';
+          const worldId =
+            activeLanguage === "fr" && activeLevel === "A1"
+              ? "airbnb"
+              : activeLanguage === "fr" && activeLevel === "A2"
+              ? "restaurant"
+              : activeLanguage === "de" && activeLevel === "A1"
+              ? "airbnb"
+              : "airbnb";
           const worldData = await loadWorld(
-            (activeLanguage || 'fr') as 'fr' | 'de',
-            (activeLevel || 'A1') as 'A1' | 'A2',
+            (activeLanguage || "fr") as "fr" | "de",
+            (activeLevel || "A1") as "A1" | "A2",
             worldId
           );
           if (worldData?.janusMatrix) {
@@ -175,17 +217,33 @@ export default function LeafPage() {
       }
     }
     loadContent();
-  }, [leafId, activeLanguage, activeLevel]);
+  }, [leafId, activeLanguage, activeLevel, user, loadLessonProgress]);
+
+  // Guardar progreso cuando se completa la lección
+  useEffect(() => {
+    if (phase === 'complete' && leafId && lessonContent) {
+      const totalXP = Math.round(correctAnswers * 10);
+      
+      // Marcar hoja como completada en el store local
+      completeLeaf('fr-a1-topic-tree', leafId);
+
+      // Guardar en Supabase si hay usuario
+      if (user) {
+        completeLessonWithSync(leafId, totalXP);
+      }
+    }
+  }, [phase, leafId, lessonContent, correctAnswers, user, completeLeaf, completeLessonWithSync, branch?.worldId]);
 
   // Obtener todas las frases: de bloques conversacionales o de phrases directas
   const conversationalBlocks = lessonContent?.conversationalBlocks || [];
   const directPhrases = lessonContent?.phrases || [];
-  
+
   // Si hay bloques conversacionales, extraer todas las frases de todos los bloques
-  const allPhrases = conversationalBlocks.length > 0
-    ? conversationalBlocks.flatMap(block => block.phrases)
-    : directPhrases;
-  
+  const allPhrases =
+    conversationalBlocks.length > 0
+      ? conversationalBlocks.flatMap((block) => block.phrases)
+      : directPhrases;
+
   const currentPhrase = allPhrases[currentPhraseIndex];
   const totalPhrases = allPhrases.length;
   const currentInput = lessonContent?.inputContent[currentInputIndex];
@@ -198,8 +256,10 @@ export default function LeafPage() {
   const echoStreamExercises = lessonContent?.coreExercises?.echoStream || [];
   const glyphWeavingExercises =
     lessonContent?.coreExercises?.glyphWeaving || [];
-  const resonancePathExercises =
-    lessonContent?.coreExercises?.resonancePath || [];
+  const resonancePathExercises = useMemo(
+    () => lessonContent?.coreExercises?.resonancePath || [],
+    [lessonContent?.coreExercises?.resonancePath]
+  );
 
   // Debug: verificar carga de ejercicios core
   useEffect(() => {
@@ -276,6 +336,7 @@ export default function LeafPage() {
     glyphWeavingExercises,
     resonancePathExercises,
     totalExercises,
+    totalPhrases,
     completedExercises,
   ]);
 
@@ -479,6 +540,9 @@ export default function LeafPage() {
       const exerciseId = `phrase-${currentPhraseIndex}-cloze`;
       setCompletedExercises((prev) => new Set(prev).add(exerciseId));
 
+      // Guardar progreso en Supabase
+      saveExercise(leafId, exerciseId, correct, branch?.worldId).catch(console.error);
+
       if (lessonMode === "academia") {
         // En modo academia, pasar a la siguiente frase del mismo tipo (cloze)
         if (currentPhraseIndex < totalPhrases - 1) {
@@ -503,48 +567,14 @@ export default function LeafPage() {
     ]
   );
 
-  const handleShadowingComplete = useCallback(() => {
-    if (!lessonMode || !lessonContent?.modeConfig) return;
-
-    const multiplier =
-      lessonMode === "academia"
-        ? lessonContent.modeConfig.academia.xpMultiplier
-        : lessonContent.modeConfig.desafio.xpMultiplier;
-
-    addXP(Math.round(XP_RULES.shadowingComplete * multiplier));
-
-    // Marcar ejercicio como completado
-    const exerciseId = `phrase-${currentPhraseIndex}-shadowing`;
-    setCompletedExercises((prev) => new Set(prev).add(exerciseId));
-
-    if (lessonMode === "academia") {
-      // En modo academia, pasar a la siguiente frase del mismo tipo (shadowing)
-      if (currentPhraseIndex < totalPhrases - 1) {
-        setCurrentPhraseIndex((prev) => prev + 1);
-        // Mantener el mismo tipo de ejercicio (shadowing)
-      } else {
-        // Todas las frases completadas, volver al menú
-        returnToMenu();
-      }
-    } else {
-      // En modo desafío, continuar secuencialmente
-      setPhrasePhase("variations");
-    }
-  }, [
-    addXP,
-    lessonMode,
-    lessonContent,
-    currentPhraseIndex,
-    totalPhrases,
-    returnToMenu,
-  ]);
+  // handleShadowingComplete removed - Shadowing merged with Resonance Path
 
   const moveToNextExerciseType = useCallback(() => {
     if (!lessonContent) return;
 
-    const hasVocabulary =
-      (lessonContent.coreExercises?.vocabulary?.length || 0) > 0;
-    const hasPhrases = (lessonContent.phrases?.length || 0) > 0 || (lessonContent.conversationalBlocks?.length || 0) > 0;
+    const hasPhrases =
+      (lessonContent.phrases?.length || 0) > 0 ||
+      (lessonContent.conversationalBlocks?.length || 0) > 0;
     const hasPragmaStrike =
       (lessonContent.coreExercises?.pragmaStrike?.length || 0) > 0;
     const hasShardDetection =
@@ -649,6 +679,9 @@ export default function LeafPage() {
       const exerciseId = `vocabulary-${currentVocabularyIndex}`;
       setCompletedExercises((prev) => new Set(prev).add(exerciseId));
 
+      // Guardar progreso en Supabase
+      saveExercise(leafId, exerciseId, correct, branch?.worldId).catch(console.error);
+
       const vocabularyCount =
         lessonContent?.coreExercises?.vocabulary?.length || 0;
 
@@ -681,7 +714,8 @@ export default function LeafPage() {
   );
 
   const handlePragmaComplete = useCallback(
-    (correct: boolean, timeSpent: number) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    async (correct: boolean, _timeSpent: number) => {
       if (!lessonMode || !lessonContent?.modeConfig) return;
 
       // XP ya se calcula dentro del componente PragmaStrikeExercise
@@ -692,6 +726,9 @@ export default function LeafPage() {
       // Marcar ejercicio como completado
       const exerciseId = `pragma-${currentPragmaIndex}`;
       setCompletedExercises((prev) => new Set(prev).add(exerciseId));
+
+      // Guardar progreso en Supabase
+      await saveExercise(leafId, exerciseId, correct, branch?.worldId);
 
       const pragmaCount =
         lessonContent?.coreExercises?.pragmaStrike?.length || 0;
@@ -725,7 +762,8 @@ export default function LeafPage() {
   );
 
   const handleShardComplete = useCallback(
-    (correct: boolean, timeSpent: number) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    (correct: boolean, _timeSpent: number) => {
       if (!lessonMode || !lessonContent?.modeConfig) return;
 
       // XP ya se calcula dentro del componente ShardDetectionExercise
@@ -736,6 +774,9 @@ export default function LeafPage() {
       // Marcar ejercicio como completado
       const exerciseId = `shard-${currentShardIndex}`;
       setCompletedExercises((prev) => new Set(prev).add(exerciseId));
+
+      // Guardar progreso en Supabase
+      saveExercise(leafId, exerciseId, correct, branch?.worldId).catch(console.error);
 
       const shardCount =
         lessonContent?.coreExercises?.shardDetection?.length || 0;
@@ -769,16 +810,21 @@ export default function LeafPage() {
   );
 
   const handleEchoStreamComplete = useCallback(
-    (correct: boolean, accuracy: number) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    (powerWordsDetected: number, _accuracy: number) => {
       if (!lessonMode || !lessonContent?.modeConfig) return;
 
-      if (correct) {
+      if (powerWordsDetected > 0) {
         setCorrectAnswers((prev) => prev + 1);
       }
 
       // Marcar ejercicio como completado
       const exerciseId = `echoStream-${currentEchoStreamIndex}`;
       setCompletedExercises((prev) => new Set(prev).add(exerciseId));
+
+      // Guardar progreso en Supabase (considerar correcto si detectó power words)
+      const isCorrect = powerWordsDetected > 0;
+      saveExercise(leafId, exerciseId, isCorrect, branch?.worldId).catch(console.error);
 
       const echoStreamCount =
         lessonContent?.coreExercises?.echoStream?.length || 0;
@@ -806,20 +852,28 @@ export default function LeafPage() {
       lessonContent,
       moveToNextExerciseType,
       returnToMenu,
+      leafId,
+      saveExercise,
+      branch?.worldId,
     ]
   );
 
   const handleGlyphWeavingComplete = useCallback(
-    (correct: boolean, syncAccuracy: number) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    (accuracy: number) => {
       if (!lessonMode || !lessonContent?.modeConfig) return;
 
-      if (correct) {
+      if (accuracy > 50) {
         setCorrectAnswers((prev) => prev + 1);
       }
 
       // Marcar ejercicio como completado
       const exerciseId = `glyphWeaving-${currentGlyphWeavingIndex}`;
       setCompletedExercises((prev) => new Set(prev).add(exerciseId));
+
+      // Guardar progreso en Supabase (considerar correcto si accuracy > 50%)
+      const isCorrect = accuracy > 50;
+      saveExercise(leafId, exerciseId, isCorrect, branch?.worldId).catch(console.error);
 
       const glyphWeavingCount =
         lessonContent?.coreExercises?.glyphWeaving?.length || 0;
@@ -847,6 +901,9 @@ export default function LeafPage() {
       lessonContent,
       moveToNextExerciseType,
       returnToMenu,
+      leafId,
+      saveExercise,
+      branch?.worldId,
     ]
   );
 
@@ -866,6 +923,9 @@ export default function LeafPage() {
       // Marcar ejercicio como completado
       const exerciseId = `resonancePath-${currentResonancePathIndex}`;
       setCompletedExercises((prev) => new Set(prev).add(exerciseId));
+
+      // Guardar progreso en Supabase
+      saveExercise(leafId, exerciseId, isCorrect, branch?.worldId).catch(console.error);
 
       const resonancePathCount =
         lessonContent?.coreExercises?.resonancePath?.length || 0;
@@ -891,7 +951,7 @@ export default function LeafPage() {
       currentResonancePathIndex,
       lessonMode,
       lessonContent,
-      resonancePathExercises,
+      resonancePathExercises.length,
       moveToNextExerciseType,
       returnToMenu,
     ]
@@ -911,7 +971,8 @@ export default function LeafPage() {
   }, [currentInputIndex, totalInputs, lessonContent]);
 
   const handleTestComplete = useCallback(
-    (passed: boolean, score: number) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    (passed: boolean, _score: number) => {
       if (passed && lessonMode && lessonContent?.modeConfig) {
         const multiplier =
           lessonMode === "academia"
@@ -935,12 +996,23 @@ export default function LeafPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[60vh]">
+      <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
         <motion.div
-          className="w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full"
+          className="relative w-16 h-16"
           animate={{ rotate: 360 }}
-          transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
-        />
+          transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
+        >
+          <div className="absolute inset-0 rounded-full border-4 border-indigo-200 dark:border-indigo-900" />
+          <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-indigo-500" />
+        </motion.div>
+        <motion.p
+          className="text-sm text-gray-500 dark:text-gray-400"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+        >
+          Cargando contenido...
+        </motion.p>
       </div>
     );
   }
@@ -948,22 +1020,32 @@ export default function LeafPage() {
   if (error || !leaf || !branch) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
-        <span className="text-4xl mb-4">🍂</span>
-        <p className="text-gray-600 dark:text-gray-400">
+        <motion.div
+          className="w-20 h-20 mb-4 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center"
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ type: "spring" }}
+        >
+          <span className="text-4xl">😕</span>
+        </motion.div>
+        <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
+          Algo salió mal
+        </h2>
+        <p className="text-gray-600 dark:text-gray-400 mb-6 max-w-xs">
           {error || "Hoja no encontrada"}
         </p>
         <button
           onClick={() => router.push("/tree")}
-          className="mt-4 px-4 py-2 bg-indigo-500 text-white rounded-lg"
+          className="px-6 py-3 bg-indigo-500 text-white font-medium rounded-xl hover:bg-indigo-600 transition-colors"
         >
-          Volver al árbol
+          ← Volver
         </button>
       </div>
     );
   }
 
   return (
-    <div className="p-4 max-w-7xl mx-auto w-full">
+    <div className="w-full min-h-content flex flex-col px-3 xs:px-4 sm:px-6 lg:px-8 py-3 xs:py-4 lg:container lg:mx-auto">
       {/* Back button */}
       <motion.button
         onClick={() => router.push("/tree")}
@@ -977,22 +1059,24 @@ export default function LeafPage() {
 
       {/* Header */}
       <motion.div
-        className="rounded-2xl overflow-hidden shadow-lg mb-6"
+        className="rounded-xl xs:rounded-2xl overflow-hidden shadow-lg mb-4 xs:mb-6"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
       >
         <div
-          className="p-6 text-white"
+          className="p-4 xs:p-5 sm:p-6 text-white"
           style={{ backgroundColor: branch.color }}
         >
-          <div className="flex items-center gap-3 mb-2">
-            <span className="text-3xl">{leaf.icon || branch.icon}</span>
+          <div className="flex items-center gap-2 xs:gap-3 mb-2">
+            <span className="text-2xl xs:text-3xl">
+              {leaf.icon || branch.icon}
+            </span>
             <div>
-              <p className="text-sm opacity-80">{branch.title}</p>
-              <h1 className="text-xl font-bold">{leaf.title}</h1>
+              <p className="text-xs xs:text-sm opacity-80">{branch.title}</p>
+              <h1 className="text-lg xs:text-xl font-bold">{leaf.title}</h1>
             </div>
           </div>
-          <p className="text-sm opacity-90 italic">{leaf.titleFr}</p>
+          <p className="text-xs xs:text-sm opacity-90 italic">{leaf.titleFr}</p>
         </div>
       </motion.div>
 
@@ -1008,113 +1092,174 @@ export default function LeafPage() {
           >
             {!lessonContent ? (
               // Coming soon placeholder
-      <motion.div
-        className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg text-center"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1 }}
-      >
-        <span className="text-5xl mb-4 block">🚧</span>
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-          Contenido próximamente
-        </h2>
-        <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
-          Estamos preparando ejercicios interactivos para este tema.
-        </p>
-        <div className="flex items-center justify-center gap-2 text-sm text-gray-500 mb-4">
-          <span>⏱️</span>
+              <motion.div
+                className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg text-center"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+              >
+                <span className="text-5xl mb-4 block">🚧</span>
+                <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                  Contenido próximamente
+                </h2>
+                <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
+                  Estamos preparando ejercicios interactivos para este tema.
+                </p>
+                <div className="flex items-center justify-center gap-2 text-sm text-gray-500 mb-4">
+                  <span>⏱️</span>
                   <span>
                     Duración estimada: {leaf.estimatedMinutes} minutos
                   </span>
-        </div>
-      </motion.div>
+                </div>
+              </motion.div>
             ) : (
               // Lesson content available
               <>
-      <motion.div
-                  className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+                <motion.div
+                  className="bg-white dark:bg-gray-800 rounded-2xl p-5 shadow-lg border border-gray-100 dark:border-gray-700"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 }}
-      >
-        <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
-          <span>📌</span>
-          Gramática que aprenderás
-        </h3>
-        <ul className="space-y-2">
-          {leaf.grammar.map((g, i) => (
-            <motion.li
-              key={i}
-              className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400"
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.2 + i * 0.1 }}
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
-              {g}
-            </motion.li>
-          ))}
-        </ul>
-      </motion.div>
+                >
+                  <h3 className="text-sm font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                    <span className="w-8 h-8 rounded-lg bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center">
+                      📌
+                    </span>
+                    <span>Gramática que aprenderás</span>
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    {leaf.grammar.map((g, i) => (
+                      <motion.span
+                        key={i}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800"
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.1 + i * 0.05 }}
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
+                        {g}
+                      </motion.span>
+                    ))}
+                  </div>
+                </motion.div>
 
-      <motion.div
+                <motion.div
                   className="bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-xl p-6"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
-      >
-        <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
-          <span>🎯</span>
-          Lo que incluirá esta lección
-        </h3>
-                  <div className="grid grid-cols-2 gap-2 text-xs mb-4">
+                >
+                  <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                    <span>🎯</span>
+                    Lo que incluirá esta lección
+                  </h3>
+                  <div className="grid grid-cols-2 gap-3">
                     {totalPhrases > 0 && (
-                      <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
-                        <span>📝</span>
-                        <span>
-                          {conversationalBlocks.length > 0
-                            ? `${conversationalBlocks.length} bloques (${totalPhrases} frases)`
-                            : `${totalPhrases} frases con ejercicios`}
-                        </span>
+                      <div className="flex items-center gap-3 p-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700">
+                        <div className="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center text-lg">
+                          📝
+                        </div>
+                        <div>
+                          <div className="text-sm font-semibold text-gray-900 dark:text-white">
+                            {conversationalBlocks.length > 0
+                              ? conversationalBlocks.length
+                              : totalPhrases}
+                          </div>
+                          <div className="text-xs text-gray-500 dark:text-gray-400">
+                            {conversationalBlocks.length > 0
+                              ? "bloques"
+                              : "frases"}
+                          </div>
+                        </div>
                       </div>
                     )}
                     {vocabularyExercises.length > 0 && (
-                      <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
-                        <span>📚</span>
-                        <span>
-                          {vocabularyExercises.length} ejercicios Vocabulario
-                        </span>
+                      <div className="flex items-center gap-3 p-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700">
+                        <div className="w-10 h-10 rounded-lg bg-purple-100 dark:bg-purple-900/50 flex items-center justify-center text-lg">
+                          📚
+                        </div>
+                        <div>
+                          <div className="text-sm font-semibold text-gray-900 dark:text-white">
+                            {vocabularyExercises.length}
+                          </div>
+                          <div className="text-xs text-gray-500 dark:text-gray-400">
+                            Vocabulario
+                          </div>
+                        </div>
                       </div>
                     )}
                     {pragmaExercises.length > 0 && (
-                      <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
-                        <span>⚡</span>
-                        <span>
-                          {pragmaExercises.length} ejercicios Pragma Strike
-                        </span>
+                      <div className="flex items-center gap-3 p-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700">
+                        <div className="w-10 h-10 rounded-lg bg-yellow-100 dark:bg-yellow-900/50 flex items-center justify-center text-lg">
+                          ⚡
+                        </div>
+                        <div>
+                          <div className="text-sm font-semibold text-gray-900 dark:text-white">
+                            {pragmaExercises.length}
+                          </div>
+                          <div className="text-xs text-gray-500 dark:text-gray-400">
+                            Pragma Strike
+                          </div>
+                        </div>
                       </div>
                     )}
                     {shardExercises.length > 0 && (
-                      <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
-                        <span>🔍</span>
-                        <span>
-                          {shardExercises.length} ejercicios Shard Detection
-                        </span>
+                      <div className="flex items-center gap-3 p-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700">
+                        <div className="w-10 h-10 rounded-lg bg-green-100 dark:bg-green-900/50 flex items-center justify-center text-lg">
+                          🔍
+                        </div>
+                        <div>
+                          <div className="text-sm font-semibold text-gray-900 dark:text-white">
+                            {shardExercises.length}
+                          </div>
+                          <div className="text-xs text-gray-500 dark:text-gray-400">
+                            Shard Detection
+                          </div>
+                        </div>
                       </div>
                     )}
-          <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
-            <span>📘</span>
-                      <span>{totalInputs} input comprensible</span>
-          </div>
-          <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
-            <span>🎧</span>
-            <span>Audio nativo</span>
-          </div>
-          <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
-            <span>✅</span>
-            <span>Mini-test</span>
-          </div>
-        </div>
+                    {totalInputs > 0 && (
+                      <div className="flex items-center gap-3 p-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700">
+                        <div className="w-10 h-10 rounded-lg bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center text-lg">
+                          📘
+                        </div>
+                        <div>
+                          <div className="text-sm font-semibold text-gray-900 dark:text-white">
+                            {totalInputs}
+                          </div>
+                          <div className="text-xs text-gray-500 dark:text-gray-400">
+                            Input comprensible
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                    <div className="flex items-center gap-3 p-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700">
+                      <div className="w-10 h-10 rounded-lg bg-pink-100 dark:bg-pink-900/50 flex items-center justify-center text-lg">
+                        🎧
+                      </div>
+                      <div>
+                        <div className="text-sm font-semibold text-gray-900 dark:text-white">
+                          ✓
+                        </div>
+                        <div className="text-xs text-gray-500 dark:text-gray-400">
+                          Audio nativo
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3 p-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700">
+                      <div className="w-10 h-10 rounded-lg bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center text-lg">
+                        ✅
+                      </div>
+                      <div>
+                        <div className="text-sm font-semibold text-gray-900 dark:text-white">
+                          ✓
+                        </div>
+                        <div className="text-xs text-gray-500 dark:text-gray-400">
+                          Mini-test
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                   {/* Opciones de modo - mostrar solo el modo seleccionado o ambos si no hay selección */}
                   <div className="space-y-3">
                     {lessonMode === null ? (
@@ -1122,65 +1267,88 @@ export default function LeafPage() {
                       <>
                         <motion.button
                           onClick={() => selectMode("academia")}
-                          className="w-full p-4 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-xl border-2 border-indigo-200 dark:border-indigo-800 hover:border-indigo-400 dark:hover:border-indigo-600 transition-all text-left"
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
+                          className="w-full p-5 rounded-2xl border-2 transition-all text-left group hover:shadow-lg"
+                          style={{
+                            background:
+                              "linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%)",
+                            borderColor: "rgba(99, 102, 241, 0.3)",
+                          }}
+                          whileHover={{
+                            scale: 1.01,
+                            borderColor: "rgba(99, 102, 241, 0.6)",
+                          }}
+                          whileTap={{ scale: 0.99 }}
                         >
                           <div className="flex items-start gap-4">
-                            <div className="text-4xl">🎓</div>
+                            <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-2xl shadow-lg">
+                              🎓
+                            </div>
                             <div className="flex-1">
-                              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
+                              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                                 Modo Academia
                               </h3>
                               <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
-                                Aprende a tu ritmo con ayuda y práctica
+                                Aprende a tu ritmo con ayuda
                               </p>
-                              <ul className="space-y-1 text-xs text-gray-600 dark:text-gray-400">
-                                <li>✓ Sin límite de tiempo</li>
-                                <li>✓ Pistas y explicaciones disponibles</li>
-                                <li>✓ Reintentos ilimitados</li>
-                                <li>✓ XP estándar</li>
-                              </ul>
+                              <div className="flex flex-wrap gap-2">
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300">
+                                  ✓ Sin límite
+                                </span>
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300">
+                                  ✓ Pistas
+                                </span>
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300">
+                                  ✓ Reintentos
+                                </span>
+                              </div>
                             </div>
                           </div>
                         </motion.button>
 
                         <motion.button
                           onClick={() => selectMode("desafio")}
-                          className="w-full p-4 bg-gradient-to-br from-red-50 to-orange-50 dark:from-red-900/20 dark:to-orange-900/20 rounded-xl border-2 border-red-200 dark:border-red-800 hover:border-red-400 dark:hover:border-red-600 transition-all text-left"
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
+                          className="w-full p-5 rounded-2xl border-2 transition-all text-left group hover:shadow-lg"
+                          style={{
+                            background:
+                              "linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, rgba(251, 146, 60, 0.05) 100%)",
+                            borderColor: "rgba(239, 68, 68, 0.3)",
+                          }}
+                          whileHover={{
+                            scale: 1.01,
+                            borderColor: "rgba(239, 68, 68, 0.6)",
+                          }}
+                          whileTap={{ scale: 0.99 }}
                         >
                           <div className="flex items-start gap-4">
-                            <div className="text-4xl">⚡</div>
+                            <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center text-2xl shadow-lg">
+                              ⚡
+                            </div>
                             <div className="flex-1">
-                              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
+                              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
                                 Modo Desafío
                               </h3>
                               <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
                                 Prueba tus habilidades bajo presión
                               </p>
-                              <ul className="space-y-1 text-xs text-gray-600 dark:text-gray-400">
-                                <li>
-                                  ⚡ Límite de tiempo:{" "}
-                                  {lessonContent.modeConfig?.desafio.timeLimit ||
-                                    15}{" "}
+                              <div className="flex flex-wrap gap-2">
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300">
+                                  ⚡{" "}
+                                  {lessonContent.modeConfig?.desafio
+                                    .timeLimit || 15}{" "}
                                   min
-                                </li>
-                                <li>⚡ Sin pistas ni explicaciones</li>
-                                <li>⚡ Sin reintentos</li>
-                                <li>
+                                </span>
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300">
+                                  ⚡ Sin pistas
+                                </span>
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300">
                                   ⚡{" "}
                                   {Math.round(
                                     (lessonContent.modeConfig?.desafio
                                       .xpMultiplier || 1.5) * 100
                                   )}
-                                  % más XP +{" "}
-                                  {lessonContent.modeConfig?.desafio.gemsReward ||
-                                    10}{" "}
-                                  gems
-                                </li>
-                              </ul>
+                                  % más XP
+                                </span>
+                              </div>
                             </div>
                           </div>
                         </motion.button>
@@ -1254,7 +1422,7 @@ export default function LeafPage() {
                       </motion.div>
                     )}
                   </div>
-      </motion.div>
+                </motion.div>
               </>
             )}
           </motion.div>
@@ -1271,44 +1439,50 @@ export default function LeafPage() {
               exit={{ opacity: 0, y: -20 }}
               className="space-y-4"
             >
-              <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-lg">
-                <div className="flex items-center justify-between mb-3">
-                  <div>
-                    <h2 className="text-lg font-bold text-gray-900 dark:text-white">
-                      🎓 Menú de Ejercicios
-                    </h2>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">
-                      Nivel {levelInfo.level}: {levelInfo.title}
-                    </p>
-    </div>
+              <div className="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl p-5 shadow-lg text-white mb-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center text-2xl">
+                      🎓
+                    </div>
+                    <div>
+                      <h2 className="text-xl font-bold">Menú de Ejercicios</h2>
+                      {levelInfo && (
+                        <p className="text-sm text-white/80">
+                          Nivel {levelInfo.level}: {levelInfo.title}
+                        </p>
+                      )}
+                    </div>
+                  </div>
                   <button
                     onClick={() => setPhase("intro")}
-                    className="text-xs text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
+                    className="px-3 py-1.5 rounded-lg bg-white/20 hover:bg-white/30 text-sm font-medium transition-colors"
                   >
-                    ← Cambiar modo
+                    ← Cambiar
                   </button>
                 </div>
+              </div>
 
-                {/* Ejercicios de Frases */}
-                {totalPhrases > 0 && (
-                  <div className="mb-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <h3 className="text-sm font-bold text-gray-900 dark:text-white flex items-center gap-1.5">
-                        <span className="text-lg">📝</span>
-                        <span>
-                          {conversationalBlocks.length > 0
-                            ? `Ejercicios de Bloques (${conversationalBlocks.length} bloques)`
-                            : "Ejercicios de Frases"}
-                        </span>
-                      </h3>
-                      <span className="text-xs text-gray-500 dark:text-gray-400">
-                        {totalPhrases} frases
-                      </span>
+              {/* Ejercicios de Frases */}
+              {totalPhrases > 0 && (
+                <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 shadow-md border border-gray-100 dark:border-gray-700 mb-4">
+                  <div className="flex items-center gap-3 mb-4 pb-3 border-b border-gray-100 dark:border-gray-700">
+                    <div className="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center text-xl">
+                      📝
                     </div>
-                    <div className="grid grid-cols-2 gap-2">
-                      {(
-                        ["cloze", "variations"] as PhrasePhase[]
-                      ).map((exercisePhase) => {
+                    <div className="flex-1">
+                      <h3 className="font-bold text-gray-900 dark:text-white">
+                        Ejercicios de Bloques
+                      </h3>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                        {conversationalBlocks.length} bloques · {totalPhrases}{" "}
+                        frases
+                      </p>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    {(["cloze", "variations"] as PhrasePhase[]).map(
+                      (exercisePhase) => {
                         // Contar cuántas frases de este tipo están completadas
                         const completedCount = Array.from(
                           completedExercises
@@ -1363,89 +1537,80 @@ export default function LeafPage() {
                                 phrasePhase: exercisePhase,
                               })
                             }
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            className={`relative overflow-hidden rounded-lg p-3 text-center transition-all border ${
+                            className={`relative overflow-hidden rounded-xl p-4 text-left transition-all border-2 group ${
                               isFullyCompleted
                                 ? `bg-gradient-to-br ${exerciseGradients[exercisePhase]} text-white ${exerciseBorders[exercisePhase]} shadow-md`
                                 : `bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-gray-200 dark:border-gray-700 hover:border-indigo-400 dark:hover:border-indigo-600`
                             }`}
+                            whileHover={{ scale: 1.02, y: -2 }}
+                            whileTap={{ scale: 0.98 }}
                           >
-                            {isFullyCompleted && (
-                              <motion.div
-                                className="absolute top-1 right-1"
-                                initial={{ scale: 0 }}
-                                animate={{ scale: 1 }}
-                                transition={{ type: "spring", stiffness: 200 }}
-                              >
-                                <span className="text-sm">✓</span>
-                              </motion.div>
+                            {/* Barra de progreso de fondo */}
+                            {!isFullyCompleted && (
+                              <div
+                                className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-cyan-500/10 transition-all"
+                                style={{ width: `${progressPercent}%` }}
+                              />
                             )}
 
-                            <div className="flex flex-col items-center gap-1.5">
-                              <div className="text-2xl">
-                                {exerciseIcons[exercisePhase]}
-                              </div>
-
+                            <div className="relative z-10 flex items-center gap-3">
                               <div
-                                className={`font-bold text-xs ${
+                                className={`w-12 h-12 rounded-xl flex items-center justify-center text-2xl group-hover:scale-110 transition-transform ${
                                   isFullyCompleted
-                                    ? "text-white"
-                                    : "text-gray-900 dark:text-white"
+                                    ? "bg-white/20"
+                                    : "bg-blue-100 dark:bg-blue-900/50"
                                 }`}
                               >
-                                {exerciseNames[exercisePhase]}
+                                {exerciseIcons[exercisePhase]}
                               </div>
-
-                              <div className="w-full">
+                              <div className="flex-1">
                                 <div
-                                  className={`flex items-center justify-between mb-0.5 text-[10px] ${
+                                  className={`font-bold text-sm ${
+                                    isFullyCompleted
+                                      ? "text-white"
+                                      : "text-gray-900 dark:text-white"
+                                  }`}
+                                >
+                                  {exerciseNames[exercisePhase]}
+                                </div>
+                                <div
+                                  className={`text-xs ${
                                     isFullyCompleted
                                       ? "text-white/90"
-                                      : "text-gray-600 dark:text-gray-400"
+                                      : "text-gray-500 dark:text-gray-400"
                                   }`}
                                 >
-                                  <span>
-                                    {completedCount}/{totalPhrases}
-                                  </span>
-                                  <span>{Math.round(progressPercent)}%</span>
-                                </div>
-                                <div
-                                  className={`h-1 rounded-full overflow-hidden ${
-                                    isFullyCompleted
-                                      ? "bg-white/30"
-                                      : "bg-gray-200 dark:bg-gray-700"
-                                  }`}
-                                >
-                                  <motion.div
-                                    className={`h-full rounded-full ${
-                                      isFullyCompleted
-                                        ? "bg-white"
-                                        : `bg-gradient-to-r ${exerciseGradients[exercisePhase]}`
-                                    }`}
-                                    initial={{ width: 0 }}
-                                    animate={{ width: `${progressPercent}%` }}
-                                    transition={{ duration: 0.5 }}
-                                  />
+                                  {completedCount}/{totalPhrases} completados
                                 </div>
                               </div>
+                              {isFullyCompleted && (
+                                <div className="w-6 h-6 rounded-full bg-white flex items-center justify-center text-white text-sm">
+                                  ✓
+                                </div>
+                              )}
                             </div>
                           </motion.button>
                         );
-                      })}
-                    </div>
+                      }
+                    )}
                   </div>
-                )}
+                </div>
+              )}
 
-                {/* Ejercicios Vocabulary - Un solo botón */}
-                {vocabularyExercises.length > 0 && (() => {
-                  const completedVocabularyCount = vocabularyExercises.filter((_, idx) => 
-                    completedExercises.has(`vocabulary-${idx}`)
+              {/* Ejercicios Vocabulary - Un solo botón */}
+              {vocabularyExercises.length > 0 &&
+                (() => {
+                  const completedVocabularyCount = vocabularyExercises.filter(
+                    (_, idx) => completedExercises.has(`vocabulary-${idx}`)
                   ).length;
-                  const isFullyCompleted = completedVocabularyCount === vocabularyExercises.length;
-                  const progressPercent = vocabularyExercises.length > 0 
-                    ? (completedVocabularyCount / vocabularyExercises.length) * 100 
-                    : 0;
+                  const isFullyCompleted =
+                    completedVocabularyCount === vocabularyExercises.length;
+                  const progressPercent =
+                    vocabularyExercises.length > 0
+                      ? (completedVocabularyCount /
+                          vocabularyExercises.length) *
+                        100
+                      : 0;
 
                   // Encontrar el primer ejercicio no completado
                   const findFirstIncomplete = () => {
@@ -1506,7 +1671,8 @@ export default function LeafPage() {
                               }`}
                             >
                               <span>
-                                {completedVocabularyCount}/{vocabularyExercises.length} ejercicios
+                                {completedVocabularyCount}/
+                                {vocabularyExercises.length} ejercicios
                               </span>
                               <span>{Math.round(progressPercent)}%</span>
                             </div>
@@ -1535,15 +1701,18 @@ export default function LeafPage() {
                   );
                 })()}
 
-                {/* Ejercicios Pragma Strike - Un solo botón */}
-                {pragmaExercises.length > 0 && (() => {
-                  const completedPragmaCount = pragmaExercises.filter((_, idx) => 
-                    completedExercises.has(`pragma-${idx}`)
+              {/* Ejercicios Pragma Strike - Un solo botón */}
+              {pragmaExercises.length > 0 &&
+                (() => {
+                  const completedPragmaCount = pragmaExercises.filter(
+                    (_, idx) => completedExercises.has(`pragma-${idx}`)
                   ).length;
-                  const isFullyCompleted = completedPragmaCount === pragmaExercises.length;
-                  const progressPercent = pragmaExercises.length > 0 
-                    ? (completedPragmaCount / pragmaExercises.length) * 100 
-                    : 0;
+                  const isFullyCompleted =
+                    completedPragmaCount === pragmaExercises.length;
+                  const progressPercent =
+                    pragmaExercises.length > 0
+                      ? (completedPragmaCount / pragmaExercises.length) * 100
+                      : 0;
 
                   // Encontrar el primer ejercicio no completado
                   const findFirstIncomplete = () => {
@@ -1604,7 +1773,8 @@ export default function LeafPage() {
                               }`}
                             >
                               <span>
-                                {completedPragmaCount}/{pragmaExercises.length} ejercicios
+                                {completedPragmaCount}/{pragmaExercises.length}{" "}
+                                ejercicios
                               </span>
                               <span>{Math.round(progressPercent)}%</span>
                             </div>
@@ -1633,15 +1803,18 @@ export default function LeafPage() {
                   );
                 })()}
 
-                {/* Ejercicios Shard Detection - Un solo botón */}
-                {shardExercises.length > 0 && (() => {
-                  const completedShardCount = shardExercises.filter((_, idx) => 
+              {/* Ejercicios Shard Detection - Un solo botón */}
+              {shardExercises.length > 0 &&
+                (() => {
+                  const completedShardCount = shardExercises.filter((_, idx) =>
                     completedExercises.has(`shard-${idx}`)
                   ).length;
-                  const isFullyCompleted = completedShardCount === shardExercises.length;
-                  const progressPercent = shardExercises.length > 0 
-                    ? (completedShardCount / shardExercises.length) * 100 
-                    : 0;
+                  const isFullyCompleted =
+                    completedShardCount === shardExercises.length;
+                  const progressPercent =
+                    shardExercises.length > 0
+                      ? (completedShardCount / shardExercises.length) * 100
+                      : 0;
 
                   // Encontrar el primer ejercicio no completado
                   const findFirstIncomplete = () => {
@@ -1702,7 +1875,8 @@ export default function LeafPage() {
                               }`}
                             >
                               <span>
-                                {completedShardCount}/{shardExercises.length} ejercicios
+                                {completedShardCount}/{shardExercises.length}{" "}
+                                ejercicios
                               </span>
                               <span>{Math.round(progressPercent)}%</span>
                             </div>
@@ -1731,15 +1905,20 @@ export default function LeafPage() {
                   );
                 })()}
 
-                {/* Ejercicios Repetición de Audio - Un solo botón */}
-                {echoStreamExercises.length > 0 && (() => {
-                  const completedEchoStreamCount = echoStreamExercises.filter((_, idx) => 
-                    completedExercises.has(`echoStream-${idx}`)
+              {/* Ejercicios Repetición de Audio - Un solo botón */}
+              {echoStreamExercises.length > 0 &&
+                (() => {
+                  const completedEchoStreamCount = echoStreamExercises.filter(
+                    (_, idx) => completedExercises.has(`echoStream-${idx}`)
                   ).length;
-                  const isFullyCompleted = completedEchoStreamCount === echoStreamExercises.length;
-                  const progressPercent = echoStreamExercises.length > 0 
-                    ? (completedEchoStreamCount / echoStreamExercises.length) * 100 
-                    : 0;
+                  const isFullyCompleted =
+                    completedEchoStreamCount === echoStreamExercises.length;
+                  const progressPercent =
+                    echoStreamExercises.length > 0
+                      ? (completedEchoStreamCount /
+                          echoStreamExercises.length) *
+                        100
+                      : 0;
 
                   // Encontrar el primer ejercicio no completado
                   const findFirstIncomplete = () => {
@@ -1800,7 +1979,8 @@ export default function LeafPage() {
                               }`}
                             >
                               <span>
-                                {completedEchoStreamCount}/{echoStreamExercises.length} ejercicios
+                                {completedEchoStreamCount}/
+                                {echoStreamExercises.length} ejercicios
                               </span>
                               <span>{Math.round(progressPercent)}%</span>
                             </div>
@@ -1829,15 +2009,21 @@ export default function LeafPage() {
                   );
                 })()}
 
-                {/* Ejercicios Construcción de Frases - Un solo botón */}
-                {glyphWeavingExercises.length > 0 && (() => {
-                  const completedGlyphWeavingCount = glyphWeavingExercises.filter((_, idx) => 
-                    completedExercises.has(`glyphWeaving-${idx}`)
-                  ).length;
-                  const isFullyCompleted = completedGlyphWeavingCount === glyphWeavingExercises.length;
-                  const progressPercent = glyphWeavingExercises.length > 0 
-                    ? (completedGlyphWeavingCount / glyphWeavingExercises.length) * 100 
-                    : 0;
+              {/* Ejercicios Construcción de Frases - Un solo botón */}
+              {glyphWeavingExercises.length > 0 &&
+                (() => {
+                  const completedGlyphWeavingCount =
+                    glyphWeavingExercises.filter((_, idx) =>
+                      completedExercises.has(`glyphWeaving-${idx}`)
+                    ).length;
+                  const isFullyCompleted =
+                    completedGlyphWeavingCount === glyphWeavingExercises.length;
+                  const progressPercent =
+                    glyphWeavingExercises.length > 0
+                      ? (completedGlyphWeavingCount /
+                          glyphWeavingExercises.length) *
+                        100
+                      : 0;
 
                   // Encontrar el primer ejercicio no completado
                   const findFirstIncomplete = () => {
@@ -1898,7 +2084,8 @@ export default function LeafPage() {
                               }`}
                             >
                               <span>
-                                {completedGlyphWeavingCount}/{glyphWeavingExercises.length} ejercicios
+                                {completedGlyphWeavingCount}/
+                                {glyphWeavingExercises.length} ejercicios
                               </span>
                               <span>{Math.round(progressPercent)}%</span>
                             </div>
@@ -1927,15 +2114,22 @@ export default function LeafPage() {
                   );
                 })()}
 
-                {/* Ejercicios Resonance Path - Un solo botón */}
-                {resonancePathExercises.length > 0 && (() => {
-                  const completedResonancePathCount = resonancePathExercises.filter((_, idx) => 
-                    completedExercises.has(`resonancePath-${idx}`)
-                  ).length;
-                  const isFullyCompleted = completedResonancePathCount === resonancePathExercises.length;
-                  const progressPercent = resonancePathExercises.length > 0 
-                    ? (completedResonancePathCount / resonancePathExercises.length) * 100 
-                    : 0;
+              {/* Ejercicios Resonance Path - Un solo botón */}
+              {resonancePathExercises.length > 0 &&
+                (() => {
+                  const completedResonancePathCount =
+                    resonancePathExercises.filter((_, idx) =>
+                      completedExercises.has(`resonancePath-${idx}`)
+                    ).length;
+                  const isFullyCompleted =
+                    completedResonancePathCount ===
+                    resonancePathExercises.length;
+                  const progressPercent =
+                    resonancePathExercises.length > 0
+                      ? (completedResonancePathCount /
+                          resonancePathExercises.length) *
+                        100
+                      : 0;
 
                   // Encontrar el primer ejercicio no completado
                   const findFirstIncomplete = () => {
@@ -1996,7 +2190,8 @@ export default function LeafPage() {
                               }`}
                             >
                               <span>
-                                {completedResonancePathCount}/{resonancePathExercises.length} ejercicios
+                                {completedResonancePathCount}/
+                                {resonancePathExercises.length} ejercicios
                               </span>
                               <span>{Math.round(progressPercent)}%</span>
                             </div>
@@ -2025,143 +2220,138 @@ export default function LeafPage() {
                   );
                 })()}
 
-                {/* Matriz de Janus */}
-                {world?.janusMatrix && (
-                  <div className="mb-4">
-                    <motion.button
-                      onClick={() => router.push(`/world/${world.id}/janus`)}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="w-full relative overflow-hidden rounded-lg p-4 text-center transition-all border bg-gradient-to-r from-purple-500 to-indigo-500 text-white border-purple-300 dark:border-purple-700 shadow-md hover:shadow-lg"
-                    >
-                      <div className="flex flex-col items-center gap-2">
-                        <div className="text-3xl">🧩</div>
-                        <div className="font-bold text-sm">
-                          Matriz de Janus
-                        </div>
-                        <div className="text-xs opacity-90">
-                          {world.janusMatrix.title}
-                        </div>
+              {/* Matriz de Janus */}
+              {world?.janusMatrix && (
+                <div className="mb-4">
+                  <motion.button
+                    onClick={() => router.push(`/world/${world.id}/janus`)}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="w-full relative overflow-hidden rounded-lg p-4 text-center transition-all border bg-gradient-to-r from-purple-500 to-indigo-500 text-white border-purple-300 dark:border-purple-700 shadow-md hover:shadow-lg"
+                  >
+                    <div className="flex flex-col items-center gap-2">
+                      <div className="text-3xl">🧩</div>
+                      <div className="font-bold text-sm">Matriz de Janus</div>
+                      <div className="text-xs opacity-90">
+                        {world.janusMatrix.title}
                       </div>
-                    </motion.button>
-                  </div>
-                )}
+                    </div>
+                  </motion.button>
+                </div>
+              )}
 
-                {/* Resumen de progreso granular */}
-                <div className="mt-3 pt-2 border-t border-gray-200 dark:border-gray-700">
-                  <div className="flex items-center justify-between mb-1.5">
-                    <span className="text-xs font-semibold text-gray-900 dark:text-white">
-                      Progreso total:
-                    </span>
-                    <span className="text-xs font-bold bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent">
-                      {completedExercises.size} / {totalExercises}
-                    </span>
-                  </div>
-                  <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 mb-2">
-                    <div
-                      className="bg-indigo-500 h-1.5 rounded-full transition-all"
-                      style={{
-                        width: `${
-                          (completedExercises.size / totalExercises) * 100
-                        }%`,
-                      }}
-                    />
-                  </div>
+              {/* Resumen de progreso granular */}
+              <div className="mt-3 pt-2 border-t border-gray-200 dark:border-gray-700">
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="text-xs font-semibold text-gray-900 dark:text-white">
+                    Progreso total:
+                  </span>
+                  <span className="text-xs font-bold bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent">
+                    {completedExercises.size} / {totalExercises}
+                  </span>
+                </div>
+                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 mb-2">
+                  <div
+                    className="bg-indigo-500 h-1.5 rounded-full transition-all"
+                    style={{
+                      width: `${
+                        (completedExercises.size / totalExercises) * 100
+                      }%`,
+                    }}
+                  />
+                </div>
 
-                  {/* Progreso por categoría */}
-                  <div className="grid grid-cols-3 gap-1.5 text-[10px]">
-                    {totalPhrases > 0 &&
-                      (() => {
-                        const phrasesCompleted = Array.from(
-                          completedExercises
-                        ).filter((id) => id.startsWith("phrase-")).length;
-                        const totalPhrasesExercises = totalPhrases * 2; // Cloze + Variations
-                        return (
-                          <div className="bg-blue-50 dark:bg-blue-900/20 rounded p-1.5 border border-blue-200 dark:border-blue-800">
-                            <div className="flex justify-between mb-0.5">
-                              <span className="text-gray-700 dark:text-gray-300 font-semibold">
-                                📝
-                              </span>
-                              <span className="font-bold text-blue-600 dark:text-blue-400">
-                                {phrasesCompleted}/{totalPhrasesExercises}
-                              </span>
-                            </div>
-                            <div className="w-full bg-blue-200 dark:bg-blue-900 rounded-full h-1">
-                              <div
-                                className="bg-blue-500 h-1 rounded-full transition-all"
-                                style={{
-                                  width: `${
-                                    (phrasesCompleted / totalPhrasesExercises) *
-                                    100
-                                  }%`,
-                                }}
-                              />
-                            </div>
+                {/* Progreso por categoría */}
+                <div className="grid grid-cols-2 xs:grid-cols-3 gap-2 xs:gap-3 text-[10px] xs:text-xs">
+                  {totalPhrases > 0 &&
+                    (() => {
+                      const phrasesCompleted = Array.from(
+                        completedExercises
+                      ).filter((id) => id.startsWith("phrase-")).length;
+                      const totalPhrasesExercises = totalPhrases * 2; // Cloze + Variations
+                      return (
+                        <div className="bg-blue-50 dark:bg-blue-900/20 rounded p-1.5 border border-blue-200 dark:border-blue-800">
+                          <div className="flex justify-between mb-0.5">
+                            <span className="text-gray-700 dark:text-gray-300 font-semibold">
+                              📝
+                            </span>
+                            <span className="font-bold text-blue-600 dark:text-blue-400">
+                              {phrasesCompleted}/{totalPhrasesExercises}
+                            </span>
                           </div>
-                        );
-                      })()}
-
-                    {pragmaExercises.length > 0 &&
-                      (() => {
-                        const pragmaCompleted = Array.from(
-                          completedExercises
-                        ).filter((id) => id.startsWith("pragma-")).length;
-                        return (
-                          <div className="bg-yellow-50 dark:bg-yellow-900/20 rounded p-1.5 border border-yellow-200 dark:border-yellow-800">
-                            <div className="flex justify-between mb-0.5">
-                              <span className="text-gray-700 dark:text-gray-300 font-semibold">
-                                ⚡
-                              </span>
-                              <span className="font-bold text-yellow-600 dark:text-yellow-400">
-                                {pragmaCompleted}/{pragmaExercises.length}
-                              </span>
-                            </div>
-                            <div className="w-full bg-yellow-200 dark:bg-yellow-900 rounded-full h-1">
-                              <div
-                                className="bg-yellow-500 h-1 rounded-full transition-all"
-                                style={{
-                                  width: `${
-                                    (pragmaCompleted / pragmaExercises.length) *
-                                    100
-                                  }%`,
-                                }}
-                              />
-                            </div>
+                          <div className="w-full bg-blue-200 dark:bg-blue-900 rounded-full h-1">
+                            <div
+                              className="bg-blue-500 h-1 rounded-full transition-all"
+                              style={{
+                                width: `${
+                                  (phrasesCompleted / totalPhrasesExercises) *
+                                  100
+                                }%`,
+                              }}
+                            />
                           </div>
-                        );
-                      })()}
+                        </div>
+                      );
+                    })()}
 
-                    {shardExercises.length > 0 &&
-                      (() => {
-                        const shardCompleted = Array.from(
-                          completedExercises
-                        ).filter((id) => id.startsWith("shard-")).length;
-                        return (
-                          <div className="bg-emerald-50 dark:bg-emerald-900/20 rounded p-1.5 border border-emerald-200 dark:border-emerald-800">
-                            <div className="flex justify-between mb-0.5">
-                              <span className="text-gray-700 dark:text-gray-300 font-semibold">
-                                🔍
-                              </span>
-                              <span className="font-bold text-emerald-600 dark:text-emerald-400">
-                                {shardCompleted}/{shardExercises.length}
-                              </span>
-                            </div>
-                            <div className="w-full bg-emerald-200 dark:bg-emerald-900 rounded-full h-1">
-                              <div
-                                className="bg-emerald-500 h-1 rounded-full transition-all"
-                                style={{
-                                  width: `${
-                                    (shardCompleted / shardExercises.length) *
-                                    100
-                                  }%`,
-                                }}
-                              />
-                            </div>
+                  {pragmaExercises.length > 0 &&
+                    (() => {
+                      const pragmaCompleted = Array.from(
+                        completedExercises
+                      ).filter((id) => id.startsWith("pragma-")).length;
+                      return (
+                        <div className="bg-yellow-50 dark:bg-yellow-900/20 rounded p-1.5 border border-yellow-200 dark:border-yellow-800">
+                          <div className="flex justify-between mb-0.5">
+                            <span className="text-gray-700 dark:text-gray-300 font-semibold">
+                              ⚡
+                            </span>
+                            <span className="font-bold text-yellow-600 dark:text-yellow-400">
+                              {pragmaCompleted}/{pragmaExercises.length}
+                            </span>
                           </div>
-                        );
-                      })()}
+                          <div className="w-full bg-yellow-200 dark:bg-yellow-900 rounded-full h-1">
+                            <div
+                              className="bg-yellow-500 h-1 rounded-full transition-all"
+                              style={{
+                                width: `${
+                                  (pragmaCompleted / pragmaExercises.length) *
+                                  100
+                                }%`,
+                              }}
+                            />
+                          </div>
+                        </div>
+                      );
+                    })()}
 
-                  </div>
+                  {shardExercises.length > 0 &&
+                    (() => {
+                      const shardCompleted = Array.from(
+                        completedExercises
+                      ).filter((id) => id.startsWith("shard-")).length;
+                      return (
+                        <div className="bg-emerald-50 dark:bg-emerald-900/20 rounded p-1.5 border border-emerald-200 dark:border-emerald-800">
+                          <div className="flex justify-between mb-0.5">
+                            <span className="text-gray-700 dark:text-gray-300 font-semibold">
+                              🔍
+                            </span>
+                            <span className="font-bold text-emerald-600 dark:text-emerald-400">
+                              {shardCompleted}/{shardExercises.length}
+                            </span>
+                          </div>
+                          <div className="w-full bg-emerald-200 dark:bg-emerald-900 rounded-full h-1">
+                            <div
+                              className="bg-emerald-500 h-1 rounded-full transition-all"
+                              style={{
+                                width: `${
+                                  (shardCompleted / shardExercises.length) * 100
+                                }%`,
+                              }}
+                            />
+                          </div>
+                        </div>
+                      );
+                    })()}
                 </div>
               </div>
             </motion.div>
@@ -2170,12 +2360,79 @@ export default function LeafPage() {
         {/* Exercises Phase - Clásicos y Core v2.0 */}
         {phase === "exercises" && (
           <>
+            {/* Progress Bar */}
+            <div className="mb-4">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs xs:text-sm font-medium text-gray-600 dark:text-gray-400">
+                  Progreso de la lección
+                </span>
+                <span className="text-xs xs:text-sm font-bold text-indigo-600 dark:text-indigo-400">
+                  {completedExercises.size}/{totalExercises}
+                </span>
+              </div>
+              <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                <motion.div
+                  className="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full"
+                  initial={{ width: 0 }}
+                  animate={{
+                    width: `${
+                      (completedExercises.size / totalExercises) * 100
+                    }%`,
+                  }}
+                  transition={{ duration: 0.5, ease: "easeOut" }}
+                />
+              </div>
+            </div>
+
+            {/* Current Exercise Indicator */}
+            <div className="flex items-center justify-between bg-white dark:bg-gray-800 rounded-xl p-3 xs:p-4 mb-4 shadow-sm border border-gray-100 dark:border-gray-700">
+              <div className="flex items-center gap-2 xs:gap-3">
+                <span className="text-lg xs:text-xl">
+                  {currentExerciseType === "phrases"
+                    ? "📝"
+                    : currentExerciseType === "pragmaStrike"
+                    ? "⚡"
+                    : currentExerciseType === "shardDetection"
+                    ? "🔍"
+                    : currentExerciseType === "vocabulary"
+                    ? "📚"
+                    : "📚"}
+                </span>
+                <div>
+                  <div className="text-sm xs:text-base font-bold text-gray-900 dark:text-white">
+                    {currentExerciseType === "phrases" &&
+                    phrasePhase === "cloze"
+                      ? "Cloze"
+                      : currentExerciseType === "phrases" &&
+                        phrasePhase === "variations"
+                      ? "Variaciones"
+                      : currentExerciseType === "pragmaStrike"
+                      ? "Comunicación"
+                      : currentExerciseType === "shardDetection"
+                      ? "Reconocimiento"
+                      : currentExerciseType === "vocabulary"
+                      ? "Vocabulario"
+                      : "Ejercicio"}
+                  </div>
+                  <div className="text-xs xs:text-sm text-gray-500 dark:text-gray-400">
+                    {currentPhraseIndex + 1} de {totalPhrases}
+                  </div>
+                </div>
+              </div>
+              <button
+                onClick={returnToMenu}
+                className="px-3 xs:px-4 py-1.5 xs:py-2 text-xs xs:text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white bg-gray-100 dark:bg-gray-700 rounded-lg transition-colors"
+              >
+                ← Menú
+              </button>
+            </div>
+
             {/* Botón para volver al menú en modo academia */}
             {lessonMode === "academia" && (
               <div className="mb-4">
                 <button
                   onClick={handleReturnToMenuWithConfirm}
-                  className="px-4 py-2 text-sm bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-all flex items-center gap-2"
+                  className="px-3 xs:px-4 py-2 text-xs xs:text-sm bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg xs:rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-all flex items-center gap-2 font-medium xs:font-bold"
                 >
                   <span>←</span>
                   <span>Volver al menú</span>
@@ -2193,7 +2450,7 @@ export default function LeafPage() {
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -50 }}
                   >
-                    <div className="mb-4 flex items-center justify-between text-sm">
+                    <div className="mb-4 flex items-center justify-between text-xs xs:text-sm">
                       <div className="text-gray-600 dark:text-gray-400">
                         Vocabulario {currentVocabularyIndex + 1} de{" "}
                         {vocabularyExercises.length}
@@ -2233,7 +2490,7 @@ export default function LeafPage() {
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -50 }}
                   >
-                    <div className="mb-4 flex items-center justify-between text-sm">
+                    <div className="mb-4 flex items-center justify-between text-xs xs:text-sm">
                       <div className="text-gray-600 dark:text-gray-400">
                         Comunicación Situacional {currentPragmaIndex + 1} de{" "}
                         {pragmaExercises.length}
@@ -2253,6 +2510,7 @@ export default function LeafPage() {
                     <PragmaStrikeExercise
                       exercise={currentPragma}
                       onComplete={handlePragmaComplete}
+                      mode={lessonMode || 'desafio'}
                     />
                   </motion.div>
                 ) : (
@@ -2273,7 +2531,7 @@ export default function LeafPage() {
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -50 }}
                   >
-                    <div className="mb-4 flex items-center justify-between text-sm">
+                    <div className="mb-4 flex items-center justify-between text-xs xs:text-sm">
                       <div className="text-gray-600 dark:text-gray-400">
                         Reconocimiento de Audio {currentShardIndex + 1} de{" "}
                         {shardExercises.length}
@@ -2313,7 +2571,7 @@ export default function LeafPage() {
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -50 }}
                   >
-                    <div className="mb-4 flex items-center justify-between text-sm">
+                    <div className="mb-4 flex items-center justify-between text-xs xs:text-sm">
                       <div className="text-gray-600 dark:text-gray-400">
                         Repetición de Audio {currentEchoStreamIndex + 1} de{" "}
                         {echoStreamExercises.length}
@@ -2353,7 +2611,7 @@ export default function LeafPage() {
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -50 }}
                   >
-                    <div className="mb-4 flex items-center justify-between text-sm">
+                    <div className="mb-4 flex items-center justify-between text-xs xs:text-sm">
                       <div className="text-gray-600 dark:text-gray-400">
                         Construcción de Frases {currentGlyphWeavingIndex + 1} de{" "}
                         {glyphWeavingExercises.length}
@@ -2393,7 +2651,7 @@ export default function LeafPage() {
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -50 }}
                   >
-                    <div className="mb-4 flex items-center justify-between text-sm">
+                    <div className="mb-4 flex items-center justify-between text-xs xs:text-sm">
                       <div className="text-gray-600 dark:text-gray-400">
                         Entonación {currentResonancePathIndex + 1} de{" "}
                         {resonancePathExercises.length}
@@ -2424,59 +2682,68 @@ export default function LeafPage() {
             )}
 
             {/* Classic Phrases Exercises */}
-            {currentExerciseType === "phrases" && currentPhrase && (() => {
-              // Encontrar el bloque que contiene la frase actual
-              const currentBlock = conversationalBlocks.find(block => 
-                block.phrases.some(p => p.id === currentPhrase.id)
-              );
-              
-              return (
-                <motion.div
-                  key={`phrases-${currentPhraseIndex}-${phrasePhase}`}
-                  initial={{ opacity: 0, x: 50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -50 }}
-                >
-                  {/* Progress indicator and timer */}
-                  <div className="mb-4 flex items-center justify-between text-sm">
-                    <div className="text-gray-600 dark:text-gray-400">
-                      {currentBlock 
-                        ? `Bloque ${conversationalBlocks.indexOf(currentBlock) + 1} de ${conversationalBlocks.length} - Frase ${currentBlock.phrases.findIndex(p => p.id === currentPhrase.id) + 1} de ${currentBlock.phrases.length}`
-                        : `Frase ${currentPhraseIndex + 1} de ${totalPhrases}`
-                      } -{" "}
-                      {phrasePhase === "cloze"
-                        ? "Cloze"
-                        : "Variaciones"}
-                    </div>
-                    {lessonMode === "desafio" && timeRemaining !== null && (
-                      <div
-                        className={`font-bold ${
-                          timeRemaining < 60 ? "text-red-500" : "text-orange-500"
-                        }`}
-                      >
-                        ⏱️ {formatTime(timeRemaining)}
+            {currentExerciseType === "phrases" &&
+              currentPhrase &&
+              (() => {
+                // Encontrar el bloque que contiene la frase actual
+                const currentBlock = conversationalBlocks.find((block) =>
+                  block.phrases.some((p) => p.id === currentPhrase.id)
+                );
+
+                return (
+                  <motion.div
+                    key={`phrases-${currentPhraseIndex}-${phrasePhase}`}
+                    initial={{ opacity: 0, x: 50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -50 }}
+                  >
+                    {/* Progress indicator and timer */}
+                    <div className="mb-4 flex items-center justify-between text-sm">
+                      <div className="text-gray-600 dark:text-gray-400">
+                        {currentBlock
+                          ? `Bloque ${
+                              conversationalBlocks.indexOf(currentBlock) + 1
+                            } de ${conversationalBlocks.length} - Frase ${
+                              currentBlock.phrases.findIndex(
+                                (p) => p.id === currentPhrase.id
+                              ) + 1
+                            } de ${currentBlock.phrases.length}`
+                          : `Frase ${
+                              currentPhraseIndex + 1
+                            } de ${totalPhrases}`}{" "}
+                        - {phrasePhase === "cloze" ? "Cloze" : "Variaciones"}
                       </div>
+                      {lessonMode === "desafio" && timeRemaining !== null && (
+                        <div
+                          className={`font-bold ${
+                            timeRemaining < 60
+                              ? "text-red-500"
+                              : "text-orange-500"
+                          }`}
+                        >
+                          ⏱️ {formatTime(timeRemaining)}
+                        </div>
+                      )}
+                    </div>
+
+                    {phrasePhase === "cloze" && (
+                      <ClozeExercise
+                        phrase={currentPhrase}
+                        block={currentBlock}
+                        onComplete={handleClozeComplete}
+                      />
                     )}
-                  </div>
 
-                  {phrasePhase === "cloze" && (
-                    <ClozeExercise
-                      phrase={currentPhrase}
-                      block={currentBlock}
-                      onComplete={handleClozeComplete}
-                    />
-                  )}
-
-                  {phrasePhase === "variations" && (
-                    <VariationsExercise
-                      phrase={currentPhrase}
-                      block={currentBlock}
-                      onComplete={handleVariationsComplete}
-                    />
-                  )}
-                </motion.div>
-              );
-            })()}
+                    {phrasePhase === "variations" && (
+                      <VariationsExercise
+                        phrase={currentPhrase}
+                        block={currentBlock}
+                        onComplete={handleVariationsComplete}
+                      />
+                    )}
+                  </motion.div>
+                );
+              })()}
           </>
         )}
 
@@ -2494,7 +2761,7 @@ export default function LeafPage() {
             <InputPlayer
               content={currentInput}
               onComplete={handleInputComplete}
-              onBack={() => setPhase("phrases")}
+              onBack={() => setPhase("exercises")}
             />
           </motion.div>
         )}
@@ -2531,33 +2798,109 @@ export default function LeafPage() {
             key="complete"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="text-center space-y-6"
+            className="text-center py-8"
           >
-            <div className="text-6xl mb-4">🎉</div>
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-              ¡Lección completada!
-            </h2>
-            <p className="text-gray-600 dark:text-gray-400">
-              Has completado {totalPhrases} frases y {totalInputs} inputs
-              comprensible.
-            </p>
+            {/* Icono animado */}
+            <motion.div
+              className="w-20 h-20 xs:w-24 xs:h-24 mx-auto mb-4 xs:mb-6 rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center shadow-lg"
+              initial={{ scale: 0, rotate: -180 }}
+              animate={{ scale: 1, rotate: 0 }}
+              transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
+            >
+              <span className="text-4xl xs:text-5xl">🎉</span>
+            </motion.div>
+
+            {/* Título */}
+            <motion.h2
+              className="text-xl xs:text-2xl font-bold text-gray-900 dark:text-white mb-2"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+            >
+              ¡Lección Completada!
+            </motion.h2>
+
+            {/* Subtítulo */}
+            <motion.p
+              className="text-sm xs:text-base text-gray-600 dark:text-gray-400 mb-6 xs:mb-8"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+            >
+              Has dominado &ldquo;{leaf.title}&rdquo;
+            </motion.p>
+
+            {/* Stats en cards */}
+            <motion.div
+              className="grid grid-cols-3 gap-2 xs:gap-3 mb-8"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 }}
+            >
+              <div className="bg-white dark:bg-gray-800 rounded-xl p-3 xs:p-4 shadow-md">
+                <div className="text-xl xs:text-2xl font-bold text-emerald-500">
+                  {correctAnswers}
+                </div>
+                <div className="text-[10px] xs:text-xs text-gray-500 dark:text-gray-400">
+                  Correctas
+                </div>
+              </div>
+              <div className="bg-white dark:bg-gray-800 rounded-xl p-3 xs:p-4 shadow-md">
+                <div className="text-xl xs:text-2xl font-bold text-indigo-500">
+                  +{Math.round(correctAnswers * 10)}
+                </div>
+                <div className="text-[10px] xs:text-xs text-gray-500 dark:text-gray-400">
+                  XP ganado
+                </div>
+              </div>
+              <div className="bg-white dark:bg-gray-800 rounded-xl p-3 xs:p-4 shadow-md">
+                <div className="text-xl xs:text-2xl font-bold text-amber-500">
+                  {totalExercises > 0
+                    ? Math.round(
+                        (completedExercises.size / totalExercises) * 100
+                      )
+                    : 0}
+                  %
+                </div>
+                <div className="text-[10px] xs:text-xs text-gray-500 dark:text-gray-400">
+                  Completado
+                </div>
+              </div>
+            </motion.div>
+
             {lessonContent?.miniTask && (
-              <div className="mt-6">
+              <motion.div
+                className="mt-6"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.7 }}
+              >
                 <MiniTaskExercise
-                  task={lessonContent.miniTask}
-                  onComplete={() => {
-                    addXP(XP_RULES.miniTaskComplete);
+                  miniTask={lessonContent.miniTask}
+                  languageCode={activeLanguage || "fr"}
+                  levelCode={activeLevel || "A1"}
+                  onComplete={(success) => {
+                    if (success) {
+                      addXP(XP_RULES.miniTaskComplete);
+                    }
                     router.push("/tree");
                   }}
                 />
-              </div>
+              </motion.div>
             )}
-            <button
+
+            {/* Botón continuar */}
+            <motion.button
               onClick={() => router.push("/tree")}
-              className="w-full py-4 bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-bold rounded-xl shadow-lg"
+              className="w-full py-3 xs:py-4 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-bold text-base xs:text-lg rounded-lg xs:rounded-xl shadow-lg"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.8 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
-              Volver al árbol
-            </button>
+              Continuar →
+            </motion.button>
           </motion.div>
         )}
       </AnimatePresence>

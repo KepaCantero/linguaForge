@@ -74,7 +74,7 @@ const badgeVariants = {
 export function TreeLeaf({ leaf, status, index, branchColor, onClick }: TreeLeafProps) {
   const config = statusConfig[status];
   const isClickable = status !== 'locked';
-  const accentColor = status === 'completed' ? '#10B981' : branchColor || '#7E22CE';
+  const accentColor = status === 'completed' ? '#22C55E' : branchColor || '#6366F1';  // Green 500 o Indigo 500
 
   return (
     <motion.button

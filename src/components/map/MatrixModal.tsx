@@ -22,6 +22,7 @@ const exerciseTypes = [
   { id: 'glyphWeaving', name: 'Glyph Weaving', icon: '🎵', description: 'Conexión rítmica' },
 ];
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function MatrixModal({ matrix, worldId, onStart, onClose }: MatrixModalProps) {
   const handleStart = () => {
     onStart(matrix.id);

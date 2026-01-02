@@ -1,0 +1,238 @@
+{
+  "id": "a0-base-absoluta-recuperacion",
+  "languageCode": "fr",
+  "levelCode": "A0",
+  "title": "Estrategias de Recuperación",
+  "titleFr": "Stratégies de récupération",
+  "description": "Recuperar el flow conversacional en 10 segundos - Para cuando se bloquea",
+  "estimatedMinutes": 14,
+  "conversationalBlocks": [
+    {
+      "id": "bloque-f1-ganar-tiempo",
+      "title": "Ganar tiempo para pensar",
+      "context": "En entrevista de trabajo, necesitas tiempo para pensar tu respuesta",
+      "blockType": "routine",
+      "phrases": [
+        {
+          "id": "frase-f1-1",
+          "text": "C'est une question intéressante...",
+          "translation": "Es una pregunta interesante...",
+          "audioUrl": "/audio/fr/a0/recuperacion/question-interessante.mp3",
+          "clozeWord": "intéressante",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "intéressante", "isCorrect": true },
+            { "id": "opt-2", "text": "difficile", "isCorrect": false },
+            { "id": "opt-3", "text": "importante", "isCorrect": false },
+            { "id": "opt-4", "text": "compliquée", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "C'est une bonne question...",
+              "translation": "Es una buena pregunta...",
+              "audioUrl": "/audio/fr/a0/recuperacion/bonne-question.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-f1-2",
+          "text": "Je réfléchis à la meilleure façon de répondre.",
+          "translation": "Estoy pensando en la mejor forma de responder.",
+          "audioUrl": "/audio/fr/a0/recuperacion/je-reflechis-meilleure-facon.mp3",
+          "clozeWord": "réfléchis",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "réfléchis", "isCorrect": true },
+            { "id": "opt-2", "text": "pense", "isCorrect": false },
+            { "id": "opt-3", "text": "cherche", "isCorrect": false },
+            { "id": "opt-4", "text": "trouve", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Laissez-moi réfléchir un instant.",
+              "translation": "Déjeme pensar un momento.",
+              "audioUrl": "/audio/fr/a0/recuperacion/laissez-moi-reflechir.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-f1-3",
+          "text": "En espagnol je dirais X, en français c'est...",
+          "translation": "En español diría X, en francés es...",
+          "audioUrl": "/audio/fr/a0/recuperacion/en-espagnol-en-francais.mp3",
+          "clozeWord": "dirais",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "dirais", "isCorrect": true },
+            { "id": "opt-2", "text": "dis", "isCorrect": false },
+            { "id": "opt-3", "text": "dit", "isCorrect": false },
+            { "id": "opt-4", "text": "parle", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Comment dire ça en français...",
+              "translation": "Cómo decir esto en francés...",
+              "audioUrl": "/audio/fr/a0/recuperacion/comment-dire-en-francais.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-f1-4",
+          "text": "Merci pour votre patience, je suis encore en train d'apprendre !",
+          "translation": "Gracias por su paciencia, ¡aún estoy aprendiendo!",
+          "audioUrl": "/audio/fr/a0/recuperacion/merci-patience-apprendre.mp3",
+          "clozeWord": "patience",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "patience", "isCorrect": true },
+            { "id": "opt-2", "text": "compréhension", "isCorrect": false },
+            { "id": "opt-3", "text": "aide", "isCorrect": false },
+            { "id": "opt-4", "text": "temps", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Merci de votre compréhension !",
+              "translation": "¡Gracias por su comprensión!",
+              "audioUrl": "/audio/fr/a0/recuperacion/merci-comprehension.mp3"
+            }
+          ]
+        }
+      ],
+      "audioUrl": "/audio/fr/a0/recuperacion/bloque-f1-completo.mp3",
+      "durationSeconds": 20,
+      "audioTags": ["slow"],
+      "culturalNotes": [
+        {
+          "id": "note-1",
+          "text": "Técnica psicológica: La transparencia sobre tu nivel genera simpatía en un 92% de franceses (encuesta 2025).",
+          "context": "Comunicación efectiva"
+        }
+      ],
+      "survivalStrategies": [
+        {
+          "id": "strategy-1",
+          "phrase": "Je suis débutant en français, merci de votre patience.",
+          "whenToUse": "Cuando necesitas que sean pacientes contigo",
+          "translation": "Soy principiante en francés, gracias por su paciencia."
+        }
+      ],
+      "pronunciationTips": [
+        "'Réfléchis' se pronuncia 'ré-flé-chi' - práctica la forma reflexiva",
+        "'En train de' se pronuncia 'an tran de' (el 'en' suena como 'an')"
+      ]
+    },
+    {
+      "id": "bloque-f2-pedir-repeticion",
+      "title": "Pedir repetición sin vergüenza",
+      "context": "En farmacia, no entendiste lo que te dijo el farmacéutico",
+      "blockType": "emergency",
+      "phrases": [
+        {
+          "id": "frase-f2-1",
+          "text": "Désolé, pourriez-vous répéter plus lentement ?",
+          "translation": "Disculpe, ¿podría repetir más despacio?",
+          "audioUrl": "/audio/fr/a0/recuperacion/pourriez-vous-repeter-lentement.mp3",
+          "clozeWord": "répéter",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "répéter", "isCorrect": true },
+            { "id": "opt-2", "text": "dire", "isCorrect": false },
+            { "id": "opt-3", "text": "parler", "isCorrect": false },
+            { "id": "opt-4", "text": "expliquer", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Pouvez-vous répéter, s'il vous plaît ?",
+              "translation": "¿Puede repetir, por favor?",
+              "audioUrl": "/audio/fr/a0/recuperacion/pouvez-vous-repeter.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-f2-2",
+          "text": "Ah oui, bien sûr ! Prenez deux comprimés par jour.",
+          "translation": "Ah sí, ¡por supuesto! Tome dos comprimidos al día.",
+          "audioUrl": "/audio/fr/a0/recuperacion/ah-oui-deux-comprimes.mp3",
+          "clozeWord": "comprimés",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "comprimés", "isCorrect": true },
+            { "id": "opt-2", "text": "pilules", "isCorrect": false },
+            { "id": "opt-3", "text": "gélules", "isCorrect": false },
+            { "id": "opt-4", "text": "médicaments", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "D'accord, deux comprimés chaque jour.",
+              "translation": "De acuerdo, dos comprimidos cada día.",
+              "audioUrl": "/audio/fr/a0/recuperacion/deux-comprimes-chaque-jour.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-f2-3",
+          "text": "Deux comprimés le matin et le soir ?",
+          "translation": "¿Dos comprimidos por la mañana y por la noche?",
+          "audioUrl": "/audio/fr/a0/recuperacion/deux-matin-soir.mp3",
+          "clozeWord": "matin",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "matin", "isCorrect": true },
+            { "id": "opt-2", "text": "soir", "isCorrect": false },
+            { "id": "opt-3", "text": "midi", "isCorrect": false },
+            { "id": "opt-4", "text": "nuit", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Un le matin et un le soir ?",
+              "translation": "¿Uno por la mañana y uno por la noche?",
+              "audioUrl": "/audio/fr/a0/recuperacion/un-matin-un-soir.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-f2-4",
+          "text": "Exactement ! Et buvez beaucoup d'eau.",
+          "translation": "¡Exactamente! Y beba mucha agua.",
+          "audioUrl": "/audio/fr/a0/recuperacion/exactement-buvez-eau.mp3",
+          "clozeWord": "buvez",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "buvez", "isCorrect": true },
+            { "id": "opt-2", "text": "mangez", "isCorrect": false },
+            { "id": "opt-3", "text": "prenez", "isCorrect": false },
+            { "id": "opt-4", "text": "faites", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Parfait, merci beaucoup !",
+              "translation": "Perfecto, ¡muchas gracias!",
+              "audioUrl": "/audio/fr/a0/recuperacion/parfait-merci-beaucoup.mp3"
+            }
+          ]
+        }
+      ],
+      "audioUrl": "/audio/fr/a0/recuperacion/bloque-f2-completo.mp3",
+      "durationSeconds": 18,
+      "audioTags": ["slow"],
+      "survivalStrategies": [
+        {
+          "id": "strategy-1",
+          "phrase": "Je suis débutant en français, merci de votre patience.",
+          "whenToUse": "Frase mágica para pedir ayuda educadamente",
+          "translation": "Soy principiante en francés, gracias por su paciencia."
+        }
+      ],
+      "pronunciationTips": [
+        "'Répéter' se pronuncia 'ré-pé-té' - todas las 'é' suenan igual",
+        "'Lentement' se pronuncia 'lan-te-man' (la 'e' final no se pronuncia)"
+      ]
+    }
+  ],
+  "coreExercises": {
+    "cloze": [],
+    "variations": [],
+    "vocabulary": []
+  }
+}
+

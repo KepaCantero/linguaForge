@@ -9,12 +9,7 @@ interface PulseRingProps {
   children: React.ReactNode;
 }
 
-const sizeMap = {
-  sm: 'scale-110',
-  md: 'scale-125',
-  lg: 'scale-150',
-};
-
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function PulseRing({ active = true, color = 'rgba(99, 102, 241, 0.5)', size = 'md', children }: PulseRingProps) {
   return (
     <div className="relative inline-flex items-center justify-center">

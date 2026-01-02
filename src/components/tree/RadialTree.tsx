@@ -26,7 +26,7 @@ function FloatingParticle({ delay, duration, startX, startY }: {
       cx={startX}
       cy={startY}
       r={2}
-      fill="#FACC15"
+      fill="#FDE047"  // Yellow 300 - Mejor contraste WCAG AA
       initial={{ opacity: 0, y: 0 }}
       animate={{
         opacity: [0, 0.8, 0],
@@ -137,18 +137,18 @@ export function RadialTree({ tree }: RadialTreeProps) {
           style={{ overflow: 'visible' }}
         >
           <defs>
-            {/* Tree crown gradient */}
+            {/* Tree crown gradient - Actualizado con nuevos colores */}
             <linearGradient id="crown-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#7E22CE" stopOpacity="0.3" />
-              <stop offset="50%" stopColor="#D946EF" stopOpacity="0.15" />
-              <stop offset="100%" stopColor="#7E22CE" stopOpacity="0.05" />
+              <stop offset="0%" stopColor="#6366F1" stopOpacity="0.3" />  {/* Indigo 500 */}
+              <stop offset="50%" stopColor="#C026D3" stopOpacity="0.15" />  {/* Fuchsia 600 */}
+              <stop offset="100%" stopColor="#6366F1" stopOpacity="0.05" />
             </linearGradient>
 
-            {/* Trunk gradient */}
+            {/* Trunk gradient - Gradiente "Forja Lingüística" mejorado */}
             <linearGradient id="trunk-gradient" x1="0%" y1="100%" x2="0%" y2="0%">
-              <stop offset="0%" stopColor="#7E22CE" />
-              <stop offset="50%" stopColor="#A855F7" />
-              <stop offset="100%" stopColor="#D946EF" />
+              <stop offset="0%" stopColor="#6366F1" />  {/* Indigo 500 */}
+              <stop offset="50%" stopColor="#8B5CF6" />  {/* Violet 500 */}
+              <stop offset="100%" stopColor="#EC4899" />  {/* Pink 500 */}
             </linearGradient>
 
             {/* Ground gradient */}
@@ -225,7 +225,11 @@ export function RadialTree({ tree }: RadialTreeProps) {
             if (!branchPos) return null;
 
             const status = getBranchStatus(index);
-            const branchProgress = getBranchProgress(tree.id, branch.id);
+            const branchProgressData = getBranchProgress(tree.id, branch.id);
+            // TreeBranch espera un número (0-3), convertir del objeto
+            const branchProgress = typeof branchProgressData === 'number' 
+              ? branchProgressData 
+              : branchProgressData.completed;
 
             return (
               <TreeBranch
@@ -241,19 +245,26 @@ export function RadialTree({ tree }: RadialTreeProps) {
             );
           })}
 
-          {/* Root node (at bottom of trunk) */}
+          {/* ÁREA 0 - Base Absoluta (Root node / Tronco) */}
           <motion.g
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ ...SPRING.bouncy, delay: 0.5 }}
+            style={{ cursor: 'pointer' }}
+            onClick={() => {
+              // Navegar a ÁREA 0 cuando se hace click en el tronco
+              if (typeof window !== 'undefined') {
+                window.location.href = '/tree/area-0';
+              }
+            }}
           >
-            {/* Root glow */}
+            {/* Root glow - Gradiente ÁREA 0 */}
             <motion.circle
               cx={config.trunkX}
               cy={config.trunkY}
               r={config.trunkRadius + 15}
               fill="none"
-              stroke="rgba(126, 34, 206, 0.4)"
+              stroke="rgba(99, 102, 241, 0.4)"
               strokeWidth={4}
               animate={{
                 opacity: [0.3, 0.7, 0.3],
@@ -262,12 +273,19 @@ export function RadialTree({ tree }: RadialTreeProps) {
               transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
             />
 
-            {/* Root circle */}
+            {/* Root circle - Gradiente ÁREA 0 */}
+            <defs>
+              <linearGradient id="area-0-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#6366F1" />  {/* Indigo */}
+                <stop offset="50%" stopColor="#8B5CF6" />  {/* Purple */}
+                <stop offset="100%" stopColor="#EC4899" />  {/* Pink */}
+              </linearGradient>
+            </defs>
             <circle
               cx={config.trunkX}
               cy={config.trunkY}
               r={config.trunkRadius}
-              fill="url(#trunk-gradient)"
+              fill="url(#area-0-gradient)"
             />
 
             {/* Root highlight */}
@@ -288,7 +306,7 @@ export function RadialTree({ tree }: RadialTreeProps) {
               strokeWidth={2}
             />
 
-            {/* Root icon */}
+            {/* ÁREA 0 icon */}
             <text
               x={config.trunkX}
               y={config.trunkY + 4}
@@ -296,7 +314,7 @@ export function RadialTree({ tree }: RadialTreeProps) {
               dominantBaseline="middle"
               fontSize={config.trunkRadius * 0.7}
             >
-              🌱
+              🆘
             </text>
           </motion.g>
 
@@ -355,16 +373,30 @@ export function RadialTree({ tree }: RadialTreeProps) {
         <TreeProgress completed={progress.completed} total={progress.total} />
       </div>
 
-      {/* Trunk message */}
+      {/* ÁREA 0 message */}
       <motion.div
         className="text-center mt-4 px-6"
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1 }}
       >
-        <p className="font-atkinson text-xs text-gray-500 italic">
-          &ldquo;{tree.trunk.title}&rdquo;
-        </p>
+        <motion.button
+          onClick={() => {
+            if (typeof window !== 'undefined') {
+              window.location.href = '/tree/area-0';
+            }
+          }}
+          className="group"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <p className="font-atkinson text-sm text-gray-400 group-hover:text-lf-primary transition-colors">
+            🆘 <span className="font-semibold">ÁREA 0 — BASE ABSOLUTA</span>
+          </p>
+          <p className="font-atkinson text-xs text-gray-500 italic mt-1">
+            &ldquo;{tree.trunk.title}&rdquo;
+          </p>
+        </motion.button>
       </motion.div>
 
       {/* Branch Modal */}

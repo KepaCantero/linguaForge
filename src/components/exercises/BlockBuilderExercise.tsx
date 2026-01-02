@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { BlockBuilder } from '@/types';
 import { useGamificationStore } from '@/store/useGamificationStore';
 import { XP_RULES } from '@/lib/constants';
@@ -15,7 +15,8 @@ type BlockBuilderPhase = 'building' | 'complete';
 
 export function BlockBuilderExercise({ exercise, onComplete }: BlockBuilderExerciseProps) {
   const { addXP } = useGamificationStore();
-  const [phase, setPhase] = useState<BlockBuilderPhase>('building');
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_phase, setPhase] = useState<BlockBuilderPhase>('building');
   const [selectedComponents, setSelectedComponents] = useState<string[]>([]);
   const [showResult, setShowResult] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);

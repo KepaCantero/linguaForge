@@ -1,0 +1,801 @@
+{
+  "leafId": "nodo-0-1-saludos",
+  "id": "a0-base-absoluta-saludos",
+  "languageCode": "fr",
+  "levelCode": "A0",
+  "title": "Saludos y Despedidas",
+  "titleFr": "Salutations et adieux",
+  "description": "El corazón de Francia - Dominar 3 saludos universales + 2 despedidas en 48 horas",
+  "estimatedMinutes": 18,
+  "conversationalBlocks": [
+    {
+      "id": "bloque-a1-saludo-formal-tienda",
+      "title": "Saludo formal en tienda",
+      "context": "Llegas a un Airbnb y te encuentras con el anfitrión por primera vez en la mañana",
+      "blockType": "courtesy",
+      "phrases": [
+        {
+          "id": "frase-a1-1",
+          "text": "Bonjour Madame !",
+          "translation": "¡Buenos días señora!",
+          "audioUrl": "/audio/fr/a0/saludos/bonjour-madame.mp3",
+          "clozeWord": "Bonjour",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "Bonjour", "isCorrect": true },
+            { "id": "opt-2", "text": "Salut", "isCorrect": false },
+            { "id": "opt-3", "text": "Bonsoir", "isCorrect": false },
+            { "id": "opt-4", "text": "Au revoir", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Bonjour Monsieur !",
+              "translation": "¡Buenos días señor!",
+              "audioUrl": "/audio/fr/a0/saludos/bonjour-monsieur.mp3"
+            },
+            {
+              "id": "var-2",
+              "text": "Bonjour ! Comment allez-vous ?",
+              "translation": "¡Buenos días! ¿Cómo está usted?",
+              "audioUrl": "/audio/fr/a0/saludos/bonjour-comment-allez-vous.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-a1-2",
+          "text": "Bonjour, comment puis-je vous aider ?",
+          "translation": "Buenos días, ¿cómo puedo ayudarle?",
+          "audioUrl": "/audio/fr/a0/saludos/comment-puis-je-vous-aider.mp3",
+          "clozeWord": "aider",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "aider", "isCorrect": true },
+            { "id": "opt-2", "text": "chercher", "isCorrect": false },
+            { "id": "opt-3", "text": "trouver", "isCorrect": false },
+            { "id": "opt-4", "text": "demander", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Bonjour, que puis-je faire pour vous ?",
+              "translation": "Buenos días, ¿qué puedo hacer por usted?",
+              "audioUrl": "/audio/fr/a0/saludos/que-puis-je-faire.mp3"
+            },
+            {
+              "id": "var-2",
+              "text": "Bonjour, comment puis-je vous aider aujourd'hui ?",
+              "translation": "Buenos días, ¿cómo puedo ayudarle hoy?",
+              "audioUrl": "/audio/fr/a0/saludos/comment-puis-je-vous-aider-aujourdhui.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-a1-3",
+          "text": "Je cherche un café, s'il vous plaît.",
+          "translation": "Busco un café, por favor.",
+          "audioUrl": "/audio/fr/a0/saludos/je-cherche-un-cafe.mp3",
+          "clozeWord": "cherche",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "cherche", "isCorrect": true },
+            { "id": "opt-2", "text": "veux", "isCorrect": false },
+            { "id": "opt-3", "text": "trouve", "isCorrect": false },
+            { "id": "opt-4", "text": "achète", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Je cherche la cuisine, s'il vous plaît.",
+              "translation": "Busco la cocina, por favor.",
+              "audioUrl": "/audio/fr/a0/saludos/je-cherche-la-cuisine.mp3"
+            },
+            {
+              "id": "var-2",
+              "text": "Où est la cuisine, s'il vous plaît ?",
+              "translation": "¿Dónde está la cocina, por favor?",
+              "audioUrl": "/audio/fr/a0/saludos/ou-est-la-cuisine.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-a1-4",
+          "text": "Merci beaucoup, bonne journée !",
+          "translation": "Muchas gracias, ¡que tenga un buen día!",
+          "audioUrl": "/audio/fr/a0/saludos/merci-bonne-journee.mp3",
+          "clozeWord": "journée",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "journée", "isCorrect": true },
+            { "id": "opt-2", "text": "soirée", "isCorrect": false },
+            { "id": "opt-3", "text": "nuit", "isCorrect": false },
+            { "id": "opt-4", "text": "jour", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Merci, bonne soirée !",
+              "translation": "Gracias, ¡buenas tardes!",
+              "audioUrl": "/audio/fr/a0/saludos/bonne-soiree.mp3"
+            },
+            {
+              "id": "var-2",
+              "text": "Merci beaucoup, à bientôt !",
+              "translation": "Muchas gracias, ¡hasta pronto!",
+              "audioUrl": "/audio/fr/a0/saludos/merci-beaucoup-a-bientot.mp3"
+            }
+          ]
+        }
+      ],
+      "audioUrl": "/audio/fr/a0/saludos/bloque-a1-completo.mp3",
+      "durationSeconds": 25,
+      "audioTags": ["slow", "office_background"],
+      "culturalNotes": [
+        {
+          "id": "note-1",
+          "text": "En Francia, 'Bonjour' se usa hasta las 18h, luego se dice 'Bonsoir'. Nunca uses 'Salut' con desconocidos.",
+          "context": "Horarios de saludo"
+        }
+      ],
+      "survivalStrategies": [
+        {
+          "id": "strategy-1",
+          "phrase": "Je suis pressé, excusez-moi !",
+          "whenToUse": "Si no entiendes la respuesta y necesitas salir rápido",
+          "translation": "¡Tengo prisa, disculpe!"
+        }
+      ],
+      "commonErrors": [
+        {
+          "id": "error-1",
+          "error": "Salut Madame",
+          "correct": "Bonjour Madame",
+          "explanation": "'Salut' es solo para amigos o personas muy cercanas. Con desconocidos siempre usa 'Bonjour'."
+        }
+      ],
+      "pronunciationTips": [
+        "Pronuncia 'Bonjour' con la 'j' suave, casi como 'sh' en inglés",
+        "La 'r' en 'Madame' es gutural, no se pronuncia como en español"
+      ]
+    },
+    {
+      "id": "bloque-a2-saludo-informal-cafe",
+      "title": "Saludo informal en café con amigos",
+      "context": "Encuentro casual en un café con amigos",
+      "blockType": "routine",
+      "phrases": [
+        {
+          "id": "frase-a2-1",
+          "text": "Salut ! Ça va ?",
+          "translation": "¡Hola! ¿Qué tal?",
+          "audioUrl": "/audio/fr/a0/saludos/salut-ca-va.mp3",
+          "clozeWord": "Salut",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "Salut", "isCorrect": true },
+            { "id": "opt-2", "text": "Bonjour", "isCorrect": false },
+            { "id": "opt-3", "text": "Bonsoir", "isCorrect": false },
+            { "id": "opt-4", "text": "Au revoir", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Salut ! Comment ça va ?",
+              "translation": "¡Hola! ¿Cómo va?",
+              "audioUrl": "/audio/fr/a0/saludos/comment-ca-va.mp3"
+            },
+            {
+              "id": "var-2",
+              "text": "Salut ! Ça va bien ?",
+              "translation": "¡Hola! ¿Todo bien?",
+              "audioUrl": "/audio/fr/a0/saludos/salut-ca-va-bien.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-a2-2",
+          "text": "Oui, et toi ? Tu as passé une bonne journée ?",
+          "translation": "Sí, ¿y tú? ¿Has tenido un buen día?",
+          "audioUrl": "/audio/fr/a0/saludos/oui-et-toi.mp3",
+          "clozeWord": "toi",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "toi", "isCorrect": true },
+            { "id": "opt-2", "text": "vous", "isCorrect": false },
+            { "id": "opt-3", "text": "lui", "isCorrect": false },
+            { "id": "opt-4", "text": "elle", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Oui, ça va bien, merci !",
+              "translation": "Sí, todo bien, ¡gracias!",
+              "audioUrl": "/audio/fr/a0/saludos/ca-va-bien.mp3"
+            },
+            {
+              "id": "var-2",
+              "text": "Oui, très bien, et toi ?",
+              "translation": "Sí, muy bien, ¿y tú?",
+              "audioUrl": "/audio/fr/a0/saludos/oui-tres-bien-et-toi.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-a2-3",
+          "text": "Oui, très productive !",
+          "translation": "¡Sí, muy productivo!",
+          "audioUrl": "/audio/fr/a0/saludos/tres-productive.mp3",
+          "clozeWord": "productive",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "productive", "isCorrect": true },
+            { "id": "opt-2", "text": "bien", "isCorrect": false },
+            { "id": "opt-3", "text": "mal", "isCorrect": false },
+            { "id": "opt-4", "text": "fatigué", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Oui, super !",
+              "translation": "¡Sí, genial!",
+              "audioUrl": "/audio/fr/a0/saludos/oui-super.mp3"
+            },
+            {
+              "id": "var-2",
+              "text": "Oui, excellente journée !",
+              "translation": "¡Sí, excelente día!",
+              "audioUrl": "/audio/fr/a0/saludos/excellente-journee.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-a2-4",
+          "text": "Cool, à demain !",
+          "translation": "Genial, ¡hasta mañana!",
+          "audioUrl": "/audio/fr/a0/saludos/cool-a-demain.mp3",
+          "clozeWord": "demain",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "demain", "isCorrect": true },
+            { "id": "opt-2", "text": "aujourd'hui", "isCorrect": false },
+            { "id": "opt-3", "text": "hier", "isCorrect": false },
+            { "id": "opt-4", "text": "maintenant", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "À bientôt !",
+              "translation": "¡Hasta pronto!",
+              "audioUrl": "/audio/fr/a0/saludos/a-bientot.mp3"
+            },
+            {
+              "id": "var-2",
+              "text": "À plus tard !",
+              "translation": "¡Hasta luego!",
+              "audioUrl": "/audio/fr/a0/saludos/a-plus-tard.mp3"
+            }
+          ]
+        }
+      ],
+      "audioUrl": "/audio/fr/a0/saludos/bloque-a2-completo.mp3",
+      "durationSeconds": 20,
+      "audioTags": ["fast"],
+      "culturalNotes": [
+        {
+          "id": "note-1",
+          "text": "'Salut' solo se usa con amigos o personas cercanas. Con desconocidos siempre 'Bonjour'.",
+          "context": "Uso de 'Salut' vs 'Bonjour'"
+        }
+      ],
+      "pronunciationTips": [
+        "'Ça va' se pronuncia 'sa va', la 'c' con cedilla suena como 's'"
+      ]
+    },
+    {
+      "id": "bloque-a3-despedida-formal-oficina",
+      "title": "Despedida formal en oficina",
+      "context": "Despedida educada en un entorno profesional",
+      "blockType": "courtesy",
+      "phrases": [
+        {
+          "id": "frase-a3-1",
+          "text": "Je dois y aller maintenant.",
+          "translation": "Debo irme ahora.",
+          "audioUrl": "/audio/fr/a0/saludos/je-dois-y-aller.mp3",
+          "clozeWord": "aller",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "aller", "isCorrect": true },
+            { "id": "opt-2", "text": "partir", "isCorrect": false },
+            { "id": "opt-3", "text": "venir", "isCorrect": false },
+            { "id": "opt-4", "text": "rester", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Je dois partir maintenant.",
+              "translation": "Debo partir ahora.",
+              "audioUrl": "/audio/fr/a0/saludos/je-dois-partir.mp3"
+            },
+            {
+              "id": "var-2",
+              "text": "Il faut que je parte maintenant.",
+              "translation": "Tengo que irme ahora.",
+              "audioUrl": "/audio/fr/a0/saludos/il-faut-que-je-parte.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-a3-2",
+          "text": "Déjà ? Le temps passe vite !",
+          "translation": "¿Ya? ¡El tiempo pasa rápido!",
+          "audioUrl": "/audio/fr/a0/saludos/deja-le-temps-passe.mp3",
+          "clozeWord": "passe",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "passe", "isCorrect": true },
+            { "id": "opt-2", "text": "va", "isCorrect": false },
+            { "id": "opt-3", "text": "vient", "isCorrect": false },
+            { "id": "opt-4", "text": "reste", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Déjà ? C'est dommage !",
+              "translation": "¿Ya? ¡Qué lástima!",
+              "audioUrl": "/audio/fr/a0/saludos/c-est-dommage.mp3"
+            },
+            {
+              "id": "var-2",
+              "text": "Déjà ? C'est trop tôt !",
+              "translation": "¿Ya? ¡Es muy temprano!",
+              "audioUrl": "/audio/fr/a0/saludos/c-est-trop-tot.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-a3-3",
+          "text": "Oui, j'ai un rendez-vous important.",
+          "translation": "Sí, tengo una cita importante.",
+          "audioUrl": "/audio/fr/a0/saludos/rendez-vous-important.mp3",
+          "clozeWord": "rendez-vous",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "rendez-vous", "isCorrect": true },
+            { "id": "opt-2", "text": "réunion", "isCorrect": false },
+            { "id": "opt-3", "text": "cours", "isCorrect": false },
+            { "id": "opt-4", "text": "travail", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Oui, j'ai un autre rendez-vous.",
+              "translation": "Sí, tengo otra cita.",
+              "audioUrl": "/audio/fr/a0/saludos/autre-rendez-vous.mp3"
+            },
+            {
+              "id": "var-2",
+              "text": "Oui, j'ai une réunion importante.",
+              "translation": "Sí, tengo una reunión importante.",
+              "audioUrl": "/audio/fr/a0/saludos/reunion-importante.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-a3-4",
+          "text": "Enchanté de vous rencontrer, à bientôt !",
+          "translation": "Encantado de conocerle, ¡hasta pronto!",
+          "audioUrl": "/audio/fr/a0/saludos/enchante-a-bientot.mp3",
+          "clozeWord": "Enchanté",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "Enchanté", "isCorrect": true },
+            { "id": "opt-2", "text": "Ravi", "isCorrect": false },
+            { "id": "opt-3", "text": "Content", "isCorrect": false },
+            { "id": "opt-4", "text": "Heureux", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Ravi de vous rencontrer !",
+              "translation": "¡Encantado de conocerle!",
+              "audioUrl": "/audio/fr/a0/saludos/ravi-de-vous-rencontrer.mp3"
+            },
+            {
+              "id": "var-2",
+              "text": "C'était un plaisir de vous rencontrer !",
+              "translation": "¡Fue un placer conocerle!",
+              "audioUrl": "/audio/fr/a0/saludos/plaisir-de-vous-rencontrer.mp3"
+            }
+          ]
+        }
+      ],
+      "audioUrl": "/audio/fr/a0/saludos/bloque-a3-completo.mp3",
+      "durationSeconds": 22,
+      "audioTags": ["slow", "office_background"],
+      "culturalNotes": [
+        {
+          "id": "note-1",
+          "text": "'Enchanté' es una forma muy educada de decir 'encantado de conocerte' en contextos formales.",
+          "context": "Despedidas formales"
+        }
+      ],
+      "pronunciationTips": [
+        "'Enchanté' se pronuncia 'an-shan-té', con la 'é' al final"
+      ]
+    },
+    {
+      "id": "bloque-a4-despedida-emergencia",
+      "title": "Despedida de emergencia",
+      "context": "Necesitas salir rápido de una situación",
+      "blockType": "emergency",
+      "phrases": [
+        {
+          "id": "frase-a4-1",
+          "text": "Désolé, je dois partir.",
+          "translation": "Disculpe, debo partir.",
+          "audioUrl": "/audio/fr/a0/saludos/desole-je-dois-partir.mp3",
+          "clozeWord": "Désolé",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "Désolé", "isCorrect": true },
+            { "id": "opt-2", "text": "Excusez-moi", "isCorrect": false },
+            { "id": "opt-3", "text": "Pardon", "isCorrect": false },
+            { "id": "opt-4", "text": "Merci", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Excusez-moi, je dois partir.",
+              "translation": "Disculpe, debo partir.",
+              "audioUrl": "/audio/fr/a0/saludos/excusez-moi-partir.mp3"
+            },
+            {
+              "id": "var-2",
+              "text": "Pardon, je dois y aller.",
+              "translation": "Perdón, debo irme.",
+              "audioUrl": "/audio/fr/a0/saludos/pardon-je-dois-y-aller.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-a4-2",
+          "text": "Un problème ?",
+          "translation": "¿Un problema?",
+          "audioUrl": "/audio/fr/a0/saludos/un-probleme.mp3",
+          "clozeWord": "problème",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "problème", "isCorrect": true },
+            { "id": "opt-2", "text": "question", "isCorrect": false },
+            { "id": "opt-3", "text": "chose", "isCorrect": false },
+            { "id": "opt-4", "text": "affaire", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Quelque chose ne va pas ?",
+              "translation": "¿Algo va mal?",
+              "audioUrl": "/audio/fr/a0/saludos/quelque-chose-ne-va-pas.mp3"
+            },
+            {
+              "id": "var-2",
+              "text": "Tout va bien ?",
+              "translation": "¿Todo está bien?",
+              "audioUrl": "/audio/fr/a0/saludos/tout-va-bien.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-a4-3",
+          "text": "Non, juste un imprévu personnel.",
+          "translation": "No, solo un imprevisto personal.",
+          "audioUrl": "/audio/fr/a0/saludos/imprevu-personnel.mp3",
+          "clozeWord": "imprévu",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "imprévu", "isCorrect": true },
+            { "id": "opt-2", "text": "problème", "isCorrect": false },
+            { "id": "opt-3", "text": "urgence", "isCorrect": false },
+            { "id": "opt-4", "text": "chose", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Non, c'est personnel.",
+              "translation": "No, es personal.",
+              "audioUrl": "/audio/fr/a0/saludos/c-est-personnel.mp3"
+            },
+            {
+              "id": "var-2",
+              "text": "Non, c'est une affaire privée.",
+              "translation": "No, es un asunto privado.",
+              "audioUrl": "/audio/fr/a0/saludos/affaire-privee.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-a4-4",
+          "text": "Merci pour votre compréhension, au revoir !",
+          "translation": "Gracias por su comprensión, ¡adiós!",
+          "audioUrl": "/audio/fr/a0/saludos/merci-comprehension-au-revoir.mp3",
+          "clozeWord": "compréhension",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "compréhension", "isCorrect": true },
+            { "id": "opt-2", "text": "patience", "isCorrect": false },
+            { "id": "opt-3", "text": "aide", "isCorrect": false },
+            { "id": "opt-4", "text": "temps", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Merci, au revoir !",
+              "translation": "Gracias, ¡adiós!",
+              "audioUrl": "/audio/fr/a0/saludos/merci-au-revoir.mp3"
+            },
+            {
+              "id": "var-2",
+              "text": "Merci beaucoup, bonne continuation !",
+              "translation": "Muchas gracias, ¡que le vaya bien!",
+              "audioUrl": "/audio/fr/a0/saludos/bonne-continuation.mp3"
+            }
+          ]
+        }
+      ],
+      "audioUrl": "/audio/fr/a0/saludos/bloque-a4-completo.mp3",
+      "durationSeconds": 18,
+      "audioTags": ["fast"],
+      "survivalStrategies": [
+        {
+          "id": "strategy-1",
+          "phrase": "Je suis pressé, excusez-moi !",
+          "whenToUse": "Si no entiendes la respuesta y necesitas salir rápido",
+          "translation": "¡Tengo prisa, disculpe!"
+        }
+      ],
+      "culturalNotes": [
+        {
+          "id": "note-1",
+          "text": "La disculpa genuina ('Désolé') activa la empatía francesa al instante.",
+          "context": "Estrategias de comunicación"
+        }
+      ],
+      "pronunciationTips": [
+        "'Désolé' se pronuncia 'dé-zo-lé', con la 's' sonando como 'z'"
+      ]
+    }
+  ],
+  "inputContent": [
+    {
+      "id": "input-a0-saludos-1",
+      "languageCode": "fr",
+      "levelCode": "A0",
+      "type": "audio",
+      "title": "Saludo formal en tienda",
+      "description": "Un diálogo corto entre un cliente y un vendedor",
+      "url": "/audio/fr/a0/saludos/dialogo-tienda.mp3",
+      "wordCount": 20,
+      "durationSeconds": 15,
+      "transcript": "Bonjour Madame ! Bonjour ! Comment allez-vous ? Très bien, merci. Et vous ? Très bien aussi, merci !",
+      "comprehensionQuestions": [
+        {
+          "id": "q1",
+          "question": "Comment le vendeur salue-t-il ?",
+          "questionTranslation": "¿Cómo saluda el vendedor?",
+          "options": [
+            { "id": "a", "text": "Bonjour Madame", "isCorrect": true },
+            { "id": "b", "text": "Salut", "isCorrect": false },
+            { "id": "c", "text": "Bonsoir", "isCorrect": false },
+            { "id": "d", "text": "Au revoir", "isCorrect": false }
+          ]
+        },
+        {
+          "id": "q2",
+          "question": "Comment répond la cliente ?",
+          "questionTranslation": "¿Cómo responde la cliente?",
+          "options": [
+            { "id": "a", "text": "Très bien, merci", "isCorrect": true },
+            { "id": "b", "text": "Oui", "isCorrect": false },
+            { "id": "c", "text": "Non", "isCorrect": false },
+            { "id": "d", "text": "Merci beaucoup", "isCorrect": false }
+          ]
+        }
+      ]
+    }
+  ],
+  "coreExercises": {
+    "vocabulary": [
+      {
+        "id": "vocab-a0-saludos-1",
+        "imageUrl": "https://picsum.photos/600/400?random=200",
+        "word": "Bonjour",
+        "translation": "Buenos días / Hola",
+        "options": [
+          { "id": "a", "text": "Bonjour", "isCorrect": true },
+          { "id": "b", "text": "Merci", "isCorrect": false },
+          { "id": "c", "text": "Au revoir", "isCorrect": false },
+          { "id": "d", "text": "Salut", "isCorrect": false }
+        ]
+      },
+      {
+        "id": "vocab-a0-saludos-2",
+        "imageUrl": "https://picsum.photos/600/400?random=201",
+        "word": "Salut",
+        "translation": "Hola (informal)",
+        "options": [
+          { "id": "a", "text": "Bonjour", "isCorrect": false },
+          { "id": "b", "text": "Salut", "isCorrect": true },
+          { "id": "c", "text": "Bonsoir", "isCorrect": false },
+          { "id": "d", "text": "Merci", "isCorrect": false }
+        ]
+      }
+    ],
+    "pragmaStrike": [
+      {
+        "id": "pragma-a0-saludos-1",
+        "situationImage": "https://picsum.photos/800/600?random=300",
+        "situationDescription": "Llegas a una tienda y quieres saludar al vendedor de manera educada.",
+        "timeLimit": 5,
+        "options": [
+          {
+            "id": "opt-a0-1-1",
+            "text": "Bonjour Madame !",
+            "isCorrect": true,
+            "explanation": "Forma cortés y apropiada para saludar a una vendedora en una tienda."
+          },
+          {
+            "id": "opt-a0-1-2",
+            "text": "Salut !",
+            "isCorrect": false,
+            "explanation": "Demasiado informal para un contexto comercial con desconocidos."
+          },
+          {
+            "id": "opt-a0-1-3",
+            "text": "Bonsoir !",
+            "isCorrect": false,
+            "explanation": "'Bonsoir' se usa por la tarde/noche, no durante el día."
+          },
+          {
+            "id": "opt-a0-1-4",
+            "text": "Hey !",
+            "isCorrect": false,
+            "explanation": "Muy informal y no apropiado en francés para contextos formales."
+          }
+        ]
+      }
+    ],
+    "shardDetection": [
+      {
+        "id": "shard-a0-saludos-1",
+        "audioUrl": "/audio/fr/a0/saludos/shard-bonjour.mp3",
+        "audioDuration": 3.5,
+        "phrase": "Bonjour Madame !",
+        "translation": "¡Buenos días señora!",
+        "shards": [
+          {
+            "id": "shard-a0-1-1",
+            "imageUrl": "https://picsum.photos/400/300?random=400",
+            "isCorrect": true
+          },
+          {
+            "id": "shard-a0-1-2",
+            "imageUrl": "https://picsum.photos/400/300?random=401",
+            "isCorrect": false
+          },
+          {
+            "id": "shard-a0-1-3",
+            "imageUrl": "https://picsum.photos/400/300?random=402",
+            "isCorrect": false
+          }
+        ]
+      }
+    ],
+    "echoStream": [
+      {
+        "id": "echo-a0-saludos-1",
+        "audioUrl": "/audio/fr/a0/saludos/echo-bonjour.mp3",
+        "audioDuration": 4.0,
+        "powerWords": [
+          {
+            "word": "Bonjour",
+            "timestamp": 0.5,
+            "tolerance": 0.5
+          },
+          {
+            "word": "Madame",
+            "timestamp": 1.2,
+            "tolerance": 0.5
+          }
+        ],
+        "phrase": "Bonjour Madame !",
+        "translation": "¡Buenos días señora!"
+      }
+    ],
+    "glyphWeaving": [
+      {
+        "id": "glyph-a0-saludos-1",
+        "audioUrl": "/audio/fr/a0/saludos/glyph-bonjour.mp3",
+        "bpm": 100,
+        "pattern": [
+          {
+            "fromGlyph": "g1",
+            "toGlyph": "g2",
+            "beat": 1
+          },
+          {
+            "fromGlyph": "g2",
+            "toGlyph": "g3",
+            "beat": 2
+          }
+        ],
+        "glyphs": [
+          {
+            "id": "g1",
+            "symbol": "👋",
+            "position": { "x": 0, "y": 0 }
+          },
+          {
+            "id": "g2",
+            "symbol": "💬",
+            "position": { "x": 1, "y": 0 }
+          },
+          {
+            "id": "g3",
+            "symbol": "🙏",
+            "position": { "x": 0.5, "y": 1 }
+          }
+        ]
+      }
+    ],
+    "resonancePath": [
+      {
+        "id": "resonance-a0-saludos-1",
+        "phrase": "Bonjour Madame !",
+        "audioUrl": "/audio/fr/a0/saludos/resonance-bonjour.mp3",
+        "nativeIntonation": [50, 55, 60, 65, 70, 65, 60],
+        "targetAccuracy": 75
+      }
+    ]
+  },
+  "miniTest": {
+    "id": "test-a0-saludos",
+    "questions": [
+      {
+        "id": "t1",
+        "question": "Quand utilise-t-on 'Bonjour' ?",
+        "questionTranslation": "¿Cuándo se usa 'Bonjour'?",
+        "options": [
+          { "id": "a", "text": "Le matin et l'après-midi", "isCorrect": true },
+          { "id": "b", "text": "Seulement le matin", "isCorrect": false },
+          { "id": "c", "text": "Le soir", "isCorrect": false },
+          { "id": "d", "text": "Pour dire au revoir", "isCorrect": false }
+        ]
+      },
+      {
+        "id": "t2",
+        "question": "Quelle est la différence entre 'Bonjour' et 'Salut' ?",
+        "questionTranslation": "¿Cuál es la diferencia entre 'Bonjour' y 'Salut'?",
+        "options": [
+          { "id": "a", "text": "'Bonjour' est formel, 'Salut' est informel", "isCorrect": true },
+          { "id": "b", "text": "Il n'y a pas de différence", "isCorrect": false },
+          { "id": "c", "text": "'Salut' est formel", "isCorrect": false },
+          { "id": "d", "text": "On utilise 'Salut' avec des inconnus", "isCorrect": false }
+        ]
+      },
+      {
+        "id": "t3",
+        "question": "Comment dit-on 'hasta mañana' en français ?",
+        "questionTranslation": "¿Cómo se dice 'hasta mañana' en francés?",
+        "options": [
+          { "id": "a", "text": "À demain", "isCorrect": true },
+          { "id": "b", "text": "À bientôt", "isCorrect": false },
+          { "id": "c", "text": "Au revoir", "isCorrect": false },
+          { "id": "d", "text": "Bonsoir", "isCorrect": false }
+        ]
+      }
+    ]
+  },
+  "modeConfig": {
+    "academia": {
+      "timeLimit": null,
+      "showHints": true,
+      "showExplanations": true,
+      "allowRetries": true,
+      "xpMultiplier": 1.0
+    },
+    "desafio": {
+      "timeLimit": 15,
+      "showHints": false,
+      "showExplanations": false,
+      "allowRetries": false,
+      "xpMultiplier": 1.5,
+      "gemsReward": 10
+    }
+  }
+}
+

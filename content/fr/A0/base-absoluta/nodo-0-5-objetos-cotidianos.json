@@ -1,0 +1,215 @@
+{
+  "id": "a0-base-absoluta-objetos-cotidianos",
+  "languageCode": "fr",
+  "levelCode": "A0",
+  "title": "Objetos Cotidianos",
+  "titleFr": "Objets quotidiens",
+  "description": "Navegar espacios físicos con 15 objetos clave - Vocabulario espacial",
+  "estimatedMinutes": 16,
+  "conversationalBlocks": [
+    {
+      "id": "bloque-e1-habitacion-airbnb",
+      "title": "En tu habitación de Airbnb",
+      "context": "Llegas a tu Airbnb y falta algo en la habitación",
+      "blockType": "routine",
+      "phrases": [
+        {
+          "id": "frase-e1-1",
+          "text": "Bonjour, il manque des serviettes de bain.",
+          "translation": "Buenos días, faltan toallas de baño.",
+          "audioUrl": "/audio/fr/a0/objetos/il-manque-serviettes.mp3",
+          "clozeWord": "serviettes",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "serviettes", "isCorrect": true },
+            { "id": "opt-2", "text": "draps", "isCorrect": false },
+            { "id": "opt-3", "text": "oreillers", "isCorrect": false },
+            { "id": "opt-4", "text": "couvertures", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Il n'y a pas de serviettes de bain.",
+              "translation": "No hay toallas de baño.",
+              "audioUrl": "/audio/fr/a0/objetos/pas-de-serviettes.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-e1-2",
+          "text": "Ah, désolé ! Je vous apporte ça tout de suite.",
+          "translation": "Ah, ¡disculpe! Se lo traigo ahora mismo.",
+          "audioUrl": "/audio/fr/a0/objetos/je-vous-apporte-tout-de-suite.mp3",
+          "clozeWord": "apporte",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "apporte", "isCorrect": true },
+            { "id": "opt-2", "text": "donne", "isCorrect": false },
+            { "id": "opt-3", "text": "porte", "isCorrect": false },
+            { "id": "opt-4", "text": "mets", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "D'accord, je vais les chercher.",
+              "translation": "De acuerdo, voy a buscarlas.",
+              "audioUrl": "/audio/fr/a0/objetos/je-vais-les-chercher.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-e1-3",
+          "text": "Combien en avez-vous besoin ?",
+          "translation": "¿Cuántas necesita?",
+          "audioUrl": "/audio/fr/a0/objetos/combien-en-avez-vous-besoin.mp3",
+          "clozeWord": "besoin",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "besoin", "isCorrect": true },
+            { "id": "opt-2", "text": "voulez", "isCorrect": false },
+            { "id": "opt-3", "text": "cherchez", "isCorrect": false },
+            { "id": "opt-4", "text": "demandez", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Combien de serviettes voulez-vous ?",
+              "translation": "¿Cuántas toallas quiere?",
+              "audioUrl": "/audio/fr/a0/objetos/combien-de-serviettes.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-e1-4",
+          "text": "Deux, s'il vous plaît. Merci beaucoup !",
+          "translation": "Dos, por favor. ¡Muchas gracias!",
+          "audioUrl": "/audio/fr/a0/objetos/deux-merci-beaucoup.mp3",
+          "clozeWord": "Deux",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "Deux", "isCorrect": true },
+            { "id": "opt-2", "text": "Trois", "isCorrect": false },
+            { "id": "opt-3", "text": "Une", "isCorrect": false },
+            { "id": "opt-4", "text": "Quatre", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Deux serviettes, merci !",
+              "translation": "Dos toallas, ¡gracias!",
+              "audioUrl": "/audio/fr/a0/objetos/deux-serviettes-merci.mp3"
+            }
+          ]
+        }
+      ],
+      "audioUrl": "/audio/fr/a0/objetos/bloque-e1-completo.mp3",
+      "durationSeconds": 20,
+      "audioTags": ["slow"],
+      "pronunciationTips": [
+        "Palabras visuales clave: serviette (toalla), douche (ducha), robinet (grifo), fenêtre (ventana)",
+        "'Il manque' se pronuncia 'il mank' (la 'que' final no se pronuncia)"
+      ]
+    },
+    {
+      "id": "bloque-e2-supermercado",
+      "title": "En un supermercado",
+      "context": "Primera vez en un supermercado francés, necesitas encontrar algo",
+      "blockType": "routine",
+      "phrases": [
+        {
+          "id": "frase-e2-1",
+          "text": "Excusez-moi, où puis-je trouver le pain ?",
+          "translation": "Disculpe, ¿dónde puedo encontrar el pan?",
+          "audioUrl": "/audio/fr/a0/objetos/ou-puis-je-trouver-pain.mp3",
+          "clozeWord": "trouver",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "trouver", "isCorrect": true },
+            { "id": "opt-2", "text": "acheter", "isCorrect": false },
+            { "id": "opt-3", "text": "chercher", "isCorrect": false },
+            { "id": "opt-4", "text": "voir", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Où est le pain, s'il vous plaît ?",
+              "translation": "¿Dónde está el pan, por favor?",
+              "audioUrl": "/audio/fr/a0/objetos/ou-est-le-pain.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-e2-2",
+          "text": "Au rayon boulangerie, à droite là-bas.",
+          "translation": "En el pasillo de panadería, a la derecha allí.",
+          "audioUrl": "/audio/fr/a0/objetos/au-rayon-boulangerie.mp3",
+          "clozeWord": "rayon",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "rayon", "isCorrect": true },
+            { "id": "opt-2", "text": "étagère", "isCorrect": false },
+            { "id": "opt-3", "text": "magasin", "isCorrect": false },
+            { "id": "opt-4", "text": "boutique", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "À la boulangerie, au fond du magasin.",
+              "translation": "En la panadería, al fondo de la tienda.",
+              "audioUrl": "/audio/fr/a0/objetos/boulangerie-fond-magasin.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-e2-3",
+          "text": "C'est la première fois que je fais les courses ici.",
+          "translation": "Es la primera vez que hago la compra aquí.",
+          "audioUrl": "/audio/fr/a0/objetos/premiere-fois-courses.mp3",
+          "clozeWord": "courses",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "courses", "isCorrect": true },
+            { "id": "opt-2", "text": "achats", "isCorrect": false },
+            { "id": "opt-3", "text": "shopping", "isCorrect": false },
+            { "id": "opt-4", "text": "achat", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Je ne connais pas ce magasin.",
+              "translation": "No conozco esta tienda.",
+              "audioUrl": "/audio/fr/a0/objetos/je-ne-connais-pas-magasin.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-e2-4",
+          "text": "Pas de problème, n'hésitez pas si vous avez d'autres questions !",
+          "translation": "No hay problema, ¡no dude si tiene otras preguntas!",
+          "audioUrl": "/audio/fr/a0/objetos/pas-de-probleme-hesitez-pas.mp3",
+          "clozeWord": "hésitez",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "hésitez", "isCorrect": true },
+            { "id": "opt-2", "text": "demandez", "isCorrect": false },
+            { "id": "opt-3", "text": "cherchez", "isCorrect": false },
+            { "id": "opt-4", "text": "pensez", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "N'hésitez pas à demander !",
+              "translation": "¡No dude en preguntar!",
+              "audioUrl": "/audio/fr/a0/objetos/n-hesitez-pas-demander.mp3"
+            }
+          ]
+        }
+      ],
+      "audioUrl": "/audio/fr/a0/objetos/bloque-e2-completo.mp3",
+      "durationSeconds": 22,
+      "audioTags": ["slow"],
+      "pronunciationTips": [
+        "Clave visual: rayon (pasillo), caisse (caja), panier (cesta), étiquette (etiqueta)",
+        "'Rayon' se pronuncia 'ra-yon' (no 'rayón' como en español)"
+      ]
+    }
+  ],
+  "coreExercises": {
+    "cloze": [],
+    "variations": [],
+    "vocabulary": []
+  }
+}
+

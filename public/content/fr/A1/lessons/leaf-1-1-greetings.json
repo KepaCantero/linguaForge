@@ -1,0 +1,874 @@
+{
+  "leafId": "leaf-1-1-greetings",
+  "languageCode": "fr",
+  "levelCode": "A1",
+  "title": "Saludos y cortesía",
+  "titleFr": "Salutations et politesse",
+  "conversationalBlocks": [
+    {
+      "id": "block-1-formal-greeting-morning",
+      "title": "Saludo formal por la mañana",
+      "context": "Llegas a un Airbnb y te encuentras con el anfitrión por primera vez en la mañana",
+      "blockType": "courtesy",
+      "phrases": [
+        {
+          "id": "block1-phrase-1",
+          "text": "Bonjour, comment allez-vous ?",
+          "translation": "Buenos días, ¿cómo está usted?",
+          "clozeWord": "Bonjour",
+          "clozeOptions": [
+            { "id": "o1", "text": "Bonjour", "isCorrect": true },
+            { "id": "o2", "text": "Salut", "isCorrect": false },
+            { "id": "o3", "text": "Bonsoir", "isCorrect": false },
+            { "id": "o4", "text": "Au revoir", "isCorrect": false }
+          ],
+          "variations": [
+            { "id": "v1-1", "text": "Bonjour, comment ça va ?", "translation": "Buenos días, ¿cómo va?" },
+            { "id": "v1-2", "text": "Bonjour, comment vous portez-vous ?", "translation": "Buenos días, ¿cómo se encuentra?" }
+          ]
+        },
+        {
+          "id": "block1-phrase-2",
+          "text": "Très bien, merci. Et vous ?",
+          "translation": "Muy bien, gracias. ¿Y usted?",
+          "clozeWord": "merci",
+          "clozeOptions": [
+            { "id": "o1", "text": "merci", "isCorrect": true },
+            { "id": "o2", "text": "pardon", "isCorrect": false },
+            { "id": "o3", "text": "bonjour", "isCorrect": false },
+            { "id": "o4", "text": "salut", "isCorrect": false }
+          ],
+          "variations": [
+            { "id": "v2-1", "text": "Très bien, merci beaucoup. Et vous ?", "translation": "Muy bien, muchas gracias. ¿Y usted?" },
+            { "id": "v2-2", "text": "Ça va bien, merci. Et vous ?", "translation": "Estoy bien, gracias. ¿Y usted?" }
+          ]
+        },
+        {
+          "id": "block1-phrase-3",
+          "text": "Je suis votre invité pour deux nuits.",
+          "translation": "Soy su huésped por dos noches.",
+          "clozeWord": "invité",
+          "clozeOptions": [
+            { "id": "o1", "text": "invité", "isCorrect": true },
+            { "id": "o2", "text": "hôte", "isCorrect": false },
+            { "id": "o3", "text": "voisin", "isCorrect": false },
+            { "id": "o4", "text": "ami", "isCorrect": false }
+          ],
+          "variations": [
+            { "id": "v3-1", "text": "Je suis votre invité pour trois nuits.", "translation": "Soy su huésped por tres noches." },
+            { "id": "v3-2", "text": "Nous sommes vos invités pour deux nuits.", "translation": "Somos sus huéspedes por dos noches." }
+          ]
+        }
+      ],
+      "audioUrl": "/audio/fr/a1/greetings/block1-complete.mp3",
+      "durationSeconds": 12
+    },
+    {
+      "id": "block-2-casual-greeting",
+      "title": "Saludo informal entre conocidos",
+      "context": "Encuentras a un conocido en la calle",
+      "blockType": "routine",
+      "phrases": [
+        {
+          "id": "block2-phrase-1",
+          "text": "Salut, ça va ?",
+          "translation": "Hola, ¿qué tal?",
+          "clozeWord": "Salut",
+          "clozeOptions": [
+            { "id": "o1", "text": "Salut", "isCorrect": true },
+            { "id": "o2", "text": "Bonjour", "isCorrect": false },
+            { "id": "o3", "text": "Bonsoir", "isCorrect": false },
+            { "id": "o4", "text": "Au revoir", "isCorrect": false }
+          ],
+          "variations": [
+            { "id": "v1-1", "text": "Salut, comment ça va ?", "translation": "Hola, ¿cómo va?" },
+            { "id": "v1-2", "text": "Salut, tout va bien ?", "translation": "Hola, ¿todo bien?" }
+          ]
+        },
+        {
+          "id": "block2-phrase-2",
+          "text": "Oui, ça va bien, merci. Et toi ?",
+          "translation": "Sí, estoy bien, gracias. ¿Y tú?",
+          "clozeWord": "toi",
+          "clozeOptions": [
+            { "id": "o1", "text": "toi", "isCorrect": true },
+            { "id": "o2", "text": "vous", "isCorrect": false },
+            { "id": "o3", "text": "lui", "isCorrect": false },
+            { "id": "o4", "text": "elle", "isCorrect": false }
+          ],
+          "variations": [
+            { "id": "v2-1", "text": "Oui, ça va très bien, merci. Et toi ?", "translation": "Sí, estoy muy bien, gracias. ¿Y tú?" },
+            { "id": "v2-2", "text": "Ça va bien, merci. Et toi ?", "translation": "Estoy bien, gracias. ¿Y tú?" }
+          ]
+        },
+        {
+          "id": "block2-phrase-3",
+          "text": "Au revoir, à bientôt !",
+          "translation": "Adiós, ¡hasta pronto!",
+          "clozeWord": "Au revoir",
+          "clozeOptions": [
+            { "id": "o1", "text": "Au revoir", "isCorrect": true },
+            { "id": "o2", "text": "Bonjour", "isCorrect": false },
+            { "id": "o3", "text": "Salut", "isCorrect": false },
+            { "id": "o4", "text": "Bonsoir", "isCorrect": false }
+          ],
+          "variations": [
+            { "id": "v3-1", "text": "Au revoir, à demain !", "translation": "Adiós, ¡hasta mañana!" },
+            { "id": "v3-2", "text": "Salut, à plus tard !", "translation": "Adiós, ¡hasta luego!" }
+          ]
+        }
+      ],
+      "audioUrl": "/audio/fr/a1/greetings/block2-complete.mp3",
+      "durationSeconds": 10
+    },
+    {
+      "id": "block-3-asking-help",
+      "title": "Pedir ayuda con cortesía",
+      "context": "Necesitas ayuda del anfitrión para encontrar algo en el apartamento",
+      "blockType": "courtesy",
+      "phrases": [
+        {
+          "id": "block3-phrase-1",
+          "text": "Bonjour, s'il vous plaît, pouvez-vous m'aider ?",
+          "translation": "Buenos días, por favor, ¿puede ayudarme?",
+          "clozeWord": "s'il vous plaît",
+          "clozeOptions": [
+            { "id": "o1", "text": "s'il vous plaît", "isCorrect": true },
+            { "id": "o2", "text": "merci", "isCorrect": false },
+            { "id": "o3", "text": "pardon", "isCorrect": false },
+            { "id": "o4", "text": "bonjour", "isCorrect": false }
+          ],
+          "variations": [
+            { "id": "v1-1", "text": "S'il vous plaît, pouvez-vous m'aider ?", "translation": "Por favor, ¿puede ayudarme?" },
+            { "id": "v1-2", "text": "Pouvez-vous m'aider, s'il vous plaît ?", "translation": "¿Puede ayudarme, por favor?" }
+          ]
+        },
+        {
+          "id": "block3-phrase-2",
+          "text": "Où sont les clés, s'il vous plaît ?",
+          "translation": "¿Dónde están las llaves, por favor?",
+          "clozeWord": "Où",
+          "clozeOptions": [
+            { "id": "o1", "text": "Où", "isCorrect": true },
+            { "id": "o2", "text": "Quand", "isCorrect": false },
+            { "id": "o3", "text": "Comment", "isCorrect": false },
+            { "id": "o4", "text": "Pourquoi", "isCorrect": false }
+          ],
+          "variations": [
+            { "id": "v2-1", "text": "S'il vous plaît, où sont les clés ?", "translation": "Por favor, ¿dónde están las llaves?" },
+            { "id": "v2-2", "text": "Où se trouvent les clés, s'il vous plaît ?", "translation": "¿Dónde se encuentran las llaves, por favor?" }
+          ]
+        },
+        {
+          "id": "block3-phrase-3",
+          "text": "Merci beaucoup !",
+          "translation": "¡Muchas gracias!",
+          "clozeWord": "beaucoup",
+          "clozeOptions": [
+            { "id": "o1", "text": "beaucoup", "isCorrect": true },
+            { "id": "o2", "text": "bien", "isCorrect": false },
+            { "id": "o3", "text": "très", "isCorrect": false },
+            { "id": "o4", "text": "trop", "isCorrect": false }
+          ],
+          "variations": [
+            { "id": "v3-1", "text": "Merci bien !", "translation": "¡Muchas gracias!" },
+            { "id": "v3-2", "text": "Je vous remercie.", "translation": "Le agradezco." }
+          ]
+        }
+      ],
+      "audioUrl": "/audio/fr/a1/greetings/block3-complete.mp3",
+      "durationSeconds": 14
+    },
+    {
+      "id": "block-4-thanking",
+      "title": "Agradecer con énfasis",
+      "context": "El anfitrión te ayuda con tu equipaje",
+      "blockType": "courtesy",
+      "phrases": [
+        {
+          "id": "block4-phrase-1",
+          "text": "Merci beaucoup pour votre aide !",
+          "translation": "¡Muchas gracias por su ayuda!",
+          "clozeWord": "aide",
+          "clozeOptions": [
+            { "id": "o1", "text": "aide", "isCorrect": true },
+            { "id": "o2", "text": "temps", "isCorrect": false },
+            { "id": "o3", "text": "clés", "isCorrect": false },
+            { "id": "o4", "text": "chambre", "isCorrect": false }
+          ],
+          "variations": [
+            { "id": "v1-1", "text": "Merci beaucoup pour votre gentillesse !", "translation": "¡Muchas gracias por su amabilidad!" },
+            { "id": "v1-2", "text": "Je vous remercie beaucoup pour votre aide.", "translation": "Le agradezco mucho por su ayuda." }
+          ]
+        },
+        {
+          "id": "block4-phrase-2",
+          "text": "De rien, c'est normal.",
+          "translation": "De nada, es normal.",
+          "clozeWord": "normal",
+          "clozeOptions": [
+            { "id": "o1", "text": "normal", "isCorrect": true },
+            { "id": "o2", "text": "facile", "isCorrect": false },
+            { "id": "o3", "text": "difficile", "isCorrect": false },
+            { "id": "o4", "text": "important", "isCorrect": false }
+          ],
+          "variations": [
+            { "id": "v2-1", "text": "De rien, avec plaisir.", "translation": "De nada, con gusto." },
+            { "id": "v2-2", "text": "Je vous en prie, c'est normal.", "translation": "De nada, es normal." }
+          ]
+        }
+      ],
+      "audioUrl": "/audio/fr/a1/greetings/block4-complete.mp3",
+      "durationSeconds": 8
+    },
+    {
+      "id": "block-5-apologizing",
+      "title": "Disculparse y pedir permiso",
+      "context": "Necesitas interrumpir o pedir disculpas",
+      "blockType": "courtesy",
+      "phrases": [
+        {
+          "id": "block5-phrase-1",
+          "text": "Pardon, excusez-moi.",
+          "translation": "Perdón, disculpe.",
+          "clozeWord": "Pardon",
+          "clozeOptions": [
+            { "id": "o1", "text": "Pardon", "isCorrect": true },
+            { "id": "o2", "text": "Merci", "isCorrect": false },
+            { "id": "o3", "text": "Bonjour", "isCorrect": false },
+            { "id": "o4", "text": "Salut", "isCorrect": false }
+          ],
+          "variations": [
+            { "id": "v1-1", "text": "Excusez-moi, pardon.", "translation": "Disculpe, perdón." },
+            { "id": "v1-2", "text": "Pardon, je suis désolé.", "translation": "Perdón, lo siento." }
+          ]
+        },
+        {
+          "id": "block5-phrase-2",
+          "text": "Pouvez-vous m'aider, s'il vous plaît ?",
+          "translation": "¿Puede ayudarme, por favor?",
+          "clozeWord": "Pouvez-vous",
+          "clozeOptions": [
+            { "id": "o1", "text": "Pouvez-vous", "isCorrect": true },
+            { "id": "o2", "text": "Peux-tu", "isCorrect": false },
+            { "id": "o3", "text": "Pouvez-tu", "isCorrect": false },
+            { "id": "o4", "text": "Peux-vous", "isCorrect": false }
+          ],
+          "variations": [
+            { "id": "v2-1", "text": "S'il vous plaît, pouvez-vous m'aider ?", "translation": "Por favor, ¿puede ayudarme?" },
+            { "id": "v2-2", "text": "Pourriez-vous m'aider, s'il vous plaît ?", "translation": "¿Podría ayudarme, por favor?" }
+          ]
+        }
+      ],
+      "audioUrl": "/audio/fr/a1/greetings/block5-complete.mp3",
+      "durationSeconds": 11
+    },
+    {
+      "id": "block-6-evening-greeting",
+      "title": "Saludo por la tarde/noche",
+      "context": "Llegas al Airbnb por la tarde",
+      "blockType": "routine",
+      "phrases": [
+        {
+          "id": "block6-phrase-1",
+          "text": "Bonsoir, comment allez-vous ?",
+          "translation": "Buenas tardes, ¿cómo está usted?",
+          "clozeWord": "Bonsoir",
+          "clozeOptions": [
+            { "id": "o1", "text": "Bonsoir", "isCorrect": true },
+            { "id": "o2", "text": "Bonjour", "isCorrect": false },
+            { "id": "o3", "text": "Salut", "isCorrect": false },
+            { "id": "o4", "text": "Bonne nuit", "isCorrect": false }
+          ],
+          "variations": [
+            { "id": "v1-1", "text": "Bonsoir, comment ça va ?", "translation": "Buenas tardes, ¿cómo va?" },
+            { "id": "v1-2", "text": "Bonsoir, ça va ?", "translation": "Buenas tardes, ¿qué tal?" }
+          ]
+        },
+        {
+          "id": "block6-phrase-2",
+          "text": "Bonne soirée !",
+          "translation": "¡Que tenga buena tarde!",
+          "clozeWord": "soirée",
+          "clozeOptions": [
+            { "id": "o1", "text": "soirée", "isCorrect": true },
+            { "id": "o2", "text": "journée", "isCorrect": false },
+            { "id": "o3", "text": "nuit", "isCorrect": false },
+            { "id": "o4", "text": "matin", "isCorrect": false }
+          ],
+          "variations": [
+            { "id": "v2-1", "text": "Bonne nuit !", "translation": "¡Buenas noches!" },
+            { "id": "v2-2", "text": "Bonne soirée et bonne nuit !", "translation": "¡Que tenga buena tarde y buenas noches!" }
+          ]
+        }
+      ],
+      "audioUrl": "/audio/fr/a1/greetings/block6-complete.mp3",
+      "durationSeconds": 13
+    },
+    {
+      "id": "block-7-saying-goodbye",
+      "title": "Despedida formal",
+      "context": "Te despides del anfitrión al salir",
+      "blockType": "courtesy",
+      "phrases": [
+        {
+          "id": "block7-phrase-1",
+          "text": "Au revoir, merci pour tout !",
+          "translation": "Adiós, ¡gracias por todo!",
+          "clozeWord": "Au revoir",
+          "clozeOptions": [
+            { "id": "o1", "text": "Au revoir", "isCorrect": true },
+            { "id": "o2", "text": "Bonjour", "isCorrect": false },
+            { "id": "o3", "text": "Salut", "isCorrect": false },
+            { "id": "o4", "text": "Bonsoir", "isCorrect": false }
+          ],
+          "variations": [
+            { "id": "v1-1", "text": "Au revoir et merci pour tout !", "translation": "Adiós y ¡gracias por todo!" },
+            { "id": "v1-2", "text": "Merci pour tout, au revoir !", "translation": "¡Gracias por todo, adiós!" }
+          ]
+        },
+        {
+          "id": "block7-phrase-2",
+          "text": "À bientôt !",
+          "translation": "¡Hasta pronto!",
+          "clozeWord": "bientôt",
+          "clozeOptions": [
+            { "id": "o1", "text": "bientôt", "isCorrect": true },
+            { "id": "o2", "text": "demain", "isCorrect": false },
+            { "id": "o3", "text": "maintenant", "isCorrect": false },
+            { "id": "o4", "text": "tard", "isCorrect": false }
+          ],
+          "variations": [
+            { "id": "v2-1", "text": "À demain !", "translation": "¡Hasta mañana!" },
+            { "id": "v2-2", "text": "À plus tard !", "translation": "¡Hasta luego!" }
+          ]
+        }
+      ],
+      "audioUrl": "/audio/fr/a1/greetings/block7-complete.mp3",
+      "durationSeconds": 7
+    },
+    {
+      "id": "block-8-introducing-yourself",
+      "title": "Presentarse formalmente",
+      "context": "Te presentas al anfitrión por primera vez",
+      "blockType": "courtesy",
+      "phrases": [
+        {
+          "id": "block8-phrase-1",
+          "text": "Bonjour, je suis votre invité.",
+          "translation": "Buenos días, soy su huésped.",
+          "clozeWord": "invité",
+          "clozeOptions": [
+            { "id": "o1", "text": "invité", "isCorrect": true },
+            { "id": "o2", "text": "hôte", "isCorrect": false },
+            { "id": "o3", "text": "voisin", "isCorrect": false },
+            { "id": "o4", "text": "ami", "isCorrect": false }
+          ],
+          "variations": [
+            { "id": "v1-1", "text": "Bonjour, nous sommes vos invités.", "translation": "Buenos días, somos sus huéspedes." },
+            { "id": "v1-2", "text": "Bonjour, je suis votre hôte.", "translation": "Buenos días, soy su anfitrión." }
+          ]
+        },
+        {
+          "id": "block8-phrase-2",
+          "text": "Comment vous appelez-vous ?",
+          "translation": "¿Cómo se llama?",
+          "clozeWord": "appelez-vous",
+          "clozeOptions": [
+            { "id": "o1", "text": "appelez-vous", "isCorrect": true },
+            { "id": "o2", "text": "appelles-tu", "isCorrect": false },
+            { "id": "o3", "text": "appelez-tu", "isCorrect": false },
+            { "id": "o4", "text": "appelles-vous", "isCorrect": false }
+          ],
+          "variations": [
+            { "id": "v2-1", "text": "Quel est votre nom ?", "translation": "¿Cuál es su nombre?" },
+            { "id": "v2-2", "text": "Comment vous prénommez-vous ?", "translation": "¿Cómo se llama?" }
+          ]
+        },
+        {
+          "id": "block8-phrase-3",
+          "text": "Ravi de vous rencontrer !",
+          "translation": "¡Encantado de conocerla!",
+          "clozeWord": "rencontrer",
+          "clozeOptions": [
+            { "id": "o1", "text": "rencontrer", "isCorrect": true },
+            { "id": "o2", "text": "voir", "isCorrect": false },
+            { "id": "o3", "text": "connaître", "isCorrect": false },
+            { "id": "o4", "text": "parler", "isCorrect": false }
+          ],
+          "variations": [
+            { "id": "v3-1", "text": "Enchanté de vous rencontrer !", "translation": "¡Encantado de conocerla!" },
+            { "id": "v3-2", "text": "Ravi de faire votre connaissance !", "translation": "¡Encantado de conocerla!" }
+          ]
+        }
+      ],
+      "audioUrl": "/audio/fr/a1/greetings/block8-complete.mp3",
+      "durationSeconds": 15
+    }
+  ],
+  "inputContent": [
+    {
+      "id": "input-greet-1",
+      "languageCode": "fr",
+      "levelCode": "A1",
+      "type": "audio",
+      "title": "Saludo formal en un Airbnb",
+      "description": "Un diálogo corto entre un huésped y un anfitrión al llegar",
+      "url": "/audio/fr/a1/greetings/airbnb-greeting.mp3",
+      "wordCount": 35,
+      "durationSeconds": 25,
+      "transcript": "Bonjour ! Je suis Marie, votre hôte. Bienvenue dans mon appartement. Comment allez-vous ? Très bien, merci. Et vous ? Très bien aussi, merci beaucoup !",
+      "comprehensionQuestions": [
+        {
+          "id": "q1",
+          "question": "Comment s'appelle l'hôte ?",
+          "questionTranslation": "¿Cómo se llama el anfitrión?",
+          "options": [
+            { "id": "a", "text": "Marie", "isCorrect": true },
+            { "id": "b", "text": "Sophie", "isCorrect": false },
+            { "id": "c", "text": "Pierre", "isCorrect": false },
+            { "id": "d", "text": "Jean", "isCorrect": false }
+          ]
+        },
+        {
+          "id": "q2",
+          "question": "Comment le hôte salue-t-il ?",
+          "questionTranslation": "¿Cómo saluda el anfitrión?",
+          "options": [
+            { "id": "a", "text": "Salut", "isCorrect": false },
+            { "id": "b", "text": "Bonjour", "isCorrect": true },
+            { "id": "c", "text": "Bonsoir", "isCorrect": false },
+            { "id": "d", "text": "Au revoir", "isCorrect": false }
+          ]
+        }
+      ]
+    }
+  ],
+  "coreExercises": {
+    "vocabulary": [
+      {
+        "id": "vocab-greet-1",
+        "imageUrl": "https://picsum.photos/600/400?random=100",
+        "word": "Bonjour",
+        "translation": "Buenos días / Hola",
+        "options": [
+          { "id": "a", "text": "Bonjour", "isCorrect": true },
+          { "id": "b", "text": "Merci", "isCorrect": false },
+          { "id": "c", "text": "Au revoir", "isCorrect": false },
+          { "id": "d", "text": "S'il vous plaît", "isCorrect": false }
+        ]
+      },
+      {
+        "id": "vocab-greet-2",
+        "imageUrl": "https://picsum.photos/600/400?random=101",
+        "word": "Merci",
+        "translation": "Gracias",
+        "options": [
+          { "id": "a", "text": "Bonjour", "isCorrect": false },
+          { "id": "b", "text": "Merci", "isCorrect": true },
+          { "id": "c", "text": "Pardon", "isCorrect": false },
+          { "id": "d", "text": "Salut", "isCorrect": false }
+        ]
+      },
+      {
+        "id": "vocab-greet-3",
+        "imageUrl": "https://picsum.photos/600/400?random=102",
+        "word": "S'il vous plaît",
+        "translation": "Por favor",
+        "options": [
+          { "id": "a", "text": "Merci", "isCorrect": false },
+          { "id": "b", "text": "Pardon", "isCorrect": false },
+          { "id": "c", "text": "S'il vous plaît", "isCorrect": true },
+          { "id": "d", "text": "Bonjour", "isCorrect": false }
+        ]
+      },
+      {
+        "id": "vocab-greet-4",
+        "imageUrl": "https://picsum.photos/600/400?random=103",
+        "word": "Au revoir",
+        "translation": "Adiós",
+        "options": [
+          { "id": "a", "text": "Bonjour", "isCorrect": false },
+          { "id": "b", "text": "Salut", "isCorrect": false },
+          { "id": "c", "text": "Au revoir", "isCorrect": true },
+          { "id": "d", "text": "Merci", "isCorrect": false }
+        ]
+      }
+    ],
+    "pragmaStrike": [
+      {
+        "id": "pragma-greet-1",
+        "situationImage": "https://picsum.photos/800/600?random=1",
+        "situationDescription": "Llegas a un Airbnb y te encuentras con el anfitrión por primera vez. Es una persona mayor.",
+        "timeLimit": 5,
+        "options": [
+          {
+            "id": "opt-1-1",
+            "text": "Bonjour, comment allez-vous ?",
+            "isCorrect": true,
+            "explanation": "Forma más cortés y formal. Perfecto para saludar a una persona mayor en un contexto de llegada."
+          },
+          {
+            "id": "opt-1-2",
+            "text": "Salut, ça va ?",
+            "isCorrect": false,
+            "explanation": "Demasiado informal para una persona mayor en un contexto formal."
+          },
+          {
+            "id": "opt-1-3",
+            "text": "Bonsoir, comment vous portez-vous ?",
+            "isCorrect": false,
+            "explanation": "Muy formal pero 'Bonsoir' es para la tarde/noche. 'Bonjour' es más apropiado para una llegada general."
+          },
+          {
+            "id": "opt-1-4",
+            "text": "Hey, comment ça va ?",
+            "isCorrect": false,
+            "explanation": "Muy informal y no apropiado para este contexto."
+          }
+        ]
+      },
+      {
+        "id": "pragma-greet-2",
+        "situationImage": "https://picsum.photos/800/600?random=2",
+        "situationDescription": "Necesitas pedirle ayuda al anfitrión para encontrar algo en el apartamento.",
+        "timeLimit": 5,
+        "options": [
+          {
+            "id": "opt-2-1",
+            "text": "S'il vous plaît, pouvez-vous m'aider ?",
+            "isCorrect": true,
+            "explanation": "Forma más cortés con 's'il vous plaît'. Perfecto para pedir ayuda de manera respetuosa."
+          },
+          {
+            "id": "opt-2-2",
+            "text": "Aide-moi, s'il te plaît.",
+            "isCorrect": false,
+            "explanation": "Demasiado directo e informal. No apropiado para este contexto."
+          },
+          {
+            "id": "opt-2-3",
+            "text": "Pouvez-vous m'aider ?",
+            "isCorrect": false,
+            "explanation": "Cortés pero falta 's'il vous plaît', que es esencial para mostrar máxima cortesía."
+          },
+          {
+            "id": "opt-2-4",
+            "text": "J'ai besoin d'aide.",
+            "isCorrect": false,
+            "explanation": "Demasiado directo y no muestra cortesía. Falta la pregunta cortés."
+          }
+        ]
+      },
+      {
+        "id": "pragma-greet-3",
+        "situationImage": "https://picsum.photos/800/600?random=3",
+        "situationDescription": "El anfitrión te ayuda con tu equipaje. Quieres agradecerle.",
+        "timeLimit": 5,
+        "options": [
+          {
+            "id": "opt-3-1",
+            "text": "Merci beaucoup pour votre aide !",
+            "isCorrect": true,
+            "explanation": "Muy cortés y agradecido. Perfecto para agradecer ayuda específica."
+          },
+          {
+            "id": "opt-3-2",
+            "text": "Merci.",
+            "isCorrect": false,
+            "explanation": "Cortés aunque demasiado breve. No muestra suficiente agradecimiento para la ayuda recibida."
+          },
+          {
+            "id": "opt-3-3",
+            "text": "C'est bon.",
+            "isCorrect": false,
+            "explanation": "No muestra agradecimiento. Puede sonar descortés."
+          },
+          {
+            "id": "opt-3-4",
+            "text": "Je vous remercie beaucoup.",
+            "isCorrect": false,
+            "explanation": "Muy formal y cortés, pero 'Merci beaucoup pour votre aide' es más específica y apropiada para agradecer ayuda concreta."
+          }
+        ]
+      }
+    ],
+    "shardDetection": [
+      {
+        "id": "shard-greet-1",
+        "audioUrl": "/audio/fr/a1/greetings/shard-1.mp3",
+        "audioDuration": 4.5,
+        "phrase": "Bonjour, comment allez-vous ?",
+        "translation": "Buenos días, ¿cómo está usted?",
+        "shards": [
+          {
+            "id": "shard-1-1",
+            "imageUrl": "https://picsum.photos/400/300?random=10",
+            "isCorrect": true
+          },
+          {
+            "id": "shard-1-2",
+            "imageUrl": "https://picsum.photos/400/300?random=11",
+            "isCorrect": false
+          },
+          {
+            "id": "shard-1-3",
+            "imageUrl": "https://picsum.photos/400/300?random=12",
+            "isCorrect": false
+          }
+        ]
+      },
+      {
+        "id": "shard-greet-2",
+        "audioUrl": "/audio/fr/a1/greetings/shard-2.mp3",
+        "audioDuration": 3.8,
+        "phrase": "Merci beaucoup !",
+        "translation": "¡Muchas gracias!",
+        "shards": [
+          {
+            "id": "shard-2-1",
+            "imageUrl": "https://picsum.photos/400/300?random=13",
+            "isCorrect": true
+          },
+          {
+            "id": "shard-2-2",
+            "imageUrl": "https://picsum.photos/400/300?random=14",
+            "isCorrect": false
+          },
+          {
+            "id": "shard-2-3",
+            "imageUrl": "https://picsum.photos/400/300?random=15",
+            "isCorrect": false
+          }
+        ]
+      },
+      {
+        "id": "shard-greet-3",
+        "audioUrl": "/audio/fr/a1/greetings/shard-3.mp3",
+        "audioDuration": 4.2,
+        "phrase": "Salut, ça va ?",
+        "translation": "Hola, ¿qué tal?",
+        "shards": [
+          {
+            "id": "shard-3-1",
+            "imageUrl": "https://picsum.photos/400/300?random=16",
+            "isCorrect": true
+          },
+          {
+            "id": "shard-3-2",
+            "imageUrl": "https://picsum.photos/400/300?random=17",
+            "isCorrect": false
+          },
+          {
+            "id": "shard-3-3",
+            "imageUrl": "https://picsum.photos/400/300?random=18",
+            "isCorrect": false
+          }
+        ]
+      },
+      {
+        "id": "shard-greet-4",
+        "audioUrl": "/audio/fr/a1/greetings/shard-4.mp3",
+        "audioDuration": 3.5,
+        "phrase": "Au revoir, à bientôt !",
+        "translation": "Adiós, ¡hasta pronto!",
+        "shards": [
+          {
+            "id": "shard-4-1",
+            "imageUrl": "https://picsum.photos/400/300?random=19",
+            "isCorrect": true
+          },
+          {
+            "id": "shard-4-2",
+            "imageUrl": "https://picsum.photos/400/300?random=20",
+            "isCorrect": false
+          },
+          {
+            "id": "shard-4-3",
+            "imageUrl": "https://picsum.photos/400/300?random=21",
+            "isCorrect": false
+          }
+        ]
+      }
+    ],
+    "echoStream": [
+      {
+        "id": "echo-greet-1",
+        "audioUrl": "/audio/fr/a1/greetings/echo-1.mp3",
+        "audioDuration": 6.5,
+        "powerWords": [
+          {
+            "word": "Bonjour",
+            "timestamp": 0.5,
+            "tolerance": 0.5
+          },
+          {
+            "word": "comment",
+            "timestamp": 1.2,
+            "tolerance": 0.5
+          },
+          {
+            "word": "allez-vous",
+            "timestamp": 2.0,
+            "tolerance": 0.5
+          }
+        ],
+        "phrase": "Bonjour, comment allez-vous ? Très bien, merci !",
+        "translation": "Buenos días, ¿cómo está usted? Muy bien, ¡gracias!"
+      },
+      {
+        "id": "echo-greet-2",
+        "audioUrl": "/audio/fr/a1/greetings/echo-2.mp3",
+        "audioDuration": 5.8,
+        "powerWords": [
+          {
+            "word": "Salut",
+            "timestamp": 0.3,
+            "tolerance": 0.5
+          },
+          {
+            "word": "ça",
+            "timestamp": 0.8,
+            "tolerance": 0.5
+          },
+          {
+            "word": "va",
+            "timestamp": 1.1,
+            "tolerance": 0.5
+          }
+        ],
+        "phrase": "Salut, ça va ? Oui, ça va bien, merci !",
+        "translation": "Hola, ¿qué tal? Sí, estoy bien, ¡gracias!"
+      }
+    ],
+    "glyphWeaving": [
+      {
+        "id": "glyph-greet-1",
+        "audioUrl": "/audio/fr/a1/greetings/glyph-1.mp3",
+        "bpm": 120,
+        "pattern": [
+          {
+            "fromGlyph": "g1",
+            "toGlyph": "g2",
+            "beat": 1
+          },
+          {
+            "fromGlyph": "g2",
+            "toGlyph": "g3",
+            "beat": 2
+          },
+          {
+            "fromGlyph": "g3",
+            "toGlyph": "g4",
+            "beat": 3
+          },
+          {
+            "fromGlyph": "g4",
+            "toGlyph": "g1",
+            "beat": 4
+          }
+        ],
+        "glyphs": [
+          {
+            "id": "g1",
+            "symbol": "👋",
+            "position": { "x": 0, "y": 0 }
+          },
+          {
+            "id": "g2",
+            "symbol": "💬",
+            "position": { "x": 1, "y": 0 }
+          },
+          {
+            "id": "g3",
+            "symbol": "🙏",
+            "position": { "x": 0, "y": 1 }
+          },
+          {
+            "id": "g4",
+            "symbol": "👋",
+            "position": { "x": 1, "y": 1 }
+          }
+        ]
+      }
+    ],
+    "resonancePath": [
+      {
+        "id": "resonance-greet-1",
+        "phrase": "Bonjour, comment allez-vous ?",
+        "audioUrl": "/audio/fr/a1/greetings/resonance-1.mp3",
+        "nativeIntonation": [50, 55, 60, 65, 70, 65, 60, 55, 50],
+        "targetAccuracy": 80
+      },
+      {
+        "id": "resonance-greet-2",
+        "phrase": "Salut, ça va ?",
+        "audioUrl": "/audio/fr/a1/greetings/resonance-2.mp3",
+        "nativeIntonation": [45, 50, 55, 60, 55, 50, 45],
+        "targetAccuracy": 75
+      },
+      {
+        "id": "resonance-greet-3",
+        "phrase": "Merci beaucoup !",
+        "audioUrl": "/audio/fr/a1/greetings/resonance-3.mp3",
+        "nativeIntonation": [50, 55, 60, 65, 70, 65, 60],
+        "targetAccuracy": 80
+      }
+    ]
+  },
+  "miniTest": {
+    "id": "test-greetings",
+    "questions": [
+      {
+        "id": "t1",
+        "question": "Quand utilise-t-on 'Bonjour' ?",
+        "questionTranslation": "¿Cuándo se usa 'Bonjour'?",
+        "options": [
+          { "id": "a", "text": "Le matin et l'après-midi", "isCorrect": true },
+          { "id": "b", "text": "Seulement le matin", "isCorrect": false },
+          { "id": "c", "text": "Le soir", "isCorrect": false },
+          { "id": "d", "text": "Pour dire au revoir", "isCorrect": false }
+        ]
+      },
+      {
+        "id": "t2",
+        "question": "Quelle est la différence entre 'tu' et 'vous' ?",
+        "questionTranslation": "¿Cuál es la diferencia entre 'tu' y 'vous'?",
+        "options": [
+          { "id": "a", "text": "'Tu' est formel, 'vous' est informel", "isCorrect": false },
+          { "id": "b", "text": "'Tu' est informel, 'vous' est formel", "isCorrect": true },
+          { "id": "c", "text": "Il n'y a pas de différence", "isCorrect": false },
+          { "id": "d", "text": "'Tu' est pour les amis seulement", "isCorrect": false }
+        ]
+      },
+      {
+        "id": "t3",
+        "question": "Comment dit-on 'por favor' en français ?",
+        "questionTranslation": "¿Cómo se dice 'por favor' en francés?",
+        "options": [
+          { "id": "a", "text": "Merci", "isCorrect": false },
+          { "id": "b", "text": "Pardon", "isCorrect": false },
+          { "id": "c", "text": "S'il vous plaît", "isCorrect": true },
+          { "id": "d", "text": "Bonjour", "isCorrect": false }
+        ]
+      }
+    ]
+  },
+  "modeConfig": {
+    "academia": {
+      "timeLimit": null,
+      "showHints": true,
+      "showExplanations": true,
+      "allowRetries": true,
+      "xpMultiplier": 1.0
+    },
+    "desafio": {
+      "timeLimit": 15,
+      "showHints": false,
+      "showExplanations": false,
+      "allowRetries": false,
+      "xpMultiplier": 1.5,
+      "gemsReward": 10
+    }
+  }
+}

@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { useCallback, useMemo } from 'react';
-import Particles from '@tsparticles/react';
-import { loadSlim } from '@tsparticles/slim';
-import type { Engine, ISourceOptions } from '@tsparticles/engine';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useCallback, useMemo } from "react";
+import Particles from "@tsparticles/react";
+import { loadSlim } from "@tsparticles/slim";
+import type { Engine, ISourceOptions } from "@tsparticles/engine";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface ParticlesSurgeProps {
   active: boolean;
-  type?: 'surge' | 'level-up' | 'rank-up';
+  type?: "surge" | "level-up" | "rank-up";
   onComplete?: () => void;
 }
 
@@ -16,7 +16,12 @@ interface ParticlesSurgeProps {
  * Componente de partículas para efectos de gamificación
  * Usado para "Wordweave Surge", Level Up, Rank Up, etc.
  */
-export function ParticlesSurge({ active, type = 'surge', onComplete }: ParticlesSurgeProps) {
+export function ParticlesSurge({
+  active,
+  type = "surge",
+  onComplete,
+}: ParticlesSurgeProps) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const particlesInit = useCallback(async (engine: Engine) => {
     await loadSlim(engine);
   }, []);
@@ -25,17 +30,18 @@ export function ParticlesSurge({ active, type = 'surge', onComplete }: Particles
     const baseConfig: ISourceOptions = {
       particles: {
         number: {
-          value: type === 'rank-up' ? 100 : 50,
-          density: {
-            enable: true,
-            value_area: 800,
-          },
+          value: type === "rank-up" ? 100 : 50,
         },
         color: {
-          value: type === 'surge' ? '#F59E0B' : type === 'level-up' ? '#10B981' : '#8B5CF6',
+          value:
+            type === "surge"
+              ? "#F59E0B"
+              : type === "level-up"
+              ? "#10B981"
+              : "#8B5CF6",
         },
         shape: {
-          type: ['circle', 'triangle', 'star'],
+          type: ["circle", "triangle", "star"],
         },
         opacity: {
           value: { min: 0.3, max: 0.8 },
@@ -56,11 +62,11 @@ export function ParticlesSurge({ active, type = 'surge', onComplete }: Particles
         move: {
           enable: true,
           speed: { min: 1, max: 3 },
-          direction: 'none',
+          direction: "none",
           random: true,
           straight: false,
           outModes: {
-            default: 'out',
+            default: "out",
           },
           attract: {
             enable: false,
@@ -68,17 +74,19 @@ export function ParticlesSurge({ active, type = 'surge', onComplete }: Particles
         },
       },
       interactivity: {
-        detectsOn: 'canvas',
+        detectsOn: "canvas",
         events: {
           onHover: {
             enable: true,
-            mode: 'repulse',
+            mode: "repulse",
           },
           onClick: {
             enable: true,
-            mode: 'push',
+            mode: "push",
           },
-          resize: true,
+          resize: {
+            enable: true,
+          },
         },
         modes: {
           repulse: {
@@ -94,12 +102,12 @@ export function ParticlesSurge({ active, type = 'surge', onComplete }: Particles
     };
 
     // Configuración específica para "surge crítico"
-    if (type === 'surge') {
+    if (type === "surge") {
       baseConfig.particles!.shape = {
-        type: ['star', 'triangle'],
+        type: ["star", "triangle"],
       };
       baseConfig.particles!.color = {
-        value: ['#F59E0B', '#EF4444', '#F97316'],
+        value: ["#F59E0B", "#EF4444", "#F97316"],
       };
     }
 
@@ -123,7 +131,6 @@ export function ParticlesSurge({ active, type = 'surge', onComplete }: Particles
         >
           <Particles
             id="surge-particles"
-            init={particlesInit}
             options={options}
             className="w-full h-full"
           />
@@ -132,4 +139,3 @@ export function ParticlesSurge({ active, type = 'surge', onComplete }: Particles
     </AnimatePresence>
   );
 }
-

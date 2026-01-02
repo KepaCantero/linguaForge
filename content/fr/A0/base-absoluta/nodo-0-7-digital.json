@@ -1,0 +1,229 @@
+{
+  "id": "a0-base-absoluta-digital",
+  "languageCode": "fr",
+  "levelCode": "A0",
+  "title": "Interacción Digital Básica",
+  "titleFr": "Interaction numérique de base",
+  "description": "Comunicarse por WhatsApp antes de tener confianza verbal - Para Generación Z",
+  "estimatedMinutes": 12,
+  "conversationalBlocks": [
+    {
+      "id": "bloque-g1-whatsapp",
+      "title": "Mensajes de cortesía inicial",
+      "context": "Con un compañero de piso nuevo, primer contacto por WhatsApp",
+      "blockType": "routine",
+      "phrases": [
+        {
+          "id": "frase-g1-1",
+          "text": "Salut ! C'est Alex, ton nouveau colocataire.",
+          "translation": "¡Hola! Soy Alex, tu nuevo compañero de piso.",
+          "audioUrl": "/audio/fr/a0/digital/salut-c-est-alex.mp3",
+          "clozeWord": "colocataire",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "colocataire", "isCorrect": true },
+            { "id": "opt-2", "text": "voisin", "isCorrect": false },
+            { "id": "opt-3", "text": "ami", "isCorrect": false },
+            { "id": "opt-4", "text": "camarade", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Bonjour, je suis Alex, votre nouveau colocataire.",
+              "translation": "Buenos días, soy Alex, su nuevo compañero de piso.",
+              "audioUrl": "/audio/fr/a0/digital/bonjour-nouveau-colocataire.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-g1-2",
+          "text": "Salut Alex ! Bienvenue, quand arrives-tu ?",
+          "translation": "¡Hola Alex! Bienvenido, ¿cuándo llegas?",
+          "audioUrl": "/audio/fr/a0/digital/salut-bienvenue-quand-arrives.mp3",
+          "clozeWord": "arrives",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "arrives", "isCorrect": true },
+            { "id": "opt-2", "text": "viens", "isCorrect": false },
+            { "id": "opt-3", "text": "partes", "isCorrect": false },
+            { "id": "opt-4", "text": "restes", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Bienvenue ! À quelle heure arrives-tu ?",
+              "translation": "¡Bienvenido! ¿A qué hora llegas?",
+              "audioUrl": "/audio/fr/a0/digital/bienvenue-quelle-heure.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-g1-3",
+          "text": "Demain à 14h. J'ai quelques questions...",
+          "translation": "Mañana a las 14h. Tengo algunas preguntas...",
+          "audioUrl": "/audio/fr/a0/digital/demain-14h-questions.mp3",
+          "clozeWord": "questions",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "questions", "isCorrect": true },
+            { "id": "opt-2", "text": "choses", "isCorrect": false },
+            { "id": "opt-3", "text": "affaires", "isCorrect": false },
+            { "id": "opt-4", "text": "problèmes", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Demain après-midi, j'ai des questions.",
+              "translation": "Mañana por la tarde, tengo preguntas.",
+              "audioUrl": "/audio/fr/a0/digital/demain-apres-midi-questions.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-g1-4",
+          "text": "Pas de problème, envoie-moi un message quand tu seras proche ! ✨",
+          "translation": "No hay problema, ¡envíame un mensaje cuando estés cerca! ✨",
+          "audioUrl": "/audio/fr/a0/digital/pas-probleme-envoie-message.mp3",
+          "clozeWord": "proche",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "proche", "isCorrect": true },
+            { "id": "opt-2", "text": "près", "isCorrect": false },
+            { "id": "opt-3", "text": "arrivé", "isCorrect": false },
+            { "id": "opt-4", "text": "là", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "D'accord, à demain !",
+              "translation": "De acuerdo, ¡hasta mañana!",
+              "audioUrl": "/audio/fr/a0/digital/d-accord-a-demain.mp3"
+            }
+          ]
+        }
+      ],
+      "audioUrl": "/audio/fr/a0/digital/bloque-g1-completo.mp3",
+      "durationSeconds": 16,
+      "audioTags": ["fast"],
+      "culturalNotes": [
+        {
+          "id": "note-1",
+          "text": "Regla de oro: En Francia, un emoji (✨) al final suaviza cualquier solicitud.",
+          "context": "Comunicación digital"
+        }
+      ],
+      "pronunciationTips": [
+        "'Colocataire' se pronuncia 'co-lo-ca-ter' (no 'colocataire' como en español)",
+        "'Envoie-moi' se pronuncia 'an-vua-mua' (el 'oi' suena como 'ua')"
+      ]
+    },
+    {
+      "id": "bloque-g2-email-formal",
+      "title": "Correos formales básicos",
+      "context": "Pedir documento a casero por email",
+      "blockType": "routine",
+      "phrases": [
+        {
+          "id": "frase-g2-1",
+          "text": "Objet: Demande de facture d'électricité",
+          "translation": "Asunto: Solicitud de factura de electricidad",
+          "audioUrl": "/audio/fr/a0/digital/objet-demande-facture.mp3",
+          "clozeWord": "facture",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "facture", "isCorrect": true },
+            { "id": "opt-2", "text": "reçu", "isCorrect": false },
+            { "id": "opt-3", "text": "document", "isCorrect": false },
+            { "id": "opt-4", "text": "papier", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Objet: Facture d'électricité",
+              "translation": "Asunto: Factura de electricidad",
+              "audioUrl": "/audio/fr/a0/digital/objet-facture-electricite.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-g2-2",
+          "text": "Bonjour Madame Dupont, Pourriez-vous m'envoyer la facture d'électricité du mois dernier ?",
+          "translation": "Buenos días señora Dupont, ¿podría enviarme la factura de electricidad del mes pasado?",
+          "audioUrl": "/audio/fr/a0/digital/bonjour-pourriez-vous-envoyer.mp3",
+          "clozeWord": "envoyer",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "envoyer", "isCorrect": true },
+            { "id": "opt-2", "text": "donner", "isCorrect": false },
+            { "id": "opt-3", "text": "montrer", "isCorrect": false },
+            { "id": "opt-4", "text": "passer", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Pourriez-vous me faire parvenir la facture ?",
+              "translation": "¿Podría hacerme llegar la factura?",
+              "audioUrl": "/audio/fr/a0/digital/faire-parvenir-facture.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-g2-3",
+          "text": "Je dois la fournir para mi dossier administrativo.",
+          "translation": "Debo proporcionarla para mi expediente administrativo.",
+          "audioUrl": "/audio/fr/a0/digital/je-dois-fournir-dossier.mp3",
+          "clozeWord": "fournir",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "fournir", "isCorrect": true },
+            { "id": "opt-2", "text": "donner", "isCorrect": false },
+            { "id": "opt-3", "text": "montrer", "isCorrect": false },
+            { "id": "opt-4", "text": "envoyer", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "J'en ai besoin pour mon dossier.",
+              "translation": "La necesito para mi expediente.",
+              "audioUrl": "/audio/fr/a0/digital/j-en-ai-besoin-dossier.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-g2-4",
+          "text": "Merci d'avance pour votre aide, Cordialement, Alex",
+          "translation": "Gracias de antemano por su ayuda, Cordialmente, Alex",
+          "audioUrl": "/audio/fr/a0/digital/merci-d-avance-cordialement.mp3",
+          "clozeWord": "avance",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "avance", "isCorrect": true },
+            { "id": "opt-2", "text": "aide", "isCorrect": false },
+            { "id": "opt-3", "text": "temps", "isCorrect": false },
+            { "id": "opt-4", "text": "compréhension", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Merci beaucoup, Bien cordialement, Alex",
+              "translation": "Muchas gracias, Muy cordialmente, Alex",
+              "audioUrl": "/audio/fr/a0/digital/merci-beaucoup-bien-cordialement.mp3"
+            }
+          ]
+        }
+      ],
+      "audioUrl": "/audio/fr/a0/digital/bloque-g2-completo.mp3",
+      "durationSeconds": 20,
+      "audioTags": ["slow"],
+      "culturalNotes": [
+        {
+          "id": "note-1",
+          "text": "Plantilla mágica: 'Pourriez-vous...' + razón práctica + 'Merci d'avance' = 95% de respuesta positiva.",
+          "context": "Comunicación formal efectiva"
+        }
+      ],
+      "pronunciationTips": [
+        "'Pourriez-vous' se pronuncia 'pu-rié-vu' - forma condicional educada",
+        "'Cordialement' se pronuncia 'cor-dia-le-man' (la 'e' final no se pronuncia)"
+      ]
+    }
+  ],
+  "coreExercises": {
+    "cloze": [],
+    "variations": [],
+    "vocabulary": []
+  }
+}
+

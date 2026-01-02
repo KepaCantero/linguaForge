@@ -8,387 +8,3279 @@
   },
   "branches": [
     {
-      "id": "branch-1-identity",
-      "order": 1,
-      "title": "Identidad & Supervivencia Social",
-      "titleFr": "Identité & Survie Sociale",
-      "description": "Quién soy / quién eres",
-      "icon": "👋",
-      "color": "#4F46E5",
-      "leaves": [
-        {
-          "id": "leaf-1-1-greetings",
-          "title": "Saludos y cortesía",
-          "titleFr": "Salutations et politesse",
-          "grammar": ["Bonjour / Salut / Au revoir", "Politesse (merci, s'il vous plaît)", "Tu vs Vous"],
-          "icon": "🤝",
-          "estimatedMinutes": 15
-        },
-        {
-          "id": "leaf-1-2-introduce",
-          "title": "Presentarse",
-          "titleFr": "Se présenter",
-          "grammar": ["Je m'appelle…", "Nacionalidad", "Idiomas", "Deletrear el nombre"],
-          "icon": "🙋",
-          "estimatedMinutes": 20
-        },
-        {
-          "id": "leaf-1-3-personal-info",
-          "title": "Información personal",
-          "titleFr": "Informations personnelles",
-          "grammar": ["Edad", "Dirección", "Teléfono / email", "Estado civil"],
-          "icon": "📝",
-          "estimatedMinutes": 15
-        }
-      ]
-    },
-    {
-      "id": "branch-2-time",
-      "order": 2,
-      "title": "Tiempo, Números y Ritmo Diario",
-      "titleFr": "Temps, Nombres et Rythme Quotidien",
-      "description": "Ordenar el mundo",
-      "icon": "🔢",
-      "color": "#7C3AED",
-      "leaves": [
-        {
-          "id": "leaf-2-1-numbers",
-          "title": "Números",
-          "titleFr": "Les nombres",
-          "grammar": ["0-20", "20-100", "Precios"],
-          "icon": "🔢",
-          "estimatedMinutes": 20
-        },
-        {
-          "id": "leaf-2-2-dates",
-          "title": "Fechas y tiempo",
-          "titleFr": "Dates et temps",
-          "grammar": ["Días de la semana", "Meses", "Estaciones"],
-          "icon": "📅",
-          "estimatedMinutes": 15
-        },
-        {
-          "id": "leaf-2-3-hour",
-          "title": "La hora",
-          "titleFr": "L'heure",
-          "grammar": ["Quelle heure est-il ?", "Rutinas diarias", "Preposiciones temporales"],
-          "icon": "🕐",
-          "estimatedMinutes": 20
-        }
-      ]
-    },
-    {
-      "id": "branch-3-location",
-      "order": 3,
-      "title": "Lugar & Orientación",
-      "titleFr": "Lieu & Orientation",
-      "description": "Dónde estoy",
-      "icon": "📍",
-      "color": "#2563EB",
-      "leaves": [
-        {
-          "id": "leaf-3-1-countries",
-          "title": "Países y ciudades",
-          "titleFr": "Pays et villes",
-          "grammar": ["Países", "Nacionalidades", "Vivir en…"],
-          "icon": "🌍",
-          "estimatedMinutes": 15
-        },
-        {
-          "id": "leaf-3-2-city",
-          "title": "La ciudad",
-          "titleFr": "La ville",
-          "grammar": ["Lugares comunes (gare, banque, café)", "Direcciones", "À gauche / à droite"],
-          "icon": "🏙️",
-          "estimatedMinutes": 20
-        },
-        {
-          "id": "leaf-3-3-transport",
-          "title": "Transporte",
-          "titleFr": "Les transports",
-          "grammar": ["Métro, bus, vélo", "Aller à…", "Preposiciones de movimiento"],
-          "icon": "🚇",
-          "estimatedMinutes": 15
-        }
-      ]
-    },
-    {
-      "id": "branch-4-housing",
-      "order": 4,
-      "title": "Alojamiento & Vida Práctica",
-      "titleFr": "Logement & Vie Pratique",
-      "description": "Airbnb entra aquí",
-      "icon": "🏠",
-      "color": "#0891B2",
-      "leaves": [
-        {
-          "id": "leaf-4-1-housing-types",
-          "title": "Tipos de alojamiento",
-          "titleFr": "Types de logement",
-          "grammar": ["Hôtel", "Appartement", "Airbnb"],
-          "icon": "🏨",
-          "estimatedMinutes": 15
-        },
-        {
-          "id": "leaf-4-2-in-housing",
-          "title": "En el alojamiento",
-          "titleFr": "Dans le logement",
-          "grammar": ["Chambre, salle de bain", "Clés", "Problèmes simples (eau, chauffage)"],
-          "icon": "🛏️",
-          "estimatedMinutes": 20
-        },
-        {
-          "id": "leaf-4-3-arrival",
-          "title": "Llegada y normas",
-          "titleFr": "Arrivée et règles",
-          "grammar": ["Check-in", "Horarios", "Reglas básicas"],
-          "icon": "🚪",
-          "estimatedMinutes": 15
-        }
-      ]
-    },
-    {
-      "id": "branch-5-food",
-      "order": 5,
-      "title": "Comida & Vida Diaria",
-      "titleFr": "Nourriture & Vie Quotidienne",
-      "description": "Sobrevivir comiendo",
-      "icon": "🍽️",
-      "color": "#059669",
-      "leaves": [
-        {
-          "id": "leaf-5-1-meals",
-          "title": "Comidas",
-          "titleFr": "Les repas",
-          "grammar": ["Petit-déjeuner", "Déjeuner", "Dîner"],
-          "icon": "🥐",
-          "estimatedMinutes": 15
-        },
-        {
-          "id": "leaf-5-2-restaurant",
-          "title": "En el café / restaurante",
-          "titleFr": "Au café / restaurant",
-          "grammar": ["Commander", "Pagar", "Preferencias"],
-          "icon": "☕",
-          "estimatedMinutes": 20
-        },
-        {
-          "id": "leaf-5-3-shopping",
-          "title": "Compras básicas",
-          "titleFr": "Achats de base",
-          "grammar": ["Supermercado", "Precios", "Cantidades"],
-          "icon": "🛒",
-          "estimatedMinutes": 15
-        }
-      ]
-    },
-    {
-      "id": "branch-6-people",
-      "order": 6,
-      "title": "Personas & Relaciones",
-      "titleFr": "Personnes & Relations",
-      "description": "Los otros",
-      "icon": "👥",
-      "color": "#D97706",
-      "leaves": [
-        {
-          "id": "leaf-6-1-family",
-          "title": "Familia",
-          "titleFr": "La famille",
-          "grammar": ["Miembros", "Relaciones", "Posesivos"],
-          "icon": "👨‍👩‍👧",
-          "estimatedMinutes": 15
-        },
-        {
-          "id": "leaf-6-2-physical",
-          "title": "Descripción física",
-          "titleFr": "Description physique",
-          "grammar": ["Alto/bajo", "Pelo, ojos", "Adjetivos de descripción"],
-          "icon": "🧍",
-          "estimatedMinutes": 15
-        },
-        {
-          "id": "leaf-6-3-character",
-          "title": "Carácter y gustos",
-          "titleFr": "Caractère et goûts",
-          "grammar": ["Aimer / adorer / détester", "Deportes y ocio", "Adjetivos de personalidad"],
-          "icon": "❤️",
-          "estimatedMinutes": 20
-        }
-      ]
-    },
-    {
-      "id": "branch-7-work",
-      "order": 7,
-      "title": "Trabajo & Actividades",
-      "titleFr": "Travail & Activités",
-      "description": "Qué hago",
-      "icon": "💼",
-      "color": "#DC2626",
-      "leaves": [
-        {
-          "id": "leaf-7-1-professions",
-          "title": "Profesiones",
-          "titleFr": "Les professions",
-          "grammar": ["Trabajo", "Estudiar", "Verbos de profesión"],
-          "icon": "👔",
-          "estimatedMinutes": 15
-        },
-        {
-          "id": "leaf-7-2-routine",
-          "title": "Rutina laboral",
-          "titleFr": "Routine de travail",
-          "grammar": ["Horarios", "Actividades", "Verbos regulares -er"],
-          "icon": "⏰",
-          "estimatedMinutes": 20
-        },
-        {
-          "id": "leaf-7-3-leisure",
-          "title": "Tiempo libre",
-          "titleFr": "Temps libre",
-          "grammar": ["Loisirs", "Deportes", "Artes"],
-          "icon": "🎨",
-          "estimatedMinutes": 15
-        }
-      ]
-    },
-    {
-      "id": "branch-8-health",
-      "order": 8,
-      "title": "Salud & Necesidades Básicas",
-      "titleFr": "Santé & Besoins de Base",
-      "description": "Problemas simples",
-      "icon": "🏥",
-      "color": "#DB2777",
-      "leaves": [
-        {
-          "id": "leaf-8-1-body",
-          "title": "El cuerpo",
-          "titleFr": "Le corps",
-          "grammar": ["Partes del cuerpo", "Sensaciones", "Vocabulario anatómico"],
-          "icon": "🦴",
-          "estimatedMinutes": 15
-        },
-        {
-          "id": "leaf-8-2-pain",
-          "title": "Dolor y malestar",
-          "titleFr": "Douleur et malaise",
-          "grammar": ["J'ai mal à…", "Fatiga", "Síntomas básicos"],
-          "icon": "🤒",
-          "estimatedMinutes": 15
-        },
-        {
-          "id": "leaf-8-3-advice",
-          "title": "Consejos simples",
-          "titleFr": "Conseils simples",
-          "grammar": ["Il faut…", "Devoir (intro)", "Recomendaciones"],
-          "icon": "💊",
-          "estimatedMinutes": 20
-        }
-      ]
-    },
-    {
-      "id": "branch-9-communication",
-      "order": 9,
-      "title": "Comunicación Funcional",
-      "titleFr": "Communication Fonctionnelle",
-      "description": "Interactuar",
-      "icon": "💬",
-      "color": "#7C3AED",
-      "leaves": [
-        {
-          "id": "leaf-9-1-questions",
-          "title": "Preguntar",
-          "titleFr": "Poser des questions",
-          "grammar": ["Où / Quand / Combien", "Est-ce que", "Formas interrogativas"],
-          "icon": "❓",
-          "estimatedMinutes": 20
-        },
-        {
-          "id": "leaf-9-2-negation",
-          "title": "Negar",
-          "titleFr": "La négation",
-          "grammar": ["Ne…pas", "Ne…jamais", "Ne…rien (intro)"],
-          "icon": "🚫",
-          "estimatedMinutes": 15
-        },
-        {
-          "id": "leaf-9-3-invitations",
-          "title": "Invitar y responder",
-          "titleFr": "Inviter et répondre",
-          "grammar": ["Proposer", "Accepter / Refuser", "Imperativo"],
-          "icon": "🎉",
-          "estimatedMinutes": 15
-        }
-      ]
-    },
-    {
-      "id": "branch-10-past-future",
-      "order": 10,
-      "title": "Tiempo Pasado & Proyectos",
-      "titleFr": "Passé & Projets",
-      "description": "Inicio del relato",
-      "icon": "⏳",
-      "color": "#0D9488",
-      "leaves": [
-        {
-          "id": "leaf-10-1-recent-past",
-          "title": "Pasado reciente",
-          "titleFr": "Passé récent",
-          "grammar": ["Je viens de…", "Acciones recientes", "Venir de + infinitif"],
-          "icon": "🔙",
-          "estimatedMinutes": 15
-        },
-        {
-          "id": "leaf-10-2-passe-compose",
-          "title": "Pasado simple vivido",
-          "titleFr": "Passé composé",
-          "grammar": ["Passé composé (intro)", "Avoir/Être auxiliar", "Participios comunes"],
-          "icon": "📖",
-          "estimatedMinutes": 25
-        },
-        {
-          "id": "leaf-10-3-future",
-          "title": "Futuro cercano",
-          "titleFr": "Futur proche",
-          "grammar": ["Aller + infinitif", "Proyectos inmediatos", "Planes"],
-          "icon": "🔜",
-          "estimatedMinutes": 15
-        }
-      ]
-    },
-    {
-      "id": "branch-11-culture",
-      "order": 11,
-      "title": "Cultura & Contexto",
-      "titleFr": "Culture & Contexte",
-      "description": "Francia real",
-      "icon": "🇫🇷",
+      "id": "a0-base-absoluta",
+      "order": 0,
+      "title": "ÁREA 0 — BASE ABSOLUTA",
+      "titleFr": "AREA 0 — BASE ABSOLUE",
+      "description": "Prerrequisito: Usuarios con 0 conocimiento de francés",
+      "icon": "🆘",
       "color": "#6366F1",
       "leaves": [
         {
-          "id": "leaf-11-1-daily-culture",
-          "title": "Cultura cotidiana",
-          "titleFr": "Culture quotidienne",
-          "grammar": ["Saludos culturales", "Etiqueta", "Costumbres"],
-          "icon": "🥖",
-          "estimatedMinutes": 15
+          "id": "nodo-0-1-saludos",
+          "title": "Saludos y Despedidas",
+          "titleFr": "Salutations et adieux",
+          "grammar": [],
+          "icon": "👋",
+          "estimatedMinutes": 18
         },
         {
-          "id": "leaf-11-2-french-food",
-          "title": "Comida francesa",
-          "titleFr": "Cuisine française",
-          "grammar": ["Platos típicos", "Vocabulario gastronómico", "Artículos partitivos"],
-          "icon": "🧀",
-          "estimatedMinutes": 15
+          "id": "nodo-0-2-numeros-tiempo",
+          "title": "Números y Tiempo",
+          "titleFr": "Nombres et temps",
+          "grammar": [],
+          "icon": "🔢",
+          "estimatedMinutes": 14
         },
         {
-          "id": "leaf-11-3-social-life",
-          "title": "Vida social",
-          "titleFr": "Vie sociale",
-          "grammar": ["Salidas", "Eventos simples", "Expresiones coloquiales"],
+          "id": "nodo-0-3-verbos-clave",
+          "title": "Verbos Clave - Los 5 Verbos",
+          "titleFr": "Verbes clés - Les 5 verbes",
+          "grammar": [],
+          "icon": "🗣️",
+          "estimatedMinutes": 23
+        },
+        {
+          "id": "nodo-0-4-supervivencia-inmediata",
+          "title": "Frases de Supervivencia Inmediata",
+          "titleFr": "Phrases de survie immédiate",
+          "grammar": [],
+          "icon": "🆘",
+          "estimatedMinutes": 18
+        },
+        {
+          "id": "nodo-0-5-objetos-cotidianos",
+          "title": "Objetos Cotidianos",
+          "titleFr": "Objets quotidiens",
+          "grammar": [],
+          "icon": "🧳",
+          "estimatedMinutes": 16
+        },
+        {
+          "id": "nodo-0-6-recuperacion",
+          "title": "Estrategias de Recuperación",
+          "titleFr": "Stratégies de récupération",
+          "grammar": [],
+          "icon": "🔄",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "nodo-0-7-digital",
+          "title": "Interacción Digital Básica",
+          "titleFr": "Interaction numérique de base",
+          "grammar": [],
+          "icon": "📱",
+          "estimatedMinutes": 12
+        }
+      ]
+    },
+    {
+      "id": "a1-A-1",
+      "order": 1,
+      "title": "Aeropuerto / Estación",
+      "titleFr": "Aéroport / Gare",
+      "description": "",
+      "icon": "✈️",
+      "color": "#6366F1",
+      "leaves": [
+        {
+          "id": "a1-A-1-1",
+          "title": "Control de frontera",
+          "titleFr": "Contrôle de frontière",
+          "grammar": [],
+          "icon": "🛂",
+          "estimatedMinutes": 18
+        },
+        {
+          "id": "a1-A-1-2",
+          "title": "Equipaje y aduana",
+          "titleFr": "Bagages et douane",
+          "grammar": [],
+          "icon": "🧳",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-A-1-3",
+          "title": "Primer contacto humano",
+          "titleFr": "Premier contact humain",
+          "grammar": [],
+          "icon": "👋",
+          "estimatedMinutes": 18
+        },
+        {
+          "id": "a1-A-1-4",
+          "title": "Información y ayuda",
+          "titleFr": "Informations et aide",
+          "grammar": [],
+          "icon": "ℹ️",
+          "estimatedMinutes": 13
+        }
+      ]
+    },
+    {
+      "id": "a1-A-2",
+      "order": 2,
+      "title": "Transporte con desconocidos",
+      "titleFr": "Transport avec des inconnus",
+      "description": "",
+      "icon": "🚇",
+      "color": "#3B82F6",
+      "leaves": [
+        {
+          "id": "a1-A-2-1",
+          "title": "Taxi / VTC / Uber",
+          "titleFr": "Taxi / VTC / Uber",
+          "grammar": [],
+          "icon": "🚕",
+          "estimatedMinutes": 18
+        },
+        {
+          "id": "a1-A-2-2",
+          "title": "Bus y metro",
+          "titleFr": "Bus et métro",
+          "grammar": [],
+          "icon": "🚌",
+          "estimatedMinutes": 18
+        },
+        {
+          "id": "a1-A-2-3",
+          "title": "Tren (SNCF)",
+          "titleFr": "Train (SNCF)",
+          "grammar": [],
+          "icon": "🚂",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-A-2-4",
+          "title": "Pedir ayuda con equipaje",
+          "titleFr": "Demander de l'aide avec les bagages",
+          "grammar": [],
+          "icon": "🎒",
+          "estimatedMinutes": 11
+        }
+      ]
+    },
+    {
+      "id": "a1-A-3",
+      "order": 3,
+      "title": "Orientación urbana",
+      "titleFr": "Orientation urbaine",
+      "description": "",
+      "icon": "🗺️",
+      "color": "#0EA5E9",
+      "leaves": [
+        {
+          "id": "a1-A-3-1",
+          "title": "Pedir direcciones",
+          "titleFr": "Demander son chemin",
+          "grammar": [],
+          "icon": "📍",
+          "estimatedMinutes": 18
+        },
+        {
+          "id": "a1-A-3-2",
+          "title": "Entender indicaciones",
+          "titleFr": "Comprendre les indications",
+          "grammar": [],
+          "icon": "🧭",
+          "estimatedMinutes": 18
+        },
+        {
+          "id": "a1-A-3-3",
+          "title": "Confirmar que vas bien",
+          "titleFr": "Confirmer qu'on va bien",
+          "grammar": [],
+          "icon": "✅",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-A-3-4",
+          "title": "Perderse y reorientarse",
+          "titleFr": "Se perdre et se réorienter",
+          "grammar": [],
+          "icon": "🤔",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-A-4",
+      "order": 4,
+      "title": "Primeras horas en la ciudad",
+      "titleFr": "Premières heures en ville",
+      "description": "",
+      "icon": "🏙️",
+      "color": "#06B6D4",
+      "leaves": [
+        {
+          "id": "a1-A-4-1",
+          "title": "Encontrar alojamiento",
+          "titleFr": "Trouver un logement",
+          "grammar": [],
+          "icon": "🏨",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-A-4-2",
+          "title": "Comprar SIM / datos",
+          "titleFr": "Acheter une SIM / données",
+          "grammar": [],
+          "icon": "📱",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-A-4-3",
+          "title": "Cambiar dinero",
+          "titleFr": "Changer de l'argent",
+          "grammar": [],
+          "icon": "💶",
+          "estimatedMinutes": 11
+        }
+      ]
+    },
+    {
+      "id": "a1-A-5",
+      "order": 5,
+      "title": "Jet lag y adaptación",
+      "titleFr": "Décalage horaire et adaptation",
+      "description": "",
+      "icon": "😴",
+      "color": "#10B981",
+      "leaves": [
+        {
+          "id": "a1-A-5-1",
+          "title": "Expresar cansancio",
+          "titleFr": "Exprimer la fatigue",
+          "grammar": [],
+          "icon": "💤",
+          "estimatedMinutes": 9
+        },
+        {
+          "id": "a1-A-5-2",
+          "title": "Pedir descanso",
+          "titleFr": "Demander du repos",
+          "grammar": [],
+          "icon": "🛌",
+          "estimatedMinutes": 9
+        },
+        {
+          "id": "a1-A-5-3",
+          "title": "Ajustar horarios",
+          "titleFr": "Ajuster les horaires",
+          "grammar": [],
+          "icon": "⏰",
+          "estimatedMinutes": 11
+        }
+      ]
+    },
+    {
+      "id": "a1-B-1",
+      "order": 6,
+      "title": "Airbnb / Alojamiento temporal",
+      "titleFr": "Airbnb / Logement temporaire",
+      "description": "",
+      "icon": "🏠",
+      "color": "#14B8A6",
+      "leaves": [
+        {
+          "id": "leaf-1-1-greetings",
+          "title": "Llegada y saludo",
+          "titleFr": "Arrivée et salutation",
+          "grammar": [],
+          "icon": "🤝",
+          "estimatedMinutes": 20
+        },
+        {
+          "id": "a1-B-1-2",
+          "title": "Tour del espacio",
+          "titleFr": "Visite de l'espace",
+          "grammar": [],
+          "icon": "🚪",
+          "estimatedMinutes": 18
+        },
+        {
+          "id": "a1-B-1-3",
+          "title": "Normas de la casa",
+          "titleFr": "Règles de la maison",
+          "grammar": [],
+          "icon": "📋",
+          "estimatedMinutes": 18
+        },
+        {
+          "id": "a1-B-1-4",
+          "title": "Problemas técnicos",
+          "titleFr": "Problèmes techniques",
+          "grammar": [],
+          "icon": "🔧",
+          "estimatedMinutes": 18
+        },
+        {
+          "id": "a1-B-1-5",
+          "title": "Emergencias domésticas",
+          "titleFr": "Urgences domestiques",
+          "grammar": [],
+          "icon": "🚨",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-B-1-6",
+          "title": "Checkout y despedida",
+          "titleFr": "Check-out et au revoir",
+          "grammar": [],
+          "icon": "👋",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-B-2",
+      "order": 7,
+      "title": "Hotel",
+      "titleFr": "Hôtel",
+      "description": "",
+      "icon": "🏨",
+      "color": "#F59E0B",
+      "leaves": [
+        {
+          "id": "a1-B-2-1",
+          "title": "Check-in",
+          "titleFr": "Enregistrement",
+          "grammar": [],
+          "icon": "📝",
+          "estimatedMinutes": 18
+        },
+        {
+          "id": "a1-B-2-2",
+          "title": "Servicios del hotel",
+          "titleFr": "Services de l'hôtel",
+          "grammar": [],
+          "icon": "🛎️",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-B-2-3",
+          "title": "Problemas en habitación",
+          "titleFr": "Problèmes dans la chambre",
+          "grammar": [],
+          "icon": "🔧",
+          "estimatedMinutes": 18
+        },
+        {
+          "id": "a1-B-2-4",
+          "title": "Check-out",
+          "titleFr": "Départ",
+          "grammar": [],
+          "icon": "🚪",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-B-3",
+      "order": 8,
+      "title": "Hostel / Albergue",
+      "titleFr": "Auberge de jeunesse",
+      "description": "",
+      "icon": "🛏️",
+      "color": "#EF4444",
+      "leaves": [
+        {
+          "id": "a1-B-3-1",
+          "title": "Habitación compartida",
+          "titleFr": "Chambre partagée",
+          "grammar": [],
+          "icon": "🛌",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-B-3-2",
+          "title": "Espacios comunes",
+          "titleFr": "Espaces communs",
+          "grammar": [],
+          "icon": "🛋️",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-B-3-3",
+          "title": "Socializar con viajeros",
+          "titleFr": "Socialiser avec les voyageurs",
+          "grammar": [],
+          "icon": "🌍",
+          "estimatedMinutes": 18
+        }
+      ]
+    },
+    {
+      "id": "a1-B-4",
+      "order": 9,
+      "title": "Piso compartido",
+      "titleFr": "Colocation",
+      "description": "",
+      "icon": "🏘️",
+      "color": "#EC4899",
+      "leaves": [
+        {
+          "id": "a1-B-4-1",
+          "title": "Primera reunión",
+          "titleFr": "Première réunion",
+          "grammar": [],
+          "icon": "👥",
+          "estimatedMinutes": 18
+        },
+        {
+          "id": "a1-B-4-2",
+          "title": "Normas de convivencia",
+          "titleFr": "Règles de cohabitation",
+          "grammar": [],
+          "icon": "📜",
+          "estimatedMinutes": 18
+        },
+        {
+          "id": "a1-B-4-3",
+          "title": "Conflictos domésticos",
+          "titleFr": "Conflits domestiques",
+          "grammar": [],
+          "icon": "😤",
+          "estimatedMinutes": 18
+        },
+        {
+          "id": "a1-B-4-4",
+          "title": "Invitaciones y visitas",
+          "titleFr": "Invitaciones et visites",
+          "grammar": [],
+          "icon": "🎉",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-B-4-5",
+          "title": "Gastos compartidos",
+          "titleFr": "Dépenses partagées",
+          "grammar": [],
+          "icon": "💰",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-B-5",
+      "order": 10,
+      "title": "Alquiler largo plazo",
+      "titleFr": "Location longue durée",
+      "description": "",
+      "icon": "🏡",
+      "color": "#8B5CF6",
+      "leaves": [
+        {
+          "id": "a1-B-5-1",
+          "title": "Buscar piso",
+          "titleFr": "Chercher un appartement",
+          "grammar": [],
+          "icon": "🔍",
+          "estimatedMinutes": 18
+        },
+        {
+          "id": "a1-B-5-2",
+          "title": "Visita y negociación",
+          "titleFr": "Visite et négociation",
+          "grammar": [],
+          "icon": "🤝",
+          "estimatedMinutes": 18
+        },
+        {
+          "id": "a1-B-5-3",
+          "title": "Contrato básico",
+          "titleFr": "Contrat de base",
+          "grammar": [],
+          "icon": "📄",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-B-5-4",
+          "title": "Relación con casero",
+          "titleFr": "Relation avec le propriétaire",
+          "grammar": [],
+          "icon": "👤",
+          "estimatedMinutes": 18
+        },
+        {
+          "id": "a1-B-5-5",
+          "title": "Averías y reparaciones",
+          "titleFr": "Pannes et réparations",
+          "grammar": [],
+          "icon": "🔨",
+          "estimatedMinutes": 18
+        }
+      ]
+    },
+    {
+      "id": "a1-B-6",
+      "order": 11,
+      "title": "Vecinos",
+      "titleFr": "Voisins",
+      "description": "",
+      "icon": "👥",
+      "color": "#A855F7",
+      "leaves": [
+        {
+          "id": "a1-B-6-1",
+          "title": "Presentarse",
+          "titleFr": "Se présenter",
+          "grammar": [],
+          "icon": "👋",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-B-6-2",
+          "title": "Ruidos y molestias",
+          "titleFr": "Bruits et dérangements",
+          "grammar": [],
+          "icon": "🔊",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-B-6-3",
+          "title": "Pedir favores",
+          "titleFr": "Demander des faveurs",
+          "grammar": [],
+          "icon": "🙏",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-B-6-4",
+          "title": "Resolver conflictos",
+          "titleFr": "Résoudre les conflits",
+          "grammar": [],
+          "icon": "🤝",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-B-7",
+      "order": 12,
+      "title": "Relaciones con vecinos",
+      "titleFr": "Relations avec les voisins",
+      "description": "",
+      "icon": "🏢",
+      "color": "#6366F1",
+      "leaves": [
+        {
+          "id": "a1-B-7-1",
+          "title": "Saludos diarios en ascensor",
+          "titleFr": "Salutations quotidiennes dans l'ascenseur",
+          "grammar": [],
+          "icon": "🛗",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-B-7-2",
+          "title": "Quejas por ruido",
+          "titleFr": "Plaintes pour le bruit",
+          "grammar": [],
+          "icon": "🔇",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-C-1",
+      "order": 13,
+      "title": "Supermercado",
+      "titleFr": "Supermarché",
+      "description": "",
+      "icon": "🛒",
+      "color": "#3B82F6",
+      "leaves": [
+        {
+          "id": "a1-C-1-1",
+          "title": "Encontrar productos",
+          "titleFr": "Trouver des produits",
+          "grammar": [],
+          "icon": "🔍",
+          "estimatedMinutes": 18
+        },
+        {
+          "id": "a1-C-1-2",
+          "title": "Leer etiquetas",
+          "titleFr": "Lire les étiquettes",
+          "grammar": [],
+          "icon": "🏷️",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-C-1-3",
+          "title": "Pagar en caja",
+          "titleFr": "Payer à la caisse",
+          "grammar": [],
+          "icon": "💳",
+          "estimatedMinutes": 18
+        },
+        {
+          "id": "a1-C-1-4",
+          "title": "Problemas (precio, tarjeta)",
+          "titleFr": "Problèmes (prix, carte)",
+          "grammar": [],
+          "icon": "⚠️",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-C-2",
+      "order": 14,
+      "title": "Panadería / Pastelería",
+      "titleFr": "Boulangerie / Pâtisserie",
+      "description": "",
+      "icon": "🥖",
+      "color": "#0EA5E9",
+      "leaves": [
+        {
+          "id": "a1-C-2-1",
+          "title": "Pedir pan",
+          "titleFr": "Demander du pain",
+          "grammar": [],
+          "icon": "🍞",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-C-2-2",
+          "title": "Vocabulario de panes",
+          "titleFr": "Vocabulaire des pains",
+          "grammar": [],
+          "icon": "📚",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-C-2-3",
+          "title": "Pedir cantidad específica",
+          "titleFr": "Demander une quantité spécifique",
+          "grammar": [],
+          "icon": "⚖️",
+          "estimatedMinutes": 11
+        }
+      ]
+    },
+    {
+      "id": "a1-C-3",
+      "order": 15,
+      "title": "Mercado / Frutería",
+      "titleFr": "Marché / Primeur",
+      "description": "",
+      "icon": "🍎",
+      "color": "#06B6D4",
+      "leaves": [
+        {
+          "id": "a1-C-3-1",
+          "title": "Pedir frutas y verduras",
+          "titleFr": "Demander des fruits et légumes",
+          "grammar": [],
+          "icon": "🥬",
+          "estimatedMinutes": 18
+        },
+        {
+          "id": "a1-C-3-2",
+          "title": "Pesos y cantidades",
+          "titleFr": "Poids et quantités",
+          "grammar": [],
+          "icon": "⚖️",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-C-3-3",
+          "title": "Turnos y colas",
+          "titleFr": "Tours et files d'attente",
+          "grammar": [],
+          "icon": "👥",
+          "estimatedMinutes": 11
+        }
+      ]
+    },
+    {
+      "id": "a1-C-4",
+      "order": 16,
+      "title": "Carnicería / Pescadería",
+      "titleFr": "Boucherie / Poissonnerie",
+      "description": "",
+      "icon": "🥩",
+      "color": "#10B981",
+      "leaves": [
+        {
+          "id": "a1-C-4-1",
+          "title": "Pedir carne",
+          "titleFr": "Demander de la viande",
+          "grammar": [],
+          "icon": "🥩",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-C-4-2",
+          "title": "Pedir pescado",
+          "titleFr": "Demander du poisson",
+          "grammar": [],
+          "icon": "🐟",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-C-4-3",
+          "title": "Cortes y preparación",
+          "titleFr": "Coupes et préparation",
+          "grammar": [],
+          "icon": "🔪",
+          "estimatedMinutes": 11
+        }
+      ]
+    },
+    {
+      "id": "a1-C-5",
+      "order": 17,
+      "title": "Restaurante / Café",
+      "titleFr": "Restaurant / Café",
+      "description": "",
+      "icon": "🍽️",
+      "color": "#14B8A6",
+      "leaves": [
+        {
+          "id": "a1-C-5-1",
+          "title": "Reservar mesa",
+          "titleFr": "Réserver une table",
+          "grammar": [],
+          "icon": "📞",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-C-5-2",
+          "title": "Pedir la carta",
+          "titleFr": "Demander la carte",
+          "grammar": [],
+          "icon": "📋",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-C-5-3",
+          "title": "Hacer el pedido",
+          "titleFr": "Passer la commande",
+          "grammar": [],
+          "icon": "🍴",
+          "estimatedMinutes": 23
+        },
+        {
+          "id": "a1-C-5-4",
+          "title": "Pedir recomendación",
+          "titleFr": "Demander une recommandation",
+          "grammar": [],
+          "icon": "💡",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-C-5-5",
+          "title": "Alergias y preferencias",
+          "titleFr": "Allergies et préférences",
+          "grammar": [],
+          "icon": "🚫",
+          "estimatedMinutes": 18
+        },
+        {
+          "id": "a1-C-5-6",
+          "title": "Quejarse educadamente",
+          "titleFr": "Se plaindre poliment",
+          "grammar": [],
+          "icon": "😕",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-C-5-7",
+          "title": "Pedir la cuenta",
+          "titleFr": "Demander l'addition",
+          "grammar": [],
+          "icon": "🧾",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-C-5-8",
+          "title": "Propina y pago",
+          "titleFr": "Pourboire et paiement",
+          "grammar": [],
+          "icon": "💰",
+          "estimatedMinutes": 11
+        }
+      ]
+    },
+    {
+      "id": "a1-C-6",
+      "order": 18,
+      "title": "Comida en casa",
+      "titleFr": "Cuisine à la maison",
+      "description": "",
+      "icon": "👨‍🍳",
+      "color": "#F59E0B",
+      "leaves": [
+        {
+          "id": "a1-C-6-1",
+          "title": "Leer recetas simples",
+          "titleFr": "Lire des recettes simples",
+          "grammar": [],
+          "icon": "📖",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-C-6-2",
+          "title": "Pedir utensilios",
+          "titleFr": "Demander des ustensiles",
+          "grammar": [],
+          "icon": "🍳",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-C-6-3",
+          "title": "Cocinar con otros",
+          "titleFr": "Cuisiner avec d'autres",
+          "grammar": [],
+          "icon": "👨‍👩‍🍳",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-C-7",
+      "order": 19,
+      "title": "Pedidos por app",
+      "titleFr": "Commandes par app",
+      "description": "",
+      "icon": "📱",
+      "color": "#EF4444",
+      "leaves": [
+        {
+          "id": "a1-C-7-1",
+          "title": "Problemas con entrega",
+          "titleFr": "Problèmes de livraison",
+          "grammar": [],
+          "icon": "🚚",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-C-7-2",
+          "title": "Modificar pedidos en tiempo real",
+          "titleFr": "Modifier les commandes en temps réel",
+          "grammar": [],
+          "icon": "✏️",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-D-1",
+      "order": 20,
+      "title": "Farmacia",
+      "titleFr": "Pharmacie",
+      "description": "",
+      "icon": "💊",
+      "color": "#EC4899",
+      "leaves": [
+        {
+          "id": "a1-D-1-1",
+          "title": "Describir síntomas",
+          "titleFr": "Décrire les symptômes",
+          "grammar": [],
+          "icon": "🤒",
+          "estimatedMinutes": 23
+        },
+        {
+          "id": "a1-D-1-2",
+          "title": "Pedir medicación",
+          "titleFr": "Demander des médicaments",
+          "grammar": [],
+          "icon": "💉",
+          "estimatedMinutes": 18
+        },
+        {
+          "id": "a1-D-1-3",
+          "title": "Entender instrucciones",
+          "titleFr": "Comprendre les instructions",
+          "grammar": [],
+          "icon": "📋",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-D-1-4",
+          "title": "Productos de higiene",
+          "titleFr": "Produits d'hygiène",
+          "grammar": [],
+          "icon": "🧴",
+          "estimatedMinutes": 11
+        }
+      ]
+    },
+    {
+      "id": "a1-D-2",
+      "order": 21,
+      "title": "Médico / Clínica",
+      "titleFr": "Médecin / Clinique",
+      "description": "",
+      "icon": "👨‍⚕️",
+      "color": "#8B5CF6",
+      "leaves": [
+        {
+          "id": "a1-D-2-1",
+          "title": "Pedir cita",
+          "titleFr": "Prendre rendez-vous",
+          "grammar": [],
+          "icon": "📅",
+          "estimatedMinutes": 18
+        },
+        {
+          "id": "a1-D-2-2",
+          "title": "En la sala de espera",
+          "titleFr": "En salle d'attente",
+          "grammar": [],
+          "icon": "⏳",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-D-2-3",
+          "title": "Describir dolor",
+          "titleFr": "Décrire la douleur",
+          "grammar": [],
+          "icon": "😣",
+          "estimatedMinutes": 23
+        },
+        {
+          "id": "a1-D-2-4",
+          "title": "Entender diagnóstico",
+          "titleFr": "Comprendre le diagnostic",
+          "grammar": [],
+          "icon": "📊",
+          "estimatedMinutes": 18
+        },
+        {
+          "id": "a1-D-2-5",
+          "title": "Seguir tratamiento",
+          "titleFr": "Suivre le traitement",
+          "grammar": [],
+          "icon": "💊",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-D-3",
+      "order": 22,
+      "title": "Dentista",
+      "titleFr": "Dentiste",
+      "description": "",
+      "icon": "🦷",
+      "color": "#A855F7",
+      "leaves": [
+        {
+          "id": "a1-D-3-1",
+          "title": "Dolor de muelas",
+          "titleFr": "Mal de dents",
+          "grammar": [],
+          "icon": "🦷",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-D-3-2",
+          "title": "En el dentista",
+          "titleFr": "Chez le dentiste",
+          "grammar": [],
+          "icon": "🪥",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-D-4",
+      "order": 23,
+      "title": "Emergencias",
+      "titleFr": "Urgences",
+      "description": "",
+      "icon": "🚑",
+      "color": "#6366F1",
+      "leaves": [
+        {
+          "id": "a1-D-4-1",
+          "title": "Llamar al 15/17/18",
+          "titleFr": "Appeler le 15/17/18",
+          "grammar": [],
+          "icon": "📞",
+          "estimatedMinutes": 18
+        },
+        {
+          "id": "a1-D-4-2",
+          "title": "Accidentes menores",
+          "titleFr": "Accidents mineurs",
+          "grammar": [],
+          "icon": "🩹",
+          "estimatedMinutes": 18
+        },
+        {
+          "id": "a1-D-4-3",
+          "title": "Pedir ayuda en la calle",
+          "titleFr": "Demander de l'aide dans la rue",
+          "grammar": [],
+          "icon": "🆘",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-D-4-4",
+          "title": "Urgencias hospitalarias",
+          "titleFr": "Urgences hospitalières",
+          "grammar": [],
+          "icon": "🏥",
+          "estimatedMinutes": 18
+        }
+      ]
+    },
+    {
+      "id": "a1-D-5",
+      "order": 24,
+      "title": "Bienestar mental",
+      "titleFr": "Bien-être mental",
+      "description": "",
+      "icon": "🧘",
+      "color": "#3B82F6",
+      "leaves": [
+        {
+          "id": "a1-D-5-1",
+          "title": "Expresar estrés",
+          "titleFr": "Exprimer le stress",
+          "grammar": [],
+          "icon": "😰",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-D-5-2",
+          "title": "Pedir espacio",
+          "titleFr": "Demander de l'espace",
+          "grammar": [],
+          "icon": "🧘",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-D-5-3",
+          "title": "Buscar apoyo",
+          "titleFr": "Chercher du soutien",
+          "grammar": [],
+          "icon": "🤗",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-D-6",
+      "order": 25,
+      "title": "Salud preventiva",
+      "titleFr": "Santé préventive",
+      "description": "",
+      "icon": "💉",
+      "color": "#0EA5E9",
+      "leaves": [
+        {
+          "id": "a1-D-6-1",
+          "title": "Vacunas y chequeos",
+          "titleFr": "Vaccins et bilans",
+          "grammar": [],
+          "icon": "💉",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-D-6-2",
+          "title": "Farmacia 24h",
+          "titleFr": "Pharmacie 24h",
+          "grammar": [],
+          "icon": "🏪",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-E-1",
+      "order": 26,
+      "title": "Búsqueda de empleo",
+      "titleFr": "Recherche d'emploi",
+      "description": "",
+      "icon": "💼",
+      "color": "#06B6D4",
+      "leaves": [
+        {
+          "id": "a1-E-1-1",
+          "title": "CV y carta básica",
+          "titleFr": "CV et lettre de motivation",
+          "grammar": [],
+          "icon": "📄",
+          "estimatedMinutes": 18
+        },
+        {
+          "id": "a1-E-1-2",
+          "title": "Portales de empleo",
+          "titleFr": "Sites d'emploi",
+          "grammar": [],
+          "icon": "💻",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-E-1-3",
+          "title": "Llamar por anuncio",
+          "titleFr": "Appeler pour une annonce",
+          "grammar": [],
+          "icon": "📞",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-E-2",
+      "order": 27,
+      "title": "Entrevista de trabajo",
+      "titleFr": "Entretien d'embauche",
+      "description": "",
+      "icon": "🤝",
+      "color": "#10B981",
+      "leaves": [
+        {
+          "id": "a1-E-2-1",
+          "title": "Presentarte",
+          "titleFr": "Se présenter",
+          "grammar": [],
+          "icon": "👤",
+          "estimatedMinutes": 18
+        },
+        {
+          "id": "a1-E-2-2",
+          "title": "Hablar de experiencia",
+          "titleFr": "Parler de l'expérience",
+          "grammar": [],
+          "icon": "💼",
+          "estimatedMinutes": 18
+        },
+        {
+          "id": "a1-E-2-3",
+          "title": "Preguntas y respuestas",
+          "titleFr": "Questions et réponses",
+          "grammar": [],
+          "icon": "❓",
+          "estimatedMinutes": 23
+        },
+        {
+          "id": "a1-E-2-4",
+          "title": "Negociar condiciones",
+          "titleFr": "Négocier les conditions",
+          "grammar": [],
+          "icon": "💬",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-E-3",
+      "order": 28,
+      "title": "Primer día laboral",
+      "titleFr": "Premier jour de travail",
+      "description": "",
+      "icon": "📅",
+      "color": "#14B8A6",
+      "leaves": [
+        {
+          "id": "a1-E-3-1",
+          "title": "Presentarte al equipo",
+          "titleFr": "Se présenter à l'équipe",
+          "grammar": [],
+          "icon": "👥",
+          "estimatedMinutes": 18
+        },
+        {
+          "id": "a1-E-3-2",
+          "title": "Entender el espacio",
+          "titleFr": "Comprendre l'espace",
+          "grammar": [],
+          "icon": "🏢",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-E-3-3",
+          "title": "Pedir material",
+          "titleFr": "Demander du matériel",
+          "grammar": [],
+          "icon": "📦",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-E-3-4",
+          "title": "Primeras tareas",
+          "titleFr": "Premières tâches",
+          "grammar": [],
+          "icon": "📋",
+          "estimatedMinutes": 18
+        }
+      ]
+    },
+    {
+      "id": "a1-E-4",
+      "order": 29,
+      "title": "Comunicación laboral",
+      "titleFr": "Communication professionnelle",
+      "description": "",
+      "icon": "📧",
+      "color": "#F59E0B",
+      "leaves": [
+        {
+          "id": "a1-E-4-1",
+          "title": "Emails básicos",
+          "titleFr": "Emails de base",
+          "grammar": [],
+          "icon": "📧",
+          "estimatedMinutes": 18
+        },
+        {
+          "id": "a1-E-4-2",
+          "title": "Reuniones simples",
+          "titleFr": "Réunions simples",
+          "grammar": [],
+          "icon": "👥",
+          "estimatedMinutes": 18
+        },
+        {
+          "id": "a1-E-4-3",
+          "title": "Dar opinión corta",
+          "titleFr": "Donner une opinion courte",
+          "grammar": [],
+          "icon": "💭",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-E-4-4",
+          "title": "Pedir aclaraciones",
+          "titleFr": "Demander des clarifications",
+          "grammar": [],
+          "icon": "❓",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-E-5",
+      "order": 30,
+      "title": "Errores laborales",
+      "titleFr": "Erreurs professionnelles",
+      "description": "",
+      "icon": "⚠️",
+      "color": "#EF4444",
+      "leaves": [
+        {
+          "id": "a1-E-5-1",
+          "title": "No entender instrucción",
+          "titleFr": "Ne pas comprendre l'instruction",
+          "grammar": [],
+          "icon": "😕",
+          "estimatedMinutes": 18
+        },
+        {
+          "id": "a1-E-5-2",
+          "title": "Pedir confirmación",
+          "titleFr": "Demander confirmation",
+          "grammar": [],
+          "icon": "✅",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-E-5-3",
+          "title": "Admitir error",
+          "titleFr": "Admettre l'erreur",
+          "grammar": [],
+          "icon": "🙏",
+          "estimatedMinutes": 18
+        },
+        {
+          "id": "a1-E-5-4",
+          "title": "Corregir sin excusas",
+          "titleFr": "Corriger sans excuses",
+          "grammar": [],
+          "icon": "🔧",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-E-5-5",
+          "title": "Pedir feedback",
+          "titleFr": "Demander des retours",
+          "grammar": [],
+          "icon": "💡",
+          "estimatedMinutes": 11
+        }
+      ]
+    },
+    {
+      "id": "a1-E-6",
+      "order": 31,
+      "title": "Estudios / Formación",
+      "titleFr": "Études / Formation",
+      "description": "",
+      "icon": "📚",
+      "color": "#EC4899",
+      "leaves": [
+        {
+          "id": "a1-E-6-1",
+          "title": "Inscribirse en curso",
+          "titleFr": "S'inscrire à un cours",
+          "grammar": [],
+          "icon": "📝",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-E-6-2",
+          "title": "En clase",
+          "titleFr": "En classe",
+          "grammar": [],
+          "icon": "🏫",
+          "estimatedMinutes": 18
+        },
+        {
+          "id": "a1-E-6-3",
+          "title": "Con el profesor",
+          "titleFr": "Avec le professeur",
+          "grammar": [],
+          "icon": "👨‍🏫",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-E-6-4",
+          "title": "Con compañeros",
+          "titleFr": "Avec les camarades",
+          "grammar": [],
+          "icon": "👥",
+          "estimatedMinutes": 18
+        },
+        {
+          "id": "a1-E-6-5",
+          "title": "Exámenes y notas",
+          "titleFr": "Examens et notes",
+          "grammar": [],
+          "icon": "📊",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-F-1",
+      "order": 32,
+      "title": "Conocer gente",
+      "titleFr": "Rencontrer des gens",
+      "description": "",
+      "icon": "👋",
+      "color": "#8B5CF6",
+      "leaves": [
+        {
+          "id": "a1-F-1-1",
+          "title": "En cafés y bares",
+          "titleFr": "Dans les cafés et bars",
+          "grammar": [],
+          "icon": "☕",
+          "estimatedMinutes": 18
+        },
+        {
+          "id": "a1-F-1-2",
+          "title": "En parques",
+          "titleFr": "Dans les parcs",
+          "grammar": [],
+          "icon": "🌳",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-F-1-3",
+          "title": "Actividades grupales",
+          "titleFr": "Activités de groupe",
+          "grammar": [],
+          "icon": "🎯",
+          "estimatedMinutes": 18
+        },
+        {
+          "id": "a1-F-1-4",
+          "title": "Apps y eventos",
+          "titleFr": "Apps et événements",
+          "grammar": [],
+          "icon": "📱",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-F-2",
+      "order": 33,
+      "title": "Small talk",
+      "titleFr": "Conversation légère",
+      "description": "",
+      "icon": "💬",
+      "color": "#A855F7",
+      "leaves": [
+        {
+          "id": "a1-F-2-1",
+          "title": "El tiempo",
+          "titleFr": "Le temps",
+          "grammar": [],
+          "icon": "☀️",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-F-2-2",
+          "title": "El barrio",
+          "titleFr": "Le quartier",
+          "grammar": [],
+          "icon": "🏘️",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-F-2-3",
+          "title": "Trabajo y estudios",
+          "titleFr": "Travail et études",
+          "grammar": [],
+          "icon": "💼",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-F-2-4",
+          "title": "Planes de fin de semana",
+          "titleFr": "Plans du weekend",
+          "grammar": [],
+          "icon": "📅",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-F-3",
+      "order": 34,
+      "title": "Escalada social",
+      "titleFr": "Montée sociale",
+      "description": "",
+      "icon": "📈",
+      "color": "#6366F1",
+      "leaves": [
+        {
+          "id": "a1-F-3-1",
+          "title": "De conocido a colega",
+          "titleFr": "De connaissance à collègue",
+          "grammar": [],
+          "icon": "🤝",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-F-3-2",
+          "title": "De colega a amigo",
+          "titleFr": "De collègue à ami",
+          "grammar": [],
+          "icon": "👥",
+          "estimatedMinutes": 18
+        },
+        {
+          "id": "a1-F-3-3",
+          "title": "Señales de interés",
+          "titleFr": "Signes d'intérêt",
+          "grammar": [],
+          "icon": "💕",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-F-3-4",
+          "title": "Señales de rechazo",
+          "titleFr": "Signes de rejet",
+          "grammar": [],
+          "icon": "😔",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-F-4",
+      "order": 35,
+      "title": "Citas románticas",
+      "titleFr": "Rendez-vous romantiques",
+      "description": "",
+      "icon": "💕",
+      "color": "#3B82F6",
+      "leaves": [
+        {
+          "id": "a1-F-4-1",
+          "title": "Primer café",
+          "titleFr": "Premier café",
+          "grammar": [],
+          "icon": "☕",
+          "estimatedMinutes": 18
+        },
+        {
+          "id": "a1-F-4-2",
+          "title": "Halagos simples",
+          "titleFr": "Compliments simples",
+          "grammar": [],
+          "icon": "💐",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-F-4-3",
+          "title": "Proponer segunda cita",
+          "titleFr": "Proposer un deuxième rendez-vous",
+          "grammar": [],
+          "icon": "💌",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-F-4-4",
+          "title": "Mensajes post-cita",
+          "titleFr": "Messages post-rendez-vous",
+          "grammar": [],
+          "icon": "📱",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-F-4-5",
+          "title": "Respuestas ambiguas",
+          "titleFr": "Réponses ambiguës",
+          "grammar": [],
+          "icon": "🤷",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-F-5",
+      "order": 36,
+      "title": "Invitaciones",
+      "titleFr": "Invitations",
+      "description": "",
+      "icon": "🎫",
+      "color": "#0EA5E9",
+      "leaves": [
+        {
+          "id": "a1-F-5-1",
+          "title": "Invitar a algo",
+          "titleFr": "Inviter à quelque chose",
+          "grammar": [],
+          "icon": "🎉",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-F-5-2",
+          "title": "Aceptar invitación",
+          "titleFr": "Accepter l'invitation",
+          "grammar": [],
+          "icon": "✅",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-F-5-3",
+          "title": "Rechazar sin ofender",
+          "titleFr": "Refuser sans offenser",
+          "grammar": [],
+          "icon": "🙏",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-F-5-4",
+          "title": "Proponer alternativa",
+          "titleFr": "Proposer une alternative",
+          "grammar": [],
+          "icon": "🔄",
+          "estimatedMinutes": 11
+        }
+      ]
+    },
+    {
+      "id": "a1-F-6",
+      "order": 37,
+      "title": "Fiestas y eventos",
+      "titleFr": "Fêtes et événements",
+      "description": "",
+      "icon": "🎉",
+      "color": "#06B6D4",
+      "leaves": [
+        {
+          "id": "a1-F-6-1",
+          "title": "Llegar a una fiesta",
+          "titleFr": "Arriver à une fête",
+          "grammar": [],
+          "icon": "🚪",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-F-6-2",
+          "title": "Presentar a alguien",
+          "titleFr": "Présenter quelqu'un",
+          "grammar": [],
+          "icon": "👋",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-F-6-3",
+          "title": "Circular en grupo",
+          "titleFr": "Circuler dans le groupe",
+          "grammar": [],
+          "icon": "👥",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-F-6-4",
+          "title": "Despedirse",
+          "titleFr": "Dire au revoir",
+          "grammar": [],
+          "icon": "👋",
+          "estimatedMinutes": 11
+        }
+      ]
+    },
+    {
+      "id": "a1-F-7",
+      "order": 38,
+      "title": "Conflictos sociales",
+      "titleFr": "Conflits sociaux",
+      "description": "",
+      "icon": "😤",
+      "color": "#10B981",
+      "leaves": [
+        {
+          "id": "a1-F-7-1",
+          "title": "Llegar tarde",
+          "titleFr": "Arriver en retard",
+          "grammar": [],
+          "icon": "⏰",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-F-7-2",
+          "title": "Malentendidos",
+          "titleFr": "Malentendus",
+          "grammar": [],
+          "icon": "😕",
+          "estimatedMinutes": 18
+        },
+        {
+          "id": "a1-F-7-3",
+          "title": "Disculpas sinceras",
+          "titleFr": "Excuses sincères",
+          "grammar": [],
+          "icon": "🙏",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-F-7-4",
+          "title": "Reparar relación",
+          "titleFr": "Réparer la relation",
+          "grammar": [],
+          "icon": "🤝",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-F-8",
+      "order": 39,
+      "title": "Regalos y cortesía",
+      "titleFr": "Cadeaux et courtoisie",
+      "description": "",
+      "icon": "🎁",
+      "color": "#14B8A6",
+      "leaves": [
+        {
+          "id": "a1-F-8-1",
+          "title": "Invitaciones a casa",
+          "titleFr": "Invitations à la maison",
+          "grammar": [],
+          "icon": "🏠",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-F-8-2",
+          "title": "Agradecer hospitalidad",
+          "titleFr": "Remercier l'hospitalité",
+          "grammar": [],
+          "icon": "🙏",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-G-1",
+      "order": 40,
+      "title": "Banco",
+      "titleFr": "Banque",
+      "description": "",
+      "icon": "🏦",
+      "color": "#F59E0B",
+      "leaves": [
+        {
+          "id": "a1-G-1-1",
+          "title": "Abrir cuenta",
+          "titleFr": "Ouvrir un compte",
+          "grammar": [],
+          "icon": "💳",
+          "estimatedMinutes": 18
+        },
+        {
+          "id": "a1-G-1-2",
+          "title": "Usar cajero",
+          "titleFr": "Utiliser le distributeur",
+          "grammar": [],
+          "icon": "🏧",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-G-1-3",
+          "title": "Problemas con tarjeta",
+          "titleFr": "Problèmes de carte",
+          "grammar": [],
+          "icon": "⚠️",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-G-1-4",
+          "title": "Transferencias",
+          "titleFr": "Virements",
+          "grammar": [],
+          "icon": "💸",
+          "estimatedMinutes": 11
+        }
+      ]
+    },
+    {
+      "id": "a1-G-2",
+      "order": 41,
+      "title": "Correos",
+      "titleFr": "Poste",
+      "description": "",
+      "icon": "📮",
+      "color": "#EF4444",
+      "leaves": [
+        {
+          "id": "a1-G-2-1",
+          "title": "Enviar paquete",
+          "titleFr": "Envoyer un colis",
+          "grammar": [],
+          "icon": "📦",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-G-2-2",
+          "title": "Recibir paquete",
+          "titleFr": "Recevoir un colis",
+          "grammar": [],
+          "icon": "📬",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-G-2-3",
+          "title": "Seguimiento",
+          "titleFr": "Suivi",
+          "grammar": [],
+          "icon": "📍",
+          "estimatedMinutes": 11
+        }
+      ]
+    },
+    {
+      "id": "a1-G-3",
+      "order": 42,
+      "title": "Ayuntamiento / Mairie",
+      "titleFr": "Mairie",
+      "description": "",
+      "icon": "🏛️",
+      "color": "#EC4899",
+      "leaves": [
+        {
+          "id": "a1-G-3-1",
+          "title": "Pedir cita",
+          "titleFr": "Prendre rendez-vous",
+          "grammar": [],
+          "icon": "📅",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-G-3-2",
+          "title": "Certificados",
+          "titleFr": "Certificats",
+          "grammar": [],
+          "icon": "📜",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-G-3-3",
+          "title": "Empadronamiento",
+          "titleFr": "Inscription sur les listes électorales",
+          "grammar": [],
+          "icon": "📋",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-G-4",
+      "order": 43,
+      "title": "Policía / Préfecture",
+      "titleFr": "Police / Préfecture",
+      "description": "",
+      "icon": "👮",
+      "color": "#8B5CF6",
+      "leaves": [
+        {
+          "id": "a1-G-4-1",
+          "title": "Denuncia de robo",
+          "titleFr": "Déclaration de vol",
+          "grammar": [],
+          "icon": "🚨",
+          "estimatedMinutes": 18
+        },
+        {
+          "id": "a1-G-4-2",
+          "title": "Documentos perdidos",
+          "titleFr": "Documents perdus",
+          "grammar": [],
+          "icon": "📄",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-G-4-3",
+          "title": "Trámites de residencia",
+          "titleFr": "Démarches de résidence",
+          "grammar": [],
+          "icon": "🏠",
+          "estimatedMinutes": 18
+        }
+      ]
+    },
+    {
+      "id": "a1-G-5",
+      "order": 44,
+      "title": "Otros servicios",
+      "titleFr": "Autres services",
+      "description": "",
+      "icon": "⚙️",
+      "color": "#A855F7",
+      "leaves": [
+        {
+          "id": "a1-G-5-1",
+          "title": "Electricidad / Gas",
+          "titleFr": "Électricité / Gaz",
+          "grammar": [],
+          "icon": "💡",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-G-5-2",
+          "title": "Internet / Teléfono",
+          "titleFr": "Internet / Téléphone",
+          "grammar": [],
+          "icon": "📱",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-G-5-3",
+          "title": "Seguros básicos",
+          "titleFr": "Assurances de base",
+          "grammar": [],
+          "icon": "🛡️",
+          "estimatedMinutes": 11
+        }
+      ]
+    },
+    {
+      "id": "a1-H-1",
+      "order": 45,
+      "title": "Comercios",
+      "titleFr": "Commerces",
+      "description": "",
+      "icon": "🏪",
+      "color": "#6366F1",
+      "leaves": [
+        {
+          "id": "a1-H-1-1",
+          "title": "Producto defectuoso",
+          "titleFr": "Produit défectueux",
+          "grammar": [],
+          "icon": "❌",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-H-1-2",
+          "title": "Devoluciones",
+          "titleFr": "Retours",
+          "grammar": [],
+          "icon": "↩️",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-H-1-3",
+          "title": "Dependiente estricto",
+          "titleFr": "Vendeur strict",
+          "grammar": [],
+          "icon": "😐",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-H-1-4",
+          "title": "Precio incorrecto",
+          "titleFr": "Prix incorrect",
+          "grammar": [],
+          "icon": "💰",
+          "estimatedMinutes": 11
+        }
+      ]
+    },
+    {
+      "id": "a1-H-2",
+      "order": 46,
+      "title": "Transporte",
+      "titleFr": "Transport",
+      "description": "",
+      "icon": "🚌",
+      "color": "#3B82F6",
+      "leaves": [
+        {
+          "id": "a1-H-2-1",
+          "title": "Asiento ocupado",
+          "titleFr": "Siège occupé",
+          "grammar": [],
+          "icon": "💺",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-H-2-2",
+          "title": "Persona molesta",
+          "titleFr": "Personne gênante",
+          "grammar": [],
+          "icon": "😤",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-H-2-3",
+          "title": "Conflictos leves",
+          "titleFr": "Conflits mineurs",
+          "grammar": [],
+          "icon": "⚔️",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-H-3",
+      "order": 47,
+      "title": "Restaurantes",
+      "titleFr": "Restaurants",
+      "description": "",
+      "icon": "🍴",
+      "color": "#0EA5E9",
+      "leaves": [
+        {
+          "id": "a1-H-3-1",
+          "title": "Pedido incorrecto",
+          "titleFr": "Commande incorrecte",
+          "grammar": [],
+          "icon": "❌",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-H-3-2",
+          "title": "Espera larga",
+          "titleFr": "Attente longue",
+          "grammar": [],
+          "icon": "⏳",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-H-3-3",
+          "title": "Cuenta errónea",
+          "titleFr": "Addition erronée",
+          "grammar": [],
+          "icon": "🧾",
+          "estimatedMinutes": 11
+        }
+      ]
+    },
+    {
+      "id": "a1-H-4",
+      "order": 48,
+      "title": "Servicios",
+      "titleFr": "Services",
+      "description": "",
+      "icon": "🔧",
+      "color": "#06B6D4",
+      "leaves": [
+        {
+          "id": "a1-H-4-1",
+          "title": "Cita cancelada",
+          "titleFr": "Rendez-vous annulé",
+          "grammar": [],
+          "icon": "❌",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-H-4-2",
+          "title": "Servicio deficiente",
+          "titleFr": "Service déficient",
+          "grammar": [],
+          "icon": "😕",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-H-4-3",
+          "title": "Pedir compensación",
+          "titleFr": "Demander compensation",
+          "grammar": [],
+          "icon": "💼",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-I-1",
+      "order": 49,
+      "title": "Mensajería",
+      "titleFr": "Messagerie",
+      "description": "",
+      "icon": "💬",
+      "color": "#10B981",
+      "leaves": [
+        {
+          "id": "a1-I-1-1",
+          "title": "WhatsApp básico",
+          "titleFr": "WhatsApp de base",
+          "grammar": [],
+          "icon": "📱",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-I-1-2",
+          "title": "Confirmar planes",
+          "titleFr": "Confirmer les plans",
+          "grammar": [],
+          "icon": "✅",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-I-1-3",
+          "title": "Mensajes ambiguos",
+          "titleFr": "Messages ambigus",
+          "grammar": [],
+          "icon": "🤔",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-I-1-4",
+          "title": "Emojis y tono",
+          "titleFr": "Emojis et ton",
+          "grammar": [],
+          "icon": "😊",
+          "estimatedMinutes": 11
+        }
+      ]
+    },
+    {
+      "id": "a1-I-2",
+      "order": 50,
+      "title": "Redes sociales",
+      "titleFr": "Réseaux sociaux",
+      "description": "",
+      "icon": "📱",
+      "color": "#14B8A6",
+      "leaves": [
+        {
+          "id": "a1-I-2-1",
+          "title": "Grupos locales",
+          "titleFr": "Groupes locaux",
+          "grammar": [],
+          "icon": "👥",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-I-2-2",
+          "title": "Pedir ayuda online",
+          "titleFr": "Demander de l'aide en ligne",
+          "grammar": [],
+          "icon": "🆘",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-I-2-3",
+          "title": "Responder comentarios",
+          "titleFr": "Répondre aux commentaires",
+          "grammar": [],
+          "icon": "💬",
+          "estimatedMinutes": 11
+        }
+      ]
+    },
+    {
+      "id": "a1-I-3",
+      "order": 51,
+      "title": "Email personal",
+      "titleFr": "Email personnel",
+      "description": "",
+      "icon": "📧",
+      "color": "#F59E0B",
+      "leaves": [
+        {
+          "id": "a1-I-3-1",
+          "title": "Email formal básico",
+          "titleFr": "Email formel de base",
+          "grammar": [],
+          "icon": "📝",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-I-3-2",
+          "title": "Email informal",
+          "titleFr": "Email informel",
+          "grammar": [],
+          "icon": "💌",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-I-3-3",
+          "title": "Responder y reenviar",
+          "titleFr": "Répondre et transférer",
+          "grammar": [],
+          "icon": "↩️",
+          "estimatedMinutes": 11
+        }
+      ]
+    },
+    {
+      "id": "a1-J-1",
+      "order": 52,
+      "title": "Saludos físicos",
+      "titleFr": "Salutations physiques",
+      "description": "",
+      "icon": "👋",
+      "color": "#EF4444",
+      "leaves": [
+        {
+          "id": "a1-J-1-1",
+          "title": "La bise",
+          "titleFr": "La bise",
+          "grammar": [],
+          "icon": "💋",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-J-1-2",
+          "title": "Cuándo sí / cuándo no",
+          "titleFr": "Quand oui / quand non",
+          "grammar": [],
+          "icon": "🤷",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-J-1-3",
+          "title": "Alternativas (COVID era)",
+          "titleFr": "Alternatives (ère COVID)",
+          "grammar": [],
+          "icon": "🤝",
+          "estimatedMinutes": 11
+        }
+      ]
+    },
+    {
+      "id": "a1-J-2",
+      "order": 53,
+      "title": "Espacio personal",
+      "titleFr": "Espace personnel",
+      "description": "",
+      "icon": "🚶",
+      "color": "#EC4899",
+      "leaves": [
+        {
+          "id": "a1-J-2-1",
+          "title": "Distancias culturales",
+          "titleFr": "Distances culturelles",
+          "grammar": [],
+          "icon": "📏",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-J-2-2",
+          "title": "Contacto visual",
+          "titleFr": "Contact visuel",
+          "grammar": [],
+          "icon": "👀",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-J-2-3",
+          "title": "Señales de cierre",
+          "titleFr": "Signaux de fermeture",
+          "grammar": [],
+          "icon": "🚪",
+          "estimatedMinutes": 11
+        }
+      ]
+    },
+    {
+      "id": "a1-J-3",
+      "order": 54,
+      "title": "Etiqueta social",
+      "titleFr": "Étiquette sociale",
+      "description": "",
+      "icon": "🎩",
+      "color": "#8B5CF6",
+      "leaves": [
+        {
+          "id": "a1-J-3-1",
+          "title": "Tu vs Vous",
+          "titleFr": "Tu vs Vous",
+          "grammar": [],
+          "icon": "👤",
+          "estimatedMinutes": 18
+        },
+        {
+          "id": "a1-J-3-2",
+          "title": "Formalidad en contexto",
+          "titleFr": "Formalité en contexte",
+          "grammar": [],
           "icon": "🎭",
-          "estimatedMinutes": 15
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-J-3-3",
+          "title": "Tabúes conversacionales",
+          "titleFr": "Tabous conversationnels",
+          "grammar": [],
+          "icon": "🚫",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-J-4",
+      "order": 55,
+      "title": "Humor francés",
+      "titleFr": "Humour français",
+      "description": "",
+      "icon": "😄",
+      "color": "#A855F7",
+      "leaves": [
+        {
+          "id": "a1-J-4-1",
+          "title": "Ironía básica",
+          "titleFr": "Ironie de base",
+          "grammar": [],
+          "icon": "😏",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-J-4-2",
+          "title": "Responder a bromas",
+          "titleFr": "Répondre aux blagues",
+          "grammar": [],
+          "icon": "😊",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-J-4-3",
+          "title": "Sarcasmo suave",
+          "titleFr": "Sarcasme doux",
+          "grammar": [],
+          "icon": "😉",
+          "estimatedMinutes": 11
+        }
+      ]
+    },
+    {
+      "id": "a1-K-1",
+      "order": 56,
+      "title": "Bloqueo lingüístico",
+      "titleFr": "Blocage linguistique",
+      "description": "",
+      "icon": "😰",
+      "color": "#6366F1",
+      "leaves": [
+        {
+          "id": "a1-K-1-1",
+          "title": "Pedir repetición",
+          "titleFr": "Demander répétition",
+          "grammar": [],
+          "icon": "🔄",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-K-1-2",
+          "title": "Pedir más lento",
+          "titleFr": "Demander plus lentement",
+          "grammar": [],
+          "icon": "🐌",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-K-1-3",
+          "title": "Ganar tiempo",
+          "titleFr": "Gagner du temps",
+          "grammar": [],
+          "icon": "⏰",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-K-1-4",
+          "title": "Admitir nivel bajo",
+          "titleFr": "Admettre niveau bas",
+          "grammar": [],
+          "icon": "🙏",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-K-1-5",
+          "title": "Pedir otra palabra",
+          "titleFr": "Demander un autre mot",
+          "grammar": [],
+          "icon": "📝",
+          "estimatedMinutes": 11
+        }
+      ]
+    },
+    {
+      "id": "a1-K-2",
+      "order": 57,
+      "title": "Error social",
+      "titleFr": "Erreur sociale",
+      "description": "",
+      "icon": "😅",
+      "color": "#3B82F6",
+      "leaves": [
+        {
+          "id": "a1-K-2-1",
+          "title": "Reparar malentendido",
+          "titleFr": "Réparer malentendu",
+          "grammar": [],
+          "icon": "🔧",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-K-2-2",
+          "title": "Disculparse por error",
+          "titleFr": "S'excuser pour erreur",
+          "grammar": [],
+          "icon": "🙏",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-K-2-3",
+          "title": "Reencauzar conversación",
+          "titleFr": "Réorienter conversation",
+          "grammar": [],
+          "icon": "🔄",
+          "estimatedMinutes": 11
+        }
+      ]
+    },
+    {
+      "id": "a1-K-3",
+      "order": 58,
+      "title": "Estrategias para bloqueos",
+      "titleFr": "Stratégies pour blocages",
+      "description": "",
+      "icon": "🧠",
+      "color": "#0EA5E9",
+      "leaves": [
+        {
+          "id": "a1-K-3-1",
+          "title": "Ganar tiempo para pensar",
+          "titleFr": "Gagner du temps pour réfléchir",
+          "grammar": [],
+          "icon": "💭",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-K-3-2",
+          "title": "Pedir ayuda educadamente",
+          "titleFr": "Demander aide poliment",
+          "grammar": [],
+          "icon": "🙏",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-K-4",
+      "order": 59,
+      "title": "Salir de conversaciones incómodas",
+      "titleFr": "Sortir conversations gênantes",
+      "description": "",
+      "icon": "🚪",
+      "color": "#06B6D4",
+      "leaves": [
+        {
+          "id": "a1-K-4-1",
+          "title": "Señales de cierre",
+          "titleFr": "Signaux de fermeture",
+          "grammar": [],
+          "icon": "👋",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-K-4-2",
+          "title": "Cambiar de tema",
+          "titleFr": "Changer de sujet",
+          "grammar": [],
+          "icon": "🔄",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-K-5",
+      "order": 60,
+      "title": "Estrategias de comunicación",
+      "titleFr": "Stratégies de communication",
+      "description": "",
+      "icon": "💡",
+      "color": "#10B981",
+      "leaves": [
+        {
+          "id": "a1-K-5-1",
+          "title": "Parafrasear",
+          "titleFr": "Paraphraser",
+          "grammar": [],
+          "icon": "📝",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-K-5-2",
+          "title": "Usar gestos",
+          "titleFr": "Utiliser gestes",
+          "grammar": [],
+          "icon": "👋",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-K-5-3",
+          "title": "Dibujar / mostrar",
+          "titleFr": "Dessiner / montrer",
+          "grammar": [],
+          "icon": "✏️",
+          "estimatedMinutes": 11
+        }
+      ]
+    },
+    {
+      "id": "a1-L-1",
+      "order": 61,
+      "title": "Respuestas vagas",
+      "titleFr": "Réponses vagues",
+      "description": "",
+      "icon": "🤷",
+      "color": "#14B8A6",
+      "leaves": [
+        {
+          "id": "a1-L-1-1",
+          "title": "\"On verra\"",
+          "titleFr": "\"On verra\"",
+          "grammar": [],
+          "icon": "👀",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-L-1-2",
+          "title": "\"Peut-être\"",
+          "titleFr": "\"Peut-être\"",
+          "grammar": [],
+          "icon": "🤔",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-L-1-3",
+          "title": "\"C'est pas mal\"",
+          "titleFr": "\"C'est pas mal\"",
+          "grammar": [],
+          "icon": "😐",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-L-1-4",
+          "title": "Interpretar el \"non\" suave",
+          "titleFr": "Interpréter le \"non\" doux",
+          "grammar": [],
+          "icon": "🤐",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-L-2",
+      "order": 62,
+      "title": "Silencios y pausas",
+      "titleFr": "Silences et pauses",
+      "description": "",
+      "icon": "🤐",
+      "color": "#F59E0B",
+      "leaves": [
+        {
+          "id": "a1-L-2-1",
+          "title": "Cuándo hablar",
+          "titleFr": "Quand parler",
+          "grammar": [],
+          "icon": "💬",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-L-2-2",
+          "title": "Cuándo callar",
+          "titleFr": "Quand se taire",
+          "grammar": [],
+          "icon": "🤫",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-L-2-3",
+          "title": "Cerrar conversación",
+          "titleFr": "Fermer conversation",
+          "grammar": [],
+          "icon": "🚪",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-L-3",
+      "order": 63,
+      "title": "Lectura de emociones",
+      "titleFr": "Lecture des émotions",
+      "description": "",
+      "icon": "😊",
+      "color": "#EF4444",
+      "leaves": [
+        {
+          "id": "a1-L-3-1",
+          "title": "Detectar enojo/disconformidad",
+          "titleFr": "Détecter colère/mécontentement",
+          "grammar": [],
+          "icon": "😠",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-L-3-2",
+          "title": "Responder a elogios",
+          "titleFr": "Répondre aux compliments",
+          "grammar": [],
+          "icon": "😊",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-M-1",
+      "order": 64,
+      "title": "Historia personal",
+      "titleFr": "Histoire personnelle",
+      "description": "",
+      "icon": "📖",
+      "color": "#EC4899",
+      "leaves": [
+        {
+          "id": "a1-M-1-1",
+          "title": "De dónde vienes",
+          "titleFr": "D'où tu viens",
+          "grammar": [],
+          "icon": "🌍",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-M-1-2",
+          "title": "Por qué estás aquí",
+          "titleFr": "Pourquoi tu es ici",
+          "grammar": [],
+          "icon": "❓",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-M-1-3",
+          "title": "Qué haces ahora",
+          "titleFr": "Ce que tu fais maintenant",
+          "grammar": [],
+          "icon": "💼",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-M-1-4",
+          "title": "Planes futuros",
+          "titleFr": "Plans futurs",
+          "grammar": [],
+          "icon": "🔮",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-M-2",
+      "order": 65,
+      "title": "Gustos y preferencias",
+      "titleFr": "Goûts et préférences",
+      "description": "",
+      "icon": "❤️",
+      "color": "#8B5CF6",
+      "leaves": [
+        {
+          "id": "a1-M-2-1",
+          "title": "Comida favorita",
+          "titleFr": "Nourriture favorite",
+          "grammar": [],
+          "icon": "🍕",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-M-2-2",
+          "title": "Música y cine",
+          "titleFr": "Musique et cinéma",
+          "grammar": [],
+          "icon": "🎬",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-M-2-3",
+          "title": "Deportes y hobbies",
+          "titleFr": "Sports et loisirs",
+          "grammar": [],
+          "icon": "⚽",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-M-2-4",
+          "title": "Viajes",
+          "titleFr": "Voyages",
+          "grammar": [],
+          "icon": "✈️",
+          "estimatedMinutes": 11
+        }
+      ]
+    },
+    {
+      "id": "a1-M-3",
+      "order": 66,
+      "title": "Historias personales breves",
+      "titleFr": "Histoires personnelles courtes",
+      "description": "",
+      "icon": "📝",
+      "color": "#A855F7",
+      "leaves": [
+        {
+          "id": "a1-M-3-1",
+          "title": "Responder a \"¿Por qué Francia?\"",
+          "titleFr": "Répondre à \"Pourquoi la France?\"",
+          "grammar": [],
+          "icon": "🇫🇷",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-M-3-2",
+          "title": "Hablar de familia",
+          "titleFr": "Parler de la famille",
+          "grammar": [],
+          "icon": "👨‍👩‍👧",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-M-4",
+      "order": 67,
+      "title": "Opiniones simples",
+      "titleFr": "Opinions simples",
+      "description": "",
+      "icon": "💭",
+      "color": "#6366F1",
+      "leaves": [
+        {
+          "id": "a1-M-4-1",
+          "title": "Me gusta / no me gusta",
+          "titleFr": "J'aime / je n'aime pas",
+          "grammar": [],
+          "icon": "👍👎",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-M-4-2",
+          "title": "Prefiero X a Y",
+          "titleFr": "Je préfère X à Y",
+          "grammar": [],
+          "icon": "⚖️",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-M-4-3",
+          "title": "Opinar sin ofender",
+          "titleFr": "Donner opinion sans offenser",
+          "grammar": [],
+          "icon": "💬",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-N-1",
+      "order": 68,
+      "title": "Personas invasivas",
+      "titleFr": "Personnes envahissantes",
+      "description": "",
+      "icon": "🚫",
+      "color": "#3B82F6",
+      "leaves": [
+        {
+          "id": "a1-N-1-1",
+          "title": "Decir no firmemente",
+          "titleFr": "Dire non fermement",
+          "grammar": [],
+          "icon": "✋",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-N-1-2",
+          "title": "Salir de situación",
+          "titleFr": "Sortir de situation",
+          "grammar": [],
+          "icon": "🏃",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-N-1-3",
+          "title": "Pedir ayuda",
+          "titleFr": "Demander de l'aide",
+          "grammar": [],
+          "icon": "🆘",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-N-2",
+      "order": 69,
+      "title": "Situaciones de emergencia",
+      "titleFr": "Situations d'urgence",
+      "description": "",
+      "icon": "🚨",
+      "color": "#0EA5E9",
+      "leaves": [
+        {
+          "id": "a1-N-2-1",
+          "title": "Perder documentos",
+          "titleFr": "Perdre documents",
+          "grammar": [],
+          "icon": "📄",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-N-2-2",
+          "title": "Pedir ayuda a policía",
+          "titleFr": "Demander aide à police",
+          "grammar": [],
+          "icon": "👮",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-N-3",
+      "order": 70,
+      "title": "Estafas y engaños",
+      "titleFr": "Arnaques et tromperies",
+      "description": "",
+      "icon": "⚠️",
+      "color": "#06B6D4",
+      "leaves": [
+        {
+          "id": "a1-N-3-1",
+          "title": "Reconocer estafa",
+          "titleFr": "Reconnaître arnaque",
+          "grammar": [],
+          "icon": "👁️",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-N-3-2",
+          "title": "Rechazar vendedores",
+          "titleFr": "Refuser vendeurs",
+          "grammar": [],
+          "icon": "✋",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-N-3-3",
+          "title": "Denunciar",
+          "titleFr": "Dénoncer",
+          "grammar": [],
+          "icon": "📞",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-O-1",
+      "order": 71,
+      "title": "Preparación diaria",
+      "titleFr": "Préparation quotidienne",
+      "description": "",
+      "icon": "☀️",
+      "color": "#10B981",
+      "leaves": [
+        {
+          "id": "a1-O-1-1",
+          "title": "Consultar el tiempo",
+          "titleFr": "Consulter météo",
+          "grammar": [],
+          "icon": "🌤️",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-O-1-2",
+          "title": "Actividades según clima",
+          "titleFr": "Activités selon météo",
+          "grammar": [],
+          "icon": "🌧️",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-O-2",
+      "order": 72,
+      "title": "Emergencias climáticas",
+      "titleFr": "Urgences climatiques",
+      "description": "",
+      "icon": "⛈️",
+      "color": "#14B8A6",
+      "leaves": [
+        {
+          "id": "a1-O-2-1",
+          "title": "Alertas meteorológicas",
+          "titleFr": "Alertes météorologiques",
+          "grammar": [],
+          "icon": "⚠️",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-O-2-2",
+          "title": "Transporte en tormenta",
+          "titleFr": "Transport en tempête",
+          "grammar": [],
+          "icon": "🌧️",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-O-3",
+      "order": 73,
+      "title": "Hablar del tiempo",
+      "titleFr": "Parler du temps",
+      "description": "",
+      "icon": "🌤️",
+      "color": "#F59E0B",
+      "leaves": [
+        {
+          "id": "a1-O-3-1",
+          "title": "Describir el clima",
+          "titleFr": "Décrire météo",
+          "grammar": [],
+          "icon": "☀️",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-O-3-2",
+          "title": "Previsión",
+          "titleFr": "Prévision",
+          "grammar": [],
+          "icon": "📊",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-O-3-3",
+          "title": "Comentarios típicos",
+          "titleFr": "Commentaires typiques",
+          "grammar": [],
+          "icon": "💬",
+          "estimatedMinutes": 11
+        }
+      ]
+    },
+    {
+      "id": "a1-O-4",
+      "order": 74,
+      "title": "Estaciones y festividades",
+      "titleFr": "Saisons et fêtes",
+      "description": "",
+      "icon": "🎄",
+      "color": "#EF4444",
+      "leaves": [
+        {
+          "id": "a1-O-4-1",
+          "title": "Las 4 estaciones",
+          "titleFr": "Les 4 saisons",
+          "grammar": [],
+          "icon": "🍂",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-O-4-2",
+          "title": "Fiestas francesas",
+          "titleFr": "Fêtes françaises",
+          "grammar": [],
+          "icon": "🎉",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-O-4-3",
+          "title": "Vacaciones",
+          "titleFr": "Vacances",
+          "grammar": [],
+          "icon": "🏖️",
+          "estimatedMinutes": 11
+        }
+      ]
+    },
+    {
+      "id": "a1-P-1",
+      "order": 75,
+      "title": "Museos y exposiciones",
+      "titleFr": "Musées et expositions",
+      "description": "",
+      "icon": "🎨",
+      "color": "#EC4899",
+      "leaves": [
+        {
+          "id": "a1-P-1-1",
+          "title": "Comprar entradas",
+          "titleFr": "Acheter billets",
+          "grammar": [],
+          "icon": "🎫",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-P-1-2",
+          "title": "Preguntar por obras",
+          "titleFr": "Demander œuvres",
+          "grammar": [],
+          "icon": "🖼️",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-P-2",
+      "order": 76,
+      "title": "Cine y espectáculos",
+      "titleFr": "Cinéma et spectacles",
+      "description": "",
+      "icon": "🎬",
+      "color": "#8B5CF6",
+      "leaves": [
+        {
+          "id": "a1-P-2-1",
+          "title": "Reservar butacas",
+          "titleFr": "Réserver places",
+          "grammar": [],
+          "icon": "🎭",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-P-2-2",
+          "title": "Problemas técnicos durante función",
+          "titleFr": "Problèmes techniques pendant spectacle",
+          "grammar": [],
+          "icon": "🔧",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-Q-1",
+      "order": 77,
+      "title": "Reuniones de equipo",
+      "titleFr": "Réunions d'équipe",
+      "description": "",
+      "icon": "👥",
+      "color": "#A855F7",
+      "leaves": [
+        {
+          "id": "a1-Q-1-1",
+          "title": "Pedir la palabra",
+          "titleFr": "Demander la parole",
+          "grammar": [],
+          "icon": "✋",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-Q-1-2",
+          "title": "Desacuerdos profesionales",
+          "titleFr": "Désaccords professionnels",
+          "grammar": [],
+          "icon": "💼",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-Q-2",
+      "order": 78,
+      "title": "Comunicación con clientes",
+      "titleFr": "Communication avec clients",
+      "description": "",
+      "icon": "🤝",
+      "color": "#6366F1",
+      "leaves": [
+        {
+          "id": "a1-Q-2-1",
+          "title": "Quejas de clientes",
+          "titleFr": "Plaintes clients",
+          "grammar": [],
+          "icon": "😤",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-Q-2-2",
+          "title": "Seguimiento post-venta",
+          "titleFr": "Suivi post-vente",
+          "grammar": [],
+          "icon": "📞",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-R-1",
+      "order": 79,
+      "title": "Videollamadas profesionales",
+      "titleFr": "Visioconférences professionnelles",
+      "description": "",
+      "icon": "💻",
+      "color": "#3B82F6",
+      "leaves": [
+        {
+          "id": "a1-R-1-1",
+          "title": "Problemas técnicos",
+          "titleFr": "Problèmes techniques",
+          "grammar": [],
+          "icon": "🔧",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-R-1-2",
+          "title": "Intervenciones en grupo",
+          "titleFr": "Interventions en groupe",
+          "grammar": [],
+          "icon": "👥",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-R-2",
+      "order": 80,
+      "title": "Redes sociales comunitarias",
+      "titleFr": "Réseaux sociaux communautaires",
+      "description": "",
+      "icon": "🌐",
+      "color": "#0EA5E9",
+      "leaves": [
+        {
+          "id": "a1-R-2-1",
+          "title": "Pedir ayuda en grupos locales",
+          "titleFr": "Demander aide groupes locaux",
+          "grammar": [],
+          "icon": "🆘",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-R-2-2",
+          "title": "Responder comentarios negativos",
+          "titleFr": "Répondre commentaires négatifs",
+          "grammar": [],
+          "icon": "💬",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-S-1",
+      "order": 81,
+      "title": "Deportes y actividades",
+      "titleFr": "Sports et activités",
+      "description": "",
+      "icon": "⚽",
+      "color": "#06B6D4",
+      "leaves": [
+        {
+          "id": "a1-S-1-1",
+          "title": "Unirse a clubes locales",
+          "titleFr": "Rejoindre clubs locaux",
+          "grammar": [],
+          "icon": "🏃",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-S-1-2",
+          "title": "Alquilar equipos",
+          "titleFr": "Louer équipements",
+          "grammar": [],
+          "icon": "🎾",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-S-2",
+      "order": 82,
+      "title": "Eventos culturales",
+      "titleFr": "Événements culturels",
+      "description": "",
+      "icon": "🎭",
+      "color": "#10B981",
+      "leaves": [
+        {
+          "id": "a1-S-2-1",
+          "title": "Festivales callejeros",
+          "titleFr": "Festivals de rue",
+          "grammar": [],
+          "icon": "🎪",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-S-2-2",
+          "title": "Mercados de artesanía",
+          "titleFr": "Marchés artisanaux",
+          "grammar": [],
+          "icon": "🎨",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-S-3",
+      "order": 83,
+      "title": "Cine y teatro",
+      "titleFr": "Cinéma et théâtre",
+      "description": "",
+      "icon": "🎬",
+      "color": "#14B8A6",
+      "leaves": [
+        {
+          "id": "a1-S-3-1",
+          "title": "Comprar entradas",
+          "titleFr": "Acheter billets",
+          "grammar": [],
+          "icon": "🎫",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-S-3-2",
+          "title": "Elegir película",
+          "titleFr": "Choisir film",
+          "grammar": [],
+          "icon": "🎞️",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-S-3-3",
+          "title": "Comentar después",
+          "titleFr": "Commenter après",
+          "grammar": [],
+          "icon": "💬",
+          "estimatedMinutes": 14
+        }
+      ]
+    },
+    {
+      "id": "a1-S-4",
+      "order": 84,
+      "title": "Museos y turismo",
+      "titleFr": "Musées et tourisme",
+      "description": "",
+      "icon": "🗺️",
+      "color": "#F59E0B",
+      "leaves": [
+        {
+          "id": "a1-S-4-1",
+          "title": "Información turística",
+          "titleFr": "Informations touristiques",
+          "grammar": [],
+          "icon": "ℹ️",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-S-4-2",
+          "title": "En el museo",
+          "titleFr": "Au musée",
+          "grammar": [],
+          "icon": "🏛️",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-S-4-3",
+          "title": "Fotos y recuerdos",
+          "titleFr": "Photos et souvenirs",
+          "grammar": [],
+          "icon": "📸",
+          "estimatedMinutes": 11
+        }
+      ]
+    },
+    {
+      "id": "a1-T-1",
+      "order": 85,
+      "title": "Familia",
+      "titleFr": "Famille",
+      "description": "",
+      "icon": "👨‍👩‍👧",
+      "color": "#EF4444",
+      "leaves": [
+        {
+          "id": "a1-T-1-1",
+          "title": "Miembros de familia",
+          "titleFr": "Membres famille",
+          "grammar": [],
+          "icon": "👨‍👩‍👧",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-T-1-2",
+          "title": "Hablar de tu familia",
+          "titleFr": "Parler de ta famille",
+          "grammar": [],
+          "icon": "💬",
+          "estimatedMinutes": 14
+        },
+        {
+          "id": "a1-T-1-3",
+          "title": "Preguntar por familia",
+          "titleFr": "Demander famille",
+          "grammar": [],
+          "icon": "❓",
+          "estimatedMinutes": 11
+        }
+      ]
+    },
+    {
+      "id": "a1-T-2",
+      "order": 86,
+      "title": "Relaciones",
+      "titleFr": "Relations",
+      "description": "",
+      "icon": "💑",
+      "color": "#EC4899",
+      "leaves": [
+        {
+          "id": "a1-T-2-1",
+          "title": "Estado civil",
+          "titleFr": "État civil",
+          "grammar": [],
+          "icon": "💍",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-T-2-2",
+          "title": "Hablar de pareja",
+          "titleFr": "Parler partenaire",
+          "grammar": [],
+          "icon": "💕",
+          "estimatedMinutes": 11
+        },
+        {
+          "id": "a1-T-2-3",
+          "title": "Amigos cercanos",
+          "titleFr": "Amis proches",
+          "grammar": [],
+          "icon": "👥",
+          "estimatedMinutes": 11
         }
       ]
     }

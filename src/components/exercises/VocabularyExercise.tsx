@@ -1,20 +1,25 @@
-'use client';
+"use client";
 
-import { useState, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Vocabulary, VocabularyOption } from '@/types';
-import { useGamificationStore } from '@/store/useGamificationStore';
-import { XP_RULES } from '@/lib/constants';
-import Image from 'next/image';
+import { useState, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Vocabulary, VocabularyOption } from "@/types";
+import { useGamificationStore } from "@/store/useGamificationStore";
+import { XP_RULES } from "@/lib/constants";
+import Image from "next/image";
 
 interface VocabularyExerciseProps {
   exercise: Vocabulary;
   onComplete: (correct: boolean) => void;
 }
 
-export function VocabularyExercise({ exercise, onComplete }: VocabularyExerciseProps) {
+export function VocabularyExercise({
+  exercise,
+  onComplete,
+}: VocabularyExerciseProps) {
   const { addXP } = useGamificationStore();
-  const [selectedOption, setSelectedOption] = useState<VocabularyOption | null>(null);
+  const [selectedOption, setSelectedOption] = useState<VocabularyOption | null>(
+    null
+  );
   const [showResult, setShowResult] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
 
@@ -32,7 +37,11 @@ export function VocabularyExercise({ exercise, onComplete }: VocabularyExerciseP
       setShowResult(true);
 
       // Dar XP
-      addXP(option.isCorrect ? XP_RULES.vocabularyCorrect : XP_RULES.vocabularyIncorrect);
+      addXP(
+        option.isCorrect
+          ? XP_RULES.vocabularyCorrect
+          : XP_RULES.vocabularyIncorrect
+      );
 
       // Esperar antes de continuar
       setTimeout(() => {
@@ -42,7 +51,9 @@ export function VocabularyExercise({ exercise, onComplete }: VocabularyExerciseP
     [showResult, addXP, onComplete]
   );
 
-  const correctOption = exercise.options.find((o) => o.isCorrect);
+  const correctOption = exercise.options.find(
+    (o: VocabularyOption) => o.isCorrect
+  );
 
   return (
     <div className="space-y-6">
@@ -56,9 +67,9 @@ export function VocabularyExercise({ exercise, onComplete }: VocabularyExerciseP
       {/* Imagen */}
       <motion.div
         className="relative w-full h-64 rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700"
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.3 }}
+        initial={{ opacity: 0, y: -30, rotateX: 15 }}
+        animate={{ opacity: 1, y: 0, rotateX: 0 }}
+        transition={{ type: "spring", stiffness: 100, damping: 15 }}
       >
         <Image
           src={exercise.imageUrl}
@@ -71,7 +82,7 @@ export function VocabularyExercise({ exercise, onComplete }: VocabularyExerciseP
 
       {/* Opciones */}
       <div className="grid grid-cols-2 gap-3">
-        {exercise.options.map((option, index) => {
+        {exercise.options.map((option: VocabularyOption, index: number) => {
           const isSelected = selectedOption?.id === option.id;
           const showCorrect = showResult && option.isCorrect;
           const showIncorrect = showResult && isSelected && !option.isCorrect;
@@ -95,9 +106,24 @@ export function VocabularyExercise({ exercise, onComplete }: VocabularyExerciseP
                 ${showResult ? "cursor-default opacity-50" : "cursor-pointer"}
                 border border-gray-200 dark:border-gray-700
               `}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: index * 0.1 }}
+              initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
+              animate={
+                showCorrect
+                  ? {
+                      scale: [1, 1.08, 1.03],
+                      boxShadow: [
+                        "0 0 0 rgba(16, 185, 129, 0)",
+                        "0 0 30px rgba(16, 185, 129, 0.6)",
+                        "0 0 20px rgba(16, 185, 129, 0.4)",
+                      ],
+                    }
+                  : { opacity: 1, x: 0 }
+              }
+              transition={
+                showCorrect
+                  ? { duration: 0.5 }
+                  : { delay: 0.3 + index * 0.15, type: "spring" }
+              }
               whileHover={!showResult ? { scale: 1.02 } : {}}
               whileTap={!showResult ? { scale: 0.95 } : {}}
             >
@@ -125,7 +151,13 @@ export function VocabularyExercise({ exercise, onComplete }: VocabularyExerciseP
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
           >
-            <span className="text-2xl mr-2">{isCorrect ? "🎉" : "💡"}</span>
+            <motion.span
+              className="text-2xl mr-2"
+              animate={{ rotate: isCorrect ? [0, 15, -15, 0] : [0, -5, 5, 0] }}
+              transition={{ duration: 0.5 }}
+            >
+              {isCorrect ? "🎉" : "💡"}
+            </motion.span>
             <span className="font-medium">
               {isCorrect
                 ? `¡Correcto! "${exercise.word}" = "${exercise.translation}" (+${XP_RULES.vocabularyCorrect} XP)`
@@ -137,4 +169,3 @@ export function VocabularyExercise({ exercise, onComplete }: VocabularyExerciseP
     </div>
   );
 }
-

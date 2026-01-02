@@ -10,14 +10,16 @@ import Image from 'next/image';
 interface PragmaStrikeExerciseProps {
   exercise: PragmaStrike;
   onComplete: (correct: boolean, timeSpent: number) => void;
+  mode?: 'academia' | 'desafio';
 }
 
-export function PragmaStrikeExercise({ exercise, onComplete }: PragmaStrikeExerciseProps) {
+export function PragmaStrikeExercise({ exercise, onComplete, mode = 'desafio' }: PragmaStrikeExerciseProps) {
   const { addXP } = useGamificationStore();
   const [selectedOption, setSelectedOption] = useState<PragmaStrikeOption | null>(null);
   const [showResult, setShowResult] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
-  const [timeRemaining, setTimeRemaining] = useState(exercise.timeLimit);
+  const timerEnabled = mode === 'desafio';
+  const [timeRemaining, setTimeRemaining] = useState(timerEnabled ? exercise.timeLimit : 0);
   const [timeSpent, setTimeSpent] = useState(0);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const startTimeRef = useRef<number>(Date.now());
@@ -57,40 +59,54 @@ export function PragmaStrikeExercise({ exercise, onComplete }: PragmaStrikeExerc
     }, 2000);
   }, [showResult, addXP, onComplete]);
 
-  // Timer countdown
+  // Timer countdown (solo en modo desafío)
   useEffect(() => {
     if (showResult) return;
 
     startTimeRef.current = Date.now();
-    timerRef.current = setInterval(() => {
-      setTimeRemaining((prev) => {
-        if (prev <= 0.1) {
-          // Tiempo agotado - seleccionar automáticamente la primera opción (incorrecta)
-          if (!selectedOption) {
-            handleOptionSelect(exercise.options[0]);
+
+    // Solo iniciar timer si está habilitado (modo desafío)
+    if (timerEnabled) {
+      timerRef.current = setInterval(() => {
+        setTimeRemaining((prev) => {
+          if (prev <= 0.1) {
+            // Tiempo agotado - seleccionar automáticamente la primera opción (incorrecta)
+            if (!selectedOption) {
+              handleOptionSelect(exercise.options[0]);
+            }
+            return 0;
           }
-          return 0;
-        }
-        return prev - 0.1;
-      });
-      setTimeSpent((Date.now() - startTimeRef.current) / 1000);
-    }, 100);
+          return prev - 0.1;
+        });
+        setTimeSpent((Date.now() - startTimeRef.current) / 1000);
+      }, 100);
+    } else {
+      // En modo academia, solo rastrear tiempo transcurrido
+      timerRef.current = setInterval(() => {
+        setTimeSpent((Date.now() - startTimeRef.current) / 1000);
+      }, 100);
+    }
 
     return () => {
       if (timerRef.current) {
         clearInterval(timerRef.current);
       }
     };
-  }, [showResult, exercise.options, selectedOption, handleOptionSelect]);
+  }, [showResult, exercise.options, selectedOption, handleOptionSelect, timerEnabled]);
 
   const correctOption = exercise.options.find(o => o.isCorrect);
 
-  // Presión visual del timer
-  const timerPressure = timeRemaining / exercise.timeLimit;
-  const isUrgent = timerPressure < 0.3;
+  // Presión visual del timer (solo en modo desafío)
+  const timerPressure = timerEnabled ? timeRemaining / exercise.timeLimit : 1;
+  const isUrgent = timerEnabled && timerPressure < 0.3;
 
   return (
-    <div className="space-y-6">
+    <motion.div 
+      className="space-y-6"
+      animate={isUrgent ? { borderColor: ["rgba(239, 68, 68, 0)", "rgba(239, 68, 68, 0.5)", "rgba(239, 68, 68, 0)"] } : {}}
+      style={{ borderWidth: isUrgent ? 2 : 0, borderRadius: 16, padding: isUrgent ? 8 : 0 }}
+      transition={{ duration: 0.5, repeat: Infinity }}
+    >
       {/* Instrucción */}
       <div className="text-center">
         <span className="text-sm text-gray-500 dark:text-gray-400">
@@ -98,25 +114,43 @@ export function PragmaStrikeExercise({ exercise, onComplete }: PragmaStrikeExerc
         </span>
       </div>
 
-      {/* Timer con presión visual */}
-      <div className="flex flex-col items-center gap-2">
-        <div className="w-full max-w-xs h-3 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+      {/* Timer con presión visual (solo en modo desafío) */}
+      {timerEnabled && (
+        <div className="flex flex-col items-center gap-2">
+          <div className="w-full max-w-xs h-3 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+            <motion.div
+              className={`h-full rounded-full ${
+                isUrgent ? "bg-red-500" : "bg-indigo-500"
+              }`}
+              initial={{ width: "100%" }}
+              animate={isUrgent ? {
+                width: `${timerPressure * 100}%`,
+                opacity: [1, 0.6, 1]
+              } : { width: `${timerPressure * 100}%` }}
+              transition={isUrgent ? { duration: 0.3, repeat: Infinity } : { duration: 0.1, ease: "linear" }}
+            />
+          </div>
           <motion.div
-            className={`h-full rounded-full transition-colors ${
-              isUrgent ? 'bg-red-500' : 'bg-indigo-500'
+            className={`text-2xl font-bold ${
+              isUrgent ? "text-red-500" : "text-gray-700 dark:text-gray-300"
             }`}
-            initial={{ width: '100%' }}
-            animate={{ width: `${timerPressure * 100}%` }}
-            transition={{ duration: 0.1, ease: 'linear' }}
-          />
+            animate={isUrgent ? { scale: [1, 1.1, 1] } : {}}
+            transition={isUrgent ? { duration: 0.3, repeat: Infinity } : {}}
+          >
+            {timeRemaining.toFixed(1)}s
+          </motion.div>
+          {showResult && timeSpent < 3 && (
+            <motion.div
+              className="px-3 py-1 bg-amber-500 text-white rounded-full text-xs font-bold"
+              initial={{ scale: 0, rotate: -180 }}
+              animate={{ scale: 1, rotate: 0 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              ⚡ RÁPIDO
+            </motion.div>
+          )}
         </div>
-        <div className={`
-          text-2xl font-bold
-          ${isUrgent ? 'text-red-500 animate-pulse' : 'text-gray-700 dark:text-gray-300'}
-        `}>
-          {timeRemaining.toFixed(1)}s
-        </div>
-      </div>
+      )}
 
       {/* Imagen de situación */}
       <div className="relative w-full h-48 rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800">
@@ -239,7 +273,7 @@ export function PragmaStrikeExercise({ exercise, onComplete }: PragmaStrikeExerc
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </motion.div>
   );
 }
 

@@ -417,9 +417,13 @@ export function GlyphWeavingExercise({ exercise, onComplete }: GlyphWeavingExerc
                 </div>
               </div>
               <div className="bg-white dark:bg-gray-800 rounded-xl p-4 text-center">
-                <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">
+                <motion.div
+                  className="text-2xl font-bold text-purple-600 dark:text-purple-400"
+                  animate={isOnBeat(currentTime, exercise.bpm) ? { scale: [1, 1.3, 1] } : {}}
+                  transition={{ duration: 0.2 }}
+                >
                   {isOnBeat(currentTime, exercise.bpm) ? '✓' : '○'}
-                </div>
+                </motion.div>
                 <div className="text-xs text-gray-600 dark:text-gray-400">
                   Sincronizado
                 </div>
@@ -461,11 +465,18 @@ export function GlyphWeavingExercise({ exercise, onComplete }: GlyphWeavingExerc
           <motion.div
             key="complete"
             className="bg-gradient-to-br from-emerald-400 to-teal-500 rounded-xl p-8 text-center"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, scale: 0.5, rotateZ: -5 }}
+            animate={{ opacity: 1, scale: 1, rotateZ: 0 }}
             exit={{ opacity: 0 }}
+            transition={{ type: "spring", stiffness: 200 }}
           >
-            <span className="text-6xl mb-4 block">🎉</span>
+            <motion.span
+              className="text-6xl mb-4 block"
+              animate={{ rotate: [0, 10, -10, 0], scale: [1, 1.1, 1] }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              🎉
+            </motion.span>
             <h3 className="text-white text-xl font-bold mb-2">
               ¡Patrón completado!
             </h3>

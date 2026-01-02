@@ -6,9 +6,11 @@ import { ReactNode } from 'react';
 interface GlyphFrameProps {
   children: ReactNode;
   title?: string;
-  variant?: 'default' | 'accent' | 'success' | 'muted';
+  variant?: 'default' | 'accent' | 'success' | 'muted' | 'warning' | 'error' | 'gradient';
   className?: string;
   animate?: boolean;
+  glow?: boolean;
+  glowColor?: string;
 }
 
 const variantStyles = {
@@ -36,6 +38,24 @@ const variantStyles = {
     title: 'text-gray-400',
     bg: 'bg-lf-soft/90',
   },
+  warning: {
+    border: 'border-amber-500/40',
+    corner: 'border-amber-400',
+    title: 'text-amber-400',
+    bg: 'bg-amber-900/10',
+  },
+  error: {
+    border: 'border-red-500/40',
+    corner: 'border-red-400',
+    title: 'text-red-400',
+    bg: 'bg-red-900/10',
+  },
+  gradient: {
+    border: 'border-transparent',
+    corner: 'border-transparent',
+    title: 'text-white',
+    bg: 'bg-gradient-to-br from-indigo-500/20 to-purple-500/20',
+  },
 };
 
 export function GlyphFrame({
@@ -44,6 +64,8 @@ export function GlyphFrame({
   variant = 'default',
   className = '',
   animate = true,
+  glow = false,
+  glowColor,
 }: GlyphFrameProps) {
   const styles = variantStyles[variant];
 
@@ -58,7 +80,8 @@ export function GlyphFrame({
 
   return (
     <FrameWrapper
-      className={`relative p-[1px] rounded-glyph ${className}`}
+      className={`relative p-[1px] rounded-glyph ${className} ${glow ? 'shadow-lg' : ''}`}
+      style={glow ? { boxShadow: `0 0 20px ${glowColor || 'rgba(99, 102, 241, 0.3)'}` } : {}}
       {...animationProps}
     >
       {/* Main border */}

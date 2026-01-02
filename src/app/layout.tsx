@@ -4,6 +4,8 @@ import './globals.css';
 import { Header } from '@/components/layout/Header';
 import { BottomNav } from '@/components/layout/BottomNav';
 import { XPSurgeEffect } from '@/components/ui/XPSurgeEffect';
+import { FloatingXP } from '@/components/ui/FloatingXP';
+import { Providers } from './providers';
 
 const rajdhani = Rajdhani({
   subsets: ['latin'],
@@ -29,11 +31,12 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#7E22CE', // LinguaForge primary purple
+  themeColor: '#6366F1', // LinguaForge primary - Indigo 500 (unificado y mejorado)
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
+  maximumScale: 5, // Permitir zoom para accesibilidad
+  userScalable: true, // IMPORTANTE para accesibilidad WCAG
+  viewportFit: 'cover', // Para pantallas con notch
 };
 
 export default function RootLayout({
@@ -43,13 +46,46 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className={`${rajdhani.variable} ${atkinson.variable}`}>
+      <head>
+        {/* Preconnect para performance */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body className="font-atkinson antialiased bg-lf-dark text-white">
-        <XPSurgeEffect />
-        <Header />
-        <main className="pt-14 pb-16 min-h-screen">
-          <div className="max-w-lg mx-auto px-4 py-4">{children}</div>
-        </main>
-        <BottomNav />
+        {/* Skip link para accesibilidad */}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-lf-accent focus:text-lf-dark focus:rounded-lg"
+        >
+          Saltar al contenido principal
+        </a>
+
+        <Providers>
+          <XPSurgeEffect />
+          <FloatingXP />
+
+          {/* Header semántico */}
+          <Header />
+
+          {/* Main content con landmark */}
+          <main
+            id="main-content"
+            role="main"
+            aria-label="Contenido principal"
+            className="pt-header pb-nav min-h-[100dvh] flex flex-col"
+          >
+            <div className="flex-1 w-full px-4 py-4 lg:container lg:mx-auto">
+              {children}
+            </div>
+          </main>
+
+          {/* Navigation semántica */}
+          <BottomNav />
+        </Providers>
       </body>
     </html>
   );

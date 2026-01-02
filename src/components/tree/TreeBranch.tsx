@@ -23,15 +23,15 @@ const statusConfig = {
     opacity: 0.4,
   },
   active: {
-    lineColor: '#7E22CE',
-    nodeColor: '#7E22CE',
-    glowColor: 'rgba(126, 34, 206, 0.4)',
+    lineColor: '#6366F1',  // Indigo 500 - Color primario unificado
+    nodeColor: '#6366F1',
+    glowColor: 'rgba(99, 102, 241, 0.4)',  // Actualizado a Indigo 500
     opacity: 1,
   },
   completed: {
-    lineColor: '#10B981',
-    nodeColor: '#059669',
-    glowColor: 'rgba(16, 185, 129, 0.3)',
+    lineColor: '#22C55E',  // Green 500 - Success mejorado
+    nodeColor: '#16A34A',  // Green 600
+    glowColor: 'rgba(34, 197, 94, 0.3)',  // Actualizado a Green 500
     opacity: 1,
   },
 };
@@ -111,8 +111,8 @@ export function TreeBranch({
           y2={branch.endY}
           gradientUnits="userSpaceOnUse"
         >
-          <stop offset="0%" stopColor={status === 'locked' ? '#334155' : '#7E22CE'} stopOpacity={0.6} />
-          <stop offset="100%" stopColor={status === 'completed' ? '#10B981' : color} />
+          <stop offset="0%" stopColor={status === 'locked' ? '#334155' : '#6366F1'} stopOpacity={0.6} />
+          <stop offset="100%" stopColor={status === 'completed' ? '#22C55E' : color} />
         </linearGradient>
 
         {/* Glow filter */}

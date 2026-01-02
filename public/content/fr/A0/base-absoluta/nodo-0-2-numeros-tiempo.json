@@ -1,0 +1,229 @@
+{
+  "id": "a0-base-absoluta-numeros-tiempo",
+  "languageCode": "fr",
+  "levelCode": "A0",
+  "title": "Números y Tiempo",
+  "titleFr": "Nombres et temps",
+  "description": "Sobrevivencia urbana - Comprar tickets, pedir la cuenta y entender horarios en 72 horas",
+  "estimatedMinutes": 14,
+  "conversationalBlocks": [
+    {
+      "id": "bloque-b1-comprar-billete-metro",
+      "title": "Comprar billete de metro",
+      "context": "En la taquilla del metro, necesitas comprar un billete",
+      "blockType": "routine",
+      "phrases": [
+        {
+          "id": "frase-b1-1",
+          "text": "Bonjour, un ticket pour Montmartre s'il vous plaît.",
+          "translation": "Buenos días, un billete para Montmartre por favor.",
+          "audioUrl": "/audio/fr/a0/numeros/un-ticket-pour-montmartre.mp3",
+          "clozeWord": "ticket",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "ticket", "isCorrect": true },
+            { "id": "opt-2", "text": "billet", "isCorrect": false },
+            { "id": "opt-3", "text": "carte", "isCorrect": false },
+            { "id": "opt-4", "text": "passe", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Bonjour, un ticket pour le centre-ville, s'il vous plaît.",
+              "translation": "Buenos días, un billete para el centro, por favor.",
+              "audioUrl": "/audio/fr/a0/numeros/ticket-centre-ville.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-b1-2",
+          "text": "Quatre euros cinquante.",
+          "translation": "Cuatro euros cincuenta.",
+          "audioUrl": "/audio/fr/a0/numeros/quatre-euros-cinquante.mp3",
+          "clozeWord": "Quatre",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "Quatre", "isCorrect": true },
+            { "id": "opt-2", "text": "Trois", "isCorrect": false },
+            { "id": "opt-3", "text": "Cinq", "isCorrect": false },
+            { "id": "opt-4", "text": "Six", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Cinq euros vingt.",
+              "translation": "Cinco euros veinte.",
+              "audioUrl": "/audio/fr/a0/numeros/cinq-euros-vingt.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-b1-3",
+          "text": "Voici cinq euros.",
+          "translation": "Aquí tiene cinco euros.",
+          "audioUrl": "/audio/fr/a0/numeros/voici-cinq-euros.mp3",
+          "clozeWord": "Voici",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "Voici", "isCorrect": true },
+            { "id": "opt-2", "text": "Voilà", "isCorrect": false },
+            { "id": "opt-3", "text": "Prenez", "isCorrect": false },
+            { "id": "opt-4", "text": "Tenez", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Tenez, cinq euros.",
+              "translation": "Tenga, cinco euros.",
+              "audioUrl": "/audio/fr/a0/numeros/tenez-cinq-euros.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-b1-4",
+          "text": "Merci, gardez la monnaie !",
+          "translation": "Gracias, ¡quédese con el cambio!",
+          "audioUrl": "/audio/fr/a0/numeros/gardez-la-monnaie.mp3",
+          "clozeWord": "monnaie",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "monnaie", "isCorrect": true },
+            { "id": "opt-2", "text": "argent", "isCorrect": false },
+            { "id": "opt-3", "text": "change", "isCorrect": false },
+            { "id": "opt-4", "text": "pièces", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Merci beaucoup !",
+              "translation": "¡Muchas gracias!",
+              "audioUrl": "/audio/fr/a0/numeros/merci-beaucoup.mp3"
+            }
+          ]
+        }
+      ],
+      "audioUrl": "/audio/fr/a0/numeros/bloque-b1-completo.mp3",
+      "durationSeconds": 22,
+      "audioTags": ["slow"],
+      "pronunciationTips": [
+        "Truco auditivo: 'Quatre euros cinquante' se pronuncia 'katr eu-ro san-kant'",
+        "Cada 10 números cambia el patrón: soixante-dix = 60+10, quatre-vingts = 4×20"
+      ],
+      "culturalNotes": [
+        {
+          "id": "note-1",
+          "text": "En Francia es común dejar propina diciendo 'gardez la monnaie' (quédese con el cambio).",
+          "context": "Propinas y cortesía"
+        }
+      ]
+    },
+    {
+      "id": "bloque-b2-preguntar-horario-museo",
+      "title": "Preguntar horario de museo",
+      "context": "Quieres visitar un museo y necesitas saber cuándo cierra",
+      "blockType": "routine",
+      "phrases": [
+        {
+          "id": "frase-b2-1",
+          "text": "Excusez-moi, à quelle heure ferme le musée ?",
+          "translation": "Disculpe, ¿a qué hora cierra el museo?",
+          "audioUrl": "/audio/fr/a0/numeros/a-quelle-heure-ferme.mp3",
+          "clozeWord": "heure",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "heure", "isCorrect": true },
+            { "id": "opt-2", "text": "moment", "isCorrect": false },
+            { "id": "opt-3", "text": "temps", "isCorrect": false },
+            { "id": "opt-4", "text": "jour", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "À quelle heure ouvre le musée ?",
+              "translation": "¿A qué hora abre el museo?",
+              "audioUrl": "/audio/fr/a0/numeros/a-quelle-heure-ouvre.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-b2-2",
+          "text": "À 18h30 en semaine, 20h le weekend.",
+          "translation": "A las 18:30 entre semana, 20h el fin de semana.",
+          "audioUrl": "/audio/fr/a0/numeros/18h30-semaine-20h-weekend.mp3",
+          "clozeWord": "18h30",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "18h30", "isCorrect": true },
+            { "id": "opt-2", "text": "19h", "isCorrect": false },
+            { "id": "opt-3", "text": "17h30", "isCorrect": false },
+            { "id": "opt-4", "text": "20h", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "À dix-huit heures trente en semaine.",
+              "translation": "A las dieciocho horas treinta entre semana.",
+              "audioUrl": "/audio/fr/a0/numeros/dix-huit-heures-trente.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-b2-3",
+          "text": "Parfait, j'ai le temps d'entrer !",
+          "translation": "Perfecto, ¡tengo tiempo de entrar!",
+          "audioUrl": "/audio/fr/a0/numeros/parfait-j-ai-le-temps.mp3",
+          "clozeWord": "temps",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "temps", "isCorrect": true },
+            { "id": "opt-2", "text": "heure", "isCorrect": false },
+            { "id": "opt-3", "text": "moment", "isCorrect": false },
+            { "id": "opt-4", "text": "occasion", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Parfait, merci beaucoup !",
+              "translation": "Perfecto, ¡muchas gracias!",
+              "audioUrl": "/audio/fr/a0/numeros/parfait-merci.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-b2-4",
+          "text": "Bonne visite !",
+          "translation": "¡Que disfrute la visita!",
+          "audioUrl": "/audio/fr/a0/numeros/bonne-visite.mp3",
+          "clozeWord": "visite",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "visite", "isCorrect": true },
+            { "id": "opt-2", "text": "journée", "isCorrect": false },
+            { "id": "opt-3", "text": "soirée", "isCorrect": false },
+            { "id": "opt-4", "text": "jour", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Bonne journée !",
+              "translation": "¡Que tenga un buen día!",
+              "audioUrl": "/audio/fr/a0/numeros/bonne-journee.mp3"
+            }
+          ]
+        }
+      ],
+      "audioUrl": "/audio/fr/a0/numeros/bloque-b2-completo.mp3",
+      "durationSeconds": 20,
+      "audioTags": ["slow"],
+      "pronunciationTips": [
+        "Énfasis en 'dix-huit heures trente' - practica la pronunciación de números compuestos",
+        "'18h30' se lee 'dix-huit heures trente', no 'dieciocho treinta'"
+      ],
+      "culturalNotes": [
+        {
+          "id": "note-1",
+          "text": "En Francia, los museos cierran 1 día a la semana (ej: Louvre los martes). Siempre verifica antes de ir.",
+          "context": "Horarios de museos"
+        }
+      ]
+    }
+  ],
+  "coreExercises": {
+    "cloze": [],
+    "variations": [],
+    "vocabulary": []
+  }
+}
+

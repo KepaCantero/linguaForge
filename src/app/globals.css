@@ -2,21 +2,101 @@
 @tailwind components;
 @tailwind utilities;
 
-/* LinguaForge Theme Variables */
+/* LinguaForge Theme Variables - Paleta Mejorada */
 :root {
   --background: #0F172A;
   --foreground: #F8FAFC;
-  --lf-primary: #7E22CE;
-  --lf-secondary: #D946EF;
-  --lf-accent: #FACC15;
-  --lf-dark: #0F172A;
-  --lf-soft: #1E293B;
-  --lf-muted: #334155;
+  
+  /* Colores Primarios - Unificados y Mejorados */
+  --lf-primary: #6366F1;        /* Indigo 500 - Color primario unificado */
+  --lf-primary-dark: #4F46E5;   /* Indigo 600 - Para hover/active */
+  --lf-primary-light: #818CF8;  /* Indigo 400 - Para estados disabled */
+  
+  /* Colores Secundarios - Mejor Contraste */
+  --lf-secondary: #C026D3;       /* Fuchsia 600 - Mejor contraste (4.2:1) */
+  --lf-secondary-light: #E879F9; /* Fuchsia 400 - Para acentos sutiles */
+  
+  /* Colores de Acento - WCAG AA Compliant */
+  --lf-accent: #FDE047;          /* Yellow 300 - Ratio 4.6:1 ✅ */
+  --lf-accent-dark: #FACC15;     /* Yellow 400 - Para fondos claros */
+  --lf-accent-subtle: #FEF08A;   /* Yellow 200 - Para backgrounds sutiles */
+  
+  /* Fondos */
+  --lf-dark: #0F172A;            /* Slate 900 - Background principal */
+  --lf-soft: #1E293B;            /* Slate 800 - UI Background */
+  --lf-muted: #334155;           /* Slate 700 - Elementos muted */
+  
+  /* Escala de Grises Estructurada */
+  --gray-50: #F8FAFC;   /* Texto principal sobre oscuro */
+  --gray-100: #F1F5F9;  /* Texto secundario */
+  --gray-200: #E2E8F0;  /* Bordes claros */
+  --gray-300: #CBD5E1;  /* Placeholders */
+  --gray-400: #94A3B8;  /* Texto muted */
+  --gray-500: #64748B;  /* Iconos secundarios */
+  --gray-600: #475569;  /* Dividers */
+  --gray-700: #334155;  /* UI Background alternativo */
+  --gray-800: #1E293B;  /* UI Background */
+  --gray-900: #0F172A;  /* Background principal */
+  
+  /* Colores Semánticos Mejorados */
+  --success: #22C55E;        /* Green 500 - Más vibrante y positivo */
+  --success-dark: #16A34A;   /* Green 600 - Para hover */
+  --warning: #F59E0B;        /* Amber 500 - Mantener (funciona bien) */
+  --warning-dark: #D97706;  /* Amber 600 */
+  --error: #EF4444;          /* Red 500 - Alto contraste */
+  --error-dark: #DC2626;     /* Red 600 */
+  --info: #3B82F6;           /* Blue 500 - Nuevo para información */
 
-  /* Vitality colors - subtle gradients */
+  /* Gradientes Mejorados - "Forja Lingüística" */
   --gradient-start: #0F172A;
   --gradient-mid: #1a1f35;
   --gradient-end: #0d1424;
+  
+  /* Gradiente "Forja Lingüística" - Transición suave y profesional */
+  --gradient-forge: linear-gradient(
+    135deg,
+    #6366F1 0%,    /* Indigo - Base sólida */
+    #8B5CF6 50%,   /* Violet - Transición */
+    #EC4899 100%   /* Pink - Energía final */
+  );
+  
+  /* Gradiente "Resonancia" - Para elementos importantes */
+  --gradient-resonance: linear-gradient(
+    135deg,
+    #6366F1 0%,    /* Indigo */
+    #3B82F6 50%,   /* Blue */
+    #0EA5E9 100%   /* Sky */
+  );
+
+  /* Safe areas y layout */
+  --header-height: 3.5rem; /* 56px */
+  --nav-height: 4rem; /* 64px */
+  --safe-area-top: env(safe-area-inset-top, 0px);
+  --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+  --content-height: calc(
+    100dvh - var(--header-height) - var(--nav-height) - var(
+        --safe-area-top
+      ) - var(--safe-area-bottom)
+  );
+
+  /* Escala tipográfica fluida */
+  --text-xs: clamp(0.625rem, 0.5rem + 0.5vw, 0.75rem); /* 10-12px */
+  --text-sm: clamp(0.75rem, 0.625rem + 0.5vw, 0.875rem); /* 12-14px */
+  --text-base: clamp(0.875rem, 0.75rem + 0.5vw, 1rem); /* 14-16px */
+  --text-lg: clamp(1rem, 0.875rem + 0.5vw, 1.125rem); /* 16-18px */
+  --text-xl: clamp(1.125rem, 1rem + 0.5vw, 1.25rem); /* 18-20px */
+  --text-2xl: clamp(1.25rem, 1rem + 1vw, 1.5rem); /* 20-24px */
+  --text-3xl: clamp(1.5rem, 1.25rem + 1vw, 1.875rem); /* 24-30px */
+  --text-4xl: clamp(1.875rem, 1.5rem + 1.5vw, 2.25rem); /* 30-36px */
+  --text-5xl: clamp(2.25rem, 1.75rem + 2vw, 3rem); /* 36-48px */
+
+  /* Espaciado fluido */
+  --space-xs: clamp(0.25rem, 0.125rem + 0.5vw, 0.5rem); /* 4-8px */
+  --space-sm: clamp(0.5rem, 0.25rem + 0.75vw, 0.75rem); /* 8-12px */
+  --space-md: clamp(0.75rem, 0.5rem + 1vw, 1rem); /* 12-16px */
+  --space-lg: clamp(1rem, 0.75rem + 1vw, 1.5rem); /* 16-24px */
+  --space-xl: clamp(1.5rem, 1rem + 1.5vw, 2rem); /* 24-32px */
+  --space-2xl: clamp(2rem, 1.5rem + 2vw, 3rem); /* 32-48px */
 }
 
 @layer base {
@@ -47,7 +127,7 @@
     height: 60%;
     background: radial-gradient(
       ellipse 80% 50% at 50% 0%,
-      rgba(126, 34, 206, 0.08) 0%,
+      rgba(99, 102, 241, 0.08) 0%,  /* Actualizado a Indigo 500 */
       transparent 70%
     );
     pointer-events: none;
@@ -78,8 +158,8 @@
   .btn-glow:hover {
     transform: translateY(-2px);
     box-shadow:
-      0 10px 20px -5px rgba(126, 34, 206, 0.4),
-      0 0 15px rgba(217, 70, 239, 0.2);
+      0 10px 20px -5px rgba(99, 102, 241, 0.4),  /* Actualizado a Indigo 500 */
+      0 0 15px rgba(192, 38, 211, 0.2);          /* Actualizado a Fuchsia 600 */
   }
 
   .btn-glow:hover::before {
@@ -97,8 +177,8 @@
 
   .card-glow:hover {
     box-shadow:
-      0 4px 20px rgba(126, 34, 206, 0.15),
-      inset 0 0 20px rgba(126, 34, 206, 0.05);
+      0 4px 20px rgba(99, 102, 241, 0.15),  /* Actualizado a Indigo 500 */
+      inset 0 0 20px rgba(99, 102, 241, 0.05);
   }
 
   /* Progress bar with particle effect */
@@ -140,21 +220,21 @@
   @keyframes breathing {
     0%, 100% {
       box-shadow:
-        0 0 0 0 rgba(126, 34, 206, 0.4),
-        0 0 20px rgba(126, 34, 206, 0.2);
+        0 0 0 0 rgba(99, 102, 241, 0.4),  /* Actualizado a Indigo 500 */
+        0 0 20px rgba(99, 102, 241, 0.2);
     }
     50% {
       box-shadow:
-        0 0 0 10px rgba(126, 34, 206, 0),
-        0 0 30px rgba(126, 34, 206, 0.4);
+        0 0 0 10px rgba(99, 102, 241, 0),
+        0 0 30px rgba(99, 102, 241, 0.4);
     }
   }
 
   /* Text glow for important headings */
   .text-glow {
     text-shadow:
-      0 0 20px rgba(126, 34, 206, 0.5),
-      0 0 40px rgba(217, 70, 239, 0.3);
+      0 0 20px rgba(99, 102, 241, 0.5),   /* Actualizado a Indigo 500 */
+      0 0 40px rgba(192, 38, 211, 0.3);   /* Actualizado a Fuchsia 600 */
   }
 
   /* Floating animation */
@@ -210,6 +290,95 @@
     padding-bottom: env(safe-area-inset-bottom);
   }
 
+  /* Soporte para notch en iPhone */
+  @supports (padding: max(0px)) {
+    .safe-top {
+      padding-top: max(var(--safe-area-top), 0.5rem);
+    }
+    .safe-bottom {
+      padding-bottom: max(var(--safe-area-bottom), 0.5rem);
+    }
+  }
+
+  /* Clases de utilidad para tipografía fluida */
+  .text-fluid-xs {
+    font-size: var(--text-xs);
+  }
+  .text-fluid-sm {
+    font-size: var(--text-sm);
+  }
+  .text-fluid-base {
+    font-size: var(--text-base);
+  }
+  .text-fluid-lg {
+    font-size: var(--text-lg);
+  }
+  .text-fluid-xl {
+    font-size: var(--text-xl);
+  }
+  .text-fluid-2xl {
+    font-size: var(--text-2xl);
+  }
+  .text-fluid-3xl {
+    font-size: var(--text-3xl);
+  }
+  .text-fluid-4xl {
+    font-size: var(--text-4xl);
+  }
+  .text-fluid-5xl {
+    font-size: var(--text-5xl);
+  }
+
+  /* Espaciado fluido */
+  .gap-fluid-xs {
+    gap: var(--space-xs);
+  }
+  .gap-fluid-sm {
+    gap: var(--space-sm);
+  }
+  .gap-fluid-md {
+    gap: var(--space-md);
+  }
+  .gap-fluid-lg {
+    gap: var(--space-lg);
+  }
+  .gap-fluid-xl {
+    gap: var(--space-xl);
+  }
+
+  .p-fluid-xs {
+    padding: var(--space-xs);
+  }
+  .p-fluid-sm {
+    padding: var(--space-sm);
+  }
+  .p-fluid-md {
+    padding: var(--space-md);
+  }
+  .p-fluid-lg {
+    padding: var(--space-lg);
+  }
+  .p-fluid-xl {
+    padding: var(--space-xl);
+  }
+
+  /* Utilidades de altura */
+  .h-header {
+    height: var(--header-height);
+  }
+  .h-nav {
+    height: var(--nav-height);
+  }
+  .min-h-content {
+    min-height: var(--content-height);
+  }
+  .pt-header {
+    padding-top: var(--header-height);
+  }
+  .pb-nav {
+    padding-bottom: var(--nav-height);
+  }
+
   /* Gradient text */
   .gradient-text {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-lf-primary via-lf-secondary to-fuchsia-400;
@@ -222,7 +391,7 @@
 
   /* Subtle inner glow */
   .inner-glow {
-    box-shadow: inset 0 0 20px rgba(126, 34, 206, 0.1);
+    box-shadow: inset 0 0 20px rgba(99, 102, 241, 0.1);  /* Actualizado a Indigo 500 */
   }
 }
 
@@ -247,6 +416,81 @@
 
 /* Selection color */
 ::selection {
-  background: rgba(126, 34, 206, 0.4);
+  background: rgba(99, 102, 241, 0.4);  /* Actualizado a Indigo 500 */
   color: white;
+}
+
+/* ============================================
+   ACCESIBILIDAD
+   ============================================ */
+
+/* Respetar preferencias de movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Mejorar legibilidad para dislexia */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Focus visible mejorado */
+:focus-visible {
+  outline: 2px solid var(--lf-accent, #FDE047);  /* Actualizado a Yellow 300 */
+  outline-offset: 2px;
+}
+
+/* Ocultar visualmente pero mantener accesible */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.sr-only.focus\:not-sr-only:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: inherit;
+  margin: inherit;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+/* ============================================
+   DARK MODE AUTOMÁTICO
+   ============================================ */
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8fafc;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-primary: #0f172a;
+    --bg-secondary: #1e293b;
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+  }
 }

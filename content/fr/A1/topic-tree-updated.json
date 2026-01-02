@@ -1,0 +1,270 @@
+{
+  "id": "fr-a1-topic-tree",
+  "languageCode": "fr",
+  "levelCode": "A1",
+  "trunk": {
+    "title": "Puedo sobrevivir en situaciones cotidianas muy simples",
+    "titleFr": "Je peux survivre dans des situations quotidiennes très simples"
+  },
+  "branches": [
+    {
+      "id": "a1-A-1",
+      "order": 1,
+      "title": "Aeropuerto / Estación",
+      "titleFr": "Aéroport / Gare",
+      "description": "Control de frontera y primeros contactos",
+      "icon": "✈️",
+      "color": "#6366F1",
+      "leaves": [
+        {
+          "id": "a1-A-1-1",
+          "title": "Control de frontera",
+          "titleFr": "Contrôle de frontière",
+          "grammar": ["Presentarse", "Documentos", "Propósito del viaje"],
+          "icon": "🛂",
+          "estimatedMinutes": 20
+        },
+        {
+          "id": "a1-A-1-2",
+          "title": "Equipaje y aduana",
+          "titleFr": "Bagages et douane",
+          "grammar": ["Declarar objetos", "Preguntas aduaneras"],
+          "icon": "🧳",
+          "estimatedMinutes": 15
+        },
+        {
+          "id": "a1-A-1-3",
+          "title": "Primer contacto humano",
+          "titleFr": "Premier contact humain",
+          "grammar": ["Saludos formales", "Pedir ayuda"],
+          "icon": "👋",
+          "estimatedMinutes": 20
+        },
+        {
+          "id": "a1-A-1-4",
+          "title": "Información y ayuda",
+          "titleFr": "Informations et aide",
+          "grammar": ["Preguntar direcciones", "Entender respuestas"],
+          "icon": "ℹ️",
+          "estimatedMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "a1-A-2",
+      "order": 2,
+      "title": "Transporte con desconocidos",
+      "titleFr": "Transport avec des inconnus",
+      "description": "Taxi, bus, metro, tren",
+      "icon": "🚇",
+      "color": "#3B82F6",
+      "leaves": [
+        {
+          "id": "a1-A-2-1",
+          "title": "Taxi / VTC / Uber",
+          "titleFr": "Taxi / VTC / Uber",
+          "grammar": ["Pedir taxi", "Dar dirección", "Pagar"],
+          "icon": "🚕",
+          "estimatedMinutes": 20
+        },
+        {
+          "id": "a1-A-2-2",
+          "title": "Bus y metro",
+          "titleFr": "Bus et métro",
+          "grammar": ["Comprar billete", "Preguntar parada", "Validar ticket"],
+          "icon": "🚌",
+          "estimatedMinutes": 20
+        },
+        {
+          "id": "a1-A-2-3",
+          "title": "Tren (SNCF)",
+          "titleFr": "Train (SNCF)",
+          "grammar": ["Reservar asiento", "Encontrar vagón", "Información de retrasos"],
+          "icon": "🚂",
+          "estimatedMinutes": 15
+        },
+        {
+          "id": "a1-A-2-4",
+          "title": "Pedir ayuda con equipaje",
+          "titleFr": "Demander de l'aide avec les bagages",
+          "grammar": ["Pedir ayuda", "Agradecer"],
+          "icon": "🎒",
+          "estimatedMinutes": 12
+        }
+      ]
+    },
+    {
+      "id": "a1-A-3",
+      "order": 3,
+      "title": "Orientación urbana",
+      "titleFr": "Orientation urbaine",
+      "description": "Pedir direcciones y orientarse",
+      "icon": "🗺️",
+      "color": "#0EA5E9",
+      "leaves": [
+        {
+          "id": "a1-A-3-1",
+          "title": "Pedir direcciones",
+          "titleFr": "Demander son chemin",
+          "grammar": ["Où est...?", "Comment aller à...?", "À gauche / à droite"],
+          "icon": "📍",
+          "estimatedMinutes": 20
+        },
+        {
+          "id": "a1-A-3-2",
+          "title": "Entender indicaciones",
+          "titleFr": "Comprendre les indications",
+          "grammar": ["Instrucciones de dirección", "Referencias visuales"],
+          "icon": "🧭",
+          "estimatedMinutes": 20
+        },
+        {
+          "id": "a1-A-3-3",
+          "title": "Confirmar que vas bien",
+          "titleFr": "Confirmer qu'on va bien",
+          "grammar": ["Verificar ruta", "Confirmar entendimiento"],
+          "icon": "✅",
+          "estimatedMinutes": 12
+        },
+        {
+          "id": "a1-A-3-4",
+          "title": "Perderse y reorientarse",
+          "titleFr": "Se perdre et se réorienter",
+          "grammar": ["Admitir confusión", "Pedir nueva dirección"],
+          "icon": "🤔",
+          "estimatedMinutes": 15
+        }
+      ]
+    },
+    {
+      "id": "a1-A-4",
+      "order": 4,
+      "title": "Primeras horas en la ciudad",
+      "titleFr": "Premières heures en ville",
+      "description": "Encontrar alojamiento, SIM, cambio",
+      "icon": "🏙️",
+      "color": "#06B6D4",
+      "leaves": [
+        {
+          "id": "a1-A-4-1",
+          "title": "Encontrar alojamiento",
+          "titleFr": "Trouver un logement",
+          "grammar": ["Preguntar por hotel", "Confirmar reserva"],
+          "icon": "🏨",
+          "estimatedMinutes": 15
+        },
+        {
+          "id": "a1-A-4-2",
+          "title": "Comprar SIM / datos",
+          "titleFr": "Acheter une SIM / données",
+          "grammar": ["Pedir tarjeta SIM", "Planes de datos"],
+          "icon": "📱",
+          "estimatedMinutes": 12
+        },
+        {
+          "id": "a1-A-4-3",
+          "title": "Cambiar dinero",
+          "titleFr": "Changer de l'argent",
+          "grammar": ["Cambio de moneda", "Comisiones"],
+          "icon": "💶",
+          "estimatedMinutes": 12
+        }
+      ]
+    },
+    {
+      "id": "a1-A-5",
+      "order": 5,
+      "title": "Jet lag y adaptación",
+      "titleFr": "Décalage horaire et adaptation",
+      "description": "Expresar cansancio y ajustar horarios",
+      "icon": "😴",
+      "color": "#6366F1",
+      "leaves": [
+        {
+          "id": "a1-A-5-1",
+          "title": "Expresar cansancio",
+          "titleFr": "Exprimer la fatigue",
+          "grammar": ["Je suis fatigué", "Tengo sueño"],
+          "icon": "💤",
+          "estimatedMinutes": 10
+        },
+        {
+          "id": "a1-A-5-2",
+          "title": "Pedir descanso",
+          "titleFr": "Demander du repos",
+          "grammar": ["Necesito descansar", "Posponer cita"],
+          "icon": "🛌",
+          "estimatedMinutes": 10
+        },
+        {
+          "id": "a1-A-5-3",
+          "title": "Ajustar horarios",
+          "titleFr": "Ajuster les horaires",
+          "grammar": ["Cambiar hora de cita", "Adaptarse a zona horaria"],
+          "icon": "⏰",
+          "estimatedMinutes": 12
+        }
+      ]
+    },
+    {
+      "id": "a1-B-1",
+      "order": 6,
+      "title": "Airbnb / Alojamiento temporal",
+      "titleFr": "Airbnb / Logement temporaire",
+      "description": "Llegada, normas, problemas",
+      "icon": "🏠",
+      "color": "#10B981",
+      "leaves": [
+        {
+          "id": "a1-B-1-1",
+          "title": "Llegada y saludo",
+          "titleFr": "Arrivée et salutation",
+          "grammar": ["Bonjour / Salut / Au revoir", "Politesse (merci, s'il vous plaît)", "Tu vs Vous"],
+          "icon": "🤝",
+          "estimatedMinutes": 20
+        },
+        {
+          "id": "a1-B-1-2",
+          "title": "Tour del espacio",
+          "titleFr": "Visite de l'espace",
+          "grammar": ["Mostrar habitaciones", "Explicar espacios"],
+          "icon": "🚪",
+          "estimatedMinutes": 20
+        },
+        {
+          "id": "a1-B-1-3",
+          "title": "Normas de la casa",
+          "titleFr": "Règles de la maison",
+          "grammar": ["Horarios", "Reglas básicas", "Uso de espacios comunes"],
+          "icon": "📋",
+          "estimatedMinutes": 20
+        },
+        {
+          "id": "a1-B-1-4",
+          "title": "Problemas técnicos",
+          "titleFr": "Problèmes techniques",
+          "grammar": ["Reportar problemas", "Pedir reparación"],
+          "icon": "🔧",
+          "estimatedMinutes": 20
+        },
+        {
+          "id": "a1-B-1-5",
+          "title": "Emergencias domésticas",
+          "titleFr": "Urgences domestiques",
+          "grammar": ["Reportar emergencia", "Pedir ayuda urgente"],
+          "icon": "🚨",
+          "estimatedMinutes": 15
+        },
+        {
+          "id": "a1-B-1-6",
+          "title": "Checkout y despedida",
+          "titleFr": "Check-out et au revoir",
+          "grammar": ["Devolver llaves", "Despedirse educadamente"],
+          "icon": "👋",
+          "estimatedMinutes": 15
+        }
+      ]
+    }
+  ]
+}
+

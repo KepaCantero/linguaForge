@@ -1,0 +1,237 @@
+{
+  "id": "a0-base-absoluta-supervivencia-inmediata",
+  "languageCode": "fr",
+  "levelCode": "A0",
+  "title": "Frases de Supervivencia Inmediata",
+  "titleFr": "Phrases de survie immédiate",
+  "description": "Manejar cualquier situación con 7 frases clave - Ansiedad Zero",
+  "estimatedMinutes": 18,
+  "conversationalBlocks": [
+    {
+      "id": "bloque-d1-no-entiendo",
+      "title": "No entiendo (sin vergüenza)",
+      "context": "En farmacia, no entiendes lo que te dice el farmacéutico",
+      "blockType": "emergency",
+      "phrases": [
+        {
+          "id": "frase-d1-1",
+          "text": "Bonjour, j'ai mal à la tête.",
+          "translation": "Buenos días, me duele la cabeza.",
+          "audioUrl": "/audio/fr/a0/supervivencia/j-ai-mal-a-la-tete.mp3",
+          "clozeWord": "mal",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "mal", "isCorrect": true },
+            { "id": "opt-2", "text": "bien", "isCorrect": false },
+            { "id": "opt-3", "text": "malade", "isCorrect": false },
+            { "id": "opt-4", "text": "douleur", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Bonjour, j'ai un mal de tête.",
+              "translation": "Buenos días, tengo dolor de cabeza.",
+              "audioUrl": "/audio/fr/a0/supervivencia/mal-de-tete.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-d1-2",
+          "text": "Avez-vous de l'aspirine ?",
+          "translation": "¿Tiene aspirina?",
+          "audioUrl": "/audio/fr/a0/supervivencia/avez-vous-aspirine.mp3",
+          "clozeWord": "aspirine",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "aspirine", "isCorrect": true },
+            { "id": "opt-2", "text": "médicament", "isCorrect": false },
+            { "id": "opt-3", "text": "comprimé", "isCorrect": false },
+            { "id": "opt-4", "text": "pilule", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Est-ce que vous avez de l'aspirine ?",
+              "translation": "¿Tiene aspirina?",
+              "audioUrl": "/audio/fr/a0/supervivencia/est-ce-que-aspirine.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-d1-3",
+          "text": "Désolé, je ne comprends pas bien le français.",
+          "translation": "Disculpe, no entiendo bien el francés.",
+          "audioUrl": "/audio/fr/a0/supervivencia/je-ne-comprends-pas.mp3",
+          "clozeWord": "comprends",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "comprends", "isCorrect": true },
+            { "id": "opt-2", "text": "parle", "isCorrect": false },
+            { "id": "opt-3", "text": "sais", "isCorrect": false },
+            { "id": "opt-4", "text": "entends", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Excusez-moi, je ne comprends pas.",
+              "translation": "Disculpe, no entiendo.",
+              "audioUrl": "/audio/fr/a0/supervivencia/excusez-moi-ne-comprends-pas.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-d1-4",
+          "text": "Pas de problème ! Voici l'aspirine, 2 comprimés par jour.",
+          "translation": "¡No hay problema! Aquí tiene la aspirina, 2 comprimidos al día.",
+          "audioUrl": "/audio/fr/a0/supervivencia/pas-de-probleme-aspirine.mp3",
+          "clozeWord": "comprimés",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "comprimés", "isCorrect": true },
+            { "id": "opt-2", "text": "pilules", "isCorrect": false },
+            { "id": "opt-3", "text": "gélules", "isCorrect": false },
+            { "id": "opt-4", "text": "médicaments", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Voici l'aspirine, prenez deux comprimés par jour.",
+              "translation": "Aquí tiene la aspirina, tome dos comprimidos al día.",
+              "audioUrl": "/audio/fr/a0/supervivencia/prenez-deux-comprimes.mp3"
+            }
+          ]
+        }
+      ],
+      "audioUrl": "/audio/fr/a0/supervivencia/bloque-d1-completo.mp3",
+      "durationSeconds": 24,
+      "audioTags": ["slow"],
+      "culturalNotes": [
+        {
+          "id": "note-1",
+          "text": "Clave psicológica: La disculpa genuina ('Désolé') activa la empatía francesa al instante.",
+          "context": "Comunicación efectiva"
+        }
+      ],
+      "survivalStrategies": [
+        {
+          "id": "strategy-1",
+          "phrase": "Je suis débutant en français, merci de votre patience.",
+          "whenToUse": "Cuando necesitas que hablen más despacio",
+          "translation": "Soy principiante en francés, gracias por su paciencia."
+        }
+      ],
+      "pronunciationTips": [
+        "'Désolé' se pronuncia 'dé-zo-lé' - la 's' suena como 'z'",
+        "'Comprends' se pronuncia 'com-pran' (la 'd' final no se pronuncia)"
+      ]
+    },
+    {
+      "id": "bloque-d2-donde-bano",
+      "title": "¿Dónde está el baño? (con variantes culturales)",
+      "context": "En cafetería, necesitas el baño",
+      "blockType": "emergency",
+      "phrases": [
+        {
+          "id": "frase-d2-1",
+          "text": "Excusez-moi, où sont les toilettes ?",
+          "translation": "Disculpe, ¿dónde están los baños?",
+          "audioUrl": "/audio/fr/a0/supervivencia/ou-sont-les-toilettes.mp3",
+          "clozeWord": "toilettes",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "toilettes", "isCorrect": true },
+            { "id": "opt-2", "text": "WC", "isCorrect": false },
+            { "id": "opt-3", "text": "salle de bain", "isCorrect": false },
+            { "id": "opt-4", "text": "lavabo", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Où sont les WC, s'il vous plaît ?",
+              "translation": "¿Dónde están los WC, por favor?",
+              "audioUrl": "/audio/fr/a0/supervivencia/ou-sont-les-wc.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-d2-2",
+          "text": "Au fond à gauche, après la cuisine.",
+          "translation": "Al fondo a la izquierda, después de la cocina.",
+          "audioUrl": "/audio/fr/a0/supervivencia/au-fond-a-gauche.mp3",
+          "clozeWord": "gauche",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "gauche", "isCorrect": true },
+            { "id": "opt-2", "text": "droite", "isCorrect": false },
+            { "id": "opt-3", "text": "fond", "isCorrect": false },
+            { "id": "opt-4", "text": "devant", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "À droite, au fond du couloir.",
+              "translation": "A la derecha, al fondo del pasillo.",
+              "audioUrl": "/audio/fr/a0/supervivencia/a-droite-au-fond.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-d2-3",
+          "text": "Merci, c'est la première fois que je viens ici.",
+          "translation": "Gracias, es la primera vez que vengo aquí.",
+          "audioUrl": "/audio/fr/a0/supervivencia/premiere-fois-que-je-viens.mp3",
+          "clozeWord": "première",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "première", "isCorrect": true },
+            { "id": "opt-2", "text": "deuxième", "isCorrect": false },
+            { "id": "opt-3", "text": "dernière", "isCorrect": false },
+            { "id": "opt-4", "text": "seule", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Merci beaucoup !",
+              "translation": "¡Muchas gracias!",
+              "audioUrl": "/audio/fr/a0/supervivencia/merci-beaucoup.mp3"
+            }
+          ]
+        },
+        {
+          "id": "frase-d2-4",
+          "text": "C'est normal, le quartier est un poco déroutant !",
+          "translation": "Es normal, ¡el barrio es un poco desorientador!",
+          "audioUrl": "/audio/fr/a0/supervivencia/quartier-deroutant.mp3",
+          "clozeWord": "déroutant",
+          "clozeOptions": [
+            { "id": "opt-1", "text": "déroutant", "isCorrect": true },
+            { "id": "opt-2", "text": "compliqué", "isCorrect": false },
+            { "id": "opt-3", "text": "difficile", "isCorrect": false },
+            { "id": "opt-4", "text": "confus", "isCorrect": false }
+          ],
+          "variations": [
+            {
+              "id": "var-1",
+              "text": "Pas de problème, bonne journée !",
+              "translation": "No hay problema, ¡que tenga un buen día!",
+              "audioUrl": "/audio/fr/a0/supervivencia/pas-de-probleme-bonne-journee.mp3"
+            }
+          ]
+        }
+      ],
+      "audioUrl": "/audio/fr/a0/supervivencia/bloque-d2-completo.mp3",
+      "durationSeconds": 20,
+      "audioTags": ["slow"],
+      "culturalNotes": [
+        {
+          "id": "note-1",
+          "text": "En Francia, NUNCA decir 'la salle de bain' en público (es íntimo). Solo 'toilettes' o 'WC'.",
+          "context": "Uso correcto de términos"
+        }
+      ],
+      "pronunciationTips": [
+        "'Toilettes' se pronuncia 'tua-let' (la 's' final no se pronuncia)",
+        "'Gauche' se pronuncia 'gosh' (la 'ch' suena como 'sh' en inglés)"
+      ]
+    }
+  ],
+  "coreExercises": {
+    "cloze": [],
+    "variations": [],
+    "vocabulary": []
+  }
+}
+

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { RadialTree } from '@/components/tree';
+import { HierarchicalTree } from '@/components/tree/HierarchicalTree';
 import { TopicTreeSchema } from '@/types';
 import type { TopicTree } from '@/types';
 
@@ -30,12 +30,23 @@ export default function TreePage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[60vh]">
+      <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
         <motion.div
-          className="w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full"
+          className="relative w-16 h-16"
           animate={{ rotate: 360 }}
-          transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}
-        />
+          transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
+        >
+          <div className="absolute inset-0 rounded-full border-4 border-indigo-200 dark:border-indigo-900" />
+          <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-indigo-500" />
+        </motion.div>
+        <motion.p
+          className="text-sm text-gray-500 dark:text-gray-400"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+        >
+          Cargando contenido...
+        </motion.p>
       </div>
     );
   }
@@ -43,13 +54,30 @@ export default function TreePage() {
   if (error || !tree) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
-        <span className="text-4xl mb-4">🌲</span>
-        <p className="text-gray-600 dark:text-gray-400">
-          {error || 'No se pudo cargar el árbol de tópicos'}
+        <motion.div
+          className="w-20 h-20 mb-4 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center"
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ type: "spring" }}
+        >
+          <span className="text-4xl">😕</span>
+        </motion.div>
+        <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
+          Algo salió mal
+        </h2>
+        <p className="text-gray-600 dark:text-gray-400 mb-6 max-w-xs">
+          {error || "No se pudo cargar el árbol de tópicos"}
         </p>
+        <button
+          onClick={() => window.location.reload()}
+          className="px-6 py-3 bg-indigo-500 text-white font-medium rounded-xl hover:bg-indigo-600 transition-colors"
+        >
+          ← Volver
+        </button>
       </div>
     );
   }
 
-  return <RadialTree tree={tree} />;
+  // Usar HierarchicalTree para visualización jerárquica tipo árbol de directorios
+  return <HierarchicalTree tree={tree} />;
 }

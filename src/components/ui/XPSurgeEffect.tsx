@@ -12,6 +12,7 @@ export function XPSurgeEffect() {
   const [surgeType, setSurgeType] = useState<'surge' | 'level-up' | 'rank-up'>('surge');
 
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const handleXPSurge = (event: CustomEvent) => {
       setSurgeType('surge');
       setSurgeActive(true);

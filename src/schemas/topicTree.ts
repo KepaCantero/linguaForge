@@ -16,13 +16,14 @@ export const TopicLeafSchema = z.object({
 
 export const TopicBranchSchema = z.object({
   id: z.string(),
-  order: z.number().min(1).max(11),
+  order: z.number().min(0), // Permite order 0 para ÁREA 0
   title: z.string(),
   titleFr: z.string(),
-  description: z.string(),
+  description: z.string().optional(),
   icon: z.string(),
   color: z.string(),
-  leaves: z.array(TopicLeafSchema).length(3),
+  leaves: z.array(TopicLeafSchema).min(1), // Permite cualquier número de hojas
+  worldId: z.string().optional(), // ID del world asociado (para Janus Matrix)
 });
 
 export const TopicTreeSchema = z.object({
@@ -33,7 +34,7 @@ export const TopicTreeSchema = z.object({
     title: z.string(),
     titleFr: z.string(),
   }),
-  branches: z.array(TopicBranchSchema).length(11),
+  branches: z.array(TopicBranchSchema).min(1), // Permite cualquier número de ramas
 });
 
 // ============================================================

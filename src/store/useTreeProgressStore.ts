@@ -16,7 +16,7 @@ interface TreeProgressStore {
 
   // Selectores
   getLeafStatus: (treeId: string, branchIndex: number, leafIndex: number) => NodeStatus;
-  getBranchProgress: (treeId: string, branchId: string) => number;
+  getBranchProgress: (treeId: string, branchId: string | number) => { completed: number; total: number };
   getOverallProgress: (treeId: string) => { completed: number; total: number };
 }
 
@@ -125,9 +125,28 @@ export const useTreeProgressStore = create<TreeProgressStore>()(
           return 'completed';
         }
 
-        // Primera rama, primera hoja siempre activa
-        if (branchIndex === 0 && leafIndex === 0) {
+        // ÁREA 0 (branchIndex 0): siempre activa desde el inicio
+        if (branchIndex === 0) {
           return 'active';
+        }
+
+        // Para otras áreas (branchIndex > 0): verificar si ÁREA 0 está completa
+        // ÁREA 0 tiene 7 nodos (nodo-0-1 a nodo-0-7)
+        const area0Completed = progress?.completedLeaves.filter(
+          id => id.startsWith('nodo-0-') || 
+                id.includes('nodo-0-1') || 
+                id.includes('nodo-0-2') ||
+                id.includes('nodo-0-3') ||
+                id.includes('nodo-0-4') ||
+                id.includes('nodo-0-5') ||
+                id.includes('nodo-0-6') ||
+                id.includes('nodo-0-7')
+        ).length ?? 0;
+
+        // Requerir al menos 5 de 7 nodos de ÁREA 0 completados para desbloquear otras áreas
+        const area0MinimumCompleted = 5;
+        if (area0Completed < area0MinimumCompleted) {
+          return 'locked';
         }
 
         // Primera hoja de rama: requiere progreso en rama anterior
@@ -149,14 +168,43 @@ export const useTreeProgressStore = create<TreeProgressStore>()(
 
       getBranchProgress: (treeId, branchId) => {
         const progress = get().treeProgress[treeId];
-        if (!progress) return 0;
+        if (!progress) return { completed: 0, total: 0 };
 
-        const branchNumber = branchId.split('-')[1];
+        // branchId puede ser un string (ej: "a1-A-1") o un número (legacy)
+        let branchNumber: string;
+        let branchPrefix: string;
+        
+        if (typeof branchId === 'string') {
+          // Formato nuevo: a1-A-1 -> extraer el número final y el prefijo completo
+          const parts = branchId.split('-');
+          branchNumber = parts[parts.length - 1];
+          branchPrefix = branchId; // Usar el ID completo como prefijo
+        } else {
+          // Formato legacy: número directo
+          branchNumber = String(branchId);
+          branchPrefix = `leaf-${branchNumber}`;
+        }
+
         const completedInBranch = progress.completedLeaves.filter(
-          id => id.includes(`leaf-${branchNumber}-`)
+          id => {
+            // Buscar hojas que pertenecen a esta rama
+            if (typeof branchId === 'string') {
+              // Para IDs nuevos como "a1-A-1", buscar hojas que empiecen con ese prefijo
+              // Ej: "a1-A-1-1", "a1-A-1-2", etc. o "leaf-1-1-greetings" si es legacy
+              return id.startsWith(branchPrefix + '-') || 
+                     id.includes(branchPrefix) ||
+                     (id.startsWith('leaf-') && id.includes(`-${branchNumber}-`));
+            } else {
+              // Para IDs legacy, buscar formato leaf-X-Y
+              return id.includes(`leaf-${branchNumber}-`) || 
+                     id.startsWith(`leaf-${branchNumber}-`);
+            }
+          }
         ).length;
 
-        return completedInBranch;
+        // Necesitamos el total de hojas, pero no lo tenemos aquí
+        // Retornamos solo completed por ahora
+        return { completed: completedInBranch, total: 0 };
       },
 
       getOverallProgress: (treeId) => {

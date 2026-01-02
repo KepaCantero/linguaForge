@@ -19,6 +19,8 @@ interface InputStore {
   addWordsRead: (lang: LanguageCode, level: LevelCode, count: number) => void;
   addWordsHeard: (lang: LanguageCode, level: LevelCode, count: number) => void;
   addWordsSpoken: (lang: LanguageCode, level: LevelCode, count: number) => void;
+  addMinutesListened: (minutes: number, lang: LanguageCode, level: LevelCode) => void;
+  addMinutesRead: (minutes: number, lang: LanguageCode, level: LevelCode) => void;
   addRecentContent: (contentId: string) => void;
 }
 
@@ -116,6 +118,16 @@ export const useInputStore = create<InputStore>()(
       addWordsSpoken: (lang, level, count) => {
         const key = createStatsKey(lang, level);
         get().incrementWords(key, 'spoken', count);
+      },
+
+      addMinutesListened: (minutes, lang, level) => {
+        const key = createStatsKey(lang, level);
+        get().incrementMinutes(key, 'listened', minutes);
+      },
+
+      addMinutesRead: (minutes, lang, level) => {
+        const key = createStatsKey(lang, level);
+        get().incrementMinutes(key, 'read', minutes);
       },
 
       addRecentContent: (contentId) => {
