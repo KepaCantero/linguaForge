@@ -1,28 +1,27 @@
 'use client';
 
-import { useState, useMemo, useCallback, useEffect } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useState, useMemo, useCallback, useEffect, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSRSStore } from '@/store/useSRSStore';
 import { useGamificationStore } from '@/store/useGamificationStore';
 import { useWordDictionaryStore } from '@/store/useWordDictionaryStore';
 import { ClozeExercise } from '@/components/exercises/ClozeExercise';
 import { generateClozeExerciseFromWord } from '@/services/wordExerciseGenerator';
-import { ReviewResponse, SRSCard } from '@/types/srs';
+import { ReviewResponse, ContentSourceType } from '@/types/srs';
 import { Phrase } from '@/types';
 import Link from 'next/link';
 
-export default function ReviewPage() {
-  const router = useRouter();
+function ReviewPageContent() {
   const searchParams = useSearchParams();
   const sourceType = searchParams.get('sourceType');
   const sourceId = searchParams.get('sourceId');
   const filterParam = searchParams.get('filter'); // 'new' para solo nuevas
-  
+
   const { getCardsBySource, getStudySession, reviewCard } = useSRSStore();
   const { addXP } = useGamificationStore();
   const { markAsMastered } = useWordDictionaryStore();
-  
+
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [currentExercise, setCurrentExercise] = useState<Phrase | null>(null);
   const [exerciseType, setExerciseType] = useState<'cloze' | 'detection'>('cloze');
@@ -33,25 +32,25 @@ export default function ReviewPage() {
   const cardsToReview = useMemo(() => {
     if (sourceType && sourceId) {
       // Filtrar por fuente específica
-      const cards = getCardsBySource(sourceType as any, sourceId);
+      const cards = getCardsBySource(sourceType as ContentSourceType, sourceId);
       const today = new Date().toISOString().split('T')[0];
-      
+
       if (filterParam === 'new') {
         return cards.filter(card => card.status === 'new');
       }
-      
-      return cards.filter(card => 
-        card.status === 'new' || 
+
+      return cards.filter(card =>
+        card.status === 'new' ||
         (card.nextReviewDate && card.nextReviewDate <= today)
       );
     } else {
       // Sesión general de estudio
       const session = getStudySession();
-      
+
       if (filterParam === 'new') {
         return session.filter(card => card.status === 'new');
       }
-      
+
       return session;
     }
   }, [sourceType, sourceId, filterParam, getCardsBySource, getStudySession]);
@@ -82,7 +81,7 @@ export default function ReviewPage() {
 
     // Aplicar review
     const updatedCard = reviewCard(currentCard.id, response);
-    
+
     // Actualizar estadísticas
     setSessionStats(prev => ({
       correct: prev.correct + (correct ? 1 : 0),
@@ -252,3 +251,14 @@ export default function ReviewPage() {
   );
 }
 
+export default function ReviewPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+        <p className="text-gray-500 dark:text-gray-400">Cargando...</p>
+      </div>
+    }>
+      <ReviewPageContent />
+    </Suspense>
+  );
+}

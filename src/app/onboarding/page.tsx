@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useUserStore, type LearningMode } from '@/store/useUserStore';
+import { useProgressStore } from '@/store/useProgressStore';
 import { getTranslations, type AppLanguage } from '@/i18n';
 
 type Step = 'language' | 'mode';
@@ -11,14 +12,41 @@ type Step = 'language' | 'mode';
 export default function OnboardingPage() {
   const router = useRouter();
   const { appLanguage, setAppLanguage, setMode, completeOnboarding } = useUserStore();
+  const { setActiveLanguage, setActiveLevel } = useProgressStore();
   const [step, setStep] = useState<Step>('language');
-  const [selectedLang, setSelectedLang] = useState<AppLanguage>(appLanguage);
+  const [selectedLang, setSelectedLang] = useState<AppLanguage>('es');
+  const [isHydrated, setIsHydrated] = useState(false);
+
+  // Esperar a que el store se hidrate desde localStorage
+  useEffect(() => {
+    // Verificar si hay datos guardados en localStorage
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem('linguaforge-user');
+      if (stored) {
+        try {
+          const parsed = JSON.parse(stored);
+          if (parsed.state) {
+            setSelectedLang(parsed.state.appLanguage || 'es');
+          }
+        } catch {
+          // Si hay error, usar el valor del store
+          setSelectedLang(appLanguage);
+        }
+      } else {
+        setSelectedLang(appLanguage);
+      }
+      setIsHydrated(true);
+    }
+  }, [appLanguage]);
 
   const t = getTranslations(selectedLang);
 
   const handleLanguageSelect = (lang: AppLanguage) => {
     setSelectedLang(lang);
     setAppLanguage(lang);
+    // También guardar el idioma de aprendizaje (francés por defecto)
+    setActiveLanguage('fr');
+    setActiveLevel('A1');
   };
 
   const handleContinue = () => {
@@ -28,10 +56,27 @@ export default function OnboardingPage() {
   };
 
   const handleModeSelect = (mode: LearningMode) => {
+    // Guardar todas las preferencias antes de completar onboarding
     setMode(mode);
+    // Asegurar que el idioma y nivel estén guardados
+    setActiveLanguage('fr');
+    setActiveLevel('A1');
+    // Completar onboarding y redirigir
     completeOnboarding();
-    router.push('/learn');
+    // Pequeño delay para asegurar que el estado se guarde
+    setTimeout(() => {
+      router.push('/learn');
+    }, 100);
   };
+
+  // No renderizar hasta que el store esté hidratado
+  if (!isHydrated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-indigo-50 to-white dark:from-gray-900 dark:to-gray-800 flex flex-col items-center justify-center p-6">

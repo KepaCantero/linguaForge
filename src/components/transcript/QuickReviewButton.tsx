@@ -20,11 +20,10 @@ export function QuickReviewButton({ source, className = '' }: QuickReviewButtonP
   // Obtener cards de esta fuente que están pendientes de repaso
   const pendingCards = useMemo(() => {
     const cards = getCardsBySource(source.type, source.id);
-    const today = new Date().toISOString().split('T')[0];
-    
+
     return cards.filter(card => {
       // Cards nuevas o que están listas para repaso
-      return card.status === 'new' || isDueForReview(card, today);
+      return card.status === 'new' || isDueForReview(card);
     });
   }, [getCardsBySource, source.type, source.id]);
 

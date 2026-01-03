@@ -5,28 +5,41 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
 
+type AuthMode = 'password' | 'magic-link';
+
 export function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const { signIn, signInWithGoogle } = useAuth();
+  const [authMode, setAuthMode] = useState<AuthMode>('password');
+  const [magicLinkSent, setMagicLinkSent] = useState(false);
+  const { signIn, signInWithGoogle, signInWithMagicLink } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirect = searchParams.get('redirect') || '/tree';
+  const redirect = searchParams.get('redirect') || '/learn';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setLoading(true);
 
-    const { error } = await signIn(email, password);
-
-    if (error) {
-      setError(error.message);
+    if (authMode === 'magic-link') {
+      const { error } = await signInWithMagicLink(email);
+      if (error) {
+        setError(error.message);
+      } else {
+        setMagicLinkSent(true);
+      }
       setLoading(false);
     } else {
-      router.push(redirect);
+      const { error } = await signIn(email, password);
+      if (error) {
+        setError(error.message);
+        setLoading(false);
+      } else {
+        router.push(redirect);
+      }
     }
   };
 
@@ -34,6 +47,39 @@ export function LoginForm() {
     setError(null);
     await signInWithGoogle();
   };
+
+  // Si se envió el magic link, mostrar mensaje de confirmación
+  if (magicLinkSent) {
+    return (
+      <div className="w-full max-w-md mx-auto text-center">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-lg"
+        >
+          <div className="text-5xl mb-4">📧</div>
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+            ¡Revisa tu email!
+          </h2>
+          <p className="text-gray-600 dark:text-gray-400 mb-4">
+            Hemos enviado un enlace mágico a <strong>{email}</strong>
+          </p>
+          <p className="text-sm text-gray-500 dark:text-gray-500 mb-6">
+            Haz clic en el enlace del email para iniciar sesión automáticamente.
+          </p>
+          <button
+            onClick={() => {
+              setMagicLinkSent(false);
+              setEmail('');
+            }}
+            className="text-lf-primary hover:text-lf-primary/80 font-medium"
+          >
+            Usar otro email
+          </button>
+        </motion.div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full max-w-md mx-auto">
@@ -43,6 +89,32 @@ export function LoginForm() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
       >
+        {/* Selector de modo */}
+        <div className="flex rounded-lg bg-gray-100 dark:bg-gray-800 p-1">
+          <button
+            type="button"
+            onClick={() => setAuthMode('password')}
+            className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
+              authMode === 'password'
+                ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm'
+                : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+            }`}
+          >
+            Contraseña
+          </button>
+          <button
+            type="button"
+            onClick={() => setAuthMode('magic-link')}
+            className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
+              authMode === 'magic-link'
+                ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm'
+                : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+            }`}
+          >
+            Magic Link
+          </button>
+        </div>
+
         <div>
           <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             Email
@@ -58,20 +130,28 @@ export function LoginForm() {
           />
         </div>
 
-        <div>
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            Contraseña
-          </label>
-          <input
-            id="password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-lf-primary focus:border-transparent"
-            placeholder="••••••••"
-          />
-        </div>
+        {authMode === 'password' && (
+          <div>
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Contraseña
+            </label>
+            <input
+              id="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-lf-primary focus:border-transparent"
+              placeholder="••••••••"
+            />
+          </div>
+        )}
+
+        {authMode === 'magic-link' && (
+          <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
+            Te enviaremos un enlace mágico a tu email para iniciar sesión sin contraseña.
+          </p>
+        )}
 
         {error && (
           <motion.div
@@ -88,7 +168,13 @@ export function LoginForm() {
           disabled={loading}
           className="w-full py-3 px-4 bg-lf-primary text-white rounded-lg font-medium hover:bg-lf-primary/90 focus:outline-none focus:ring-2 focus:ring-lf-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
-          {loading ? 'Iniciando sesión...' : 'Iniciar sesión'}
+          {loading
+            ? authMode === 'magic-link'
+              ? 'Enviando enlace...'
+              : 'Iniciando sesión...'
+            : authMode === 'magic-link'
+            ? 'Enviar Magic Link'
+            : 'Iniciar sesión'}
         </button>
 
         <div className="relative">

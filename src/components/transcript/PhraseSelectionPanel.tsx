@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback, useMemo, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useSRSStore } from '@/store/useSRSStore';
 import { useGamificationStore } from '@/store/useGamificationStore';
 import { useProgressStore } from '@/store/useProgressStore';
@@ -14,8 +14,6 @@ import { extractKeywordsFromPhrases, type ExtractedWord } from '@/services/wordE
 // Iconos simples usando emojis y símbolos
 const IconX = () => <span>✕</span>;
 const IconPlus = () => <span>+</span>;
-const IconPlay = () => <span>▶</span>;
-const IconTrash = () => <span>🗑</span>;
 
 interface PhraseSelectionPanelProps {
   selectedPhrases: SelectedPhrase[];
@@ -114,6 +112,8 @@ export function PhraseSelectionPanel({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newWordsKeys]); // Solo cuando cambian las palabras nuevas
 
+  // Estas funciones están preparadas para uso futuro
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleTranslationChange = useCallback((phraseId: string, translation: string) => {
     setTranslations(prev => ({
       ...prev,
@@ -121,6 +121,7 @@ export function PhraseSelectionPanel({
     }));
   }, []);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleRemovePhrase = useCallback((phraseId: string) => {
     // Esto debería venir del componente padre que maneja el estado
     // Por ahora solo actualizamos las traducciones
@@ -131,6 +132,7 @@ export function PhraseSelectionPanel({
     });
   }, []);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handlePlayPhrase = useCallback((text: string) => {
     speak(text);
   }, [speak]);
@@ -306,7 +308,7 @@ export function PhraseSelectionPanel({
                             </p>
                             {originalPhrase && (
                               <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 italic">
-                                "{originalPhrase.text.substring(0, 60)}..."
+                                &ldquo;{originalPhrase.text.substring(0, 60)}...&rdquo;
                               </p>
                             )}
                           </div>

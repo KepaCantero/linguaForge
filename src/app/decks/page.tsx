@@ -9,9 +9,9 @@ import { ContentSource, SRSCard } from '@/types/srs';
 import { isDueForReview } from '@/lib/sm2';
 
 export default function DecksPage() {
-  const { cards, getCardsBySource } = useSRSStore();
+  const { cards } = useSRSStore();
   const { getStudiedWords } = useWordDictionaryStore();
-  
+
   const [filter, setFilter] = useState<'all' | 'new' | 'due' | 'mastered'>('all');
   const [sourceFilter, setSourceFilter] = useState<ContentSource['type'] | 'all'>('all');
   const [searchQuery, setSearchQuery] = useState('');
@@ -19,7 +19,7 @@ export default function DecksPage() {
   // Agrupar cards por fuente
   const cardsBySource = useMemo(() => {
     const grouped: Record<string, { source: ContentSource; cards: SRSCard[] }> = {};
-    
+
     cards.forEach(card => {
       const key = `${card.source.type}-${card.source.id}`;
       if (!grouped[key]) {
@@ -30,31 +30,30 @@ export default function DecksPage() {
       }
       grouped[key].cards.push(card);
     });
-    
+
     return Object.values(grouped);
   }, [cards]);
 
   // Filtrar cards según filtros
   const filteredCardsBySource = useMemo(() => {
     let filtered = cardsBySource;
-    
+
     // Filtrar por tipo de fuente
     if (sourceFilter !== 'all') {
       filtered = filtered.filter(group => group.source.type === sourceFilter);
     }
-    
+
     // Filtrar por estado
-    const today = new Date().toISOString().split('T')[0];
     filtered = filtered.map(group => ({
       ...group,
       cards: group.cards.filter(card => {
         if (filter === 'new') return card.status === 'new';
-        if (filter === 'due') return isDueForReview(card, today);
+        if (filter === 'due') return isDueForReview(card);
         if (filter === 'mastered') return card.status === 'graduated';
         return true;
       }),
     })).filter(group => group.cards.length > 0);
-    
+
     // Filtrar por búsqueda
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
@@ -66,19 +65,18 @@ export default function DecksPage() {
         ),
       })).filter(group => group.cards.length > 0);
     }
-    
+
     return filtered;
   }, [cardsBySource, filter, sourceFilter, searchQuery]);
 
   // Estadísticas
   const stats = useMemo(() => {
-    const today = new Date().toISOString().split('T')[0];
     const studiedWords = getStudiedWords();
-    
+
     return {
       total: cards.length,
       new: cards.filter(c => c.status === 'new').length,
-      due: cards.filter(c => isDueForReview(c, today)).length,
+      due: cards.filter(c => isDueForReview(c)).length,
       mastered: cards.filter(c => c.status === 'graduated').length,
       studiedWords: studiedWords.length,
     };
@@ -150,7 +148,7 @@ export default function DecksPage() {
             />
             <select
               value={sourceFilter}
-              onChange={(e) => setSourceFilter(e.target.value as any)}
+              onChange={(e) => setSourceFilter(e.target.value as 'all' | 'video' | 'audio' | 'text')}
               className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
             >
               <option value="all">Todas las fuentes</option>
@@ -160,7 +158,7 @@ export default function DecksPage() {
             </select>
             <select
               value={filter}
-              onChange={(e) => setFilter(e.target.value as any)}
+              onChange={(e) => setFilter(e.target.value as 'all' | 'new' | 'due' | 'mastered')}
               className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
             >
               <option value="all">Todas</option>
@@ -189,10 +187,9 @@ export default function DecksPage() {
         ) : (
           <div className="space-y-4">
             {filteredCardsBySource.map((group) => {
-              const today = new Date().toISOString().split('T')[0];
-              const dueCount = group.cards.filter(c => isDueForReview(c, today)).length;
+              const dueCount = group.cards.filter(c => isDueForReview(c)).length;
               const newCount = group.cards.filter(c => c.status === 'new').length;
-              
+
               return (
                 <motion.div
                   key={`${group.source.type}-${group.source.id}`}

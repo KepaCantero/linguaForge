@@ -55,13 +55,25 @@ export function generateClozeExercises(phrases: string[]): Phrase[] {
 // Generar ejercicios Variations a partir de frases
 export function generateVariationsExercises(phrases: string[]): Phrase[] {
   if (!phrases || phrases.length === 0) return [];
-  
-  return phrases.map((phraseText, index) => ({
-    id: `phrase-variations-${index}`,
-    text: phraseText,
-    translation: '',
-    variations: [],
-  }));
+
+  return phrases.map((phraseText, index) => {
+    const words = phraseText.split(/\s+/);
+    const targetWord = words.find((w) => w.length >= 4) || words[0] || 'mot';
+
+    return {
+      id: `phrase-variations-${index}`,
+      text: phraseText,
+      translation: '',
+      clozeWord: targetWord.replace(/[.,!?;:]/g, ''),
+      clozeOptions: [
+        { id: 'opt-correct', text: targetWord.replace(/[.,!?;:]/g, ''), isCorrect: true },
+        { id: 'opt-1', text: 'option1', isCorrect: false },
+        { id: 'opt-2', text: 'option2', isCorrect: false },
+        { id: 'opt-3', text: 'option3', isCorrect: false },
+      ],
+      variations: [],
+    };
+  });
 }
 
 // Generar ejercicios ConversationalEcho a partir de frases
@@ -321,19 +333,20 @@ export function generateJanusComposerExercises(phrases: string[]): JanusComposer
         id: 'subject-col',
         title: 'Sujeto',
         type: 'subject',
-        options: [...new Set(subjectOptions)]
+        options: Array.from(new Set(subjectOptions.map(s => JSON.stringify(s))))
+          .map(s => JSON.parse(s))
           .slice(0, 4)
-          .map((s, i) => ({
+          .map((s: { text: string; translation: string }, i: number) => ({
             id: `subj-${i}`,
-            text: typeof s === 'string' ? s : s.text,
-            translation: typeof s === 'string' ? '' : s.translation,
+            text: s.text,
+            translation: s.translation,
           })),
       },
       {
         id: 'verb-col',
         title: 'Verbo',
         type: 'verb',
-        options: [...new Set(verbOptions)]
+        options: Array.from(new Set(verbOptions))
           .slice(0, 6)
           .map((v, i) => ({
             id: `verb-${i}`,
@@ -345,7 +358,7 @@ export function generateJanusComposerExercises(phrases: string[]): JanusComposer
         id: 'complement-col',
         title: 'Complemento',
         type: 'complement',
-        options: [...new Set(complementOptions)]
+        options: Array.from(new Set(complementOptions))
           .slice(0, 6)
           .map((c, i) => ({
             id: `comp-${i}`,

@@ -159,7 +159,7 @@ function ImportPageContent() {
       // Mostrar error específico pero no bloquear
       if (errorMessage.includes('No transcript found') || errorMessage.includes('No transcript available')) {
         // No mostrar alerta, solo dejar que el usuario pegue manualmente
-        console.warn('Video has no public captions:', extractedId);
+        console.warn('Video has no public captions:', youtubeUrl);
         setContent('');
       } else {
         // Solo mostrar error si es algo crítico
@@ -222,7 +222,7 @@ function ImportPageContent() {
       sourceType: selectedSource,
       sourceText: content,
       // Para YouTube, guardar transcripción sincronizada y videoId
-      transcript: selectedSource === 'youtube' && transcript ? transcript.phrases.map((p, i) => ({
+      transcript: selectedSource === 'youtube' && transcript ? transcript.phrases.map((p) => ({
         text: p.text,
         start: p.start,
         duration: p.duration,

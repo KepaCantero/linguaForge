@@ -62,7 +62,7 @@ declare namespace YT {
   }
 }
 
-declare var YT: {
+declare const YT: {
   Player: typeof YT.Player;
   PlayerState: typeof YT.PlayerState;
 };

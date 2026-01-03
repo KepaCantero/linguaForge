@@ -1,15 +1,54 @@
 # Active Context — Contexto Activo
 
-> Última actualización: 2025-01-XX
+> Última actualización: 2026-01-03
 
 ## Estado Actual
 
-**Versión del Plan:** v4.0 (Base) + v2.0 (Expansión LinguaForge) + Sistema INPUT + SRS
-**Fase:** Sistema INPUT completo + SRS integrado + Ejercicios para contenido importado
-**Tarea activa:** Mejoras en generación de ejercicios Janus y organización del memory bank
-**Próxima expansión:** Sistema de misiones con warm-ups cognitivos
+**Versión del Plan:** v4.0 (Base) + v2.0 (Expansión LinguaForge) + Sistema INPUT + SRS + CLT
+**Fase:** FASE 5 y 6 completadas parcialmente
+**Tarea activa:** ÁREA 0 - Contenido base (próxima tarea crítica)
+**Última completada:** FASE 5 Optimizaciones + Tests unitarios (155 tests)
 
 ## Resumen de Trabajo Reciente
+
+### FASE 5: Optimizaciones (Completada)
+
+1. **Lazy Loading de Ejercicios (`src/components/exercises/lazy.ts`):**
+   - 18 ejercicios con carga diferida usando `next/dynamic`
+   - Loading placeholder con spinner
+   - SSR deshabilitado para mejor rendimiento
+
+2. **Cache de Traducciones (`src/services/translationService.ts`):**
+   - Cache en localStorage con límite de 5000 entradas
+   - Limpieza automática de entradas antiguas
+   - Funciones: `getCacheStats()`, `clearTranslationCache()`, `preloadCommonTranslations()`
+
+3. **Performance Hooks (`src/hooks/usePerformance.ts`):**
+   - `useDebounce` - Debounce de valores
+   - `useDebouncedCallback` - Debounce de callbacks
+   - `useThrottledCallback` - Throttle de callbacks
+   - `useIntersectionObserver` - Detección de visibilidad
+   - `usePrevious` - Valor anterior
+   - `useMemoizedSelector` - Selectores memoizados
+   - `useStableCallback` - Callbacks estables
+   - `useMediaQuery` - Detección de media queries
+   - `usePrefersReducedMotion` - Preferencia de animaciones
+   - `useIdleCallback` - Tareas en tiempo idle
+
+### FASE 6: Testing (Parcialmente Completada)
+
+1. **Tests Unitarios (155 tests pasando):**
+   - `__tests__/unit/missionGenerator.test.ts` (21 tests)
+   - `__tests__/unit/postCognitiveRewards.test.ts` (30 tests)
+   - `__tests__/unit/warmupSelector.test.ts` (21 tests)
+   - `__tests__/unit/usePerformance.test.ts` (18 tests)
+   - Tests existentes: schemas, constants, rankSystem, hpSystem
+
+2. **Pendiente:**
+   - Tests E2E con Playwright
+   - Visual regression tests
+
+---
 
 ### Sistema INPUT Completo (Video/Audio/Texto)
 
@@ -224,38 +263,40 @@
 
 ## Próximos Pasos
 
-### Inmediatos
-1. **Sistema de Misiones:**
-   - Integrar warm-ups cognitivos
-   - Crear sistema de misiones diarias
-   - Transiciones fluidas entre warm-up y misión
+### Inmediato (Crítico) - ÁREA 0
+1. **TAREA 3.1** - Crear schema para ÁREA 0
+2. **TAREA 3.2** - NODO 0.1 — Saludos y Despedidas
+3. **TAREA 3.3** - NODO 0.2 — Presentaciones Básicas
+4. **TAREA 3.4** - NODO 0.3 — Números 0-20
+5. **TAREA 3.5** - NODO 0.4 — Verbos Clave (être, avoir, aller)
+6. **TAREA 3.6** - NODO 0.5 — Preguntas Básicas
+7. **TAREA 3.7** - NODO 0.6 — Cortesía y Agradecimientos
+8. **TAREA 3.8** - NODO 0.7 — Despedidas y Próximos Pasos
+9. **TAREA 3.9** - Integración ÁREA 0 en Sistema
 
-2. **Mejoras en Ejercicios:**
-   - Optimizar generación de ejercicios Janus
-   - Añadir más variaciones de ejercicios
-   - Mejorar feedback visual
+### Completado Recientemente
+1. **FASE 5 Optimizaciones:** ✅
+   - ✅ Lazy loading de ejercicios
+   - ✅ Cache de traducciones
+   - ✅ Performance hooks
 
-### Corto Plazo
-1. **Backend:**
-   - Integrar Supabase Auth
-   - Implementar Sync Service
-   - Service Worker / PWA
+2. **FASE 6 Testing (Parcial):** ✅
+   - ✅ 155 tests unitarios pasando
+   - ⏳ Tests E2E pendientes
+   - ⏳ Visual regression pendientes
 
-2. **Contenido:**
-   - Expandir contenido importado
-   - Crear más ejemplos de ejercicios
-   - Mejorar traducciones automáticas
+3. **Backend:** ✅
+   - ✅ Supabase Auth
+   - ✅ Sync Service
+   - ✅ PWA
 
 ### Medio Plazo
-1. **Optimizaciones:**
-   - Lazy loading de ejercicios
-   - Cache de traducciones
-   - Mejorar performance general
+- Expansión contenido A1
+- Tests E2E con Playwright
 
-2. **Testing:**
-   - Tests E2E para flujos principales
-   - Tests unitarios para servicios
-   - Visual regression tests
+### Largo Plazo
+- Contenido A2 y otros idiomas
+- Monetización (Stripe)
 
 ## Decisiones Técnicas Recientes
 

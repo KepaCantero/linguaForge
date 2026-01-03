@@ -8,7 +8,7 @@ import { HPIndicator } from '@/components/ui/HPIndicator';
 import { CountUpNumber } from '@/components/ui/CountUpNumber';
 
 export function Header() {
-  const { xp, coins, streak, rank, hp } = useGamificationStore();
+  const { xp, coins, gems, streak, rank, hp } = useGamificationStore();
   const progress = getLevelProgress(xp);
 
   return (
@@ -114,6 +114,23 @@ export function Header() {
               </div>
             </li>
 
+            {/* Gems */}
+            <li>
+              <div
+                className="flex items-center gap-1"
+                role="status"
+                aria-label={`${gems} gemas`}
+                title="Gemas"
+              >
+                <span className="text-lf-secondary text-sm" aria-hidden="true">
+                  ⬡
+                </span>
+                <span className="font-rajdhani font-medium text-white">
+                  <CountUpNumber value={gems} duration={0.6} />
+                </span>
+              </div>
+            </li>
+
             {/* Streak */}
             <li>
               <div
@@ -130,7 +147,7 @@ export function Header() {
                   }`}
                   aria-hidden="true"
                 >
-                  ⬡
+                  🔥
                 </span>
                 <span className="font-rajdhani font-medium text-white">
                   {streak}

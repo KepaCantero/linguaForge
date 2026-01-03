@@ -59,7 +59,7 @@ export async function getYouTubeTranscript(videoId: string): Promise<YouTubeTran
     });
     
     if (!response.ok) {
-      let errorData: any = {};
+      let errorData: { message?: string; error?: string } = {};
       try {
         errorData = await response.json();
       } catch {

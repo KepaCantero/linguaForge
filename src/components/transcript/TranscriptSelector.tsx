@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useCallback, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 export interface SelectedPhrase {
   id: string;
@@ -231,7 +231,7 @@ export function TranscriptSelector({
             className="mt-2 p-2 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg border border-indigo-200 dark:border-indigo-800"
           >
             <p className="text-xs font-medium text-indigo-800 dark:text-indigo-200 mb-2">
-              ✓ Texto seleccionado: "{window.getSelection()?.toString().trim().substring(0, 50)}..."
+              ✓ Texto seleccionado: &ldquo;{window.getSelection()?.toString().trim().substring(0, 50)}...&rdquo;
             </p>
             <div className="flex items-center gap-2">
               <button

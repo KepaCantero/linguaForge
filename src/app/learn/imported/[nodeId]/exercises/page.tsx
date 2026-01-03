@@ -17,7 +17,7 @@ import {
   generateDialogueIntonationExercises,
   generateJanusComposerExercises,
 } from '@/services/generateExercisesFromPhrases';
-import type { Phrase } from '@/types';
+import type { Phrase, ConversationalEcho, DialogueIntonation, JanusComposer } from '@/types';
 
 type LessonMode = 'academia' | 'desafio';
 type ExerciseType = 'cloze' | 'variations' | 'conversationalEcho' | 'dialogueIntonation' | 'janusComposer' | null;
@@ -30,7 +30,7 @@ function ExercisesPageContent() {
   const subtopicId = searchParams.get('subtopic');
   const mode = (searchParams.get('mode') || 'academia') as LessonMode;
 
-  const { nodes, completeSubtopic } = useImportedNodesStore();
+  const { nodes } = useImportedNodesStore();
   const node = nodes.find((n) => n.id === nodeId);
   const subtopic = node?.subtopics.find((s) => s.id === subtopicId);
 
@@ -41,7 +41,7 @@ function ExercisesPageContent() {
     }
 
     const phrases = subtopic.phrases.filter(p => p && p.trim().length > 0);
-    
+
     if (phrases.length === 0) {
       return null;
     }
@@ -75,23 +75,18 @@ function ExercisesPageContent() {
     dialogueIntonation: 0,
     janusComposer: 0,
   });
-  const [completedExercises, setCompletedExercises] = useState<Set<string>>(new Set());
-
   const handleSelectExercise = useCallback((type: ExerciseType) => {
     setSelectedExerciseType(type);
   }, []);
 
-  const handleExerciseComplete = useCallback((correct: boolean) => {
+  const handleExerciseComplete = useCallback(() => {
     if (!selectedExerciseType || !exerciseData) return;
-
-    const exerciseKey = `${selectedExerciseType}-${exerciseIndices[selectedExerciseType]}`;
-    setCompletedExercises((prev) => new Set([...prev, exerciseKey]));
 
     // En modo desafío, avanzar automáticamente
     if (mode === 'desafio') {
       const currentIndex = exerciseIndices[selectedExerciseType];
       const exercises = exerciseData[selectedExerciseType];
-      
+
       if (exercises && currentIndex < exercises.length - 1) {
         setExerciseIndices((prev) => ({
           ...prev,
@@ -115,12 +110,6 @@ function ExercisesPageContent() {
     }
   }, [selectedExerciseType, mode, router, nodeId, subtopicId]);
 
-  const handleComplete = useCallback(() => {
-    if (subtopicId) {
-      completeSubtopic(nodeId, subtopicId);
-    }
-    router.push(`/learn/imported/${nodeId}`);
-  }, [subtopicId, nodeId, router, completeSubtopic]);
 
   if (!node || !subtopic || !exerciseData) {
     return (
@@ -141,7 +130,7 @@ function ExercisesPageContent() {
 
   // Menú de ejercicios (modo academia o inicio)
   if (!selectedExerciseType) {
-    const totalExercises = 
+    const totalExercises =
       (exerciseData.cloze?.length || 0) +
       (exerciseData.variations?.length || 0) +
       (exerciseData.conversationalEcho?.length || 0) +
@@ -175,7 +164,7 @@ function ExercisesPageContent() {
               Menú de Ejercicios
             </h2>
             <p className="text-gray-600 dark:text-gray-400">
-              {mode === 'academia' 
+              {mode === 'academia'
                 ? 'Elige el ejercicio que quieres practicar'
                 : 'Completa todos los ejercicios en orden'}
             </p>
@@ -324,14 +313,14 @@ function ExercisesPageContent() {
         return (
           <VariationsExercise
             phrase={currentExercise as Phrase}
-            onComplete={() => handleExerciseComplete(true)}
+            onComplete={() => handleExerciseComplete()}
           />
         );
       case 'conversationalEcho':
         return (
           <ConversationalEchoExercise
-            exercise={currentExercise as any}
-            onComplete={() => handleExerciseComplete(true)}
+            exercise={currentExercise as ConversationalEcho}
+            onComplete={() => handleExerciseComplete()}
             onSkip={mode === 'academia' ? () => setSelectedExerciseType(null) : undefined}
             showHints={mode === 'academia'}
           />
@@ -339,16 +328,16 @@ function ExercisesPageContent() {
       case 'dialogueIntonation':
         return (
           <DialogueIntonationExercise
-            exercise={currentExercise as any}
-            onComplete={() => handleExerciseComplete(true)}
+            exercise={currentExercise as DialogueIntonation}
+            onComplete={() => handleExerciseComplete()}
             onSkip={mode === 'academia' ? () => setSelectedExerciseType(null) : undefined}
           />
         );
       case 'janusComposer':
         return (
           <JanusComposerExercise
-            exercise={currentExercise as any}
-            onComplete={() => handleExerciseComplete(true)}
+            exercise={currentExercise as JanusComposer}
+            onComplete={() => handleExerciseComplete()}
             onSkip={mode === 'academia' ? () => setSelectedExerciseType(null) : undefined}
           />
         );

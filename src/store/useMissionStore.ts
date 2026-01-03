@@ -25,10 +25,14 @@ export interface Mission {
   };
   completed: boolean;
   completedAt?: string;
-  // Nuevos campos para calentamientos
+  // Campos para calentamientos
   warmupId?: string;
   warmupMissionType?: WarmupMissionType; // 'grammar' | 'vocabulary' | 'pronunciation' | 'mixed'
   difficulty?: 'low' | 'medium' | 'high';
+  // Campos CLT (Cognitive Load Theory)
+  cognitiveLoadTarget?: number;    // 0-100: Carga cognitiva esperada
+  estimatedMinutes?: number;       // Tiempo estimado
+  requiresFocus?: boolean;         // Si requiere modo focus
 }
 
 export interface MissionCompletion {
@@ -102,6 +106,7 @@ export const useMissionStore = create<MissionStore>()(
         const difficulty = getDifficulty();
 
         // Misión 1: Input (siempre presente) - Calentamiento: Visual Match (vocabulario)
+        // CLT: Carga baja (input pasivo), no requiere focus estricto
         missions.push({
           id: generateMissionId('input', 0),
           type: 'input',
@@ -113,9 +118,13 @@ export const useMissionStore = create<MissionStore>()(
           completed: false,
           warmupMissionType: 'vocabulary', // Input activa vocabulario
           difficulty,
+          cognitiveLoadTarget: 30, // Carga baja - input pasivo
+          estimatedMinutes: 5 + userLevel * 2,
+          requiresFocus: true, // Mejor con focus para retención
         });
 
         // Misión 2: Ejercicios - Calentamiento: Rhythm Sequence (gramática)
+        // CLT: Carga media (ejercicios activos), requiere focus
         missions.push({
           id: generateMissionId('exercises', 1),
           type: 'exercises',
@@ -127,9 +136,13 @@ export const useMissionStore = create<MissionStore>()(
           completed: false,
           warmupMissionType: 'grammar', // Ejercicios activan gramática
           difficulty,
+          cognitiveLoadTarget: 50, // Carga media - ejercicios activos
+          estimatedMinutes: (3 + Math.floor(userLevel / 2)) * 2,
+          requiresFocus: true,
         });
 
         // Misión 3: Janus (si el usuario tiene nivel suficiente) - Calentamiento: Rhythm Sequence (gramática)
+        // CLT: Carga alta (construcción de frases), requiere focus profundo
         if (userLevel >= 2) {
           missions.push({
             id: generateMissionId('janus', 2),
@@ -142,10 +155,14 @@ export const useMissionStore = create<MissionStore>()(
             completed: false,
             warmupMissionType: 'grammar', // Janus activa gramática
             difficulty: userLevel <= 4 ? 'medium' : 'high',
+            cognitiveLoadTarget: 65, // Carga alta - construcción activa
+            estimatedMinutes: Math.ceil((5 + userLevel) * 0.5),
+            requiresFocus: true,
           });
         }
 
         // Misión 4: Forge Mandate (siempre presente) - Calentamiento: Mixed (usa el más relevante)
+        // CLT: Carga muy alta (integración de todo), requiere focus profundo
         missions.push({
           id: generateMissionId('forgeMandate', 3),
           type: 'forgeMandate',
@@ -157,6 +174,9 @@ export const useMissionStore = create<MissionStore>()(
           completed: false,
           warmupMissionType: 'mixed', // Forge Mandate es mixto
           difficulty: 'medium',
+          cognitiveLoadTarget: 75, // Carga muy alta - integración
+          estimatedMinutes: 15,
+          requiresFocus: true,
         });
 
         set({

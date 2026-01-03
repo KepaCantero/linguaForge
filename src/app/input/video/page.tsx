@@ -1,11 +1,8 @@
 'use client';
 
-import { useState, useMemo, useRef, useEffect, useCallback } from 'react';
-import { motion } from 'framer-motion';
+import { useState, useMemo, useRef, useCallback } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useInputStore } from '@/store/useInputStore';
-import { useImportedNodesStore } from '@/store/useImportedNodesStore';
 import { useProgressStore } from '@/store/useProgressStore';
 import { YouTubePlayer } from '@/components/input/YouTubePlayer';
 import { extractVideoId, getYouTubeTranscript, convertTranscriptToPhrases, type YouTubeTranscript } from '@/services/youtubeTranscriptService';
@@ -14,35 +11,33 @@ import { QuickReviewButton } from '@/components/transcript/QuickReviewButton';
 import { ContentSource } from '@/types/srs';
 
 export default function VideoInputPage() {
-  const router = useRouter();
   const inputStore = useInputStore();
-  const { createNode } = useImportedNodesStore();
   const { activeLanguage, activeLevel } = useProgressStore();
-  
+
   const [youtubeUrl, setYoutubeUrl] = useState('');
   const [videoId, setVideoId] = useState<string | null>(null);
   const [videoTitle, setVideoTitle] = useState('');
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [watchedSeconds, setWatchedSeconds] = useState(0);
   const [transcript, setTranscript] = useState<YouTubeTranscript | null>(null);
   const [isLoadingTranscript, setIsLoadingTranscript] = useState(false);
   const [transcriptText, setTranscriptText] = useState('');
   const [transcriptError, setTranscriptError] = useState<string | null>(null);
   const [showManualTranscript, setShowManualTranscript] = useState(false);
   const startTimeRef = useRef<number | null>(null);
-  const lastEventTimeRef = useRef<number>(0);
-  
+
   // Calcular estadísticas de video
   const videoStats = useMemo(() => {
-    const videoEvents = inputStore.events.filter((e) => e.type === 'video' && e.durationSeconds > 0);
+    const videoEvents = inputStore.events.filter(
+      (e): e is typeof e & { durationSeconds: number } =>
+        e.type === 'video' && e.durationSeconds !== undefined && e.durationSeconds > 0
+    );
     const totalSeconds = videoEvents.reduce((acc, e) => acc + (e.durationSeconds || 0), 0);
     const totalHours = totalSeconds / 3600;
     // Contar videos únicos (por contentId)
     const uniqueVideoIds = new Set(videoEvents.map(e => e.contentId).filter(Boolean));
     const viewCount = uniqueVideoIds.size;
-    
+
     return {
       viewCount,
       totalHours: totalHours.toFixed(2),
@@ -54,7 +49,7 @@ export default function VideoInputPage() {
 
   const handleLoadVideo = useCallback(async () => {
     if (!youtubeUrl.trim()) return;
-    
+
     const extractedId = extractVideoId(youtubeUrl);
     if (!extractedId) {
       alert('URL de YouTube no válida');
@@ -65,12 +60,11 @@ export default function VideoInputPage() {
     setVideoTitle(youtubeUrl);
     setCurrentTime(0);
     setDuration(0);
-    setWatchedSeconds(0);
     setTranscript(null);
     setTranscriptText('');
     setTranscriptError(null);
     setShowManualTranscript(false);
-    
+
     // Intentar obtener transcripción automáticamente
     setIsLoadingTranscript(true);
     setTranscriptError(null);
@@ -78,7 +72,7 @@ export default function VideoInputPage() {
       console.log('[Video Page] Fetching transcript for video:', extractedId);
       const fetchedTranscript = await getYouTubeTranscript(extractedId);
       console.log('[Video Page] Received transcript:', fetchedTranscript);
-      
+
       if (fetchedTranscript && fetchedTranscript.phrases && fetchedTranscript.phrases.length > 0) {
         setTranscript(fetchedTranscript);
         const phrases = convertTranscriptToPhrases(fetchedTranscript);
@@ -98,7 +92,7 @@ export default function VideoInputPage() {
     } finally {
       setIsLoadingTranscript(false);
     }
-    
+
     // No crear evento aquí, solo cuando se marque como visto
     startTimeRef.current = Date.now();
   }, [youtubeUrl, inputStore]);
@@ -109,37 +103,50 @@ export default function VideoInputPage() {
   }, []);
 
   const handlePlay = useCallback(() => {
-    setIsPlaying(true);
     startTimeRef.current = Date.now();
   }, []);
 
   const handlePause = useCallback(() => {
-    setIsPlaying(false);
     if (startTimeRef.current && videoId) {
       const elapsed = (Date.now() - startTimeRef.current) / 1000;
-      setWatchedSeconds((prev) => prev + elapsed);
+      inputStore.addEvent({
+        id: `video-${videoId}-${Date.now()}`,
+        type: 'video',
+        contentId: videoId,
+        durationSeconds: elapsed,
+        timestamp: new Date().toISOString(),
+        wordsCounted: 0,
+        understood: true,
+      });
       startTimeRef.current = null;
     }
-  }, [videoId]);
+  }, [videoId, inputStore]);
 
   const handleEnd = useCallback(() => {
-    setIsPlaying(false);
     if (startTimeRef.current && videoId) {
       const elapsed = (Date.now() - startTimeRef.current) / 1000;
-      setWatchedSeconds((prev) => prev + elapsed);
+      inputStore.addEvent({
+        id: `video-${videoId}-${Date.now()}`,
+        type: 'video',
+        contentId: videoId,
+        durationSeconds: elapsed,
+        timestamp: new Date().toISOString(),
+        wordsCounted: 0,
+        understood: true,
+      });
       startTimeRef.current = null;
     }
-  }, [videoId]);
+  }, [videoId, inputStore]);
 
   const handleImport = useCallback(() => {
     if (!videoId) {
       alert('Primero carga un video');
       return;
     }
-    
+
     // Redirigir a importar con el videoId prellenado
-    router.push(`/import?source=youtube&videoId=${videoId}`);
-  }, [videoId, router]);
+    window.location.href = `/import?source=youtube&videoId=${videoId}`;
+  }, [videoId]);
 
   const handleMarkAsWatched = useCallback(() => {
     if (!videoId || duration === 0) {
@@ -269,7 +276,7 @@ export default function VideoInputPage() {
                 </p>
               </div>
             )}
-            
+
             {transcriptError && !isLoadingTranscript && (
               <div className="mt-4 p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">
                 <p className="text-sm text-yellow-800 dark:text-yellow-200 mb-2">
@@ -283,7 +290,7 @@ export default function VideoInputPage() {
                 </button>
               </div>
             )}
-            
+
             {showManualTranscript && !transcript && (
               <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -297,7 +304,7 @@ export default function VideoInputPage() {
                 />
               </div>
             )}
-            
+
             {transcript && transcriptText && (
               <div className="mt-4">
                 <WordSelector
@@ -309,7 +316,7 @@ export default function VideoInputPage() {
                     title: videoTitle || `Video ${videoId}`,
                     url: youtubeUrl,
                   } as ContentSource}
-                  onWordsAdded={(count) => {
+                  onWordsAdded={() => {
                     // Opcional: mostrar notificación
                   }}
                 />

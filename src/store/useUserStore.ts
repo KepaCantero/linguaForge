@@ -69,6 +69,15 @@ export const useUserStore = create<UserStore>()(
     }),
     {
       name: 'linguaforge-user',
+      // Asegurar que la persistencia funcione correctamente
+      partialize: (state) => ({
+        appLanguage: state.appLanguage,
+        targetLanguage: state.targetLanguage,
+        mode: state.mode,
+        hasCompletedOnboarding: state.hasCompletedOnboarding,
+        dailyGoal: state.dailyGoal,
+        notifications: state.notifications,
+      }),
     }
   )
 );

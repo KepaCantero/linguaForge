@@ -10,10 +10,12 @@ interface AuthContextType {
   user: User | null;
   session: Session | null;
   loading: boolean;
+  isConfigured: boolean; // Indica si Supabase está configurado
   signIn: (email: string, password: string) => Promise<{ error: AuthError | null }>;
   signUp: (email: string, password: string, fullName?: string) => Promise<{ error: AuthError | null }>;
   signOut: () => Promise<void>;
   signInWithGoogle: () => Promise<void>;
+  signInWithMagicLink: (email: string) => Promise<{ error: AuthError | null }>;
   resetPassword: (email: string) => Promise<{ error: AuthError | null }>;
 }
 
@@ -102,16 +104,31 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return { error };
   };
 
+  const signInWithMagicLink = async (email: string) => {
+    if (!supabase) {
+      return { error: { message: 'Supabase is not configured', status: 500 } as AuthError };
+    }
+    const { error } = await supabase.auth.signInWithOtp({
+      email,
+      options: {
+        emailRedirectTo: `${window.location.origin}/auth/callback`,
+      },
+    });
+    return { error };
+  };
+
   return (
     <AuthContext.Provider
       value={{
         user,
         session,
         loading,
+        isConfigured: !!supabase,
         signIn,
         signUp,
         signOut,
         signInWithGoogle,
+        signInWithMagicLink,
         resetPassword,
       }}
     >

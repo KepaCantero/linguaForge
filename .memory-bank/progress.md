@@ -1,12 +1,12 @@
 # Progress — Estado del Proyecto
 
-> Última actualización: 2025-01-XX
+> Última actualización: 2026-01-03
 
 ## Resumen Ejecutivo
 
-**Estado General:** 🟢 En desarrollo activo  
-**Progreso Total:** ~85%  
-**Última Actualización:** Sistema INPUT completo + SRS integrado + Mejoras en ejercicios Janus
+**Estado General:** 🟢 En desarrollo activo
+**Progreso Total:** ~82%
+**Última Actualización:** FASE 5 Optimizaciones completa + FASE 6 Testing parcial (155 tests unitarios)
 
 ---
 
@@ -86,31 +86,35 @@
 - ✅ Sistema de rutas dinámicas
 - ✅ Validación con Zod schemas
 
-### Integraciones Externas (90%)
+### Integraciones Externas (100%)
 - ✅ YouTube Transcript API (youtube-transcript.io)
 - ✅ Traducción automática (Google Translate / MyMemory)
 - ✅ Web Speech API (TTS)
 - ✅ YouTube IFrame API
-- ⏳ Supabase Auth (pendiente)
-- ⏳ Supabase Sync (pendiente)
+- ✅ Supabase Auth (Magic Link + Password + Google)
+- ✅ Supabase Sync (gamificación + progreso)
+- ✅ PWA (Service Worker + Manifest)
 
 ---
 
 ## ⏳ Lo que Está Pendiente
 
-### FASE 1: Sistema de Misiones con CLT (0%)
-- ⏳ Store de Carga Cognitiva (`useCognitiveLoadStore.ts`)
-- ⏳ Modo Focus (`FocusMode.tsx`)
-- ⏳ Sistema de Métricas CLT (`cognitiveLoadMetrics.ts`)
-- ⏳ Refactorizar `useMissionStore` para CLT
-- ⏳ Algoritmo de Generación de Misiones CLT (`missionGenerator.ts`)
-- ⏳ Componente MissionFeed
-- ⏳ Gamificación Post-Cognitiva
-- ⏳ Resumen de Sesión
+### FASE 1: Sistema de Misiones con CLT (100%)
+- ✅ Store de Carga Cognitiva (`useCognitiveLoadStore.ts`)
+- ✅ Modo Focus (`FocusMode.tsx`)
+- ✅ Sistema de Métricas CLT (`cognitiveLoadMetrics.ts`)
+- ✅ Refactorizar `useMissionStore` para CLT (campos CLT añadidos)
+- ✅ Algoritmo de Generación de Misiones CLT (`missionGenerator.ts`)
+- ✅ Componente MissionFeed (`src/components/missions/MissionFeed.tsx`)
+- ✅ Gamificación Post-Cognitiva (`postCognitiveRewards.ts` + `PostCognitiveRewards.tsx`)
+- ✅ Resumen de Sesión (`SessionSummary.tsx`)
 
-### FASE 2: Integración Warm-ups (15%)
-- ⏳ Integrar Warm-ups con MissionFeed
-- ✅ Resto de componentes ya implementados
+### FASE 2: Integración Warm-ups (100%)
+- ✅ Integrar Warm-ups con MissionFeed
+- ✅ warmupSelector.ts service
+- ✅ RhythmSequenceWarmup component
+- ✅ VisualMatchWarmup component
+- ✅ WarmupGate component (portal de calentamiento)
 
 ### FASE 3: Contenido — ÁREA 0 (0%)
 - ⏳ Schema para ÁREA 0
@@ -123,21 +127,26 @@
 - ⏳ NODO 0.7 — Despedidas y Próximos Pasos
 - ⏳ Integración ÁREA 0 en Sistema
 
-### FASE 4: Backend y Persistencia (0%)
-- ⏳ Supabase Auth
-- ⏳ Sync Service
-- ⏳ Service Worker / PWA
+### FASE 4: Backend y Persistencia (100%)
+- ✅ Supabase Auth (Magic Link + Password + Google OAuth)
+- ✅ Sync Service (gamificación + progreso + offline/online)
+- ✅ Service Worker / PWA (manifest + sw.js + offline support)
 
-### FASE 5: Optimizaciones (0%)
-- ⏳ Lazy loading de ejercicios core
-- ⏳ Cache de traducciones
-- ⏳ Mejoras en generación de ejercicios (en progreso)
-- ⏳ Feedback contextual
+### FASE 5: Optimizaciones (100%)
+- ✅ Lazy loading de ejercicios core (`src/components/exercises/lazy.ts`)
+- ✅ Cache de traducciones en localStorage (`translationService.ts` mejorado)
+- ✅ Performance hooks (`src/hooks/usePerformance.ts`)
+- ✅ Feedback contextual (integrado en ejercicios)
 
-### FASE 6: Testing (0%)
-- ⏳ Tests E2E para flujos principales
-- ⏳ Tests unitarios para servicios
-- ⏳ Visual regression tests
+### FASE 6: Testing (66%)
+- ⏳ Tests E2E para flujos principales (pendiente - Playwright)
+- ✅ Tests unitarios para servicios (155 tests pasando)
+  - missionGenerator.test.ts (21 tests)
+  - postCognitiveRewards.test.ts (30 tests)
+  - warmupSelector.test.ts (21 tests)
+  - usePerformance.test.ts (18 tests)
+  - + tests existentes (schemas, constants, rankSystem, hpSystem)
+- ⏳ Visual regression tests (pendiente)
 
 ### FASE 7: Contenido Adicional (0%)
 - ⏳ Expansión de Contenido A1 (Áreas O, P, Q, R, S)
@@ -160,16 +169,16 @@
 | Sistema INPUT | 8 | 8 | 0 | 100% |
 | Sistema SRS | 9 | 9 | 0 | 100% |
 | Contenido Importado | 5 | 5 | 0 | 100% |
-| Ejercicios Core | 11 | 10 | 1 | 91% |
-| Warm-ups | 9 | 7 | 2 | 78% |
-| CLT Misiones | 8 | 0 | 8 | 0% |
+| Ejercicios Core | 11 | 11 | 0 | 100% |
+| Warm-ups | 9 | 9 | 0 | 100% |
+| CLT Misiones | 8 | 8 | 0 | 100% |
 | ÁREA 0 | 9 | 0 | 9 | 0% |
-| Backend | 3 | 0 | 3 | 0% |
-| Optimizaciones | 4 | 0 | 4 | 0% |
-| Testing | 3 | 0 | 3 | 0% |
+| Backend | 3 | 3 | 0 | 100% |
+| Optimizaciones | 4 | 4 | 0 | 100% |
+| Testing | 3 | 2 | 1 | 66% |
 | Contenido Adicional | 3 | 0 | 3 | 0% |
 | Monetización | 3 | 0 | 3 | 0% |
-| **TOTAL** | **74** | **39** | **35** | **53%** |
+| **TOTAL** | **75** | **61** | **14** | **81%** |
 
 ### Por Prioridad
 
@@ -184,21 +193,19 @@
 
 ## 🎯 Próximos Pasos Inmediatos
 
-### Crítico (Esta Semana)
+### Crítico - ÁREA 0 (Contenido Base)
 1. **TAREA 3.1** - Crear schema para ÁREA 0
-2. **TAREA 3.2-3.4** - Implementar primeros 3 nodos de ÁREA 0
-3. **TAREA 1.1** - Crear `useCognitiveLoadStore.ts`
-4. **TAREA 1.2** - Implementar Modo Focus básico
+2. **TAREA 3.2** - NODO 0.1 — Saludos y Despedidas
+3. **TAREA 3.3** - NODO 0.2 — Presentaciones Básicas
+4. **TAREA 3.4** - NODO 0.3 — Números 0-20
+5. **TAREA 3.5-3.9** - Completar nodos restantes de ÁREA 0
 
-### Alta Prioridad (Próximas 2 Semanas)
-- **TAREA 1.4-1.6** - Sistema de Misiones CLT
-- **TAREA 2.8** - Integrar Warm-ups con MissionFeed
-- **TAREA 4.1-4.2** - Backend (Auth + Sync)
+### Media Prioridad
+- **TAREA 6.3** - Tests E2E con Playwright (pendiente)
+- **TAREA 7.1** - Expansión contenido A1
 
-### Media Prioridad (Próximo Mes)
-- **TAREA 5.1-5.3** - Optimizaciones
-- **TAREA 6.1-6.2** - Testing
-- **TAREA 7.1** - Expansión contenido
+### Baja Prioridad (Última Fase)
+- **FASE 8** - Monetización (Stripe, Analytics)
 
 ---
 
@@ -221,12 +228,19 @@
 
 ## 📈 Logros Recientes
 
-1. **Sistema INPUT Completo:** Video, audio y texto completamente funcionales
-2. **Sistema SRS Integrado:** Repaso espaciado con algoritmo SM-2
-3. **Generación Automática de Ejercicios:** 5 tipos desde frases importadas
-4. **Mejoras en Janus Composer:** Extracción mejorada y validaciones
-5. **Warm-ups Cognitivos:** 7 de 9 componentes implementados
-6. **Integración YouTube:** Transcripciones automáticas funcionando
+1. **FASE 5 Optimizaciones Completa:**
+   - Lazy loading de ejercicios (`src/components/exercises/lazy.ts`)
+   - Cache de traducciones en localStorage (5000 entradas max)
+   - Performance hooks (debounce, throttle, intersection observer, etc.)
+2. **FASE 6 Testing Parcial:**
+   - 155 tests unitarios pasando
+   - Tests para missionGenerator, postCognitiveRewards, warmupSelector, usePerformance
+3. **FASE 1 CLT Completa:** Sistema de misiones con Cognitive Load Theory
+4. **FASE 2 Warm-ups Completa:** Integración con MissionFeed + WarmupGate
+5. **Sistema INPUT Completo:** Video, audio y texto funcionales
+6. **Sistema SRS Integrado:** Repaso espaciado con algoritmo SM-2
+7. **Generación Automática de Ejercicios:** 5 tipos desde frases importadas
+8. **Backend Completo:** Supabase Auth + Sync + PWA
 
 ---
 
@@ -253,7 +267,8 @@ src/store/
 ├── useWordDictionaryStore.ts # Diccionario de palabras ✅
 ├── useUserStore.ts         # Configuración usuario ✅
 ├── useWarmupStore.ts       # Warm-ups ✅
-└── useCognitiveLoadStore.ts # CLT ⏳ (pendiente)
+├── useCognitiveLoadStore.ts # CLT ✅
+└── useMissionStore.ts      # Misiones con CLT ✅
 ```
 
 ### Estructura de Servicios
@@ -265,8 +280,22 @@ src/services/
 ├── translationService.ts             # Traducción automática ✅
 ├── conjugationService.ts             # Conjugación francesa ✅
 ├── warmupSelector.ts                 # Selector warm-ups ✅
-├── cognitiveLoadMetrics.ts           # Métricas CLT ⏳ (pendiente)
-└── missionGenerator.ts               # Generación misiones ⏳ (pendiente)
+├── cognitiveLoadMetrics.ts           # Métricas CLT ✅
+├── missionGenerator.ts               # Generación misiones CLT ✅
+└── postCognitiveRewards.ts           # Recompensas post-cognitivas ✅
+```
+
+### Estructura de Componentes CLT
+```
+src/components/
+├── missions/
+│   └── MissionFeed.tsx               # Feed de misiones diarias ✅
+├── gamification/
+│   └── PostCognitiveRewards.tsx      # Recompensas post-sesión ✅
+├── session/
+│   └── SessionSummary.tsx            # Resumen de sesión ✅
+└── shared/
+    └── FocusMode.tsx                 # Modo Focus ✅
 ```
 
 ---

@@ -49,9 +49,13 @@ export async function middleware(request: NextRequest) {
   // Protect routes that require authentication
   const { pathname } = request.nextUrl;
   const isAuthRoute = pathname.startsWith('/auth');
-  const isProtectedRoute = pathname.startsWith('/tree') || pathname.startsWith('/dashboard');
+  const isPublicRoute = pathname === '/' || pathname.startsWith('/onboarding');
+  const isProtectedRoute = pathname.startsWith('/learn') ||
+                           pathname.startsWith('/decks') ||
+                           pathname.startsWith('/input') ||
+                           pathname.startsWith('/profile');
 
-  if (isProtectedRoute && !isAuthRoute) {
+  if (isProtectedRoute && !isAuthRoute && !isPublicRoute) {
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -73,7 +77,7 @@ export async function middleware(request: NextRequest) {
 
     if (user) {
       const url = request.nextUrl.clone();
-      url.pathname = '/tree';
+      url.pathname = '/learn';
       return NextResponse.redirect(url);
     }
   }

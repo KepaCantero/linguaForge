@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useMemo, useCallback, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useMemo, useCallback } from 'react';
+import { motion } from 'framer-motion';
 import { extractKeywords, normalizeWord, type ExtractedWord } from '@/services/wordExtractor';
 import { translateWords } from '@/services/translationService';
 import { useWordDictionaryStore } from '@/store/useWordDictionaryStore';
@@ -25,10 +25,12 @@ interface SelectedWord extends ExtractedWord {
 
 export function WordSelector({
   transcript,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   phrases,
   source,
   onWordsAdded,
 }: WordSelectorProps) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { getNewWords, addWord, isWordStudied } = useWordDictionaryStore();
   const { addCards } = useSRSStore();
   const { addXP } = useGamificationStore();

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 
 interface YouTubePlayerProps {
   videoId: string;
@@ -92,7 +92,7 @@ export function YouTubePlayer({
     if (playerInstanceRef.current) {
       try {
         playerInstanceRef.current.destroy();
-      } catch (e) {
+      } catch {
         // Ignorar errores
       }
       playerInstanceRef.current = null;
@@ -126,7 +126,7 @@ export function YouTubePlayer({
                   if (currentTime > 0 && duration > 0) {
                     handleTimeUpdate(currentTime, duration);
                   }
-                } catch (e) {
+                } catch {
                   // Ignorar errores si el player no está disponible
                 }
               }
@@ -157,7 +157,7 @@ export function YouTubePlayer({
       if (playerInstanceRef.current) {
         try {
           playerInstanceRef.current.destroy();
-        } catch (e) {
+        } catch {
           // Ignorar errores al destruir
         }
         playerInstanceRef.current = null;

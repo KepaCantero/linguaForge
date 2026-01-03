@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, Suspense } from 'react';
+import { Suspense } from 'react';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
@@ -18,8 +18,6 @@ function PracticeModeSelection() {
   const { nodes } = useImportedNodesStore();
   const node = nodes.find((n) => n.id === nodeId);
   const subtopic = node?.subtopics.find((s) => s.id === subtopicId);
-
-  const [selectedMode, setSelectedMode] = useState<LessonMode | null>(null);
 
   if (!node || !subtopic) {
     return (
@@ -39,7 +37,6 @@ function PracticeModeSelection() {
   }
 
   const handleModeSelect = (mode: LessonMode) => {
-    setSelectedMode(mode);
     // Redirigir a la página de ejercicios con el modo seleccionado
     router.push(`/learn/imported/${nodeId}/exercises?subtopic=${subtopicId}&mode=${mode}`);
   };

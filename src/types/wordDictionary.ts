@@ -1,5 +1,8 @@
 import { z } from 'zod';
-import { SRSCard } from './srs';
+import type { SRSCard } from './srs';
+
+// SRSCard se importa para referencia de tipos en la documentación
+export type { SRSCard };
 
 /**
  * Diccionario de palabras estudiadas

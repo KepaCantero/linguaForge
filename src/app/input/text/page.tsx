@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useMemo, useCallback } from 'react';
-import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useInputStore } from '@/store/useInputStore';
@@ -198,7 +197,7 @@ export default function TextInputPage() {
         {!textId && (
           <div className="space-y-4">
             <p className="text-sm text-gray-500 dark:text-gray-400 text-center py-8">
-              No hay textos disponibles. Haz clic en "Importar" para agregar artículos o textos.
+              No hay textos disponibles. Haz clic en &quot;Importar&quot; para agregar artículos o textos.
             </p>
           </div>
         )}

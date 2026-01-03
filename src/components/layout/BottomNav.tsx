@@ -12,6 +12,12 @@ const navItems = [
     ariaLabel: "Mapa de aprendizaje",
   },
   {
+    href: "/missions",
+    icon: "⚔️",
+    label: "Misiones",
+    ariaLabel: "Misiones diarias",
+  },
+  {
     href: "/input",
     icon: "◎",
     label: "Input",
