@@ -77,8 +77,8 @@ export function CountUpNumber({
         suffix={suffix}
         separator="."
         decimal=","
-        onEnd={onComplete}
-        formattingFn={formatValue || undefined}
+        {...(onComplete !== undefined && { onEnd: onComplete })}
+        {...(formatValue !== undefined && { formattingFn: formatValue })}
       />
     </motion.span>
   );

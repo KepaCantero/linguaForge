@@ -89,10 +89,6 @@ function ImportPageContent() {
   const [subtopics, setSubtopics] = useState<Subtopic[]>([]);
   const [newSubtopicTitle, setNewSubtopicTitle] = useState('');
 
-  // Estado de creación
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [createdNodeId, setCreatedNodeId] = useState<string | null>(null);
-
   const sources = [
     { id: 'podcast' as const, icon: '🎙️', label: t.import.podcast },
     { id: 'article' as const, icon: '📰', label: t.import.article },
@@ -216,18 +212,20 @@ function ImportPageContent() {
   const handleCreateNode = () => {
     if (!topicTitle.trim() || !selectedSource) return;
 
-    const nodeId = createNode({
+    createNode({
       title: topicTitle.trim(),
       icon: selectedIcon,
       sourceType: selectedSource,
       sourceText: content,
       // Para YouTube, guardar transcripción sincronizada y videoId
-      transcript: selectedSource === 'youtube' && transcript ? transcript.phrases.map((p) => ({
-        text: p.text,
-        start: p.start,
-        duration: p.duration,
-      })) : undefined,
-      videoId: selectedSource === 'youtube' ? videoId || undefined : undefined,
+      ...(selectedSource === 'youtube' && transcript && {
+        transcript: transcript.phrases.map((p) => ({
+          text: p.text,
+          start: p.start,
+          duration: p.duration,
+        })),
+      }),
+      ...(selectedSource === 'youtube' && videoId && { videoId }),
       subtopics: subtopics.map((s) => ({
         id: s.id,
         title: s.title,
@@ -235,7 +233,6 @@ function ImportPageContent() {
       })),
     });
 
-    setCreatedNodeId(nodeId);
     setStep('success');
   };
 
@@ -251,7 +248,6 @@ function ImportPageContent() {
     setTopicTitle('');
     setSelectedIcon('📚');
     setSubtopics([]);
-    setCreatedNodeId(null);
     setYoutubeUrl('');
     setTranscript(null);
     setVideoId(null);

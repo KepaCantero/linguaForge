@@ -5,15 +5,11 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import type { TopicLeaf, TopicBranch, LessonContent, LanguageCode, LevelCode } from '@/types';
-import { TopicTreeSchema } from '@/types';
-import { loadLesson } from '@/services/lessonLoader';
-import { loadWorld } from '@/services/contentLoader';
 
 interface UseLessonReturn {
     leaf: TopicLeaf | null;
     branch: TopicBranch | null;
     lessonContent: LessonContent | null;
-    world: { id: string; janusMatrix?: { id: string; title: string; description?: string; columns: unknown[] } } | null;
     loading: boolean;
     error: string | null;
 }
@@ -22,7 +18,6 @@ export function useLesson(leafId: string, language: LanguageCode, level: LevelCo
     const [leaf, setLeaf] = useState<TopicLeaf | null>(null);
     const [branch, setBranch] = useState<TopicBranch | null>(null);
     const [lessonContent, setLessonContent] = useState<LessonContent | null>(null);
-    const [world, setWorld] = useState<{ id: string; janusMatrix?: { id: string; title: string; description?: string; columns: unknown[] } } | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -34,50 +29,50 @@ export function useLesson(leafId: string, language: LanguageCode, level: LevelCo
                 setLoading(true);
                 setError(null);
 
-                // Load topic tree to find leaf and branch
-                const treeData = await import(`@/../content/${language}/${level}/topic-tree.json`);
-                const parsedTree = TopicTreeSchema.parse(treeData.default || treeData);
-
-                // Find the leaf and branch
-                let foundLeaf: TopicLeaf | null = null;
-                let foundBranch: TopicBranch | null = null;
-                for (const b of parsedTree.branches) {
-                    const found = b.leaves.find((l) => l.id === leafId);
-                    if (found) {
-                        foundLeaf = found;
-                        foundBranch = b;
-                        break;
-                    }
+                // Determine JSON path based on level and leafId
+                let jsonPath: string;
+                if (level === 'A0' || leafId.startsWith('nodo-0-')) {
+                    // ÁREA 0 - Base Absoluta
+                    jsonPath = `/content/${language}/A0/base-absoluta/${leafId}.json`;
+                } else {
+                    // Regular lessons
+                    jsonPath = `/content/${language}/${level}/lessons/${leafId}.json`;
                 }
 
-                if (!foundLeaf || !foundBranch) {
-                    throw new Error(`Leaf ${leafId} not found in topic tree`);
+                console.log(`[useLesson] Loading from: ${jsonPath}`);
+
+                const response = await fetch(jsonPath);
+
+                if (!response.ok) {
+                    throw new Error(`Failed to load lesson: ${response.status} ${response.statusText}`);
                 }
 
-                // Load lesson content
-                const loadedLesson = await loadLesson(language, level, leafId);
+                const rawData = await response.json();
 
-                // Load world if available (worldId is determined by language/level)
-                let worldData = null;
-                const worldId = language === 'fr' && level === 'A1' ? 'airbnb' :
-                    language === 'fr' && level === 'A2' ? 'restaurant' :
-                        language === 'de' && level === 'A1' ? 'airbnb' : 'airbnb';
-                try {
-                    worldData = await loadWorld(language, level, worldId);
-                } catch {
-                    // World loading is optional
-                }
+                console.log(`[useLesson] Loaded lesson:`, {
+                    leafId: rawData.leafId,
+                    title: rawData.title,
+                    hasConversationalBlocks: !!rawData.conversationalBlocks,
+                    hasCoreExercises: !!rawData.coreExercises,
+                });
 
                 if (!isMounted) return;
 
-                setLeaf(foundLeaf);
-                setBranch(foundBranch);
-                setLessonContent(loadedLesson);
-                if (worldData) {
-                    setWorld(worldData);
-                }
+                // Create a minimal leaf from the lesson data
+                const minimalLeaf: TopicLeaf = {
+                    id: rawData.leafId || leafId,
+                    title: rawData.title || 'Lección',
+                    titleFr: rawData.titleFr || rawData.title || 'Leçon',
+                    grammar: [],
+                    estimatedMinutes: rawData.estimatedMinutes || 15,
+                };
+
+                setLeaf(minimalLeaf);
+                setBranch(null); // We don't need branch info for rendering
+                setLessonContent(rawData);
             } catch (err) {
                 if (!isMounted) return;
+                console.error('[useLesson] Error:', err);
                 setError(err instanceof Error ? err.message : 'Error al cargar la lección');
             } finally {
                 if (isMounted) {
@@ -99,9 +94,7 @@ export function useLesson(leafId: string, language: LanguageCode, level: LevelCo
         leaf,
         branch,
         lessonContent,
-        world,
         loading,
         error,
-    }), [leaf, branch, lessonContent, world, loading, error]);
+    }), [leaf, branch, lessonContent, loading, error]);
 }
-

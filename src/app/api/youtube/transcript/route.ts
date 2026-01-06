@@ -339,14 +339,6 @@ async function fetchYouTubeTranscript(videoId: string): Promise<TranscriptItem[]
   }
 }
 
-/**
- * Método fallback usando scraping manual (solo si la API falla)
- * @deprecated Este método ya no está disponible - usar la API con token
- */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-async function fetchYouTubeTranscriptFallback(_videoId: string): Promise<TranscriptItem[]> {
-  console.error('[YouTube Transcript API] Fallback llamado pero no disponible');
-  throw new Error('API token no configurado. Por favor:\n1. Crea el archivo .env.local en la raíz del proyecto\n2. Agrega: YOUTUBE_TRANSCRIPT_API_TOKEN=tu-token-aqui\n3. Reinicia el servidor (detén y vuelve a ejecutar npm run dev)');
-}
+// Método fallback eliminado - ya no es necesario con la API implementada
 
 

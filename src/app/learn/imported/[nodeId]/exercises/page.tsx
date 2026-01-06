@@ -321,7 +321,7 @@ function ExercisesPageContent() {
           <ConversationalEchoExercise
             exercise={currentExercise as ConversationalEcho}
             onComplete={() => handleExerciseComplete()}
-            onSkip={mode === 'academia' ? () => setSelectedExerciseType(null) : undefined}
+            {...(mode === 'academia' && { onSkip: () => setSelectedExerciseType(null) })}
             showHints={mode === 'academia'}
           />
         );
@@ -330,7 +330,7 @@ function ExercisesPageContent() {
           <DialogueIntonationExercise
             exercise={currentExercise as DialogueIntonation}
             onComplete={() => handleExerciseComplete()}
-            onSkip={mode === 'academia' ? () => setSelectedExerciseType(null) : undefined}
+            {...(mode === 'academia' && { onSkip: () => setSelectedExerciseType(null) })}
           />
         );
       case 'janusComposer':
@@ -338,7 +338,7 @@ function ExercisesPageContent() {
           <JanusComposerExercise
             exercise={currentExercise as JanusComposer}
             onComplete={() => handleExerciseComplete()}
-            onSkip={mode === 'academia' ? () => setSelectedExerciseType(null) : undefined}
+            {...(mode === 'academia' && { onSkip: () => setSelectedExerciseType(null) })}
           />
         );
       default:

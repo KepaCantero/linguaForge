@@ -5,8 +5,7 @@ import useUndoHook from 'use-undo';
  * Hook wrapper para use-undo con límites de historial
  * Usado en Janus Matrix para deshacer combinaciones
  */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function useUndo<T>(initialState: T, maxHistorySize: number = 50) {
+export function useUndo<T>(initialState: T) {
   const [state, { set, undo, redo, canUndo, canRedo }] = useUndoHook(initialState);
 
   const setWithLimit = useCallback(

@@ -199,9 +199,9 @@ export function isWarmupAppropriate(
   if (currentLoad > 80) {
     return {
       appropriate: warmupType === 'visualMatch',
-      reason: currentLoad > 80
-        ? 'Tu carga cognitiva es alta. Un warmup visual suave es lo mejor.'
-        : undefined,
+      ...(currentLoad > 80 && {
+        reason: 'Tu carga cognitiva es alta. Un warmup visual suave es lo mejor.',
+      }),
     };
   }
 

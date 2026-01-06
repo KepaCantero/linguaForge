@@ -62,7 +62,7 @@ export async function saveExerciseCompletion(
       progress = {
         user_id: userId,
         lesson_id: lessonId,
-        world_id: worldId || undefined,
+        ...(worldId !== undefined && { world_id: worldId }),
         completed_exercises: [exerciseId],
         correct_answers: isCorrect ? 1 : 0,
         total_attempts: 1,

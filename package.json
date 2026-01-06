@@ -12,14 +12,19 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
+    "@rive-app/canvas": "^2.33.1",
+    "@rive-app/react-canvas": "^4.25.1",
     "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.89.0",
     "@tsparticles/engine": "^3.9.1",
     "@tsparticles/react": "^3.0.0",
     "@tsparticles/slim": "^3.9.1",
-    "framer-motion": "^12.23.26",
+    "framer-motion": "12.24.7",
     "fuse.js": "^7.1.0",
     "howler": "^2.2.4",
+    "lottie-react": "^2.4.1",
+    "lottie-web": "^5.13.0",
+    "lucide-react": "^0.562.0",
     "next": "14.2.35",
     "react": "^18",
     "react-countup": "^6.5.3",
@@ -27,7 +32,7 @@
     "reactflow": "^11.11.4",
     "recharts": "^3.6.0",
     "use-undo": "^1.1.1",
-    "zod": "^4.2.1",
+    "zod": "4.3.5",
     "zustand": "^5.0.9"
   },
   "devDependencies": {

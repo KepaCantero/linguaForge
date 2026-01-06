@@ -319,11 +319,10 @@ function detectAchievements(
 
 /**
  * Genera feedback de sesión
+ * @param metrics - Métricas de rendimiento de la sesión
  */
 function generateSessionFeedback(
-  metrics: PerformanceMetrics,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  rewards: RewardCalculation
+  metrics: PerformanceMetrics
 ): SessionFeedback {
   const tips: string[] = [];
   const nextSteps: string[] = [];
@@ -460,7 +459,7 @@ export function getSessionFeedback(
   isFirstSession: boolean = false
 ): { rewards: RewardCalculation; feedback: SessionFeedback } {
   const rewards = calculatePostCognitiveRewards(metrics, 0, isFirstSession);
-  const feedback = generateSessionFeedback(metrics, rewards);
+  const feedback = generateSessionFeedback(metrics);
 
   return { rewards, feedback };
 }

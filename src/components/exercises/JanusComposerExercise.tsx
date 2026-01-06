@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { JanusComposer } from '@/schemas/content';
 import type { JanusCompositionResult, SpeechRecordingResult } from '@/types';
@@ -27,6 +27,15 @@ interface ColumnSelection {
 }
 
 type Phase = 'composing' | 'preview' | 'practice' | 'dialogue' | 'complete';
+
+// ============================================================
+// TIPOS PARA NAVEGACIÓN POR TECLADO
+// ============================================================
+
+interface KeyboardFocusState {
+  columnId: string | null;
+  optionId: string | null;
+}
 
 // ============================================
 // CONSTANTES
@@ -77,6 +86,15 @@ export function JanusComposerExercise({
   const [dialoguesCompleted, setDialoguesCompleted] = useState(0);
   const [phrasesCreated, setPhrasesCreated] = useState(0);
 
+  // Keyboard navigation state
+  const [keyboardFocus, setKeyboardFocus] = useState<KeyboardFocusState>({
+    columnId: null,
+    optionId: null,
+  });
+  const [hoveredTranslation, setHoveredTranslation] = useState<string | null>(null);
+  const columnRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const optionRefs = useRef<Record<string, HTMLButtonElement | null>>({});
+
   // Ordenar columnas: Subject > Verb > Complement > Time
   const orderedColumns = useMemo(() => {
     const order = ['subject', 'verb', 'complement', 'time'];
@@ -109,7 +127,12 @@ export function JanusComposerExercise({
     const complement = complementCol && selections[complementCol.id]?.value;
     const time = timeCol && selections[timeCol.id]?.value;
 
-    return generateConjugatedPhrase({ subject, verb, complement, time });
+    return generateConjugatedPhrase({
+      subject,
+      verb,
+      ...(complement !== undefined && { complement }),
+      ...(time !== undefined && { time }),
+    });
   }, [orderedColumns, selections]);
 
   // Generar traducción combinada
@@ -144,7 +167,7 @@ export function JanusComposerExercise({
         columnId,
         optionId: option.id,
         value: option.text,
-        translation: option.translation,
+        ...(option.translation !== undefined && { translation: option.translation }),
       },
     }));
   }, []);
@@ -176,38 +199,6 @@ export function JanusComposerExercise({
     setPhase('practice');
   }, []);
 
-  // Manejar grabación completada
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const handleRecordingComplete = useCallback((_recording: SpeechRecordingResult) => {
-    addXP(XP_VALUES.practiceSuccess);
-
-    // Si hay diálogos de práctica, ir a ellos
-    if (exercise.practiceDialogues && exercise.practiceDialogues.length > 0) {
-      setCurrentDialogueIndex(0);
-      setPhase('dialogue');
-    } else {
-      handleComplete();
-    }
-  }, [exercise.practiceDialogues, addXP]);
-
-  // Completar diálogo actual
-  const handleCompleteDialogue = useCallback(() => {
-    addXP(XP_VALUES.dialogueBonus);
-    setDialoguesCompleted(prev => prev + 1);
-
-    if (currentDialogueIndex < (exercise.practiceDialogues?.length || 0) - 1) {
-      setCurrentDialogueIndex(prev => prev + 1);
-    } else {
-      handleComplete();
-    }
-  }, [currentDialogueIndex, exercise.practiceDialogues, addXP]);
-
-  // Nueva combinación
-  const handleNewCombination = useCallback(() => {
-    setSelections({});
-    setPhase('composing');
-  }, []);
-
   // Completar ejercicio
   const handleComplete = useCallback(() => {
     setPhase('complete');
@@ -228,12 +219,214 @@ export function JanusComposerExercise({
     }, 1500);
   }, [selections, generatedPhrase, generatedTranslation, dialoguesCompleted, addGems, onComplete]);
 
+  // Manejar grabación completada
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const handleRecordingComplete = useCallback((_recording: SpeechRecordingResult) => {
+    addXP(XP_VALUES.practiceSuccess);
+
+    // Si hay diálogos de práctica, ir a ellos
+    if (exercise.practiceDialogues && exercise.practiceDialogues.length > 0) {
+      setCurrentDialogueIndex(0);
+      setPhase('dialogue');
+    } else {
+      handleComplete();
+    }
+  }, [exercise.practiceDialogues, addXP, handleComplete]);
+
+  // Completar diálogo actual
+  const handleCompleteDialogue = useCallback(() => {
+    addXP(XP_VALUES.dialogueBonus);
+    setDialoguesCompleted(prev => prev + 1);
+
+    if (currentDialogueIndex < (exercise.practiceDialogues?.length || 0) - 1) {
+      setCurrentDialogueIndex(prev => prev + 1);
+    } else {
+      handleComplete();
+    }
+  }, [currentDialogueIndex, exercise.practiceDialogues, addXP, handleComplete]);
+
+  // Nueva combinación
+  const handleNewCombination = useCallback(() => {
+    setSelections({});
+    setPhase('composing');
+  }, []);
+
+  // ============================================================
+  // NAVEGACIÓN POR TECLADO
+  // ============================================================
+
+  // Mover foco a una columna específica
+  const moveFocusToColumn = useCallback((direction: 'next' | 'prev') => {
+    if (orderedColumns.length === 0) return;
+
+    const currentIndex = keyboardFocus.columnId
+      ? orderedColumns.findIndex(col => col.id === keyboardFocus.columnId)
+      : -1;
+
+    let nextIndex: number;
+    if (direction === 'next') {
+      nextIndex = currentIndex < orderedColumns.length - 1 ? currentIndex + 1 : 0;
+    } else {
+      nextIndex = currentIndex > 0 ? currentIndex - 1 : orderedColumns.length - 1;
+    }
+
+    const nextColumn = orderedColumns[nextIndex];
+    const firstOption = nextColumn.options[0];
+
+    setKeyboardFocus({
+      columnId: nextColumn.id,
+      optionId: firstOption?.id || null,
+    });
+
+    // Scroll al elemento
+    setTimeout(() => {
+      optionRefs.current[`${nextColumn.id}-${firstOption?.id}`]?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+      });
+    }, 0);
+  }, [orderedColumns, keyboardFocus.columnId]);
+
+  // Mover foco a una opción dentro de la columna actual
+  const moveFocusToOption = useCallback((direction: 'next' | 'prev') => {
+    if (!keyboardFocus.columnId) return;
+
+    const column = orderedColumns.find(col => col.id === keyboardFocus.columnId);
+    if (!column || column.options.length === 0) return;
+
+    const currentIndex = keyboardFocus.optionId
+      ? column.options.findIndex(opt => opt.id === keyboardFocus.optionId)
+      : -1;
+
+    let nextIndex: number;
+    if (direction === 'next') {
+      nextIndex = currentIndex < column.options.length - 1 ? currentIndex + 1 : 0;
+    } else {
+      nextIndex = currentIndex > 0 ? currentIndex - 1 : column.options.length - 1;
+    }
+
+    const nextOption = column.options[nextIndex];
+
+    setKeyboardFocus(prev => ({
+      ...prev,
+      optionId: nextOption.id,
+    }));
+
+    // Scroll al elemento
+    setTimeout(() => {
+      optionRefs.current[`${column.id}-${nextOption.id}`]?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+      });
+    }, 0);
+  }, [orderedColumns, keyboardFocus.columnId, keyboardFocus.optionId]);
+
+  // Seleccionar la opción enfocada
+  const selectFocusedOption = useCallback(() => {
+    if (!keyboardFocus.columnId || !keyboardFocus.optionId) return;
+
+    const column = orderedColumns.find(col => col.id === keyboardFocus.columnId);
+    if (!column) return;
+
+    const option = column.options.find(opt => opt.id === keyboardFocus.optionId);
+    if (!option) return;
+
+    handleSelectOption(column.id, {
+      id: option.id,
+      text: option.text,
+      ...(option.translation !== undefined && { translation: option.translation }),
+    });
+
+    // Auto-mover a la siguiente columna requerida
+    const requiredTypes = ['subject', 'verb'];
+    const nextRequiredColumn = orderedColumns.find((col, index) => {
+      const colIndex = orderedColumns.findIndex(c => c.id === column.id);
+      return index > colIndex && requiredTypes.includes(col.type) && !selections[col.id];
+    });
+
+    if (nextRequiredColumn) {
+      const firstOption = nextRequiredColumn.options[0];
+      setKeyboardFocus({
+        columnId: nextRequiredColumn.id,
+        optionId: firstOption?.id || null,
+      });
+    }
+  }, [keyboardFocus.columnId, keyboardFocus.optionId, orderedColumns, selections, handleSelectOption]);
+
+  // Manejar teclas de navegación
+  const handleKeyDown = useCallback((event: KeyboardEvent) => {
+    // Solo activar en fase de composición
+    if (phase !== 'composing') return;
+
+    // Ignorar si el usuario está escribiendo en un input
+    const target = event.target as HTMLElement;
+    if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') return;
+
+    switch (event.key) {
+      case 'ArrowLeft':
+        event.preventDefault();
+        moveFocusToColumn('prev');
+        break;
+
+      case 'ArrowRight':
+        event.preventDefault();
+        moveFocusToColumn('next');
+        break;
+
+      case 'ArrowUp':
+        event.preventDefault();
+        moveFocusToOption('prev');
+        break;
+
+      case 'ArrowDown':
+        event.preventDefault();
+        moveFocusToOption('next');
+        break;
+
+      case 'Enter':
+      case ' ':
+        event.preventDefault();
+        selectFocusedOption();
+        break;
+
+      case 'Tab':
+        event.preventDefault();
+        moveFocusToColumn(event.shiftKey ? 'prev' : 'next');
+        break;
+
+      case 'Escape':
+        event.preventDefault();
+        if (keyboardFocus.columnId) {
+          handleClearSelection(keyboardFocus.columnId);
+        }
+        break;
+    }
+  }, [phase, moveFocusToColumn, moveFocusToOption, selectFocusedOption, keyboardFocus.columnId, handleClearSelection]);
+
+  // Efecto para registrar eventos de teclado
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [handleKeyDown]);
+
+  // Inicializar foco en la primera columna al entrar en composing phase
+  useEffect(() => {
+    if (phase === 'composing' && !keyboardFocus.columnId && orderedColumns.length > 0) {
+      const firstColumn = orderedColumns[0];
+      const firstOption = firstColumn.options[0];
+      setKeyboardFocus({
+        columnId: firstColumn.id,
+        optionId: firstOption?.id || null,
+      });
+    }
+  }, [phase, keyboardFocus.columnId, orderedColumns]);
+
   const currentDialogue = exercise.practiceDialogues?.[currentDialogueIndex];
 
   return (
     <div className={`max-w-2xl mx-auto ${className}`}>
       {/* Header */}
-      <div className="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl p-4 mb-6 text-white">
+      <div className="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl p-4 mb-4 text-white">
         <div className="flex items-center justify-between">
           <div>
             <h3 className="font-semibold">🧩 Janus Composer</h3>
@@ -248,6 +441,37 @@ export function JanusComposerExercise({
           )}
         </div>
       </div>
+
+      {/* Keyboard navigation hints - solo visible en composing phase */}
+      <AnimatePresence>
+        {phase === 'composing' && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="mb-4 bg-gray-100 dark:bg-gray-800 rounded-lg px-3 py-2"
+          >
+            <div className="flex items-center justify-center gap-4 text-xs text-gray-600 dark:text-gray-400">
+              <span className="flex items-center gap-1">
+                <kbd className="px-1.5 py-0.5 bg-white dark:bg-gray-700 rounded border border-gray-300 dark:border-gray-600 font-mono">←→</kbd>
+                <span>Columnas</span>
+              </span>
+              <span className="flex items-center gap-1">
+                <kbd className="px-1.5 py-0.5 bg-white dark:bg-gray-700 rounded border border-gray-300 dark:border-gray-600 font-mono">↑↓</kbd>
+                <span>Opciones</span>
+              </span>
+              <span className="flex items-center gap-1">
+                <kbd className="px-1.5 py-0.5 bg-white dark:bg-gray-700 rounded border border-gray-300 dark:border-gray-600 font-mono">Enter</kbd>
+                <span>Seleccionar</span>
+              </span>
+              <span className="flex items-center gap-1">
+                <kbd className="px-1.5 py-0.5 bg-white dark:bg-gray-700 rounded border border-gray-300 dark:border-gray-600 font-mono">ESC</kbd>
+                <span>Limpiar</span>
+              </span>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <AnimatePresence mode="wait">
         {/* Fase de composición */}
@@ -285,31 +509,69 @@ export function JanusComposerExercise({
                     </div>
 
                     {/* Opciones */}
-                    <div className={`rounded-xl border-2 p-2 ${colorClass}`}>
+                    <div
+                      ref={(el) => { columnRefs.current[column.id] = el; }}
+                      className={`rounded-xl border-2 p-2 transition-all ${keyboardFocus.columnId === column.id ? 'ring-2 ring-indigo-400 ring-offset-2' : ''} ${colorClass}`}
+                    >
                       <div className="space-y-1.5 max-h-48 overflow-y-auto">
                         {column.options.map((option) => {
                           const isSelected = selection?.optionId === option.id;
+                          const isFocused = keyboardFocus.columnId === column.id && keyboardFocus.optionId === option.id;
+                          const showTranslation = hoveredTranslation === `${column.id}-${option.id}`;
+
                           return (
-                            <button
+                            <motion.button
                               key={option.id}
-                              onClick={() => handleSelectOption(column.id, { id: option.id, text: option.text, translation: option.translation })}
+                              ref={(el) => { optionRefs.current[`${column.id}-${option.id}`] = el; }}
+                              onClick={() => handleSelectOption(column.id, {
+                                id: option.id,
+                                text: option.text,
+                                ...(option.translation !== undefined && { translation: option.translation }),
+                              })}
+                              onMouseEnter={() => setHoveredTranslation(`${column.id}-${option.id}`)}
+                              onMouseLeave={() => setHoveredTranslation(null)}
                               className={`
-                                w-full px-3 py-2 rounded-lg text-sm text-left transition-all
+                                w-full px-3 py-2 rounded-lg text-sm text-left transition-all relative
                                 ${isSelected
                                   ? 'bg-white dark:bg-gray-900 shadow-md ring-2 ring-indigo-500 font-medium'
+                                  : isFocused
+                                  ? 'bg-white dark:bg-gray-900 shadow-sm ring-2 ring-indigo-300'
                                   : 'bg-white/60 dark:bg-gray-900/60 hover:bg-white dark:hover:bg-gray-900'
                                 }
                               `}
+                              animate={isFocused ? { scale: 1.02 } : { scale: 1 }}
+                              transition={{ duration: 0.15 }}
                             >
                               <span className="block text-gray-900 dark:text-white">
                                 {option.text}
                               </span>
+
+                              {/* Traducción con hover-to-reveal (reduces cognitive load) */}
                               {option.translation && (
-                                <span className="block text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                                <motion.span
+                                  initial={{ opacity: 0, height: 0 }}
+                                  animate={{
+                                    opacity: showTranslation ? 1 : 0.5,
+                                    height: showTranslation ? 'auto' : 0,
+                                  }}
+                                  transition={{ duration: 0.2 }}
+                                  className="block text-xs text-gray-500 dark:text-gray-400 overflow-hidden"
+                                >
                                   {option.translation}
-                                </span>
+                                </motion.span>
                               )}
-                            </button>
+
+                              {/* Indicador de foco por teclado */}
+                              {isFocused && !isSelected && (
+                                <motion.span
+                                  initial={{ opacity: 0 }}
+                                  animate={{ opacity: 1 }}
+                                  className="absolute right-2 top-1/2 -translate-y-1/2 text-indigo-400 text-xs"
+                                >
+                                  ⌨
+                                </motion.span>
+                              )}
+                            </motion.button>
                           );
                         })}
                       </div>

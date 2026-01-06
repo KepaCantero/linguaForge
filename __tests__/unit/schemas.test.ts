@@ -2,10 +2,7 @@ import { describe, it, expect } from 'vitest';
 import {
   JanusCellSchema,
   JanusColumnSchema,
-  JanusMatrixSchema,
   PhraseSchema,
-  MatrixSchema,
-  WorldSchema,
   InputStatsSchema,
 } from '@/schemas/content';
 

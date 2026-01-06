@@ -9,7 +9,8 @@ import { VisualMatchWarmup } from './VisualMatchWarmup';
 import type { Warmup, MissionType, Difficulty } from '@/schemas/warmup';
 
 interface WarmupGateProps {
-  missionId: string;
+  missionId?: string;
+  lessonId?: string;
   missionType: MissionType;
   missionTitle: string;
   difficulty?: Difficulty;
@@ -17,6 +18,8 @@ interface WarmupGateProps {
   onWarmupComplete: (score: number) => void;
   onWarmupSkip: () => void;
   onStartMission: () => void;
+  /** Texto del botón final (por defecto "Comenzar Misión") */
+  startButtonText?: string;
 }
 
 type WarmupPhase = 'intro' | 'warmup' | 'transition' | 'ready';
@@ -33,6 +36,7 @@ type WarmupPhase = 'intro' | 'warmup' | 'transition' | 'ready';
  */
 export function WarmupGate({
   missionId,
+  lessonId,
   missionType,
   missionTitle,
   difficulty = 'medium',
@@ -40,10 +44,14 @@ export function WarmupGate({
   onWarmupComplete,
   onWarmupSkip,
   onStartMission,
+  startButtonText = 'Comenzar Misión',
 }: WarmupGateProps) {
   const [phase, setPhase] = useState<WarmupPhase>('intro');
   const [warmupScore, setWarmupScore] = useState(0);
   const { startWarmup, completeWarmup, skipWarmup, shouldShowWarmup } = useWarmupStore();
+
+  // ID único para el warmup (puede ser misión o lección)
+  const contextId = missionId || lessonId || 'unknown';
 
   // Obtener warmup apropiado
   const warmup = useMemo(
@@ -52,13 +60,13 @@ export function WarmupGate({
   );
 
   // Verificar si debe mostrar warmup
-  const showWarmup = shouldShowWarmup(missionId);
+  const showWarmup = shouldShowWarmup(contextId);
 
   // Manejar inicio de warmup
   const handleStartWarmup = useCallback(() => {
-    startWarmup(warmup, missionId);
+    startWarmup(warmup, contextId);
     setPhase('warmup');
-  }, [warmup, missionId, startWarmup]);
+  }, [warmup, contextId, startWarmup]);
 
   // Manejar completar warmup
   const handleWarmupComplete = useCallback(
@@ -90,6 +98,7 @@ export function WarmupGate({
         missionTitle={missionTitle}
         warmupScore={null}
         onStart={onStartMission}
+        startButtonText={startButtonText}
       />
     );
   }
@@ -126,6 +135,7 @@ export function WarmupGate({
           missionTitle={missionTitle}
           warmupScore={warmupScore}
           onStart={onStartMission}
+          startButtonText={startButtonText}
         />
       )}
     </AnimatePresence>
@@ -343,9 +353,10 @@ interface ReadyScreenProps {
   missionTitle: string;
   warmupScore: number | null;
   onStart: () => void;
+  startButtonText?: string;
 }
 
-function ReadyScreen({ missionTitle, warmupScore, onStart }: ReadyScreenProps) {
+function ReadyScreen({ missionTitle, warmupScore, onStart, startButtonText = 'Comenzar Misión' }: ReadyScreenProps) {
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -384,7 +395,7 @@ function ReadyScreen({ missionTitle, warmupScore, onStart }: ReadyScreenProps) {
           onClick={onStart}
           className="w-full py-4 px-6 bg-green-600 hover:bg-green-700 text-white rounded-xl font-semibold text-lg transition-colors"
         >
-          Comenzar Misión
+          {startButtonText}
         </motion.button>
       </motion.div>
     </motion.div>

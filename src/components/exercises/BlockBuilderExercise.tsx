@@ -11,12 +11,8 @@ interface BlockBuilderExerciseProps {
   onComplete: (correct: boolean) => void;
 }
 
-type BlockBuilderPhase = 'building' | 'complete';
-
 export function BlockBuilderExercise({ exercise, onComplete }: BlockBuilderExerciseProps) {
   const { addXP } = useGamificationStore();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_phase, setPhase] = useState<BlockBuilderPhase>('building');
   const [selectedComponents, setSelectedComponents] = useState<string[]>([]);
   const [showResult, setShowResult] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);

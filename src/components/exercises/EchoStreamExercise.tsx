@@ -220,7 +220,7 @@ export function EchoStreamExercise({ exercise, onComplete }: EchoStreamExerciseP
           const mockWaveform = Array.from({ length: 200 }, () => Math.random() * 0.5 + 0.25);
           setWaveformData(mockWaveform);
         },
-        onloaderror: (id, error) => {
+        onloaderror: (_id, error) => {
           console.warn('Error loading audio, continuing without audio:', error);
           setIsPlaying(false);
           // Generar waveform básico incluso sin audio

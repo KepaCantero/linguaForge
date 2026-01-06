@@ -95,7 +95,7 @@ export default function VideoInputPage() {
 
     // No crear evento aquí, solo cuando se marque como visto
     startTimeRef.current = Date.now();
-  }, [youtubeUrl, inputStore]);
+  }, [youtubeUrl]);
 
   const handleTimeUpdate = useCallback((current: number, total: number) => {
     setCurrentTime(current);

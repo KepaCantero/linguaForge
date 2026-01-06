@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { renderHook, act, waitFor } from '@testing-library/react';
+import { renderHook, act } from '@testing-library/react';
 import {
   useDebounce,
   useDebouncedCallback,
@@ -255,7 +255,7 @@ describe('Performance Hooks', () => {
         value: mockMatchMedia,
       });
 
-      const { result } = renderHook(() => useMediaQuery('(min-width: 768px)'));
+      renderHook(() => useMediaQuery('(min-width: 768px)'));
 
       expect(mockMatchMedia).toHaveBeenCalledWith('(min-width: 768px)');
     });

@@ -253,7 +253,7 @@ export function ForgeMandateExercise({ exercises, onComplete }: ForgeMandateExer
               {currentExercise.type === 'echoStream' && (
                 <EchoStreamExercise
                   exercise={currentExercise.exercise as EchoStream}
-                  onComplete={(powerWords, accuracy) => handleExerciseComplete(accuracy)}
+                  onComplete={(_powerWords, accuracy) => handleExerciseComplete(accuracy)}
                 />
               )}
               {currentExercise.type === 'glyphWeaving' && (

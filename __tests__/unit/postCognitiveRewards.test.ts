@@ -259,6 +259,8 @@ describe('Post Cognitive Rewards Service', () => {
       correctAnswers: 16,
       totalAttempts: 20,
       averageResponseTime: 2500,
+      peakLoad: 65,
+      loadHistory: [50, 55, 60, 62, 65, 63, 61],
     };
 
     it('should convert session metrics correctly', () => {
@@ -283,9 +285,13 @@ describe('Post Cognitive Rewards Service', () => {
 
     it('should handle zero attempts gracefully', () => {
       const emptySession: SessionMetrics = {
-        ...sessionMetrics,
-        totalAttempts: 0,
+        startTime: Date.now() - 900000,
+        exercisesCompleted: 0,
         correctAnswers: 0,
+        totalAttempts: 0,
+        averageResponseTime: 0,
+        peakLoad: 30,
+        loadHistory: [],
       };
       const performance = sessionToPerformanceMetrics(emptySession, baseCognitiveLoad);
 

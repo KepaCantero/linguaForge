@@ -79,6 +79,24 @@ export function ConversationalEchoExercise({
     };
   }, []);
 
+  // Manejar timeout
+  const handleTimeout = useCallback(() => {
+    const result: EchoEvaluationResult = {
+      isValid: false,
+      matchedResponse: null,
+      scores: { intention: 0, keywords: 0, rhythm: 0 },
+      feedback: {
+        type: 'timeout',
+        message: FEEDBACK_MESSAGES.timeout,
+        tip: 'Intenta responder más rápido. Puedes decir algo simple como "Merci".',
+      },
+      xpEarned: XP_VALUES.timeout,
+    };
+
+    setEvaluationResult(result);
+    setPhase('feedback');
+  }, []);
+
   // Reproducir audio del sistema
   const playSystemAudio = useCallback(() => {
     if (audioRef.current) {
@@ -122,25 +140,7 @@ export function ConversationalEchoExercise({
     };
 
     silenceTimeoutRef.current = setTimeout(tick, 1000);
-  }, [config.silenceTimeout]);
-
-  // Manejar timeout
-  const handleTimeout = useCallback(() => {
-    const result: EchoEvaluationResult = {
-      isValid: false,
-      matchedResponse: null,
-      scores: { intention: 0, keywords: 0, rhythm: 0 },
-      feedback: {
-        type: 'timeout',
-        message: FEEDBACK_MESSAGES.timeout,
-        tip: 'Intenta responder más rápido. Puedes decir algo simple como "Merci".',
-      },
-      xpEarned: XP_VALUES.timeout,
-    };
-
-    setEvaluationResult(result);
-    setPhase('feedback');
-  }, []);
+  }, [config.silenceTimeout, handleTimeout]);
 
   // Iniciar grabación
   const handleRecordingStart = useCallback(() => {
@@ -217,7 +217,7 @@ export function ConversationalEchoExercise({
       feedback: {
         type: feedbackType,
         message: FEEDBACK_MESSAGES[feedbackType],
-        tip,
+        ...(tip !== undefined && { tip }),
       },
       xpEarned,
     };

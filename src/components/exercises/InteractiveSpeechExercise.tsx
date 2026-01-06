@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useCallback, useEffect } from 'react';
+import { useState, useRef, useCallback, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { InteractiveSpeech } from '@/schemas/content';
 import type { InteractiveSpeechResult, SpeechTurnResult, SpeechRecordingResult } from '@/types';
@@ -58,20 +58,11 @@ export function InteractiveSpeechExercise({
   const exampleTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const currentStep = exercise.conversationFlow[currentStepIndex];
-  const silenceConfig = exercise.silenceHandling || {
+  const silenceConfig = useMemo(() => exercise.silenceHandling || {
     hintAfter: 3,
     exampleAfter: 6,
     autoPromptAfter: 10,
-  };
-
-  // Limpiar timeouts
-  useEffect(() => {
-    return () => {
-      if (silenceTimeoutRef.current) clearTimeout(silenceTimeoutRef.current);
-      if (hintTimeoutRef.current) clearTimeout(hintTimeoutRef.current);
-      if (exampleTimeoutRef.current) clearTimeout(exampleTimeoutRef.current);
-    };
-  }, []);
+  }, [exercise.silenceHandling]);
 
   // Reproducir audio del sistema cuando cambia el paso
   useEffect(() => {
@@ -82,19 +73,37 @@ export function InteractiveSpeechExercise({
         audio.onended = () => {
           setIsPlaying(false);
           // Pasar a esperar respuesta
-          startWaitingForResponse();
+          setPhase('waiting_response');
+          setResponseStartTime(Date.now());
         };
         audio.currentTime = 0;
         audio.play().catch(() => {
           setIsPlaying(false);
-          startWaitingForResponse();
+          setPhase('waiting_response');
+          setResponseStartTime(Date.now());
         });
       } else {
         // Si no hay audio, pasar directamente
-        startWaitingForResponse();
+        setPhase('waiting_response');
+        setResponseStartTime(Date.now());
       }
     }
-  }, [currentStepIndex]);
+  }, [currentStep, currentStepIndex]);
+
+  // Cancelar todos los timers - definido primero para evitar dependencias circulares
+  const cancelTimers = useCallback(() => {
+    if (silenceTimeoutRef.current) clearTimeout(silenceTimeoutRef.current);
+    if (hintTimeoutRef.current) clearTimeout(hintTimeoutRef.current);
+    if (exampleTimeoutRef.current) clearTimeout(exampleTimeoutRef.current);
+    setSilenceTimer(null);
+  }, []);
+
+  // Limpiar timeouts al desmontar
+  useEffect(() => {
+    return () => {
+      cancelTimers();
+    };
+  }, [cancelTimers]);
 
   // Iniciar espera de respuesta
   const startWaitingForResponse = useCallback(() => {
@@ -117,8 +126,33 @@ export function InteractiveSpeechExercise({
       setSilenceTimer(countdown);
 
       if (countdown <= 0) {
-        // Auto-skip después del timeout
-        handleSkipTurn();
+        // Auto-skip después del timeout - inlined to avoid circular dependency
+        cancelTimers();
+        if (currentStepIndex < exercise.conversationFlow.length - 1) {
+          const nextIndex = currentStepIndex + 1;
+          setCurrentStepIndex(nextIndex);
+          const nextStep = exercise.conversationFlow[nextIndex];
+          if (nextStep.type === 'system_speak') {
+            setPhase('system_speak');
+          } else {
+            setPhase('waiting_response');
+            setResponseStartTime(Date.now());
+          }
+        } else {
+          setPhase('complete');
+          cancelTimers();
+          setTimeout(() => {
+            onComplete({
+              completedTurns: turnResults.length,
+              totalTurns: exercise.conversationFlow.filter(
+                s => s.type === 'user_response' || s.type === 'closing'
+              ).length,
+              averageResponseTime: 0,
+              overallFluency: 0,
+              xpEarned: XP_VALUES.completion,
+            });
+          }, 2000);
+        }
       } else {
         silenceTimeoutRef.current = setTimeout(tick, 1000);
       }
@@ -134,15 +168,72 @@ export function InteractiveSpeechExercise({
     exampleTimeoutRef.current = setTimeout(() => {
       setShowExample(true);
     }, silenceConfig.exampleAfter * 1000);
-  }, [silenceConfig]);
+  }, [silenceConfig, currentStepIndex, exercise.conversationFlow, turnResults, cancelTimers, onComplete]);
 
-  // Cancelar todos los timers
-  const cancelTimers = useCallback(() => {
-    if (silenceTimeoutRef.current) clearTimeout(silenceTimeoutRef.current);
-    if (hintTimeoutRef.current) clearTimeout(hintTimeoutRef.current);
-    if (exampleTimeoutRef.current) clearTimeout(exampleTimeoutRef.current);
-    setSilenceTimer(null);
-  }, []);
+  // Completar ejercicio - definido antes de advanceToNextStep para evitar dependencias circulares
+  const completeExercise = useCallback(() => {
+    setPhase('complete');
+    cancelTimers();
+
+    const userTurns = turnResults.length;
+    const totalUserTurns = exercise.conversationFlow.filter(
+      s => s.type === 'user_response' || s.type === 'closing'
+    ).length;
+
+    const avgResponseTime = userTurns > 0
+      ? turnResults.reduce((sum, r) => sum + r.responseTime, 0) / userTurns
+      : 0;
+
+    const overallFluency = userTurns > 0
+      ? Math.round(turnResults.reduce((sum, r) => sum + r.fluencyScore, 0) / userTurns)
+      : 0;
+
+    const totalXP = turnResults.reduce((sum, r) => {
+      if (r.responseTime < 2000) return sum + XP_VALUES.fastResponse;
+      if (r.responseTime < 4000) return sum + XP_VALUES.normalResponse;
+      return sum + XP_VALUES.slowResponse;
+    }, 0) + XP_VALUES.completion;
+
+    addXP(XP_VALUES.completion);
+    if (overallFluency >= 80) {
+      addGems(5);
+    }
+
+    const result: InteractiveSpeechResult = {
+      completedTurns: userTurns,
+      totalTurns: totalUserTurns,
+      averageResponseTime: avgResponseTime,
+      overallFluency,
+      xpEarned: totalXP,
+    };
+
+    setTimeout(() => {
+      onComplete(result);
+    }, 2000);
+  }, [turnResults, exercise.conversationFlow, cancelTimers, addXP, addGems, onComplete]);
+
+  // Avanzar al siguiente paso
+  const advanceToNextStep = useCallback(() => {
+    if (currentStepIndex < exercise.conversationFlow.length - 1) {
+      const nextIndex = currentStepIndex + 1;
+      const nextStep = exercise.conversationFlow[nextIndex];
+
+      setCurrentStepIndex(nextIndex);
+
+      if (nextStep.type === 'system_speak') {
+        setPhase('system_speak');
+      } else if (nextStep.type === 'closing') {
+        setPhase('waiting_response');
+        startWaitingForResponse();
+      } else {
+        setPhase('waiting_response');
+        startWaitingForResponse();
+      }
+    } else {
+      // Conversación completada
+      completeExercise();
+    }
+  }, [currentStepIndex, exercise.conversationFlow, startWaitingForResponse, completeExercise]);
 
   // Manejar inicio de grabación
   const handleRecordingStart = useCallback(() => {
@@ -196,72 +287,7 @@ export function InteractiveSpeechExercise({
 
     // Avanzar al siguiente paso
     advanceToNextStep();
-  }, [currentStep, currentStepIndex, responseStartTime, addXP]);
-
-  // Avanzar al siguiente paso
-  const advanceToNextStep = useCallback(() => {
-    if (currentStepIndex < exercise.conversationFlow.length - 1) {
-      const nextIndex = currentStepIndex + 1;
-      const nextStep = exercise.conversationFlow[nextIndex];
-
-      setCurrentStepIndex(nextIndex);
-
-      if (nextStep.type === 'system_speak') {
-        setPhase('system_speak');
-      } else if (nextStep.type === 'closing') {
-        setPhase('waiting_response');
-        startWaitingForResponse();
-      } else {
-        setPhase('waiting_response');
-        startWaitingForResponse();
-      }
-    } else {
-      // Conversación completada
-      completeExercise();
-    }
-  }, [currentStepIndex, exercise.conversationFlow, startWaitingForResponse]);
-
-  // Completar ejercicio
-  const completeExercise = useCallback(() => {
-    setPhase('complete');
-    cancelTimers();
-
-    const userTurns = turnResults.length;
-    const totalUserTurns = exercise.conversationFlow.filter(
-      s => s.type === 'user_response' || s.type === 'closing'
-    ).length;
-
-    const avgResponseTime = userTurns > 0
-      ? turnResults.reduce((sum, r) => sum + r.responseTime, 0) / userTurns
-      : 0;
-
-    const overallFluency = userTurns > 0
-      ? Math.round(turnResults.reduce((sum, r) => sum + r.fluencyScore, 0) / userTurns)
-      : 0;
-
-    const totalXP = turnResults.reduce((sum, r) => {
-      if (r.responseTime < 2000) return sum + XP_VALUES.fastResponse;
-      if (r.responseTime < 4000) return sum + XP_VALUES.normalResponse;
-      return sum + XP_VALUES.slowResponse;
-    }, 0) + XP_VALUES.completion;
-
-    addXP(XP_VALUES.completion);
-    if (overallFluency >= 80) {
-      addGems(5);
-    }
-
-    const result: InteractiveSpeechResult = {
-      completedTurns: userTurns,
-      totalTurns: totalUserTurns,
-      averageResponseTime: avgResponseTime,
-      overallFluency,
-      xpEarned: totalXP,
-    };
-
-    setTimeout(() => {
-      onComplete(result);
-    }, 2000);
-  }, [turnResults, exercise.conversationFlow, cancelTimers, addXP, addGems, onComplete]);
+  }, [currentStep, currentStepIndex, responseStartTime, addXP, advanceToNextStep]);
 
   // Saltar turno
   const handleSkipTurn = useCallback(() => {

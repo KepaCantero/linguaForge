@@ -187,7 +187,7 @@ export async function syncGamification(
     return {
       success: true,
       syncedAt,
-      conflicts: conflicts.length > 0 ? conflicts : undefined,
+      ...(conflicts.length > 0 && { conflicts }),
     };
   } catch (error) {
     console.error('[SyncService] Error syncing gamification:', error);
@@ -273,9 +273,9 @@ export async function syncProgress(
     return {
       success: true,
       syncedAt,
-      conflicts: fromRemote.length > 0
-        ? [{ field: 'completedLeaves', localValue: localProgress.completedLeaves.length, remoteValue: remoteCompleted.size, resolvedValue: localCompleted.size + fromRemote.length }]
-        : undefined,
+      ...(fromRemote.length > 0 && {
+        conflicts: [{ field: 'completedLeaves', localValue: localProgress.completedLeaves.length, remoteValue: remoteCompleted.size, resolvedValue: localCompleted.size + fromRemote.length }],
+      }),
     };
   } catch (error) {
     console.error('[SyncService] Error syncing progress:', error);
@@ -328,8 +328,8 @@ export async function fullSync(options: FullSyncOptions): Promise<SyncResult> {
   return {
     success: allSuccess,
     syncedAt: new Date().toISOString(),
-    conflicts: allConflicts.length > 0 ? allConflicts : undefined,
-    error: errors || undefined,
+    ...(allConflicts.length > 0 && { conflicts: allConflicts }),
+    ...(errors && { error: errors }),
   };
 }
 

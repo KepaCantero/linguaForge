@@ -241,7 +241,7 @@ export async function evaluateIntention(
     feedback: {
       type: feedbackType,
       message,
-      tip,
+      ...(tip !== undefined && { tip }),
     },
   };
 }

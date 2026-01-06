@@ -101,11 +101,11 @@ export const useSRSStore = create<SRSStore>()(
           input.translation,
           input.source,
           {
-            audioUrl: input.audioUrl,
+            ...(input.audioUrl !== undefined && { audioUrl: input.audioUrl }),
             languageCode: input.languageCode,
             levelCode: input.levelCode,
-            tags: input.tags,
-            notes: input.notes,
+            ...(input.tags !== undefined && { tags: input.tags }),
+            ...(input.notes !== undefined && { notes: input.notes }),
           }
         );
 
@@ -123,11 +123,11 @@ export const useSRSStore = create<SRSStore>()(
             input.translation,
             input.source,
             {
-              audioUrl: input.audioUrl,
+              ...(input.audioUrl !== undefined && { audioUrl: input.audioUrl }),
               languageCode: input.languageCode,
               levelCode: input.levelCode,
-              tags: input.tags,
-              notes: input.notes,
+              ...(input.tags !== undefined && { tags: input.tags }),
+              ...(input.notes !== undefined && { notes: input.notes }),
             }
           )
         );

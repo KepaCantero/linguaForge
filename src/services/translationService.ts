@@ -3,13 +3,6 @@
  * Usa la API de Google Translate o alternativa con cache en localStorage
  */
 
-// Interface para tipado interno de respuestas de traducción
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-interface TranslationResponse {
-  translatedText: string;
-  detectedSourceLanguage?: string;
-}
-
 // ============================================================
 // CACHE DE TRADUCCIONES
 // ============================================================

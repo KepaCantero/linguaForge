@@ -46,19 +46,6 @@ interface WarmupStore {
 }
 
 // ============================================
-// HELPERS
-// ============================================
-
-function getTodayString(): string {
-  return new Date().toISOString().split('T')[0];
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function _isToday(dateString: string): boolean {
-  return dateString.startsWith(getTodayString());
-}
-
-// ============================================
 // STORE
 // ============================================
 

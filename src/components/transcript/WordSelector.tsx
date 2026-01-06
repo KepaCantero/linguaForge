@@ -25,13 +25,10 @@ interface SelectedWord extends ExtractedWord {
 
 export function WordSelector({
   transcript,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  phrases,
   source,
   onWordsAdded,
 }: WordSelectorProps) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { getNewWords, addWord, isWordStudied } = useWordDictionaryStore();
+  const { addWord, isWordStudied } = useWordDictionaryStore();
   const { addCards } = useSRSStore();
   const { addXP } = useGamificationStore();
   const { activeLanguage, activeLevel } = useProgressStore();
@@ -68,7 +65,7 @@ export function WordSelector({
           const normalized = normalizeWord(cleaned);
           const isKeyword = keywordsSet.has(normalized);
           const keywordInfo = allKeywords.find(k => k.normalized === normalized);
-          
+
           words.push({
             word: cleaned,
             normalized,
@@ -76,7 +73,7 @@ export function WordSelector({
             sentenceIndex,
             position,
             isKeyword,
-            wordType: keywordInfo?.type,
+            ...(keywordInfo?.type !== undefined && { wordType: keywordInfo.type }),
           });
         }
       });

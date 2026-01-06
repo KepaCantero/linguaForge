@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { RhythmSequenceConfig, TouchAction } from '@/schemas/warmup';
 
@@ -41,53 +41,20 @@ export function RhythmSequenceWarmup({
   const sequence = config.sequences[currentSequence];
   const totalSequences = config.sequences.length;
 
-  // Calcular pasos del patrón con tiempos
-  const patternSteps: PatternStep[] = sequence
-    ? sequence.pattern.map((action, i) => ({
-        action,
-        timing: (i * sequence.duration) / sequence.pattern.length,
-        duration: sequence.duration / sequence.pattern.length,
-      }))
-    : [];
+  // Calcular pasos del patrón con tiempos - usando useMemo para optimizar
+  const patternSteps: PatternStep[] = useMemo(
+    () =>
+      sequence
+        ? sequence.pattern.map((action, i) => ({
+            action,
+            timing: (i * sequence.duration) / sequence.pattern.length,
+            duration: sequence.duration / sequence.pattern.length,
+          }))
+        : [],
+    [sequence]
+  );
 
-  // Countdown inicial
-  useEffect(() => {
-    if (showCountdown && countdown > 0) {
-      const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
-      return () => clearTimeout(timer);
-    } else if (showCountdown && countdown === 0) {
-      setShowCountdown(false);
-      startSequence();
-    }
-  }, [countdown, showCountdown]);
-
-  // Iniciar secuencia
-  const startSequence = useCallback(() => {
-    setIsPlaying(true);
-    setCurrentStep(0);
-    setUserActions([]);
-    startTimeRef.current = Date.now();
-
-    // Avanzar pasos automáticamente para la guía visual
-    let stepIndex = 0;
-    const advanceStep = () => {
-      if (stepIndex < patternSteps.length) {
-        setCurrentStep(stepIndex);
-        stepIndex++;
-        sequenceTimeoutRef.current = setTimeout(
-          advanceStep,
-          patternSteps[0]?.duration || 500
-        );
-      } else {
-        // Secuencia completada
-        evaluateSequence();
-      }
-    };
-
-    advanceStep();
-  }, [patternSteps]);
-
-  // Evaluar la secuencia del usuario
+  // Evaluar la secuencia del usuario - definido antes de startSequence para evitar dependencias circulares
   const evaluateSequence = useCallback(() => {
     setIsPlaying(false);
 
@@ -127,6 +94,43 @@ export function RhythmSequenceWarmup({
       }
     }, 1000);
   }, [userActions, patternSteps, currentSequence, totalSequences, score, onComplete]);
+
+  // Iniciar secuencia - definido antes del useEffect del countdown
+  const startSequence = useCallback(() => {
+    setIsPlaying(true);
+    setCurrentStep(0);
+    setUserActions([]);
+    startTimeRef.current = Date.now();
+
+    // Avanzar pasos automáticamente para la guía visual
+    let stepIndex = 0;
+    const advanceStep = () => {
+      if (stepIndex < patternSteps.length) {
+        setCurrentStep(stepIndex);
+        stepIndex++;
+        sequenceTimeoutRef.current = setTimeout(
+          advanceStep,
+          patternSteps[0]?.duration || 500
+        );
+      } else {
+        // Secuencia completada
+        evaluateSequence();
+      }
+    };
+
+    advanceStep();
+  }, [patternSteps, evaluateSequence]);
+
+  // Countdown inicial
+  useEffect(() => {
+    if (showCountdown && countdown > 0) {
+      const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
+      return () => clearTimeout(timer);
+    } else if (showCountdown && countdown === 0) {
+      setShowCountdown(false);
+      startSequence();
+    }
+  }, [countdown, showCountdown, startSequence]);
 
   // Manejar acción del usuario
   const handleAction = useCallback(

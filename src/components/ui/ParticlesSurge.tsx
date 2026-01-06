@@ -22,7 +22,7 @@ export function ParticlesSurge({
   onComplete,
 }: ParticlesSurgeProps) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const particlesInit = useCallback(async (engine: Engine) => {
+  useCallback(async (engine: Engine) => {
     await loadSlim(engine);
   }, []);
 

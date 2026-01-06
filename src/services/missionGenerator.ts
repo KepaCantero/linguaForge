@@ -197,7 +197,7 @@ function calculateRewards(
   return {
     xp: Math.round(template.baseXP * mult),
     coins: Math.round(template.baseCoins * mult),
-    gems: template.baseGems ? Math.round(template.baseGems * mult) : undefined,
+    ...(template.baseGems !== undefined && { gems: Math.round(template.baseGems * mult) }),
   };
 }
 

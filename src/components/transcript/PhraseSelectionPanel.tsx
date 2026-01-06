@@ -6,7 +6,6 @@ import { useSRSStore } from '@/store/useSRSStore';
 import { useGamificationStore } from '@/store/useGamificationStore';
 import { useProgressStore } from '@/store/useProgressStore';
 import { useWordDictionaryStore } from '@/store/useWordDictionaryStore';
-import { useTTS } from '@/services/ttsService';
 import { translateWords } from '@/services/translationService';
 import { SelectedPhrase } from './TranscriptSelector';
 import { ContentSource } from '@/types/srs';
@@ -31,7 +30,6 @@ export function PhraseSelectionPanel({
   const { addCards } = useSRSStore();
   const { addXP } = useGamificationStore();
   const { activeLanguage, activeLevel } = useProgressStore();
-  const { speak } = useTTS();
   const { getNewWords, addWord, isWordStudied } = useWordDictionaryStore();
   
   const [translations, setTranslations] = useState<Record<string, string>>({});
@@ -111,31 +109,6 @@ export function PhraseSelectionPanel({
     translateNewWords();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newWordsKeys]); // Solo cuando cambian las palabras nuevas
-
-  // Estas funciones están preparadas para uso futuro
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const handleTranslationChange = useCallback((phraseId: string, translation: string) => {
-    setTranslations(prev => ({
-      ...prev,
-      [phraseId]: translation,
-    }));
-  }, []);
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const handleRemovePhrase = useCallback((phraseId: string) => {
-    // Esto debería venir del componente padre que maneja el estado
-    // Por ahora solo actualizamos las traducciones
-    setTranslations(prev => {
-      const newTranslations = { ...prev };
-      delete newTranslations[phraseId];
-      return newTranslations;
-    });
-  }, []);
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const handlePlayPhrase = useCallback((text: string) => {
-    speak(text);
-  }, [speak]);
 
   const handleCreateCards = useCallback(async () => {
     if (newWords.length === 0) {

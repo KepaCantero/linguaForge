@@ -4,6 +4,37 @@ import { STREAK_CONFIG, HP_CONFIG } from '@/lib/constants';
 import { useGamificationStore } from './useGamificationStore';
 import type { MissionType as WarmupMissionType } from '@/schemas/warmup';
 
+// ============================================================
+// CONSTANTES CLT (Cognitive Load Theory)
+// ============================================================
+
+/**
+ * Umbrales de carga cognitiva para misiones
+ * Basado en CLT: intrinsic (contenidos) + extraneous (distracciones) - germane (aprendizaje)
+ */
+export const COGNITIVE_LOAD_THRESHOLDS = {
+  LOW: 30,      // Input pasivo, escucha/lectura
+  MEDIUM: 50,   // Ejercicios guiados
+  HIGH: 65,     // Construcción activa
+  VERY_HIGH: 75, // Integración compleja
+} as const;
+
+/**
+ * Tipos de calentamiento por tipo de misión
+ * Mapeo basado en sistemas cerebrales activados
+ */
+export const WARMUP_BY_MISSION_TYPE: Record<Mission['type'], WarmupMissionType> = {
+  input: 'vocabulary',    // Input activa vocabulario (sistema temporal)
+  exercises: 'grammar',    // Ejercicios activan gramática (sistema motor)
+  janus: 'grammar',        // Janus activa estructuras (Broca)
+  streak: 'mixed',         // Streak es variado
+  forgeMandate: 'mixed',   // Forge Mandate integra todo
+} as const;
+
+// ============================================================
+// TIPOS
+// ============================================================
+
 export type MissionType =
   | { type: 'input'; targetMinutes: number; currentMinutes: number }
   | { type: 'janus'; targetCombinations: number; currentCombinations: number }
@@ -73,6 +104,112 @@ const generateMissionId = (type: string, index: number): string => {
   return `mission-${type}-${Date.now()}-${index}`;
 };
 
+// ============================================================
+// HELPERS DE GENERACIÓN DE MISIONES
+// ============================================================
+
+/**
+ * Obtiene la dificultad basada en el nivel del usuario
+ */
+function getMissionDifficulty(userLevel: number): 'low' | 'medium' | 'high' {
+  if (userLevel <= 3) return 'low';
+  if (userLevel <= 6) return 'medium';
+  return 'high';
+}
+
+/**
+ * Genera misión de input (siempre presente)
+ * CLT: Carga baja (input pasivo), requiere focus para retención
+ */
+function generateInputMission(index: number, userLevel: number, difficulty: 'low' | 'medium' | 'high'): Mission {
+  const targetMinutes = 5 + userLevel * 2;
+  return {
+    id: generateMissionId('input', index),
+    type: 'input',
+    title: 'Consumir Input Comprensible',
+    description: `Escucha o lee ${targetMinutes} minutos de contenido`,
+    target: targetMinutes,
+    current: 0,
+    reward: { xp: 25, coins: 10 },
+    completed: false,
+    warmupMissionType: WARMUP_BY_MISSION_TYPE.input,
+    difficulty,
+    cognitiveLoadTarget: COGNITIVE_LOAD_THRESHOLDS.LOW,
+    estimatedMinutes: targetMinutes,
+    requiresFocus: true,
+  };
+}
+
+/**
+ * Genera misión de ejercicios
+ * CLT: Carga media (ejercicios activos), requiere focus
+ */
+function generateExercisesMission(index: number, userLevel: number, difficulty: 'low' | 'medium' | 'high'): Mission {
+  const targetCount = 3 + Math.floor(userLevel / 2);
+  return {
+    id: generateMissionId('exercises', index),
+    type: 'exercises',
+    title: 'Completar Ejercicios',
+    description: `Completa ${targetCount} ejercicios`,
+    target: targetCount,
+    current: 0,
+    reward: { xp: 30, coins: 15 },
+    completed: false,
+    warmupMissionType: WARMUP_BY_MISSION_TYPE.exercises,
+    difficulty,
+    cognitiveLoadTarget: COGNITIVE_LOAD_THRESHOLDS.MEDIUM,
+    estimatedMinutes: targetCount * 2,
+    requiresFocus: true,
+  };
+}
+
+/**
+ * Genera misión de Janus (solo si usuario tiene nivel suficiente)
+ * CLT: Carga alta (construcción de frases), requiere focus profundo
+ */
+function generateJanusMission(index: number, userLevel: number): Mission | null {
+  if (userLevel < 2) return null;
+
+  const targetCombinations = 5 + userLevel;
+  return {
+    id: generateMissionId('janus', index),
+    type: 'janus',
+    title: 'Combinaciones Janus',
+    description: `Crea ${targetCombinations} combinaciones en la matriz Janus`,
+    target: targetCombinations,
+    current: 0,
+    reward: { xp: 20, coins: 10 },
+    completed: false,
+    warmupMissionType: WARMUP_BY_MISSION_TYPE.janus,
+    difficulty: userLevel <= 4 ? 'medium' : 'high',
+    cognitiveLoadTarget: COGNITIVE_LOAD_THRESHOLDS.HIGH,
+    estimatedMinutes: Math.ceil(targetCombinations * 0.5),
+    requiresFocus: true,
+  };
+}
+
+/**
+ * Genera misión de Forge Mandate (siempre presente)
+ * CLT: Carga muy alta (integración de todo), requiere focus profundo
+ */
+function generateForgeMandateMission(index: number): Mission {
+  return {
+    id: generateMissionId('forgeMandate', index),
+    type: 'forgeMandate',
+    title: 'Forge Mandate',
+    description: 'Completa la misión diaria Forge Mandate',
+    target: 1,
+    current: 0,
+    reward: { xp: 100, coins: 50, gems: 20 },
+    completed: false,
+    warmupMissionType: WARMUP_BY_MISSION_TYPE.forgeMandate,
+    difficulty: 'medium',
+    cognitiveLoadTarget: COGNITIVE_LOAD_THRESHOLDS.VERY_HIGH,
+    estimatedMinutes: 15,
+    requiresFocus: true,
+  };
+}
+
 export const useMissionStore = create<MissionStore>()(
   persist(
     (set, get) => ({
@@ -93,91 +230,25 @@ export const useMissionStore = create<MissionStore>()(
         // Obtener datos del usuario para generar misiones adaptativas
         const gamificationState = useGamificationStore.getState();
         const userLevel = gamificationState.level;
+        const difficulty = getMissionDifficulty(userLevel);
 
-        // Generar 3-4 misiones diarias
+        // Generar misiones usando funciones auxiliares
         const missions: Mission[] = [];
 
-        // Determinar dificultad basada en nivel
-        const getDifficulty = (): 'low' | 'medium' | 'high' => {
-          if (userLevel <= 3) return 'low';
-          if (userLevel <= 6) return 'medium';
-          return 'high';
-        };
-        const difficulty = getDifficulty();
+        // Misión 1: Input (siempre presente)
+        missions.push(generateInputMission(0, userLevel, difficulty));
 
-        // Misión 1: Input (siempre presente) - Calentamiento: Visual Match (vocabulario)
-        // CLT: Carga baja (input pasivo), no requiere focus estricto
-        missions.push({
-          id: generateMissionId('input', 0),
-          type: 'input',
-          title: 'Consumir Input Comprensible',
-          description: `Escucha o lee ${5 + userLevel * 2} minutos de contenido`,
-          target: 5 + userLevel * 2,
-          current: 0,
-          reward: { xp: 25, coins: 10 },
-          completed: false,
-          warmupMissionType: 'vocabulary', // Input activa vocabulario
-          difficulty,
-          cognitiveLoadTarget: 30, // Carga baja - input pasivo
-          estimatedMinutes: 5 + userLevel * 2,
-          requiresFocus: true, // Mejor con focus para retención
-        });
+        // Misión 2: Ejercicios
+        missions.push(generateExercisesMission(1, userLevel, difficulty));
 
-        // Misión 2: Ejercicios - Calentamiento: Rhythm Sequence (gramática)
-        // CLT: Carga media (ejercicios activos), requiere focus
-        missions.push({
-          id: generateMissionId('exercises', 1),
-          type: 'exercises',
-          title: 'Completar Ejercicios',
-          description: `Completa ${3 + Math.floor(userLevel / 2)} ejercicios`,
-          target: 3 + Math.floor(userLevel / 2),
-          current: 0,
-          reward: { xp: 30, coins: 15 },
-          completed: false,
-          warmupMissionType: 'grammar', // Ejercicios activan gramática
-          difficulty,
-          cognitiveLoadTarget: 50, // Carga media - ejercicios activos
-          estimatedMinutes: (3 + Math.floor(userLevel / 2)) * 2,
-          requiresFocus: true,
-        });
-
-        // Misión 3: Janus (si el usuario tiene nivel suficiente) - Calentamiento: Rhythm Sequence (gramática)
-        // CLT: Carga alta (construcción de frases), requiere focus profundo
-        if (userLevel >= 2) {
-          missions.push({
-            id: generateMissionId('janus', 2),
-            type: 'janus',
-            title: 'Combinaciones Janus',
-            description: `Crea ${5 + userLevel} combinaciones en la matriz Janus`,
-            target: 5 + userLevel,
-            current: 0,
-            reward: { xp: 20, coins: 10 },
-            completed: false,
-            warmupMissionType: 'grammar', // Janus activa gramática
-            difficulty: userLevel <= 4 ? 'medium' : 'high',
-            cognitiveLoadTarget: 65, // Carga alta - construcción activa
-            estimatedMinutes: Math.ceil((5 + userLevel) * 0.5),
-            requiresFocus: true,
-          });
+        // Misión 3: Janus (solo si usuario tiene nivel suficiente)
+        const janusMission = generateJanusMission(2, userLevel);
+        if (janusMission) {
+          missions.push(janusMission);
         }
 
-        // Misión 4: Forge Mandate (siempre presente) - Calentamiento: Mixed (usa el más relevante)
-        // CLT: Carga muy alta (integración de todo), requiere focus profundo
-        missions.push({
-          id: generateMissionId('forgeMandate', 3),
-          type: 'forgeMandate',
-          title: 'Forge Mandate',
-          description: 'Completa la misión diaria Forge Mandate',
-          target: 1,
-          current: 0,
-          reward: { xp: 100, coins: 50, gems: 20 },
-          completed: false,
-          warmupMissionType: 'mixed', // Forge Mandate es mixto
-          difficulty: 'medium',
-          cognitiveLoadTarget: 75, // Carga muy alta - integración
-          estimatedMinutes: 15,
-          requiresFocus: true,
-        });
+        // Misión 4: Forge Mandate (siempre presente)
+        missions.push(generateForgeMandateMission(missions.length));
 
         set({
           dailyMissions: missions,
@@ -290,10 +361,10 @@ export const useMissionStore = create<MissionStore>()(
         const state = get();
         const mission = state.dailyMissions.find(m => m.id === missionId);
         if (!mission) return null;
-        
+
         return {
-          warmupId: mission.warmupId,
-          warmupMissionType: mission.warmupMissionType,
+          ...(mission.warmupId !== undefined && { warmupId: mission.warmupId }),
+          ...(mission.warmupMissionType !== undefined && { warmupMissionType: mission.warmupMissionType }),
         };
       },
       

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Rajdhani, Atkinson_Hyperlegible } from 'next/font/google';
+import { Rajdhani, Atkinson_Hyperlegible, Quicksand, Inter } from 'next/font/google';
 import './globals.css';
 import { Header } from '@/components/layout/Header';
 import { BottomNav } from '@/components/layout/BottomNav';
@@ -17,6 +17,22 @@ const atkinson = Atkinson_Hyperlegible({
   subsets: ['latin'],
   weight: ['400', '700'],
   variable: '--font-atkinson',
+});
+
+// Quicksand - Fuente amigable y rounded para UI principal
+const quicksand = Quicksand({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
+  variable: '--font-quicksand',
+  display: 'swap',
+});
+
+// Inter - Fuente altamente legible para texto largo y contenido educativo
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
+  variable: '--font-inter',
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
@@ -45,7 +61,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className={`${rajdhani.variable} ${atkinson.variable}`}>
+    <html lang="es" className={`${rajdhani.variable} ${atkinson.variable} ${quicksand.variable} ${inter.variable}`}>
       <head>
         {/* Preconnect para performance */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />

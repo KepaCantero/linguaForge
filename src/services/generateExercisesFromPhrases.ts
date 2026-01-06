@@ -155,7 +155,7 @@ export function generateDialogueIntonationExercises(phrases: string[]): Dialogue
       blockId: `block-${i}`,
       dialogue,
       userTurns: [1], // El segundo turno es del usuario
-      rhythmPatterns: dialogue.map((turn, turnIndex) => ({
+      rhythmPatterns: dialogue.map((_turn, turnIndex) => ({
         turnIndex,
         segments: Array(10).fill(0).map(() => Math.random() * 100 + 50),
         pauses: Array(9).fill(0).map(() => Math.random() * 50 + 20),
@@ -166,13 +166,28 @@ export function generateDialogueIntonationExercises(phrases: string[]): Dialogue
   return exercises;
 }
 
-// Generar ejercicios JanusComposer a partir de frases
-export function generateJanusComposerExercises(phrases: string[]): JanusComposer[] {
-  // Siempre generar al menos un ejercicio básico, incluso con una sola frase
-  if (phrases.length === 0) return [];
+// ============================================================
+// JANUS COMPOSER GENERATOR (Refactored - SRP compliant)
+// ============================================================
 
-  // Sujetos comunes en francés
-  const commonSubjects = [
+interface Subject {
+  text: string;
+  translation: string;
+}
+
+interface ConjugationRule {
+  verb: string;
+  subject: string;
+  conjugated: string;
+}
+
+/**
+ * Generador de ejercicios JanusComposer
+ * Refactorizado desde función monolítica de 217 líneas
+ * Sigue Single Responsibility Principle
+ */
+export class JanusComposerGenerator {
+  private readonly commonSubjects: Subject[] = [
     { text: 'Je', translation: 'Yo' },
     { text: 'Tu', translation: 'Tú' },
     { text: 'Il', translation: 'Él' },
@@ -181,15 +196,13 @@ export function generateJanusComposerExercises(phrases: string[]): JanusComposer
     { text: 'Vous', translation: 'Ustedes/Vosotros' },
   ];
 
-  // Verbos comunes y sus conjugaciones
-  const commonVerbs = [
+  private readonly commonVerbs = [
     'être', 'avoir', 'aller', 'venir', 'faire', 'dire', 'voir', 'savoir',
     'pouvoir', 'vouloir', 'devoir', 'parler', 'manger', 'boire', 'prendre',
     'donner', 'trouver', 'chercher', 'regarder', 'écouter', 'comprendre',
   ];
 
-  // Palabras comunes que NO son verbos
-  const stopWords = new Set([
+  private readonly stopWords = new Set([
     'le', 'la', 'les', 'un', 'une', 'des', 'de', 'du', 'd', 'à', 'au', 'aux',
     'et', 'ou', 'mais', 'donc', 'car', 'avec', 'sans', 'pour', 'par', 'sur',
     'sous', 'dans', 'en', 'ce', 'cette', 'ces', 'qui', 'que', 'quoi', 'où',
@@ -197,192 +210,345 @@ export function generateJanusComposerExercises(phrases: string[]): JanusComposer
     'mal', 'plus', 'moins', 'aussi', 'toujours', 'jamais', 'maintenant',
   ]);
 
-  // Extraer verbos y complementos de las frases
-  const extractedVerbs = new Set<string>();
-  const extractedComplements = new Set<string>();
-  const extractedSubjects = new Set<string>();
+  private readonly verbEndings = ['er', 'ir', 're', 'ons', 'ez', 'ent', 'ais', 'ait'];
 
-  phrases.forEach((phrase) => {
-    const words = phrase.split(/\s+/).map(w => w.replace(/[.,!?;:()\[\]{}'"]/g, ''));
-    
-    // Buscar sujetos al inicio de la frase
-    const firstWord = words[0];
-    if (commonSubjects.some(s => s.text.toLowerCase() === firstWord.toLowerCase())) {
-      extractedSubjects.add(firstWord);
-    }
+  private readonly defaultVerbs = ['suis', 'ai', 'vais', 'veux', 'peux', 'fais'];
+  private readonly defaultComplements = ['bien', 'mal', 'beaucoup', 'maintenant', 'demain', "aujourd'hui"];
+  private readonly defaultSubjects = ['Je', 'Tu', 'Il', 'Elle'];
 
-    // Buscar verbos (palabras después del sujeto que pueden ser verbos)
-    for (let i = 1; i < Math.min(words.length, 5); i++) {
-      const word = words[i].toLowerCase();
-      const cleanWord = word.replace(/[.,!?;:()\[\]{}'"]/g, '');
-      
-      // Si es un verbo común o tiene características de verbo
-      if (commonVerbs.some(v => cleanWord.startsWith(v) || cleanWord.includes(v))) {
-        extractedVerbs.add(words[i]);
-      } else if (
-        cleanWord.length >= 4 &&
-        !stopWords.has(cleanWord) &&
-        !extractedVerbs.has(words[i]) &&
-        extractedVerbs.size < 8
-      ) {
-        // Verificar si podría ser un verbo conjugado
-        const verbEndings = ['er', 'ir', 're', 'ons', 'ez', 'ent', 'ais', 'ait'];
-        if (verbEndings.some(ending => cleanWord.endsWith(ending))) {
-          extractedVerbs.add(words[i]);
-        }
+  // ========================================
+  // EXTRACTION METHODS
+  // ========================================
+
+  /**
+   * Extrae sujetos de las frases proporcionadas
+   * @param phrases - Array de frases en francés
+   * @returns Array de sujetos extraídos
+   */
+  extractSubjects(phrases: string[]): string[] {
+    const extractedSubjects = new Set<string>();
+
+    for (const phrase of phrases) {
+      const words = phrase.split(/\s+/).map(w => w.replace(/[.,!?;:()\[\]{}'"]/g, ''));
+      const firstWord = words[0];
+
+      if (this.commonSubjects.some(s => s.text.toLowerCase() === firstWord.toLowerCase())) {
+        extractedSubjects.add(firstWord);
       }
     }
 
-    // Extraer complementos (sustantivos y adjetivos)
-    for (let i = 2; i < words.length; i++) {
-      const word = words[i].toLowerCase();
-      const cleanWord = word.replace(/[.,!?;:()\[\]{}'"]/g, '');
-      
-      if (
-        cleanWord.length >= 4 &&
-        !stopWords.has(cleanWord) &&
-        !extractedVerbs.has(words[i]) &&
-        !extractedSubjects.has(words[i]) &&
-        extractedComplements.size < 10
-      ) {
-        extractedComplements.add(words[i]);
-      }
-    }
-  });
-
-  // Si no hay suficientes elementos, usar valores por defecto
-  const verbs = Array.from(extractedVerbs).length > 0
-    ? Array.from(extractedVerbs).slice(0, 6)
-    : ['suis', 'ai', 'vais', 'veux', 'peux', 'fais'];
-
-  const complements = Array.from(extractedComplements).length > 0
-    ? Array.from(extractedComplements).slice(0, 6)
-    : ['bien', 'mal', 'beaucoup', 'maintenant', 'demain', 'aujourd\'hui'];
-
-  const subjects = Array.from(extractedSubjects).length > 0
-    ? Array.from(extractedSubjects).slice(0, 4)
-    : ['Je', 'Tu', 'Il', 'Elle'];
-
-  // Crear reglas de conjugación básicas
-  const conjugationRules: Array<{ verb: string; subject: string; conjugated: string }> = [];
-  
-  verbs.forEach(verb => {
-    const verbBase = verb.toLowerCase();
-    subjects.forEach(subject => {
-      const subjLower = subject.toLowerCase();
-      let conjugated = verb;
-      
-      // Conjugaciones básicas comunes
-      if (verbBase.includes('suis') || verbBase === 'être') {
-        const conjugations: Record<string, string> = {
-          'je': 'suis', 'tu': 'es', 'il': 'est', 'elle': 'est',
-          'nous': 'sommes', 'vous': 'êtes'
-        };
-        conjugated = conjugations[subjLower] || verb;
-      } else if (verbBase.includes('ai') || verbBase === 'avoir') {
-        const conjugations: Record<string, string> = {
-          'je': 'ai', 'tu': 'as', 'il': 'a', 'elle': 'a',
-          'nous': 'avons', 'vous': 'avez'
-        };
-        conjugated = conjugations[subjLower] || verb;
-      } else if (verbBase.endsWith('er') && verbBase.length > 2) {
-        const root = verbBase.slice(0, -2);
-        const conjugations: Record<string, string> = {
-          'je': root + 'e', 'tu': root + 'es', 'il': root + 'e', 'elle': root + 'e',
-          'nous': root + 'ons', 'vous': root + 'ez'
-        };
-        conjugated = conjugations[subjLower] || verb;
-      }
-      
-      if (conjugated !== verb) {
-        conjugationRules.push({
-          verb: verbBase,
-          subject: subjLower,
-          conjugated,
-        });
-      }
-    });
-  });
-
-  // Generar al menos un ejercicio, incluso si hay pocas frases
-  const exercises: JanusComposer[] = [];
-
-  // Asegurar que siempre haya al menos 2 opciones por columna (requisito del schema)
-  const subjectOptions = commonSubjects
-    .filter(s => subjects.includes(s.text))
-    .slice(0, 4);
-  
-  // Si no hay suficientes sujetos extraídos, usar todos los comunes
-  if (subjectOptions.length < 2) {
-    subjectOptions.push(...commonSubjects.slice(0, 4));
+    const subjects = Array.from(extractedSubjects);
+    return subjects.length > 0 ? subjects.slice(0, 4) : this.defaultSubjects;
   }
 
-  const verbOptions = verbs.length >= 2 
-    ? verbs.slice(0, 6)
-    : ['suis', 'ai', 'vais', 'veux', 'peux', 'fais'];
+  /**
+   * Extrae verbos de las frases proporcionadas
+   * @param phrases - Array de frases en francés
+   * @returns Array de verbos extraídos
+   */
+  extractVerbs(phrases: string[]): string[] {
+    const extractedVerbs = new Set<string>();
 
-  const complementOptions = complements.length >= 2
-    ? complements.slice(0, 6)
-    : ['bien', 'mal', 'beaucoup', 'maintenant', 'demain', 'aujourd\'hui'];
+    for (const phrase of phrases) {
+      const words = phrase.split(/\s+/).map(w => w.replace(/[.,!?;:()\[\]{}'"]/g, ''));
 
-  // Crear ejercicio principal con todas las opciones
-  exercises.push({
-    id: 'janus-imported-1',
-    columns: [
-      {
-        id: 'subject-col',
-        title: 'Sujeto',
-        type: 'subject',
-        options: Array.from(new Set(subjectOptions.map(s => JSON.stringify(s))))
-          .map(s => JSON.parse(s))
-          .slice(0, 4)
-          .map((s: { text: string; translation: string }, i: number) => ({
-            id: `subj-${i}`,
-            text: s.text,
-            translation: s.translation,
-          })),
-      },
-      {
-        id: 'verb-col',
-        title: 'Verbo',
-        type: 'verb',
-        options: Array.from(new Set(verbOptions))
-          .slice(0, 6)
-          .map((v, i) => ({
-            id: `verb-${i}`,
-            text: v,
-            translation: '',
-          })),
-      },
-      {
-        id: 'complement-col',
-        title: 'Complemento',
-        type: 'complement',
-        options: Array.from(new Set(complementOptions))
-          .slice(0, 6)
-          .map((c, i) => ({
-            id: `comp-${i}`,
-            text: c,
-            translation: '',
-          })),
-      },
-    ],
-    conjugationRules: conjugationRules.slice(0, 20), // Limitar reglas
-    practiceDialogues: phrases.length > 0
-      ? phrases.slice(0, Math.min(2, phrases.length)).map((phrase, i) => ({
-          id: `dialogue-${i + 1}`,
-          prompt: i === 0 ? 'Bonjour!' : phrases[0] || 'Bonjour!',
-          response: phrase,
-        }))
-      : [
-          {
-            id: 'dialogue-1',
-            prompt: 'Bonjour!',
-            response: 'Bonjour!',
-          },
-        ],
-  });
+      // Buscar verbos después del sujeto (posiciones 1-4)
+      for (let i = 1; i < Math.min(words.length, 5); i++) {
+        const word = words[i];
+        const cleanWord = word.toLowerCase();
 
-  return exercises;
+        if (this.isVerb(cleanWord)) {
+          extractedVerbs.add(word);
+          if (extractedVerbs.size >= 8) break;
+        }
+      }
+
+      if (extractedVerbs.size >= 8) break;
+    }
+
+    const verbs = Array.from(extractedVerbs);
+    return verbs.length > 0 ? verbs.slice(0, 6) : this.defaultVerbs;
+  }
+
+  /**
+   * Extrae complementos de las frases proporcionadas
+   * @param phrases - Array de frases en francés
+   * @returns Array de complementos extraídos
+   */
+  extractComplements(phrases: string[]): string[] {
+    const extractedComplements = new Set<string>();
+    const extractedVerbs = new Set(this.extractVerbs(phrases));
+    const extractedSubjects = new Set(this.extractSubjects(phrases));
+
+    for (const phrase of phrases) {
+      const words = phrase.split(/\s+/).map(w => w.replace(/[.,!?;:()\[\]{}'"]/g, ''));
+
+      // Extraer sustantivos y adjetivos (después de posición 2)
+      for (let i = 2; i < words.length; i++) {
+        const word = words[i];
+        const cleanWord = word.toLowerCase();
+
+        if (
+          cleanWord.length >= 4 &&
+          !this.stopWords.has(cleanWord) &&
+          !extractedVerbs.has(word) &&
+          !extractedSubjects.has(word) &&
+          !extractedComplements.has(word)
+        ) {
+          extractedComplements.add(word);
+          if (extractedComplements.size >= 10) break;
+        }
+      }
+
+      if (extractedComplements.size >= 10) break;
+    }
+
+    const complements = Array.from(extractedComplements);
+    return complements.length > 0 ? complements.slice(0, 6) : this.defaultComplements;
+  }
+
+  // ========================================
+  // CONJUGATION RULES
+  // ========================================
+
+  /**
+   * Construye reglas de conjugación para verbos y sujetos
+   * @param verbs - Array de verbos
+   * @param subjects - Array de sujetos
+   * @returns Array de reglas de conjugación
+   */
+  buildConjugationRules(verbs: string[], subjects: string[]): ConjugationRule[] {
+    const rules: ConjugationRule[] = [];
+
+    for (const verb of verbs) {
+      const verbBase = verb.toLowerCase();
+
+      for (const subject of subjects) {
+        const subjLower = subject.toLowerCase();
+        const conjugated = this.conjugateVerb(verbBase, subjLower);
+
+        if (conjugated !== verb) {
+          rules.push({ verb: verbBase, subject: subjLower, conjugated });
+        }
+
+        if (rules.length >= 20) break;
+      }
+
+      if (rules.length >= 20) break;
+    }
+
+    return rules;
+  }
+
+  /**
+   * Conjuga un verbo para un sujeto específico
+   * @param verbBase - Verbo en forma base
+   * @param subject - Sujeto (je, tu, il, etc.)
+   * @returns Verbo conjugado
+   */
+  private conjugateVerb(verbBase: string, subject: string): string {
+    // Conjugación de être
+    if (verbBase.includes('suis') || verbBase === 'être') {
+      const êtreConjugations: Record<string, string> = {
+        'je': 'suis', 'tu': 'es', 'il': 'est', 'elle': 'est',
+        'nous': 'sommes', 'vous': 'êtes'
+      };
+      return êtreConjugations[subject] || verbBase;
+    }
+
+    // Conjugación de avoir
+    if (verbBase.includes('ai') || verbBase === 'avoir') {
+      const avoirConjugations: Record<string, string> = {
+        'je': 'ai', 'tu': 'as', 'il': 'a', 'elle': 'a',
+        'nous': 'avons', 'vous': 'avez'
+      };
+      return avoirConjugations[subject] || verbBase;
+    }
+
+    // Verbos -er (primer grupo)
+    if (verbBase.endsWith('er') && verbBase.length > 2) {
+      const root = verbBase.slice(0, -2);
+      const erConjugations: Record<string, string> = {
+        'je': root + 'e', 'tu': root + 'es', 'il': root + 'e', 'elle': root + 'e',
+        'nous': root + 'ons', 'vous': root + 'ez'
+      };
+      return erConjugations[subject] || verbBase;
+    }
+
+    return verbBase;
+  }
+
+  // ========================================
+  // HELPER METHODS
+  // ========================================
+
+  /**
+   * Verifica si una palabra es un verbo
+   * @param word - Palabra a verificar
+   * @returns true si la palabra parece ser un verbo
+   */
+  private isVerb(word: string): boolean {
+    const cleanWord = word.replace(/[.,!?;:()\[\]{}'"]/g, '');
+
+    // Verificar si es verbo común
+    if (this.commonVerbs.some(v => cleanWord.startsWith(v) || cleanWord.includes(v))) {
+      return true;
+    }
+
+    // Verificar si tiene terminaciones de verbo
+    if (
+      cleanWord.length >= 4 &&
+      !this.stopWords.has(cleanWord) &&
+      this.verbEndings.some(ending => cleanWord.endsWith(ending))
+    ) {
+      return true;
+    }
+
+    return false;
+  }
+
+  // ========================================
+  // MAIN GENERATION METHOD
+  // ========================================
+
+  /**
+   * Genera ejercicios JanusComposer completos
+   * @param phrases - Array de frases en francés
+   * @returns Array de ejercicios JanusComposer
+   */
+  generate(phrases: string[]): JanusComposer[] {
+    if (phrases.length === 0) return [];
+
+    // Extraer componentes
+    const subjects = this.extractSubjects(phrases);
+    const verbs = this.extractVerbs(phrases);
+    const complements = this.extractComplements(phrases);
+
+    // Construir reglas de conjugación
+    const conjugationRules = this.buildConjugationRules(verbs, subjects);
+
+    // Constrir columnas del ejercicio
+    const subjectOptions = this.buildSubjectColumn(subjects);
+    const verbOptions = this.buildVerbColumn(verbs);
+    const complementOptions = this.buildComplementColumn(complements);
+
+    // Construir diálogos de práctica
+    const practiceDialogues = this.buildPracticeDialogues(phrases);
+
+    // Componer ejercicio final
+    return [{
+      id: 'janus-imported-1',
+      columns: [subjectOptions, verbOptions, complementOptions],
+      conjugationRules,
+      practiceDialogues,
+    }];
+  }
+
+  /**
+   * Construye la columna de sujetos
+   * @param subjects - Array de sujetos
+   * @returns Columna de sujetos para JanusComposer
+   */
+  private buildSubjectColumn(subjects: string[]) {
+    const subjectOptions = this.commonSubjects
+      .filter(s => subjects.includes(s.text))
+      .slice(0, 4);
+
+    if (subjectOptions.length < 2) {
+      subjectOptions.push(...this.commonSubjects.slice(0, 4));
+    }
+
+    return {
+      id: 'subject-col',
+      title: 'Sujeto',
+      type: 'subject' as const,
+      options: Array.from(new Set(subjectOptions.map(s => JSON.stringify(s))))
+        .map(s => JSON.parse(s))
+        .slice(0, 4)
+        .map((s: Subject, i: number) => ({
+          id: `subj-${i}`,
+          text: s.text,
+          translation: s.translation,
+        })),
+    };
+  }
+
+  /**
+   * Construye la columna de verbos
+   * @param verbs - Array de verbos
+   * @returns Columna de verbos para JanusComposer
+   */
+  private buildVerbColumn(verbs: string[]) {
+    const verbOptions = verbs.length >= 2 ? verbs : this.defaultVerbs;
+
+    return {
+      id: 'verb-col',
+      title: 'Verbo',
+      type: 'verb' as const,
+      options: Array.from(new Set(verbOptions))
+        .slice(0, 6)
+        .map((v, i) => ({
+          id: `verb-${i}`,
+          text: v,
+          translation: '',
+        })),
+    };
+  }
+
+  /**
+   * Construye la columna de complementos
+   * @param complements - Array de complementos
+   * @returns Columna de complementos para JanusComposer
+   */
+  private buildComplementColumn(complements: string[]) {
+    const complementOptions = complements.length >= 2 ? complements : this.defaultComplements;
+
+    return {
+      id: 'complement-col',
+      title: 'Complemento',
+      type: 'complement' as const,
+      options: Array.from(new Set(complementOptions))
+        .slice(0, 6)
+        .map((c, i) => ({
+          id: `comp-${i}`,
+          text: c,
+          translation: '',
+        })),
+    };
+  }
+
+  /**
+   * Construye diálogos de práctica
+   * @param phrases - Array de frases
+   * @returns Array de diálogos de práctica
+   */
+  private buildPracticeDialogues(phrases: string[]) {
+    if (phrases.length === 0) {
+      return [{
+        id: 'dialogue-1',
+        prompt: 'Bonjour!',
+        response: 'Bonjour!',
+      }];
+    }
+
+    return phrases
+      .slice(0, Math.min(2, phrases.length))
+      .map((phrase, i) => ({
+        id: `dialogue-${i + 1}`,
+        prompt: i === 0 ? 'Bonjour!' : phrases[0] || 'Bonjour!',
+        response: phrase,
+      }));
+  }
+}
+
+/**
+ * Función de conveniencia para generar ejercicios JanusComposer
+ * Mantiene compatibilidad con código existente
+ * @param phrases - Array de frases en francés
+ * @returns Array de ejercicios JanusComposer
+ */
+export function generateJanusComposerExercises(phrases: string[]): JanusComposer[] {
+  const generator = new JanusComposerGenerator();
+  return generator.generate(phrases);
 }
 

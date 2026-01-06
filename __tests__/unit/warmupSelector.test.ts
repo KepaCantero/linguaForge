@@ -7,7 +7,7 @@ import {
   getAdjustedDuration,
   type WarmupSelectionContext,
 } from '@/services/warmupSelector';
-import type { Warmup, MissionType, Difficulty, WarmupType } from '@/schemas/warmup';
+import type { Warmup, MissionType } from '@/schemas/warmup';
 
 describe('Warmup Selector Service', () => {
   const baseContext: WarmupSelectionContext = {

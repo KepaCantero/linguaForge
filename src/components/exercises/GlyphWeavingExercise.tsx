@@ -100,7 +100,7 @@ export function GlyphWeavingExercise({ exercise, onComplete }: GlyphWeavingExerc
           setIsPlaying(false);
           handleComplete();
         },
-        onloaderror: (id, error) => {
+        onloaderror: (_id, error) => {
           console.warn('Error loading audio, continuing without audio:', error);
           setIsPlaying(false);
           // Continuar sin audio - el usuario puede seguir jugando
@@ -128,7 +128,7 @@ export function GlyphWeavingExercise({ exercise, onComplete }: GlyphWeavingExerc
     
     // El canvas se dibujará automáticamente cuando cambie la fase a 'playing'
     // gracias a los useEffect que monitorean el cambio de fase
-  }, [exercise.audioUrl, exercise, handleComplete]);
+  }, [exercise, handleComplete]);
 
   const handleGlyphClick = useCallback((glyphId: string) => {
     if (!isPlaying) return;
@@ -285,7 +285,7 @@ export function GlyphWeavingExercise({ exercise, onComplete }: GlyphWeavingExerc
     if (isPlaying && phase === 'playing') {
       animationFrameRef.current = requestAnimationFrame(drawCanvas);
     }
-  }, [connections, exercise.glyphs, exercise.bpm, exercise.pattern, selectedGlyph, currentTime, isPlaying, phase]);
+  }, [connections, exercise, selectedGlyph, currentTime, isPlaying, phase]);
 
   // Inicializar y dibujar canvas cuando cambia la fase
   useEffect(() => {

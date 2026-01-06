@@ -114,10 +114,10 @@ export function TranscriptSelector({
     const newPhrase: SelectedPhrase = {
       id: `selected-${Date.now()}-${Math.random()}`,
       text: selectedText,
-      start,
-      end,
-      contextBefore: contextBefore || undefined,
-      contextAfter: contextAfter || undefined,
+      start: start ?? 0,
+      end: end ?? 0,
+      ...(contextBefore !== undefined && { contextBefore }),
+      ...(contextAfter !== undefined && { contextAfter }),
     };
 
     setSelectedPhrases(prev => {
@@ -149,8 +149,8 @@ export function TranscriptSelector({
       text: phraseText,
       start: phrase.start,
       end: phrase.start + phrase.duration,
-      contextBefore,
-      contextAfter,
+      ...(contextBefore !== undefined && { contextBefore }),
+      ...(contextAfter !== undefined && { contextAfter }),
     };
 
     setSelectedPhrases(prev => {

@@ -52,18 +52,7 @@ export function VisualMatchWarmup({
     .concat(currentItem)
     .sort(() => Math.random() - 0.5);
 
-  // Countdown inicial
-  useEffect(() => {
-    if (showCountdown && countdown > 0) {
-      const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
-      return () => clearTimeout(timer);
-    } else if (showCountdown && countdown === 0) {
-      setShowCountdown(false);
-      startRound();
-    }
-  }, [countdown, showCountdown]);
-
-  // Iniciar ronda
+  // Iniciar ronda - definido antes del useEffect del countdown para evitar dependencias circulares
   const startRound = useCallback(() => {
     setBlurLevel(10);
     setShowOptions(false);
@@ -86,6 +75,17 @@ export function VisualMatchWarmup({
 
     return () => clearInterval(interval);
   }, [config.focusSpeed]);
+
+  // Countdown inicial
+  useEffect(() => {
+    if (showCountdown && countdown > 0) {
+      const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
+      return () => clearTimeout(timer);
+    } else if (showCountdown && countdown === 0) {
+      setShowCountdown(false);
+      startRound();
+    }
+  }, [countdown, showCountdown, startRound]);
 
   // Manejar selección
   const handleSelect = useCallback(

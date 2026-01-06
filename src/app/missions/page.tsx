@@ -17,7 +17,7 @@ export default function MissionsPage() {
 
     checkDailyHP();
     generateDailyMissions();
-  }, []);
+  }, [checkDailyHP, generateDailyMissions]);
 
   // Manejar inicio de misión
   const handleMissionStart = (mission: Mission) => {

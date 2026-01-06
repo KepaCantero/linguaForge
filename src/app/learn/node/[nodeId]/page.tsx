@@ -10,41 +10,31 @@ import { getTranslations } from '@/i18n';
 import { GUIDED_NODES } from '@/components/learn/CourseMap';
 
 // Definición de lecciones por nodo
+// Los IDs deben coincidir con los archivos en public/content/fr/A0/base-absoluta/
 interface LessonDef {
   id: string;
   title: string;
+  titleFr?: string;
 }
 
 const NODE_LESSONS: Record<string, LessonDef[]> = {
+  // ÁREA 0 - Base Absoluta (contenido real de A0)
   'node-1': [
-    { id: 'lesson-1-1', title: 'Saludos básicos' },
-    { id: 'lesson-1-2', title: 'En la recepción' },
-    { id: 'lesson-1-3', title: 'Problemas comunes' },
-    { id: 'lesson-1-4', title: 'Check-out' },
+    { id: 'nodo-0-1-saludos', title: 'Saludos y Despedidas', titleFr: 'Salutations et adieux' },
+    { id: 'nodo-0-2-numeros-tiempo', title: 'Números y Tiempo', titleFr: 'Nombres et temps' },
   ],
   'node-2': [
-    { id: 'lesson-2-1', title: 'En el restaurante' },
-    { id: 'lesson-2-2', title: 'Ordenando comida' },
-    { id: 'lesson-2-3', title: 'En el café' },
-    { id: 'lesson-2-4', title: 'La cuenta' },
+    { id: 'nodo-0-3-verbos-clave', title: 'Verbos Clave', titleFr: 'Verbes clés' },
+    { id: 'nodo-0-4-supervivencia-inmediata', title: 'Supervivencia Inmediata', titleFr: 'Survie immédiate' },
   ],
   'node-3': [
-    { id: 'lesson-3-1', title: 'El metro' },
-    { id: 'lesson-3-2', title: 'Tomando un taxi' },
-    { id: 'lesson-3-3', title: 'En el tren' },
-    { id: 'lesson-3-4', title: 'Direcciones' },
+    { id: 'nodo-0-5-objetos-cotidianos', title: 'Objetos Cotidianos', titleFr: 'Objets quotidiens' },
   ],
   'node-4': [
-    { id: 'lesson-4-1', title: 'En la farmacia' },
-    { id: 'lesson-4-2', title: 'Síntomas comunes' },
-    { id: 'lesson-4-3', title: 'En el médico' },
-    { id: 'lesson-4-4', title: 'Emergencias' },
+    { id: 'nodo-0-6-recuperacion', title: 'Estrategias de Recuperación', titleFr: 'Stratégies de récupération' },
   ],
   'node-5': [
-    { id: 'lesson-5-1', title: 'Pedir ayuda' },
-    { id: 'lesson-5-2', title: 'Objetos perdidos' },
-    { id: 'lesson-5-3', title: 'En la policía' },
-    { id: 'lesson-5-4', title: 'Recuperación' },
+    { id: 'nodo-0-7-digital', title: 'Interacción Digital', titleFr: 'Interaction numérique' },
   ],
 };
 

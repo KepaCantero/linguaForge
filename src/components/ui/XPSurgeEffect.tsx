@@ -13,7 +13,7 @@ export function XPSurgeEffect() {
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const handleXPSurge = (event: CustomEvent) => {
+    const handleXPSurge = (_event: CustomEvent) => {
       setSurgeType('surge');
       setSurgeActive(true);
     };

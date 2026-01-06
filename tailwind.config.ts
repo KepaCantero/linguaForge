@@ -97,8 +97,11 @@ const config: Config = {
         }
       },
       fontFamily: {
-        rajdhani: ['var(--font-rajdhani)', 'Rajdhani', 'sans-serif'],
-        atkinson: ['var(--font-atkinson)', 'Atkinson Hyperlegible', 'sans-serif'],
+        // Tipografía LinguaForge - Sistema Jerárquico
+        rajdhani: ['var(--font-rajdhani)', 'Rajdhani', 'sans-serif'],    // Display, títulos grandes
+        quicksand: ['var(--font-quicksand)', 'Quicksand', 'sans-serif'],   // UI principal, botones, cards
+        inter: ['var(--font-inter)', 'Inter', 'sans-serif'],                // Texto largo, contenido educativo
+        atkinson: ['var(--font-atkinson)', 'Atkinson Hyperlegible', 'sans-serif'], // Accesibilidad, alto contraste
       },
       backgroundImage: {
         'resonance-gradient': 'linear-gradient(135deg, #6366F1 0%, #3B82F6 50%, #0EA5E9 100%)', // Gradiente "Resonancia" mejorado
