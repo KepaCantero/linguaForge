@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, Suspense, useCallback } from 'react';
+import { useState, useMemo, Suspense, useCallback, useEffect } from 'react';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
@@ -14,6 +14,7 @@ import { RhythmSequenceWarmup } from '@/components/warmups/RhythmSequenceWarmup'
 import { VisualMatchWarmup } from '@/components/warmups/VisualMatchWarmup';
 import { FocusMode } from '@/components/focus/FocusMode';
 import { PostCognitiveRewards } from '@/components/gamification/PostCognitiveRewards';
+import { SessionSummary } from '@/components/session/SessionSummary';
 import { useCognitiveLoad, useCognitiveLoadStore } from '@/store/useCognitiveLoadStore';
 import { getSessionFeedback } from '@/services/postCognitiveRewards';
 import {
@@ -113,6 +114,13 @@ function ExercisesPageContent() {
   const [showRewards, setShowRewards] = useState(false);
   const [rewardData, setRewardData] = useState<ReturnType<typeof getSessionFeedback> | null>(null);
 
+  // Session summary
+  const [showSessionSummary, setShowSessionSummary] = useState(false);
+  const [sessionStartTime] = useState<number>(Date.now());
+  const [sessionLoadHistory, setSessionLoadHistory] = useState<number[]>([]);
+  const [sessionPeakLoad, setSessionPeakLoad] = useState(0);
+  const [focusModeStartTime, setFocusModeStartTime] = useState<number | null>(null);
+
   // CLT: Obtener estado de carga cognitiva
   const { load, status: loadStatus } = useCognitiveLoad();
   const { updateGermaneLoad } = useCognitiveLoadStore();
@@ -150,6 +158,29 @@ function ExercisesPageContent() {
 
     return data;
   }, [subtopic]);
+
+  // Track load history and peak load
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSessionLoadHistory(prev => {
+        const newHistory = [...prev, load.total];
+        // Keep only last 100 data points
+        return newHistory.slice(-100);
+      });
+      setSessionPeakLoad(prev => Math.max(prev, load.total));
+    }, 30000); // Every 30 seconds
+
+    return () => clearInterval(interval);
+  }, [load.total]);
+
+  // Track focus mode duration
+  useEffect(() => {
+    if (focusModeActive && !focusModeStartTime) {
+      setFocusModeStartTime(Date.now());
+    } else if (!focusModeActive && focusModeStartTime) {
+      setFocusModeStartTime(null);
+    }
+  }, [focusModeActive, focusModeStartTime]);
 
   const [selectedExerciseType, setSelectedExerciseType] = useState<ExerciseType>(null);
   const [exerciseIndices, setExerciseIndices] = useState({
@@ -692,6 +723,14 @@ function ExercisesPageContent() {
             >
               <span className="text-xl">🎯</span>
             </button>
+            {/* Botón SessionSummary */}
+            <button
+              onClick={() => setShowSessionSummary(true)}
+              className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all"
+              title="Ver resumen de sesión"
+            >
+              <span className="text-xl">📊</span>
+            </button>
           </div>
           {/* Indicador de carga cognitiva */}
           {showCognitiveLoad && (
@@ -756,6 +795,25 @@ function ExercisesPageContent() {
             // Continuar con el siguiente flujo según el modo
           }}
           showDetails={true}
+        />
+      )}
+
+      {/* Session summary */}
+      {showSessionSummary && (
+        <SessionSummary
+          session={{
+            startTime: sessionStartTime,
+            exercisesCompleted: Object.values(exerciseIndices).reduce((a, b) => Math.max(a, b), 0) + 1,
+            correctAnswers: 0,
+            totalAttempts: 0,
+            averageResponseTime: 30000, // 30s default
+            peakLoad: sessionPeakLoad,
+            loadHistory: sessionLoadHistory,
+          }}
+          cognitiveLoad={load}
+          focusModeUsed={focusModeActive}
+          focusDuration={focusModeStartTime ? (Date.now() - focusModeStartTime) / 1000 : undefined}
+          onClose={() => setShowSessionSummary(false)}
         />
       )}
     </FocusMode>
