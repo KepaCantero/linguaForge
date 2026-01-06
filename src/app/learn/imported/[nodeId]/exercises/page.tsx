@@ -662,7 +662,10 @@ function ExercisesPageContent() {
         return (
           <ClozeExercise
             phrase={currentExercise as Phrase}
-            onComplete={handleExerciseComplete}
+            onComplete={(correct) => {
+              console.log('[ClozeExercise] Completed with correct:', correct);
+              handleExerciseComplete();
+            }}
           />
         );
       case 'variations':
