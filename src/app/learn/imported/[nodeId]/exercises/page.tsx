@@ -269,11 +269,22 @@ function ExercisesPageContent() {
 
 
   if (!node || !subtopic || !exerciseData) {
+    console.error('[Exercises Page] Missing data:', {
+      hasNode: !!node,
+      nodeId,
+      hasSubtopic: !!subtopic,
+      subtopicId,
+      hasExerciseData: !!exerciseData,
+      subtopicPhrases: subtopic?.phrases?.length,
+    });
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
         <div className="text-center">
           <div className="text-6xl mb-4">404</div>
           <p className="text-gray-600 dark:text-gray-400 mb-4">Subtema no encontrado</p>
+          <div className="text-xs text-gray-500 mb-4">
+            Debug: hasNode={!!node}, hasSubtopic={!!subtopic}, hasExerciseData={!!exerciseData}
+          </div>
           <Link
             href={`/learn/imported/${nodeId}`}
             className="text-indigo-600 hover:text-indigo-700"
@@ -657,8 +668,11 @@ function ExercisesPageContent() {
   }
 
   const renderExercise = () => {
+    console.log('[renderExercise] Called with type:', selectedExerciseType);
+
     switch (selectedExerciseType) {
       case 'cloze':
+        console.log('[renderExercise] Rendering ClozeExercise with phrase:', currentExercise);
         return (
           <ClozeExercise
             phrase={currentExercise as Phrase}
