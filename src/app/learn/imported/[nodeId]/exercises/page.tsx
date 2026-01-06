@@ -12,6 +12,10 @@ import { DialogueIntonationExercise } from '@/components/exercises/DialogueInton
 import { JanusComposerExercise } from '@/components/exercises/JanusComposerExercise';
 import { RhythmSequenceWarmup } from '@/components/warmups/RhythmSequenceWarmup';
 import { VisualMatchWarmup } from '@/components/warmups/VisualMatchWarmup';
+import { FocusMode } from '@/components/focus/FocusMode';
+import { PostCognitiveRewards } from '@/components/gamification/PostCognitiveRewards';
+import { useCognitiveLoad, useCognitiveLoadStore } from '@/store/useCognitiveLoadStore';
+import { getSessionFeedback } from '@/services/postCognitiveRewards';
 import {
   generateClozeExercises,
   generateVariationsExercises,
@@ -103,6 +107,16 @@ function ExercisesPageContent() {
   // Control de fase: warmup opcional → menú → ejercicios
   const [pagePhase, setPagePhase] = useState<PagePhase>('warmup-choice');
   const [selectedWarmup, setSelectedWarmup] = useState<WarmupType>(null);
+  const [focusModeActive, setFocusModeActive] = useState(false);
+
+  // Post-cognitive rewards
+  const [showRewards, setShowRewards] = useState(false);
+  const [rewardData, setRewardData] = useState<ReturnType<typeof getSessionFeedback> | null>(null);
+
+  // CLT: Obtener estado de carga cognitiva
+  const { load, status: loadStatus } = useCognitiveLoad();
+  const { updateGermaneLoad } = useCognitiveLoadStore();
+  const showCognitiveLoad = true; // Siempre mostrar carga cognitiva
 
   // Generar todos los tipos de ejercicios
   const exerciseData = useMemo(() => {
@@ -167,25 +181,52 @@ function ExercisesPageContent() {
   const handleExerciseComplete = useCallback(() => {
     if (!selectedExerciseType || !exerciseData) return;
 
-    // En modo desafío, avanzar automáticamente
+    // CLT: Actualizar carga germana al completar ejercicio
+    updateGermaneLoad(5, 'exercise_completed');
+
+    // Calcular recompensas post-cognitivas
+    const performanceMetrics = {
+      accuracy: 1.0, // 100% correct
+      averageResponseTime: 30000,
+      exercisesCompleted: exerciseIndices[selectedExerciseType] + 1,
+      consecutiveCorrect: 1,
+      cognitiveLoad: load,
+      sessionDuration: 60, // 1 minuto en segundos
+      focusModeUsed: focusModeActive,
+    };
+
+    const { rewards, feedback: sessionFeedback } = getSessionFeedback(performanceMetrics, false);
+
+    setRewardData({ rewards, feedback: sessionFeedback });
+    setShowRewards(true);
+
+    // En modo desafío, avanzar automáticamente después de las recompensas
     if (mode === 'desafio') {
       const currentIndex = exerciseIndices[selectedExerciseType];
       const exercises = exerciseData[selectedExerciseType];
 
       if (exercises && currentIndex < exercises.length - 1) {
-        setExerciseIndices((prev) => ({
-          ...prev,
-          [selectedExerciseType]: prev[selectedExerciseType] + 1,
-        }));
+        // Avanzar después de cerrar recompensas
+        setTimeout(() => {
+          setExerciseIndices((prev) => ({
+            ...prev,
+            [selectedExerciseType]: prev[selectedExerciseType] + 1,
+          }));
+          setSelectedExerciseType(null);
+        }, 3000);
       } else {
         // Completar este tipo de ejercicio, pasar al siguiente o terminar
-        setSelectedExerciseType(null);
+        setTimeout(() => {
+          setSelectedExerciseType(null);
+        }, 3000);
       }
     } else {
-      // En modo academia, volver al menú
-      setSelectedExerciseType(null);
+      // En modo academia, volver al menú después de las recompensas
+      setTimeout(() => {
+        setSelectedExerciseType(null);
+      }, 3000);
     }
-  }, [selectedExerciseType, exerciseIndices, exerciseData, mode]);
+  }, [selectedExerciseType, exerciseIndices, exerciseData, mode, load, updateGermaneLoad, focusModeActive]);
 
   const handleBack = useCallback(() => {
     if (selectedExerciseType && mode === 'academia') {
@@ -601,51 +642,123 @@ function ExercisesPageContent() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-20">
-      <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
-        <div className="max-w-lg mx-auto px-4 py-4 flex items-center gap-4">
-          <button
-            onClick={handleBack}
-            className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
-          >
-            <span className="text-xl">←</span>
-          </button>
-          <div className="flex-1">
-            <h1 className="font-semibold text-gray-900 dark:text-white line-clamp-1">
-              {subtopic.title}
-            </h1>
-            <div className="flex items-center gap-2 mt-1">
-              <span className={`text-xs px-2 py-0.5 rounded-full ${
-                mode === 'academia'
-                  ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400'
-                  : 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400'
-              }`}>
-                {mode === 'academia' ? '📚 Academia' : '⚡ Desafío'}
-              </span>
-              {exercises && (
-                <span className="text-xs text-gray-500 dark:text-gray-400">
-                  {currentIndex + 1}/{exercises.length}
+    <FocusMode
+      isActive={focusModeActive}
+      onToggle={setFocusModeActive}
+      config={{
+        showTimer: true,
+        allowBreak: mode === 'academia',
+        autoHideCursor: true,
+        dimBackground: true,
+      }}
+    >
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-20">
+        <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
+          <div className="max-w-lg mx-auto px-4 py-4 flex items-center gap-4">
+            <button
+              onClick={handleBack}
+              className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+            >
+              <span className="text-xl">←</span>
+            </button>
+            <div className="flex-1">
+              <h1 className="font-semibold text-gray-900 dark:text-white line-clamp-1">
+                {subtopic.title}
+              </h1>
+              <div className="flex items-center gap-2 mt-1">
+                <span className={`text-xs px-2 py-0.5 rounded-full ${
+                  mode === 'academia'
+                    ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400'
+                    : 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400'
+                }`}>
+                  {mode === 'academia' ? '📚 Academia' : '⚡ Desafío'}
                 </span>
-              )}
+                {exercises && (
+                  <span className="text-xs text-gray-500 dark:text-gray-400">
+                    {currentIndex + 1}/{exercises.length}
+                  </span>
+                )}
+              </div>
             </div>
+            {/* Botón FocusMode */}
+            <button
+              onClick={() => setFocusModeActive(!focusModeActive)}
+              className={`p-2 rounded-lg transition-all ${
+                focusModeActive
+                  ? 'bg-indigo-500 text-white'
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
+              }`}
+              title={focusModeActive ? 'Salir de Focus Mode' : 'Entrar en Focus Mode'}
+            >
+              <span className="text-xl">🎯</span>
+            </button>
           </div>
-        </div>
-      </header>
+          {/* Indicador de carga cognitiva */}
+          {showCognitiveLoad && (
+            <div className="max-w-lg mx-auto px-4 pb-2">
+              <div className="flex items-center gap-2 text-xs">
+                <span className="text-gray-500 dark:text-gray-400">Carga cognitiva:</span>
+                <div className="flex-1 h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                  <motion.div
+                    className={`h-full ${
+                      loadStatus === 'overload'
+                        ? 'bg-red-500'
+                        : loadStatus === 'high'
+                        ? 'bg-yellow-500'
+                        : loadStatus === 'optimal'
+                        ? 'bg-green-500'
+                        : 'bg-blue-500'
+                    }`}
+                    initial={{ width: 0 }}
+                    animate={{ width: `${load.total}%` }}
+                    transition={{ duration: 0.5 }}
+                  />
+                </div>
+                <span className={`font-medium ${
+                  loadStatus === 'overload'
+                    ? 'text-red-500'
+                    : loadStatus === 'high'
+                    ? 'text-yellow-500'
+                    : loadStatus === 'optimal'
+                    ? 'text-green-500'
+                    : 'text-blue-500'
+                }`}>
+                  {Math.round(load.total)}%
+                </span>
+              </div>
+            </div>
+          )}
+        </header>
 
-      <main className="max-w-lg mx-auto px-4 pt-6">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={`${selectedExerciseType}-${currentIndex}`}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.3 }}
-          >
-            {renderExercise()}
-          </motion.div>
-        </AnimatePresence>
-      </main>
-    </div>
+        <main className="max-w-lg mx-auto px-4 pt-6">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={`${selectedExerciseType}-${currentIndex}`}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              {renderExercise()}
+            </motion.div>
+          </AnimatePresence>
+        </main>
+      </div>
+
+      {/* Post-cognitive rewards */}
+      {showRewards && rewardData && (
+        <PostCognitiveRewards
+          rewards={rewardData.rewards}
+          feedback={rewardData.feedback}
+          onClose={() => setShowRewards(false)}
+          onContinue={() => {
+            setShowRewards(false);
+            // Continuar con el siguiente flujo según el modo
+          }}
+          showDetails={true}
+        />
+      )}
+    </FocusMode>
   );
 }
 
