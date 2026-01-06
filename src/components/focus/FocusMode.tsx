@@ -160,7 +160,10 @@ export function FocusMode({
 
   return (
     <>
-      {/* Botón toggle */}
+      {/* Contenido normal (cuando FocusMode NO está activo) */}
+      {!isActive && children}
+
+      {/* Botón toggle flotante */}
       <AnimatePresence>
         {!isActive && (
           <motion.button

@@ -14,6 +14,8 @@ interface ClozeExerciseProps {
 }
 
 export function ClozeExercise({ phrase, block, onComplete }: ClozeExerciseProps) {
+  console.log('[ClozeExercise] Mounted with phrase:', phrase);
+
   const { addXP } = useGamificationStore();
   const { speak, isSpeaking } = useTTS();
   const [selectedOption, setSelectedOption] = useState<ClozeOption | null>(
@@ -30,9 +32,12 @@ export function ClozeExercise({ phrase, block, onComplete }: ClozeExerciseProps)
   const textWithGap = phrase.text.replace(phrase.clozeWord, "______");
 
   // Texto completo del bloque para reproducir
-  const fullBlockText = block 
+  const fullBlockText = block
     ? block.phrases.map(p => p.text).join(" ")
     : phrase.text;
+
+  console.log('[ClozeExercise] textWithGap:', textWithGap);
+  console.log('[ClozeExercise] clozeOptions:', phrase.clozeOptions);
 
   // Reproducir la frase completa o el bloque completo con TTS
   const playPhrase = useCallback(() => {
