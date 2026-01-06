@@ -102,8 +102,21 @@ function ExercisesPageContent() {
   const mode = (searchParams.get('mode') || 'academia') as LessonMode;
 
   const { nodes } = useImportedNodesStore();
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // Esperar a que Zustand persist cargue los datos de localStorage
+  useEffect(() => {
+    // Zustand persist se hidrata asíncronamente
+    const timer = setTimeout(() => setIsLoaded(true), 100);
+    return () => clearTimeout(timer);
+  }, []);
+
   const node = nodes.find((n) => n.id === nodeId);
-  const subtopic = node?.subtopics.find((s) => s.id === subtopicId);
+  // Memorizar subtopic para evitar recálculos
+  const subtopic = useMemo(() =>
+    node?.subtopics.find((s) => s.id === subtopicId),
+    [node, subtopicId]
+  );
 
   // Control de fase: warmup opcional → menú → ejercicios
   const [pagePhase, setPagePhase] = useState<PagePhase>('exercise-menu');
@@ -267,6 +280,15 @@ function ExercisesPageContent() {
     }
   }, [selectedExerciseType, mode, router, nodeId, subtopicId]);
 
+
+  // Mostrar loading mientras Zustand hidrata los datos
+  if (!isLoaded) {
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-4 border-indigo-500 border-t-transparent" />
+      </div>
+    );
+  }
 
   if (!node || !subtopic || !exerciseData) {
     console.error('[Exercises Page] Missing data:', {
