@@ -10,6 +10,8 @@ import { VariationsExercise } from '@/components/exercises/VariationsExercise';
 import { ConversationalEchoExercise } from '@/components/exercises/ConversationalEchoExercise';
 import { DialogueIntonationExercise } from '@/components/exercises/DialogueIntonationExercise';
 import { JanusComposerExercise } from '@/components/exercises/JanusComposerExercise';
+import { RhythmSequenceWarmup } from '@/components/warmups/RhythmSequenceWarmup';
+import { VisualMatchWarmup } from '@/components/warmups/VisualMatchWarmup';
 import {
   generateClozeExercises,
   generateVariationsExercises,
@@ -18,9 +20,73 @@ import {
   generateJanusComposerExercises,
 } from '@/services/generateExercisesFromPhrases';
 import type { Phrase, ConversationalEcho, DialogueIntonation, JanusComposer } from '@/types';
+import type { RhythmSequenceConfig, VisualMatchConfig } from '@/schemas/warmup';
 
 type LessonMode = 'academia' | 'desafio';
 type ExerciseType = 'cloze' | 'variations' | 'conversationalEcho' | 'dialogueIntonation' | 'janusComposer' | null;
+type PagePhase = 'warmup-choice' | 'warmup-exercise' | 'exercise-menu' | 'doing-exercise';
+type WarmupType = 'rhythm' | 'visual' | null;
+
+// Configs simples para warmups
+const RHYTHM_CONFIG: RhythmSequenceConfig = {
+  sequences: [
+    {
+      pattern: ['tap', 'tap', 'tap'],
+      duration: 2000,
+      bpm: 80,
+    },
+    {
+      pattern: ['tap', 'hold', 'tap'],
+      duration: 3000,
+      bpm: 80,
+    },
+    {
+      pattern: ['swipe', 'tap', 'swipe'],
+      duration: 2500,
+      bpm: 80,
+    },
+  ],
+  visualStyle: 'geometric',
+  soundEnabled: true,
+};
+
+const VISUAL_CONFIG: VisualMatchConfig = {
+  images: [
+    {
+      url: 'https://placehold.co/100x100/e2e8f0/1e293b?text=🐱',
+      category: 'animales',
+      blurLevel: 5,
+      correctAnswer: 'chat',
+    },
+    {
+      url: 'https://placehold.co/100x100/e2e8f0/1e293b?text=🍎',
+      category: 'comida',
+      blurLevel: 5,
+      correctAnswer: 'pomme',
+    },
+    {
+      url: 'https://placehold.co/100x100/e2e8f0/1e293b?text=📚',
+      category: 'objetos',
+      blurLevel: 5,
+      correctAnswer: 'livre',
+    },
+    {
+      url: 'https://placehold.co/100x100/e2e8f0/1e293b?text=🏠',
+      category: 'lugares',
+      blurLevel: 5,
+      correctAnswer: 'maison',
+    },
+    {
+      url: 'https://placehold.co/100x100/e2e8f0/1e293b?text=🚗',
+      category: 'transporte',
+      blurLevel: 5,
+      correctAnswer: 'voiture',
+    },
+  ],
+  focusSpeed: 500,
+  recognitionThreshold: 0.5,
+  speedIncrease: 1.1,
+};
 
 function ExercisesPageContent() {
   const params = useParams();
@@ -33,6 +99,10 @@ function ExercisesPageContent() {
   const { nodes } = useImportedNodesStore();
   const node = nodes.find((n) => n.id === nodeId);
   const subtopic = node?.subtopics.find((s) => s.id === subtopicId);
+
+  // Control de fase: warmup opcional → menú → ejercicios
+  const [pagePhase, setPagePhase] = useState<PagePhase>('warmup-choice');
+  const [selectedWarmup, setSelectedWarmup] = useState<WarmupType>(null);
 
   // Generar todos los tipos de ejercicios
   const exerciseData = useMemo(() => {
@@ -77,6 +147,21 @@ function ExercisesPageContent() {
   });
   const handleSelectExercise = useCallback((type: ExerciseType) => {
     setSelectedExerciseType(type);
+    setPagePhase('doing-exercise');
+  }, []);
+
+  const handleSelectWarmup = useCallback((warmup: WarmupType) => {
+    setSelectedWarmup(warmup);
+    setPagePhase('warmup-exercise');
+  }, []);
+
+  const handleWarmupComplete = useCallback((score: number) => {
+    console.log('[Warmup] Completado con score:', score);
+    setPagePhase('exercise-menu');
+  }, []);
+
+  const handleSkipWarmup = useCallback(() => {
+    setPagePhase('exercise-menu');
   }, []);
 
   const handleExerciseComplete = useCallback(() => {
@@ -128,8 +213,173 @@ function ExercisesPageContent() {
     );
   }
 
+  // Pantalla de warmup opcional
+  if (pagePhase === 'warmup-choice') {
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-20">
+        <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
+          <div className="max-w-lg mx-auto px-4 py-4 flex items-center gap-4">
+            <button
+              onClick={() => router.push(`/learn/imported/${nodeId}/practice?subtopic=${subtopicId}`)}
+              className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+            >
+              <span className="text-xl">←</span>
+            </button>
+            <div className="flex-1">
+              <h1 className="font-semibold text-gray-900 dark:text-white line-clamp-1">
+                {subtopic.title}
+              </h1>
+              <p className="text-xs text-gray-500 dark:text-gray-400">
+                Calentamiento mental (opcional)
+              </p>
+            </div>
+          </div>
+        </header>
+
+        <main className="max-w-lg mx-auto px-4 pt-8">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+              ¿Quieres calentar tu cerebro?
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400">
+              Prepara tu mente con un ejercicio rápido antes de comenzar
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            {/* Ritmo y Memoria */}
+            <motion.button
+              onClick={() => handleSelectWarmup('rhythm')}
+              className="w-full bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 text-left border-2 border-transparent hover:border-indigo-500 transition-all"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <div className="flex items-center gap-3 mb-3">
+                <span className="text-3xl">🎵</span>
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Ritmo y Memoria</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    Repite secuencias rítmicas
+                  </p>
+                </div>
+              </div>
+              <div className="pl-12 text-sm text-gray-500 dark:text-gray-400">
+                ⏱️ 1-2 minutos • 🧠 Mejora atención auditiva
+              </div>
+            </motion.button>
+
+            {/* Asociación Visual */}
+            <motion.button
+              onClick={() => handleSelectWarmup('visual')}
+              className="w-full bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 text-left border-2 border-transparent hover:border-indigo-500 transition-all"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <div className="flex items-center gap-3 mb-3">
+                <span className="text-3xl">🎯</span>
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Asociación Visual</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    Encuentra las parejas
+                  </p>
+                </div>
+              </div>
+              <div className="pl-12 text-sm text-gray-500 dark:text-gray-400">
+                ⏱️ 1-2 minutos • 👁️ Activa visión espacial
+              </div>
+            </motion.button>
+
+            {/* Saltar warmup */}
+            <motion.button
+              onClick={handleSkipWarmup}
+              className="w-full bg-gray-100 dark:bg-gray-800 rounded-2xl p-6 text-center border-2 border-transparent hover:border-gray-400 dark:hover:border-gray-600 transition-all"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <div className="flex items-center justify-center gap-2">
+                <span className="text-xl">▶️</span>
+                <span className="font-semibold text-gray-700 dark:text-gray-300">
+                  Saltar al menú de ejercicios
+                </span>
+              </div>
+            </motion.button>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
+  // Ejecutar warmup seleccionado
+  if (pagePhase === 'warmup-exercise' && selectedWarmup) {
+    if (selectedWarmup === 'rhythm') {
+      return (
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-20">
+          <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
+            <div className="max-w-lg mx-auto px-4 py-4 flex items-center gap-4">
+              <button
+                onClick={handleSkipWarmup}
+                className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+              >
+                <span className="text-xl">✕</span>
+              </button>
+              <div className="flex-1">
+                <h1 className="font-semibold text-gray-900 dark:text-white">
+                  Ritmo y Memoria
+                </h1>
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  Calentamiento mental
+                </p>
+              </div>
+            </div>
+          </header>
+
+          <main className="max-w-lg mx-auto px-4 pt-6">
+            <RhythmSequenceWarmup
+              config={RHYTHM_CONFIG}
+              onComplete={handleWarmupComplete}
+              onSkip={handleSkipWarmup}
+            />
+          </main>
+        </div>
+      );
+    }
+
+    if (selectedWarmup === 'visual') {
+      return (
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-20">
+          <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
+            <div className="max-w-lg mx-auto px-4 py-4 flex items-center gap-4">
+              <button
+                onClick={handleSkipWarmup}
+                className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+              >
+                <span className="text-xl">✕</span>
+              </button>
+              <div className="flex-1">
+                <h1 className="font-semibold text-gray-900 dark:text-white">
+                  Asociación Visual
+                </h1>
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  Calentamiento mental
+                </p>
+              </div>
+            </div>
+          </header>
+
+          <main className="max-w-lg mx-auto px-4 pt-6">
+            <VisualMatchWarmup
+              config={VISUAL_CONFIG}
+              onComplete={handleWarmupComplete}
+              onSkip={handleSkipWarmup}
+            />
+          </main>
+        </div>
+      );
+    }
+  }
+
   // Menú de ejercicios (modo academia o inicio)
-  if (!selectedExerciseType) {
+  if (!selectedExerciseType && pagePhase === 'exercise-menu') {
     const totalExercises =
       (exerciseData.cloze?.length || 0) +
       (exerciseData.variations?.length || 0) +
@@ -292,6 +542,10 @@ function ExercisesPageContent() {
   }
 
   // Renderizar ejercicio seleccionado
+  if (!selectedExerciseType) {
+    return null;
+  }
+
   const currentIndex = exerciseIndices[selectedExerciseType];
   const exercises = exerciseData[selectedExerciseType];
   const currentExercise = exercises?.[currentIndex];
