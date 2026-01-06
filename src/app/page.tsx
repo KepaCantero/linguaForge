@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
@@ -10,14 +10,47 @@ import { getTranslations } from '@/i18n';
 export default function Home() {
   const router = useRouter();
   const { hasCompletedOnboarding, appLanguage } = useUserStore();
+  const [isHydrated, setIsHydrated] = useState(false);
   const t = getTranslations(appLanguage);
+
+  // Esperar a que Zustand se hidrate desde localStorage
+  useEffect(() => {
+    const timer = setTimeout(() => setIsHydrated(true), 100);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Verificar estado del store
+  useEffect(() => {
+    if (isHydrated) {
+      console.log('[HomePage] hasCompletedOnboarding:', hasCompletedOnboarding);
+      const stored = localStorage.getItem('linguaforge-user');
+      if (stored) {
+        try {
+          const parsed = JSON.parse(stored);
+          console.log('[HomePage] LocalStorage hasCompletedOnboarding:', parsed.state?.hasCompletedOnboarding);
+        } catch (e) {
+          console.error('[HomePage] Error parsing localStorage:', e);
+        }
+      }
+    }
+  }, [hasCompletedOnboarding, isHydrated]);
 
   // Si ya completó el onboarding, redirigir a /learn
   useEffect(() => {
-    if (hasCompletedOnboarding) {
+    if (isHydrated && hasCompletedOnboarding) {
+      console.log('[HomePage] Redirigiendo a /learn...');
       router.push('/learn');
     }
-  }, [hasCompletedOnboarding, router]);
+  }, [hasCompletedOnboarding, router, isHydrated]);
+
+  // Mostrar loading mientras se hidrata el store
+  if (!isHydrated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-indigo-600 via-indigo-700 to-purple-800">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white" />
+      </div>
+    );
+  }
 
   // Si ya completó onboarding, no mostrar nada (está redirigiendo)
   if (hasCompletedOnboarding) {

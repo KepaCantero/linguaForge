@@ -56,6 +56,8 @@ export default function OnboardingPage() {
   };
 
   const handleModeSelect = (mode: LearningMode) => {
+    console.log('[Onboarding] Completando onboarding con modo:', mode);
+
     // Guardar todas las preferencias antes de completar onboarding
     setMode(mode);
     // Asegurar que el idioma y nivel estén guardados
@@ -63,10 +65,17 @@ export default function OnboardingPage() {
     setActiveLevel('A1');
     // Completar onboarding y redirigir
     completeOnboarding();
-    // Pequeño delay para asegurar que el estado se guarde
+
+    // Verificar que se guardó
     setTimeout(() => {
+      const stored = localStorage.getItem('linguaforge-user');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        console.log('[Onboarding] Estado después de completeOnboarding:', parsed.state);
+      }
+
       router.push('/learn');
-    }, 100);
+    }, 200);
   };
 
   // No renderizar hasta que el store esté hidratado
