@@ -26,6 +26,15 @@ export default function ProfilePage() {
 
   const userLevel = getLevelByXP(xp);
 
+  const handleModeChange = (newMode: 'guided' | 'autonomous') => {
+    console.log('[Profile] Changing mode from', mode, 'to', newMode);
+    setMode(newMode);
+    // Verificar que se guardó
+    setTimeout(() => {
+      console.log('[Profile] Mode after setMode:', useUserStore.getState().mode);
+    }, 100);
+  };
+
   const handleResetAll = () => {
     if (confirm('¿Estás seguro de que quieres resetear todo el progreso? Esta acción no se puede deshacer.')) {
       resetProgress();
@@ -148,7 +157,7 @@ export default function ProfilePage() {
         </h3>
         <div className="grid grid-cols-2 gap-3">
           <button
-            onClick={() => setMode('guided')}
+            onClick={() => handleModeChange('guided')}
             className={`
               p-4 rounded-xl flex flex-col items-start gap-2 transition-all
               ${mode === 'guided'
@@ -172,7 +181,7 @@ export default function ProfilePage() {
           </button>
 
           <button
-            onClick={() => setMode('autonomous')}
+            onClick={() => handleModeChange('autonomous')}
             className={`
               p-4 rounded-xl flex flex-col items-start gap-2 transition-all
               ${mode === 'autonomous'
