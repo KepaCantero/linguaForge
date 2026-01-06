@@ -5,9 +5,9 @@
 ## Estado Actual
 
 **Versión del Plan:** v4.0 (Base) + v2.0 (Expansión LinguaForge) + Sistema INPUT + SRS + CLT + Misiones
-**Fase:** FASE 0 - Production Readiness (Iniciada)
+**Fase:** FASE 0 - Production Readiness (En progreso)
 **Tarea activa:** Infraestructura de Testing (Vitest + Testing Library)
-**Última completada:** Build Clean - npm run build sin warnings ni errores
+**Última completada:** Fix Zustand Persistence Race Conditions (2026-01-06)
 
 ## Resumen de Trabajo Reciente
 
@@ -50,6 +50,43 @@
 ✓ Collecting page data ...
 ✓ Generating static pages (23/23)
 ✓ Finalizing page optimization ...
+```
+
+### Zustand Persistence Fixes (Completada - 2026-01-06)
+
+**Problema:** Las preferencias de usuario no persistían correctamente:
+- Selección de idioma de la app (`appLanguage`)
+- Modo de aprendizaje (`mode`)
+- Completación de onboarding (`hasCompletedOnboarding`)
+
+**Root Cause:** Race conditions entre Zustand's async hydration desde localStorage y componentes que renderizan antes de que los datos estén cargados.
+
+**Cambios realizados:**
+
+1. **useUserStore.ts:**
+   - Agregado callback `onRehydrateStorage` para loggear el estado hidratado
+   - Extensive logging en `setAppLanguage`, `setMode`, `completeOnboarding`
+   - Verificación de localStorage después de cada set con timeout
+
+2. **page.tsx (Home):**
+   - Agregado estado `isHydrated` con delay de 100ms
+   - Mostrar loading mientras Zustand se hidrata
+   - Solo redirigir a `/learn` después de hidratación completa
+   - Prevenir redirecciones prematuras que causaban bucles
+
+3. **onboarding/page.tsx:**
+   - Logging mejorado después de `completeOnboarding`
+   - Verificación de localStorage antes de redirigir
+
+**Resultado:**
+- El home page ahora espera a que useUserStore se hidrate antes de decidir si redirigir
+- `onRehydrateStorage` permite depurar problemas de carga
+- Logs extensivos ayudan a identificar dónde falla la persistencia
+
+**Logs esperados:**
+```
+[UserStore] Rehidratando store...
+[UserStore] Estado cargado: {appLanguage: 'es', mode: 'guided', hasCompletedOnboarding: true}
 ```
 
 ### Integración de Misiones (Completada)
@@ -176,6 +213,13 @@
 
 ## Archivos Creados/Modificados Esta Sesión
 
+### Zustand Persistence Fixes (2026-01-06)
+
+#### Archivos Modificados
+- `src/store/useUserStore.ts` - Agregado onRehydrateStorage callback y logging extensivo
+- `src/app/page.tsx` - Agregado isHydrated state para prevenir race conditions
+- `src/app/onboarding/page.tsx` - Logging mejorado después de completeOnboarding
+
 ### Build Clean (2026-01-06)
 
 #### Archivos Modificados (Core Fixes)
@@ -246,6 +290,22 @@
 1. **Zustand Selectors:** NUNCA llamar métodos/funciones dentro de selectores - calcular valores derivados fuera
 2. **useEffect con Zustand:** Usar useRef para controlar ejecución única si las funciones del store son dependencias
 3. **useMemo para valores derivados:** Calcular estados complejos con useMemo en vez de usar funciones del store
+4. **Zustand Hydration Pattern (Crítico):** SIEMPRE esperar a que el store se hidrate desde localStorage antes de tomar decisiones:
+   ```typescript
+   // ✅ CORRECTO - Esperar hidratación
+   const [isHydrated, setIsHydrated] = useState(false);
+   useEffect(() => {
+     const timer = setTimeout(() => setIsHydrated(true), 100);
+     return () => clearTimeout(timer);
+   }, []);
+
+   if (!isHydrated) return <Loading />;
+   // Ahora usar datos del store
+
+   // ❌ INCORRECTO - Usar datos inmediatamente
+   const { hasCompletedOnboarding } = useUserStore();
+   if (hasCompletedOnboarding) router.push('/learn'); // Puede ser f positivo!
+   ```
 
 ## Métricas Actuales
 

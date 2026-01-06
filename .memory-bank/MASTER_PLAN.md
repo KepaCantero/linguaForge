@@ -495,11 +495,32 @@ jobs:
 
 ---
 
+#### HITO 0.0.1: Zustand Persistence Race Conditions Fix (Completado ✅)
+**Fecha:** 2026-01-06
+**Commit:** 48b8c9f
+
+**Problema resuelto:** Las preferencias de usuario no persistían correctamente (idioma, modo, onboarding).
+
+**Root Cause:** Race conditions entre Zustand's async hydration desde localStorage y componentes que renderizan antes de que los datos estén cargados.
+
+**Cambios realizados:**
+- **useUserStore.ts**: Agregado `onRehydrateStorage` callback para depuración
+- **page.tsx**: Agregado estado `isHydrated` con delay de 100ms para esperar hidratación
+- **onboarding/page.tsx**: Logging mejorado para verificar persistencia
+
+**Resultado:**
+- Home page ahora espera a que Zustand se hidrate antes de redirigir
+- Logs extensivos permiten diagnosticar problemas de persistencia
+- Se previenen redirecciones prematuras que causaban bucles de onboarding
+
+---
+
 #### RESUMEN FASE 0: PRODUCTION READINESS
 
 | Tarea | Prioridad | Tiempo | Estado |
 |-------|-----------|--------|--------|
 | 0.0 Build Clean | 🔴 P0 | 4h | ✅ Completado |
+| 0.0.1 Zustand Persistence Fix | 🔴 P0 | 2h | ✅ Completado |
 | 0.1 Testing Infrastructure | 🔴 P0 | 4h | Pendiente |
 | 0.2 Tests wordExtractor | 🔴 P0 | 2h | Pendiente |
 | 0.3 Tests sm2 | 🔴 P0 | 2h | Pendiente |
@@ -512,7 +533,7 @@ jobs:
 | 0.10 Repository Pattern | 🟡 P1 | 2d | Pendiente |
 | 0.11 Zod Runtime Validation | 🟡 P1 | 1d | Pendiente |
 | 0.12 Lighthouse CI | 🟡 P1 | 4h | Pendiente |
-| **TOTAL** | | **~3 semanas** | **1/13 completado** |
+| **TOTAL** | | **~3 semanas** | **2/14 completado** |
 
 **⚠️ NO PROSEGUIR CON OTRAS FASES HASTA COMPLETAR FASE 0**
 
@@ -1223,7 +1244,7 @@ jobs:
 
 | Fase | Tareas | Completadas | Pendientes | Prioridad |
 |------|--------|-------------|------------|-----------|
-| **0. Production Readiness** | **12** | **0** | **12** | **🔴 CRÍTICA** |
+| **0. Production Readiness** | **14** | **2** | **12** | **🔴 CRÍTICA** |
 | 1. Entrenamiento CLT | 8 | 1 | 7 | Alta |
 | 2. Warm-ups | 9 | 7 | 2 | Alta |
 | 2.5. Optimización UX (Low Click) | 5 | 0 | 5 | Alta |
@@ -1235,7 +1256,7 @@ jobs:
 | 6. Testing | 3 | 0 | 3 | Media |
 | 7. Contenido | 3 | 0 | 3 | Media/Baja |
 | 8. Monetización | 3 | 0 | 3 | Baja (última) |
-| **TOTAL** | **67** | **8** | **59** | |
+| **TOTAL** | **69** | **10** | **59** | |
 
 ---
 
