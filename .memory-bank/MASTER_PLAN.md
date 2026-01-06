@@ -472,10 +472,34 @@ jobs:
 
 ---
 
+#### HITO 0.0: Build Clean (Completado ✅)
+**Fecha:** 2026-01-06
+**Commit:** b0df7ac
+
+**Logro:** `npm run build` se ejecuta sin warnings ni errores.
+
+**Cambios realizados:**
+- Eliminación de 10+ variables/funciones no utilizadas
+- Corrección de tipos TypeScript en 4 archivos
+- Corrección de React Hooks exhaustive-deps en 3 componentes
+- Corrección de prefer-const y otros lint issues
+
+**Resultado:**
+```
+✓ Compiled successfully
+✓ Linting and checking validity of types ...
+✓ Collecting page data ...
+✓ Generating static pages (23/23)
+✓ Finalizing page optimization ...
+```
+
+---
+
 #### RESUMEN FASE 0: PRODUCTION READINESS
 
 | Tarea | Prioridad | Tiempo | Estado |
 |-------|-----------|--------|--------|
+| 0.0 Build Clean | 🔴 P0 | 4h | ✅ Completado |
 | 0.1 Testing Infrastructure | 🔴 P0 | 4h | Pendiente |
 | 0.2 Tests wordExtractor | 🔴 P0 | 2h | Pendiente |
 | 0.3 Tests sm2 | 🔴 P0 | 2h | Pendiente |
@@ -488,7 +512,7 @@ jobs:
 | 0.10 Repository Pattern | 🟡 P1 | 2d | Pendiente |
 | 0.11 Zod Runtime Validation | 🟡 P1 | 1d | Pendiente |
 | 0.12 Lighthouse CI | 🟡 P1 | 4h | Pendiente |
-| **TOTAL** | | **~3 semanas** | **0/12 completado** |
+| **TOTAL** | | **~3 semanas** | **1/13 completado** |
 
 **⚠️ NO PROSEGUIR CON OTRAS FASES HASTA COMPLETAR FASE 0**
 

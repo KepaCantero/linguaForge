@@ -1,15 +1,56 @@
 # Active Context — Contexto Activo
 
-> Última actualización: 2026-01-03
+> Última actualización: 2026-01-06
 
 ## Estado Actual
 
 **Versión del Plan:** v4.0 (Base) + v2.0 (Expansión LinguaForge) + Sistema INPUT + SRS + CLT + Misiones
-**Fase:** FASE 5 y 6 completadas parcialmente + Integración Misiones
-**Tarea activa:** ÁREA 0 - Contenido base (próxima tarea crítica)
-**Última completada:** Integración de Misiones en navegación + Fix infinite loops
+**Fase:** FASE 0 - Production Readiness (Iniciada)
+**Tarea activa:** Infraestructura de Testing (Vitest + Testing Library)
+**Última completada:** Build Clean - npm run build sin warnings ni errores
 
 ## Resumen de Trabajo Reciente
+
+### Build Clean (Completada - 2026-01-06)
+
+**Objetivo:** Lograr que `npm run build` se ejecute sin warnings ni errores.
+
+**Cambios realizados:**
+
+1. **Eliminación de código no utilizado:**
+   - `_fetchYouTubeTranscriptFallback` en `route.ts`
+   - `BlockBuilderPhase` type en `BlockBuilderExercise.tsx`
+   - `speak` variable en `PhraseSelectionPanel.tsx`
+   - `phrases` prop en `WordSelector.tsx`
+   - `_content` parámetro en `calculateGermaneLoad`
+   - `_rewards` parámetro en `generateSessionFeedback`
+   - `_TranslationResponse` interface en `translationService.ts`
+   - `__isToday` function en `useWarmupStore.ts`
+   - `createdNodeId` state en `import/page.tsx`
+   - `useTTS` import en `PhraseSelectionPanel.tsx`
+
+2. **Corrección de tipos TypeScript:**
+   - `LottieAnimation.tsx`: `any` → `Record<string, unknown> | null`
+   - `MicroInteractions.tsx`: `any` con eslint-disable (Framer Motion variants)
+   - `baseRepository.ts` y `srsCardRepository.ts`: `applyFilter` con firma correcta para Supabase
+
+3. **React Hooks exhaustive-deps:**
+   - `ConversationalEchoExercise.tsx`: Reordenado `handleTimeout` antes de `handleAudioEnded` y agregado a dependencias
+   - `InteractiveSpeechExercise.tsx`: `silenceConfig` envuelto en `useMemo` con dependencias correctas
+   - `JanusComposerExercise.tsx`: Reordenado `handleComplete` antes de funciones que lo usan y agregado a dependencias
+
+4. **Correcciones adicionales:**
+   - `prefer-const`: `let countQuery` → `const countQuery` en `baseRepository.ts`
+   - Agregado `useMemo` import en `InteractiveSpeechExercise.tsx`
+
+**Resultado:**
+```
+✓ Compiled successfully
+✓ Linting and checking validity of types ...
+✓ Collecting page data ...
+✓ Generating static pages (23/23)
+✓ Finalizing page optimization ...
+```
 
 ### Integración de Misiones (Completada)
 
@@ -135,7 +176,29 @@
 
 ## Archivos Creados/Modificados Esta Sesión
 
-### Nuevos
+### Build Clean (2026-01-06)
+
+#### Archivos Modificados (Core Fixes)
+- `src/app/api/youtube/transcript/route.ts` - Eliminado _fetchYouTubeTranscriptFallback
+- `src/app/import/page.tsx` - Eliminado createdNodeId state y nodeId variable
+- `src/components/exercises/BlockBuilderExercise.tsx` - Eliminado BlockBuilderPhase type
+- `src/components/exercises/ConversationalEchoExercise.tsx` - Fix exhaustive-deps
+- `src/components/exercises/InteractiveSpeechExercise.tsx` - Fix exhaustive-deps + useMemo
+- `src/components/exercises/JanusComposerExercise.tsx` - Fix exhaustive-deps
+- `src/components/transcript/PhraseSelectionPanel.tsx` - Eliminado useTTS import y speak variable
+- `src/components/transcript/WordSelector.tsx` - Eliminado phrases prop
+- `src/components/animations/LottieAnimation.tsx` - Tipo any → Record<string, unknown>
+- `src/components/shared/MicroInteractions.tsx` - Tipo any con eslint-disable
+- `src/services/cognitiveLoadMetrics.ts` - Eliminado _content parámetro
+- `src/services/postCognitiveRewards.ts` - Eliminado _rewards parámetro
+- `src/services/translationService.ts` - Eliminado _TranslationResponse interface
+- `src/services/repository/baseRepository.ts` - Fix applyFilter + prefer-const
+- `src/services/repository/srsCardRepository.ts` - Fix applyFilter
+- `src/store/useWarmupStore.ts` - Eliminado __isToday function
+
+### Sesión Anterior - Integración de Misiones
+
+#### Nuevos
 - `src/app/missions/page.tsx` - Página de misiones
 - `src/components/exercises/lazy.tsx` - Lazy loading (renombrado)
 - `src/components/missions/MissionFeed.tsx`
@@ -148,7 +211,7 @@
 - `src/hooks/usePerformance.ts`
 - `public/manifest.json`, `public/sw.js` - PWA
 
-### Modificados
+#### Modificados
 - `src/components/layout/BottomNav.tsx` - Añadido Misiones
 - `src/store/useCognitiveLoadStore.ts` - Fix infinite loops
 - `src/components/missions/MissionFeed.tsx` - Fix infinite loops
@@ -156,7 +219,16 @@
 
 ## Próximos Pasos
 
-### Inmediato (Crítico) - ÁREA 0
+### Inmediato (Crítico) - FASE 0: Production Readiness
+1. **TAREA 0.1** - Infraestructura de Testing (Vitest + Testing Library)
+2. **TAREA 0.2** - Tests unitarios para wordExtractor
+3. **TAREA 0.3** - Tests unitarios para sm2
+4. **TAREA 0.4** - Tests unitarios para Zustand stores
+5. **TAREA 0.6** - Error Handling en Supabase
+6. **TAREA 0.7** - Rate Limiting para APIs externas
+7. **TAREA 0.8** - Circuit Breaker para servicios externos
+
+### Medio Plazo - Contenido
 1. **TAREA 3.1** - Crear schema para ÁREA 0
 2. **TAREA 3.2-3.8** - Nodos 0.1-0.7 de contenido base
 3. **TAREA 3.9** - Integración ÁREA 0 en Sistema
@@ -165,7 +237,7 @@
 - Ejecutar `supabase/schema.sql` en SQL Editor
 - Credenciales configuradas en `.env.local`
 
-### Medio Plazo
+### Largo Plazo
 - Expansión contenido A1
 - Tests E2E con Playwright
 
@@ -187,7 +259,9 @@
 
 ### Build
 - ✅ Compila sin errores
-- ⚠️ Warnings de eslint (react-hooks/exhaustive-deps) - no bloquean
+- ✅ Sin warnings de ESLint
+- ✅ Sin errores de TypeScript
+- ✅ Generación de páginas estáticas completada (23/23)
 
 ## Bloqueadores Actuales
 
