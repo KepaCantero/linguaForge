@@ -24,10 +24,10 @@ const navItems = [
     ariaLabel: "Input de contenido",
   },
   {
-    href: "/decks",
-    icon: "📚",
-    label: "Decks",
-    ariaLabel: "Dashboard de decks y repaso",
+    href: "/dashboard",
+    icon: "🧠",
+    label: "Dashboard",
+    ariaLabel: "Dashboard neural",
   },
   {
     href: "/profile",
