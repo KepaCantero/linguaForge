@@ -106,7 +106,7 @@ function ExercisesPageContent() {
   const subtopic = node?.subtopics.find((s) => s.id === subtopicId);
 
   // Control de fase: warmup opcional → menú → ejercicios
-  const [pagePhase, setPagePhase] = useState<PagePhase>('warmup-choice');
+  const [pagePhase, setPagePhase] = useState<PagePhase>('exercise-menu');
   const [selectedWarmup, setSelectedWarmup] = useState<WarmupType>(null);
   const [focusModeActive, setFocusModeActive] = useState(false);
 
@@ -622,8 +622,38 @@ function ExercisesPageContent() {
   const exercises = exerciseData[selectedExerciseType];
   const currentExercise = exercises?.[currentIndex];
 
+  // Debug: Log para ver qué está pasando
+  console.log('[Exercises Page] Rendering exercise:', {
+    selectedExerciseType,
+    currentIndex,
+    exercisesCount: exercises?.length || 0,
+    currentExercise,
+    exerciseDataKeys: exerciseData ? Object.keys(exerciseData) : null,
+  });
+
   if (!currentExercise) {
-    return null;
+    console.error('[Exercises Page] No current exercise found!', {
+      selectedExerciseType,
+      currentIndex,
+      exercises,
+      exerciseData,
+    });
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-6xl mb-4">⚠️</div>
+          <p className="text-gray-600 dark:text-gray-400 mb-4">
+            No hay ejercicios disponibles para este tipo.
+          </p>
+          <button
+            onClick={() => setSelectedExerciseType(null)}
+            className="text-indigo-600 hover:text-indigo-700"
+          >
+            Volver al menú
+          </button>
+        </div>
+      </div>
+    );
   }
 
   const renderExercise = () => {
