@@ -12,10 +12,11 @@
 ### Por qué construir desde NIVEL 0 es clave
 
 - **Identity Activation**: El usuario deja de ser "estudiante" para convertirse en "constructor" de su vida en francés
+- **Creative Freedom**: **LIBERTAD CREATIVA TOTAL desde el primer tema** - El usuario elige CUALQUIER elemento (11 opciones) y CUALQUIER material base (9 opciones)
 - **Episodic Memory**: Cada tema completado se ancla a un elemento físico, creando recuerdos espaciales más duraderos
 - **Inmediatez**: No hay "vacío de progreso" - el primer tema ya construye algo visible
 - **Cumulative Progress**: El palacio CRECE visualmente, no solo números abstractos
-- **Intrinsic Motivation**: La construcción expresa identidad personal (material elegido), no logros genéricos
+- **Intrinsic Motivation**: La construcción expresa identidad personal (elemento + material elegidos), no logros genéricos
 
 ### Cómo refuerza identidad lingüística
 
@@ -188,26 +189,26 @@ export const ElementTypeSchema = z.enum([
 export const MaterialTierSchema = z.enum(['tier_0', 'tier_1', 'tier_2', 'tier_3']);
 
 export const MaterialIdSchema = z.enum([
-  // TIER 0: Materiales básicos (disponibles desde el inicio)
+  // TIER 0: Materiales básicos (disponibles desde el inicio - CREATIVIDAD DESDE NIVEL 0)
   'stone_rough',      // Piedra bruta
   'wood_pine',        // Madera de pino (básica)
   'brick_clay',       // Ladrillo de arcilla sin cocer
-
-  // TIER 1: Materiales estándar (se desbloquean con 3+ temas)
   'stone_smooth',     // Piedra labrada
   'wood_oak',         // Madera de roble
   'brick_red',        // Ladrillo cocido rojo
-  'brick_beige',      // Ladrillo beige
 
-  // TIER 2: Materiales refinados (se desbloquean con 10+ temas)
-  'stone_marble',     // Mármol blanco
+  // TIER 1: Materiales estándar
+  'brick_beige',      // Ladrillo beige
   'wood_chestnut',    // Castaño
   'stone_slate',      // Pizarra
-  'brick_glass',      // Ladrillo vidriado
 
-  // TIER 3: Materiales premium (se desbloquean con 25+ temas)
-  'stone_granite',    // Granito
+  // TIER 2: Materiales refinados (se desbloquean con 5+ temas - aspiración)
+  'stone_marble',     // Mármol blanco
+  'brick_glass',      // Ladrillo vidriado
   'wood_walnut',      // Nogal
+
+  // TIER 3: Materiales premium (se desbloquean con 15+ temas - logro)
+  'stone_granite',    // Granito
   'stone_quartz',     // Cuarzo
   'brick_gold',       // Ladrillo dorado (decorativo)
 ]);
@@ -286,7 +287,7 @@ export const ElementCatalogSchema = z.object({
     fr: z.string(),
   }),
   icon: z.string(), // Emoji o icon identifier
-  requiredTopics: z.number().default(0), // Mínimo de temas para desbloquear
+  category: z.enum(['foundation', 'structure', 'opening', 'finish']), // Categoría para agrupación visual
   allowedTiers: z.array(MaterialTierSchema), // Qué tiers de materiales acepta
   maxSize: z.number().default(1), // Tamaño en celdas de la grilla
 });
@@ -333,14 +334,14 @@ import { ElementCatalog, Material, ElementType, MaterialId, MaterialTier } from 
 // ============================================================
 
 export const MATERIALS: Record<MaterialId, Material> = {
-  // TIER 0: Disponibles desde el inicio
+  // TIER 0: Disponibles desde el inicio - CREATIVIDAD DESDE NIVEL 0
   stone_rough: {
     id: 'stone_rough',
     tier: 'tier_0',
     name: { es: 'Piedra Bruta', fr: 'Pierre Brute' },
     description: { es: 'Piedra natural sin labrar', fr: 'Pierre naturelle non taillée' },
     color: '#8B8B83',
-    requiredTopics: 0,
+    requiredTopics: 0, // ✓ Disponible desde NIVEL 0
     rarity: 'common',
   },
   wood_pine: {
@@ -349,7 +350,7 @@ export const MATERIALS: Record<MaterialId, Material> = {
     name: { es: 'Madera de Pino', fr: 'Bois de Pin' },
     description: { es: 'Madera blanda y clara', fr: 'Bois tendre et clair' },
     color: '#D4A574',
-    requiredTopics: 0,
+    requiredTopics: 0, // ✓ Disponible desde NIVEL 0
     rarity: 'common',
   },
   brick_clay: {
@@ -358,74 +359,74 @@ export const MATERIALS: Record<MaterialId, Material> = {
     name: { es: 'Ladrillo de Arcilla', fr: 'Brique d\'Argile' },
     description: { es: 'Ladrillo sin cocer', fr: 'Brique non cuite' },
     color: '#C4A484',
-    requiredTopics: 0,
+    requiredTopics: 0, // ✓ Disponible desde NIVEL 0
     rarity: 'common',
   },
-
-  // TIER 1: Se desbloquean con 3+ temas
   stone_smooth: {
     id: 'stone_smooth',
-    tier: 'tier_1',
+    tier: 'tier_0',
     name: { es: 'Piedra Labrada', fr: 'Pierre Taillée' },
     description: { es: 'Piedra trabajada a mano', fr: 'Pierre travaillée à la main' },
     color: '#B8B8B8',
-    requiredTopics: 3,
-    rarity: 'uncommon',
+    requiredTopics: 0, // ✓ Disponible desde NIVEL 0
+    rarity: 'common',
   },
   wood_oak: {
     id: 'wood_oak',
-    tier: 'tier_1',
+    tier: 'tier_0',
     name: { es: 'Madera de Roble', fr: 'Bois de Chêne' },
     description: { es: 'Madera resistente y duradera', fr: 'Bois résistant et durable' },
     color: '#8B6914',
-    requiredTopics: 3,
-    rarity: 'uncommon',
+    requiredTopics: 0, // ✓ Disponible desde NIVEL 0
+    rarity: 'common',
   },
   brick_red: {
     id: 'brick_red',
-    tier: 'tier_1',
+    tier: 'tier_0',
     name: { es: 'Ladrillo Rojo', fr: 'Brique Rouge' },
     description: { es: 'Ladrillo cocido clásico', fr: 'Brique cuite classique' },
     color: '#A0522D',
-    requiredTopics: 3,
-    rarity: 'uncommon',
+    requiredTopics: 0, // ✓ Disponible desde NIVEL 0
+    rarity: 'common',
   },
+
+  // TIER 1: Materiales estándar - Disponibles desde NIVEL 0
   brick_beige: {
     id: 'brick_beige',
     tier: 'tier_1',
     name: { es: 'Ladrillo Beige', fr: 'Brique Beige' },
     description: { es: 'Ladrillo cálido', fr: 'Brique chaude' },
     color: '#D2B48C',
-    requiredTopics: 3,
+    requiredTopics: 0, // ✓ Disponible desde NIVEL 0
+    rarity: 'common',
+  },
+  wood_chestnut: {
+    id: 'wood_chestnut',
+    tier: 'tier_1',
+    name: { es: 'Madera de Castaño', fr: 'Bois de Châtaignier' },
+    description: { es: 'Madera rica y aromática', fr: 'Bois riche et aromatique' },
+    color: '#6B4423',
+    requiredTopics: 0, // ✓ Disponible desde NIVEL 0
+    rarity: 'uncommon',
+  },
+  stone_slate: {
+    id: 'stone_slate',
+    tier: 'tier_1',
+    name: { es: 'Pizarra', fr: 'Ardoise' },
+    description: { es: 'Piedra oscura y duradera', fr: 'Pierre sombre et durable' },
+    color: '#708090',
+    requiredTopics: 0, // ✓ Disponible desde NIVEL 0
     rarity: 'uncommon',
   },
 
-  // TIER 2: Se desbloquean con 10+ temas
+  // TIER 2: Materiales refinados - Se desbloquean con 5+ temas (ASPIRACIÓN)
   stone_marble: {
     id: 'stone_marble',
     tier: 'tier_2',
     name: { es: 'Mármol', fr: 'Marbre' },
     description: { es: 'Piedra noble y elegante', fr: 'Pierre noble et élégante' },
     color: '#F5F5F5',
-    requiredTopics: 10,
-    rarity: 'rare',
-  },
-  wood_chestnut: {
-    id: 'wood_chestnut',
-    tier: 'tier_2',
-    name: { es: 'Madera de Castaño', fr: 'Bois de Châtaignier' },
-    description: { es: 'Madera rica y aromática', fr: 'Bois riche et aromatique' },
-    color: '#6B4423',
-    requiredTopics: 10,
-    rarity: 'rare',
-  },
-  stone_slate: {
-    id: 'stone_slate',
-    tier: 'tier_2',
-    name: { es: 'Pizarra', fr: 'Ardoise' },
-    description: { es: 'Piedra oscura y duradera', fr: 'Pierre sombre et durable' },
-    color: '#708090',
-    requiredTopics: 10,
+    requiredTopics: 5, // Se desbloquea con 5 temas
     rarity: 'rare',
   },
   brick_glass: {
@@ -434,27 +435,27 @@ export const MATERIALS: Record<MaterialId, Material> = {
     name: { es: 'Ladrillo Vidriado', fr: 'Brique Vitrique' },
     description: { es: 'Ladrillo con acabado brillante', fr: 'Brique à finition brillante' },
     color: '#ADD8E6',
-    requiredTopics: 10,
+    requiredTopics: 5, // Se desbloquea con 5 temas
+    rarity: 'rare',
+  },
+  wood_walnut: {
+    id: 'wood_walnut',
+    tier: 'tier_2',
+    name: { es: 'Madera de Nogal', fr: 'Bois de Noyer' },
+    description: { es: 'Madera premium y oscura', fr: 'Bois premium et foncé' },
+    color: '#3C2F2F',
+    requiredTopics: 5, // Se desbloquea con 5 temas
     rarity: 'rare',
   },
 
-  // TIER 3: Se desbloquean con 25+ temas
+  // TIER 3: Materiales premium - Se desbloquean con 15+ temas (LOGRO)
   stone_granite: {
     id: 'stone_granite',
     tier: 'tier_3',
     name: { es: 'Granito', fr: 'Granit' },
     description: { es: 'La piedra más resistente', fr: 'La pierre la plus résistante' },
     color: '#696969',
-    requiredTopics: 25,
-    rarity: 'epic',
-  },
-  wood_walnut: {
-    id: 'wood_walnut',
-    tier: 'tier_3',
-    name: { es: 'Madera de Nogal', fr: 'Bois de Noyer' },
-    description: { es: 'Madera premium y oscura', fr: 'Bois premium et foncé' },
-    color: '#3C2F2F',
-    requiredTopics: 25,
+    requiredTopics: 15, // Se desbloquea con 15 temas
     rarity: 'epic',
   },
   stone_quartz: {
@@ -463,7 +464,7 @@ export const MATERIALS: Record<MaterialId, Material> = {
     name: { es: 'Cuarzo', fr: 'Quartz' },
     description: { es: 'Cristal de roca semi-precioso', fr: 'Cristal de roche semi-précieux' },
     color: '#E0E0E0',
-    requiredTopics: 25,
+    requiredTopics: 15, // Se desbloquea con 15 temas
     rarity: 'epic',
   },
   brick_gold: {
@@ -472,7 +473,7 @@ export const MATERIALS: Record<MaterialId, Material> = {
     name: { es: 'Ladrillo Dorado', fr: 'Brique Dorée' },
     description: { es: 'Acabado decorativo premium', fr: 'Finition décorative premium' },
     color: '#FFD700',
-    requiredTopics: 25,
+    requiredTopics: 15, // Se desbloquea con 15 temas
     rarity: 'epic',
   },
 };
@@ -480,16 +481,18 @@ export const MATERIALS: Record<MaterialId, Material> = {
 // ============================================================
 // CATÁLOGO DE ELEMENTOS CONSTRUCTIVOS
 // ============================================================
+// IMPORTANTE: TODOS los elementos están disponibles desde NIVEL 0
+// El usuario tiene LIBERTAD CREATIVA TOTAL desde el primer tema
 
 export const ELEMENT_CATALOG: Record<ElementType, ElementCatalog> = {
-  // Nivel 0: Cimientos básicos
+  // Categoría: Cimientos
   foundation: {
     elementType: 'foundation',
     name: { es: 'Cimiento', fr: 'Fondation' },
     description: { es: 'Base invisible pero esencial de tu casa', fr: 'Base invisible mais essentielle de ta maison' },
     icon: '🏚️',
-    requiredTopics: 0,
-    allowedTiers: ['tier_0', 'tier_1'],
+    category: 'foundation',
+    allowedTiers: ['tier_0', 'tier_1', 'tier_2', 'tier_3'],
     maxSize: 3,
   },
   brick: {
@@ -497,8 +500,8 @@ export const ELEMENT_CATALOG: Record<ElementType, ElementCatalog> = {
     name: { es: 'Ladrillo', fr: 'Brique' },
     description: { es: 'Pieza básica de muro', fr: 'Pièce de base de mur' },
     icon: '🧱',
-    requiredTopics: 0,
-    allowedTiers: ['tier_0', 'tier_1', 'tier_2'],
+    category: 'structure',
+    allowedTiers: ['tier_0', 'tier_1', 'tier_2', 'tier_3'],
     maxSize: 1,
   },
   corner_stone: {
@@ -506,19 +509,19 @@ export const ELEMENT_CATALOG: Record<ElementType, ElementCatalog> = {
     name: { es: 'Piedra de Esquina', fr: 'Pierre d\'Angle' },
     description: { es: 'Reforza la estructura en las esquinas', fr: 'Renforce la structure aux coins' },
     icon: '🔷',
-    requiredTopics: 0,
-    allowedTiers: ['tier_0', 'tier_1', 'tier_2'],
+    category: 'structure',
+    allowedTiers: ['tier_0', 'tier_1', 'tier_2', 'tier_3'],
     maxSize: 2,
   },
 
-  // Nivel 1: Elementos estructurales
+  // Categoría: Estructura
   pillar: {
     elementType: 'pillar',
     name: { es: 'Pilar', fr: 'Pilier' },
     description: { es: 'Soporta el peso de la estructura', fr: 'Supporte le poids de la structure' },
     icon: '🏛️',
-    requiredTopics: 1,
-    allowedTiers: ['tier_0', 'tier_1', 'tier_2'],
+    category: 'structure',
+    allowedTiers: ['tier_0', 'tier_1', 'tier_2', 'tier_3'],
     maxSize: 2,
   },
   arch: {
@@ -526,8 +529,8 @@ export const ELEMENT_CATALOG: Record<ElementType, ElementCatalog> = {
     name: { es: 'Arco', fr: 'Arche' },
     description: { es: 'Abertura curva soportada', fr: 'Ouverture courbe supportée' },
     icon: '🌉',
-    requiredTopics: 1,
-    allowedTiers: ['tier_1', 'tier_2', 'tier_3'],
+    category: 'structure',
+    allowedTiers: ['tier_0', 'tier_1', 'tier_2', 'tier_3'],
     maxSize: 3,
   },
   beam: {
@@ -535,19 +538,19 @@ export const ELEMENT_CATALOG: Record<ElementType, ElementCatalog> = {
     name: { es: 'Viga', fr: 'Poutre' },
     description: { es: 'Soporte horizontal', fr: 'Support horizontal' },
     icon: '📐',
-    requiredTopics: 1,
-    allowedTiers: ['tier_0', 'tier_1', 'tier_2'],
+    category: 'structure',
+    allowedTiers: ['tier_0', 'tier_1', 'tier_2', 'tier_3'],
     maxSize: 4,
   },
 
-  // Nivel 2: Aberturas
+  // Categoría: Aberturas
   door: {
     elementType: 'door',
     name: { es: 'Puerta', fr: 'Porte' },
     description: { es: 'Entrada principal de tu casa', fr: 'Entrée principale de ta maison' },
     icon: '🚪',
-    requiredTopics: 3,
-    allowedTiers: ['tier_1', 'tier_2', 'tier_3'],
+    category: 'opening',
+    allowedTiers: ['tier_0', 'tier_1', 'tier_2', 'tier_3'],
     maxSize: 2,
   },
   window: {
@@ -555,8 +558,8 @@ export const ELEMENT_CATALOG: Record<ElementType, ElementCatalog> = {
     name: { es: 'Ventana', fr: 'Fenêtre' },
     description: { es: 'Abertura para luz y vista', fr: 'Ouverture pour lumière et vue' },
     icon: '🪟',
-    requiredTopics: 3,
-    allowedTiers: ['tier_1', 'tier_2', 'tier_3'],
+    category: 'opening',
+    allowedTiers: ['tier_0', 'tier_1', 'tier_2', 'tier_3'],
     maxSize: 2,
   },
   gate: {
@@ -564,19 +567,19 @@ export const ELEMENT_CATALOG: Record<ElementType, ElementCatalog> = {
     name: { es: 'Portal', fr: 'Portail' },
     description: { es: 'Entrada monumental', fr: 'Entrée monumentale' },
     icon: '🏰',
-    requiredTopics: 5,
-    allowedTiers: ['tier_2', 'tier_3'],
+    category: 'opening',
+    allowedTiers: ['tier_0', 'tier_1', 'tier_2', 'tier_3'],
     maxSize: 4,
   },
 
-  // Nivel 3: Acabados
+  // Categoría: Acabados
   floor_tile: {
     elementType: 'floor_tile',
     name: { es: 'Losa de Piso', fr: 'Dalle de Sol' },
     description: { es: 'Acabado del suelo', fr: 'Finition du sol' },
     icon: '🔲',
-    requiredTopics: 10,
-    allowedTiers: ['tier_1', 'tier_2', 'tier_3'],
+    category: 'finish',
+    allowedTiers: ['tier_0', 'tier_1', 'tier_2', 'tier_3'],
     maxSize: 1,
   },
   roof_tile: {
@@ -584,8 +587,8 @@ export const ELEMENT_CATALOG: Record<ElementType, ElementCatalog> = {
     name: { es: 'Teja', fr: 'Tuile' },
     description: { es: 'Cubierta del techo', fr: 'Couverture du toit' },
     icon: '🏠',
-    requiredTopics: 10,
-    allowedTiers: ['tier_1', 'tier_2', 'tier_3'],
+    category: 'finish',
+    allowedTiers: ['tier_0', 'tier_1', 'tier_2', 'tier_3'],
     maxSize: 1,
   },
   decoration: {
@@ -593,8 +596,8 @@ export const ELEMENT_CATALOG: Record<ElementType, ElementCatalog> = {
     name: { es: 'Decoración', fr: 'Décoration' },
     description: { es: 'Elemento ornamental simple', fr: 'Élément ornemental simple' },
     icon: '✨',
-    requiredTopics: 15,
-    allowedTiers: ['tier_2', 'tier_3'],
+    category: 'finish',
+    allowedTiers: ['tier_0', 'tier_1', 'tier_2', 'tier_3'],
     maxSize: 1,
   },
 };
@@ -604,15 +607,19 @@ export const ELEMENT_CATALOG: Record<ElementType, ElementCatalog> = {
 // ============================================================
 
 export function getAvailableMaterials(completedTopics: number): Material[] {
+  // Materiales disponibles según temas completados
+  // NIVEL 0: 9 materiales (tier 0 + tier 1)
+  // 5+ temas: 12 materiales (se desbloquea tier 2)
+  // 15+ temas: 15 materiales (se desbloquea tier 3)
   return Object.values(MATERIALS).filter(
     material => material.requiredTopics <= completedTopics
   );
 }
 
-export function getAvailableElements(completedTopics: number): ElementCatalog[] {
-  return Object.values(ELEMENT_CATALOG).filter(
-    element => element.requiredTopics <= completedTopics
-  );
+export function getAvailableElements(): ElementCatalog[] {
+  // ⭐ IMPORTANTE: TODOS los elementos están disponibles desde NIVEL 0
+  // El usuario tiene LIBERTAD CREATIVA TOTAL
+  return Object.values(ELEMENT_CATALOG);
 }
 
 export function getMaterialById(id: MaterialId): Material {
@@ -621,6 +628,10 @@ export function getMaterialById(id: MaterialId): Material {
 
 export function getElementByType(type: ElementType): ElementCatalog {
   return ELEMENT_CATALOG[type];
+}
+
+export function getElementsByCategory(category: 'foundation' | 'structure' | 'opening' | 'finish'): ElementCatalog[] {
+  return Object.values(ELEMENT_CATALOG).filter(el => el.category === category);
 }
 ```
 
@@ -674,8 +685,8 @@ interface PalaceStoreActions {
 
   // Consultas
   getElementByTopic: (topicId: string) => ConstructedElement | undefined;
-  getAvailableElements: (completedTopics: number) => ElementType[];
-  getAvailableMaterials: (completedTopics: number) => MaterialId[];
+  getAvailableElements: () => ElementType[]; // ⭐ TODOS disponibles desde NIVEL 0
+  getAvailableMaterials: (completedTopics: number) => MaterialId[]; // Materiales progresivos
 
   // Utilidades
   calculatePalaceState: () => PalaceState;
@@ -686,7 +697,13 @@ type PalaceStore = PalaceStoreState & PalaceStoreActions;
 
 const initialState: PalaceStoreState = {
   elements: [],
-  unlockedMaterials: ['stone_rough', 'wood_pine', 'brick_clay'], // Tier 0 materials
+  unlockedMaterials: [
+    // Tier 0: CREATIVIDAD DESDE NIVEL 0 (6 materiales)
+    'stone_rough', 'wood_pine', 'brick_clay', 'stone_smooth', 'wood_oak', 'brick_red',
+    // Tier 1: También disponibles desde NIVEL 0 (3 materiales)
+    'brick_beige', 'wood_chestnut', 'stone_slate',
+    // Total: 9 materiales disponibles desde el primer tema
+  ],
   isBuilding: false,
   currentTopic: null,
   totalElements: 0,
@@ -768,10 +785,10 @@ export const usePalaceStore = create<PalaceStore>()(
         return state.elements.find((el) => el.topicId === topicId);
       },
 
-      getAvailableElements: (completedTopics) => {
-        return Object.values(ELEMENT_CATALOG)
-          .filter((el) => el.requiredTopics <= completedTopics)
-          .map((el) => el.elementType);
+      getAvailableElements: () => {
+        // ⭐ IMPORTANTE: TODOS los elementos disponibles desde NIVEL 0
+        // El usuario tiene LIBERTAD CREATIVA TOTAL
+        return Object.values(ELEMENT_CATALOG).map((el) => el.elementType);
       },
 
       getAvailableMaterials: (completedTopics) => {
@@ -835,9 +852,9 @@ export function useIsBuilding() {
   return usePalaceStore((state) => state.isBuilding);
 }
 
-export function useAvailableElements(completedTopics: number) {
-  const getAvailable = usePalaceStore((state) => state.getAvailableElements);
-  return getAvailable(completedTopics);
+export function useAvailableElements() {
+  // ⭐ TODOS los elementos disponibles desde NIVEL 0
+  return usePalaceStore((state) => state.getAvailableElements());
 }
 
 export function useAvailableMaterials(completedTopics: number) {
@@ -972,8 +989,8 @@ export function ConstructionModal() {
 
   if (!isHydrated) return null;
 
-  const availableElements = getAvailableElements(completedNodes);
-  const availableMaterials = getAvailableMaterials(completedNodes);
+  const availableElements = getAvailableElements(); // ⭐ TODOS los elementos desde NIVEL 0
+  const availableMaterials = getAvailableMaterials(completedNodes); // Materiales progresivos
 
   const handleConfirm = () => {
     if (!selectedElement || !selectedMaterial) return;
