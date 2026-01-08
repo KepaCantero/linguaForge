@@ -5,9 +5,9 @@
 ## Estado Actual
 
 **Versión del Plan:** v4.0 (Base) + v2.0 (Expansión LinguaForge) + Sistema INPUT + SRS + CLT + Misiones + Memory Bank AAA + Construction 3D
-**Fase:** FASE 2.8 Completa - Memory Bank AAA + Sistema de Construcción 3D
+**Fase:** FASE 2.8 Completa - Memory Bank AAA + Sistema de Construcción 3D + Tests
 **Tarea activa:** Ninguna (FASE 2.8 completada)
-**Última completada:** FASE 2.8.9.7 - UI de colección de elementos constructivos (2026-01-08)
+**Última completada:** FASE 2.8.9.10 - Tests para sistema de construcción 3D (2026-01-08)
 
 ## Resumen de Trabajo Reciente
 
@@ -230,6 +230,11 @@
 | haptic.test.ts | 32 | ✅ Pasando |
 | memoryBankIntegration.test.ts | 32 | ✅ Pasando |
 | **Total Memory Bank** | **86** | ✅ |
+| pbr.test.ts | 66 | ✅ Pasando |
+| constructionStore.test.ts | 55 | ✅ Pasando |
+| constructionIntegration.test.ts | 53 | ✅ Pasando |
+| **Total Construction 3D** | **174** | ✅ |
+| **TOTAL GENERAL** | **260** | ✅ |
 
 ---
 
@@ -255,10 +260,15 @@
 - `src/lib/animations/construction.ts`
 - `src/services/constructionIntegration.ts`
 
-### Tests
+### Tests Memory Bank
 - `tests/unit/lib/textures.test.ts`
 - `tests/unit/lib/haptic.test.ts`
 - `tests/unit/services/memoryBankIntegration.test.ts`
+
+### Tests Construction 3D
+- `tests/unit/lib/pbr.test.ts` - 66 tests (PBR materials, LOD, variants, weathering)
+- `tests/unit/store/constructionStore.test.ts` - 55 tests (store actions, state management)
+- `tests/unit/services/constructionIntegration.test.ts` - 53 tests (rewards, unlocks, milestones)
 
 ---
 
@@ -268,7 +278,7 @@
 - **TAREA 2.8.8** - A/B Testing Memory Bank vs Ejercicios Tradicionales (Baja prioridad)
 - **TAREA 2.8.9.8** - Sistema de progreso y hitos constructivos
 - **TAREA 2.8.9.9** - Sonido ambiental de construcción
-- **TAREA 2.8.9.10** - Tests para sistema de construcción 3D
+- **TAREA 2.8.9.10** - Tests para sistema de construcción 3D ✅ (Completada 2026-01-08)
 
 ### FASE 0: Production Readiness (Crítico)
 1. **TAREA 0.1** - Infraestructura de Testing
