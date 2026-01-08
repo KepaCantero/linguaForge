@@ -1,13 +1,68 @@
 # Active Context — Contexto Activo
 
-> Última actualización: 2026-01-06
+> Última actualización: 2026-01-08
 
 ## Estado Actual
 
-**Versión del Plan:** v4.0 (Base) + v2.0 (Expansión LinguaForge) + Sistema INPUT + SRS + CLT + Misiones
-**Fase:** FASE 0 - Production Readiness (En progreso)
-**Tarea activa:** Infraestructura de Testing (Vitest + Testing Library)
-**Última completada:** Fix Zustand Persistence Race Conditions (2026-01-06)
+**Versión del Plan:** v4.0 (Base) + v2.0 (Expansión LinguaForge) + Sistema INPUT + SRS + CLT + Misiones + Memory Bank AAA
+**Fase:** FASE 2.8 - Memory Bank AAA (Implementación Core Completada)
+**Tarea activa:** Integración con sistema de ejercicios existente
+**Última completada:** Memory Bank AAA Core + useConstructionStore (2026-01-08)
+
+## Resumen de Trabajo Reciente
+
+### FASE 2.8: Memory Bank AAA (Completada - 2026-01-08)
+
+**Objetivo:** Sistema de memoria contextual con física AAA para activación episódica somatosensorial.
+
+**Archivos Creados:**
+
+1. **Sistema de Texturas (`src/lib/textures.ts`):**
+   - 6 tipos de texturas: paper, wood, stone, glass, metal, crystal
+   - Propiedades PBR (roughness, metalness, reflectivity)
+   - Mapeo contexto de aprendizaje → textura
+   - Configuración de física por peso de textura
+
+2. **Sistema de Feedback Háptico (`src/lib/haptic.ts`):**
+   - 12 patrones de vibración predefinidos
+   - Detección de soporte de Vibration API
+   - Fallback visual cuando no hay vibración
+   - Hook `useHaptic()` para React
+
+3. **Motor de Sonido Contextual (`src/lib/soundEngine.ts`):**
+   - Web Audio API con síntesis de tonos
+   - Perfiles de sonido por textura
+   - Sonidos contextuales: success, error, tap, cardFlip, celebration
+   - Control de volumen por categoría
+   - Hook `useSoundEngine()` para React
+
+4. **EpisodicCard Component (`src/components/exercises/MemoryBank/EpisodicCard.tsx`):**
+   - Spring physics con Framer Motion
+   - Gestos de swipe izquierda/derecha
+   - Flip de tarjeta con doble click
+   - Sombra dinámica según elevación
+   - Integración con texturas, sonido y háptico
+
+5. **MemoryBankSession Component (`src/components/exercises/MemoryBank/MemoryBankSession.tsx`):**
+   - Sesión completa de repaso con tarjetas
+   - Métricas de sesión (precisión, tiempo, correctas/incorrectas)
+   - Barra de progreso animada
+   - Pantalla de resumen al completar
+
+6. **useConstructionStore (`src/store/useConstructionStore.ts`):**
+   - Sistema de materiales (15+ materiales con 5 rarezas)
+   - Elementos constructivos (12+ elementos)
+   - Inventario de materiales
+   - Progreso de construcción
+   - Hitos y estadísticas
+   - Integrado con schema de construcción existente
+
+**Resultado:**
+- Build exitoso sin errores
+- 24 páginas estáticas generadas
+- Sistema Memory Bank AAA listo para integración
+
+---
 
 ## Resumen de Trabajo Reciente
 
