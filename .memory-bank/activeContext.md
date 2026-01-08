@@ -4,16 +4,22 @@
 
 ## Estado Actual
 
-**Versión del Plan:** v4.0 (Base) + v2.0 (Expansión LinguaForge) + Sistema INPUT + SRS + CLT + Misiones + Memory Bank AAA
-**Fase:** FASE 2.8 - Memory Bank AAA (Implementación Core Completada)
-**Tarea activa:** Integración con sistema de ejercicios existente
-**Última completada:** Memory Bank AAA Core + useConstructionStore (2026-01-08)
+**Versión del Plan:** v4.0 (Base) + v2.0 (Expansión LinguaForge) + Sistema INPUT + SRS + CLT + Misiones + Memory Bank AAA + Construction 3D
+**Fase:** FASE 2.8 Completa - Memory Bank AAA + Sistema de Construcción 3D
+**Tarea activa:** Ninguna (FASE 2.8 completada)
+**Última completada:** FASE 2.8.9.7 - UI de colección de elementos constructivos (2026-01-08)
 
 ## Resumen de Trabajo Reciente
 
-### FASE 2.8: Memory Bank AAA (Completada - 2026-01-08)
+### FASE 2.8: Memory Bank AAA + Construction 3D (Completada - 2026-01-08)
 
-**Objetivo:** Sistema de memoria contextual con física AAA para activación episódica somatosensorial.
+**Objetivo:** Sistema de memoria contextual con física AAA para activación episódica somatosensorial, más sistema de construcción 3D para gamificación visual.
+
+**Commit:** `078bd23` - feat: Complete FASE 2.8 Memory Bank AAA and Construction 3D System
+
+---
+
+### TAREA 2.8.1-2.8.5: Core Memory Bank AAA ✅
 
 **Archivos Creados:**
 
@@ -49,340 +55,235 @@
    - Barra de progreso animada
    - Pantalla de resumen al completar
 
-6. **useConstructionStore (`src/store/useConstructionStore.ts`):**
-   - Sistema de materiales (15+ materiales con 5 rarezas)
-   - Elementos constructivos (12+ elementos)
-   - Inventario de materiales
-   - Progreso de construcción
-   - Hitos y estadísticas
-   - Integrado con schema de construcción existente
+---
 
-**Resultado:**
-- Build exitoso sin errores
-- 24 páginas estáticas generadas
-- Sistema Memory Bank AAA listo para integración
+### TAREA 2.8.6: Integración con Workout Generator ✅
+
+**Archivo:** `src/services/memoryBankIntegration.ts`
+
+**Funcionalidades:**
+- `getConfigForLevel()` - Configuración por nivel (1-10)
+- `generateMemoryBankWorkout()` - Generación de workout con priorización de tarjetas
+- `calculateRewards()` - Cálculo de XP, coins, gems, bonuses
+- `generateMemoryBankMission()` - Generación de misiones diarias
+- `shouldSuggestMemoryBank()` - Sugerencias basadas en HP y tarjetas pendientes
+- `getMemoryBankStats()` - Estadísticas agregadas
 
 ---
 
-## Resumen de Trabajo Reciente
+### TAREA 2.8.7: Tests para Memory Bank ✅
 
-### Build Clean (Completada - 2026-01-06)
+**Archivos:**
+- `tests/unit/lib/textures.test.ts` - 22 tests
+- `tests/unit/lib/haptic.test.ts` - 32 tests
+- `tests/unit/services/memoryBankIntegration.test.ts` - 32 tests
 
-**Objetivo:** Lograr que `npm run build` se ejecute sin warnings ni errores.
-
-**Cambios realizados:**
-
-1. **Eliminación de código no utilizado:**
-   - `_fetchYouTubeTranscriptFallback` en `route.ts`
-   - `BlockBuilderPhase` type en `BlockBuilderExercise.tsx`
-   - `speak` variable en `PhraseSelectionPanel.tsx`
-   - `phrases` prop en `WordSelector.tsx`
-   - `_content` parámetro en `calculateGermaneLoad`
-   - `_rewards` parámetro en `generateSessionFeedback`
-   - `_TranslationResponse` interface en `translationService.ts`
-   - `__isToday` function en `useWarmupStore.ts`
-   - `createdNodeId` state en `import/page.tsx`
-   - `useTTS` import en `PhraseSelectionPanel.tsx`
-
-2. **Corrección de tipos TypeScript:**
-   - `LottieAnimation.tsx`: `any` → `Record<string, unknown> | null`
-   - `MicroInteractions.tsx`: `any` con eslint-disable (Framer Motion variants)
-   - `baseRepository.ts` y `srsCardRepository.ts`: `applyFilter` con firma correcta para Supabase
-
-3. **React Hooks exhaustive-deps:**
-   - `ConversationalEchoExercise.tsx`: Reordenado `handleTimeout` antes de `handleAudioEnded` y agregado a dependencias
-   - `InteractiveSpeechExercise.tsx`: `silenceConfig` envuelto en `useMemo` con dependencias correctas
-   - `JanusComposerExercise.tsx`: Reordenado `handleComplete` antes de funciones que lo usan y agregado a dependencias
-
-4. **Correcciones adicionales:**
-   - `prefer-const`: `let countQuery` → `const countQuery` en `baseRepository.ts`
-   - Agregado `useMemo` import en `InteractiveSpeechExercise.tsx`
-
-**Resultado:**
-```
-✓ Compiled successfully
-✓ Linting and checking validity of types ...
-✓ Collecting page data ...
-✓ Generating static pages (23/23)
-✓ Finalizing page optimization ...
-```
-
-### Zustand Persistence Fixes (Completada - 2026-01-06)
-
-**Problema:** Las preferencias de usuario no persistían correctamente:
-- Selección de idioma de la app (`appLanguage`)
-- Modo de aprendizaje (`mode`)
-- Completación de onboarding (`hasCompletedOnboarding`)
-
-**Root Cause:** Race conditions entre Zustand's async hydration desde localStorage y componentes que renderizan antes de que los datos estén cargados.
-
-**Cambios realizados:**
-
-1. **useUserStore.ts:**
-   - Agregado callback `onRehydrateStorage` para loggear el estado hidratado
-   - Extensive logging en `setAppLanguage`, `setMode`, `completeOnboarding`
-   - Verificación de localStorage después de cada set con timeout
-
-2. **page.tsx (Home):**
-   - Agregado estado `isHydrated` con delay de 100ms
-   - Mostrar loading mientras Zustand se hidrata
-   - Solo redirigir a `/learn` después de hidratación completa
-   - Prevenir redirecciones prematuras que causaban bucles
-
-3. **onboarding/page.tsx:**
-   - Logging mejorado después de `completeOnboarding`
-   - Verificación de localStorage antes de redirigir
-
-**Resultado:**
-- El home page ahora espera a que useUserStore se hidrate antes de decidir si redirigir
-- `onRehydrateStorage` permite depurar problemas de carga
-- Logs extensivos ayudan a identificar dónde falla la persistencia
-
-**Logs esperados:**
-```
-[UserStore] Rehidratando store...
-[UserStore] Estado cargado: {appLanguage: 'es', mode: 'guided', hasCompletedOnboarding: true}
-```
-
-### Integración de Misiones (Completada)
-
-1. **Página de Misiones (`/missions`):**
-   - Nueva página con MissionFeed component
-   - Header con título y descripción
-   - Misiones diarias con indicadores de carga cognitiva
-   - Opción de warmup antes de misiones
-
-2. **Navegación Actualizada:**
-   - BottomNav ahora incluye: Mapa | Misiones | Input | Decks | Perfil
-   - Icono "⚔️" para Misiones
-   - Acceso desde cualquier pantalla
-
-3. **Sistema de Warmup:**
-   - **Opcional:** Botón "Saltar por ahora" disponible
-   - **Integrado:** MissionFeed ofrece "🧠 Con Calentamiento" o "▶️ Comenzar Directo"
-   - Componentes: RhythmSequenceWarmup, VisualMatchWarmup, WarmupGate
-
-### Correcciones de Bugs Críticos
-
-1. **Infinite Loop en useCognitiveLoad():**
-   - **Problema:** Llamar `state.getLoadStatus()` dentro del selector de Zustand causaba re-renders infinitos
-   - **Solución:** Calcular status fuera del selector usando valores primitivos
-
-2. **Infinite Loop en useSessionMetrics():**
-   - **Problema:** Similar - `state.getRecommendedBreak()` causaba loops
-   - **Solución:** Calcular recommendedBreak localmente
-
-3. **Infinite Loop en MissionsPage:**
-   - **Problema:** useEffect con funciones de Zustand como dependencias
-   - **Solución:** useRef para ejecutar solo una vez
-
-4. **MissionFeed areAllMissionsComplete:**
-   - **Problema:** Función del store causaba re-renders
-   - **Solución:** useMemo local para calcular el valor
-
-### Fixes de Lint y Build
-
-- Renombrado `lazy.ts` → `lazy.tsx` para soporte JSX
-- Fix tipos en `InputEvent` (añadir id, wordsCounted, understood)
-- Fix `generateVariationsExercises` para incluir campos requeridos de Phrase
-- Fix iteración de Set con `Array.from()`
-- Suspense wrapper en `/decks/review`
-- Múltiples fixes de imports no usados
+**Total:** 86 tests pasando
 
 ---
 
-### FASE 5: Optimizaciones (Completada)
+### TAREA 2.8.9.1: Schema de Construcción ✅
 
-1. **Lazy Loading de Ejercicios (`src/components/exercises/lazy.tsx`):**
-   - 18 ejercicios con carga diferida usando `next/dynamic`
-   - Loading placeholder con spinner
-   - SSR deshabilitado para mejor rendimiento
+**Archivo:** `src/schemas/construction.ts`
 
-2. **Cache de Traducciones (`src/services/translationService.ts`):**
-   - Cache en localStorage con límite de 5000 entradas
-   - Limpieza automática de entradas antiguas
-
-3. **Performance Hooks (`src/hooks/usePerformance.ts`):**
-   - useDebounce, useDebouncedCallback, useThrottledCallback
-   - useIntersectionObserver, usePrevious, useStableCallback
-   - useMediaQuery, usePrefersReducedMotion, useIdleCallback
-
-### FASE 6: Testing (Parcialmente Completada)
-
-1. **Tests Unitarios (155 tests pasando):**
-   - `__tests__/unit/missionGenerator.test.ts` (21 tests)
-   - `__tests__/unit/postCognitiveRewards.test.ts` (30 tests)
-   - `__tests__/unit/warmupSelector.test.ts` (21 tests)
-   - `__tests__/unit/usePerformance.test.ts` (18 tests)
-
-2. **Pendiente:**
-   - Tests E2E con Playwright
-   - Visual regression tests
+**Definiciones:**
+- `MaterialRaritySchema` - 5 rarezas (common → legendary)
+- `MaterialTextureSchema` - 5 texturas (wood, stone, glass, metal, crystal)
+- `BuildingElementTypeSchema` - 15 tipos de elementos
+- `MaterialSchema` - Propiedades completas con PBR
+- `BuildingElementSchema` - Elementos con requisitos y propiedades 3D
+- `ConstructionProjectSchema` - Proyectos con bonificaciones
+- `ConstructionStateSchema` - Estado persistente
+- `CraftRecipeSchema`, `TradeOfferSchema` - Comercio y crafting
+- `ConstructionAchievementSchema` - Logros constructivos
 
 ---
 
-### Sistema CLT (Cognitive Load Theory)
+### TAREA 2.8.9.2: useConstructionStore ✅
 
-1. **Store (`useCognitiveLoadStore`):**
-   - Métricas: intrinsic, extraneous, germane, total
-   - Modo Focus con niveles (relaxed, normal, focused, deep)
-   - Métricas de sesión
+**Archivo:** `src/store/useConstructionStore.ts`
 
-2. **Hooks Utilitarios (IMPORTANTE - patrones seguros):**
-   ```typescript
-   // ✅ CORRECTO - No llamar funciones dentro de selectores
-   export function useCognitiveLoad() {
-     const load = useCognitiveLoadStore((state) => state.currentLoad);
-     // Calcular status FUERA del selector
-     const status = calculateStatus(load);
-     return { load, status };
-   }
-
-   // ❌ INCORRECTO - Causa infinite loops
-   export function useCognitiveLoad() {
-     return useCognitiveLoadStore((state) => ({
-       status: state.getLoadStatus(), // ← NO hacer esto
-     }));
-   }
-   ```
-
-3. **Servicios:**
-   - `cognitiveLoadMetrics.ts` - Cálculo de métricas CLT
-   - `missionGenerator.ts` - Generación de misiones con CLT
-   - `postCognitiveRewards.ts` - Recompensas post-sesión
-   - `warmupSelector.ts` - Selección de warmups
-
-### Sistema de Misiones
-
-1. **Store (`useMissionStore`):**
-   - Misiones diarias generadas automáticamente
-   - Tipos: input, exercises, janus, forgeMandate, streak
-   - Campos CLT: cognitiveLoadTarget, estimatedMinutes, requiresFocus
-   - Integración con warmups
-
-2. **Componentes:**
-   - `MissionFeed.tsx` - Lista de misiones con estadísticas
-   - `WarmupGate.tsx` - Portal de calentamiento antes de misiones
+**Contenido:**
+- 15 materiales predefinidos (MATERIALS)
+- 14 elementos constructivos (ELEMENTS)
+- 6 hitos de construcción (CONSTRUCTION_MILESTONES)
+- Acciones: addMaterial, removeMaterial, unlockElement, completeElement
+- Persistencia con Zustand + localStorage
+- Validación con Zod en rehydration
 
 ---
 
-## Archivos Creados/Modificados Esta Sesión
+### TAREA 2.8.9.3: Construction3D Component ✅
 
-### Zustand Persistence Fixes (2026-01-06)
+**Archivo:** `src/components/construction/Construction3D.tsx`
 
-#### Archivos Modificados
-- `src/store/useUserStore.ts` - Agregado onRehydrateStorage callback y logging extensivo
-- `src/app/page.tsx` - Agregado isHydrated state para prevenir race conditions
-- `src/app/onboarding/page.tsx` - Logging mejorado después de completeOnboarding
+**Características:**
+- Three.js con React Three Fiber
+- 5 materiales PBR (wood, stone, glass, metal, crystal)
+- 15 geometrías de elementos constructivos
+- OrbitControls para navegación 3D
+- Iluminación con sombras dinámicas
+- Environment preset "city"
+- BuildingElement3D con animaciones
+- Construction3DPreview para previews flotantes
 
-### Build Clean (2026-01-06)
+---
 
-#### Archivos Modificados (Core Fixes)
-- `src/app/api/youtube/transcript/route.ts` - Eliminado _fetchYouTubeTranscriptFallback
-- `src/app/import/page.tsx` - Eliminado createdNodeId state y nodeId variable
-- `src/components/exercises/BlockBuilderExercise.tsx` - Eliminado BlockBuilderPhase type
-- `src/components/exercises/ConversationalEchoExercise.tsx` - Fix exhaustive-deps
-- `src/components/exercises/InteractiveSpeechExercise.tsx` - Fix exhaustive-deps + useMemo
-- `src/components/exercises/JanusComposerExercise.tsx` - Fix exhaustive-deps
-- `src/components/transcript/PhraseSelectionPanel.tsx` - Eliminado useTTS import y speak variable
-- `src/components/transcript/WordSelector.tsx` - Eliminado phrases prop
-- `src/components/animations/LottieAnimation.tsx` - Tipo any → Record<string, unknown>
-- `src/components/shared/MicroInteractions.tsx` - Tipo any con eslint-disable
-- `src/services/cognitiveLoadMetrics.ts` - Eliminado _content parámetro
-- `src/services/postCognitiveRewards.ts` - Eliminado _rewards parámetro
-- `src/services/translationService.ts` - Eliminado _TranslationResponse interface
-- `src/services/repository/baseRepository.ts` - Fix applyFilter + prefer-const
-- `src/services/repository/srsCardRepository.ts` - Fix applyFilter
-- `src/store/useWarmupStore.ts` - Eliminado __isToday function
+### TAREA 2.8.9.4: Sistema PBR Avanzado ✅
 
-### Sesión Anterior - Integración de Misiones
+**Archivo:** `src/lib/materials/pbr.ts`
 
-#### Nuevos
-- `src/app/missions/page.tsx` - Página de misiones
-- `src/components/exercises/lazy.tsx` - Lazy loading (renombrado)
-- `src/components/missions/MissionFeed.tsx`
-- `src/components/warmups/RhythmSequenceWarmup.tsx`
-- `src/components/warmups/VisualMatchWarmup.tsx`
-- `src/components/warmups/WarmupGate.tsx`
-- `src/store/useCognitiveLoadStore.ts`
-- `src/services/missionGenerator.ts`
-- `src/services/warmupSelector.ts`
-- `src/hooks/usePerformance.ts`
-- `public/manifest.json`, `public/sw.js` - PWA
+**Materiales:**
+- 15 materiales con propiedades PBR completas
+- Rugosidad, metalizado, emisión, transmisión, IOR
+- Clearcoat, sheen, subsurface scattering
+- Variantes de color por material
+- Niveles de weathering/envejecimiento
+- Sistema de LOD (4 niveles)
+- Funciones: `createPBRMaterial()`, `createSimpleMaterial()`
 
-#### Modificados
-- `src/components/layout/BottomNav.tsx` - Añadido Misiones
-- `src/store/useCognitiveLoadStore.ts` - Fix infinite loops
-- `src/components/missions/MissionFeed.tsx` - Fix infinite loops
-- Múltiples archivos - Lint fixes
+---
+
+### TAREA 2.8.9.5: Animaciones de Construcción ✅
+
+**Archivo:** `src/lib/animations/construction.ts`
+
+**Contenido:**
+- 15 animaciones específicas por tipo de elemento
+- Stages multi-fase con transforms
+- Sistema de partículas (dust, sparks, debris, magic, smoke)
+- Configuraciones de celebración (confetti, fireworks, sparkle, glow)
+- Framer Motion variants y transitions
+- EASING presets para construcción
+- Integración con Three.js particle system
+
+---
+
+### TAREA 2.8.9.6: Integración con Recompensas ✅
+
+**Archivo:** `src/services/constructionIntegration.ts`
+
+**Funcionalidades:**
+- `calculateTopicRewards()` - Recompensas por completar temas
+- `calculateBuildRewards()` - Recompensas por construir
+- `calculateBuildCost()` - Costo de construcción
+- `canUnlockElement()` - Verificar desbloqueo
+- `getUnlockableElements()` - Elementos disponibles
+- `checkMilestones()` - Verificar hitos alcanzados
+- `convertXPToMaterials()`, `convertCoinsToMaterials()` - Conversiones
+- `generateEventRewards()` - Recompensas de eventos
+
+**Mapeos:**
+- Topic type → Materiales con drop rates
+- Streak bonuses (3, 7, 14, 30 días)
+- Multiplicadores por rareza
+
+---
+
+### TAREA 2.8.9.7: UI de Colección ✅
+
+**Archivos:**
+
+1. **BuilderInventory (`src/components/construction/BuilderInventory.tsx`):**
+   - Grid de materiales con colores por rareza
+   - Grid de elementos con estado de desbloqueo
+   - Filtros por rareza
+   - Ordenamiento por nombre/rareza/cantidad
+   - Panel de estadísticas
+   - Paneles de detalle
+
+2. **MaterialGallery (`src/components/construction/MaterialGallery.tsx`):**
+   - Preview 3D de materiales con PBR
+   - Progreso de colección por rareza
+   - Filtros por tipo de textura
+   - Efectos de brillo para legendarios
+   - Visualización de propiedades PBR
+   - Variantes de color
+
+3. **Index actualizado (`src/components/construction/index.ts`):**
+   - Exports de todos los componentes
+   - Exports de tipos del schema
+   - Exports del store
+   - Exports del sistema PBR
+   - Exports de animaciones
+   - Exports de integración
+
+---
+
+## Dependencias Añadidas
+
+```json
+{
+  "three": "^0.160.0",
+  "@react-three/fiber": "^8.15.0",
+  "@react-three/drei": "^9.88.0"
+}
+```
+
+---
+
+## Tests Actuales
+
+| Suite | Tests | Estado |
+|-------|-------|--------|
+| textures.test.ts | 22 | ✅ Pasando |
+| haptic.test.ts | 32 | ✅ Pasando |
+| memoryBankIntegration.test.ts | 32 | ✅ Pasando |
+| **Total Memory Bank** | **86** | ✅ |
+
+---
+
+## Archivos Creados Esta Sesión
+
+### Memory Bank AAA
+- `src/lib/textures.ts`
+- `src/lib/haptic.ts`
+- `src/lib/soundEngine.ts`
+- `src/components/exercises/MemoryBank/EpisodicCard.tsx`
+- `src/components/exercises/MemoryBank/MemoryBankSession.tsx`
+- `src/components/exercises/MemoryBank/index.ts`
+- `src/services/memoryBankIntegration.ts`
+
+### Construction 3D
+- `src/schemas/construction.ts`
+- `src/store/useConstructionStore.ts`
+- `src/components/construction/Construction3D.tsx`
+- `src/components/construction/BuilderInventory.tsx`
+- `src/components/construction/MaterialGallery.tsx`
+- `src/components/construction/index.ts`
+- `src/lib/materials/pbr.ts`
+- `src/lib/animations/construction.ts`
+- `src/services/constructionIntegration.ts`
+
+### Tests
+- `tests/unit/lib/textures.test.ts`
+- `tests/unit/lib/haptic.test.ts`
+- `tests/unit/services/memoryBankIntegration.test.ts`
+
+---
 
 ## Próximos Pasos
 
-### Inmediato (Crítico) - FASE 0: Production Readiness
-1. **TAREA 0.1** - Infraestructura de Testing (Vitest + Testing Library)
-2. **TAREA 0.2** - Tests unitarios para wordExtractor
-3. **TAREA 0.3** - Tests unitarios para sm2
-4. **TAREA 0.4** - Tests unitarios para Zustand stores
-5. **TAREA 0.6** - Error Handling en Supabase
-6. **TAREA 0.7** - Rate Limiting para APIs externas
-7. **TAREA 0.8** - Circuit Breaker para servicios externos
+### FASE 2.8 Restante
+- **TAREA 2.8.8** - A/B Testing Memory Bank vs Ejercicios Tradicionales (Baja prioridad)
+- **TAREA 2.8.9.8** - Sistema de progreso y hitos constructivos
+- **TAREA 2.8.9.9** - Sonido ambiental de construcción
+- **TAREA 2.8.9.10** - Tests para sistema de construcción 3D
 
-### Medio Plazo - Contenido
-1. **TAREA 3.1** - Crear schema para ÁREA 0
-2. **TAREA 3.2-3.8** - Nodos 0.1-0.7 de contenido base
-3. **TAREA 3.9** - Integración ÁREA 0 en Sistema
+### FASE 0: Production Readiness (Crítico)
+1. **TAREA 0.1** - Infraestructura de Testing
+2. **TAREA 0.6** - Error Handling en Supabase
+3. **TAREA 0.7** - Rate Limiting
+4. **TAREA 0.8** - Circuit Breaker
 
-### Supabase (Pendiente)
-- Ejecutar `supabase/schema.sql` en SQL Editor
-- Credenciales configuradas en `.env.local`
+### FASE 3: Contenido ÁREA 0
+1. **TAREA 3.1** - Schema para ÁREA 0
+2. **TAREA 3.2-3.8** - Nodos de contenido base
 
-### Largo Plazo
-- Expansión contenido A1
-- Tests E2E con Playwright
-
-## Decisiones Técnicas Importantes
-
-1. **Zustand Selectors:** NUNCA llamar métodos/funciones dentro de selectores - calcular valores derivados fuera
-2. **useEffect con Zustand:** Usar useRef para controlar ejecución única si las funciones del store son dependencias
-3. **useMemo para valores derivados:** Calcular estados complejos con useMemo en vez de usar funciones del store
-4. **Zustand Hydration Pattern (Crítico):** SIEMPRE esperar a que el store se hidrate desde localStorage antes de tomar decisiones:
-   ```typescript
-   // ✅ CORRECTO - Esperar hidratación
-   const [isHydrated, setIsHydrated] = useState(false);
-   useEffect(() => {
-     const timer = setTimeout(() => setIsHydrated(true), 100);
-     return () => clearTimeout(timer);
-   }, []);
-
-   if (!isHydrated) return <Loading />;
-   // Ahora usar datos del store
-
-   // ❌ INCORRECTO - Usar datos inmediatamente
-   const { hasCompletedOnboarding } = useUserStore();
-   if (hasCompletedOnboarding) router.push('/learn'); // Puede ser f positivo!
-   ```
-
-## Métricas Actuales
-
-### Navegación
-- ✅ 5 secciones: Mapa | Misiones | Input | Decks | Perfil
-
-### Sistema de Misiones
-- ✅ Página accesible desde navegación
-- ✅ Warmup opcional e integrado
-- ✅ 4 tipos de misiones (input, exercises, janus, forgeMandate)
-
-### Build
-- ✅ Compila sin errores
-- ✅ Sin warnings de ESLint
-- ✅ Sin errores de TypeScript
-- ✅ Generación de páginas estáticas completada (23/23)
-
-## Bloqueadores Actuales
-
-Ninguno. El sistema está funcional.
+---
 
 ## Estructura de Stores Actualizada
+
 ```
 src/store/
 ├── useSRSStore.ts           # Sistema SRS
@@ -392,5 +293,33 @@ src/store/
 ├── useUserStore.ts          # Configuración usuario
 ├── useMissionStore.ts       # Misiones diarias
 ├── useCognitiveLoadStore.ts # CLT y Focus Mode
-└── useGamificationStore.ts  # XP, coins, gems, streak
+├── useGamificationStore.ts  # XP, coins, gems, streak
+└── useConstructionStore.ts  # Sistema de construcción 3D ← NUEVO
 ```
+
+---
+
+## Métricas Actuales
+
+### Build
+- ✅ Compila sin errores
+- ✅ Sin warnings de ESLint
+- ✅ Sin errores de TypeScript
+- ✅ 24 páginas estáticas generadas
+
+### Tests
+- ✅ 86 tests de Memory Bank pasando
+- ✅ Build + Lint OK
+
+### Sistema de Construcción
+- ✅ 15 materiales PBR definidos
+- ✅ 14 elementos constructivos
+- ✅ 6 hitos de construcción
+- ✅ Sistema de recompensas integrado
+- ✅ UI de inventario y galería completa
+
+---
+
+## Bloqueadores Actuales
+
+Ninguno. FASE 2.8 completada exitosamente.
