@@ -8,6 +8,7 @@
 **Veredicto:** ⚠️ **NECESITA MEJORAS CRÍTICAS ANTES DE PRODUCCIÓN**
 
 **Análisis Completo:** Ver `.memory-bank/PRINCIPAL_ENGINEER_ANALYSIS.md`
+**Memory Bank AAA Propuesto:** Ver `.memory-bank/ANALISIS_COMPLETO_PLANO_MAESTRO.md`
 
 **Bloqueadores Críticos:**
 1. ❌ Cobertura de tests: **0%** (target: ≥80%)
@@ -15,6 +16,26 @@
 3. ❌ Sin rate limiting en APIs externas
 4. ❌ Sin circuit breakers para servicios externos
 5. ❌ Lighthouse scores no medidos
+
+---
+
+## 🎯 NUEVA ADICIÓN: MEMORY BANK AAA (FASE 2.8)
+
+**Objetivo:** Sistema de memoria contextual con física AAA para activación episódica somatosensorial.
+
+**Lanzamiento:** Q1 2026 (tras FASE 0)
+**Impacto:** Mayor retención mediante memoria episódica y feedback multimodal
+
+**Características Clave:**
+- Física realista con Framer Motion spring physics
+- Audio contextual 3D (water/wood/metal)
+- Feedback háptico con Vibration API
+- Texturas PBR según contexto de aprendizaje
+- A/B testing vs sistema actual
+
+**Estado:** Planificado en ROADMAP (Tareas 2.8.1-2.8.8)
+
+---
 
 ---
 
@@ -515,6 +536,49 @@ jobs:
 
 ---
 
+#### HITO 0.0.2: TypeScript and ESLint Build Fixes (Completado ✅)
+**Fecha:** 2026-01-07
+**Commit:** 3b2f45b
+
+**Problema resuelto:** Múltiples errores de TypeScript y ESLint que impedían que el build compilara exitosamente.
+
+**Root Causes:**
+1. **Direct Supabase usage** - Repositories usaban llamadas directas a Supabase en lugar del patrón repository
+2. **OrderByOptions type mismatches** - Parámetros `orderBy` como strings en lugar de objetos requeridos
+3. **Invalid properties** - Uso de propiedades no existentes como `single: true` y `limit`
+4. **Missing error handling** - Imports no existentes y falta de validación runtime
+5. **Type inference issues** - TypeScript infería `never` en resultados de queries
+
+**Cambios realizados:**
+- **Repositories:** Convertido todas las llamadas directas a Supabase a usar el patrón repository:
+  - `supabase.from().insert().select().single()` → `this.create(data)`
+  - `supabase.from().update().eq().select().single()` → `this.update(id, data)`
+  - `supabase.from().upsert()` → `this.upsert(data)`
+- **OrderByOptions:** Convertido todos los parámetros de strings a objetos:
+  - `orderBy: 'rarity'` → `orderBy: { column: 'rarity', ascending: true }`
+- **Remove invalid properties:** Eliminado `single: true` y reemplazado `limit` con rango `from/to`
+- **Type assertions:** Agregado interfaces y type assertions para corregir inferencia de TypeScript
+- **Import cleanup:** Eliminado imports no existentes de `@/lib/errorHandler`
+- **Null checks:** Añadido manejo de errores y verificaciones de nulos en operaciones críticas
+- **YouTube service:** Corregido llamadas a `withCircuitBreaker` (2 parámetros en lugar de 3)
+
+**Resultado:**
+- ✅ Build exitoso: `npm run build` compila sin errores
+- ✅ Lint exitoso: Sin advertencias de ESLint
+- ✅ Patrón repository consistente en todos los data access layers
+- ✅ Mejor manejo de errores y type safety
+- ✅ Asegurado que todos los Zod schemas son usados en runtime
+
+**Archivos modificados:**
+- `src/services/repository/achievementRepository.ts`
+- `src/services/repository/lessonProgressRepository.ts`
+- `src/services/repository/profileRepository.ts`
+- `src/services/repository/studySessionRepository.ts`
+- `src/services/repository/userStatsRepository.ts`
+- `src/services/youtubeTranscriptService.ts`
+
+---
+
 #### RESUMEN FASE 0: PRODUCTION READINESS
 
 | Tarea | Prioridad | Tiempo | Estado |
@@ -747,6 +811,376 @@ jobs:
 **Nota:** Ya implementado
 
 ---
+
+### FASE 2.8: Memory Bank AAA - Ejercicios de Memoria Contextual (Neural Nexus)
+
+> **Objetivo:** Implementar sistema Memory Bank AAA con física de tarjetas, audio contextual y feedback táctil para activación episódica de memoria somatosensorial.
+
+#### TAREA 2.8.1: Sistema de Texturas (Paper/Wood/Metal)
+**Prioridad:** Alta
+**Estado:** Pendiente
+**Archivos:** `src/components/exercises/MemoryBank/TextureSystem.tsx`, `src/lib/textures.ts`
+
+**Funcionalidad:**
+- Sistema de texturas contextuales basado en escenarios de aprendizaje
+- Paper: Textura estándar para vocabulario diario
+- Wood: Textura para conversaciones y frases familiares
+- Metal: Textura para conceptos gramaticales permanentes
+- Sistema de carga de texturas optimizadas (PBR - Physically Based Rendering)
+- Mapeo de texturas según tipo de contenido y dificultad
+
+**Tiempo estimado:** 4 horas
+
+---
+
+#### TAREA 2.8.2: EpisodicCard Component con Spring Physics
+**Prioridad:** Alta
+**Estado:** Pendiente
+**Archivos:** `src/components/exercises/MemoryBank/EpisodicCard.tsx`
+
+**Funcionalidad:**
+- Tarjeta con física realista usando Framer Motion spring physics
+- Simulación de masa/peso según tipo de contenido
+- Rotación 3D con perspectiva dinámica
+- Gestos naturales: tap, drag, swipe
+- Animaciones de flipping con resistencia realista
+- Sombra dinámica que responde a la posición de la tarjeta
+- Efecto de profundidad (parallax) al arrastrar
+
+**Tiempo estimado:** 6 horas
+
+---
+
+#### TAREA 2.8.3: ContextualSoundEngine
+**Prioridad:** Alta
+**Estado:** Pendiente
+**Archivos:** `src/lib/soundEngine.ts`, `src/components/exercises/MemoryBank/SoundContext.tsx`
+
+**Funcionalidad:**
+- Motor de sonido contextual con audio 3D spatializado
+- Water droplets: Sonido ambiental para aprendizaje relajado
+- Wood knocks: Confirmación táctil para memorización
+- Metal clinks: Refuerzo para conceptos gramaticales
+- Sistema de volumen adaptativo según contexto
+- Transiciones suaves entre estados sonoros
+- Gestión de audio lifecycle (play/pause/stop)
+
+**Tiempo estimado:** 4 horas
+
+---
+
+#### TAREA 2.8.4: Sistema de Feedback Háptico
+**Prioridad:** Alta
+**Estado:** Pendiente
+**Archivos:** `src/lib/haptic.ts`, `src/components/exercises/MemoryBank/HapticProvider.tsx`
+
+**Funcionalidad:**
+- Patrones de vibración distintos según tipo de contenido
+- Vibración ligera para selecciones correctas
+- Vibración cortante para correcciones
+- Vibración sostenida para hitos importantes
+- API nativa de Vibration API con fallback visual
+- Sincronización de feedback visual y háptico
+
+**Tiempo estimado:** 3 horas
+
+---
+
+#### TAREA 2.8.5: MemoryBankSession Component
+**Prioridad:** Alta
+**Estado:** Pendiente
+**Archivos:** `src/components/exercises/MemoryBank/MemoryBankSession.tsx`
+
+**Funcionalidad:**
+- Componente principal de sesión Memory Bank AAA
+- Integración de todas las sub-sistemas (texturas, física, sonido, háptico)
+- Flujo de entrenamiento contextual
+- Sistema de scoring basado en precisión y tiempo
+- Resumen post-sesión con métricas de activación episódica
+- Soporte para sesiones guiadas y autónomas
+
+**Tiempo estimado:** 4 horas
+
+---
+
+#### TAREA 2.8.6: Integración con Workout Generator
+**Prioridad:** Media
+**Estado:** Pendiente
+**Archivos:** `src/services/workoutGenerator.ts`, `src/components/missions/MissionFeed.tsx`
+
+**Funcionalidad:**
+- Agregar Memory Bank AAA como opción de entrenamiento
+- Sistema de recomendación contextual basado en progreso
+- Integración con sistema de misiones existente
+- Balanceo entre Memory Bank AAA y ejercicios tradicionales
+- Métricas de rendimiento para A/B testing
+
+**Tiempo estimado:** 3 horas
+
+---
+
+#### TAREA 2.8.7: Tests para Memory Bank Components
+**Prioridad:** Media
+**Estado:** Pendiente
+**Archivos:** `tests/unit/components/MemoryBank/`, `tests/e2e/MemoryBank.spec.ts`
+
+**Funcionalidad:**
+- Tests unitarios para EpisodicCard (física, gestos, estado)
+- Tests para ContextualSoundEngine (reproducción, sincronización)
+- Tests para HapticSystem (patrones de vibración)
+- Tests E2E para flujo completo de Memory Bank
+- Cobertura mínima: 80% de las nuevas funcionalidades
+
+**Tiempo estimado:** 3 horas
+
+---
+
+#### TAREA 2.8.8: A/B Testing Memory Bank vs Ejercicios Tradicionales
+**Prioridad:** Baja
+**Estado:** Pendiente
+**Archivos:** `src/services/abTesting.ts`, `src/components/shared/ExperimentTracker.tsx`
+
+**Funcionalidad:**
+- Sistema de A/B testing para comparar métodos de aprendizaje
+- Métricas: retención a corto/medio plazo, tiempo de sesiones
+- Grupo A: Ejercicios tradicionales actuales
+- Grupo B: Memory Bank AAA con física y sonido contextual
+- Análisis estadístico de resultados
+- Sistema de métricas en tiempo real
+
+**Tiempo estimado:** 2 días (incluye ejecución y análisis)
+
+---
+
+#### TAREA 2.8.9: Sistema de Construcción 3D - AAA Level (NUEVO)
+**Prioridad:** 🔴 CRÍTICA
+**Estado:** Pendiente
+**Archivos:** `src/components/construction/`, `src/store/useConstructionStore.ts`, `src/lib/threejs/`
+
+**Objetivo:** Implementar sistema donde cada tema completado se transforma en un elemento de construcción 3D, permitiendo a los usuarios construir algo hermoso mientras aprenden.
+
+**Funcionalidad:**
+- **Materiales de Construcción:** 5 tipos raros con texturas PBR (wood, stone, glass, metal, crystal)
+- **Elementos Arquitectónicos:** 10+ elementos (foundation, walls, roof, tower, garden, bridge, etc.)
+- **Progresión Visual:** Edificio que crece con cada tema completado
+- **Sistema de Colección:** Desbloquear materiales según nivel y progreso
+- **Animaciones 3D Realistas:** Construcción step-by-step con física realista
+- **Integración Gamificación:** XP y coins se transforman en materiales y elementos
+- **Vista 360°:** Inspeccionar construcción desde cualquier ángulo
+- **Modo Constructor:** Vista detallada de materiales y progreso
+
+**Dependencias:** TAREA 1.2 (Focus Mode), TAREA 2.8 (Memory Bank AAA)
+
+---
+
+#### TAREA 2.8.9.1: Definir materiales y elementos de construcción
+**Prioridad:** 🔴 CRÍTICA
+**Estado:** Pendiente
+**Archivos:** `src/schemas/construction.ts`, `src/lib/materials.ts`
+
+**Funcionalidad:**
+- Sistema de 25+ materiales con 5 niveles de rareza
+- 15+ elementos arquitectónicos únicos
+- Mapeo de temas a elementos constructivos
+- Sistema de costo-beneficio para construcción
+- Balanceo de rareza vs disponibilidad
+
+**Tiempo estimado:** 4 horas
+
+---
+
+#### TAREA 2.8.9.2: Extender useGamificationStore con sistema de construcción
+**Prioridad:** 🔴 CRÍTICA
+**Estado:** Pendiente
+**Archivos:** `src/store/useGamificationStore.ts` (extender), `src/store/useConstructionStore.ts` (nuevo)
+
+**Funcionalidad:**
+- Integrar materiales con sistema existente de XP/coins
+- Tracking de elementos construidos y coleccionados
+- Progreso global de construcción
+- Hitos y logros constructivos
+- Sistema de craft para combinar materiales
+
+**Dependencias:** TAREA 2.8.9.1
+
+**Tiempo estimado:** 6 horas
+
+---
+
+#### TAREA 2.8.9.3: Crear Construction3D Component con Three.js
+**Prioridad:** 🔴 CRÍTICA
+**Estado:** Pendiente
+**Archivos:** `src/components/construction/Construction3D.tsx`, `src/lib/threejs/`
+
+**Funcionalidad:**
+- Motor 3D optimizado con Three.js
+- Sistema de renderizado con materiales PBR
+- Iluminación dinámica según hora del día
+- Sombras realistas y reflejos
+- Performance target: 60fps en mobile y desktop
+- Sistema de culling y LOD (Level of Detail)
+
+**Dependencias:** TAREA 2.8.9.1
+
+**Tiempo estimado:** 8 horas
+
+---
+
+#### TAREA 2.8.9.4: Sistema de materiales y texturas PBR
+**Prioridad:** 🔴 CRÍTICA
+**Estado:** Pendiente
+**Archivos:** `src/lib/materials/pbr.ts`, `src/assets/materials/`
+
+**Funcionalidad:**
+- Sistema de materiales PBR (Physically Based Rendering)
+- 5 tipos de materiales con propiedades realistas
+- Texturas 4K optimizadas
+- Sistema de wear y weathering
+- Mapas normals, roughness, metalness
+- Fallback para dispositivos bajos
+
+**Dependencias:** TAREA 2.8.9.1
+
+**Tiempo estimado:** 6 horas
+
+---
+
+#### TAREA 2.8.9.5: Animaciones de construcción realistas
+**Prioridad:** 🔴 CRÍTICA
+**Estado:** Pendiente
+**Archivos:** `src/lib/animations/construction.ts`, `src/components/construction/`
+
+**Funcionalidad:**
+- Animaciones step-by-step de construcción
+- Efectos de partículas (polvo, chispas)
+- Sistema de física para objetos pesados
+- Transiciones suaves entre estados
+- Animaciones de celebración al completar
+- Time-lapse de construcción completa
+
+**Dependencias:** TAREA 2.8.9.3, TAREA 2.8.9.4
+
+**Tiempo estimado:** 8 horas
+
+---
+
+#### TAREA 2.8.9.6: Integración con sistema de recompensas
+**Prioridad:** Alta
+**Estado:** Pendiente
+**Archivos:** `src/components/rewards/ConstructionRewards.tsx`, `src/services/constructionIntegration.ts`
+
+**Funcionalidad:**
+- Transformar XP en materiales al completar temas
+- Sistema de bonus por combinación de materiales
+- Logros especiales por construcciones únicas
+- Eventos de construcción colaborativa
+- Mercado de materiales entre usuarios
+
+**Dependencias:** TAREA 2.8.9.2
+
+**Tiempo estimado:** 5 horas
+
+---
+
+#### TAREA 2.8.9.7: UI de colección de elementos constructivos
+**Prioridad:** Alta
+**Estado:** Pendiente
+**Archivos:** `src/components/construction/BuilderInventory.tsx`, `src/components/construction/MaterialGallery.tsx`
+
+**Funcionalidad:**
+- Sistema de inventario visual 3D
+- Galería de materiales con filtrado por rareza
+- Constructor de elementos personalizados
+- Sistema de préstamos y trueques
+- Vista de colección completa con estadísticas
+
+**Dependencias:** TAREA 2.8.9.2
+
+**Tiempo estimado:** 6 horas
+
+---
+
+#### TAREA 2.8.9.8: Sistema de progreso y hitos constructivos
+**Prioridad:** Alta
+**Estado:** Pendiente
+**Archivos:** `src/lib/progression/construction.ts`, `src/components/construction/ConstructionMilestones.tsx`
+
+**Funcionalidad:**
+- 50+ hitos constructivos únicos
+- Sistema de rachas de construcción
+- Bonus por elementos temáticos (ej: París francés)
+- Eventos temporales con materiales exclusivos
+- Sistema de maestría en construcción
+
+**Dependencias:** TAREA 2.8.9.2
+
+**Tiempo estimado:** 4 horas
+
+---
+
+#### TAREA 2.8.9.9: Sonido ambiental de construcción
+**Prioridad:** Media
+**Estado:** Pendiente
+**Archivos:** `src/lib/sound/construction.ts`, `src/assets/sounds/construction/`
+
+**Funcionalidad:**
+- Audio 3D espacializado para construcción
+- 50+ efectos de sonido únicos
+- Música adaptativa según progreso
+- Sistema de ASMR para materiales
+- Cancelación de ruido ambiental
+
+**Dependencias:** TAREA 2.8.9.5
+
+**Tiempo estimado:** 4 horas
+
+---
+
+#### TAREA 2.8.9.10: Tests para sistema de construcción 3D
+**Prioridad:** Media
+**Estado:** Pendiente
+**Archivos:** `tests/unit/construction/`, `tests/e2e/construction.spec.ts`
+
+**Funcionalidad:**
+- Tests unitarios para sistema de materiales
+- Tests de renderizado 3D y performance
+- Tests de integración con gamificación
+- Tests E2E de flujo de construcción
+- Cobertura mínima: 85% de nuevas funcionalidades
+
+**Dependencias:** TAREA 2.8.9.3, TAREA 2.8.9.6
+
+**Tiempo estimado:** 6 horas
+
+---
+
+#### RESUMEN FASE 2.8: MEMORY BANK AAA
+
+| Tarea | Prioridad | Tiempo | Estado |
+|-------|-----------|--------|--------|
+| 2.8.1 Texture System | 🔴 Alta | 4h | Pendiente |
+| 2.8.2 EpisodicCard | 🔴 Alta | 6h | Pendiente |
+| 2.8.3 Sound Engine | 🔴 Alta | 4h | Pendiente |
+| 2.8.4 Haptic System | 🔴 Alta | 3h | Pendiente |
+| 2.8.5 MemoryBankSession | 🔴 Alta | 4h | Pendiente |
+| 2.8.6 Workout Integration | 🟡 Media | 3h | Pendiente |
+| 2.8.7 Tests | 🟡 Media | 3h | Pendiente |
+| 2.8.8 A/B Testing | ⚪ Baja | 2d | Pendiente |
+| 2.8.9 Sistema Construcción 3D | 🔴 CRÍTICA | 1.5d | Pendiente |
+| 2.8.9.1 Definir materiales y elementos | 🔴 CRÍTICA | 4h | Pendiente |
+| 2.8.9.2 Extender gamification store | 🔴 CRÍTICA | 6h | Pendiente |
+| 2.8.9.3 Construction3D Component | 🔴 CRÍTICA | 8h | Pendiente |
+| 2.8.9.4 Sistema materiales PBR | 🔴 CRÍTICA | 6h | Pendiente |
+| 2.8.9.5 Animaciones construcción | 🔴 CRÍTICA | 8h | Pendiente |
+| 2.8.9.6 Integración recompensas | 🟡 Alta | 5h | Pendiente |
+| 2.8.9.7 UI colección constructivos | 🟡 Alta | 6h | Pendiente |
+| 2.8.9.8 Sistema progreso hitos | 🟡 Alta | 4h | Pendiente |
+| 2.8.9.9 Sonido ambiental | 🟡 Media | 4h | Pendiente |
+| 2.8.9.10 Tests sistema 3D | 🟡 Media | 6h | Pendiente |
+| **TOTAL** | | **~3 semanas** | **0/18 completado** |
+
+---
+
 
 ### FASE 2.5: Optimización UX — Protocolo Low Click
 
@@ -1247,6 +1681,7 @@ jobs:
 | **0. Production Readiness** | **14** | **2** | **12** | **🔴 CRÍTICA** |
 | 1. Entrenamiento CLT | 8 | 1 | 7 | Alta |
 | 2. Warm-ups | 9 | 7 | 2 | Alta |
+| 2.8. Memory Bank AAA | 18 | 0 | 18 | **🔴 CRÍTICA** |
 | 2.5. Optimización UX (Low Click) | 5 | 0 | 5 | Alta |
 | 2.6. Stack Diseño Visual | 4 | 0 | 4 | Alta |
 | 2.7. Músculo Cognitivo | 5 | 0 | 5 | Alta |
@@ -1256,7 +1691,7 @@ jobs:
 | 6. Testing | 3 | 0 | 3 | Media |
 | 7. Contenido | 3 | 0 | 3 | Media/Baja |
 | 8. Monetización | 3 | 0 | 3 | Baja (última) |
-| **TOTAL** | **69** | **10** | **59** | |
+| **TOTAL** | **95** | **10** | **85** | |
 
 ---
 
@@ -1272,19 +1707,34 @@ jobs:
 6. TAREA 0.7 - Rate Limiting
 7. TAREA 0.8 - Circuit Breaker
 
+### 🔴 CRÍTICO (NUEVO - Sistema de Construcción 3D AAA)
+**FASE 2.8.9: Sistema de Construcción 3D - Característica Estrella**
+8. TAREA 2.8.9.1 - Definir materiales y elementos de construcción
+9. TAREA 2.8.9.2 - Extender useGamificationStore con sistema de construcción
+10. TAREA 2.8.9.3 - Crear Construction3D Component con Three.js
+11. TAREA 2.8.9.4 - Sistema de materiales y texturas PBR
+12. TAREA 2.8.9.5 - Animaciones de construcción realistas
+13. TAREA 2.8.9.6 - Integración con sistema de recompensas
+
 ### 🟡 ALTA PRIORIDAD (Próximas 2-3 semanas)
 **FASE 0 (continuación) + Críticos Funcionales**
-8. TAREA 0.5 - Tests E2E Playwright
-9. TAREA 0.9 - Refactor JanusComposer
-10. TAREA 0.10 - Repository Pattern
-11. TAREA 0.11 - Zod Runtime Validation
-12. TAREA 0.12 - Lighthouse CI
-13. TAREA 3.1 - Schema ÁREA 0
-14. TAREA 3.2-3.8 - Nodos ÁREA 0 (Base Absoluta)
-15. TAREA 2.8 - Integrar Warm-ups con MissionFeed
+14. TAREA 0.5 - Tests E2E Playwright
+15. TAREA 0.9 - Refactor JanusComposer
+16. TAREA 0.10 - Repository Pattern
+17. TAREA 0.11 - Zod Runtime Validation
+18. TAREA 0.12 - Lighthouse CI
+19. TAREA 3.1 - Schema ÁREA 0
+20. TAREA 3.2-3.8 - Nodos ÁREA 0 (Base Absoluta)
+21. TAREA 2.8 - Integrar Warm-ups con MissionFeed
+22. TAREA 2.8.9.7 - UI de colección de elementos constructivos
+23. TAREA 2.8.9.8 - Sistema de progreso y hitos constructivos
+24. TAREA 2.8.9.9 - Sonido ambiental de construcción
+25. TAREA 2.8.9.10 - Tests para sistema de construcción 3D
 
 ### 🟢 MEDIA PRIORIDAD (Próximo mes)
 - TAREA 1.2-1.6 - Sistema de Entrenamiento CLT
+- TAREA 2.8.6 - Memory Bank AAA: Workout Integration
+- TAREA 2.8.7 - Memory Bank AAA: Tests
 - TAREA 2.10-2.12 - Optimización UX (Hotkeys, Swipe, Janus Navigation)
 - TAREA 2.15-2.16 - Tipografía + Rive
 - TAREA 2.19-2.22 - Visualización Neuronal
@@ -1294,6 +1744,7 @@ jobs:
 - TAREA 2.11, 2.13, 2.14 - Micro-interacciones
 - TAREA 2.17-2.18 - Framer Motion, Lordicon
 - TAREA 2.21, 2.23 - Zonas de Desbloqueo, Paletas
+- TAREA 2.8.8 - Memory Bank AAA: A/B Testing
 - TAREA 5.1-5.4 - Optimizaciones
 - TAREA 6.1-6.3 - Testing (complementario)
 - TAREA 7.1-7.3 - Contenido adicional
@@ -1383,16 +1834,33 @@ Ver `DISEÑO_STRATEGY.md` para especificaciones completas de diseño.
 14. Implementar primeros 3 nodos de ÁREA 0 (TAREA 3.2-3.4)
 15. Implementar Modo Focus básico (TAREA 1.2)
 16. Integrar Warm-ups con MissionFeed (TAREA 2.8)
+17. Implementar Memory Bank AAA - Sistema de Texturas (TAREA 2.8.1)
 
-### Diseño Visual (PARALELO - Cuarta SEMANA)
-17. Integrar tipografía Quicksand/Inter (TAREA 2.15)
-18. Crear componente Krashen Rings (TAREA 2.19)
-19. Integrar Rive para visualización neuronal básica (TAREA 2.16)
-20. Implementar hotkeys para SRS (TAREA 2.10)
-21. Optimizar navegación Janus Matrix (TAREA 2.12)
+### Diseño Visual y AAA (CUARTA SEMANA - Paralelo)
+18. Implementar EpisodicCard con física (TAREA 2.8.2)
+19. Crear ContextualSoundEngine (TAREA 2.8.3)
+20. Implementar feedback háptico (TAREA 2.8.4)
+21. Crear MemoryBankSession integrado (TAREA 2.8.5)
+22. Integrar tipografía Quicksand/Inter (TAREA 2.15)
+23. Crear componente Krashen Rings (TAREA 2.19)
+
+### Integración y Testing (QUINTA SEMANA)
+24. Integrar Memory Bank con workout generator (TAREA 2.8.6)
+25. Escribir tests para Memory Bank (TAREA 2.8.7)
+26. Implementar hotkeys para SRS (TAREA 2.10)
+27. Optimizar navegación Janus Matrix (TAREA 2.12)
 
 ---
 
-**Última actualización:** 2026-01-06
-**Versión:** 2.0 Unificado + Production Readiness
+**Última actualización:** 2026-01-07
+**Versión:** 2.2 Unificado + Production Readiness + Memory Bank AAA + Sistema Construcción 3D
 **Analista:** Claude (Principal Software Engineer - ex-Vercel/Supabase)
+
+**Novedades Versión 2.2:**
+- ✅ Adición completa de TAREA 2.8.9: Sistema de Construcción 3D - AAA Level
+- ✅ 10 tareas detalladas para sistema constructivo con estimaciones y dependencias
+- ✅ Integración total con sistema de gamificación existente
+- ✅ Sistema de materiales 3D con texturas PBR y Three.js
+- ✅ Mecánica única: completar temas = construir algo hermoso
+- ✅ Nueva priorización crítica para sistema de construcción 3D
+- ✅ Actualización de resumen total: 95 tareas (77→95), 85 pendientes
