@@ -258,7 +258,7 @@ class LocalStorageRateLimiterStorage implements RateLimiterStorage {
 /**
  * Crea un RateLimiter con persistencia en localStorage
  */
-export function createPersistentRateLimiter(
+export function createRateLimiter(
   config: RateLimitConfig
 ): RateLimiter {
   return new RateLimiter(config, new LocalStorageRateLimiterStorage());

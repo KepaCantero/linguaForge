@@ -280,3 +280,31 @@ export {
   DetectedWordSchema,
   SRS_CONFIG,
 } from './srs';
+
+// Re-export Supabase types and schemas
+export type {
+  Profile,
+  LessonProgress,
+  UserStats,
+  Achievement,
+  UserAchievement,
+  StudySession,
+  UserTime,
+  FavoriteResource,
+  NotificationSettings,
+} from '@/schemas/supabase';
+
+export {
+  ProfileSchema,
+  LessonProgressSchema,
+  UserStatsSchema,
+  AchievementSchema,
+  UserAchievementSchema,
+  StudySessionSchema,
+  UserTimeSchema,
+  FavoriteResourceSchema,
+  NotificationSettingsSchema,
+} from '@/schemas/supabase';
+
+// Re-export database types
+export type { Database } from './database.types';

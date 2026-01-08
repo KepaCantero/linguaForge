@@ -3,7 +3,7 @@
  * Proporciona una capa de abstracción sobre operaciones de base de datos
  */
 
-import { createClient as createBrowserClient } from '@/lib/supabase/client';
+import { supabase } from '@/lib/supabase';
 import { supabaseQuery, supabaseQueryOptional, isAuthError } from '@/services/errorHandler';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
@@ -86,29 +86,17 @@ export abstract class BaseRepository<T extends Record<string, unknown>> {
   }
 
   /**
-   * Obtiene el cliente de Supabase (server o browser)
+   * Obtiene el cliente de Supabase
    */
-  protected getClient(): SupabaseClient | null {
-    const client =
-      this.options.useClient === 'browser'
-        ? createBrowserClient()
-        : null; // createServerClient es async
-
-    if (!client) {
-      console.warn(`Supabase client not available for ${this.tableName}`);
-      return null;
-    }
-
-    return client;
+  protected getClient(): SupabaseClient {
+    return supabase;
   }
 
   /**
    * Construye un query básico
    */
   protected buildQuery() {
-    const client = this.getClient();
-    if (!client) return null;
-    return client.from(this.tableName);
+    return this.getClient().from(this.tableName);
   }
 
   /**
@@ -116,9 +104,6 @@ export abstract class BaseRepository<T extends Record<string, unknown>> {
    */
   async findById(id: string): Promise<RepositoryResult<T>> {
     const query = this.buildQuery();
-    if (!query) {
-      return { data: null, error: new Error('Database client not available') };
-    }
 
     try {
       const data = await supabaseQuery<T>(
@@ -145,9 +130,6 @@ export abstract class BaseRepository<T extends Record<string, unknown>> {
     options: FindOneOptions = {}
   ): Promise<RepositoryResult<T>> {
     const query = this.buildQuery();
-    if (!query) {
-      return { data: null, error: new Error('Database client not available') };
-    }
 
     try {
       let builder = query.select();
@@ -175,9 +157,6 @@ export abstract class BaseRepository<T extends Record<string, unknown>> {
     options: FindManyOptions = {}
   ): Promise<RepositoryListResult<T>> {
     const query = this.buildQuery();
-    if (!query) {
-      return { data: [], error: new Error('Database client not available') };
-    }
 
     try {
       let builder = query.select();
@@ -213,18 +192,16 @@ export abstract class BaseRepository<T extends Record<string, unknown>> {
 
       if (options.pageSize) {
         const countQuery = this.buildQuery();
-        if (countQuery) {
-          let countBuilder = countQuery.select('*', { count: 'exact', head: true });
-          if (options.where) {
-            countBuilder = applyFilter(countBuilder, options.where);
-          }
-
-          const countResult = await countBuilder;
-
-          count = countResult.count ?? 0;
-          const currentPage = options.page ?? 0;
-          hasMore = (currentPage + 1) * options.pageSize < (count ?? 0);
+        let countBuilder = countQuery.select('*', { count: 'exact', head: true });
+        if (options.where) {
+          countBuilder = applyFilter(countBuilder, options.where);
         }
+
+        const countResult = await countBuilder;
+
+        count = countResult.count ?? 0;
+        const currentPage = options.page ?? 0;
+        hasMore = (currentPage + 1) * options.pageSize < (count ?? 0);
       }
 
       return {
@@ -252,9 +229,6 @@ export abstract class BaseRepository<T extends Record<string, unknown>> {
    */
   async create(data: Partial<T>): Promise<RepositoryResult<T>> {
     const query = this.buildQuery();
-    if (!query) {
-      return { data: null, error: new Error('Database client not available') };
-    }
 
     try {
       const result = await supabaseQuery<T>(
@@ -272,9 +246,6 @@ export abstract class BaseRepository<T extends Record<string, unknown>> {
    */
   async update(id: string, data: Partial<T>): Promise<RepositoryResult<T>> {
     const query = this.buildQuery();
-    if (!query) {
-      return { data: null, error: new Error('Database client not available') };
-    }
 
     try {
       const result = await supabaseQuery<T>(
@@ -292,9 +263,6 @@ export abstract class BaseRepository<T extends Record<string, unknown>> {
    */
   async delete(id: string): Promise<RepositoryResult<boolean>> {
     const query = this.buildQuery();
-    if (!query) {
-      return { data: null, error: new Error('Database client not available') };
-    }
 
     try {
       await supabaseQuery(
@@ -315,9 +283,6 @@ export abstract class BaseRepository<T extends Record<string, unknown>> {
     options: { onConflict?: string } = {}
   ): Promise<RepositoryResult<T>> {
     const query = this.buildQuery();
-    if (!query) {
-      return { data: null, error: new Error('Database client not available') };
-    }
 
     try {
       const conflictTarget = options.onConflict ?? this.primaryKey;
@@ -337,9 +302,6 @@ export abstract class BaseRepository<T extends Record<string, unknown>> {
    */
   async count(where?: string): Promise<RepositoryResult<number>> {
     const query = this.buildQuery();
-    if (!query) {
-      return { data: null, error: new Error('Database client not available') };
-    }
 
     try {
       let builder = query.select('*', { count: 'exact', head: true });
@@ -369,9 +331,6 @@ export abstract class BaseRepository<T extends Record<string, unknown>> {
    */
   async createMany(data: Partial<T>[]): Promise<RepositoryListResult<T>> {
     const query = this.buildQuery();
-    if (!query) {
-      return { data: [], error: new Error('Database client not available') };
-    }
 
     try {
       const records = await supabaseQuery(
@@ -398,9 +357,6 @@ export abstract class BaseRepository<T extends Record<string, unknown>> {
     data: Partial<T>
   ): Promise<RepositoryResult<number>> {
     const query = this.buildQuery();
-    if (!query) {
-      return { data: null, error: new Error('Database client not available') };
-    }
 
     try {
       let builder = query.update(data);
@@ -424,9 +380,6 @@ export abstract class BaseRepository<T extends Record<string, unknown>> {
    */
   async deleteMany(where: string): Promise<RepositoryResult<number>> {
     const query = this.buildQuery();
-    if (!query) {
-      return { data: null, error: new Error('Database client not available') };
-    }
 
     try {
       let builder = query.delete();

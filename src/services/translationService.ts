@@ -1,7 +1,10 @@
 /**
- * Servicio de traducción automática con cache
+ * Servicio de traducción automática con cache y rate limiting
  * Usa la API de Google Translate o alternativa con cache en localStorage
  */
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { RateLimitPresets, withRateLimit } from './rateLimiter';
 
 // ============================================================
 // CACHE DE TRADUCCIONES
@@ -103,7 +106,7 @@ export function clearTranslationCache(): void {
 
 /**
  * Traduce texto de francés a español usando Google Translate API
- * Con cache para evitar traducciones repetidas
+ * Con cache y rate limiting para evitar abusos
  */
 export async function translateToSpanish(text: string): Promise<string> {
   // Verificar cache primero

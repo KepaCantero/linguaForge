@@ -1,0 +1,357 @@
+npm warn Unknown user config "email". This will stop working in the next major version of npm.
+npm warn Unknown user config "always-auth". This will stop working in the next major version of npm.
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/app/api/translate/route.ts
+  67:5  error  Unexpected console statement  no-console
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/app/api/youtube/info/route.ts
+  41:5  error  Unexpected console statement  no-console
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/app/api/youtube/transcript/route.ts
+   21:8  error  Async function 'GET' has a complexity of 12. Maximum allowed is 10                     complexity
+   22:3  error  Unexpected console statement                                                           no-console
+   27:3  error  Unexpected console statement                                                           no-console
+   28:3  error  Unexpected console statement                                                           no-console
+   50:5  error  Unexpected console statement                                                           no-console
+   53:5  error  Unexpected console statement                                                           no-console
+   80:5  error  Unexpected console statement                                                           no-console
+   85:5  error  Unexpected console statement                                                           no-console
+  113:1  error  Async function 'fetchYouTubeTranscript' has a complexity of 44. Maximum allowed is 10  complexity
+  118:3  error  Unexpected console statement                                                           no-console
+  127:5  error  Unexpected console statement                                                           no-console
+  137:5  error  Unexpected console statement                                                           no-console
+  155:7  error  Unexpected console statement                                                           no-console
+  176:5  error  Unexpected console statement                                                           no-console
+  194:9  error  Unexpected console statement                                                           no-console
+  200:9  error  Unexpected console statement                                                           no-console
+  213:7  error  Unexpected console statement                                                           no-console
+  220:7  error  Unexpected console statement                                                           no-console
+  222:7  error  Unexpected console statement                                                           no-console
+  229:7  error  Unexpected console statement                                                           no-console
+  239:5  error  Unexpected console statement                                                           no-console
+  257:7  error  Unexpected console statement                                                           no-console
+  268:9  error  Unexpected console statement                                                           no-console
+  272:9  error  Unexpected console statement                                                           no-console
+  278:7  error  Unexpected console statement                                                           no-console
+  283:7  error  Unexpected console statement                                                           no-console
+  288:7  error  Unexpected console statement                                                           no-console
+  292:7  error  Unexpected console statement                                                           no-console
+  296:7  error  Unexpected console statement                                                           no-console
+  325:7  error  Unexpected console statement                                                           no-console
+  329:5  error  Unexpected console statement                                                           no-console
+  332:5  error  Unexpected console statement                                                           no-console
+  348:3  error  Unexpected console statement                                                           no-console
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/app/decks/review/page.tsx
+  15:1  error  Function 'ReviewPageContent' has a complexity of 14. Maximum allowed is 10  complexity
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/app/import/page.tsx
+   27:1  error  Function 'ImportPageContent' has a complexity of 13. Maximum allowed is 10  complexity
+   56:7  error  Unexpected console statement                                                no-console
+  151:9  error  Unexpected console statement                                                no-console
+  156:7  error  Unexpected console statement                                                no-console
+  162:9  error  Unexpected console statement                                                no-console
+  166:9  error  Unexpected console statement                                                no-console
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/app/input/text/page.tsx
+  13:16  error  Function 'TextInputPage' has a complexity of 12. Maximum allowed is 10  complexity
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/app/input/video/page.tsx
+  13:16  error  Function 'VideoInputPage' has a complexity of 17. Maximum allowed is 10  complexity
+  72:7   error  Unexpected console statement                                             no-console
+  74:7   error  Unexpected console statement                                             no-console
+  81:9   error  Unexpected console statement                                             no-console
+  83:9   error  Unexpected console statement                                             no-console
+  88:7   error  Unexpected console statement                                             no-console
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/app/learn/imported/[nodeId]/exercises/page.tsx
+  25:1  error  Function 'ExercisesPageContent' has a complexity of 26. Maximum allowed is 10  complexity
+  58:5  error  Unexpected console statement                                                   no-console
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/app/learn/node/[nodeId]/lesson/[lessonId]/page.tsx
+   49:1   error  Function 'buildExerciseCategories' has a complexity of 12. Maximum allowed is 10  complexity
+  197:16  error  Function 'LessonPage' has a complexity of 17. Maximum allowed is 10               complexity
+  223:50  error  Arrow function has a complexity of 11. Maximum allowed is 10                      complexity
+  288:5   error  Unexpected console statement                                                      no-console
+  293:5   error  Unexpected console statement                                                      no-console
+  479:26  error  Arrow function has a complexity of 14. Maximum allowed is 10                      complexity
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/app/learn/node/[nodeId]/page.tsx
+  41:16  error  Function 'NodePage' has a complexity of 11. Maximum allowed is 10  complexity
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/components/animations/LottieAnimation.tsx
+  62:10  error  'isLoaded' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  74:54  error  Unexpected any. Specify a different type       @typescript-eslint/no-explicit-any
+  85:9   error  Unexpected console statement                   no-console
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/components/animations/RiveAnimation.tsx
+  11:15  error  'StateMachineInput' is defined but never used  @typescript-eslint/no-unused-vars
+  82:7   error  Unexpected console statement                   no-console
+  84:7   error  Unexpected console statement                   no-console
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/components/auth/LoginForm.tsx
+  10:8  error  Function 'LoginForm' has a complexity of 11. Maximum allowed is 10  complexity
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/components/exercises/BlockEchoExercise.tsx
+  43:9  error  Unexpected console statement  no-console
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/components/exercises/BlockSwapExercise.tsx
+  67:35  error  Arrow function has a complexity of 12. Maximum allowed is 10  complexity
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/components/exercises/ClozeExercise.tsx
+   16:8   error  Function 'ClozeExercise' has a complexity of 18. Maximum allowed is 10  complexity
+  149:51  error  Arrow function has a complexity of 13. Maximum allowed is 10            complexity
+  249:34  error  Arrow function has a complexity of 16. Maximum allowed is 10            complexity
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/components/exercises/ConversationalEchoExercise.tsx
+   48:8   error    Function 'ConversationalEchoExercise' has a complexity of 32. Maximum allowed is 10                                 complexity
+  125:6   warning  React Hook useCallback has a missing dependency: 'handleTimeout'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  156:40  error    Arrow function has a complexity of 17. Maximum allowed is 10                                                        complexity
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/components/exercises/DialogueIntonationExercise.tsx
+  38:8  error  Function 'DialogueIntonationExercise' has a complexity of 24. Maximum allowed is 10  complexity
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/components/exercises/EchoStreamExercise.tsx
+  224:11  error  Unexpected console statement  no-console
+  238:15  error  Unexpected console statement  no-console
+  241:13  error  Unexpected console statement  no-console
+  246:7   error  Unexpected console statement  no-console
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/components/exercises/ForgeMandateExercise.tsx
+  35:8   error  Function 'ForgeMandateExercise' has a complexity of 11. Maximum allowed is 10  complexity
+  44:13  error  Arrow function has a complexity of 12. Maximum allowed is 10                   complexity
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/components/exercises/GlyphWeavingExercise.tsx
+   87:5   error  Unexpected console statement  no-console
+  104:11  error  Unexpected console statement  no-console
+  116:15  error  Unexpected console statement  no-console
+  119:13  error  Unexpected console statement  no-console
+  125:7   error  Unexpected console statement  no-console
+  179:7   error  Unexpected console statement  no-console
+  186:7   error  Unexpected console statement  no-console
+  191:7   error  Unexpected console statement  no-console
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/components/exercises/InteractiveSpeechExercise.tsx
+  38:8  error    Function 'InteractiveSpeechExercise' has a complexity of 24. Maximum allowed is 10                                                                                                                                                                         complexity
+  61:9  warning  The 'silenceConfig' logical expression could make the dependencies of useCallback Hook (at line 171) change on every render. Move it inside the useCallback callback. Alternatively, wrap the initialization of 'silenceConfig' in its own useMemo() Hook  react-hooks/exhaustive-deps
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/components/exercises/JanusComposerExercise.tsx
+   75:8   error    Function 'JanusComposerExercise' has a complexity of 27. Maximum allowed is 10                                       complexity
+  209:6   warning  React Hook useCallback has a missing dependency: 'handleComplete'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  221:6   warning  React Hook useCallback has a missing dependency: 'handleComplete'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  348:37  error    Arrow function has a complexity of 14. Maximum allowed is 10                                                         complexity
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/components/exercises/MiniTaskExercise.tsx
+  17:8  error  Function 'MiniTaskExercise' has a complexity of 11. Maximum allowed is 10  complexity
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/components/exercises/PragmaStrikeExercise.tsx
+   16:8   error  Function 'PragmaStrikeExercise' has a complexity of 28. Maximum allowed is 10  complexity
+  175:31  error  Arrow function has a complexity of 12. Maximum allowed is 10                   complexity
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/components/exercises/ResonancePathExercise.tsx
+   18:8  error  Function 'ResonancePathExercise' has a complexity of 22. Maximum allowed is 10  complexity
+  114:7  error  Unexpected console statement                                                    no-console
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/components/exercises/ShadowingExercise.tsx
+  17:8  error  Function 'ShadowingExercise' has a complexity of 16. Maximum allowed is 10  complexity
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/components/exercises/ShardDetectionExercise.tsx
+   16:8   error  Function 'ShardDetectionExercise' has a complexity of 18. Maximum allowed is 10  complexity
+   37:9   error  Unexpected console statement                                                     no-console
+  159:30  error  Arrow function has a complexity of 15. Maximum allowed is 10                     complexity
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/components/exercises/VariationsExercise.tsx
+  16:8  error  Function 'VariationsExercise' has a complexity of 23. Maximum allowed is 10  complexity
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/components/exercises/VocabularyExercise.tsx
+  85:31  error  Arrow function has a complexity of 15. Maximum allowed is 10  complexity
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/components/focus/FocusMode.tsx
+  87:8  error  Function 'FocusMode' has a complexity of 11. Maximum allowed is 10  complexity
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/components/gamification/PostCognitiveRewards.tsx
+  21:8  error  Function 'PostCognitiveRewards' has a complexity of 16. Maximum allowed is 10  complexity
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/components/input/YouTubePlayer.tsx
+  149:7  error  Unexpected console statement  no-console
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/components/learn/CourseMap.tsx
+  81:29  error  Arrow function has a complexity of 14. Maximum allowed is 10  complexity
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/components/missions/MissionFeed.tsx
+  112:7  error  Unexpected console statement                                          no-console
+  120:5  error  Unexpected console statement                                          no-console
+  291:1  error  Function 'MissionCard' has a complexity of 20. Maximum allowed is 10  complexity
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/components/pwa/ServiceWorkerRegistration.tsx
+  40:9   error  Unexpected console statement  no-console
+  53:17  error  Unexpected console statement  no-console
+  67:9   error  Unexpected console statement  no-console
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/components/session/SessionSummary.tsx
+  58:33  error  Arrow function has a complexity of 13. Maximum allowed is 10  complexity
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/components/shared/FocusMode.tsx
+  31:8  error  Function 'FocusMode' has a complexity of 11. Maximum allowed is 10  complexity
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/components/shared/MicroInteractions.tsx
+  139:8   error  Function 'MicroInteraction' has a complexity of 12. Maximum allowed is 10  complexity
+  163:43  error  Unexpected any. Specify a different type                                   @typescript-eslint/no-explicit-any
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/components/shared/RhythmVisualizer.tsx
+  12:8  error  Function 'calculateRhythmSimilarity' has a complexity of 12. Maximum allowed is 10  complexity
+  89:8  error  Function 'RhythmVisualizer' has a complexity of 15. Maximum allowed is 10           complexity
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/components/shared/SpeechRecorder.tsx
+   34:8  error  Function 'SpeechRecorder' has a complexity of 14. Maximum allowed is 10  complexity
+  129:7  error  Unexpected console statement                                             no-console
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/components/srs/SwipeableSRSCard.tsx
+  14:48  error  'useMotionTemplate' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/components/transcript/PhraseSelectionPanel.tsx
+   25:8  error  Function 'PhraseSelectionPanel' has a complexity of 16. Maximum allowed is 10  complexity
+  105:9  error  Unexpected console statement                                                   no-console
+  209:7  error  Unexpected console statement                                                   no-console
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/components/transcript/WordSelector.tsx
+  178:7  error  Unexpected console statement  no-console
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/components/visualization/BrainZoneActivation.tsx
+  304:1  error  Function 'BrainZoneCircle' has a complexity of 11. Maximum allowed is 10  complexity
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/components/visualization/KrashenRings.tsx
+  83:8  error  Function 'KrashenRings' has a complexity of 39. Maximum allowed is 10  complexity
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/components/visualization/SynapticDensity.tsx
+  103:55  error  Arrow function has a complexity of 15. Maximum allowed is 10  complexity
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/hooks/useExerciseProgress.ts
+  33:40  error  Arrow function has a complexity of 11. Maximum allowed is 10  complexity
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/hooks/useKeyboardShortcuts.ts
+  73:1  error  Function 'getShortcutAction' has a complexity of 34. Maximum allowed is 10  complexity
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/hooks/useLesson.ts
+  27:33  error  Async arrow function has a complexity of 14. Maximum allowed is 10  complexity
+  42:17  error  Unexpected console statement                                        no-console
+  52:17  error  Unexpected console statement                                        no-console
+  75:17  error  Unexpected console statement                                        no-console
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/hooks/useLessonExercises.ts
+  72:48  error  Arrow function has a complexity of 27. Maximum allowed is 10  complexity
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/hooks/usePerformance.ts
+  229:5  error  Unexpected console statement  no-console
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/hooks/useSync.ts
+  100:7  error  Unexpected console statement  no-console
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/lib/services/progressService.ts
+   37:8  error  Async function 'saveExerciseCompletion' has a complexity of 14. Maximum allowed is 10  complexity
+  104:5  error  Unexpected console statement                                                           no-console
+  135:5  error  Unexpected console statement                                                           no-console
+  165:5  error  Unexpected console statement                                                           no-console
+  206:5  error  Unexpected console statement                                                           no-console
+  247:5  error  Unexpected console statement                                                           no-console
+  255:8  error  Async function 'updateStreak' has a complexity of 13. Maximum allowed is 10            complexity
+  311:5  error  Unexpected console statement                                                           no-console
+  346:5  error  Unexpected console statement                                                           no-console
+  375:5  error  Unexpected console statement                                                           no-console
+  429:5  error  Unexpected console statement                                                           no-console
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/middleware.ts
+  4:8  error  Async function 'middleware' has a complexity of 14. Maximum allowed is 10  complexity
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/schemas/content.ts
+  743:3  error  Arrow function has a complexity of 15. Maximum allowed is 10  complexity
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/services/cognitiveLoadMetrics.ts
+  164:8  error  Function 'calculateGermaneLoad' has a complexity of 11. Maximum allowed is 10      complexity
+  466:8  error  Function 'calculateSynapticDensity' has a complexity of 12. Maximum allowed is 10  complexity
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/services/errorHandler.ts
+   74:1  error  Function 'classifyError' has a complexity of 16. Maximum allowed is 10  complexity
+  181:5  error  Unexpected console statement                                            no-console
+  186:5  error  Unexpected console statement                                            no-console
+  190:5  error  Unexpected console statement                                            no-console
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/services/generateExercisesFromPhrases.ts
+  278:21  error  Method 'extractComplements' has a complexity of 11. Maximum allowed is 10  complexity
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/services/lessonLoader.ts
+  15:8  error  Async function 'loadLesson' has a complexity of 14. Maximum allowed is 10  complexity
+  38:5  error  Unexpected console statement                                               no-console
+  44:5  error  Unexpected console statement                                               no-console
+  51:5  error  Unexpected console statement                                               no-console
+  54:5  error  Unexpected console statement                                               no-console
+  65:7  error  Unexpected console statement                                               no-console
+  78:7  error  Unexpected console statement                                               no-console
+  80:9  error  Unexpected console statement                                               no-console
+  85:5  error  Unexpected console statement                                               no-console
+  87:7  error  Unexpected console statement                                               no-console
+  88:7  error  Unexpected console statement                                               no-console
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/services/missionGenerator.ts
+  303:11  error  Arrow function has a complexity of 13. Maximum allowed is 10  complexity
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/services/postCognitiveFeedback.ts
+  173:1  error  Function 'identifyStrengthsAndWeaknesses' has a complexity of 11. Maximum allowed is 10  complexity
+  225:1  error  Function 'generateRecommendations' has a complexity of 12. Maximum allowed is 10         complexity
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/services/postCognitiveRewards.ts
+  264:1  error  Function 'detectAchievements' has a complexity of 14. Maximum allowed is 10       complexity
+  323:1  error  Function 'generateSessionFeedback' has a complexity of 16. Maximum allowed is 10  complexity
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/services/repository/baseRepository.ts
+   11:34  error  Unexpected any. Specify a different type                               @typescript-eslint/no-explicit-any
+   86:7   error  Unexpected console statement                                           no-console
+  117:15  error  Unexpected console statement                                           no-console
+  162:17  error  Async method 'findMany' has a complexity of 19. Maximum allowed is 10  complexity
+  203:13  error  'countQuery' is never reassigned. Use 'const' instead                  prefer-const
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/services/repository/srsCardRepository.ts
+    9:31  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+    9:56  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  185:11  error  Unexpected console statement              no-console
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/services/syncService.ts
+  111:8  error  Async function 'syncGamification' has a complexity of 19. Maximum allowed is 10  complexity
+  193:5  error  Unexpected console statement                                                     no-console
+  281:5  error  Unexpected console statement                                                     no-console
+  375:9  error  Unexpected console statement                                                     no-console
+  379:9  error  Unexpected console statement                                                     no-console
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/services/translationService.ts
+   67:5  error  Unexpected console statement  no-console
+  148:5  error  Unexpected console statement  no-console
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/services/ttsService.ts
+   75:7  error  Unexpected console statement  no-console
+  105:7  error  Unexpected console statement  no-console
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/services/wordExtractor.ts
+  30:8  error  Function 'detectWordType' has a complexity of 39. Maximum allowed is 10  complexity
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/services/youtubeTranscriptService.ts
+   42:8  error  Async function 'getYouTubeTranscript' has a complexity of 16. Maximum allowed is 10  complexity
+   52:5  error  Unexpected console statement                                                         no-console
+   72:7  error  Unexpected console statement                                                         no-console
+   99:5  error  Unexpected console statement                                                         no-console
+  159:5  error  Unexpected console statement                                                         no-console
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/store/useCognitiveLoadStore.ts
+  146:13  error  Unexpected console statement  no-console
+  166:13  error  Unexpected console statement  no-console
+  180:13  error  Unexpected console statement  no-console
+  230:9   error  Unexpected console statement  no-console
+  243:9   error  Unexpected console statement  no-console
+  276:9   error  Unexpected console statement  no-console
+  288:9   error  Unexpected console statement  no-console
+
+/Users/kepa.cantero/Projects/frenchWebApp/src/store/useSRSStore.ts
+  212:17  error  Method 'getStats' has a complexity of 14. Maximum allowed is 10  complexity
+
+✖ 207 problems (203 errors, 4 warnings)
+  1 error and 0 warnings potentially fixable with the `--fix` option.
+

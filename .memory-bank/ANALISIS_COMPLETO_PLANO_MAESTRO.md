@@ -16,10 +16,9 @@
 - **Narrativa:** "Fortalecimiento del músculo cognitivo"
 - **Diferenciador:** Visualización del crecimiento neuronal en tiempo real
 
-**Estrategia de Monetización:** $64-120/año escalonado
-- Free: Contenido A0 limitado
-- Pro ($64/año): Contenido A1-A2 + Neural Nexus completo
-- Executive ($120/año): **Certificado verificable de competencia lingüística** (compartible, sin integración LinkedIn)
+**Estrategia de Monetización:** Modelo 2 escalones
+- **Free:** Contenido A0 limitado para inglés, español, francés, alemán e italiano
+- **Paid (€5/mes):** Todo contenido A1-A2 + Neural Nexus completo + SRS ilimitado + Certificado QR
 
 ---
 
@@ -459,17 +458,16 @@ const optimizations = {
 
 **Recomendación:**
 
-### 🎯 ESTRATEGIA DE MONETIZACIÓN: NEURAL NEXUS
+### 🎯 ESTRATEGIA DE MONETIZACIÓN: MODELO 2 ESCALONES
 
-#### Modelo Freemium Escalonado
+#### Simplificación Estratégica
 
 | Tier | Precio | Features | Target |
 |------|--------|----------|--------|
-| **Free** | $0 | • Contenido A0 limitado (3 nodos) <br> • Neural Nexus básico <br> • SRS básico | Curiosos |
-| **Pro** | $7.99/mes ($64/año) | • Todo contenido A1-A2 <br> • Neural Nexus completo <br> • SRS ilimitado <br> • Exportar PDF certificado | Estudiantes |
-| **Executive** | $14.99/mes ($120/año) | • Todo Pro <br> • **Certificado verificable de competencia** <br> • Coaching IA personalizado <br> • Análisis de pronunciación | Profesionales |
+| **Free** | €0 | • Contenido A0 limitado (3 nodos) <br> • Neural Nexus básico <br> • SRS básico | Curiosos |
+| **Paid** | €5/mes (€60/año) | • Todo contenido A1-A2 completo <br> • Neural Nexus completo <br> • SRS ilimitado <br> • Certificado QR verificable | Estudiantes serios |
 
-**Gatillo Emocional Crítico (revisado):**
+**Gatillo Emocional Crítico:**
 > "El usuario no paga por aprender francés, paga por la **validación tangible de su competencia** - un certificado verificable que demuestra su nivel real de fluidez"
 
 **Implementación:**
@@ -730,14 +728,14 @@ Fecha: 2026-01-06
 
 | Aspecto | Duolingo Max | Babbel Premium | LinguaForge (Neural Nexus) |
 |---------|--------------|----------------|-------------------------------|
-| **Precio** | $6.99/mes ($84/año) | $13.95/mes ($167/año) | $7.99/mes ($64/año) Pro |
+| **Precio** | $6.99/mes (€84/año) | $13.95/mes (€167/año) | €5/mes (€60/año) |
 | **Metáfora** | Gamificación (búho) | Tradicional (libros) | **Neural Nexus (único)** |
 | **Certificación** | ❌ No | ❌ No | ✅ **Certificado verificable QR** |
 | **SRS** | Básico | No | ✅ SuperMemo 2 avanzado |
 | **Input Real** | No | Limitado | ✅ Video/Audio/Texto ilimitado |
 | **Diferenciador** | Ninguno | Ninguno | **Visualización neuronal + Certificado QR** |
 
-**Conclusión Competitiva:** LinguaForge puede justificar $64-120/año con el **certificado verificable con QR** (sistema propio). La Neural Nexus UI es un "nice-to-have", el valor real está en la **validación comprobable de competencia**.
+**Conclusión Competitiva:** LinguaForge puede justificar €60/año con el **certificado verificable con QR** (sistema propio). La Neural Nexus UI es un "nice-to-have", el valor real está en la **validación comprobable de competencia**.
 
 ---
 

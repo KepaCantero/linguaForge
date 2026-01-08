@@ -1,0 +1,21 @@
+{
+  "model": "claude-3-haiku-20240307",
+  "max_tokens": 4096,
+  "temperature": 0.05,
+  "permissions": {
+    "allow": [
+      "Bash",
+      "Bash(npm:*)",
+      "Bash(npx:*)",
+      "Bash(git:*)",
+      "Bash(ls:*)",
+      "Bash(cat:*)",
+      "Bash(grep:*)",
+      "Bash(curl:*)",
+      "Bash(find:*)",
+      "Bash(timeout:*)",
+      "Bash(pkill:*)",
+      "Bash(bash:*)"
+    ]
+  }
+}

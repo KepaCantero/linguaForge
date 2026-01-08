@@ -1,0 +1,5 @@
+🚦 INICIANDO QUALITY GATE AAA — FrenchA1Airbnb
+--------------------------------------------------
+🔍 Buscando 'any', '@ts-ignore', y console.log...
+❌ ERROR: Uso de 'any' detectado
+src/components/animations/LottieAnimation.tsx:73:  const [animationData, setAnimationData] = useState<any>(null);
