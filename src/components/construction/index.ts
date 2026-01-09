@@ -30,6 +30,8 @@ export {
   Material3DPreview,
 } from './MaterialGallery';
 
+export { ConstructionMilestones } from './ConstructionMilestones';
+
 // ============================================
 // TIPOS DEL SCHEMA
 // ============================================
@@ -129,3 +131,40 @@ export {
   type TopicToMaterialMapping,
   type ElementUnlockRequirement,
 } from '@/services/constructionIntegration';
+
+// ============================================
+// SISTEMA DE PROGRESIÓN
+// ============================================
+
+export {
+  // Constants
+  CONSTRUCTION_MILESTONES as PROGRESSION_MILESTONES,
+  STREAK_BONUSES,
+  MASTERY_LEVELS,
+  MASTERY_BONUSES,
+  THEME_BONUSES,
+  TEMPORAL_EVENTS,
+  // Functions
+  getStreakBonus,
+  getMasteryLevel,
+  getMasteryBonuses,
+  checkMilestoneCompletion,
+  getPendingMilestones,
+  getNextMilestone,
+  calculateMilestoneReward,
+  checkThemeCompletion,
+  isEventActive,
+  getActiveEvents,
+  calculatePrestige,
+  // Types
+  type MilestoneCategory,
+  type ConstructionMilestone,
+  type MilestoneRequirement,
+  type MilestoneReward,
+  type ConstructionStreak,
+  type MasteryLevel,
+  type MasteryBonus,
+  type ThemeBonus,
+  type TemporalEvent,
+  type ProgressionState,
+} from '@/lib/progression/construction';
