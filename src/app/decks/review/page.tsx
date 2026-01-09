@@ -8,20 +8,54 @@ import { useGamificationStore } from '@/store/useGamificationStore';
 import { useWordDictionaryStore } from '@/store/useWordDictionaryStore';
 import { ClozeExercise } from '@/components/exercises/ClozeExercise';
 import { generateClozeExerciseFromWord } from '@/services/wordExerciseGenerator';
-import { ReviewResponse, ContentSourceType } from '@/types/srs';
+import { MemoryBankSession, type MemoryBankCard, type SessionMetrics } from '@/components/exercises/MemoryBank/MemoryBankSession';
+import { ReviewResponse, ContentSourceType, type SRSCard } from '@/types/srs';
 import { Phrase } from '@/types';
 import Link from 'next/link';
+
+type ReviewMode = 'classic' | 'memory-bank';
+
+// Convert SRS cards to Memory Bank format
+function convertToMemoryBankCards(srsCards: SRSCard[]): MemoryBankCard[] {
+  return srsCards.map(card => {
+    // Determine difficulty based on easeFactor (lower = harder)
+    // easeFactor typically ranges from 1.3 to 2.5+
+    const difficulty: 'easy' | 'medium' | 'hard' =
+      card.easeFactor <= 1.8 ? 'hard' :
+      card.easeFactor <= 2.2 ? 'medium' : 'easy';
+
+    return {
+      id: card.id,
+      front: {
+        text: card.phrase,
+        subtext: card.source.context || undefined,
+      },
+      back: {
+        text: card.translation || card.phrase,
+        subtext: card.tags.join(' • '),
+      },
+      context: 'vocabulary' as const,
+      difficulty,
+      reviewCount: card.reviewHistory.length,
+      lastReviewedAt: card.nextReviewDate || undefined,
+    };
+  });
+}
 
 function ReviewPageContent() {
   const searchParams = useSearchParams();
   const sourceType = searchParams.get('sourceType');
   const sourceId = searchParams.get('sourceId');
   const filterParam = searchParams.get('filter'); // 'new' para solo nuevas
+  const modeParam = searchParams.get('mode'); // 'memory-bank' para modo AAA
 
   const { getCardsBySource, getStudySession, reviewCard } = useSRSStore();
   const { addXP } = useGamificationStore();
   const { markAsMastered } = useWordDictionaryStore();
 
+  const [reviewMode, setReviewMode] = useState<ReviewMode>(
+    modeParam === 'memory-bank' ? 'memory-bank' : 'classic'
+  );
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [currentExercise, setCurrentExercise] = useState<Phrase | null>(null);
   const [exerciseType, setExerciseType] = useState<'cloze' | 'detection'>('cloze');
@@ -70,6 +104,12 @@ function ReviewPageContent() {
     setExerciseType('cloze');
   }, [currentCard]);
 
+  // Memory Bank cards
+  const memoryBankCards = useMemo(() =>
+    convertToMemoryBankCards(cardsToReview),
+    [cardsToReview]
+  );
+
   const handleExerciseComplete = useCallback((correct: boolean) => {
     if (!currentCard) return;
 
@@ -105,6 +145,37 @@ function ReviewPageContent() {
       }
     }, 1500);
   }, [currentCard, currentCardIndex, cardsToReview.length, reviewCard, addXP, markAsMastered]);
+
+  // Memory Bank session complete handler
+  const handleMemoryBankComplete = useCallback((metrics: SessionMetrics) => {
+    // Update SRS cards based on Memory Bank results
+    // This is a simplified version - in production you'd track individual card results
+    setSessionStats({
+      correct: metrics.correctAnswers,
+      incorrect: metrics.incorrectAnswers,
+    });
+
+    // Award XP based on accuracy
+    const baseXP = metrics.cardsReviewed * 10;
+    const bonusXP = Math.floor(metrics.accuracy * baseXP * 0.5);
+    addXP(baseXP + bonusXP);
+
+    setSessionComplete(true);
+  }, [addXP]);
+
+  // Memory Bank card review handler
+  const handleMemoryBankCardReview = useCallback((cardId: string, isCorrect: boolean) => {
+    // Find the original SRS card and review it
+    const card = cardsToReview.find(c => c.id === cardId);
+    if (card) {
+      const response: ReviewResponse = isCorrect ? 'good' : 'again';
+      const updatedCard = reviewCard(card.id, response);
+
+      if (updatedCard?.status === 'graduated') {
+        markAsMastered(card.phrase);
+      }
+    }
+  }, [cardsToReview, reviewCard, markAsMastered]);
 
   if (sessionComplete || cardsToReview.length === 0) {
     return (
@@ -160,26 +231,67 @@ function ReviewPageContent() {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-20">
       {/* Header */}
       <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
-        <div className="max-w-2xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link
-            href={sourceType && sourceId ? `/input/${sourceType}` : '/decks'}
-            className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
-          >
-            <span className="text-xl">←</span>
-          </Link>
-          <div className="flex-1 text-center">
-            <h1 className="text-xl font-bold text-gray-900 dark:text-white">
-              Repaso
-            </h1>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              {currentCardIndex + 1} de {cardsToReview.length}
-            </p>
+        <div className="max-w-2xl mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <Link
+              href={sourceType && sourceId ? `/input/${sourceType}` : '/decks'}
+              className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+            >
+              <span className="text-xl">←</span>
+            </Link>
+            <div className="flex-1 text-center">
+              <h1 className="text-xl font-bold text-gray-900 dark:text-white">
+                Repaso
+              </h1>
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                {reviewMode === 'memory-bank' ? `${cardsToReview.length} tarjetas` : `${currentCardIndex + 1} de ${cardsToReview.length}`}
+              </p>
+            </div>
+            <div className="w-8" /> {/* Spacer */}
           </div>
-          <div className="w-8" /> {/* Spacer */}
+
+          {/* Mode selector */}
+          <div className="flex justify-center mt-3 gap-2">
+            <button
+              onClick={() => setReviewMode('classic')}
+              className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${
+                reviewMode === 'classic'
+                  ? 'bg-indigo-600 text-white'
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+              }`}
+            >
+              Clásico
+            </button>
+            <button
+              onClick={() => setReviewMode('memory-bank')}
+              className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors flex items-center gap-1 ${
+                reviewMode === 'memory-bank'
+                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+              }`}
+            >
+              <span>✨</span> Memory Bank
+            </button>
+          </div>
         </div>
       </header>
 
-      {/* Progreso */}
+      {/* Memory Bank Mode */}
+      {reviewMode === 'memory-bank' && (
+        <div className="max-w-2xl mx-auto px-4 pt-6">
+          <MemoryBankSession
+            cards={memoryBankCards}
+            context="vocabulary"
+            onComplete={handleMemoryBankComplete}
+            onCardReview={handleMemoryBankCardReview}
+            title="Memory Bank AAA"
+            showProgress
+          />
+        </div>
+      )}
+
+      {/* Classic Mode - Progreso */}
+      {reviewMode === 'classic' && (
       <div className="max-w-2xl mx-auto px-4 pt-6">
         <div className="mb-6">
           <div className="flex items-center justify-between text-sm text-gray-600 dark:text-gray-400 mb-2">
@@ -247,6 +359,7 @@ function ReviewPageContent() {
           )}
         </AnimatePresence>
       </div>
+      )}
     </div>
   );
 }
