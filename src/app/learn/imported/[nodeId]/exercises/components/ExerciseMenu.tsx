@@ -173,10 +173,9 @@ export function ExerciseMenu({
             <motion.button
               key={exercise.type}
               onClick={() => onSelectExercise(exercise.type as ExerciseType)}
-              className="relative w-full focus:outline-none focus:ring-4 focus:ring-offset-2 focus:ring-offset-lf-dark rounded-2xl"
+              className={`relative w-full focus:outline-none focus:ring-4 focus:ring-offset-2 focus:ring-offset-lf-dark rounded-2xl`}
               style={{
                 willChange: shouldAnimate ? 'transform' : 'auto',
-                focusRingColor: exercise.color,
               }}
               whileHover={shouldAnimate ? { scale: 1.02 } : {}}
               whileTap={shouldAnimate ? { scale: 0.98 } : {}}

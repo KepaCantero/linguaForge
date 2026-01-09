@@ -15,11 +15,151 @@ import Link from 'next/link';
 
 type ReviewMode = 'classic' | 'memory-bank';
 
-// Convert SRS cards to Memory Bank format
+// ============================================
+// PRESENTATION COMPONENTS - Reduce main component complexity
+// ============================================
+
+interface SessionCompleteProps {
+  sessionStats: { correct: number; incorrect: number };
+  totalCards: number;
+}
+
+function SessionComplete({ sessionStats, totalCards }: SessionCompleteProps) {
+  return (
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center p-4">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="bg-white dark:bg-gray-800 rounded-xl p-8 max-w-md w-full border border-gray-200 dark:border-gray-700 text-center"
+      >
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+          ¡Sesión completada!
+        </h2>
+        <div className="space-y-4 mb-6">
+          <div>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Correctas</p>
+            <p className="text-3xl font-bold text-green-600 dark:text-green-400">
+              {sessionStats.correct}
+            </p>
+          </div>
+          <div>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Incorrectas</p>
+            <p className="text-3xl font-bold text-red-600 dark:text-red-400">
+              {sessionStats.incorrect}
+            </p>
+          </div>
+          <div>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Total repasadas</p>
+            <p className="text-3xl font-bold text-indigo-600 dark:text-indigo-400">
+              {totalCards}
+            </p>
+          </div>
+        </div>
+        <Link
+          href="/decks"
+          className="block w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors"
+        >
+          Ver todos los decks
+        </Link>
+      </motion.div>
+    </div>
+  );
+}
+
+interface ReviewHeaderProps {
+  sourceType: string | null;
+  sourceId: string | null;
+  reviewMode: ReviewMode;
+  setReviewMode: (mode: ReviewMode) => void;
+  currentIndex: number;
+  totalCards: number;
+}
+
+function ReviewHeader({ sourceType, sourceId, reviewMode, setReviewMode, currentIndex, totalCards }: ReviewHeaderProps) {
+  const backUrl = sourceType && sourceId ? `/input/${sourceType}` : '/decks';
+
+  return (
+    <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
+      <div className="max-w-2xl mx-auto px-4 py-4">
+        <div className="flex items-center justify-between">
+          <Link
+            href={backUrl}
+            className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+          >
+            <span className="text-xl">←</span>
+          </Link>
+          <div className="flex-1 text-center">
+            <h1 className="text-xl font-bold text-gray-900 dark:text-white">Repaso</h1>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              {reviewMode === 'memory-bank' ? `${totalCards} tarjetas` : `${currentIndex + 1} de ${totalCards}`}
+            </p>
+          </div>
+          <div className="w-8" />
+        </div>
+
+        <div className="flex justify-center mt-3 gap-2">
+          <button
+            onClick={() => setReviewMode('classic')}
+            className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${
+              reviewMode === 'classic'
+                ? 'bg-indigo-600 text-white'
+                : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+            }`}
+          >
+            Clásico
+          </button>
+          <button
+            onClick={() => setReviewMode('memory-bank')}
+            className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors flex items-center gap-1 ${
+              reviewMode === 'memory-bank'
+                ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
+                : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+            }`}
+          >
+            <span>✨</span> Memory Bank
+          </button>
+        </div>
+      </div>
+    </header>
+  );
+}
+
+interface CardTagsProps {
+  tags: string[];
+}
+
+function CardTags({ tags }: CardTagsProps) {
+  const tagConfig: Record<string, { label: string; className: string }> = {
+    verb: { label: 'Verbo', className: 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' },
+    noun: { label: 'Sustantivo', className: 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300' },
+    adverb: { label: 'Adverbio', className: 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300' },
+    adjective: { label: 'Adjetivo', className: 'bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300' },
+  };
+
+  return (
+    <>
+      {tags.map(tag => {
+        const config = tagConfig[tag];
+        if (!config) return null;
+        return (
+          <span key={tag} className={`px-2 py-1 ${config.className} text-xs rounded`}>
+            {config.label}
+          </span>
+        );
+      })}
+    </>
+  );
+}
+
+// ============================================
+// HELPER FUNCTIONS - Reduce component complexity
+// ============================================
+
+/**
+ * Convert SRS cards to Memory Bank format
+ */
 function convertToMemoryBankCards(srsCards: SRSCard[]): MemoryBankCard[] {
   return srsCards.map(card => {
-    // Determine difficulty based on easeFactor (lower = harder)
-    // easeFactor typically ranges from 1.3 to 2.5+
     const difficulty: 'easy' | 'medium' | 'hard' =
       card.easeFactor <= 1.8 ? 'hard' :
       card.easeFactor <= 2.2 ? 'medium' : 'easy';
@@ -42,6 +182,51 @@ function convertToMemoryBankCards(srsCards: SRSCard[]): MemoryBankCard[] {
   });
 }
 
+/**
+ * Filter cards based on source and filter parameters
+ */
+function filterCardsForReview(
+  allCards: SRSCard[],
+  sourceType: string | null,
+  sourceId: string | null,
+  filterParam: string | null
+): SRSCard[] {
+  let cards = allCards;
+
+  // Filter by source if specified
+  if (sourceType && sourceId) {
+    cards = cards.filter(card =>
+      card.source.type === sourceType && card.source.id === sourceId
+    );
+  }
+
+  // Filter by status
+  if (filterParam === 'new') {
+    return cards.filter(card => card.status === 'new');
+  }
+
+  // Include due cards
+  const today = new Date().toISOString().split('T')[0];
+  return cards.filter(card =>
+    card.status === 'new' ||
+    (card.nextReviewDate && card.nextReviewDate <= today)
+  );
+}
+
+/**
+ * Determine review response from exercise result
+ */
+function getReviewResponse(isCorrect: boolean): ReviewResponse {
+  return isCorrect ? 'good' : 'again';
+}
+
+/**
+ * Calculate XP for exercise completion
+ */
+function calculateExerciseXP(isCorrect: boolean): number {
+  return isCorrect ? 10 : 5;
+}
+
 function ReviewPageContent() {
   const searchParams = useSearchParams();
   const sourceType = searchParams.get('sourceType');
@@ -62,31 +247,14 @@ function ReviewPageContent() {
   const [sessionComplete, setSessionComplete] = useState(false);
   const [sessionStats, setSessionStats] = useState({ correct: 0, incorrect: 0 });
 
-  // Obtener cards para repasar
+  // Obtener cards para repasar - simplified using helper
   const cardsToReview = useMemo(() => {
     if (sourceType && sourceId) {
-      // Filtrar por fuente específica
       const cards = getCardsBySource(sourceType as ContentSourceType, sourceId);
-      const today = new Date().toISOString().split('T')[0];
-
-      if (filterParam === 'new') {
-        return cards.filter(card => card.status === 'new');
-      }
-
-      return cards.filter(card =>
-        card.status === 'new' ||
-        (card.nextReviewDate && card.nextReviewDate <= today)
-      );
-    } else {
-      // Sesión general de estudio
-      const session = getStudySession();
-
-      if (filterParam === 'new') {
-        return session.filter(card => card.status === 'new');
-      }
-
-      return session;
+      return filterCardsForReview(cards, sourceType, sourceId, filterParam);
     }
+    // Use study session if no source specified
+    return filterCardsForReview(getStudySession(), sourceType, sourceId, filterParam);
   }, [sourceType, sourceId, filterParam, getCardsBySource, getStudySession]);
 
   const currentCard = cardsToReview[currentCardIndex];
@@ -113,30 +281,20 @@ function ReviewPageContent() {
   const handleExerciseComplete = useCallback((correct: boolean) => {
     if (!currentCard) return;
 
-    // Determinar respuesta según resultado
-    let response: ReviewResponse = 'good';
-    if (!correct) {
-      response = 'again';
-    }
-
-    // Aplicar review
+    const response = getReviewResponse(correct);
     const updatedCard = reviewCard(currentCard.id, response);
 
-    // Actualizar estadísticas
     setSessionStats(prev => ({
       correct: prev.correct + (correct ? 1 : 0),
       incorrect: prev.incorrect + (correct ? 0 : 1),
     }));
 
-    // Dar XP
-    addXP(correct ? 10 : 5);
+    addXP(calculateExerciseXP(correct));
 
-    // Si la card está graduada, marcar palabra como mastered
     if (updatedCard?.status === 'graduated') {
       markAsMastered(currentCard.phrase);
     }
 
-    // Avanzar a la siguiente card después de un breve delay
     setTimeout(() => {
       if (currentCardIndex < cardsToReview.length - 1) {
         setCurrentCardIndex(prev => prev + 1);
@@ -178,45 +336,7 @@ function ReviewPageContent() {
   }, [cardsToReview, reviewCard, markAsMastered]);
 
   if (sessionComplete || cardsToReview.length === 0) {
-    return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center p-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-white dark:bg-gray-800 rounded-xl p-8 max-w-md w-full border border-gray-200 dark:border-gray-700 text-center"
-        >
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-            ¡Sesión completada!
-          </h2>
-          <div className="space-y-4 mb-6">
-            <div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Correctas</p>
-              <p className="text-3xl font-bold text-green-600 dark:text-green-400">
-                {sessionStats.correct}
-              </p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Incorrectas</p>
-              <p className="text-3xl font-bold text-red-600 dark:text-red-400">
-                {sessionStats.incorrect}
-              </p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Total repasadas</p>
-              <p className="text-3xl font-bold text-indigo-600 dark:text-indigo-400">
-                {cardsToReview.length}
-              </p>
-            </div>
-          </div>
-          <Link
-            href="/decks"
-            className="block w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors"
-          >
-            Ver todos los decks
-          </Link>
-        </motion.div>
-      </div>
-    );
+    return <SessionComplete sessionStats={sessionStats} totalCards={cardsToReview.length} />;
   }
 
   if (!currentExercise || !currentCard) {
@@ -229,52 +349,14 @@ function ReviewPageContent() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-20">
-      {/* Header */}
-      <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
-        <div className="max-w-2xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <Link
-              href={sourceType && sourceId ? `/input/${sourceType}` : '/decks'}
-              className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
-            >
-              <span className="text-xl">←</span>
-            </Link>
-            <div className="flex-1 text-center">
-              <h1 className="text-xl font-bold text-gray-900 dark:text-white">
-                Repaso
-              </h1>
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                {reviewMode === 'memory-bank' ? `${cardsToReview.length} tarjetas` : `${currentCardIndex + 1} de ${cardsToReview.length}`}
-              </p>
-            </div>
-            <div className="w-8" /> {/* Spacer */}
-          </div>
-
-          {/* Mode selector */}
-          <div className="flex justify-center mt-3 gap-2">
-            <button
-              onClick={() => setReviewMode('classic')}
-              className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${
-                reviewMode === 'classic'
-                  ? 'bg-indigo-600 text-white'
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-              }`}
-            >
-              Clásico
-            </button>
-            <button
-              onClick={() => setReviewMode('memory-bank')}
-              className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors flex items-center gap-1 ${
-                reviewMode === 'memory-bank'
-                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-              }`}
-            >
-              <span>✨</span> Memory Bank
-            </button>
-          </div>
-        </div>
-      </header>
+      <ReviewHeader
+        sourceType={sourceType}
+        sourceId={sourceId}
+        reviewMode={reviewMode}
+        setReviewMode={setReviewMode}
+        currentIndex={currentCardIndex}
+        totalCards={cardsToReview.length}
+      />
 
       {/* Memory Bank Mode */}
       {reviewMode === 'memory-bank' && (
@@ -314,26 +396,7 @@ function ReviewPageContent() {
             <span className="text-sm font-medium text-gray-900 dark:text-white">
               {currentCard.phrase}
             </span>
-            {currentCard.tags.includes('verb') && (
-              <span className="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs rounded">
-                Verbo
-              </span>
-            )}
-            {currentCard.tags.includes('noun') && (
-              <span className="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs rounded">
-                Sustantivo
-              </span>
-            )}
-            {currentCard.tags.includes('adverb') && (
-              <span className="px-2 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 text-xs rounded">
-                Adverbio
-              </span>
-            )}
-            {currentCard.tags.includes('adjective') && (
-              <span className="px-2 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 text-xs rounded">
-                Adjetivo
-              </span>
-            )}
+            <CardTags tags={currentCard.tags} />
           </div>
           {currentCard.source.context && (
             <p className="text-xs text-gray-500 dark:text-gray-400 italic">

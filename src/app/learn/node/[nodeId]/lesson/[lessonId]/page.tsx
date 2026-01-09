@@ -45,6 +45,74 @@ interface ExerciseCategory {
   items: Array<{ id: string; type: string; data: unknown }>;
 }
 
+// ============================================
+// HELPER FUNCTIONS - Reduce component complexity
+// ============================================
+
+/**
+ * Map exercise types to their rendering configurations
+ * Uses discriminant union to handle different prop types
+ */
+function renderExerciseByType(
+  exerciseType: string,
+  exerciseData: unknown,
+  onComplete: (correct: boolean) => void
+): JSX.Element | null {
+  const data = exerciseData;
+
+  switch (exerciseType) {
+    case 'cloze':
+      return <ClozeExercise phrase={data as Phrase} onComplete={onComplete} />;
+    case 'vocabulary':
+      return <VocabularyExercise exercise={data as Vocabulary} onComplete={onComplete} />;
+    case 'variations':
+      return <VariationsExercise phrase={data as Phrase} onComplete={() => onComplete(true)} />;
+    case 'pragmaStrike':
+      return <PragmaStrikeExercise exercise={data as PragmaStrike} onComplete={onComplete} />;
+    case 'shardDetection':
+      return <ShardDetectionExercise exercise={data as ShardDetection} onComplete={onComplete} />;
+    case 'echoStream':
+      return <EchoStreamExercise exercise={data as EchoStream} onComplete={() => onComplete(true)} />;
+    case 'glyphWeaving':
+      return <GlyphWeavingExercise exercise={data as GlyphWeaving} onComplete={() => onComplete(true)} />;
+    case 'resonancePath':
+      return <ResonancePathExercise exercise={data as ResonancePath} onComplete={() => onComplete(true)} />;
+    case 'conversationalEcho':
+      return <ConversationalEchoExercise exercise={data as ConversationalEcho} onComplete={() => onComplete(true)} showHints />;
+    case 'dialogueIntonation':
+      return <DialogueIntonationExercise exercise={data as DialogueIntonation} onComplete={() => onComplete(true)} />;
+    case 'janusComposer':
+      return <JanusComposerExercise exercise={data as JanusComposer} onComplete={() => onComplete(true)} />;
+    case 'shadowing':
+      return <ShadowingExercise phrase={data as Phrase} onComplete={() => onComplete(true)} />;
+    default:
+      return (
+        <div className="text-center p-8 bg-white dark:bg-gray-800 rounded-xl">
+          <p className="text-gray-500">Tipo no soportado: {exerciseType}</p>
+          <button onClick={() => onComplete(true)} className="mt-4 px-6 py-2 bg-indigo-600 text-white rounded-lg">
+            Continuar
+          </button>
+        </div>
+      );
+  }
+}
+
+/**
+ * Determine warmup mission type based on exercise categories
+ */
+function determineWarmupMissionType(categories: ExerciseCategory[]): MissionType {
+  if (!categories.length) return 'mixed';
+
+  const hasVocab = categories.some(c => ['vocabulary', 'shardDetection'].includes(c.id));
+  const hasGrammar = categories.some(c => ['cloze', 'janusComposer', 'glyphWeaving'].includes(c.id));
+  const hasPronunciation = categories.some(c => ['shadowing', 'echoStream'].includes(c.id));
+
+  if (hasPronunciation && !hasVocab && !hasGrammar) return 'pronunciation';
+  if (hasVocab && !hasGrammar && !hasPronunciation) return 'vocabulary';
+  if (hasGrammar && !hasVocab && !hasPronunciation) return 'grammar';
+  return 'mixed';
+}
+
 // Build exercise categories from lesson content
 function buildExerciseCategories(lessonContent: LessonContent): ExerciseCategory[] {
   const categories: ExerciseCategory[] = [];
@@ -217,28 +285,11 @@ export default function LessonPage() {
     return buildExerciseCategories(lessonContent);
   }, [lessonContent]);
 
-  // Determinar tipo de warmup según ejercicios disponibles
-  // Nota: shadowing incluye resonancePath y dialogueIntonation (son lo mismo)
-  // Nota: vocabulary incluye shardDetection (son lo mismo)
-  const warmupMissionType: MissionType = useMemo(() => {
-    if (!categories.length) return 'mixed';
-
-    // Contar tipos de ejercicios
-    const hasVocab = categories.some(c =>
-      ['vocabulary', 'shardDetection'].includes(c.id)
-    );
-    const hasGrammar = categories.some(c =>
-      ['cloze', 'janusComposer', 'glyphWeaving'].includes(c.id)
-    );
-    const hasPronunciation = categories.some(c =>
-      ['shadowing', 'echoStream'].includes(c.id)
-    );
-
-    if (hasPronunciation && !hasVocab && !hasGrammar) return 'pronunciation';
-    if (hasVocab && !hasGrammar && !hasPronunciation) return 'vocabulary';
-    if (hasGrammar && !hasVocab && !hasPronunciation) return 'grammar';
-    return 'mixed';
-  }, [categories]);
+  // Determinar tipo de warmup según ejercicios disponibles - using helper
+  const warmupMissionType: MissionType = useMemo(
+    () => determineWarmupMissionType(categories),
+    [categories]
+  );
 
   // Dificultad basada en el nivel
   const warmupDifficulty: Difficulty = level === 'A0' ? 'low' : 'medium';
@@ -475,109 +526,10 @@ export default function LessonPage() {
     );
   }
 
-  // Render Exercise
+  // Render Exercise - simplified using helper function
   const renderExercise = () => {
     if (!currentExercise) return null;
-
-    switch (currentExercise.type) {
-      case 'cloze':
-        return (
-          <ClozeExercise
-            phrase={currentExercise.data as Phrase}
-            onComplete={handleExerciseComplete}
-          />
-        );
-      case 'vocabulary':
-        return (
-          <VocabularyExercise
-            exercise={currentExercise.data as Vocabulary}
-            onComplete={handleExerciseComplete}
-          />
-        );
-      case 'variations':
-        return (
-          <VariationsExercise
-            phrase={currentExercise.data as Phrase}
-            onComplete={() => handleExerciseComplete(true)}
-          />
-        );
-      case 'pragmaStrike':
-        return (
-          <PragmaStrikeExercise
-            exercise={currentExercise.data as PragmaStrike}
-            onComplete={handleExerciseComplete}
-          />
-        );
-      case 'shardDetection':
-        return (
-          <ShardDetectionExercise
-            exercise={currentExercise.data as ShardDetection}
-            onComplete={handleExerciseComplete}
-          />
-        );
-      case 'echoStream':
-        return (
-          <EchoStreamExercise
-            exercise={currentExercise.data as EchoStream}
-            onComplete={() => handleExerciseComplete(true)}
-          />
-        );
-      case 'glyphWeaving':
-        return (
-          <GlyphWeavingExercise
-            exercise={currentExercise.data as GlyphWeaving}
-            onComplete={() => handleExerciseComplete(true)}
-          />
-        );
-      case 'resonancePath':
-        return (
-          <ResonancePathExercise
-            exercise={currentExercise.data as ResonancePath}
-            onComplete={() => handleExerciseComplete(true)}
-          />
-        );
-      case 'conversationalEcho':
-        return (
-          <ConversationalEchoExercise
-            exercise={currentExercise.data as ConversationalEcho}
-            onComplete={() => handleExerciseComplete(true)}
-            showHints={true}
-          />
-        );
-      case 'dialogueIntonation':
-        return (
-          <DialogueIntonationExercise
-            exercise={currentExercise.data as DialogueIntonation}
-            onComplete={() => handleExerciseComplete(true)}
-          />
-        );
-      case 'janusComposer':
-        return (
-          <JanusComposerExercise
-            exercise={currentExercise.data as JanusComposer}
-            onComplete={() => handleExerciseComplete(true)}
-          />
-        );
-      case 'shadowing':
-        return (
-          <ShadowingExercise
-            phrase={currentExercise.data as Phrase}
-            onComplete={() => handleExerciseComplete(true)}
-          />
-        );
-      default:
-        return (
-          <div className="text-center p-8 bg-white dark:bg-gray-800 rounded-xl">
-            <p className="text-gray-500">Tipo no soportado: {currentExercise.type}</p>
-            <button
-              onClick={() => handleExerciseComplete(true)}
-              className="mt-4 px-6 py-2 bg-indigo-600 text-white rounded-lg"
-            >
-              Continuar
-            </button>
-          </div>
-        );
-    }
+    return renderExerciseByType(currentExercise.type, currentExercise.data, handleExerciseComplete);
   };
 
   return (

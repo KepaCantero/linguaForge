@@ -59,21 +59,35 @@ export const useGamificationStore = create<GamificationStore>()(
           // Variable rewards: 10% probabilidad de "surge crítico" (doble XP)
           const isSurge = Math.random() < 0.1;
           const actualAmount = isSurge ? amount * 2 : amount;
-          
+
           const newXP = state.xp + actualAmount;
           const levelInfo = getLevelByXP(newXP);
           const rankInfo = getRankByXP(newXP);
           const previousRank = state.rank;
-          
+          const previousLevel = state.level;
+
           // Verificar si subió de rango
           const rankUp = rankInfo.rank !== previousRank && rankInfo.xpRequired > state.lastRankUpXP;
-          
+
+          // Verificar si subió de nivel
+          const leveledUp = levelInfo.level > previousLevel;
+
           // Mostrar notificación de surge si aplica
           if (isSurge && typeof window !== 'undefined') {
             // Disparar evento para animación de surge (se manejará en UI)
             window.dispatchEvent(new CustomEvent('xp-surge', { detail: { amount: actualAmount, original: amount } }));
           }
-          
+
+          // Disparar evento de XP ganado (para construcción rewards)
+          if (typeof window !== 'undefined') {
+            window.dispatchEvent(new CustomEvent('xp-gained', { detail: { amount: actualAmount } }));
+          }
+
+          // Disparar evento de nivel subido (para construction bonuses)
+          if (leveledUp && typeof window !== 'undefined') {
+            window.dispatchEvent(new CustomEvent('level-up', { detail: { newLevel: levelInfo.level, previousLevel } }));
+          }
+
           return {
             xp: newXP,
             level: levelInfo.level,
@@ -87,6 +101,11 @@ export const useGamificationStore = create<GamificationStore>()(
         set((state) => ({
           coins: state.coins + amount,
         }));
+
+        // Disparar evento de coins ganados (para feedback visual)
+        if (typeof window !== 'undefined' && amount > 0) {
+          window.dispatchEvent(new CustomEvent('coins-gained', { detail: { amount } }));
+        }
       },
 
       addGems: (amount) => {

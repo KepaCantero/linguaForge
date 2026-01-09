@@ -107,7 +107,7 @@ describe('CircuitBreaker', () => {
   it('debería cerrar el circuito después de éxitos en HALF_OPEN', async () => {
     // Forzar a HALF_OPEN
     breaker.forceClose();
-    breaker.transitionTo(CircuitState.HALF_OPEN);
+    breaker['transitionTo'](CircuitState.HALF_OPEN);
 
     // Realizar 2 éxitos para alcanzar el umbral
     for (let i = 0; i < 2; i++) {
@@ -124,7 +124,7 @@ describe('CircuitBreaker', () => {
   it('debería volver a abrir si falla en HALF_OPEN', async () => {
     // Forzar a HALF_OPEN
     breaker.forceClose();
-    breaker.transitionTo(CircuitState.HALF_OPEN);
+    breaker['transitionTo'](CircuitState.HALF_OPEN);
 
     // Realizar 1 fallo en HALF_OPEN
     await breaker.execute(async () => {
@@ -204,13 +204,9 @@ describe('CircuitBreakerRegistry', () => {
 
 describe('withCircuitBreaker', () => {
   it('debería ejecutar a través del circuit breaker', async () => {
-    const result = await withCircuitBreaker(
-      'test-service',
-      async () => {
-        return 'test result';
-      },
-      CircuitBreakerPresets.standard
-    );
+    const result = await withCircuitBreaker('test-service', async () => {
+      return 'test result';
+    });
 
     expect(result.success).toBe(true);
     expect(result.result).toBe('test result');
@@ -218,13 +214,9 @@ describe('withCircuitBreaker', () => {
   });
 
   it('debería capturar errores a través del circuit breaker', async () => {
-    const result = await withCircuitBreaker(
-      'test-service-fail',
-      async () => {
-        throw new Error('test error');
-      },
-      CircuitBreakerPresets.standard
-    );
+    const result = await withCircuitBreaker('test-service-fail', async () => {
+      throw new Error('test error');
+    });
 
     expect(result.success).toBe(false);
     expect(result.error?.message).toBe('test error');

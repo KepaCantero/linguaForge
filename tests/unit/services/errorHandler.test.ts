@@ -1,4 +1,5 @@
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
+import type { MockedFunction } from 'vitest';
 import {
   createAppError,
   withRetry,
@@ -64,7 +65,7 @@ describe('createAppError', () => {
 // ============================================
 
 describe('withRetry', () => {
-  let mockFn: vi.Mock;
+  let mockFn: MockedFunction<() => Promise<string>>;
 
   beforeEach(() => {
     mockFn = vi.fn();
@@ -308,10 +309,8 @@ describe('Edge Cases', () => {
   });
 
   it('debería manejar errores sin mensaje', () => {
-    const errorWithoutMessage = new Error();
-    delete errorWithoutMessage.message;
-
-    const appError = createAppError('No message error', errorWithoutMessage);
+    const errorWithoutMessage: Partial<Error> = {};
+    const appError = createAppError('No message error', errorWithoutMessage as Error);
     expect(appError.category).toBe(ErrorCategory.UNKNOWN);
   });
 

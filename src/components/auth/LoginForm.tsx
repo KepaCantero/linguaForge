@@ -8,8 +8,8 @@ import { useAuth } from '@/contexts/AuthContext';
 type AuthMode = 'password' | 'magic-link';
 
 export function LoginForm() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('admin'); // Default to admin username
+  const [password, setPassword] = useState(''); // Default to admin password
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [authMode, setAuthMode] = useState<AuthMode>('password');
@@ -89,6 +89,19 @@ export function LoginForm() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
       >
+        {/* Demo credentials hint */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="p-4 rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800"
+        >
+          <p className="text-sm text-blue-800 dark:text-blue-200">
+            <strong>🔧 Credenciales de Demo:</strong><br />
+            Usuario: <code className="bg-blue-100 dark:bg-blue-800 px-1 rounded">admin</code><br />
+            Contraseña: <code className="bg-blue-100 dark:bg-blue-800 px-1 rounded">admin</code>
+          </p>
+        </motion.div>
+
         {/* Selector de modo */}
         <div className="flex rounded-lg bg-gray-100 dark:bg-gray-800 p-1">
           <button
@@ -117,16 +130,16 @@ export function LoginForm() {
 
         <div>
           <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            Email
+            Email o Usuario
           </label>
           <input
             id="email"
-            type="email"
+            type="text"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
             className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-lf-primary focus:border-transparent"
-            placeholder="tu@email.com"
+            placeholder="admin o tu@email.com"
           />
         </div>
 

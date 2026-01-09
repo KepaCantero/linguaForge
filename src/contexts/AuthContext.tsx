@@ -6,11 +6,26 @@ import { createClient } from '@/lib/supabase/client';
 
 const supabase = createClient();
 
+// Credenciales de admin para desarrollo/demo
+const ADMIN_CREDENTIALS = {
+  email: 'admin',
+  password: 'admin',
+};
+
+interface DemoUser {
+  id: string;
+  email: string;
+  user_metadata: {
+    full_name?: string;
+  };
+}
+
 interface AuthContextType {
-  user: User | null;
+  user: User | DemoUser | null;
   session: Session | null;
   loading: boolean;
   isConfigured: boolean; // Indica si Supabase está configurado
+  isDemoUser: boolean; // Indica si el usuario actual es el demo admin
   signIn: (email: string, password: string) => Promise<{ error: AuthError | null }>;
   signUp: (email: string, password: string, fullName?: string) => Promise<{ error: AuthError | null }>;
   signOut: () => Promise<void>;
@@ -22,11 +37,26 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | DemoUser | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isDemoUser, setIsDemoUser] = useState(false);
 
   useEffect(() => {
+    // Check for demo user in localStorage
+    const demoUser = localStorage.getItem('linguaforge-demo-user');
+    if (demoUser) {
+      try {
+        const parsed = JSON.parse(demoUser);
+        setUser(parsed);
+        setIsDemoUser(true);
+        setLoading(false);
+        return;
+      } catch {
+        localStorage.removeItem('linguaforge-demo-user');
+      }
+    }
+
     // Skip if Supabase is not configured
     if (!supabase) {
       setLoading(false);
@@ -53,6 +83,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const signIn = async (email: string, password: string) => {
+    // Check for demo admin credentials
+    if (email === ADMIN_CREDENTIALS.email && password === ADMIN_CREDENTIALS.password) {
+      const demoUser: DemoUser = {
+        id: 'demo-admin',
+        email: 'admin@linguaforge.demo',
+        user_metadata: {
+          full_name: 'Admin Demo',
+        },
+      };
+      setUser(demoUser);
+      setIsDemoUser(true);
+      localStorage.setItem('linguaforge-demo-user', JSON.stringify(demoUser));
+      return { error: null };
+    }
+
     if (!supabase) {
       return { error: { message: 'Supabase is not configured', status: 500 } as AuthError };
     }
@@ -80,6 +125,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const signOut = async () => {
+    // Clear demo user
+    if (isDemoUser) {
+      setUser(null);
+      setIsDemoUser(false);
+      localStorage.removeItem('linguaforge-demo-user');
+      return;
+    }
+
     if (!supabase) return;
     await supabase.auth.signOut();
   };
@@ -124,6 +177,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         session,
         loading,
         isConfigured: !!supabase,
+        isDemoUser,
         signIn,
         signUp,
         signOut,

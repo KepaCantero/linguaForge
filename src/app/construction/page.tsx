@@ -42,6 +42,15 @@ const TABS: { id: TabId; label: string; icon: string }[] = [
   { id: 'milestones', label: 'Hitos', icon: '🏆' },
 ];
 
+// Material colors for 3D view (constant, outside component)
+const MATERIAL_COLORS: Record<string, string> = {
+  wood: '#8B4513',
+  stone: '#808080',
+  glass: '#87CEEB',
+  metal: '#C0C0C0',
+  crystal: '#E0FFFF',
+};
+
 export default function ConstructionPage() {
   const [activeTab, setActiveTab] = useState<TabId>('build');
   const [showWelcome, setShowWelcome] = useState(true);
@@ -71,15 +80,6 @@ export default function ConstructionPage() {
     });
     return stats;
   }, [materialInventory]);
-
-  // Material colors for 3D view
-  const MATERIAL_COLORS: Record<string, string> = {
-    wood: '#8B4513',
-    stone: '#808080',
-    glass: '#87CEEB',
-    metal: '#C0C0C0',
-    crystal: '#E0FFFF',
-  };
 
   // Elements for 3D view
   const elementsFor3D = useMemo(() => {

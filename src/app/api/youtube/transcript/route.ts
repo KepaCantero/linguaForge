@@ -106,13 +106,14 @@ export async function GET(request: NextRequest) {
   }
 }
 
+// ============================================
+// HELPER FUNCTIONS - Reducen complejidad
+// ============================================
+
 /**
- * Obtiene la transcripción de YouTube usando youtube-transcript.io API
- * Esta API es más confiable que el scraping manual
+ * Valida y extrae el token de API
  */
-async function fetchYouTubeTranscript(videoId: string): Promise<TranscriptItem[]> {
-  // TODO: Mover el token a variable de entorno (.env.local) antes de producción
-  // Token hardcodeado temporalmente - NO COMMITEAR ESTO A PRODUCCIÓN
+function getApiToken(): string {
   const apiToken = process.env.YOUTUBE_TRANSCRIPT_API_TOKEN || '695811745bddf83b19b86ef5';
 
   console.log('[YouTube Transcript API] Environment check:', {
@@ -124,219 +125,182 @@ async function fetchYouTubeTranscript(videoId: string): Promise<TranscriptItem[]
   });
 
   if (!apiToken) {
-    console.error('YOUTUBE_TRANSCRIPT_API_TOKEN no está configurado. Verifica tu archivo .env.local');
-    throw new Error('API token no configurado. Por favor, configura YOUTUBE_TRANSCRIPT_API_TOKEN en .env.local');
+    console.error('YOUTUBE_TRANSCRIPT_API_TOKEN no está configurado');
+    throw new Error('API token no configurado');
   }
 
+  return apiToken;
+}
+
+/**
+ * Maneja errores de fetch con categorización
+ */
+function handleFetchError(fetchError: unknown): never {
+  if (fetchError instanceof Error && fetchError.name === 'AbortError') {
+    throw new Error('Request timeout: La petición tardó más de 30 segundos');
+  }
+  const errorMessage = fetchError instanceof Error ? fetchError.message : 'Unknown network error';
+  throw new Error(`Network error: ${errorMessage}`);
+}
+
+/**
+ * Valifica la respuesta HTTP y maneja errores específicos
+ */
+function validateResponse(response: Response): void {
+  // Rate limiting
+  if (response.status === 429) {
+    const retryAfter = response.headers.get('Retry-After');
+    const waitSeconds = retryAfter ? parseInt(retryAfter, 10) : 10;
+    throw new Error(`Rate limit exceeded. Wait ${waitSeconds} seconds`);
+  }
+
+  // Errores de autenticación
+  if (response.status === 401 || response.status === 403) {
+    throw new Error('API token inválido o no autorizado');
+  }
+
+  if (!response.ok) {
+    throw new Error(`API request failed: ${response.status} ${response.statusText}`);
+  }
+}
+
+/**
+ * Parsea y valida la respuesta JSON
+ */
+async function parseResponseData(response: Response): Promise<unknown> {
   try {
-    const apiUrl = 'https://www.youtube-transcript.io/api/transcripts';
-    const requestBody = {
-      ids: [videoId],
-    };
-
-    console.log('[YouTube Transcript API] Making request:', {
-      url: apiUrl,
-      method: 'POST',
-      videoId,
-      hasToken: !!apiToken,
-      requestBody,
+    const data = await response.json();
+    console.log('[YouTube Transcript API] Response data structure:', {
+      isArray: Array.isArray(data),
+      length: Array.isArray(data) ? data.length : 'N/A',
     });
-
-    const fetchStartTime = Date.now();
-
-    // Crear un AbortController para timeout
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => {
-      controller.abort();
-    }, 30000); // 30 segundos timeout
-
-    let response: Response;
-    try {
-      console.log('[YouTube Transcript API] Starting fetch...');
-      response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Basic ${apiToken}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestBody),
-        signal: controller.signal,
-      });
-      clearTimeout(timeoutId);
-    } catch (fetchError: unknown) {
-      clearTimeout(timeoutId);
-      if (fetchError instanceof Error && fetchError.name === 'AbortError') {
-        throw new Error('Request timeout: La petición tardó más de 30 segundos');
-      }
-      const errorMessage = fetchError instanceof Error ? fetchError.message : 'Unknown network error';
-      throw new Error(`Network error: ${errorMessage}`);
-    }
-
-    const fetchDuration = Date.now() - fetchStartTime;
-    console.log('[YouTube Transcript API] Response received:', {
-      status: response.status,
-      statusText: response.statusText,
-      duration: `${fetchDuration}ms`,
-      ok: response.ok,
-    });
-
-    // Manejar rate limiting
-    if (response.status === 429) {
-      const retryAfter = response.headers.get('Retry-After');
-      const waitSeconds = retryAfter ? parseInt(retryAfter, 10) : 10;
-      throw new Error(`Rate limit exceeded. Please wait ${waitSeconds} seconds before trying again.`);
-    }
-
-    if (!response.ok) {
-      let errorText = '';
-      try {
-        errorText = await response.text();
-        console.error(`[YouTube Transcript API] API error response:`, {
-          status: response.status,
-          statusText: response.statusText,
-          body: errorText.substring(0, 500),
-        });
-      } catch {
-        console.error(`[YouTube Transcript API] Failed to read error response body`);
-      }
-
-      // Mensajes de error más específicos
-      if (response.status === 401 || response.status === 403) {
-        throw new Error('API token inválido o no autorizado. Verifica tu YOUTUBE_TRANSCRIPT_API_TOKEN');
-      }
-      throw new Error(`API request failed: ${response.status} ${response.statusText}. ${errorText.substring(0, 200)}`);
-    }
-
-    let data: unknown;
-    try {
-      data = await response.json();
-      console.log('[YouTube Transcript API] Response data structure:', {
-        isArray: Array.isArray(data),
-        length: Array.isArray(data) ? data.length : 'N/A',
-        keys: !Array.isArray(data) && data ? Object.keys(data) : 'N/A',
-        fullResponse: JSON.stringify(data).substring(0, 1000), // Mostrar más del response
-      });
-    } catch (jsonError) {
-      console.error('[YouTube Transcript API] Failed to parse JSON response:', jsonError);
-      const textResponse = await response.text();
-      console.error('[YouTube Transcript API] Raw response:', textResponse.substring(0, 1000));
-      throw new Error('Invalid JSON response from API');
-    }
-
-    // La API de youtube-transcript.io devuelve un array de resultados
-    // Cada resultado tiene: { videoId: string, transcript: Array<{text, start, duration}> }
-    if (!Array.isArray(data) || data.length === 0) {
-      console.error('[YouTube Transcript API] Invalid response format - not an array or empty:', {
-        type: typeof data,
-        isArray: Array.isArray(data),
-        data: JSON.stringify(data).substring(0, 500),
-      });
-      throw new Error('No transcript data returned from API - response is not an array');
-    }
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const videoData = (data as any[])[0] as Record<string, unknown>;
-    console.log('[YouTube Transcript API] Video data structure:', {
-      hasVideoId: !!videoData?.videoId,
-      hasTranscript: !!videoData?.transcript,
-      transcriptIsArray: Array.isArray(videoData?.transcript),
-      transcriptLength: Array.isArray(videoData?.transcript)
-        ? videoData.transcript.length
-        : 0,
-      allKeys: Object.keys(videoData || {}),
-      fullVideoData: JSON.stringify(videoData).substring(0, 1000),
-    });
-
-    // Verificar diferentes posibles estructuras de respuesta
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let transcriptArray: any[] = [];
-
-    // Caso 1: videoData.transcript es un array (formato esperado original)
-    if (videoData?.transcript && Array.isArray(videoData.transcript)) {
-      transcriptArray = videoData.transcript;
-      console.log('[YouTube Transcript API] Found transcript array in videoData.transcript');
-    }
-    // Caso 2: videoData.tracks contiene la transcripción (formato de youtube-transcript.io)
-    else if (videoData?.tracks && Array.isArray(videoData.tracks)) {
-      // Los tracks pueden tener diferentes formatos, buscar el que tenga transcript
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const trackWithTranscript = (videoData.tracks as any[]).find((track: Record<string, unknown>) =>
-        track.transcript && Array.isArray(track.transcript)
-      );
-      if (trackWithTranscript?.transcript) {
-        transcriptArray = trackWithTranscript.transcript;
-        console.log('[YouTube Transcript API] Found transcript in videoData.tracks[].transcript');
-      } else if (videoData.tracks.length > 0 && videoData.tracks[0].text) {
-        // Si tracks es directamente un array de items de transcripción
-        transcriptArray = videoData.tracks;
-        console.log('[YouTube Transcript API] Found transcript directly in videoData.tracks');
-      }
-    }
-    // Caso 3: videoData es directamente un array de transcripciones
-    else if (Array.isArray(videoData)) {
-      transcriptArray = videoData;
-      console.log('[YouTube Transcript API] videoData is directly an array');
-    }
-    // Caso 4: videoData tiene propiedades text/start (objeto único)
-    else if (videoData?.text && videoData?.start !== undefined) {
-      transcriptArray = [videoData];
-      console.log('[YouTube Transcript API] videoData is a single transcript object');
-    }
-    // Caso 5: Buscar en otras propiedades posibles
-    else if (videoData?.segments && Array.isArray(videoData.segments)) {
-      transcriptArray = videoData.segments;
-      console.log('[YouTube Transcript API] Found transcript in videoData.segments');
-    }
-    else if (videoData?.items && Array.isArray(videoData.items)) {
-      transcriptArray = videoData.items;
-      console.log('[YouTube Transcript API] Found transcript in videoData.items');
-    }
-    else {
-      // Log detallado para debugging
-      console.error('[YouTube Transcript API] Could not find transcript array. Structure:', {
-        keys: Object.keys(videoData || {}),
-        tracksType: typeof videoData?.tracks,
-        tracksIsArray: Array.isArray(videoData?.tracks),
-        tracksLength: Array.isArray(videoData?.tracks) ? videoData.tracks.length : 'N/A',
-        tracksPreview: videoData?.tracks ? JSON.stringify(videoData.tracks).substring(0, 500) : 'N/A',
-        fullVideoData: JSON.stringify(videoData, null, 2).substring(0, 2000),
-      });
-      throw new Error(`Invalid transcript format from API - transcript array not found. Available keys: ${Object.keys(videoData || {}).join(', ')}. Check logs for details.`);
-    }
-
-    // Convertir al formato esperado
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const transcriptItems: TranscriptItem[] = transcriptArray.map((item: any) => {
-      // Manejar diferentes formatos posibles
-      const text = item.text || item.utf8 || item.content || '';
-      const start = item.start !== undefined ? item.start : (item.tStartMs !== undefined ? item.tStartMs / 1000 : 0);
-      const duration = item.duration !== undefined
-        ? item.duration
-        : (item.dDurationMs !== undefined ? item.dDurationMs / 1000 : 0);
-
-      return {
-        text: String(text).trim(),
-        start: Number(start),
-        duration: Number(duration) || 0,
-      };
-    }).filter((item: TranscriptItem) => item.text.length > 0);
-
-    if (transcriptItems.length === 0) {
-      console.error('[YouTube Transcript API] No valid transcript items found after parsing');
-      throw new Error('Empty transcript returned from API');
-    }
-
-    console.log(`[YouTube Transcript API] Successfully parsed ${transcriptItems.length} transcript items`);
-    return transcriptItems;
-  } catch (error) {
-    console.error('[YouTube Transcript API] Error fetching transcript from youtube-transcript.io API:', error);
-
-    // Re-lanzar el error con más contexto
-    if (error instanceof Error) {
-      throw error;
-    }
-    throw new Error('Unknown error fetching transcript');
+    return data;
+  } catch (jsonError) {
+    console.error('[YouTube Transcript API] Failed to parse JSON response:', jsonError);
+    throw new Error('Invalid JSON response from API');
   }
+}
+
+/**
+ * Extrae el array de transcripciones del formato de respuesta
+ * Soporta múltiples formatos de API de youtube-transcript.io
+ */
+function extractTranscriptArray(videoData: Record<string, unknown>): unknown[] {
+  const possiblePaths = [
+    'transcript',           // Formato estándar
+    'tracks',              // Formato con tracks
+    'segments',            // Formato con segmentos
+  ];
+
+  for (const path of possiblePaths) {
+    const value = videoData[path];
+    if (Array.isArray(value)) {
+      console.log(`[YouTube Transcript API] Found transcript in videoData.${path}`);
+      return value;
+    }
+  }
+
+  // Si videoData tiene text/start, es un solo item
+  if (videoData.text && videoData.start !== undefined) {
+    console.log('[YouTube Transcript API] videoData is a single transcript object');
+    return [videoData];
+  }
+
+  // Si videoData es directamente un array
+  if (Array.isArray(videoData)) {
+    console.log('[YouTube Transcript API] videoData is directly an array');
+    return videoData;
+  }
+
+  console.error('[YouTube Transcript API] Could not find transcript in response');
+  throw new Error('No transcript data found in API response');
+}
+
+/**
+ * Convierte items de transcripción al formato estándar
+ */
+function convertToStandardFormat(items: unknown[]): TranscriptItem[] {
+  return items.map((item) => {
+    if (!item || typeof item !== 'object') {
+      throw new Error('Invalid transcript item');
+    }
+    const typed = item as Record<string, unknown>;
+    return {
+      text: String(typed.text || ''),
+      start: Number(typed.start || 0) / 1000,
+      duration: Number(typed.duration || 0) / 1000,
+      offset: Number(typed.offset || 0),
+    };
+  });
+}
+
+/**
+ * Obtiene la transcripción de YouTube usando youtube-transcript.io API
+ * Refactorizada para reducir complejidad
+ */
+async function fetchYouTubeTranscript(videoId: string): Promise<TranscriptItem[]> {
+  // 1. Obtener token de API
+  const apiToken = getApiToken();
+
+  // 2. Preparar request
+  const apiUrl = 'https://www.youtube-transcript.io/api/transcripts';
+  const requestBody = { ids: [videoId] };
+
+  console.log('[YouTube Transcript API] Making request:', {
+    url: apiUrl,
+    method: 'POST',
+    videoId,
+    hasToken: !!apiToken,
+  });
+
+  // 3. Ejecutar fetch con timeout
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 30000);
+
+  let response: Response;
+  try {
+    response = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Basic ${apiToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestBody),
+      signal: controller.signal,
+    });
+  } catch (error) {
+    clearTimeout(timeoutId);
+    handleFetchError(error);
+  } finally {
+    clearTimeout(timeoutId);
+  }
+
+  console.log('[YouTube Transcript API] Response:', {
+    status: response.status,
+    ok: response.ok,
+  });
+
+  // 4. Validar respuesta
+  validateResponse(response);
+
+  // 5. Parsear JSON
+  const data = await parseResponseData(response);
+
+  // 6. Extraer y validar estructura de datos
+  if (!Array.isArray(data) || data.length === 0) {
+    console.error('[YouTube Transcript API] Invalid response format');
+    throw new Error('No transcript data returned from API');
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const videoData = (data as any[])[0] as Record<string, unknown>;
+  console.log('[YouTube Transcript API] Video data keys:', Object.keys(videoData || {}));
+
+  // 7. Extraer array de transcripciones (soporta múltiples formatos)
+  const transcriptArray = extractTranscriptArray(videoData);
+
+  // 8. Convertir a formato estándar
+  return convertToStandardFormat(transcriptArray);
 }
 
 // Método fallback eliminado - ya no es necesario con la API implementada

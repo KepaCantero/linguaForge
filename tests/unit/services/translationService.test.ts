@@ -29,9 +29,9 @@ describe('translationService', () => {
     vi.clearAllMocks();
     // Resetear localStorage mocks
     mockLocalStorage.getItem.mockReturnValue(null);
-    mockLocalStorage.setItem.mockReturnValue();
-    mockLocalStorage.removeItem.mockReturnValue();
-    mockLocalStorage.clear.mockReturnValue();
+    mockLocalStorage.setItem.mockReturnValue(undefined);
+    mockLocalStorage.removeItem.mockReturnValue(undefined);
+    mockLocalStorage.clear.mockReturnValue(undefined);
   });
 
   afterEach(() => {

@@ -103,14 +103,14 @@ describe('FormValidator', () => {
 
   describe('validateField', () => {
     it('should validate a single field correctly', () => {
-      const result = FormValidator.validateField(emailSchema, 'valid@example.com', 'email');
+      const result = FormValidator.validateField(emailSchema, 'valid@example.com');
 
       expect(result.isValid).toBe(true);
       expect(result.error).toBeUndefined();
     });
 
     it('should return error for invalid field', () => {
-      const result = FormValidator.validateField(emailSchema, 'invalid-email', 'email');
+      const result = FormValidator.validateField(emailSchema, 'invalid-email');
 
       expect(result.isValid).toBe(false);
       expect(result.error).toBe('Invalid email address');

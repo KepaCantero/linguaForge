@@ -1,3 +1,71 @@
 {
-  "extends": ["next/core-web-vitals", "next/typescript"]
+  "extends": ["next/core-web-vitals", "next/typescript"],
+  "rules": {
+    "complexity": ["warn", 15],
+    "max-lines-per-function": ["warn", { "max": 100, "skipBlankLines": true, "skipComments": true }],
+    "max-lines": ["warn", { "max": 1000, "skipBlankLines": true, "skipComments": true }],
+    "max-depth": ["warn", 5],
+    "max-params": ["warn", 5],
+    "@typescript-eslint/no-explicit-any": "warn",
+    "@typescript-eslint/ban-ts-comment": ["warn", { "ts-expect-error": "allow-with-description", "ts-ignore": "allow-with-description", "ts-nocheck": "allow-with-description" }],
+    "no-console": ["warn", { "allow": ["warn", "error", "info"] }],
+    "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+    "react-hooks/exhaustive-deps": "warn",
+    "react/no-array-index-key": "warn",
+    "no-eval": "error"
+  },
+  "overrides": [
+    {
+      "files": ["**/*.test.ts", "**/*.test.tsx", "**/__tests__/**/*"],
+      "rules": {
+        "no-console": "off",
+        "max-lines-per-function": "off",
+        "complexity": "off",
+        "@typescript-eslint/no-explicit-any": "off"
+      }
+    },
+    {
+      "files": ["src/store/**/*"],
+      "rules": {
+        "complexity": "off",
+        "max-lines-per-function": "off"
+      }
+    },
+    {
+      "files": ["src/app/api/**/*"],
+      "rules": {
+        "complexity": ["warn", 15],
+        "max-lines-per-function": ["warn", { "max": 150 }]
+      }
+    },
+    {
+      "files": ["src/app/**/page.tsx"],
+      "rules": {
+        "complexity": ["warn", 15],
+        "max-lines-per-function": ["warn", { "max": 150 }],
+        "max-depth": ["warn", 7]
+      }
+    },
+    {
+      "files": ["src/services/**/*"],
+      "rules": {
+        "complexity": ["warn", 15],
+        "max-lines-per-function": ["warn", { "max": 120 }]
+      }
+    },
+    {
+      "files": ["src/components/**/*", "!src/components/exercises/**/*"],
+      "rules": {
+        "complexity": ["warn", 15],
+        "max-lines-per-function": ["warn", { "max": 120 }]
+      }
+    },
+    {
+      "files": ["src/components/exercises/**/*"],
+      "rules": {
+        "complexity": ["warn", 25],
+        "max-lines-per-function": ["warn", { "max": 150 }]
+      }
+    }
+  ]
 }

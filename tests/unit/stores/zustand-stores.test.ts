@@ -337,7 +337,7 @@ describe('Zustand Stores - Integration with Real Stores', () => {
       getReviewedCount: () => number;
     }
 
-    const mockSRSStore = create<MockSRSState>()((set) => ({
+    const mockSRSStore = create<MockSRSState>()((set, get) => ({
       cards: [],
       addCard: (card) =>
         set((state) => ({
@@ -345,12 +345,12 @@ describe('Zustand Stores - Integration with Real Stores', () => {
         })),
       reviewCard: (cardId) =>
         set((state) => ({
-          cards: state.cards.map((card) =>
+          cards: state.cards.map((card: { id: string; phrase: string; reviewed: boolean }) =>
             card.id === cardId ? { ...card, reviewed: true } : card
           ),
         })),
-      getReviewedCount: () => {
-        const state = mockSRSStore.getState();
+      getReviewedCount: (): number => {
+        const state: MockSRSState = get();
         return state.cards.filter((card) => card.reviewed).length;
       },
     }));
@@ -418,7 +418,7 @@ describe('Zustand Stores - Integration with Real Stores', () => {
       getStats: (key: string) => { wordsRead: number; wordsHeard: number };
     }
 
-    const mockInputStore = create<MockInputState>()((set) => ({
+    const mockInputStore = create<MockInputState>()((set, get) => ({
       stats: {},
       incrementWords: (key, type, count) =>
         set((state) => ({
@@ -430,7 +430,10 @@ describe('Zustand Stores - Integration with Real Stores', () => {
             },
           },
         })),
-      getStats: (key) => mockInputStore.getState().stats[key] || { wordsRead: 0, wordsHeard: 0 },
+      getStats: (key): { wordsRead: number; wordsHeard: number } => {
+        const state: MockInputState = get();
+        return state.stats[key] || { wordsRead: 0, wordsHeard: 0 };
+      },
     }));
 
     // Test the functionality
@@ -457,9 +460,12 @@ describe('Zustand Stores - Edge Cases', () => {
       checkEmpty: () => boolean;
     }
 
-    const emptyStore = create<EmptyState>()(() => ({
+    const emptyStore = create<EmptyState>()((set, get) => ({
       isEmpty: true,
-      checkEmpty: () => emptyStore.getState().isEmpty,
+      checkEmpty: (): boolean => {
+        const state: EmptyState = get();
+        return state.isEmpty;
+      },
     }));
 
     const { isEmpty, checkEmpty } = emptyStore.getState();
@@ -508,7 +514,7 @@ describe('Zustand Stores - Edge Cases', () => {
       getItems: () => string[];
     }
 
-    const arrayStore = create<ArrayState>()((set) => ({
+    const arrayStore = create<ArrayState>()((set, get) => ({
       items: [],
       addItem: (item) =>
         set((state) => ({
@@ -518,7 +524,10 @@ describe('Zustand Stores - Edge Cases', () => {
         set((state) => ({
           items: state.items.filter((i) => i !== item),
         })),
-      getItems: () => arrayStore.getState().items,
+      getItems: (): string[] => {
+        const state: ArrayState = get();
+        return state.items;
+      },
     }));
 
     const { addItem, removeItem, getItems } = arrayStore.getState();
