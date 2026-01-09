@@ -18,16 +18,16 @@ const navItems = [
     ariaLabel: "Misiones diarias",
   },
   {
+    href: "/construction",
+    icon: "🏰",
+    label: "Palacio",
+    ariaLabel: "Palacio de construcción",
+  },
+  {
     href: "/input",
     icon: "◎",
     label: "Input",
     ariaLabel: "Input de contenido",
-  },
-  {
-    href: "/dashboard",
-    icon: "🧠",
-    label: "Dashboard",
-    ariaLabel: "Dashboard neural",
   },
   {
     href: "/profile",
