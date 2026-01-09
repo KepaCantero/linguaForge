@@ -1,325 +1,305 @@
 # Progress — Estado del Proyecto
 
-> Última actualización: 2026-01-03
+> Ultima actualizacion: 2026-01-09
 
 ## Resumen Ejecutivo
 
-**Estado General:** 🟢 En desarrollo activo
-**Progreso Total:** ~82%
-**Última Actualización:** FASE 5 Optimizaciones completa + FASE 6 Testing parcial (155 tests unitarios)
+**Estado General:** En desarrollo activo
+**Progreso Total:** ~88%
+**Tests Totales:** 416+ tests pasando
+**Ultima Actualizacion:** FASE 2.8 Construction 3D + Sound System completa
 
 ---
 
-## ✅ Lo que Funciona (Completado)
+## Estado por Fases
 
-### Sistema INPUT Completo (100%)
-- ✅ Página Hub INPUT (`/input`)
-- ✅ Reproductor de Video (`/input/video`) con YouTube API
-- ✅ Reproductor de Audio (`/input/audio`)
-- ✅ Lector de Texto (`/input/text`) con TTS
-- ✅ Extracción automática de transcripciones (YouTube)
-- ✅ Tracking de métricas (visualizaciones, escuchas, lecturas)
-- ✅ Contadores únicos por contenido
-- ✅ Selección de palabras clave del transcript
-
-### Sistema SRS (Spaced Repetition) (100%)
-- ✅ Store SRS con algoritmo SM-2
-- ✅ Dashboard SRS (`/decks`)
-- ✅ Sesiones de repaso (`/decks/review`)
-- ✅ Extracción de palabras clave (verbos, sustantivos, adverbios, adjetivos)
-- ✅ Diccionario de palabras estudiadas
-- ✅ Generación automática de ejercicios (Cloze/Detection)
-- ✅ Traducción automática
-- ✅ Filtros por fuente y estado
-- ✅ Estadísticas de retención
-
-### Sistema de Contenido Importado (95%)
-- ✅ Store de nodos importados
-- ✅ Generación de ejercicios desde frases
-- ✅ Página de ejercicios con todos los tipos
-- ✅ Modos Academia y Desafío
-- ✅ Progreso por subtopic
-- ✅ 5 tipos de ejercicios generados automáticamente:
-  - Cloze exercises
-  - Variations exercises
-  - ConversationalEcho exercises
-  - DialogueIntonation exercises
-  - JanusComposer exercises (mejorado recientemente)
-
-### Ejercicios Core (90%)
-- ✅ Cloze Exercise (con traducciones opcionales, haptic feedback, keyboard shortcuts)
-- ✅ Shadowing Exercise (con traducciones opcionales)
-- ✅ Variations Exercise (con traducciones opcionales)
-- ✅ ConversationalEcho Exercise
-- ✅ DialogueIntonation Exercise
-- ✅ JanusComposer Exercise (mejorado)
-- ✅ Shard Detection (4 ejercicios con imágenes)
-- ✅ Pragma Strike (3 ejercicios situacionales)
-- ✅ Echo Stream (2 ejercicios con audio y visualización)
-- ✅ Glyph Weaving (1 ejercicio con matriz dinámica)
-- ✅ Resonance Path (3 ejercicios de entonación)
-- ⏳ Forge Mandate (pendiente - orquestador de ejercicios)
-
-### Sistema de Warm-ups Cognitivos (85%)
-- ✅ Schemas y tipos (`src/schemas/warmup.ts`)
-- ✅ Store de warm-ups (`src/store/useWarmupStore.ts`)
-- ✅ RhythmSequenceWarmup Component
-- ✅ VisualMatchWarmup Component
-- ✅ VoiceImitationWarmup Component
-- ✅ WarmupTransition Component
-- ✅ WarmupGate Component
-- ✅ Selector de warm-ups (`src/services/warmupSelector.ts`)
-- ⏳ Integración con MissionFeed (pendiente)
-
-### Gamificación (100%)
-- ✅ Sistema de XP, Coins, Gems, Streak
-- ✅ Niveles de usuario (10 niveles)
-- ✅ Recompensas variables (critical surge)
-- ✅ Efectos de partículas para feedback visual
-- ✅ Animaciones de números con react-countup
-
-### Core del Sistema (100%)
-- ✅ Next.js 14 con App Router funcionando
-- ✅ TypeScript strict mode
-- ✅ Tailwind CSS configurado
-- ✅ Zustand stores (Progress, Input, Gamification, SRS, ImportedNodes, WordDictionary, User)
-- ✅ Sistema de rutas dinámicas
-- ✅ Validación con Zod schemas
-
-### Integraciones Externas (100%)
-- ✅ YouTube Transcript API (youtube-transcript.io)
-- ✅ Traducción automática (Google Translate / MyMemory)
-- ✅ Web Speech API (TTS)
-- ✅ YouTube IFrame API
-- ✅ Supabase Auth (Magic Link + Password + Google)
-- ✅ Supabase Sync (gamificación + progreso)
-- ✅ PWA (Service Worker + Manifest)
+| Fase | Progreso | Tests | Estado |
+|------|----------|-------|--------|
+| **FASE 0** Production Readiness | 90% | 60+ | Infraestructura lista, pendiente integracion |
+| **FASE 1** Sistema CLT | 100% | - | Completo |
+| **FASE 2** Warmups | 100% | - | Completo |
+| **FASE 2.5** Low Click UX | 95% | - | Completo (docs pendiente) |
+| **FASE 2.6** Visual Design | 100% | - | Completo |
+| **FASE 2.7** Visualizacion Neural | 100% | - | Completo |
+| **FASE 2.8** Memory Bank + Construction 3D | 100% | 416 | Completo |
+| **FASE 3** Contenido AREA 0 | 0% | - | Pendiente |
+| **FASE 4** Backend | 100% | - | Completo |
+| **FASE 5** Optimizaciones | 100% | - | Completo |
+| **FASE 6** Testing | 80% | 416+ | E2E pendiente |
+| **FASE 7-8** Contenido extra + Monetizacion | 0% | - | Futuro |
 
 ---
 
-## ⏳ Lo que Está Pendiente
+## FASE 0: Production Readiness (90%)
 
-### FASE 1: Sistema de Misiones con CLT (100%)
-- ✅ Store de Carga Cognitiva (`useCognitiveLoadStore.ts`)
-- ✅ Modo Focus (`FocusMode.tsx`)
-- ✅ Sistema de Métricas CLT (`cognitiveLoadMetrics.ts`)
-- ✅ Refactorizar `useMissionStore` para CLT (campos CLT añadidos)
-- ✅ Algoritmo de Generación de Misiones CLT (`missionGenerator.ts`)
-- ✅ Componente MissionFeed (`src/components/missions/MissionFeed.tsx`)
-- ✅ Gamificación Post-Cognitiva (`postCognitiveRewards.ts` + `PostCognitiveRewards.tsx`)
-- ✅ Resumen de Sesión (`SessionSummary.tsx`)
+### Completado
+- **Testing Infrastructure** - Vitest + Testing Library configurado
+- **Error Handler** (`src/services/errorHandler.ts`) - 369 lineas
+  - Retry con exponential backoff
+  - Clasificacion de errores (NETWORK, TIMEOUT, AUTH, etc.)
+  - Wrappers `supabaseQuery()` y `supabaseQueryOptional()`
+  - 40+ tests pasando
+- **Rate Limiter** (`src/services/rateLimiter.ts`) - 320 lineas
+  - Token bucket algorithm
+  - Presets: public, expensive, write, auth, search
+  - Storage backends: InMemory, LocalStorage
+- **Circuit Breaker** (`src/services/circuitBreaker.ts`) - 341 lineas
+  - State machine: CLOSED -> OPEN -> HALF_OPEN
+  - Presets: standard, critical, tolerant, aiService
+  - Registry pattern con singleton
+  - 20+ tests pasando
+- **Repository Pattern** - Implementado en todos los repositories
 
-### FASE 2: Integración Warm-ups (100%)
-- ✅ Integrar Warm-ups con MissionFeed
-- ✅ warmupSelector.ts service
-- ✅ RhythmSequenceWarmup component
-- ✅ VisualMatchWarmup component
-- ✅ WarmupGate component (portal de calentamiento)
-
-### FASE 3: Contenido — ÁREA 0 (0%)
-- ⏳ Schema para ÁREA 0
-- ⏳ NODO 0.1 — Saludos y Despedidas
-- ⏳ NODO 0.2 — Presentaciones Básicas
-- ⏳ NODO 0.3 — Números 0-20
-- ⏳ NODO 0.4 — Verbos Clave (être, avoir, aller)
-- ⏳ NODO 0.5 — Preguntas Básicas
-- ⏳ NODO 0.6 — Cortesía y Agradecimientos
-- ⏳ NODO 0.7 — Despedidas y Próximos Pasos
-- ⏳ Integración ÁREA 0 en Sistema
-
-### FASE 4: Backend y Persistencia (100%)
-- ✅ Supabase Auth (Magic Link + Password + Google OAuth)
-- ✅ Sync Service (gamificación + progreso + offline/online)
-- ✅ Service Worker / PWA (manifest + sw.js + offline support)
-
-### FASE 5: Optimizaciones (100%)
-- ✅ Lazy loading de ejercicios core (`src/components/exercises/lazy.ts`)
-- ✅ Cache de traducciones en localStorage (`translationService.ts` mejorado)
-- ✅ Performance hooks (`src/hooks/usePerformance.ts`)
-- ✅ Feedback contextual (integrado en ejercicios)
-
-### FASE 6: Testing (66%)
-- ⏳ Tests E2E para flujos principales (pendiente - Playwright)
-- ✅ Tests unitarios para servicios (155 tests pasando)
-  - missionGenerator.test.ts (21 tests)
-  - postCognitiveRewards.test.ts (30 tests)
-  - warmupSelector.test.ts (21 tests)
-  - usePerformance.test.ts (18 tests)
-  - + tests existentes (schemas, constants, rankSystem, hpSystem)
-- ⏳ Visual regression tests (pendiente)
-
-### FASE 7: Contenido Adicional (0%)
-- ⏳ Expansión de Contenido A1 (Áreas O, P, Q, R, S)
-- ⏳ Contenido A2 French
-- ⏳ Contenido German A1
-
-### FASE 8: Monetización (0%) — ÚLTIMA FASE
-- ⏳ Modelo de Negocio
-- ⏳ Sistema de Pagos (Stripe)
-- ⏳ Analytics y Métricas de Negocio
+### Pendiente menor
+- Integrar rate limiter en servicios reales (translationService, etc.)
+- Integrar circuit breaker en llamadas externas
+- Tests para rate limiter
 
 ---
 
-## 📊 Métricas de Progreso
+## FASE 1: Sistema CLT (100%)
 
-### Por Fase
+### Archivos Implementados
+- `src/store/useCognitiveLoadStore.ts` - Store con metricas CLT
+- `src/components/shared/FocusMode.tsx` - Modo Focus con 4 niveles
+- `src/services/cognitiveLoadMetrics.ts` - Calculo de carga cognitiva
+- `src/store/useMissionStore.ts` - Misiones con CLT integrado
+- `src/services/missionGenerator.ts` - Generacion de misiones CLT
+- `src/components/missions/MissionFeed.tsx` - Feed de misiones
+- `src/components/gamification/PostCognitiveRewards.tsx` - Recompensas post-sesion
+- `src/components/session/SessionSummary.tsx` - Resumen de sesion
 
-| Fase | Tareas | Completadas | Pendientes | Progreso |
-|------|--------|-------------|------------|----------|
-| Sistema INPUT | 8 | 8 | 0 | 100% |
-| Sistema SRS | 9 | 9 | 0 | 100% |
-| Contenido Importado | 5 | 5 | 0 | 100% |
-| Ejercicios Core | 11 | 11 | 0 | 100% |
-| Warm-ups | 9 | 9 | 0 | 100% |
-| CLT Misiones | 8 | 8 | 0 | 100% |
-| ÁREA 0 | 9 | 0 | 9 | 0% |
-| Backend | 3 | 3 | 0 | 100% |
-| Optimizaciones | 4 | 4 | 0 | 100% |
-| Testing | 3 | 2 | 1 | 66% |
-| Contenido Adicional | 3 | 0 | 3 | 0% |
-| Monetización | 3 | 0 | 3 | 0% |
-| **TOTAL** | **75** | **61** | **14** | **81%** |
-
-### Por Prioridad
-
-| Prioridad | Tareas | Completadas | Pendientes |
-|-----------|--------|-------------|------------|
-| 🔴 CRÍTICA | 9 | 0 | 9 (ÁREA 0) |
-| Alta | 20 | 7 | 13 |
-| Media | 15 | 5 | 10 |
-| Baja | 30 | 27 | 3 |
+### Funcionalidades
+- Metricas CLT: intrinsic, extraneous, germane
+- 4 niveles de focus: relaxed, normal, focused, deep
+- Hotkey Ctrl+Shift+F para activar focus
+- Recomendaciones de descanso basadas en carga
+- Gamificacion post-cognitiva con 3 fases
 
 ---
 
-## 🎯 Próximos Pasos Inmediatos
+## FASE 2: Warmups (100%)
 
-### Crítico - ÁREA 0 (Contenido Base)
-1. **TAREA 3.1** - Crear schema para ÁREA 0
-2. **TAREA 3.2** - NODO 0.1 — Saludos y Despedidas
-3. **TAREA 3.3** - NODO 0.2 — Presentaciones Básicas
-4. **TAREA 3.4** - NODO 0.3 — Números 0-20
-5. **TAREA 3.5-3.9** - Completar nodos restantes de ÁREA 0
-
-### Media Prioridad
-- **TAREA 6.3** - Tests E2E con Playwright (pendiente)
-- **TAREA 7.1** - Expansión contenido A1
-
-### Baja Prioridad (Última Fase)
-- **FASE 8** - Monetización (Stripe, Analytics)
+### Archivos Implementados
+- `src/schemas/warmup.ts`
+- `src/store/useWarmupStore.ts`
+- `src/components/warmup/RhythmSequenceWarmup.tsx`
+- `src/components/warmup/VisualMatchWarmup.tsx`
+- `src/components/warmup/VoiceImitationWarmup.tsx`
+- `src/components/warmup/WarmupTransition.tsx`
+- `src/components/warmup/WarmupGate.tsx`
+- `src/services/warmupSelector.ts`
 
 ---
 
-## 🐛 Problemas Conocidos
+## FASE 2.5: Low Click UX (95%)
 
-### Menores
-- ⚠️ Audio files no existen (404s esperados, ejercicios funcionan sin audio)
-- ⚠️ Algunas imágenes pueden tardar en cargar (Picsum)
-- ⚠️ Generación de ejercicios Janus puede mejorar con más frases
+### Completado
+- **Hotkeys SRS** (`src/hooks/useKeyboardShortcuts.ts`)
+  - Teclas 1-4 para Again/Hard/Good/Easy
+  - `useSRSShortcuts` hook
+- **Swipe Gestures** (`src/components/srs/SwipeableSRSCard.tsx`)
+  - Swipe izquierda/derecha
+  - Variantes: SRS, Binary, Trinary
+- **Micro-interacciones** (`src/components/shared/MicroInteractions.tsx`)
+  - 8 tipos de animaciones (max 300ms)
+  - SmartAutocomplete con fuzzy filtering
+  - DictationButton (Speech-to-Text)
+- **Post-cognitive feedback** - Integrado en PostCognitiveRewards
 
-### Resueltos Recientemente
-- ✅ Error de hidratación SSR en CountUpNumber (resuelto)
-- ✅ Imágenes de Unsplash 404 (resuelto - cambiado a Picsum)
-- ✅ Canvas no visible en Glyph Weaving (resuelto)
-- ✅ Audio loading en Echo Stream (resuelto)
-- ✅ Generación de ejercicios Janus mejorada (resuelto)
-- ✅ "Maximum update depth exceeded" en varios componentes (resuelto)
-
----
-
-## 📈 Logros Recientes
-
-1. **FASE 5 Optimizaciones Completa:**
-   - Lazy loading de ejercicios (`src/components/exercises/lazy.ts`)
-   - Cache de traducciones en localStorage (5000 entradas max)
-   - Performance hooks (debounce, throttle, intersection observer, etc.)
-2. **FASE 6 Testing Parcial:**
-   - 155 tests unitarios pasando
-   - Tests para missionGenerator, postCognitiveRewards, warmupSelector, usePerformance
-3. **FASE 1 CLT Completa:** Sistema de misiones con Cognitive Load Theory
-4. **FASE 2 Warm-ups Completa:** Integración con MissionFeed + WarmupGate
-5. **Sistema INPUT Completo:** Video, audio y texto funcionales
-6. **Sistema SRS Integrado:** Repaso espaciado con algoritmo SM-2
-7. **Generación Automática de Ejercicios:** 5 tipos desde frases importadas
-8. **Backend Completo:** Supabase Auth + Sync + PWA
+### Pendiente menor
+- Documentar navegacion Janus Matrix
 
 ---
 
-## 📝 Notas de Desarrollo
+## FASE 2.6: Visual Design (100%)
 
-### Comandos Útiles
-```bash
-# Desarrollo
-npm run dev
+### Completado
+- **Tipografia** (tailwind.config.ts)
+  - Rajdhani: Display
+  - Quicksand: UI primary
+  - Inter: Long text
+  - Atkinson: Accessibility
+- **Rive** (`src/components/animations/RiveAnimation.tsx`)
+  - @rive-app/react-canvas v4.25.1
+- **Framer Motion** - v12.24.7, usado en 50+ componentes
+- **Lottie** (`src/components/animations/LottieAnimation.tsx`)
+  - lottie-react v2.4.1
 
-# Build
-npm run build
+---
 
-# Linting
-npm run lint
-```
+## FASE 2.7: Visualizacion Neural (100%)
 
-### Estructura de Stores
+### Archivos Implementados
+- `src/components/visualization/KrashenRings.tsx`
+  - 3 zonas: Comfort (i), Learning (i+1), Challenge (i+2+)
+  - Variantes: compact, full, interactive
+- `src/components/visualization/SynapticDensity.tsx`
+  - Red neuronal con 3 capas
+  - Fuerza sinaptica: weak, medium, strong, active
+- `src/components/visualization/BrainZoneActivation.tsx`
+  - 7 zonas cerebrales
+  - 4 niveles de desbloqueo progresivo
+- `src/components/visualization/NeuralDashboard.tsx`
+  - 3 tabs: Overview, Zones, Connections
+  - NeuralScore: comprehension, production, retention, fluency
+- `src/components/visualization/ColorPaletteSystem.tsx`
+  - 5 paletas: Learning, Focus, Calm, Energy, Creativity
+  - WCAG AA compliant
+
+---
+
+## FASE 2.8: Memory Bank AAA + Construction 3D (100%)
+
+### Memory Bank AAA
+- `src/lib/textures.ts` - 6 tipos de texturas PBR
+- `src/lib/haptic.ts` - 12 patrones de vibracion
+- `src/lib/soundEngine.ts` - Web Audio API contextual
+- `src/components/exercises/MemoryBank/EpisodicCard.tsx` - Spring physics
+- `src/components/exercises/MemoryBank/MemoryBankSession.tsx` - Sesion completa
+- `src/services/memoryBankIntegration.ts` - Integracion con workout
+
+### Construction 3D
+- `src/schemas/construction.ts` - 15 materiales, 14 elementos
+- `src/store/useConstructionStore.ts` - Estado persistente
+- `src/components/construction/Construction3D.tsx` - Three.js + React Three Fiber
+- `src/lib/materials/pbr.ts` - 15 materiales PBR con LOD
+- `src/lib/animations/construction.ts` - 15 animaciones + particulas
+- `src/services/constructionIntegration.ts` - Recompensas y progreso
+- `src/components/construction/BuilderInventory.tsx` - UI de inventario
+- `src/components/construction/MaterialGallery.tsx` - Galeria 3D
+- `src/components/construction/ConstructionMilestones.tsx` - Hitos
+- `src/lib/progression/construction.ts` - 57 hitos, 10 niveles maestria
+- `src/lib/sound/construction.ts` - 70 sonidos unicos + ASMR
+
+### Tests (416 total)
+| Suite | Tests |
+|-------|-------|
+| textures.test.ts | 22 |
+| haptic.test.ts | 32 |
+| memoryBankIntegration.test.ts | 32 |
+| pbr.test.ts | 66 |
+| constructionStore.test.ts | 55 |
+| constructionIntegration.test.ts | 53 |
+| progression.test.ts | 94 |
+| constructionSound.test.ts | 62 |
+
+---
+
+## FASE 3: Contenido AREA 0 (0%)
+
+### Pendiente
+- Schema para AREA 0
+- NODO 0.1 - Saludos y Despedidas
+- NODO 0.2 - Presentaciones Basicas
+- NODO 0.3 - Numeros 0-20
+- NODO 0.4 - Verbos Clave (etre, avoir, aller)
+- NODO 0.5 - Preguntas Basicas
+- NODO 0.6 - Cortesia y Agradecimientos
+- NODO 0.7 - Despedidas y Proximos Pasos
+
+---
+
+## FASE 4: Backend (100%)
+
+### Completado
+- Supabase Auth (Magic Link + Password + Google OAuth)
+- Sync Service (gamificacion + progreso + offline/online)
+- Service Worker / PWA (manifest + sw.js + offline support)
+- Repository Pattern en todos los data access layers
+
+---
+
+## FASE 5: Optimizaciones (100%)
+
+### Completado
+- Lazy loading de ejercicios (`src/components/exercises/lazy.ts`)
+- Cache de traducciones en localStorage (5000 entradas max)
+- Performance hooks (`src/hooks/usePerformance.ts`)
+- Feedback contextual integrado en ejercicios
+
+---
+
+## FASE 6: Testing (80%)
+
+### Completado
+- 416+ tests unitarios pasando
+- Vitest configurado con coverage
+- Testing Library para React
+
+### Pendiente
+- Tests E2E con Playwright
+- Visual regression tests
+
+---
+
+## Estructura de Stores
+
 ```
 src/store/
-├── useSRSStore.ts          # Sistema SRS ✅
-├── useInputStore.ts        # Métricas INPUT ✅
-├── useImportedNodesStore.ts # Contenido importado ✅
-├── useWordDictionaryStore.ts # Diccionario de palabras ✅
-├── useUserStore.ts         # Configuración usuario ✅
-├── useWarmupStore.ts       # Warm-ups ✅
-├── useCognitiveLoadStore.ts # CLT ✅
-└── useMissionStore.ts      # Misiones con CLT ✅
+├── useSRSStore.ts           # Sistema SRS
+├── useInputStore.ts         # Metricas INPUT
+├── useImportedNodesStore.ts # Contenido importado
+├── useWordDictionaryStore.ts # Diccionario de palabras
+├── useUserStore.ts          # Configuracion usuario
+├── useMissionStore.ts       # Misiones con CLT
+├── useWarmupStore.ts        # Warm-ups
+├── useCognitiveLoadStore.ts # CLT y Focus Mode
+├── useGamificationStore.ts  # XP, coins, gems, streak
+└── useConstructionStore.ts  # Sistema de construccion 3D
 ```
 
-### Estructura de Servicios
+---
+
+## Estructura de Servicios
+
 ```
 src/services/
-├── generateExercisesFromPhrases.ts  # Generación ejercicios ✅
-├── wordExtractor.ts                  # Extracción palabras ✅
-├── wordExerciseGenerator.ts          # Generación ejercicios desde palabras ✅
-├── translationService.ts             # Traducción automática ✅
-├── conjugationService.ts             # Conjugación francesa ✅
-├── warmupSelector.ts                 # Selector warm-ups ✅
-├── cognitiveLoadMetrics.ts           # Métricas CLT ✅
-├── missionGenerator.ts               # Generación misiones CLT ✅
-└── postCognitiveRewards.ts           # Recompensas post-cognitivas ✅
-```
-
-### Estructura de Componentes CLT
-```
-src/components/
-├── missions/
-│   └── MissionFeed.tsx               # Feed de misiones diarias ✅
-├── gamification/
-│   └── PostCognitiveRewards.tsx      # Recompensas post-sesión ✅
-├── session/
-│   └── SessionSummary.tsx            # Resumen de sesión ✅
-└── shared/
-    └── FocusMode.tsx                 # Modo Focus ✅
+├── errorHandler.ts           # Manejo de errores + retry
+├── rateLimiter.ts            # Rate limiting
+├── circuitBreaker.ts         # Circuit breaker
+├── cognitiveLoadMetrics.ts   # Metricas CLT
+├── missionGenerator.ts       # Generacion misiones
+├── warmupSelector.ts         # Selector warm-ups
+├── memoryBankIntegration.ts  # Memory Bank workout
+├── constructionIntegration.ts # Construction rewards
+├── translationService.ts     # Traduccion automatica
+├── wordExtractor.ts          # Extraccion palabras
+└── repository/               # Data access layer
 ```
 
 ---
 
-## 🚀 Roadmap
+## Proximos Pasos
 
-### Corto Plazo (1-2 meses)
-- Completar ÁREA 0 (Base Absoluta)
-- Implementar sistema CLT completo
-- Integrar warm-ups con MissionFeed
-- Backend básico (Auth + Sync)
+### Critico (Contenido)
+1. **FASE 3** - Crear schema y contenido AREA 0
 
-### Medio Plazo (3-6 meses)
-- Optimizaciones y mejoras de performance
-- Testing completo
-- Expansión de contenido A1
-- PWA completa
+### Media Prioridad
+2. Integrar rate limiter/circuit breaker en servicios
+3. Tests E2E con Playwright
+4. Documentar navegacion Janus
 
-### Largo Plazo (6+ meses)
-- Contenido A2 y otros idiomas
-- Monetización (última fase)
-- Analytics avanzados
-- Marketplace de contenido
+### Baja Prioridad (Futuro)
+5. FASE 7 - Contenido adicional A1/A2
+6. FASE 8 - Monetizacion
 
 ---
 
-**Ver `MASTER_PLAN.md` para lista completa de tareas detalladas.**
+## Metricas del Proyecto
+
+| Metrica | Valor |
+|---------|-------|
+| Tests totales | 416+ |
+| Stores | 10 |
+| Servicios | 15+ |
+| Componentes de visualizacion | 5 |
+| Materiales PBR | 15 |
+| Elementos constructivos | 14 |
+| Hitos de construccion | 57 |
+| Sonidos unicos | 70 |
+| Animaciones de construccion | 15 |
+
+---
+
+**Ver `MASTER_PLAN.md` para lista completa de tareas.**

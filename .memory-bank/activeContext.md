@@ -5,9 +5,26 @@
 ## Estado Actual
 
 **Versión del Plan:** v4.0 (Base) + v2.0 (Expansión LinguaForge) + Sistema INPUT + SRS + CLT + Misiones + Memory Bank AAA + Construction 3D
-**Fase:** FASE 2.8 Completa - Memory Bank AAA + Sistema de Construcción 3D + Tests + Progression
-**Tarea activa:** Ninguna (FASE 2.8 completada)
+**Progreso Total:** ~88% completado
+**Tarea activa:** Ninguna
 **Última completada:** FASE 2.8.9.9 - Sonido ambiental de construcción (2026-01-09)
+
+### Resumen de Fases
+
+| Fase | Estado | Progreso |
+|------|--------|----------|
+| FASE 0 - Production Readiness | Infraestructura lista | 90% |
+| FASE 1 - Sistema CLT | Completo | 100% |
+| FASE 2 - Warmups | Completo | 100% |
+| FASE 2.5 - Low Click UX | Completo | 95% |
+| FASE 2.6 - Visual Design | Completo | 100% |
+| FASE 2.7 - Visualización Neural | Completo | 100% |
+| FASE 2.8 - Memory Bank + Construction 3D | Completo | 100% |
+| FASE 3 - Contenido ÁREA 0 | Pendiente | 0% |
+| FASE 4 - Backend | Completo | 100% |
+| FASE 5 - Optimizaciones | Completo | 100% |
+| FASE 6 - Testing | Parcial (E2E pendiente) | 80% |
+| FASE 7-8 - Contenido extra + Monetización | Futuro | 0% |
 
 ## Resumen de Trabajo Reciente
 
@@ -323,27 +340,63 @@
 
 ## Próximos Pasos
 
-### FASE 2.8 Restante
-- **TAREA 2.8.8** - A/B Testing Memory Bank vs Ejercicios Tradicionales (Baja prioridad)
-- **TAREA 2.8.9.8** - Sistema de progreso y hitos constructivos ✅ (Completada 2026-01-09)
-- **TAREA 2.8.9.9** - Sonido ambiental de construcción ✅ (Completada 2026-01-09)
-- **TAREA 2.8.9.10** - Tests para sistema de construcción 3D ✅ (Completada 2026-01-08)
+### CRÍTICO: FASE 3 - Contenido ÁREA 0 (0%)
+Sin contenido real, la aplicación no puede usarse para aprender francés.
 
-### FASE 0: Production Readiness ✅ (Mayoritariamente Completa)
-1. **TAREA 0.1** - Infraestructura de Testing ✅ (Vitest + 525 tests pasando)
-2. **TAREA 0.6** - Error Handling en Supabase ✅ (errorHandler.ts + retry + exponential backoff)
-3. **TAREA 0.7** - Rate Limiting ✅ (rateLimiter.ts - infraestructura lista, pendiente integración)
-4. **TAREA 0.8** - Circuit Breaker ✅ (circuitBreaker.ts - infraestructura lista, pendiente integración)
+1. **TAREA 3.1** - Schema para ÁREA 0
+2. **TAREA 3.2** - NODO 0.1 — Saludos y Despedidas
+3. **TAREA 3.3** - NODO 0.2 — Presentaciones Básicas
+4. **TAREA 3.4** - NODO 0.3 — Números 0-20
+5. **TAREA 3.5** - NODO 0.4 — Verbos Clave (être, avoir, aller)
+6. **TAREA 3.6** - NODO 0.5 — Preguntas Básicas
+7. **TAREA 3.7** - NODO 0.6 — Cortesía y Agradecimientos
+8. **TAREA 3.8** - NODO 0.7 — Despedidas y Próximos Pasos
 
-**Gaps menores pendientes:**
+### MEDIA PRIORIDAD: Gaps Menores
 - Integrar rate limiter en translationService y APIs externas
 - Integrar circuit breaker en llamadas externas
-- Crear componente ErrorBoundary para React
-- Tests para rate limiter
+- Tests E2E con Playwright
+- Documentar navegación Janus Matrix
 
-### FASE 3: Contenido ÁREA 0
-1. **TAREA 3.1** - Schema para ÁREA 0
-2. **TAREA 3.2-3.8** - Nodos de contenido base
+### BAJA PRIORIDAD: Futuro
+- **FASE 7** - Contenido adicional A1/A2
+- **FASE 8** - Monetización (Stripe, Analytics)
+
+---
+
+## Fases Completadas (Resumen)
+
+### FASE 0: Production Readiness ✅ (90%)
+- `src/services/errorHandler.ts` - Retry con exponential backoff
+- `src/services/rateLimiter.ts` - Token bucket algorithm
+- `src/services/circuitBreaker.ts` - State machine completa
+- Vitest + Testing Library configurado
+
+### FASE 1: Sistema CLT ✅ (100%)
+- `src/store/useCognitiveLoadStore.ts` - Store con métricas CLT
+- `src/components/shared/FocusMode.tsx` - Modo Focus (4 niveles)
+- `src/services/cognitiveLoadMetrics.ts` - Cálculo de carga cognitiva
+- `src/components/missions/MissionFeed.tsx` - Feed de misiones
+- `src/components/gamification/PostCognitiveRewards.tsx` - Recompensas post-sesión
+- `src/components/session/SessionSummary.tsx` - Resumen de sesión
+
+### FASE 2.5: Low Click UX ✅ (95%)
+- `src/hooks/useKeyboardShortcuts.ts` - Hotkeys 1-4 para SRS
+- `src/components/srs/SwipeableSRSCard.tsx` - Swipe gestures
+- `src/components/shared/MicroInteractions.tsx` - 8 tipos de animaciones
+
+### FASE 2.6: Visual Design ✅ (100%)
+- Tipografía: Rajdhani, Quicksand, Inter, Atkinson
+- `src/components/animations/RiveAnimation.tsx` - Rive integration
+- `src/components/animations/LottieAnimation.tsx` - Lottie integration
+- Framer Motion en 50+ componentes
+
+### FASE 2.7: Visualización Neural ✅ (100%)
+- `src/components/visualization/KrashenRings.tsx` - Anillos de input
+- `src/components/visualization/SynapticDensity.tsx` - Red neuronal
+- `src/components/visualization/BrainZoneActivation.tsx` - 7 zonas cerebrales
+- `src/components/visualization/NeuralDashboard.tsx` - Dashboard integrado
+- `src/components/visualization/ColorPaletteSystem.tsx` - 5 paletas WCAG AA
 
 ---
 
