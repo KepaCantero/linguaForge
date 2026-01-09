@@ -7,7 +7,7 @@
 **Versión del Plan:** v4.0 (Base) + v2.0 (Expansión LinguaForge) + Sistema INPUT + SRS + CLT + Misiones + Memory Bank AAA + Construction 3D
 **Fase:** FASE 2.8 Completa - Memory Bank AAA + Sistema de Construcción 3D + Tests + Progression
 **Tarea activa:** Ninguna (FASE 2.8 completada)
-**Última completada:** FASE 2.8.9.8 - Sistema de progreso y hitos constructivos (2026-01-09)
+**Última completada:** FASE 2.8.9.9 - Sonido ambiental de construcción (2026-01-09)
 
 ## Resumen de Trabajo Reciente
 
@@ -210,6 +210,48 @@
 
 ---
 
+### TAREA 2.8.9.8: Sistema de Progresión ✅
+
+**Archivo:** `src/lib/progression/construction.ts`
+
+**Contenido:**
+- 57 hitos de construcción en 7 categorías
+- Sistema de streaks (3, 7, 14, 30 días)
+- 10 niveles de maestría con bonificaciones
+- 5 temas temáticos franceses
+- 4 eventos temporales
+- Funciones: getStreakBonus, getMasteryLevel, checkMilestoneCompletion, etc.
+
+**Componente:** `src/components/construction/ConstructionMilestones.tsx`
+- UI para visualización de hitos y progreso
+- Tabs por categoría de hitos
+- Cards de temas temáticos
+- Indicador de prestigio
+
+---
+
+### TAREA 2.8.9.9: Sonido Ambiental de Construcción ✅
+
+**Archivo:** `src/lib/sound/construction.ts`
+
+**Contenido:**
+- 70 configuraciones de sonido únicas
+- Web Audio API con síntesis de armónicos
+- Sonidos por material (25): wood, stone, metal, glass, crystal
+- Sonidos de acción (15): build, element, unlock, upgrade, craft, collect
+- Sonidos de UI (10): click, hover, select, confirm, cancel, etc.
+- Sonidos de celebración (8): milestone, streak, level_up, achievement, etc.
+- Sonidos ambientales (8): workshop, nature, wind, water, fire, rain, night
+- 4 tracks de música adaptativa (calm, building, celebration, event)
+- Sistema ASMR para cada material con síntesis armónica
+- Audio espacial con stereo panning
+- ADSR envelopes configurables
+- Hook `useConstructionSound()` para React
+
+**Tests:** `tests/unit/lib/constructionSound.test.ts` - 62 tests
+
+---
+
 ## Dependencias Añadidas
 
 ```json
@@ -234,8 +276,9 @@
 | constructionStore.test.ts | 55 | ✅ Pasando |
 | constructionIntegration.test.ts | 53 | ✅ Pasando |
 | progression.test.ts | 94 | ✅ Pasando |
-| **Total Construction 3D** | **268** | ✅ |
-| **TOTAL GENERAL** | **354** | ✅ |
+| constructionSound.test.ts | 62 | ✅ Pasando |
+| **Total Construction 3D** | **330** | ✅ |
+| **TOTAL GENERAL** | **416** | ✅ |
 
 ---
 
@@ -261,6 +304,7 @@
 - `src/lib/materials/pbr.ts`
 - `src/lib/animations/construction.ts`
 - `src/lib/progression/construction.ts` - NUEVO (2026-01-09)
+- `src/lib/sound/construction.ts` - NUEVO (2026-01-09)
 - `src/services/constructionIntegration.ts`
 
 ### Tests Memory Bank
@@ -273,6 +317,7 @@
 - `tests/unit/store/constructionStore.test.ts` - 55 tests (store actions, state management)
 - `tests/unit/services/constructionIntegration.test.ts` - 53 tests (rewards, unlocks, milestones)
 - `tests/unit/lib/progression.test.ts` - 94 tests (milestones, streaks, mastery, themes, events)
+- `tests/unit/lib/constructionSound.test.ts` - 62 tests (sounds, ASMR, spatial audio) - NUEVO (2026-01-09)
 
 ---
 
@@ -281,7 +326,7 @@
 ### FASE 2.8 Restante
 - **TAREA 2.8.8** - A/B Testing Memory Bank vs Ejercicios Tradicionales (Baja prioridad)
 - **TAREA 2.8.9.8** - Sistema de progreso y hitos constructivos ✅ (Completada 2026-01-09)
-- **TAREA 2.8.9.9** - Sonido ambiental de construcción
+- **TAREA 2.8.9.9** - Sonido ambiental de construcción ✅ (Completada 2026-01-09)
 - **TAREA 2.8.9.10** - Tests para sistema de construcción 3D ✅ (Completada 2026-01-08)
 
 ### FASE 0: Production Readiness (Crítico)
@@ -335,6 +380,10 @@ src/store/
 - ✅ 10 niveles de maestría
 - ✅ 5 temas temáticos franceses
 - ✅ 4 eventos temporales
+- ✅ 70 sonidos únicos (materiales, acciones, UI, celebración, ambient)
+- ✅ Sistema ASMR para materiales
+- ✅ Música adaptativa (4 estados)
+- ✅ Audio espacial con stereo panning
 
 ---
 
