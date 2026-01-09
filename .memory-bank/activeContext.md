@@ -1,13 +1,13 @@
 # Active Context — Contexto Activo
 
-> Última actualización: 2026-01-08
+> Última actualización: 2026-01-09
 
 ## Estado Actual
 
 **Versión del Plan:** v4.0 (Base) + v2.0 (Expansión LinguaForge) + Sistema INPUT + SRS + CLT + Misiones + Memory Bank AAA + Construction 3D
-**Fase:** FASE 2.8 Completa - Memory Bank AAA + Sistema de Construcción 3D + Tests
+**Fase:** FASE 2.8 Completa - Memory Bank AAA + Sistema de Construcción 3D + Tests + Progression
 **Tarea activa:** Ninguna (FASE 2.8 completada)
-**Última completada:** FASE 2.8.9.10 - Tests para sistema de construcción 3D (2026-01-08)
+**Última completada:** FASE 2.8.9.8 - Sistema de progreso y hitos constructivos (2026-01-09)
 
 ## Resumen de Trabajo Reciente
 
@@ -233,8 +233,9 @@
 | pbr.test.ts | 66 | ✅ Pasando |
 | constructionStore.test.ts | 55 | ✅ Pasando |
 | constructionIntegration.test.ts | 53 | ✅ Pasando |
-| **Total Construction 3D** | **174** | ✅ |
-| **TOTAL GENERAL** | **260** | ✅ |
+| progression.test.ts | 94 | ✅ Pasando |
+| **Total Construction 3D** | **268** | ✅ |
+| **TOTAL GENERAL** | **354** | ✅ |
 
 ---
 
@@ -255,9 +256,11 @@
 - `src/components/construction/Construction3D.tsx`
 - `src/components/construction/BuilderInventory.tsx`
 - `src/components/construction/MaterialGallery.tsx`
+- `src/components/construction/ConstructionMilestones.tsx` - NUEVO (2026-01-09)
 - `src/components/construction/index.ts`
 - `src/lib/materials/pbr.ts`
 - `src/lib/animations/construction.ts`
+- `src/lib/progression/construction.ts` - NUEVO (2026-01-09)
 - `src/services/constructionIntegration.ts`
 
 ### Tests Memory Bank
@@ -269,6 +272,7 @@
 - `tests/unit/lib/pbr.test.ts` - 66 tests (PBR materials, LOD, variants, weathering)
 - `tests/unit/store/constructionStore.test.ts` - 55 tests (store actions, state management)
 - `tests/unit/services/constructionIntegration.test.ts` - 53 tests (rewards, unlocks, milestones)
+- `tests/unit/lib/progression.test.ts` - 94 tests (milestones, streaks, mastery, themes, events)
 
 ---
 
@@ -276,7 +280,7 @@
 
 ### FASE 2.8 Restante
 - **TAREA 2.8.8** - A/B Testing Memory Bank vs Ejercicios Tradicionales (Baja prioridad)
-- **TAREA 2.8.9.8** - Sistema de progreso y hitos constructivos
+- **TAREA 2.8.9.8** - Sistema de progreso y hitos constructivos ✅ (Completada 2026-01-09)
 - **TAREA 2.8.9.9** - Sonido ambiental de construcción
 - **TAREA 2.8.9.10** - Tests para sistema de construcción 3D ✅ (Completada 2026-01-08)
 
@@ -324,9 +328,13 @@ src/store/
 ### Sistema de Construcción
 - ✅ 15 materiales PBR definidos
 - ✅ 14 elementos constructivos
-- ✅ 6 hitos de construcción
+- ✅ 57 hitos de construcción (7 categorías)
 - ✅ Sistema de recompensas integrado
 - ✅ UI de inventario y galería completa
+- ✅ Sistema de progresión (streaks, mastery, themes, events)
+- ✅ 10 niveles de maestría
+- ✅ 5 temas temáticos franceses
+- ✅ 4 eventos temporales
 
 ---
 
