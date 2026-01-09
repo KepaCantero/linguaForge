@@ -27,6 +27,18 @@
 | Framer Motion | 12.23.26 | Animaciones y transiciones |
 | react-countup | 6.5.3 | Animaciones de números |
 | @tsparticles/react | 3.0.0 | Efectos de partículas |
+| useReducedMotion (custom) | 1.0 | Detección de prefers-reduced-motion |
+| useAnimationBudget (custom) | 1.0 | Monitoreo de FPS y degradación automática |
+
+### Componentes AAA UI
+
+| Componente | Ruta | Propósito |
+|------------|------|-----------|
+| AAAErrorBoundary | `src/components/ui/ErrorBoundary.tsx` | Error boundary con UI fallback AAA |
+| AAAAnimatedBackground | `src/components/ui/AAAAnimatedBackground.tsx` | Fondo animado con 4 variantes |
+| XPSurgeEffect | `src/components/ui/XPSurgeEffect.tsx` | Efecto visual de ganancia de XP |
+| GamificationFeedback | `src/components/ui/GamificationFeedback.tsx` | Feedback visual de logros |
+| InfiniteCourseMap | `src/components/learn/InfiniteCourseMap.tsx` | Mapa infinito con 600+ temas |
 
 ### Audio y Video
 
@@ -98,6 +110,31 @@
 ### useUserStore
 - **Persistencia:** `user-storage`
 - **Datos:** Configuración de usuario (idioma, modo de aprendizaje)
+
+### useNodeProgressStore
+- **Persistencia:** `node-progress-storage`
+- **Datos:** Progreso de nodos del modo guiado
+- **Estructura:** NodeProgress con completedLessons, currentLessonIndex, completedExercises, totalExercises
+
+### useMissionStore
+- **Persistencia:** `mission-storage`
+- **Datos:** Misiones diarias y su progreso
+- **Sistema:** Generación, tracking, recompensas
+
+### useCognitiveLoadStore
+- **Persistencia:** `cognitive-load-storage`
+- **Datos:** Métricas de carga cognitiva (CLT)
+- **Modos:** 4 niveles de Focus Mode
+
+### useGamificationStore
+- **Persistencia:** `gamification-storage`
+- **Datos:** XP, coins, gems, streak, nivel
+- **Sistema:** Progresión, recompensas, logros
+
+### useConstructionStore
+- **Persistencia:** `construction-storage`
+- **Datos:** Sistema de construcción 3D
+- **Elementos:** 15 materiales, 14 elementos constructivos, 57 hitos
 - **Modos:** 'guided' | 'autonomous'
 
 ## Servicios Principales

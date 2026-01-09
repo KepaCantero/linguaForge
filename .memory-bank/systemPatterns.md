@@ -99,7 +99,429 @@ export const useSRSStore = create<SRSStore>()(
 - Sin dependencias de React
 - Fáciles de testear
 
-### 3. Schema-First Pattern (Zod)
+### 3. AAA Accessibility Pattern
+
+**Patrón:** Accesibilidad WCAG AAA integrada en componentes
+
+**Componentes:**
+
+#### A. Reduced Motion Hook (`src/hooks/useReducedMotion.ts`)
+
+```typescript
+export function useReducedMotion(): boolean {
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setPrefersReducedMotion(mediaQuery.matches);
+
+    const handleChange = (event: MediaQueryListEvent) => {
+      setPrefersReducedMotion(event.matches);
+    };
+
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, []);
+
+  return prefersReducedMotion;
+}
+
+export function useAnimationConfig() {
+  const prefersReducedMotion = useReducedMotion();
+
+  return {
+    shouldAnimate: !prefersReducedMotion,
+    prefersReducedMotion,
+    transition: prefersReducedMotion
+      ? { duration: 0.01 }
+      : { type: 'spring', stiffness: 150, damping: 20 },
+  };
+}
+```
+
+**Uso:**
+```typescript
+const { shouldAnimate, transition } = useAnimationConfig();
+
+<motion.div
+  animate={shouldAnimate ? { scale: 1.05 } : {}}
+  transition={transition}
+>
+```
+
+#### B. Animation Budget Hook (`src/hooks/useAnimationBudget.ts`)
+
+```typescript
+export function useAnimationBudget() {
+  const [shouldAnimate, setShouldAnimate] = useState(true);
+  const [fps, setFps] = useState(60);
+
+  useEffect(() => {
+    const measureFPS = () => {
+      const currentFps = Math.round(/* calculate FPS */);
+      setFps(currentFps);
+
+      // Disable animations if FPS drops below 30
+      if (currentFps < 30 && shouldAnimate) {
+        setShouldAnimate(false);
+      } else if (currentFps > 50 && !shouldAnimate) {
+        setShouldAnimate(true);
+      }
+    };
+
+    animationId = requestAnimationFrame(measureFPS);
+    return () => cancelAnimationFrame(animationId);
+  }, [shouldAnimate]);
+
+  return { shouldAnimate, fps };
+}
+
+export function useAnimationControl() {
+  const { shouldAnimate: canAnimateByPerf, fps } = useAnimationBudget();
+  const [prefersReduced, setPrefersReduced] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setPrefersReduced(mediaQuery.matches);
+  }, []);
+
+  return {
+    shouldAnimate: canAnimateByPerf && !prefersReduced,
+    fps,
+    prefersReduced,
+  };
+}
+```
+
+**Uso:**
+```typescript
+const { shouldAnimate, fps, prefersReduced } = useAnimationControl();
+
+<motion.div
+  style={{ willChange: shouldAnimate ? 'transform, opacity' : 'auto' }}
+  animate={shouldAnimate ? { scale: 1.1 } : {}}
+>
+```
+
+#### C. AAA Input Component Pattern
+
+**Patrón:** Componentes interactivos con todas las características AAA
+
+```typescript
+export function AAAInputButton({ option, index }: Props) {
+  const prefersReducedMotion = useReducedMotion();
+  const shouldAnimate = !prefersReducedMotion;
+
+  const animationConfig = {
+    type: shouldAnimate ? 'spring' : undefined,
+    stiffness: shouldAnimate ? 150 : undefined,
+    damping: shouldAnimate ? 20 : undefined,
+  };
+
+  return (
+    <Link
+      href={option.href}
+      className="block"
+      style={{
+        // Touch target mínimo 44px
+        width: 'max(128px, 44px)',
+        height: 'max(128px, 44px)',
+      }}
+      aria-label={`${option.title}: ${option.description}. ${option.stats.map(s => `${s.label}: ${s.value}`).join(', ')}`}
+    >
+      <motion.div
+        className="rounded-full"
+        style={{
+          background: option.gradient,
+          willChange: shouldAnimate ? 'transform' : 'auto',
+        }}
+        animate={shouldAnimate ? { y: [0, -8, 0] } : {}}
+        transition={{ duration: 3 + index * 0.5, repeat: shouldAnimate ? Infinity : 0 }}
+        whileHover={{ scale: 1.15 }}
+      >
+        <div
+          className="text-5xl"
+          style={{
+            // Text shadow para WCAG AAA contrast
+            textShadow: '0 2px 8px rgba(0,0,0,0.6), 0 0 16px rgba(0,0,0,0.4)',
+          }}
+        >
+          {option.icon}
+        </div>
+      </motion.div>
+
+      <div
+        role="tooltip"
+        className="absolute top-full left-1/2 -translate-x-1/2 mt-4 px-4 py-2 rounded-xl bg-lf-dark/90 backdrop-blur-md"
+      >
+        <p className="text-sm font-semibold text-white">
+          {option.title}
+        </p>
+      </div>
+    </Link>
+  );
+}
+```
+
+**Características AAA incluidas:**
+1. ✅ Reduced motion detection
+2. ✅ 44px minimum touch targets
+3. ✅ ARIA labels descriptivos
+4. ✅ Text shadows para contraste
+5. ✅ will-change optimization
+6. ✅ Animaciones condicionales
+7. ✅ Focus rings (via className)
+8. ✅ Semantic HTML (role="tooltip")
+
+#### D. Error Boundary Pattern
+
+**Patrón:** ErrorBoundary con UI fallback AAA
+
+```typescript
+export class AAAErrorBoundary extends Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error: Error): State {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    console.error('AAA Error Boundary caught:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="flex items-center justify-center min-h-screen bg-lf-dark"
+        >
+          <div className="text-center p-8 max-w-md">
+            <motion.div
+              className="relative w-32 h-32 mx-auto mb-6 rounded-full"
+              style={{
+                background: 'radial-gradient(circle at 30% 30%, #EF4444, #DC2626)',
+              }}
+              animate={{
+                scale: [1, 1.1, 1],
+                rotate: [0, 5, -5, 0],
+              }}
+              transition={{ duration: 4, repeat: Infinity }}
+            >
+              <div className="absolute inset-0 flex items-center justify-center text-6xl">
+                ⚠️
+              </div>
+            </motion.div>
+
+            <h2 className="text-3xl font-bold text-white mb-3">
+              Algo salió mal
+            </h2>
+            <p className="text-lf-muted mb-2">
+              La animación se ha detenido para proteger tu experiencia
+            </p>
+
+            <motion.button
+              onClick={() => window.location.reload()}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-8 py-4 rounded-aaa-xl font-bold text-white"
+              style={{
+                background: 'radial-gradient(circle at 30% 30%, #6366F1, #4F46E5)',
+              }}
+            >
+              Recargar
+            </motion.button>
+          </div>
+        </motion.div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+```
+
+**Características:**
+- ✅ UI fallback con diseño AAA
+- ✅ Animación de pulso en error
+- ✅ Mensaje claro al usuario
+- ✅ Botón de recarga accesible
+- ✅ Logging de errores
+
+#### E. Infinite Scroll Pattern
+
+**Patrón:** Listas infinitas con virtualización
+
+```typescript
+export function InfiniteCourseMap({ translations, userProgress }: Props) {
+  const [visibleNodes, setVisibleNodes] = useState(50); // Load in batches
+  const [isLoading, setIsLoading] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const allNodes = useMemo(() => generateTopicNodes(), []);
+
+  // Filter nodes based on search and filters
+  const filteredNodes = useMemo(() => {
+    return allNodes.filter(node => {
+      const matchesSearch = searchQuery === '' ||
+        node.title.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesCategory = !selectedCategory || node.category === selectedCategory;
+      const matchesLevel = !selectedLevel || node.level === selectedLevel;
+      return matchesSearch && matchesCategory && matchesLevel;
+    });
+  }, [allNodes, searchQuery, selectedCategory, selectedLevel]);
+
+  // Load more nodes on scroll
+  const handleScroll = useCallback(() => {
+    if (!containerRef.current) return;
+
+    const { scrollTop, scrollHeight, clientHeight } = containerRef.current;
+    const scrollPercentage = (scrollTop + clientHeight) / scrollHeight;
+
+    if (scrollPercentage > 0.8 && visibleNodes < filteredNodes.length) {
+      setIsLoading(true);
+      setTimeout(() => {
+        setVisibleNodes(prev => Math.min(prev + 20, filteredNodes.length));
+        setIsLoading(false);
+      }, 500);
+    }
+  }, [filteredNodes.length, visibleNodes]);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    container.addEventListener('scroll', handleScroll);
+    return () => container.removeEventListener('scroll', handleScroll);
+  }, [handleScroll]);
+
+  const displayedNodes = filteredNodes.slice(0, visibleNodes);
+
+  return (
+    <div ref={containerRef} className="max-h-[60vh] overflow-y-auto">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+        {displayedNodes.map((node, index) => (
+          <TopicOrb key={node.id} node={node} index={index} />
+        ))}
+      </div>
+
+      {isLoading && (
+        <div className="flex justify-center py-8">
+          <motion.div
+            className="w-12 h-12 rounded-full border-4 border-lf-accent border-t-transparent"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+          />
+        </div>
+      )}
+    </div>
+  );
+}
+```
+
+**Características:**
+- ✅ Lazy loading (50 nodos iniciales, +20 por scroll)
+- ✅ Búsqueda en tiempo real
+- ✅ Filtrado por categoría y nivel
+- ✅ Loading indicator animado
+- ✅ Grid responsivo
+- ✅ Performance optimizada
+
+### 4. AAA Text Shadow Pattern
+
+**Patrón:** Sombras de texto para WCAG AAA contrast en fondos gradientes
+
+```typescript
+const TEXT_SHADOW_STRONG = '0 2px 8px rgba(0,0,0,0.6), 0 0 16px rgba(0,0,0,0.4)';
+const TEXT_SHADOW_MEDIUM = '0 2px 4px rgba(0,0,0,0.5), 0 0 8px rgba(0,0,0,0.3)';
+const TEXT_SHADOW_SUBTLE = '0 1px 2px rgba(0,0,0,0.8)';
+
+// Uso en componentes
+<div style={{ textShadow: TEXT_SHADOW_STRONG }}>
+  Texto sobre gradientes oscuros
+</div>
+```
+
+### 5. AAA Focus Ring Pattern
+
+**Patrón:** Anillos de foco visibles para navegación por teclado
+
+```typescript
+// Tailwind classes
+className="focus:outline-none focus:ring-4 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-lf-dark"
+
+// En JSX
+<Link
+  href="/learn"
+  className="focus:outline-none focus:ring-4 focus:ring-inset focus:ring-lf-accent"
+>
+  Mapa de Aprendizaje
+</Link>
+```
+
+### 6. ARIA Label Pattern
+
+**Patrón:** Labels descriptivos para screen readers
+
+```typescript
+// Botones con iconos
+<button
+  aria-label="Reproducir audio"
+  aria-pressed={isPlaying}
+>
+  ▶️
+</button>
+
+// Enlaces complejos
+<Link
+  href="/input/video"
+  aria-label={`${option.title}: ${option.description}. ${option.stats.map(s => `${s.label}: ${s.value}`).join(', ')}`}
+>
+  Video
+</Link>
+
+// Tooltips
+<div role="tooltip" aria-hidden="true">
+  {tooltipContent}
+</div>
+
+// Skip link
+<a
+  href="#main-content"
+  className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100]"
+>
+  Saltar al contenido principal
+</a>
+```
+
+### 7. willChange Optimization Pattern
+
+**Patrón:** Optimización GPU para animaciones
+
+```typescript
+const prefersReducedMotion = useReducedMotion();
+const shouldAnimate = !prefersReducedMotion;
+
+<motion.div
+  style={{
+    willChange: shouldAnimate ? 'transform, opacity' : 'auto',
+  }}
+  animate={shouldAnimate ? { scale: 1.1, rotate: 90 } : {}}
+>
+  ✨
+</motion.div>
+```
+
+**Reglas:**
+- Solo usar willChange cuando realmente hay animación
+- Resetear a 'auto' cuando no hay animación (reduced motion)
+- Limitar propiedades: transform, opacity principalmente
+
+### 8. Schema-First Pattern (Zod)
 
 **Patrón:** Validación y tipos desde schemas Zod
 

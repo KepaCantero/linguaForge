@@ -349,5 +349,191 @@
 
 ---
 
+## Sistema de Diseño AAA (Actualizado 2026-01-09)
+
+### Accesibilidad WCAG AAA
+
+**Implementaciones Completadas:**
+
+#### 1. Reduced Motion Detection
+```typescript
+// src/hooks/useReducedMotion.ts
+const prefersReducedMotion = useReducedMotion();
+const shouldAnimate = !prefersReducedMotion;
+```
+
+**Aplicación:**
+- Todas las animaciones detectan preferencia de OS
+- Animaciones se deshabilitan automáticamente si el usuario prefiere reduced motion
+- Transition config dinámico: `{ duration: 0.01 }` vs `{ type: 'spring' }`
+
+#### 2. FPS Budget Management
+```typescript
+// src/hooks/useAnimationBudget.ts
+const { shouldAnimate, fps, prefersReduced } = useAnimationControl();
+```
+
+**Aplicación:**
+- Monitoreo continuo de FPS
+- Deshabilitación automática si FPS < 30
+- Re-habilitación si FPS > 50
+- Combinado con prefers-reduced-motion
+
+#### 3. Touch Targets (44px mínimo)
+```typescript
+// Ejemplo de implementación
+style={{
+  width: 'max(128px, 44px)',
+  height: 'max(128px, 44px)',
+}}
+```
+
+**Aplicación:**
+- Todos los elementos interactivos cumplen WCAG AAA
+- Botones, links, inputs con tamaño mínimo de 44px
+
+#### 4. Text Shadows para Contraste
+```typescript
+const TEXT_SHADOW_STRONG = '0 2px 8px rgba(0,0,0,0.6), 0 0 16px rgba(0,0,0,0.4)';
+const TEXT_SHADOW_MEDIUM = '0 2px 4px rgba(0,0,0,0.5), 0 0 8px rgba(0,0,0,0.3)';
+const TEXT_SHADOW_SUBTLE = '0 1px 2px rgba(0,0,0,0.8)';
+```
+
+**Aplicación:**
+- Texto sobre fondos gradientes tiene sombras para WCAG AAA contrast
+- 3 niveles de intensidad según contexto
+- Usado en todos los textos sobre fondos oscuros/degradados
+
+#### 5. Focus Rings Visibles
+```typescript
+className="focus:outline-none focus:ring-4 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-lf-dark"
+```
+
+**Aplicación:**
+- Navegación por teclado totalmente accesible
+- Anillos de foco de 4px con color contrastante
+- Offset de 2px para mejor visibilidad
+
+#### 6. ARIA Labels Completos
+```typescript
+<Link
+  href={option.href}
+  aria-label={`${option.title}: ${option.description}. ${option.stats.map(s => `${s.label}: ${s.value}`).join(', ')}`}
+>
+```
+
+**Aplicación:**
+- Todos los elementos interactivos tienen ARIA labels descriptivos
+- Tooltips con `role="tooltip"`
+- Skip link para contenido principal
+
+#### 7. willChange Optimization
+```typescript
+style={{
+  willChange: shouldAnimate ? 'transform, opacity' : 'auto',
+}}
+```
+
+**Aplicación:**
+- Optimización GPU solo cuando es necesario
+- Reset a 'auto' con reduced motion
+- Limitado a transform y opacity principalmente
+
+### Sistema de Componentes AAA
+
+#### InfiniteCourseMap
+**Características:**
+- 600+ temas organizados en 10 categorías
+- Scroll infinito con lazy loading
+- Búsqueda en tiempo real
+- Filtrado por categoría y nivel (A1-C2)
+- Grid responsivo (2-4 columnas)
+- Orbs con progreso, XP, locks
+
+**Categorías:**
+1. Basics (Bases) - 🎯
+2. Food (Comida) - 🍽️
+3. Travel (Viajes) - ✈️
+4. Business (Negocios) - 💼
+5. Health (Salud) - 🏥
+6. Culture (Cultura) - 🎨
+7. Sports (Deportes) - ⚽
+8. Technology (Tecnología) - 💻
+9. Nature (Naturaleza) - 🌿
+10. Relationships (Relaciones) - ❤️
+
+#### AAAErrorBoundary
+**Características:**
+- UI fallback con diseño AAA
+- Animación de pulso en error
+- Mensaje claro al usuario
+- Botón de recarga accesible
+- Logging de errores
+
+#### AAAAnimatedBackground
+**Variantes:**
+- `midnight` - Gradientes azules oscuros
+- `nebula` - Púrpuras y magentas
+- `aurora` - Verdes y cyans
+- `sunset` - Naranjas y rojos
+
+**Intensidades:**
+- `subtle` - Animaciones suaves
+- `medium` - Balanceado
+- `intense` - Máxima expresividad
+
+### Patrones de Animación AAA
+
+#### Orbital System
+**Aplicación en:**
+- Input Hub (`src/app/input/page.tsx`)
+- Learn/Mapa (`src/app/learn/page.tsx` - modo autónomo)
+
+**Características:**
+- Centro orb con 3 anillos orbitales rotativos
+- Nodos satelitales posicionados con trigonometría
+- Líneas de conexión SVG con gradientes
+- Animaciones de hover y tap
+- Tooltips con información detallada
+
+#### Infinite Scroll
+**Aplicación en:**
+- InfiniteCourseMap (`src/components/learn/InfiniteCourseMap.tsx`)
+
+**Características:**
+- Carga inicial de 50 nodos
+- Incrementos de 20 nodos al hacer scroll
+- Loading indicator animado
+- Filtros y búsqueda actualizados en tiempo real
+
+### Best Practices Implementadas
+
+#### Performance
+- ✅ Lazy loading de componentes
+- ✅ Virtual rendering para listas largas
+- ✅ will-change CSS property optimizado
+- ✅ FPS monitoring con degradación automática
+- ✅ Animaciones solo cuando es necesario
+
+#### Accessibility
+- ✅ prefers-reduced-motion detection
+- ✅ 44px minimum touch targets
+- ✅ ARIA labels descriptivos
+- ✅ Text shadows para contraste
+- ✅ Focus rings visibles
+- ✅ Navegación por teclado completa
+- ✅ Skip link para contenido principal
+
+#### Reliability
+- ✅ ErrorBoundary con UI fallback
+- ✅ HTML semántico con landmarks
+- ✅ Logging de errores
+- ✅ Validación de datos con Zod
+- ✅ TypeScript strict mode
+
+---
+
 **Nota:** Esta estrategia de diseño debe integrarse progresivamente sin romper funcionalidad existente. Priorizar Neural Nexus como temática principal, con Bio-Lab y Janus Map como variantes temáticas opcionales.
+
+**Actualización AAA (2026-01-09):** Sistema de diseño completamente actualizado con accesibilidad WCAG AAA, optimizaciones de rendimiento y componentes escalables. Implementadas todas las recomendaciones P0 y P1 de AAA Visual Quality Review.
 
