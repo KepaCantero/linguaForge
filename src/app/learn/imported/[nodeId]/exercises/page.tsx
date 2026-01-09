@@ -57,7 +57,7 @@ function ExercisesPageContent() {
   );
 
   // Control de fase: warmup opcional → menú → ejercicios
-  const [pagePhase, setPagePhase] = useState<PagePhase>('exercise-menu');
+  const [pagePhase, setPagePhase] = useState<PagePhase>('warmup-choice');
   const [selectedWarmup, setSelectedWarmup] = useState<WarmupType>(null);
   const [focusModeActive, setFocusModeActive] = useState(false);
 
@@ -279,30 +279,37 @@ function ExercisesPageContent() {
   // Renderizar ejercicio seleccionado
   if (selectedExerciseType) {
     return (
-      <>
-        <ExerciseHeader
-          nodeId={nodeId}
-          subtopicId={subtopicId}
-          selectedExerciseType={selectedExerciseType}
-          exerciseIndices={exerciseIndices}
-          exerciseData={exerciseData}
-          mode={mode}
-          load={headerLoad}
-          focusModeActive={focusModeActive}
-          setFocusModeActive={setFocusModeActive}
-          setShowSessionSummary={setShowSessionSummary}
-        />
-        <ExerciseRenderer
-          selectedExerciseType={selectedExerciseType}
-          exerciseIndices={exerciseIndices}
-          exerciseData={exerciseData}
-          mode={mode}
-          focusModeActive={focusModeActive}
-          setFocusModeActive={setFocusModeActive}
-          onComplete={handleExerciseComplete}
-          onSkip={() => setSelectedExerciseType(null)}
-        />
-      </>
+      <div className={focusModeActive ? 'fixed inset-0 cursor-none' : ''}>
+        {/* Focus Mode Overlay */}
+        {focusModeActive && (
+          <div className="fixed inset-0 bg-black/70 pointer-events-none z-40" />
+        )}
+
+        <div className={focusModeActive ? 'relative z-50' : ''}>
+          <ExerciseHeader
+            nodeId={nodeId}
+            subtopicId={subtopicId}
+            selectedExerciseType={selectedExerciseType}
+            exerciseIndices={exerciseIndices}
+            exerciseData={exerciseData}
+            mode={mode}
+            load={headerLoad}
+            focusModeActive={focusModeActive}
+            setFocusModeActive={setFocusModeActive}
+            setShowSessionSummary={setShowSessionSummary}
+          />
+          <ExerciseRenderer
+            selectedExerciseType={selectedExerciseType}
+            exerciseIndices={exerciseIndices}
+            exerciseData={exerciseData}
+            mode={mode}
+            focusModeActive={focusModeActive}
+            setFocusModeActive={setFocusModeActive}
+            onComplete={handleExerciseComplete}
+            onSkip={() => setSelectedExerciseType(null)}
+          />
+        </div>
+      </div>
     );
   }
 
