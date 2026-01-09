@@ -5,14 +5,16 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useInputStore } from '@/store/useInputStore';
 import { useProgressStore } from '@/store/useProgressStore';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 export default function InputHubPage() {
   const { activeLanguage, activeLevel } = useProgressStore();
   const inputStore = useInputStore();
-  
+  const prefersReducedMotion = useReducedMotion();
+
   const statsKey = `${activeLanguage}-${activeLevel}`;
   const statsData = inputStore.stats[statsKey];
-  
+
   // Calcular estadísticas desde el store
   const stats = useMemo(() => {
     if (!statsData) {
@@ -70,7 +72,8 @@ export default function InputHubPage() {
         { label: 'Visualizaciones', value: videoViews },
         { label: 'Horas totales', value: `${videoHours}h` },
       ],
-      color: 'from-red-500 to-pink-500',
+      gradient: 'radial-gradient(circle at 30% 30%, #EC4899, #DB2777)',
+      color: '#EC4899',
     },
     {
       id: 'audio',
@@ -82,7 +85,8 @@ export default function InputHubPage() {
         { label: 'Audios escuchados', value: audioCount },
         { label: 'Horas totales', value: `${audioHours}h` },
       ],
-      color: 'from-green-500 to-emerald-500',
+      gradient: 'radial-gradient(circle at 30% 30%, #10B981, #059669)',
+      color: '#10B981',
     },
     {
       id: 'text',
@@ -94,79 +98,277 @@ export default function InputHubPage() {
         { label: 'Textos leídos', value: textCount },
         { label: 'Palabras leídas', value: wordsRead.toLocaleString() },
       ],
-      color: 'from-blue-500 to-cyan-500',
+      gradient: 'radial-gradient(circle at 30% 30%, #06B6D4, #0891B2)',
+      color: '#06B6D4',
     },
   ];
 
-  return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-20">
-      {/* Header */}
-      <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
-        <div className="max-w-lg mx-auto px-4 py-4">
-          <h1 className="text-xl font-bold text-gray-900 dark:text-white">
-            Input
-          </h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            Elige el tipo de contenido que quieres consumir
-          </p>
-        </div>
-      </header>
+  // Animation config based on reduced motion preference
+  const animationConfig: any = prefersReducedMotion
+    ? { duration: 0.01 }
+    : { type: 'spring', stiffness: 150, damping: 20 };
 
-      {/* Main content */}
-      <main className="max-w-lg mx-auto px-4 pt-6">
-        <div className="grid gap-4">
-          {inputOptions.map((option, index) => (
+  const shouldAnimate = !prefersReducedMotion;
+
+  return (
+    <div className="space-y-8">
+      {/* Orbital Input Selection System */}
+      <div className="relative w-full h-[70vh] flex items-center justify-center" role="region" aria-label="Selector de tipo de contenido">
+        {/* Central core - Input Hub */}
+        <motion.div
+          className="absolute w-36 h-36 rounded-full z-10 focus:outline-none focus:ring-4 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-lf-dark"
+          style={{
+            background: 'radial-gradient(circle at 30% 30%, #8B5CF6, #7C3AED)',
+            willChange: shouldAnimate ? 'transform, opacity' : 'auto',
+          }}
+          animate={shouldAnimate ? {
+            scale: [1, 1.05, 1],
+            rotate: [0, 5, -5, 0],
+          } : {}}
+          transition={{ duration: 4, repeat: shouldAnimate ? Infinity : 0 }}
+          whileHover={{ scale: 1.1 }}
+          aria-label="Hub de entrada - Selecciona un tipo de contenido"
+          tabIndex={0}
+        >
+          {/* Core glow */}
+          <motion.div
+            className="absolute inset-0 rounded-full blur-2xl"
+            style={{
+              background: 'radial-gradient(circle, rgba(139, 92, 246, 0.8), transparent)',
+              willChange: shouldAnimate ? 'transform, opacity' : 'auto',
+            }}
+            animate={shouldAnimate ? {
+              scale: [1, 1.4, 1],
+              opacity: [0.5, 0.9, 0.5],
+            } : {}}
+            transition={{ duration: 3, repeat: shouldAnimate ? Infinity : 0 }}
+            aria-hidden="true"
+          />
+
+          {/* Orbital rings */}
+          {[0, 1, 2].map((i) => (
+            <motion.div
+              key={i}
+              className="absolute rounded-full border-2 border-purple-500/30"
+              style={{
+                width: `${100 + i * 30}px`,
+                height: `${100 + i * 30}px`,
+                left: `${18 - i * 15}px`,
+                top: `${18 - i * 15}px`,
+                willChange: shouldAnimate ? 'transform, opacity' : 'auto',
+              }}
+              animate={shouldAnimate ? {
+                scale: [1, 1.1, 1],
+                opacity: [0.3, 0.6, 0.3],
+                rotate: [0, 360, 0],
+              } : {}}
+              transition={{
+                duration: 8 + i * 2,
+                repeat: shouldAnimate ? Infinity : 0,
+                ease: 'linear',
+              }}
+              aria-hidden="true"
+            />
+          ))}
+
+          {/* Core icon */}
+          <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+            <motion.div
+              className="text-5xl"
+              style={{
+                textShadow: '0 2px 8px rgba(0,0,0,0.5), 0 0 16px rgba(139, 92, 246, 0.4)',
+                willChange: shouldAnimate ? 'transform' : 'auto',
+              }}
+              animate={shouldAnimate ? {
+                scale: [1, 1.15, 1],
+                rotate: [0, 10, -10, 0],
+              } : {}}
+              transition={{ duration: 3, repeat: shouldAnimate ? Infinity : 0 }}
+              role="img"
+              aria-label="Centro de control"
+            >
+              ⚡
+            </motion.div>
+          </div>
+        </motion.div>
+
+        {/* Orbital input type orbs */}
+        {inputOptions.map((option, index) => {
+          const angle = (index / inputOptions.length) * Math.PI * 2 - Math.PI / 2;
+          const radius = 160;
+          const x = Math.cos(angle) * radius;
+          const y = Math.sin(angle) * radius;
+
+          return (
             <motion.div
               key={option.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
+              className="absolute group"
+              style={{
+                left: '50%',
+                top: '50%',
+                marginLeft: x - 70,
+                marginTop: y - 70,
+                willChange: shouldAnimate ? 'transform' : 'auto',
+              }}
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{
+                delay: index * 0.15,
+                ...animationConfig,
+              }}
             >
               <Link
                 href={option.href}
-                className="block bg-white dark:bg-gray-800 rounded-xl p-6 border-2 border-gray-200 dark:border-gray-700 hover:border-indigo-300 dark:hover:border-indigo-600 transition-all"
+                className="block focus:outline-none focus:ring-4 focus:ring-offset-2 focus:ring-offset-lf-dark"
+                style={{
+                  // Ensure touch target is at least 44px
+                  display: 'block',
+                  width: 'max(128px, 44px)',
+                  height: 'max(128px, 44px)',
+                }}
+                aria-label={`${option.title}: ${option.description}. ${option.stats.map(s => `${s.label}: ${s.value}`).join(', ')}`}
               >
-                <div className="flex items-start gap-4">
-                  <div className={`w-16 h-16 rounded-xl bg-gradient-to-br ${option.color} flex items-center justify-center flex-shrink-0`}>
-                    <span className="text-3xl">{option.icon}</span>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-1">
-                      {option.title}
-                    </h2>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-                      {option.description}
-                    </p>
-                    <div className="flex items-center gap-4 text-xs">
-                      {option.stats.map((stat, i) => (
-                        <div key={i} className="flex items-center gap-1">
-                          <span className="text-gray-500 dark:text-gray-400">{stat.label}:</span>
-                          <span className="font-semibold text-gray-900 dark:text-white">
-                            {stat.value}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <svg
-                    className="w-5 h-5 text-gray-400 flex-shrink-0"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
+                {/* Main orb - Minimum 44px touch target */}
+                <motion.div
+                  className="relative rounded-full mx-auto"
+                  style={{
+                    width: 'min(128px, 100%)',
+                    height: 'min(128px, 100%)',
+                    background: option.gradient,
+                    willChange: shouldAnimate ? 'transform' : 'auto',
+                    minWidth: '44px',
+                    minHeight: '44px',
+                  }}
+                  animate={shouldAnimate ? {
+                    y: [0, -8, 0],
+                  } : {}}
+                  transition={{
+                    duration: 3 + index * 0.5,
+                    repeat: shouldAnimate ? Infinity : 0,
+                    ease: 'easeInOut',
+                  }}
+                  whileHover={{ scale: 1.15, y: -15 }}
+                >
+                  {/* Outer glow ring */}
+                  <motion.div
+                    className="absolute inset-0 rounded-full blur-lg"
+                    style={{
+                      background: `radial-gradient(circle, ${option.color}CC, transparent)`,
+                      willChange: shouldAnimate ? 'transform, opacity' : 'auto',
+                    }}
+                    animate={shouldAnimate ? {
+                      scale: [1, 1.3, 1],
+                      opacity: [0.4, 0.7, 0.4],
+                    } : {}}
+                    transition={{ duration: 2.5, repeat: shouldAnimate ? Infinity : 0, delay: index * 0.4 }}
+                    aria-hidden="true"
+                  />
+
+                  {/* Rotating ring */}
+                  <motion.div
+                    className="absolute inset-0 rounded-full border-2 border-white/30"
+                    animate={shouldAnimate ? { rotate: 360 } : {}}
+                    transition={{ duration: 12, repeat: shouldAnimate ? Infinity : 0, ease: 'linear' }}
+                    aria-hidden="true"
+                  />
+
+                  {/* Icon with text shadow for contrast */}
+                  <div
+                    className="absolute inset-0 flex items-center justify-center text-5xl"
+                    style={{
+                      textShadow: '0 2px 8px rgba(0,0,0,0.6), 0 0 16px rgba(0,0,0,0.4)',
+                    }}
+                    aria-hidden="true"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
-                </div>
+                    {option.icon}
+                  </div>
+                </motion.div>
+
+                {/* Stats tooltip */}
+                <motion.div
+                  className="absolute top-full left-1/2 transform -translate-x-1/2 mt-4 px-4 py-2 rounded-xl bg-lf-dark/90 backdrop-blur-md border border-white/20 opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50"
+                  initial={{ y: 10 }}
+                  whileHover={{ y: 0, opacity: 1 }}
+                  role="tooltip"
+                  aria-hidden="true"
+                >
+                  <p
+                    className="text-sm font-semibold text-white"
+                    style={{
+                      textShadow: '0 1px 4px rgba(0,0,0,0.8), 0 0 8px rgba(0,0,0,0.6)',
+                    }}
+                  >
+                    {option.title}
+                  </p>
+                  <div className="flex items-center gap-3 mt-1 text-xs text-lf-muted">
+                    {option.stats.map((stat, i) => (
+                      <span key={i}>{stat.label}: {stat.value}</span>
+                    ))}
+                  </div>
+                </motion.div>
               </Link>
             </motion.div>
-          ))}
-        </div>
-      </main>
+          );
+        })}
+
+        {/* Connection lines */}
+        <svg className="absolute inset-0 pointer-events-none" style={{ zIndex: 0 }} aria-hidden="true">
+          {inputOptions.map((option, index) => {
+            const angle = (index / inputOptions.length) * Math.PI * 2 - Math.PI / 2;
+            const radius = 160;
+            const x = Math.cos(angle) * radius;
+            const y = Math.sin(angle) * radius;
+
+            return (
+              <motion.line
+                key={`line-${option.id}`}
+                x1="50%"
+                y1="50%"
+                x2={`calc(50% + ${x}px)`}
+                y2={`calc(50% + ${y}px)`}
+                stroke="url(#gradient-line-input)"
+                strokeWidth="2"
+                strokeOpacity="0.2"
+                initial={{ pathLength: 0 }}
+                animate={{ pathLength: 1 }}
+                transition={{ duration: 1, delay: index * 0.1 }}
+              />
+            );
+          })}
+          <defs>
+            <linearGradient id="gradient-line-input" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#8B5CF6" />
+              <stop offset="100%" stopColor="#EC4899" />
+            </linearGradient>
+          </defs>
+        </svg>
+
+        {/* Floating particles - only animate if not reduced motion */}
+        {shouldAnimate && [0, 1, 2, 3, 4, 5, 6].map((i) => (
+          <motion.div
+            key={i}
+            className="absolute w-2 h-2 rounded-full bg-lf-accent opacity-70"
+            style={{
+              left: `${20 + (i * 10) % 60}%`,
+              top: `${15 + (i * 12) % 70}%`,
+              willChange: 'transform, opacity',
+            }}
+            animate={{
+              y: [0, -60, 0],
+              x: [0, (i % 2 === 0 ? 35 : -35), 0],
+              scale: [1, 0.5, 1],
+              opacity: [0.7, 0.3, 0.7],
+            }}
+            transition={{
+              duration: 7 + i,
+              repeat: Infinity,
+              ease: 'easeInOut',
+              delay: i * 0.3,
+            }}
+            aria-hidden="true"
+          />
+        ))}
+      </div>
     </div>
   );
 }

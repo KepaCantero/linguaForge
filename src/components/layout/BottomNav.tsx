@@ -6,6 +6,12 @@ import { motion } from "framer-motion";
 
 const navItems = [
   {
+    href: "/dashboard",
+    icon: "📊",
+    label: "Dashboard",
+    ariaLabel: "Panel de control",
+  },
+  {
     href: "/learn",
     icon: "⬡",
     label: "Mapa",
@@ -17,23 +23,18 @@ const navItems = [
     label: "Misiones",
     ariaLabel: "Misiones diarias",
   },
+  // Palace option hidden - can be enabled later when feature is ready
+  // {
+  //   href: "/construction",
+  //   icon: "🏰",
+  //   label: "Palacio",
+  //   ariaLabel: "Palacio de construcción",
+  // },
   {
-    href: "/construction",
-    icon: "🏰",
-    label: "Palacio",
-    ariaLabel: "Palacio de construcción",
-  },
-  {
-    href: "/input",
-    icon: "◎",
-    label: "Input",
-    ariaLabel: "Input de contenido",
-  },
-  {
-    href: "/profile",
-    icon: "⬢",
-    label: "Perfil",
-    ariaLabel: "Perfil de usuario",
+    href: "/decks",
+    icon: "📚",
+    label: "Deck",
+    ariaLabel: "Mazo de tarjetas",
   },
 ];
 
@@ -44,9 +45,26 @@ export function BottomNav() {
     <nav
       role="navigation"
       aria-label="Navegación principal"
-      className="fixed bottom-0 left-0 right-0 h-nav bg-lf-soft border-t border-lf-primary/20 z-50 safe-bottom"
+      className="fixed bottom-0 left-0 right-0 h-nav z-50 safe-bottom"
     >
-      <ul className="h-full w-full flex items-center justify-around lg:container lg:mx-auto list-none">
+      {/* Glassmorphism background */}
+      <div className="absolute inset-0 bg-glass-surface backdrop-blur-aaa border-t border-white/20" />
+
+      {/* Gradient glow at top */}
+      <motion.div
+        className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-lf-primary/50 to-transparent"
+        animate={{
+          opacity: [0.3, 0.6, 0.3],
+          scaleX: [0.8, 1, 0.8],
+        }}
+        transition={{
+          duration: 3,
+          repeat: Infinity,
+          ease: 'easeInOut',
+        }}
+      />
+
+      <ul className="relative h-full w-full flex items-center justify-around lg:container lg:mx-auto list-none">
         {navItems.map((item) => {
           const isActive =
             pathname === item.href || pathname.startsWith(item.href + "/");
@@ -58,8 +76,8 @@ export function BottomNav() {
                 aria-label={item.ariaLabel}
                 aria-current={isActive ? "page" : undefined}
                 className={`
-                  relative flex flex-col items-center justify-center w-full h-full 
-                  transition-all duration-200 
+                  relative flex flex-col items-center justify-center w-full h-full
+                  transition-all duration-300
                   focus:outline-none focus:ring-2 focus:ring-inset focus:ring-lf-accent
                   ${
                     isActive
@@ -68,24 +86,40 @@ export function BottomNav() {
                   }
                 `}
               >
-                {/* Fondo activo animado */}
+                {/* Active indicator */}
                 {isActive && (
                   <motion.div
-                    className="absolute inset-x-2 inset-y-1 bg-lf-accent/10 rounded-xl"
+                    className="absolute inset-x-3 inset-y-2 bg-lf-accent/20 rounded-xl backdrop-blur-sm"
                     layoutId="nav-active-indicator"
                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
                     aria-hidden="true"
                   />
                 )}
 
-                <motion.span
-                  className="relative z-10 text-xl mb-0.5"
-                  aria-hidden="true"
+                {/* Icon with glow */}
+                <motion.div
+                  className="relative z-10 mb-1"
                   whileTap={{ scale: 0.9 }}
                 >
-                  {item.icon}
-                </motion.span>
-                <span className="relative z-10 font-rajdhani text-xs font-medium tracking-wide uppercase">
+                  {isActive && (
+                    <motion.div
+                      className="absolute inset-0 blur-md bg-lf-accent/50 rounded-full"
+                      animate={{
+                        scale: [1, 1.2, 1],
+                        opacity: [0.4, 0.7, 0.4],
+                      }}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        ease: 'easeInOut',
+                      }}
+                    />
+                  )}
+                  <span className="relative text-xl">{item.icon}</span>
+                </motion.div>
+
+                {/* Label */}
+                <span className="relative z-10 font-rajdhani text-xs font-semibold tracking-wide uppercase">
                   {item.label}
                 </span>
               </Link>

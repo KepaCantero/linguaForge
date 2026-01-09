@@ -4,8 +4,10 @@ import './globals.css';
 import { Header } from '@/components/layout/Header';
 import { BottomNav } from '@/components/layout/BottomNav';
 import { XPSurgeEffect } from '@/components/ui/XPSurgeEffect';
-import { FloatingXP } from '@/components/ui/FloatingXP';
+import { GamificationFeedback } from '@/components/ui/GamificationFeedback';
 import { Providers } from './providers';
+import { AAAAnimatedBackground } from '@/components/ui/AAAAnimatedBackground';
+import { AAAErrorBoundary } from '@/components/ui/ErrorBoundary';
 
 const rajdhani = Rajdhani({
   subsets: ['latin'],
@@ -19,7 +21,6 @@ const atkinson = Atkinson_Hyperlegible({
   variable: '--font-atkinson',
 });
 
-// Quicksand - Fuente amigable y rounded para UI principal
 const quicksand = Quicksand({
   subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700'],
@@ -27,7 +28,6 @@ const quicksand = Quicksand({
   display: 'swap',
 });
 
-// Inter - Fuente altamente legible para texto largo y contenido educativo
 const inter = Inter({
   subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700'],
@@ -47,12 +47,12 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#6366F1', // LinguaForge primary - Indigo 500 (unificado y mejorado)
+  themeColor: '#0F172A',
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 5, // Permitir zoom para accesibilidad
-  userScalable: true, // IMPORTANTE para accesibilidad WCAG
-  viewportFit: 'cover', // Para pantallas con notch
+  maximumScale: 5,
+  userScalable: true,
+  viewportFit: 'cover',
 };
 
 export default function RootLayout({
@@ -63,20 +63,14 @@ export default function RootLayout({
   return (
     <html lang="es" className={`${rajdhani.variable} ${atkinson.variable} ${quicksand.variable} ${inter.variable}`}>
       <head>
-        {/* Preconnect para performance */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        {/* PWA iOS */}
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="LinguaForge" />
       </head>
-      <body className="font-atkinson antialiased bg-lf-dark text-white">
+      <body className="font-atkinson antialiased text-white">
         {/* Skip link para accesibilidad */}
         <a
           href="#main-content"
@@ -86,26 +80,30 @@ export default function RootLayout({
         </a>
 
         <Providers>
-          <XPSurgeEffect />
-          <FloatingXP />
+          <AAAErrorBoundary>
+            <AAAAnimatedBackground variant="midnight" intensity="medium">
+              <XPSurgeEffect />
+              <GamificationFeedback />
 
-          {/* Header semántico */}
-          <Header />
+              {/* Header semántico */}
+              <Header />
 
-          {/* Main content con landmark */}
-          <main
-            id="main-content"
-            role="main"
-            aria-label="Contenido principal"
-            className="pt-header pb-nav min-h-[100dvh] flex flex-col"
-          >
-            <div className="flex-1 w-full px-4 py-4 lg:container lg:mx-auto">
-              {children}
-            </div>
-          </main>
+              {/* Main content con landmark */}
+              <main
+                id="main-content"
+                role="main"
+                aria-label="Contenido principal"
+                className="min-h-[calc(100vh-var(--header-height)-var(--nav-height))] flex flex-col"
+              >
+                <div className="flex-1 w-full pt-[calc(var(--header-height)+1rem)] px-4 pb-[calc(var(--nav-height)+1rem)] lg:container lg:mx-auto">
+                  {children}
+                </div>
+              </main>
 
-          {/* Navigation semántica */}
-          <BottomNav />
+              {/* Navigation semántica */}
+              <BottomNav />
+            </AAAAnimatedBackground>
+          </AAAErrorBoundary>
         </Providers>
       </body>
     </html>
