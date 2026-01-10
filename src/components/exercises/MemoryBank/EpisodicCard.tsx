@@ -3,6 +3,7 @@
 /**
  * EpisodicCard - Tarjeta con física realista para Memory Bank AAA
  * Implementa spring physics, gestos naturales y feedback multimodal
+ * + Fixed transparency issues + Better contrast
  *
  * TAREA 2.8.2: EpisodicCard Component con Spring Physics
  */
@@ -47,6 +48,7 @@ export interface EpisodicCardProps {
   onTap?: () => void;
   disabled?: boolean;
   className?: string;
+  isFocusMode?: boolean; // New prop for focus mode styling
 }
 
 // ============================================
@@ -71,6 +73,7 @@ export function EpisodicCard({
   onTap,
   disabled = false,
   className = '',
+  isFocusMode = false,
 }: EpisodicCardProps) {
   // Estado
   const [isFlipped, setIsFlipped] = useState(false);
@@ -185,8 +188,8 @@ export function EpisodicCard({
   // ============================================
 
   const cardStyle: React.CSSProperties = {
-    width: CARD_WIDTH,
-    height: CARD_HEIGHT,
+    width: isFocusMode ? CARD_WIDTH * 1.1 : CARD_WIDTH,
+    height: isFocusMode ? CARD_HEIGHT * 1.1 : CARD_HEIGHT,
     perspective: 1000,
     transformStyle: 'preserve-3d',
   };
@@ -202,8 +205,14 @@ export function EpisodicCard({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 24,
-    background: texture.gradient,
-    border: texture.border,
+    // SOLID background instead of transparent gradient
+    background: isFocusMode
+      ? 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)'
+      : 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
+    border: '2px solid rgba(99, 102, 241, 0.5)',
+    boxShadow: isFocusMode
+      ? '0 25px 50px -12px rgba(99, 102, 241, 0.5), 0 0 30px rgba(99, 102, 241, 0.3)'
+      : '0 10px 40px rgba(0, 0, 0, 0.3)',
   };
 
   // ============================================
@@ -217,7 +226,7 @@ export function EpisodicCard({
         className="absolute -left-16 top-1/2 -translate-y-1/2 text-4xl"
         style={{ opacity: leftIndicatorOpacity }}
       >
-        <span className="text-red-500">X</span>
+        <span className="text-red-500 drop-shadow-lg">✗</span>
       </motion.div>
 
       {/* Indicador Swipe Derecha (Correcto) */}
@@ -225,7 +234,7 @@ export function EpisodicCard({
         className="absolute -right-16 top-1/2 -translate-y-1/2 text-4xl"
         style={{ opacity: rightIndicatorOpacity }}
       >
-        <span className="text-green-500">O</span>
+        <span className="text-green-500 drop-shadow-lg">✓</span>
       </motion.div>
 
       {/* Tarjeta Principal */}
@@ -275,13 +284,12 @@ export function EpisodicCard({
         >
           <div className="text-center">
             <p
-              className="text-xl font-semibold"
-              style={{ color: texture.accentColor }}
+              className="text-2xl font-bold text-white drop-shadow-lg"
             >
               {content.front.text}
             </p>
             {content.front.subtext && (
-              <p className="text-sm mt-2 opacity-70">
+              <p className="text-base mt-3 text-white/80 font-medium">
                 {content.front.subtext}
               </p>
             )}
@@ -295,7 +303,7 @@ export function EpisodicCard({
           )}
 
           {/* Indicador de flip */}
-          <div className="absolute bottom-3 left-3 text-xs opacity-50">
+          <div className="absolute bottom-3 left-3 text-xs text-white/50 bg-black/30 px-2 py-1 rounded-full">
             Doble click para voltear
           </div>
         </motion.div>
@@ -310,13 +318,12 @@ export function EpisodicCard({
         >
           <div className="text-center">
             <p
-              className="text-xl font-semibold"
-              style={{ color: texture.accentColor }}
+              className="text-2xl font-bold text-white drop-shadow-lg"
             >
               {content.back.text}
             </p>
             {content.back.subtext && (
-              <p className="text-sm mt-2 opacity-70">
+              <p className="text-base mt-3 text-white/80 font-medium">
                 {content.back.subtext}
               </p>
             )}
@@ -325,9 +332,9 @@ export function EpisodicCard({
       </motion.div>
 
       {/* Instrucciones */}
-      {!disabled && (
-        <div className="absolute -bottom-8 left-0 right-0 text-center text-xs text-gray-500">
-          Desliza para responder
+      {!disabled && !isFocusMode && (
+        <div className="absolute -bottom-8 left-0 right-0 text-center text-sm text-white/70 bg-black/30 px-3 py-1 rounded-full mx-auto w-fit">
+          Desliza para responder • Doble click para voltear
         </div>
       )}
     </div>
@@ -344,9 +351,9 @@ interface DifficultyIndicatorProps {
 
 function DifficultyIndicator({ difficulty }: DifficultyIndicatorProps) {
   const colors = {
-    easy: 'bg-green-400',
-    medium: 'bg-yellow-400',
-    hard: 'bg-red-400',
+    easy: 'bg-green-400 shadow-green-400/50',
+    medium: 'bg-yellow-400 shadow-yellow-400/50',
+    hard: 'bg-red-400 shadow-red-400/50',
   };
 
   const dots = {
@@ -356,11 +363,11 @@ function DifficultyIndicator({ difficulty }: DifficultyIndicatorProps) {
   };
 
   return (
-    <div className="flex gap-1">
+    <div className="flex gap-1.5 bg-black/30 px-2 py-1 rounded-full backdrop-blur-sm">
       {Array.from({ length: dots[difficulty] }).map((_, i) => (
         <div
           key={i}
-          className={`w-2 h-2 rounded-full ${colors[difficulty]}`}
+          className={`w-2.5 h-2.5 rounded-full ${colors[difficulty]} shadow-lg`}
         />
       ))}
     </div>

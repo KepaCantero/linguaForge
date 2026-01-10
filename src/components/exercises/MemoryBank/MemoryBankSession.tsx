@@ -3,7 +3,7 @@
 /**
  * MemoryBankSession - Sesión completa de Memory Bank AAA
  * Integra todos los subsistemas: texturas, física, sonido, háptico
- * + Focus Mode + AAA Visual Design
+ * + Focus Mode + AAA Visual Design + Fixed transparency
  *
  * TAREA 2.8.5: MemoryBankSession Component
  */
@@ -14,7 +14,7 @@ import { EpisodicCard, type EpisodicCardContent } from './EpisodicCard';
 import { type LearningContext, getTextureForContext } from '@/lib/textures';
 import { useHaptic } from '@/lib/haptic';
 import { useSoundEngine } from '@/lib/soundEngine';
-import { X } from 'lucide-react';
+import { X, Minimize2 } from 'lucide-react';
 
 // ============================================
 // TIPOS
@@ -164,6 +164,11 @@ export function MemoryBankSession({
     onComplete(metrics);
   }, [onComplete, metrics]);
 
+  const toggleFocusMode = useCallback(() => {
+    setIsFocusMode(prev => !prev);
+    haptic.tap();
+  }, [haptic]);
+
   // ============================================
   // RENDER: Estado de carga
   // ============================================
@@ -179,7 +184,7 @@ export function MemoryBankSession({
           <div className="w-16 h-16 border-4 border-t-transparent rounded-full animate-spin mx-auto mb-4"
             style={{ borderColor: texture.accentColor, borderTopColor: 'transparent' }}
           />
-          <p className="text-gray-500">Preparando sesión...</p>
+          <p className="text-white/60">Preparando sesión...</p>
         </motion.div>
       </div>
     );
@@ -199,8 +204,9 @@ export function MemoryBankSession({
         <div
           className="rounded-2xl p-8 text-center"
           style={{
-            background: texture.gradient,
-            boxShadow: texture.shadow,
+            background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
+            border: '2px solid rgba(99, 102, 241, 0.5)',
+            boxShadow: '0 25px 50px -12px rgba(99, 102, 241, 0.3)',
           }}
         >
           <motion.div
@@ -212,7 +218,7 @@ export function MemoryBankSession({
             {metrics.accuracy >= 80 ? '🏆' : metrics.accuracy >= 60 ? '🎯' : '📚'}
           </motion.div>
 
-          <h2 className="text-2xl font-bold mb-6" style={{ color: texture.accentColor }}>
+          <h2 className="text-2xl font-bold mb-6 text-white">
             Sesión Completada
           </h2>
 
@@ -243,8 +249,7 @@ export function MemoryBankSession({
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={handleComplete}
-            className="w-full py-3 px-6 rounded-xl font-semibold text-white"
-            style={{ backgroundColor: texture.accentColor }}
+            className="w-full py-4 px-6 rounded-xl font-bold text-white bg-gradient-to-r from-lf-primary to-lf-secondary shadow-lg"
           >
             Continuar
           </motion.button>
@@ -258,7 +263,7 @@ export function MemoryBankSession({
   // ============================================
 
   return (
-    <div className={`relative min-h-screen transition-all duration-500 ${isFocusMode ? 'bg-black/80 backdrop-blur-sm' : ''}`}>
+    <div className="relative min-h-screen bg-lf-dark">
       {/* Focus Mode Overlay */}
       <AnimatePresence>
         {isFocusMode && (
@@ -266,55 +271,100 @@ export function MemoryBankSession({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/90 backdrop-blur-md z-40 flex items-center justify-center"
+            className="fixed inset-0 z-50 bg-black flex flex-col"
           >
-            {/* Close Focus Mode Button */}
-            <motion.button
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0, opacity: 0 }}
-              onClick={() => setIsFocusMode(false)}
-              className="absolute top-6 right-6 w-12 h-12 rounded-full bg-glass-surface backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/10 transition-colors z-50 focus:outline-none focus:ring-2 focus:ring-lf-accent"
-              aria-label="Salir del modo focus"
-            >
-              <X className="w-6 h-6" />
-            </motion.button>
+            {/* Premium gradient background */}
+            <div className="absolute inset-0 bg-gradient-to-br from-indigo-900/50 via-purple-900/50 to-pink-900/50" />
+            <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
 
-            {/* Card in Focus Mode */}
-            <div className="relative scale-110">
-              <EpisodicCard
-                content={currentCard}
-                onSwipeLeft={handleSwipeLeft}
-                onSwipeRight={handleSwipeRight}
+            {/* Animated particles */}
+            {[0, 1, 2, 3, 4, 5].map((i) => (
+              <motion.div
+                key={i}
+                className="absolute w-1 h-1 rounded-full bg-white/30"
+                style={{
+                  left: `${20 + i * 15}%`,
+                  top: `${20 + i * 12}%`,
+                }}
+                animate={{
+                  y: [0, -100, 0],
+                  x: [0, (i % 2 === 0 ? 50 : -50), 0],
+                  opacity: [0.3, 0.8, 0.3],
+                  scale: [1, 1.5, 1],
+                }}
+                transition={{
+                  duration: 4 + i,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                  delay: i * 0.3,
+                }}
               />
+            ))}
+
+            {/* Top Bar - Focus Mode */}
+            <div className="relative z-10 flex items-center justify-between px-6 py-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-lf-primary to-lf-secondary flex items-center justify-center">
+                  <span className="text-lg">🎯</span>
+                </div>
+                <div>
+                  <h3 className="text-white font-bold">Modo Focus</h3>
+                  <p className="text-sm text-white/60">Sin distracciones</p>
+                </div>
+              </div>
+
+              {/* Exit Focus Mode Button */}
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={toggleFocusMode}
+                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20 transition-all"
+              >
+                <X className="w-5 h-5" />
+                <span className="font-medium">Salir</span>
+              </motion.button>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
-      <div className={`max-w-md mx-auto p-4 transition-all duration-500 ${isFocusMode ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
-        {/* Header with Focus Mode Toggle */}
-        <div className="mb-6 flex items-center justify-between">
-          <div className="flex-1">
-            <h2 className="text-xl font-bold text-white mb-2">{title}</h2>
+            {/* Card Area - Centered */}
+            <div className="relative z-10 flex-1 flex items-center justify-center px-4">
+              {/* Ambient glow */}
+              <motion.div
+                className="absolute inset-0 rounded-3xl bg-gradient-to-br from-lf-primary/30 via-lf-secondary/30 to-lf-accent/30 blur-3xl"
+                animate={{
+                  opacity: [0.4, 0.6, 0.4],
+                  scale: [0.95, 1.05, 0.95],
+                }}
+                transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+              />
 
-            {/* Barra de progreso premium */}
-            {showProgress && (
-              <div className="relative h-3 bg-lf-dark/50 rounded-full overflow-hidden shadow-inner border border-white/10">
-                {/* Animated glow effect */}
+              {/* Card */}
+              <AnimatePresence mode="wait">
+                {currentCard && (
+                  <motion.div
+                    key={currentCard.id}
+                    initial={{ opacity: 0, scale: 0.8, y: 50 }}
+                    animate={{ opacity: 1, scale: 1.1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.8, y: -50 }}
+                    transition={{ duration: ANIMATION_DURATION }}
+                    className="relative"
+                  >
+                    <EpisodicCard
+                      content={currentCard}
+                      onSwipeLeft={handleSwipeLeft}
+                      onSwipeRight={handleSwipeRight}
+                      isFocusMode={true}
+                    />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* Bottom Bar - Progress */}
+            <div className="relative z-10 px-6 py-4">
+              {/* Progress Bar */}
+              <div className="relative h-2 bg-white/10 rounded-full overflow-hidden mb-3">
                 <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-lf-primary via-lf-secondary to-lf-accent opacity-20"
-                  animate={{
-                    x: ['-100%', '100%'],
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: 'linear',
-                  }}
-                />
-                <motion.div
-                  className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-lf-primary via-lf-secondary to-lf-accent shadow-glow-accent"
+                  className="absolute inset-y-0 left-0 h-full bg-gradient-to-r from-lf-primary via-lf-secondary to-lf-accent rounded-full"
                   style={{ backgroundSize: '200% 100%' }}
                   initial={{ width: 0 }}
                   animate={{
@@ -327,31 +377,78 @@ export function MemoryBankSession({
                   }}
                 />
               </div>
-            )}
 
-            {/* Contador premium */}
-            <div className="text-center text-sm text-lf-muted mt-2 font-rajdhani">
-              <span className="text-lf-accent font-bold">{currentIndex + 1}</span>
-              <span className="mx-1">/</span>
-              <span>{sessionCards.length}</span>
+              <div className="flex items-center justify-between text-sm text-white/60">
+                <span>Tarjeta {currentIndex + 1} de {sessionCards.length}</span>
+                <span>{Math.round(progress)}%</span>
+              </div>
             </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Normal Mode */}
+      <div className={`max-w-md mx-auto p-4 transition-all duration-500 ${isFocusMode ? 'opacity-0 pointer-events-none fixed inset-0' : ''}`}>
+        {/* Header */}
+        <div className="mb-6">
+          {/* Title Row with Focus Toggle */}
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-2xl font-bold text-white">{title}</h2>
+
+            {/* Focus Mode Toggle */}
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={toggleFocusMode}
+              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-lf-primary/20 to-lf-secondary/20 border border-lf-primary/30 text-white hover:border-lf-primary/50 transition-all"
+            >
+              <span className="text-lg">🎯</span>
+              <span className="font-semibold text-sm">Focus</span>
+            </motion.button>
           </div>
 
-          {/* Focus Mode Toggle Button */}
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => setIsFocusMode(true)}
-            className="ml-4 px-4 py-2 rounded-xl bg-glass-surface backdrop-blur-md border border-white/20 text-white text-sm font-semibold hover:bg-white/10 transition-colors focus:outline-none focus:ring-2 focus:ring-lf-accent"
-            aria-label="Activar modo focus"
-          >
-            🎯 Focus
-          </motion.button>
+          {/* Progress Bar */}
+          {showProgress && (
+            <div className="relative h-3 bg-lf-dark/50 rounded-full overflow-hidden shadow-inner border border-white/10">
+              {/* Animated glow effect */}
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-lf-primary via-lf-secondary to-lf-accent opacity-20"
+                animate={{
+                  x: ['-100%', '100%'],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: 'linear',
+                }}
+              />
+              <motion.div
+                className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-lf-primary via-lf-secondary to-lf-accent shadow-glow-accent"
+                style={{ backgroundSize: '200% 100%' }}
+                initial={{ width: 0 }}
+                animate={{
+                  width: `${progress}%`,
+                  backgroundPosition: ['0% 50%', '100% 50%'],
+                }}
+                transition={{
+                  width: { duration: ANIMATION_DURATION },
+                  backgroundPosition: { duration: 3, repeat: Infinity, ease: 'linear' },
+                }}
+              />
+            </div>
+          )}
+
+          {/* Counter */}
+          <div className="text-center text-sm text-lf-muted mt-2 font-rajdhani">
+            <span className="text-lf-accent font-bold text-lg">{currentIndex + 1}</span>
+            <span className="mx-1">/</span>
+            <span className="text-lg">{sessionCards.length}</span>
+          </div>
         </div>
 
-        {/* Área de tarjetas con ambient glow */}
+        {/* Card Area */}
         <div className="relative h-[340px] flex items-center justify-center">
-          {/* Ambient glow behind card */}
+          {/* Ambient glow */}
           <motion.div
             className="absolute inset-0 rounded-3xl bg-gradient-to-br from-lf-primary/20 via-lf-secondary/20 to-lf-accent/20 blur-3xl"
             animate={{
@@ -385,10 +482,10 @@ export function MemoryBankSession({
           </AnimatePresence>
         </div>
 
-        {/* Instrucciones premium */}
+        {/* Instructions */}
         <div className="mt-8 flex justify-between items-center px-4">
           <motion.div
-            className="flex items-center gap-2 text-red-400 px-4 py-2 rounded-xl bg-red-500/10 border border-red-500/20"
+            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400"
             whileHover={{ scale: 1.05 }}
             transition={{ type: 'spring', stiffness: 400 }}
           >
@@ -397,11 +494,11 @@ export function MemoryBankSession({
           </motion.div>
 
           <div className="text-center">
-            <p className="text-xs text-lf-muted">Desliza la tarjeta para responder</p>
+            <p className="text-xs text-lf-muted">Desliza para responder • Doble click para voltear</p>
           </div>
 
           <motion.div
-            className="flex items-center gap-2 text-green-400 px-4 py-2 rounded-xl bg-green-500/10 border border-green-500/20"
+            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-green-500/10 border border-green-500/20 text-green-400"
             whileHover={{ scale: 1.05 }}
             transition={{ type: 'spring', stiffness: 400 }}
           >
@@ -410,7 +507,7 @@ export function MemoryBankSession({
           </motion.div>
         </div>
 
-        {/* Estadísticas en tiempo real premium */}
+        {/* Stats */}
         <div className="mt-6 flex justify-center gap-6">
           <motion.div
             className="flex items-center gap-2 px-4 py-2 rounded-xl bg-green-500/10 border border-green-500/20"
@@ -455,15 +552,15 @@ interface MetricCardProps {
 
 function MetricCard({ label, value, color }: MetricCardProps) {
   const colors = {
-    green: 'bg-green-100 text-green-700',
-    yellow: 'bg-yellow-100 text-yellow-700',
-    red: 'bg-red-100 text-red-700',
-    blue: 'bg-blue-100 text-blue-700',
-    purple: 'bg-purple-100 text-purple-700',
+    green: 'bg-green-500/20 border-green-500/30 text-green-400',
+    yellow: 'bg-yellow-500/20 border-yellow-500/30 text-yellow-400',
+    red: 'bg-red-500/20 border-red-500/30 text-red-400',
+    blue: 'bg-blue-500/20 border-blue-500/30 text-blue-400',
+    purple: 'bg-purple-500/20 border-purple-500/30 text-purple-400',
   };
 
   return (
-    <div className={`rounded-xl p-4 ${colors[color]}`}>
+    <div className={`rounded-xl p-4 border ${colors[color]}`}>
       <div className="text-2xl font-bold">{value}</div>
       <div className="text-sm opacity-70">{label}</div>
     </div>
