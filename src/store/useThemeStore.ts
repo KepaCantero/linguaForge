@@ -5,7 +5,7 @@
  */
 
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
 
 // ============================================
 // TIPOS
@@ -62,10 +62,15 @@ export const useThemeStore = create<ThemeStore>()(
       resolved: 'dark',
 
       setTheme: (mode) => {
-        set({
-          mode,
-          resolved: resolveTheme(mode),
-        });
+        const resolved = resolveTheme(mode);
+        set({ mode, resolved });
+
+        // Apply theme to HTML element
+        if (typeof window !== 'undefined') {
+          const html = document.documentElement;
+          html.classList.remove('light', 'dark');
+          html.classList.add(resolved);
+        }
       },
 
       toggleTheme: () => {
@@ -75,6 +80,13 @@ export const useThemeStore = create<ThemeStore>()(
           mode: newTheme,
           resolved: newTheme,
         });
+
+        // Apply theme to HTML element
+        if (typeof window !== 'undefined') {
+          const html = document.documentElement;
+          html.classList.remove('light', 'dark');
+          html.classList.add(newTheme);
+        }
       },
 
       getTheme: () => {
@@ -83,9 +95,38 @@ export const useThemeStore = create<ThemeStore>()(
     }),
     {
       name: 'linguaforge-theme',
+      storage: typeof window !== 'undefined' ? createJSONStorage(() => localStorage) : undefined,
+      onRehydrateStorage: () => (state) => {
+        // Apply theme on rehydration
+        if (state && typeof window !== 'undefined') {
+          const html = document.documentElement;
+          html.classList.remove('light', 'dark');
+          html.classList.add(state.resolved);
+        }
+      },
     }
   )
 );
+
+// Initial theme application
+if (typeof window !== 'undefined') {
+  const html = document.documentElement;
+  const savedTheme = localStorage.getItem('linguaforge-theme');
+  if (savedTheme) {
+    try {
+      const parsed = JSON.parse(savedTheme);
+      const theme = parsed.state?.resolved || 'dark';
+      html.classList.remove('light', 'dark');
+      html.classList.add(theme);
+    } catch {
+      // If parsing fails, use dark theme
+      html.classList.remove('light');
+      html.classList.add('dark');
+    }
+  } else {
+    html.classList.add('dark');
+  }
+}
 
 // ============================================
 // HOOKS

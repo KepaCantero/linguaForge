@@ -73,10 +73,10 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-title" content="LinguaForge" />
       </head>
       <body className="font-atkinson antialiased text-white">
-        {/* Skip link para accesibilidad */}
+        {/* Skip link para accesibilidad - solo visible al recibir foco */}
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-lf-accent focus:text-lf-dark focus:rounded-lg"
+          className="sr-only rounded-lg bg-lf-accent px-4 py-2 text-lf-dark focus:fixed focus:left-4 focus:top-4 focus:z-[100]"
         >
           Saltar al contenido principal
         </a>

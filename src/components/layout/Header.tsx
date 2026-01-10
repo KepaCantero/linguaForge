@@ -1,12 +1,15 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { User } from 'lucide-react';
+import Link from 'next/link';
 import { useGamificationStore } from '@/store/useGamificationStore';
 import { getLevelProgress } from '@/lib/constants';
 import { RankBadgeWithTooltip } from '@/components/ui/RankBadge';
 import { HPIndicator } from '@/components/ui/HPIndicator';
 import { CognitiveLoadIndicator } from '@/components/ui/CognitiveLoadIndicator';
 import { CountUpNumber } from '@/components/ui/CountUpNumber';
+import { StatTooltip } from '@/components/ui/Tooltip';
 
 /**
  * Premium Header with AAA-quality visual design
@@ -140,68 +143,70 @@ export function Header() {
 
             {/* XP - Premium progress bar */}
             <li>
-              <motion.div
-                className="relative px-3 py-1.5 rounded-xl bg-glass-surface backdrop-blur-md border border-white/10"
-                whileHover={{ scale: 1.02 }}
-                transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-              >
-                {/* Glow effect */}
-                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-lf-accent/10 to-lf-secondary/10" />
-
-                <div
-                  className="relative flex items-center gap-2"
-                  role="status"
-                  aria-label={`${xp} puntos de experiencia, ${progress}% para el siguiente nivel`}
+              <StatTooltip stat="xp">
+                <motion.div
+                  className="relative px-3 py-1.5 rounded-xl bg-glass-surface backdrop-blur-md border border-white/10"
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                 >
-                  {/* XP Icon */}
-                  <motion.div
-                    className="w-5 h-5 rounded bg-lf-accent/20 flex items-center justify-center"
-                    animate={{
-                      scale: [1, 1.1, 1],
-                    }}
-                    transition={{
-                      duration: 2,
-                      repeat: Infinity,
-                      ease: 'easeInOut',
-                    }}
+                  {/* Glow effect */}
+                  <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-lf-accent/10 to-lf-secondary/10" />
+
+                  <div
+                    className="relative flex items-center gap-2"
+                    role="status"
+                    aria-label={`${xp} puntos de experiencia, ${progress}% para el siguiente nivel`}
                   >
-                    <div className="w-2.5 h-2.5 bg-lf-accent rounded-sm animate-resonance-pulse" />
-                  </motion.div>
-
-                  {/* XP Value */}
-                  <div className="flex flex-col">
-                    <div className="flex items-center gap-1">
-                      <span className="text-[10px] text-lf-muted uppercase tracking-wide">
-                        XP
-                      </span>
-                      <span className="font-rajdhani font-bold text-lf-accent text-sm">
-                        <CountUpNumber value={xp} duration={0.8} />
-                      </span>
-                    </div>
-
-                    {/* Premium progress bar */}
-                    <div
-                      className="w-14 h-2 bg-lf-dark/50 rounded-full overflow-hidden"
-                      role="progressbar"
-                      aria-valuenow={progress}
-                      aria-valuemin={0}
-                      aria-valuemax={100}
-                      aria-label="Progreso de nivel"
+                    {/* XP Icon */}
+                    <motion.div
+                      className="w-5 h-5 rounded bg-lf-accent/20 flex items-center justify-center"
+                      animate={{
+                        scale: [1, 1.1, 1],
+                      }}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        ease: 'easeInOut',
+                      }}
                     >
-                      <motion.div
-                        className="h-full bg-gradient-to-r from-lf-accent via-lf-secondary to-lf-accent rounded-full"
-                        style={{ backgroundSize: '200% 100%' }}
-                        initial={{ width: 0 }}
-                        animate={{ width: `${progress}%`, backgroundPosition: ['0% 50%', '100% 50%'] }}
-                        transition={{
-                          width: { duration: 0.5, ease: 'easeOut' },
-                          backgroundPosition: { duration: 3, repeat: Infinity, ease: 'linear' },
-                        }}
-                      />
+                      <div className="w-2.5 h-2.5 bg-lf-accent rounded-sm animate-resonance-pulse" />
+                    </motion.div>
+
+                    {/* XP Value */}
+                    <div className="flex flex-col">
+                      <div className="flex items-center gap-1">
+                        <span className="text-[10px] text-lf-muted uppercase tracking-wide">
+                          XP
+                        </span>
+                        <span className="font-rajdhani font-bold text-lf-accent text-sm">
+                          <CountUpNumber value={xp} duration={0.8} />
+                        </span>
+                      </div>
+
+                      {/* Premium progress bar */}
+                      <div
+                        className="w-14 h-2 bg-lf-dark/50 rounded-full overflow-hidden"
+                        role="progressbar"
+                        aria-valuenow={progress}
+                        aria-valuemin={0}
+                        aria-valuemax={100}
+                        aria-label="Progreso de nivel"
+                      >
+                        <motion.div
+                          className="h-full bg-gradient-to-r from-lf-accent via-lf-secondary to-lf-accent rounded-full"
+                          style={{ backgroundSize: '200% 100%' }}
+                          initial={{ width: 0 }}
+                          animate={{ width: `${progress}%`, backgroundPosition: ['0% 50%', '100% 50%'] }}
+                          transition={{
+                            width: { duration: 0.5, ease: 'easeOut' },
+                            backgroundPosition: { duration: 3, repeat: Infinity, ease: 'linear' },
+                          }}
+                        />
+                      </div>
                     </div>
                   </div>
-                </div>
-              </motion.div>
+                </motion.div>
+              </StatTooltip>
             </li>
 
             {/* Divider */}
@@ -212,75 +217,78 @@ export function Header() {
 
             {/* Coins */}
             <motion.li whileHover={{ y: -2 }} transition={{ type: 'spring', stiffness: 400, damping: 30 }}>
-              <div
-                className="px-2.5 py-1.5 rounded-xl bg-glass-surface backdrop-blur-md border border-white/10 flex items-center gap-1.5"
-                role="status"
-                aria-label={`${coins} monedas`}
-                title="Monedas"
-              >
-                <motion.span
-                  className="text-lf-secondary"
-                  aria-hidden="true"
-                  animate={{ rotate: [0, 10, -10, 0] }}
-                  transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+              <StatTooltip stat="coins">
+                <div
+                  className="px-2.5 py-1.5 rounded-xl bg-glass-surface backdrop-blur-md border border-white/10 flex items-center gap-1.5"
+                  role="status"
+                  aria-label={`${coins} monedas`}
                 >
-                  ◈
-                </motion.span>
-                <span className="font-rajdhani font-medium text-white text-sm">
-                  <CountUpNumber value={coins} duration={0.6} />
-                </span>
-              </div>
+                  <motion.span
+                    className="text-lf-secondary"
+                    aria-hidden="true"
+                    animate={{ rotate: [0, 10, -10, 0] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                  >
+                    ◈
+                  </motion.span>
+                  <span className="font-rajdhani font-medium text-white text-sm">
+                    <CountUpNumber value={coins} duration={0.6} />
+                  </span>
+                </div>
+              </StatTooltip>
             </motion.li>
 
             {/* Gems */}
             <motion.li whileHover={{ y: -2 }} transition={{ type: 'spring', stiffness: 400, damping: 30 }}>
-              <div
-                className="px-2.5 py-1.5 rounded-xl bg-glass-surface backdrop-blur-md border border-white/10 flex items-center gap-1.5"
-                role="status"
-                aria-label={`${gems} gemas`}
-                title="Gemas"
-              >
-                <motion.span
-                  className="text-lf-secondary"
-                  aria-hidden="true"
-                  animate={{ rotate: [0, -15, 15, 0] }}
-                  transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
+              <StatTooltip stat="gems">
+                <div
+                  className="px-2.5 py-1.5 rounded-xl bg-glass-surface backdrop-blur-md border border-white/10 flex items-center gap-1.5"
+                  role="status"
+                  aria-label={`${gems} gemas`}
                 >
-                  ⬡
-                </motion.span>
-                <span className="font-rajdhani font-medium text-white text-sm">
-                  <CountUpNumber value={gems} duration={0.6} />
-                </span>
-              </div>
+                  <motion.span
+                    className="text-lf-secondary"
+                    aria-hidden="true"
+                    animate={{ rotate: [0, -15, 15, 0] }}
+                    transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
+                  >
+                    ⬡
+                  </motion.span>
+                  <span className="font-rajdhani font-medium text-white text-sm">
+                    <CountUpNumber value={gems} duration={0.6} />
+                  </span>
+                </div>
+              </StatTooltip>
             </motion.li>
 
             {/* Streak */}
             <motion.li whileHover={{ y: -2, scale: 1.05 }} transition={{ type: 'spring', stiffness: 400, damping: 30 }}>
-              <div
-                className="px-2.5 py-1.5 rounded-xl bg-glass-surface backdrop-blur-md border border-white/10 flex items-center gap-1.5"
-                role="status"
-                aria-label={`Racha de ${streak} días`}
-                title="Racha de días"
-              >
-                <motion.span
-                  className={`text-sm ${
-                    streak > 0
-                      ? "text-lf-accent"
-                      : "text-lf-muted"
-                  }`}
-                  aria-hidden="true"
-                  animate={streak > 0 ? {
-                    scale: [1, 1.2, 1],
-                    filter: ['drop-shadow(0 0 0px rgba(253, 224, 71, 0))', 'drop-shadow(0 0 8px rgba(253, 224, 71, 0.6))', 'drop-shadow(0 0 0px rgba(253, 224, 71, 0))'],
-                  } : {}}
-                  transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+              <StatTooltip stat="streak">
+                <div
+                  className="px-2.5 py-1.5 rounded-xl bg-glass-surface backdrop-blur-md border border-white/10 flex items-center gap-1.5"
+                  role="status"
+                  aria-label={`Racha de ${streak} días`}
                 >
-                  🔥
-                </motion.span>
-                <span className="font-rajdhani font-medium text-white text-sm">
-                  {streak}
-                </span>
-              </div>
+                  <motion.span
+                    className={`text-sm ${
+                      streak > 0
+                        ? "text-lf-accent"
+                        : "text-lf-muted"
+                    }`}
+                    aria-hidden="true"
+                    animate={streak > 0 ? {
+                      scale: [1, 1.2, 1],
+                      filter: ['drop-shadow(0 0 0px rgba(253, 224, 71, 0))', 'drop-shadow(0 0 8px rgba(253, 224, 71, 0.6))', 'drop-shadow(0 0 0px rgba(253, 224, 71, 0))'],
+                    } : {}}
+                    transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+                  >
+                    🔥
+                  </motion.span>
+                  <span className="font-rajdhani font-medium text-white text-sm">
+                    {streak}
+                  </span>
+                </div>
+              </StatTooltip>
             </motion.li>
 
             {/* HP - Large screens */}
@@ -289,9 +297,11 @@ export function Header() {
               whileHover={{ y: -2 }}
               transition={{ type: 'spring', stiffness: 400, damping: 30 }}
             >
-              <div className="px-2.5 py-1.5 rounded-xl bg-glass-surface backdrop-blur-md border border-white/10">
-                <HPIndicator hp={hp} showLabel={false} size="sm" />
-              </div>
+              <StatTooltip stat="hp">
+                <div className="px-2.5 py-1.5 rounded-xl bg-glass-surface backdrop-blur-md border border-white/10">
+                  <HPIndicator hp={hp} showLabel={false} size="sm" />
+                </div>
+              </StatTooltip>
             </motion.li>
 
             {/* Cognitive Load - Large screens */}
@@ -300,9 +310,31 @@ export function Header() {
               whileHover={{ y: -2 }}
               transition={{ type: 'spring', stiffness: 400, damping: 30 }}
             >
-              <div className="px-2.5 py-1.5 rounded-xl bg-glass-surface backdrop-blur-md border border-white/10">
-                <CognitiveLoadIndicator showLabel={false} size="sm" />
-              </div>
+              <StatTooltip stat="cognitiveLoad">
+                <div className="px-2.5 py-1.5 rounded-xl bg-glass-surface backdrop-blur-md border border-white/10">
+                  <CognitiveLoadIndicator showLabel={false} size="sm" />
+                </div>
+              </StatTooltip>
+            </motion.li>
+
+            {/* Divider */}
+            <li
+              aria-hidden="true"
+              className="w-px h-6 bg-gradient-to-b from-transparent via-lf-primary/30 to-transparent hidden sm:block"
+            />
+
+            {/* Profile Button */}
+            <motion.li whileHover={{ y: -2 }} transition={{ type: 'spring', stiffness: 400, damping: 30 }}>
+              <Link
+                href="/profile"
+                className="relative px-2.5 py-1.5 rounded-xl bg-glass-surface backdrop-blur-md border border-white/10 flex items-center gap-1.5 hover:bg-white/5 transition-colors focus:outline-none focus:ring-2 focus:ring-lf-accent focus:ring-offset-2 focus:ring-offset-lf-dark"
+                aria-label="Ir al perfil"
+              >
+                <User className="w-4 h-4 text-lf-muted" aria-hidden="true" />
+                <span className="hidden lg:inline font-rajdhani font-medium text-white text-sm">
+                  Perfil
+                </span>
+              </Link>
             </motion.li>
           </ul>
         </nav>
