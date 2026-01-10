@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { useUserStore } from '@/store/useUserStore';
 
 // ============================================
 // TYPES
@@ -24,8 +25,6 @@ interface WelcomeModalProps {
 // ============================================
 // CONSTANTS
 // ============================================
-
-const STORAGE_KEY = 'linguaforge-welcome-seen';
 
 const WELCOME_STEPS: WelcomeStep[] = [
   {
@@ -81,22 +80,20 @@ const WELCOME_STEPS: WelcomeStep[] = [
 ];
 
 // ============================================
-// HOOK
+// HOOK - Now uses Zustand store
 // ============================================
 
 export function useWelcomeModal() {
   const [isOpen, setIsOpen] = useState(false);
-  const [hasSeenWelcome, setHasSeenWelcome] = useState(true);
+  const hasCompletedOnboarding = useUserStore((state) => state.hasCompletedOnboarding);
+  const completeOnboarding = useUserStore((state) => state.completeOnboarding);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-
-    const seen = localStorage.getItem(STORAGE_KEY);
-    if (!seen) {
-      setHasSeenWelcome(false);
+    // Only show onboarding if not completed
+    if (!hasCompletedOnboarding) {
       setIsOpen(true);
     }
-  }, []);
+  }, [hasCompletedOnboarding]);
 
   const open = useCallback(() => {
     setIsOpen(true);
@@ -107,18 +104,15 @@ export function useWelcomeModal() {
   }, []);
 
   const markAsSeen = useCallback(() => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem(STORAGE_KEY, 'true');
-      setHasSeenWelcome(true);
-    }
-  }, []);
+    completeOnboarding();
+  }, [completeOnboarding]);
 
   return {
     isOpen,
     open,
     close,
     markAsSeen,
-    hasSeenWelcome,
+    hasCompletedOnboarding,
   };
 }
 
@@ -129,19 +123,18 @@ export function useWelcomeModal() {
 export function WelcomeModal({ isOpen, onClose, onComplete }: WelcomeModalProps) {
   const [currentStep, setCurrentStep] = useState(0);
   const prefersReduced = useReducedMotion();
+  const completeOnboarding = useUserStore((state) => state.completeOnboarding);
 
   const handleNext = useCallback(() => {
     if (currentStep < WELCOME_STEPS.length - 1) {
       setCurrentStep((prev) => prev + 1);
     } else {
-      // Mark as seen and complete
-      if (typeof window !== 'undefined') {
-        localStorage.setItem(STORAGE_KEY, 'true');
-      }
+      // Mark as seen using Zustand store
+      completeOnboarding();
       onComplete?.();
       onClose();
     }
-  }, [currentStep, onClose, onComplete]);
+  }, [currentStep, completeOnboarding, onClose, onComplete]);
 
   const handlePrev = useCallback(() => {
     if (currentStep > 0) {
@@ -150,11 +143,9 @@ export function WelcomeModal({ isOpen, onClose, onComplete }: WelcomeModalProps)
   }, [currentStep]);
 
   const handleSkip = useCallback(() => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem(STORAGE_KEY, 'true');
-    }
+    completeOnboarding();
     onClose();
-  }, [onClose]);
+  }, [completeOnboarding, onClose]);
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {

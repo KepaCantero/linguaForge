@@ -97,7 +97,7 @@ export function InfiniteCourseMap({ translations, userProgress }: InfiniteCourse
   const [selectedLevel, setSelectedLevel] = useState<string | null>(null);
   const [visibleNodes, setVisibleNodes] = useState(50); // Load nodes in batches
   const [isLoading, setIsLoading] = useState(false);
-  const [showOnlyUnlocked, setShowOnlyUnlocked] = useState(true);
+  const [showOnlyUnlocked, setShowOnlyUnlocked] = useState(false); // Show all topics by default
 
   const allNodes = useMemo(() => generateTopicNodes(), []);
   const containerRef = useRef<HTMLDivElement>(null);
