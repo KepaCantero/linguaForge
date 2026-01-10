@@ -208,14 +208,238 @@ export function LearnSkeleton() {
   );
 }
 
+// ============================================
+// EXERCISE SKELETONS (GS-2.1)
+// ============================================
+
+// Skeleton para ejercicios de tipo fill-in-the-blank
+export function ExerciseSkeleton() {
+  return (
+    <div className="w-full max-w-2xl mx-auto p-6">
+      {/* Tipo de ejercicio */}
+      <div className="flex justify-center mb-4">
+        <Skeleton className="h-6 w-32 rounded-full bg-lf-primary/20" />
+      </div>
+
+      {/* Frase con hueco */}
+      <div className="bg-lf-dark/50 rounded-2xl p-6 mb-6 border border-lf-primary/10">
+        <div className="flex flex-wrap items-center justify-center gap-2 mb-4">
+          <Skeleton className="h-8 w-16 bg-lf-muted/30" />
+          <Skeleton className="h-8 w-20 bg-lf-muted/30" />
+          <Skeleton className="h-10 w-24 rounded-lg bg-lf-primary/30" />
+          <Skeleton className="h-8 w-24 bg-lf-muted/30" />
+          <Skeleton className="h-8 w-12 bg-lf-muted/30" />
+        </div>
+        {/* Traducción */}
+        <Skeleton className="h-4 w-48 mx-auto bg-lf-muted/20" />
+      </div>
+
+      {/* Opciones 2x2 */}
+      <div className="grid grid-cols-2 gap-3 mb-6">
+        {[1, 2, 3, 4].map((i) => (
+          <Skeleton
+            key={i}
+            className="h-14 rounded-xl bg-lf-soft border border-lf-primary/10"
+          />
+        ))}
+      </div>
+
+      {/* Barra de progreso */}
+      <div className="flex items-center gap-3">
+        <Skeleton className="h-4 w-8 bg-lf-muted/20" />
+        <Skeleton className="h-2 flex-1 rounded-full bg-lf-muted/20" />
+        <Skeleton className="h-4 w-8 bg-lf-muted/20" />
+      </div>
+    </div>
+  );
+}
+
+// Skeleton para ejercicio de audio/listening
+export function ListeningExerciseSkeleton() {
+  return (
+    <div className="w-full max-w-2xl mx-auto p-6">
+      {/* Audio player */}
+      <div className="bg-lf-dark/50 rounded-2xl p-8 mb-6 border border-lf-primary/10">
+        <div className="flex flex-col items-center gap-4">
+          <Skeleton className="w-20 h-20 rounded-full bg-lf-primary/20" />
+          <Skeleton className="h-2 w-48 rounded-full bg-lf-muted/20" />
+          <div className="flex gap-3">
+            <Skeleton className="w-10 h-10 rounded-full bg-lf-muted/30" />
+            <Skeleton className="w-14 h-14 rounded-full bg-lf-primary/30" />
+            <Skeleton className="w-10 h-10 rounded-full bg-lf-muted/30" />
+          </div>
+        </div>
+      </div>
+
+      {/* Opciones */}
+      <div className="space-y-3">
+        {[1, 2, 3, 4].map((i) => (
+          <Skeleton
+            key={i}
+            className="h-16 rounded-xl bg-lf-soft border border-lf-primary/10"
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// Skeleton para tarjeta SRS
+export function SRSCardSkeleton() {
+  return (
+    <div className="w-full max-w-md mx-auto">
+      {/* Contador de tarjetas */}
+      <div className="flex justify-center gap-4 mb-4">
+        <Skeleton className="h-6 w-16 rounded-full bg-green-500/20" />
+        <Skeleton className="h-6 w-16 rounded-full bg-yellow-500/20" />
+        <Skeleton className="h-6 w-16 rounded-full bg-red-500/20" />
+      </div>
+
+      {/* Tarjeta principal */}
+      <div className="bg-lf-soft rounded-2xl p-8 shadow-lg border border-lf-primary/20">
+        {/* Contenido frontal */}
+        <div className="text-center mb-6">
+          <Skeleton className="h-8 w-3/4 mx-auto mb-4 bg-lf-muted/30" />
+          <Skeleton className="h-5 w-1/2 mx-auto bg-lf-muted/20" />
+        </div>
+
+        {/* Divider */}
+        <Skeleton className="h-px w-full my-6 bg-lf-primary/10" />
+
+        {/* Botón mostrar */}
+        <Skeleton className="h-12 w-full rounded-xl bg-lf-primary/20" />
+      </div>
+
+      {/* Botones de respuesta (ocultos hasta mostrar) */}
+      <div className="grid grid-cols-4 gap-2 mt-4 opacity-30">
+        {['Again', 'Hard', 'Good', 'Easy'].map((label) => (
+          <Skeleton
+            key={label}
+            className="h-12 rounded-lg bg-lf-muted/20"
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// Skeleton para tarjeta SRS revelada
+export function SRSCardRevealedSkeleton() {
+  return (
+    <div className="w-full max-w-md mx-auto">
+      {/* Contador de tarjetas */}
+      <div className="flex justify-center gap-4 mb-4">
+        <Skeleton className="h-6 w-16 rounded-full bg-green-500/20" />
+        <Skeleton className="h-6 w-16 rounded-full bg-yellow-500/20" />
+        <Skeleton className="h-6 w-16 rounded-full bg-red-500/20" />
+      </div>
+
+      {/* Tarjeta principal */}
+      <div className="bg-lf-soft rounded-2xl p-8 shadow-lg border border-lf-primary/20">
+        {/* Frase original */}
+        <div className="text-center mb-4">
+          <Skeleton className="h-8 w-3/4 mx-auto mb-2 bg-lf-muted/30" />
+          <Skeleton className="h-4 w-1/4 mx-auto bg-lf-muted/20" />
+        </div>
+
+        {/* Divider */}
+        <Skeleton className="h-px w-full my-4 bg-lf-primary/10" />
+
+        {/* Traducción */}
+        <div className="text-center">
+          <Skeleton className="h-6 w-2/3 mx-auto mb-2 bg-lf-accent/20" />
+          <Skeleton className="h-4 w-1/2 mx-auto bg-lf-muted/20" />
+        </div>
+      </div>
+
+      {/* Botones de respuesta */}
+      <div className="grid grid-cols-4 gap-2 mt-4">
+        <div className="flex flex-col items-center gap-1">
+          <Skeleton className="h-10 w-full rounded-lg bg-red-500/20" />
+          <Skeleton className="h-3 w-12 bg-lf-muted/20" />
+        </div>
+        <div className="flex flex-col items-center gap-1">
+          <Skeleton className="h-10 w-full rounded-lg bg-orange-500/20" />
+          <Skeleton className="h-3 w-12 bg-lf-muted/20" />
+        </div>
+        <div className="flex flex-col items-center gap-1">
+          <Skeleton className="h-10 w-full rounded-lg bg-green-500/20" />
+          <Skeleton className="h-3 w-12 bg-lf-muted/20" />
+        </div>
+        <div className="flex flex-col items-center gap-1">
+          <Skeleton className="h-10 w-full rounded-lg bg-blue-500/20" />
+          <Skeleton className="h-3 w-12 bg-lf-muted/20" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Skeleton para transición entre ejercicios
+export function ExerciseTransitionSkeleton() {
+  return (
+    <div className="w-full max-w-2xl mx-auto p-6">
+      <div className="flex flex-col items-center justify-center py-12">
+        {/* Icono de carga animado */}
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+          className="w-12 h-12 rounded-full border-2 border-lf-primary/30 border-t-lf-primary mb-4"
+        />
+        <Skeleton className="h-5 w-32 bg-lf-muted/30" />
+      </div>
+    </div>
+  );
+}
+
+// Skeleton para resultados de sesión
+export function SessionResultsSkeleton() {
+  return (
+    <div className="w-full max-w-lg mx-auto p-6">
+      {/* Título */}
+      <div className="text-center mb-8">
+        <Skeleton className="h-16 w-16 mx-auto rounded-full bg-lf-accent/20 mb-4" />
+        <Skeleton className="h-8 w-48 mx-auto mb-2 bg-lf-muted/30" />
+        <Skeleton className="h-4 w-32 mx-auto bg-lf-muted/20" />
+      </div>
+
+      {/* Stats */}
+      <div className="grid grid-cols-3 gap-4 mb-6">
+        {[1, 2, 3].map((i) => (
+          <div key={i} className="bg-lf-dark/30 rounded-xl p-4 text-center">
+            <Skeleton className="h-8 w-12 mx-auto mb-2 bg-lf-muted/30" />
+            <Skeleton className="h-4 w-16 mx-auto bg-lf-muted/20" />
+          </div>
+        ))}
+      </div>
+
+      {/* XP ganado */}
+      <div className="bg-lf-primary/10 rounded-xl p-4 mb-6">
+        <div className="flex items-center justify-between">
+          <Skeleton className="h-5 w-24 bg-lf-muted/30" />
+          <Skeleton className="h-8 w-20 bg-lf-accent/30" />
+        </div>
+      </div>
+
+      {/* Botones */}
+      <div className="space-y-3">
+        <Skeleton className="h-14 w-full rounded-xl bg-lf-primary/30" />
+        <Skeleton className="h-12 w-full rounded-xl bg-lf-muted/20" />
+      </div>
+    </div>
+  );
+}
+
 // Componente de página completa con skeleton
-export function PageSkeleton({ type }: { type: 'decks' | 'missions' | 'dashboard' | 'input' | 'learn' }) {
+export function PageSkeleton({ type }: { type: 'decks' | 'missions' | 'dashboard' | 'input' | 'learn' | 'exercise' | 'srs' }) {
   const skeletons = {
     decks: DecksSkeleton,
     missions: MissionsSkeleton,
     dashboard: DashboardSkeleton,
     input: InputSkeleton,
     learn: LearnSkeleton,
+    exercise: ExerciseSkeleton,
+    srs: SRSCardSkeleton,
   };
 
   const SkeletonComponent = skeletons[type];

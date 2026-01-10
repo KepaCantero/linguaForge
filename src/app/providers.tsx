@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { ServiceWorkerRegistration } from '@/components/pwa/ServiceWorkerRegistration';
+import { AnalyticsProvider } from '@/components/analytics';
 import { initConstructionRewards } from '@/services/constructionRewards';
 
 export function Providers({ children }: { children: React.ReactNode }) {
@@ -13,8 +14,10 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
   return (
     <AuthProvider>
-      {children}
-      <ServiceWorkerRegistration />
+      <AnalyticsProvider>
+        {children}
+        <ServiceWorkerRegistration />
+      </AnalyticsProvider>
     </AuthProvider>
   );
 }

@@ -1,0 +1,90 @@
+name: Lighthouse CI
+
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [main]
+
+jobs:
+  lighthouse:
+    name: Lighthouse Audit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+        env:
+          # Skip type checking during build for faster CI
+          NEXT_TELEMETRY_DISABLED: 1
+
+      - name: Start server
+        run: npm run start &
+        env:
+          PORT: 3000
+
+      - name: Wait for server
+        run: npx wait-on http://localhost:3000 --timeout 60000
+
+      - name: Run Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v11
+        with:
+          urls: |
+            http://localhost:3000
+            http://localhost:3000/learn
+            http://localhost:3000/decks
+            http://localhost:3000/input
+          configPath: './lighthouserc.json'
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+
+      - name: Format lighthouse score
+        id: format_lighthouse_score
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const results = JSON.parse(fs.readFileSync('.lighthouseci/manifest.json', 'utf8'));
+            let comment = '## Lighthouse Results\n\n';
+            comment += '| URL | Performance | Accessibility | Best Practices | SEO |\n';
+            comment += '|-----|-------------|---------------|----------------|-----|\n';
+            for (const result of results) {
+              const summary = result.summary;
+              const url = result.url.replace('http://localhost:3000', '');
+              const perf = Math.round(summary.performance * 100);
+              const a11y = Math.round(summary.accessibility * 100);
+              const bp = Math.round(summary['best-practices'] * 100);
+              const seo = Math.round(summary.seo * 100);
+              const perfEmoji = perf >= 90 ? '🟢' : perf >= 50 ? '🟡' : '🔴';
+              const a11yEmoji = a11y >= 90 ? '🟢' : a11y >= 50 ? '🟡' : '🔴';
+              const bpEmoji = bp >= 90 ? '🟢' : bp >= 50 ? '🟡' : '🔴';
+              const seoEmoji = seo >= 90 ? '🟢' : seo >= 50 ? '🟡' : '🔴';
+              comment += `| ${url || '/'} | ${perfEmoji} ${perf} | ${a11yEmoji} ${a11y} | ${bpEmoji} ${bp} | ${seoEmoji} ${seo} |\n`;
+            }
+            return comment;
+          result-encoding: string
+
+      - name: Comment on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const comment = `${{ steps.format_lighthouse_score.outputs.result }}`;
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });

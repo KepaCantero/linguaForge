@@ -17,7 +17,7 @@ import {
   calculateAverageEaseFactor,
   createCard,
   isDueForReview,
-} from '@/lib/sm2';
+} from '@/lib/srsAdapter';
 
 // ============================================
 // TIPOS

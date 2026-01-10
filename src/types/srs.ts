@@ -38,6 +38,21 @@ export const ReviewHistoryEntrySchema = z.object({
 
 export type ReviewHistoryEntry = z.infer<typeof ReviewHistoryEntrySchema>;
 
+// Estado FSRS v6 (opcional, para migración gradual)
+export const FSRSStateSchema = z.object({
+  due: z.string(), // ISO date
+  stability: z.number(),
+  difficulty: z.number(),
+  elapsed_days: z.number(),
+  scheduled_days: z.number(),
+  reps: z.number(),
+  lapses: z.number(),
+  state: z.enum(['New', 'Learning', 'Review', 'Relearning']),
+  last_review: z.string().optional(), // ISO date
+});
+
+export type FSRSState = z.infer<typeof FSRSStateSchema>;
+
 // Tarjeta SRS individual
 export const SRSCardSchema = z.object({
   id: z.string(),
@@ -55,7 +70,7 @@ export const SRSCardSchema = z.object({
   languageCode: z.string().default('fr'),
   levelCode: z.string().default('A1'),
 
-  // Estado SM-2
+  // Estado SM-2 (legacy, mantener para compatibilidad)
   status: z.enum(CardStatusValues).default('new'),
   easeFactor: z.number().default(2.5), // Factor de facilidad (2.5 default SM-2)
   interval: z.number().default(0), // Intervalo actual en días
@@ -63,6 +78,12 @@ export const SRSCardSchema = z.object({
 
   // Próximo repaso
   nextReviewDate: z.string(), // ISO date del próximo repaso
+
+  // Estado FSRS v6 (nuevo, migración gradual)
+  fsrs: FSRSStateSchema.optional(),
+
+  // Algoritmo usado para esta tarjeta
+  algorithm: z.enum(['sm2', 'fsrs']).default('fsrs'),
 
   // Historial
   reviewHistory: z.array(ReviewHistoryEntrySchema).default([]),

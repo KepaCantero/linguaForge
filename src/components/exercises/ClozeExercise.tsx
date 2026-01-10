@@ -6,6 +6,7 @@ import { Phrase, ClozeOption, ConversationalBlock } from "@/types";
 import { useGamificationStore } from "@/store/useGamificationStore";
 import { useTTS } from "@/services/ttsService";
 import { XP_RULES } from "@/lib/constants";
+import { useSoundEffects, useSoundEffectsInit } from "@/hooks/useSoundEffects";
 
 interface ClozeExerciseProps {
   phrase: Phrase;
@@ -18,6 +19,11 @@ export function ClozeExercise({ phrase, block, onComplete }: ClozeExerciseProps)
 
   const { addXP } = useGamificationStore();
   const { speak, isSpeaking } = useTTS();
+  const { play, playCorrect, playIncorrect, enabled: soundEnabled } = useSoundEffects();
+
+  // Inicializar efectos de sonido tras primera interacción
+  useSoundEffectsInit();
+
   const [selectedOption, setSelectedOption] = useState<ClozeOption | null>(
     null
   );
@@ -53,9 +59,23 @@ export function ClozeExercise({ phrase, block, onComplete }: ClozeExerciseProps)
         navigator.vibrate(10);
       }
 
+      // Sonido de click
+      if (soundEnabled) {
+        play('click');
+      }
+
       setSelectedOption(option);
       setIsCorrect(option.isCorrect);
       setShowResult(true);
+
+      // Sonido de respuesta correcta/incorrecta
+      if (soundEnabled) {
+        if (option.isCorrect) {
+          playCorrect();
+        } else {
+          playIncorrect();
+        }
+      }
 
       // Dar XP
       addXP(option.isCorrect ? XP_RULES.clozeCorrect : XP_RULES.clozeIncorrect);
@@ -65,7 +85,7 @@ export function ClozeExercise({ phrase, block, onComplete }: ClozeExerciseProps)
         onComplete(option.isCorrect);
       }, 2000);
     },
-    [showResult, addXP, onComplete]
+    [showResult, addXP, onComplete, soundEnabled, play, playCorrect, playIncorrect]
   );
 
   // Atajos de teclado: 1-4 para seleccionar opción, ESPACIO para reproducir audio
@@ -107,6 +127,14 @@ export function ClozeExercise({ phrase, block, onComplete }: ClozeExerciseProps)
       return () => clearTimeout(timer);
     }
   }, [showResult, isCorrect, speak, fullBlockText]);
+
+  // Manejador para toggle de traducción con sonido
+  const handleToggleTranslation = useCallback(() => {
+    if (soundEnabled) {
+      play('whoosh');
+    }
+    setShowTranslation(prev => !prev);
+  }, [soundEnabled, play]);
 
   const correctOption = phrase.clozeOptions.find((o) => o.isCorrect);
 
@@ -193,7 +221,7 @@ export function ClozeExercise({ phrase, block, onComplete }: ClozeExerciseProps)
         {/* Botón para mostrar/ocultar traducción */}
         <div className="mt-4 flex items-center justify-center">
           <button
-            onClick={() => setShowTranslation(!showTranslation)}
+            onClick={handleToggleTranslation}
             className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600"
           >
             <span>{showTranslation ? "👁️" : "👁️‍🗨️"}</span>

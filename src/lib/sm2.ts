@@ -363,5 +363,6 @@ export function createCard(
     tags: options?.tags ?? [],
     audioUrl: options?.audioUrl,
     notes: options?.notes,
+    algorithm: 'fsrs' as const, // Default to FSRS for new cards
   };
 }

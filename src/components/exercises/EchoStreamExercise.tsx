@@ -217,15 +217,15 @@ export function EchoStreamExercise({ exercise, onComplete }: EchoStreamExerciseP
         },
         onload: async () => {
           // Generar waveform básico (simulado)
-          const mockWaveform = Array.from({ length: 200 }, () => Math.random() * 0.5 + 0.25);
-          setWaveformData(mockWaveform);
+          const fallbackWaveform = Array.from({ length: 200 }, () => Math.random() * 0.5 + 0.25);
+          setWaveformData(fallbackWaveform);
         },
         onloaderror: (_id, error) => {
           console.warn('Error loading audio, continuing without audio:', error);
           setIsPlaying(false);
           // Generar waveform básico incluso sin audio
-          const mockWaveform = Array.from({ length: 200 }, () => Math.random() * 0.5 + 0.25);
-          setWaveformData(mockWaveform);
+          const fallbackWaveform = Array.from({ length: 200 }, () => Math.random() * 0.5 + 0.25);
+          setWaveformData(fallbackWaveform);
         },
       });
       
@@ -245,8 +245,8 @@ export function EchoStreamExercise({ exercise, onComplete }: EchoStreamExerciseP
     } catch (error) {
       console.warn('Error initializing audio, continuing without audio:', error);
       // Generar waveform básico incluso sin audio
-      const mockWaveform = Array.from({ length: 200 }, () => Math.random() * 0.5 + 0.25);
-      setWaveformData(mockWaveform);
+      const fallbackWaveform = Array.from({ length: 200 }, () => Math.random() * 0.5 + 0.25);
+      setWaveformData(fallbackWaveform);
     }
   }, [exercise.audioUrl, handleComplete]);
 

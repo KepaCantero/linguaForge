@@ -2,8 +2,6 @@
 
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useMemo } from 'react';
-import Link from 'next/link';
-import { motion } from 'framer-motion';
 import { useUserStore } from '@/store/useUserStore';
 import { useNodeProgressStore, useNodeProgress } from '@/store/useNodeProgressStore';
 import { getTranslations } from '@/i18n';
@@ -43,9 +41,9 @@ export default function NodePage() {
   const router = useRouter();
   const nodeId = params.nodeId as string;
   const { appLanguage } = useUserStore();
-  const t = getTranslations(appLanguage);
-  const nodeProgress = useNodeProgress(nodeId);
   const { initGuidedNodes, isNodeUnlocked } = useNodeProgressStore();
+  const nodeProgress = useNodeProgress(nodeId);
+  const t = getTranslations(appLanguage);
 
   // Inicializar progreso al cargar
   useEffect(() => {
@@ -68,36 +66,38 @@ export default function NodePage() {
     ];
   }, [nodeId]);
 
-  // Verificar si una lección está completada
-  const isLessonCompleted = (lessonId: string) => {
-    return nodeProgress?.completedLessons.includes(lessonId) ?? false;
-  };
-
   // Encontrar la primera lección no completada
-  const nextLessonIndex = useMemo(() => {
+  const nextLessonId = useMemo(() => {
     const completedLessons = nodeProgress?.completedLessons ?? [];
-    for (let i = 0; i < lessons.length; i++) {
-      if (!completedLessons.includes(lessons[i].id)) {
-        return i;
+    for (const lesson of lessons) {
+      if (!completedLessons.includes(lesson.id)) {
+        return lesson.id;
       }
     }
-    return lessons.length; // Todas completadas
+    // Si todas están completadas, ir a la primera
+    return lessons[0]?.id;
   }, [lessons, nodeProgress?.completedLessons]);
 
-  const handleContinue = () => {
-    if (nextLessonIndex < lessons.length) {
-      router.push(`/learn/node/${nodeId}/lesson/${lessons[nextLessonIndex].id}`);
+  // Redirigir automáticamente a la primera lección disponible
+  useEffect(() => {
+    if (!node) {
+      // Nodo no encontrado, volver al mapa
+      router.replace('/learn');
+      return;
     }
-  };
 
-  if (!node) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-gray-600 dark:text-gray-400">Nodo no encontrado</p>
-      </div>
-    );
-  }
+    if (!hasAccess) {
+      // Nodo bloqueado, mostrar mensaje de bloqueo
+      return;
+    }
 
+    if (nextLessonId) {
+      // Redirigir directamente a la lección
+      router.replace(`/learn/node/${nodeId}/lesson/${nextLessonId}`);
+    }
+  }, [node, hasAccess, nextLessonId, nodeId, router]);
+
+  // Mostrar mensaje de nodo bloqueado si no hay acceso
   if (!hasAccess) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center p-6">
@@ -108,161 +108,23 @@ export default function NodePage() {
         <p className="text-gray-600 dark:text-gray-400 text-center mb-6">
           Completa el nodo anterior para desbloquear este.
         </p>
-        <Link
+        <a
           href="/learn"
           className="px-6 py-3 bg-indigo-600 text-white font-medium rounded-xl hover:bg-indigo-700 transition-colors"
         >
-          ← Volver al mapa
-        </Link>
+          ← {t.common.back}
+        </a>
       </div>
     );
   }
 
-  const nodeTranslations = t.learn.nodes[node.category as keyof typeof t.learn.nodes];
-  const progress = nodeProgress?.percentage ?? 0;
-  const isComplete = nodeProgress?.isComplete ?? false;
-
+  // Mientras redirige, mostrar loading
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-20">
-      {/* Header */}
-      <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
-        <div className="max-w-lg mx-auto px-4 py-4 flex items-center gap-4">
-          <Link
-            href="/learn"
-            className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
-          >
-            ← {t.common.back}
-          </Link>
-        </div>
-      </header>
-
-      {/* Node header */}
-      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
-        <div className="max-w-lg mx-auto px-4 py-6">
-          <div className="flex items-center gap-4">
-            <div className={`w-16 h-16 rounded-2xl flex items-center justify-center text-3xl ${
-              isComplete
-                ? 'bg-green-100 dark:bg-green-900/30'
-                : 'bg-indigo-100 dark:bg-indigo-900/30'
-            }`}>
-              {isComplete ? '✓' : node.icon}
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-                {nodeTranslations.title}
-              </h1>
-              <p className="text-gray-600 dark:text-gray-400">
-                {nodeTranslations.description}
-              </p>
-            </div>
-          </div>
-
-          {/* Progress */}
-          <div className="mt-4">
-            <div className="flex justify-between text-sm mb-1">
-              <span className="text-gray-600 dark:text-gray-400">{t.learn.progress}</span>
-              <span className="font-medium text-gray-900 dark:text-white">{progress}%</span>
-            </div>
-            <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-              <motion.div
-                className={`h-full rounded-full ${isComplete ? 'bg-green-500' : 'bg-indigo-500'}`}
-                initial={{ width: 0 }}
-                animate={{ width: `${progress}%` }}
-                transition={{ duration: 0.5 }}
-              />
-            </div>
-          </div>
-        </div>
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="text-center">
+        <div className="w-16 h-16 rounded-full border-4 border-indigo-600 border-t-transparent animate-spin mx-auto mb-4" />
+        <p className="text-gray-600 dark:text-gray-400">Cargando lección...</p>
       </div>
-
-      {/* Lessons */}
-      <main className="max-w-lg mx-auto px-4 pt-6">
-        <div className="space-y-3">
-          {lessons.map((lesson, index) => {
-            const completed = isLessonCompleted(lesson.id);
-            const isNext = index === nextLessonIndex;
-            const isLocked = index > nextLessonIndex;
-
-            return (
-              <motion.div
-                key={lesson.id}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-              >
-                <Link
-                  href={isLocked ? '#' : `/learn/node/${nodeId}/lesson/${lesson.id}`}
-                  onClick={(e) => isLocked && e.preventDefault()}
-                  className={`block p-4 rounded-xl border-2 transition-all ${
-                    completed
-                      ? 'border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-900/20'
-                      : isNext
-                      ? 'border-indigo-300 dark:border-indigo-700 bg-indigo-50 dark:bg-indigo-900/20 ring-2 ring-indigo-300 dark:ring-indigo-700'
-                      : isLocked
-                      ? 'border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-800/50 opacity-50 cursor-not-allowed'
-                      : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-indigo-300'
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div
-                        className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-                          completed
-                            ? 'bg-green-500 text-white'
-                            : isNext
-                            ? 'bg-indigo-500 text-white'
-                            : 'bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400'
-                        }`}
-                      >
-                        {completed ? '✓' : isLocked ? '🔒' : index + 1}
-                      </div>
-                      <span className="font-medium text-gray-900 dark:text-white">
-                        {lesson.title}
-                      </span>
-                    </div>
-                    {!isLocked && <span className="text-gray-400">→</span>}
-                  </div>
-                </Link>
-              </motion.div>
-            );
-          })}
-        </div>
-
-        {/* Continue button */}
-        {!isComplete && (
-          <div className="mt-8">
-            <button
-              onClick={handleContinue}
-              className="w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-xl transition-colors"
-            >
-              {progress > 0 ? t.learn.continue : t.learn.start} →
-            </button>
-          </div>
-        )}
-
-        {/* Completion message */}
-        {isComplete && (
-          <motion.div
-            className="mt-8 p-6 bg-green-50 dark:bg-green-900/20 rounded-xl text-center"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-          >
-            <div className="text-4xl mb-2">🎉</div>
-            <h3 className="text-lg font-bold text-green-800 dark:text-green-200 mb-1">
-              ¡Nodo completado!
-            </h3>
-            <p className="text-sm text-green-600 dark:text-green-300">
-              Has desbloqueado el siguiente nodo.
-            </p>
-            <Link
-              href="/learn"
-              className="inline-block mt-4 px-6 py-2 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition-colors"
-            >
-              Ver el mapa
-            </Link>
-          </motion.div>
-        )}
-      </main>
     </div>
   );
 }

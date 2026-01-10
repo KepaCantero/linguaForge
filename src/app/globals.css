@@ -474,7 +474,88 @@
 }
 
 /* ============================================
-   DARK MODE AUTOMÁTICO
+   LIGHT/DARK THEME SUPPORT
+   ============================================ */
+
+/* Aplicar tema por defecto */
+html {
+  color-scheme: dark;
+}
+
+/* Tema Claro */
+html.light {
+  color-scheme: light;
+}
+
+html.light :root {
+  --background: #F8FAFC;
+  --foreground: #1E293B;
+
+  /* Colores Primarios - Ajustados para tema claro */
+  --lf-primary: #4F46E5;
+  --lf-primary-dark: #4338CA;
+  --lf-primary-light: #6366F1;
+
+  /* Colores Secundarios */
+  --lf-secondary: #A21CAF;
+  --lf-secondary-light: #D946EF;
+
+  /* Colores de Acento */
+  --lf-accent: #EAB308;
+  --lf-accent-dark: #CA8A04;
+  --lf-accent-subtle: #FDE047;
+
+  /* Fondos */
+  --lf-dark: #F1F5F9;
+  --lf-soft: #FFFFFF;
+  --lf-muted: #E2E8F0;
+
+  /* Escala de Grises - Invertida */
+  --gray-50: #1E293B;
+  --gray-100: #334155;
+  --gray-200: #475569;
+  --gray-300: #64748B;
+  --gray-400: #94A3B8;
+  --gray-500: #CBD5E1;
+  --gray-600: #E2E8F0;
+  --gray-700: #F1F5F9;
+  --gray-800: #F8FAFC;
+  --gray-900: #FFFFFF;
+
+  /* Colores Semánticos */
+  --success: #16A34A;
+  --success-dark: #15803D;
+  --warning: #D97706;
+  --warning-dark: #B45309;
+  --error: #DC2626;
+  --error-dark: #B91C1C;
+  --info: #2563EB;
+
+  /* Gradientes - Ajustados */
+  --gradient-start: #F8FAFC;
+  --gradient-mid: #F1F5F9;
+  --gradient-end: #E2E8F0;
+}
+
+html.light body {
+  background: linear-gradient(
+    180deg,
+    var(--gradient-start) 0%,
+    var(--gradient-mid) 50%,
+    var(--gradient-end) 100%
+  );
+}
+
+html.light main::before {
+  background: radial-gradient(
+    ellipse 80% 50% at 50% 0%,
+    rgba(79, 70, 229, 0.08),
+    transparent 70%
+  );
+}
+
+/* ============================================
+   DARK MODE AUTOMÁTICO (System Preference)
    ============================================ */
 
 @media (prefers-color-scheme: light) {

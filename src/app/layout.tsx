@@ -8,6 +8,8 @@ import { GamificationFeedback } from '@/components/ui/GamificationFeedback';
 import { Providers } from './providers';
 import { AAAAnimatedBackground } from '@/components/ui/AAAAnimatedBackground';
 import { AAAErrorBoundary } from '@/components/ui/ErrorBoundary';
+import { TutorialProvider } from '@/components/tutorial';
+import { HelpButton } from '@/components/help';
 
 const rajdhani = Rajdhani({
   subsets: ['latin'],
@@ -80,30 +82,35 @@ export default function RootLayout({
         </a>
 
         <Providers>
-          <AAAErrorBoundary>
-            <AAAAnimatedBackground variant="midnight" intensity="medium">
-              <XPSurgeEffect />
-              <GamificationFeedback />
+          <TutorialProvider>
+            <AAAErrorBoundary>
+              <AAAAnimatedBackground variant="midnight" intensity="medium">
+                <XPSurgeEffect />
+                <GamificationFeedback />
 
-              {/* Header semántico */}
-              <Header />
+                {/* Header semántico */}
+                <Header />
 
-              {/* Main content con landmark */}
-              <main
-                id="main-content"
-                role="main"
-                aria-label="Contenido principal"
-                className="min-h-[calc(100vh-var(--header-height)-var(--nav-height))] flex flex-col"
-              >
-                <div className="flex-1 w-full pt-[calc(var(--header-height)+1rem)] px-4 pb-[calc(var(--nav-height)+1rem)] lg:container lg:mx-auto">
-                  {children}
-                </div>
-              </main>
+                {/* Main content con landmark */}
+                <main
+                  id="main-content"
+                  role="main"
+                  aria-label="Contenido principal"
+                  className="min-h-[calc(100vh-var(--header-height)-var(--nav-height))] flex flex-col"
+                >
+                  <div className="flex-1 w-full pt-[calc(var(--header-height)+1rem)] px-4 pb-[calc(var(--nav-height)+1rem)] lg:container lg:mx-auto">
+                    {children}
+                  </div>
+                </main>
 
-              {/* Navigation semántica */}
-              <BottomNav />
-            </AAAAnimatedBackground>
-          </AAAErrorBoundary>
+                {/* Navigation semántica */}
+                <BottomNav />
+
+                {/* Botón de ayuda flotante */}
+                <HelpButton />
+              </AAAAnimatedBackground>
+            </AAAErrorBoundary>
+          </TutorialProvider>
         </Providers>
       </body>
     </html>
