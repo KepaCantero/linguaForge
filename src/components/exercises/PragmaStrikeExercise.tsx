@@ -153,7 +153,7 @@ export function PragmaStrikeExercise({ exercise, onComplete, mode = 'desafio' }:
       )}
 
       {/* Imagen de situación */}
-      <div className="relative w-full h-48 rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800">
+      <div className="relative w-full h-48 rounded-aaa-xl overflow-hidden bg-gray-100 dark:bg-gray-800">
         <Image
           src={exercise.situationImage}
           alt={exercise.situationDescription}
@@ -164,7 +164,7 @@ export function PragmaStrikeExercise({ exercise, onComplete, mode = 'desafio' }:
       </div>
 
       {/* Descripción de situación */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl p-4">
+      <div className="bg-white dark:bg-gray-800 rounded-aaa-xl p-4">
         <p className="text-sm text-gray-600 dark:text-gray-400 text-center">
           {exercise.situationDescription}
         </p>
@@ -183,7 +183,7 @@ export function PragmaStrikeExercise({ exercise, onComplete, mode = 'desafio' }:
               onClick={() => handleOptionSelect(option)}
               disabled={showResult}
               className={`
-                p-4 rounded-xl font-medium text-left transition-all
+                p-4 rounded-aaa-xl font-medium text-left transition-all
                 ${showCorrect
                   ? 'bg-emerald-500 text-white ring-4 ring-emerald-300'
                   : showIncorrect
@@ -214,7 +214,7 @@ export function PragmaStrikeExercise({ exercise, onComplete, mode = 'desafio' }:
         {showResult && selectedOption && (
           <motion.div
             className={`
-              p-4 rounded-xl
+              p-4 rounded-aaa-xl
               ${isCorrect
                 ? 'bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800'
                 : 'bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800'
@@ -251,7 +251,7 @@ export function PragmaStrikeExercise({ exercise, onComplete, mode = 'desafio' }:
         {showResult && (
           <motion.div
             className={`
-              p-4 rounded-xl text-center
+              p-4 rounded-aaa-xl text-center
               ${isCorrect
                 ? 'bg-emerald-100 dark:bg-emerald-900 text-emerald-700 dark:text-emerald-300'
                 : 'bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-300'

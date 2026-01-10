@@ -285,6 +285,7 @@ function ExercisesPageContent() {
         onModeChange={handleModeChange}
         exerciseData={exerciseData}
         onSelectExercise={handleSelectExercise}
+        onStartWarmup={() => setPagePhase('warmup-choice')}
       />
     );
   }
@@ -307,6 +308,7 @@ function ExercisesPageContent() {
             exerciseData={exerciseData}
             mode={currentMode}
             onModeChange={handleModeChange}
+            onBack={handleBack}
             onStartWarmup={() => setPagePhase('warmup-choice')}
             load={headerLoad}
             focusModeActive={focusModeActive}

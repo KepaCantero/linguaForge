@@ -123,7 +123,7 @@ export function BlockSwapExercise({ exercise, onComplete }: BlockSwapExercisePro
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           className={`
-            rounded-xl p-6 text-center
+            rounded-aaa-xl p-6 text-center
             ${exercise.swapOptions.find((opt) => opt.id === selectedOption)?.createsValidBlock
               ? 'bg-gradient-to-br from-emerald-400 to-teal-500'
               : 'bg-gradient-to-br from-orange-400 to-red-500'

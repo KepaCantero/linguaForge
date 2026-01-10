@@ -261,7 +261,7 @@ export function DialogueIntonationExercise({
             </div>
 
             {/* Lista del diálogo */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-4 space-y-3 border border-gray-100 dark:border-gray-700">
+            <div className="bg-white dark:bg-gray-800 rounded-aaa-xl p-4 space-y-3 border border-gray-100 dark:border-gray-700">
               {exercise.dialogue.map((turn, i) => {
                 const isUserTurn = turn.speaker === 'user';
                 return (
@@ -318,7 +318,7 @@ export function DialogueIntonationExercise({
                 onClick={playFullDialogue}
                 disabled={isPlaying}
                 className={`
-                  flex-1 px-4 py-3 rounded-xl font-medium transition-colors
+                  flex-1 px-4 py-3 rounded-aaa-xl font-medium transition-colors
                   ${isPlaying
                     ? 'bg-indigo-500 text-white'
                     : 'bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300'
@@ -330,7 +330,7 @@ export function DialogueIntonationExercise({
               <button
                 onClick={handleStartPractice}
                 disabled={isPlaying}
-                className="flex-1 px-4 py-3 bg-indigo-500 hover:bg-indigo-600 text-white rounded-xl font-medium transition-colors disabled:opacity-50"
+                className="flex-1 px-4 py-3 bg-indigo-500 hover:bg-indigo-600 text-white rounded-aaa-xl font-medium transition-colors disabled:opacity-50"
               >
                 Practicar →
               </button>
@@ -380,7 +380,7 @@ export function DialogueIntonationExercise({
             )}
 
             {/* Tu turno */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-5 shadow-md border-2 border-indigo-200 dark:border-indigo-800">
+            <div className="bg-white dark:bg-gray-800 rounded-aaa-xl p-5 shadow-md border-2 border-indigo-200 dark:border-indigo-800">
               <div className="text-center mb-4">
                 <span className="inline-flex items-center gap-1 px-3 py-1 bg-indigo-100 dark:bg-indigo-900/30 rounded-full text-sm text-indigo-700 dark:text-indigo-300 font-medium">
                   🎤 Tu turno
@@ -452,7 +452,7 @@ export function DialogueIntonationExercise({
             </div>
 
             {/* Comparación de ritmo */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-5 shadow-md border border-gray-100 dark:border-gray-700">
+            <div className="bg-white dark:bg-gray-800 rounded-aaa-xl p-5 shadow-md border border-gray-100 dark:border-gray-700">
               <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-4 text-center">
                 Comparación de ritmo
               </h4>
@@ -485,14 +485,14 @@ export function DialogueIntonationExercise({
               {currentSimilarity < 70 && (
                 <button
                   onClick={handleRetry}
-                  className="flex-1 px-4 py-3 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-xl font-medium transition-colors"
+                  className="flex-1 px-4 py-3 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-aaa-xl font-medium transition-colors"
                 >
                   🔁 Repetir
                 </button>
               )}
               <button
                 onClick={handleContinue}
-                className="flex-1 px-4 py-3 bg-indigo-500 hover:bg-indigo-600 text-white rounded-xl font-medium transition-colors"
+                className="flex-1 px-4 py-3 bg-indigo-500 hover:bg-indigo-600 text-white rounded-aaa-xl font-medium transition-colors"
               >
                 {currentTurnIndex + 1 < totalUserTurns
                   ? 'Siguiente turno →'
@@ -520,7 +520,7 @@ export function DialogueIntonationExercise({
             </p>
 
             {/* Resumen */}
-            <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-4 inline-block">
+            <div className="bg-gray-50 dark:bg-gray-800 rounded-aaa-xl p-4 inline-block">
               <div className="grid grid-cols-2 gap-6">
                 <div>
                   <p className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">

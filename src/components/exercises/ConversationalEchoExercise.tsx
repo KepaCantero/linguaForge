@@ -303,7 +303,7 @@ export function ConversationalEchoExercise({
             className="space-y-6"
           >
             {/* Caja del sistema */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-5 shadow-md border border-gray-100 dark:border-gray-700">
+            <div className="bg-white dark:bg-gray-800 rounded-aaa-xl p-5 shadow-md border border-gray-100 dark:border-gray-700">
               <div className="flex items-start gap-3 mb-4">
                 <div className="w-10 h-10 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center text-xl flex-shrink-0">
                   👤
@@ -424,7 +424,7 @@ export function ConversationalEchoExercise({
               <div className="text-center">
                 <button
                   onClick={playSystemAudio}
-                  className="px-6 py-3 bg-indigo-500 hover:bg-indigo-600 text-white rounded-xl font-medium transition-colors"
+                  className="px-6 py-3 bg-indigo-500 hover:bg-indigo-600 text-white rounded-aaa-xl font-medium transition-colors"
                 >
                   🔊 Escuchar
                 </button>
@@ -468,7 +468,7 @@ export function ConversationalEchoExercise({
             animate={{ opacity: 1, y: 0 }}
             className="space-y-6"
           >
-            <div className={`rounded-xl p-6 ${
+            <div className={`rounded-aaa-xl p-6 ${
               evaluationResult.isValid
                 ? 'bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800'
                 : 'bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800'
@@ -550,14 +550,14 @@ export function ConversationalEchoExercise({
               {!evaluationResult.isValid && (
                 <button
                   onClick={handleRetry}
-                  className="flex-1 px-4 py-3 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-xl font-medium transition-colors"
+                  className="flex-1 px-4 py-3 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-aaa-xl font-medium transition-colors"
                 >
                   🔁 Reintentar
                 </button>
               )}
               <button
                 onClick={handleContinue}
-                className="flex-1 px-4 py-3 bg-indigo-500 hover:bg-indigo-600 text-white rounded-xl font-medium transition-colors"
+                className="flex-1 px-4 py-3 bg-indigo-500 hover:bg-indigo-600 text-white rounded-aaa-xl font-medium transition-colors"
               >
                 Continuar →
               </button>

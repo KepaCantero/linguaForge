@@ -74,7 +74,7 @@ export function ShadowingExercise({ phrase, onComplete }: ShadowingExerciseProps
         {phase === 'intro' && (
           <motion.div
             key="intro"
-            className="bg-white dark:bg-gray-800 rounded-xl p-6 text-center"
+            className="bg-white dark:bg-gray-800 rounded-aaa-xl p-6 text-center"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
@@ -88,7 +88,7 @@ export function ShadowingExercise({ phrase, onComplete }: ShadowingExerciseProps
             </p>
             <button
               onClick={startListening}
-              className="px-8 py-3 bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all"
+              className="px-8 py-3 bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-bold rounded-aaa-xl shadow-lg hover:shadow-xl transition-all"
             >
               Comenzar
             </button>
@@ -106,7 +106,7 @@ export function ShadowingExercise({ phrase, onComplete }: ShadowingExerciseProps
           >
             {/* Indicador de reproducción */}
             <motion.div
-              className="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl p-8 text-center"
+              className="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-aaa-xl p-8 text-center"
               animate={isSpeaking ? { scale: [1, 1.02, 1] } : {}}
               transition={{ repeat: Infinity, duration: 0.8 }}
             >
@@ -168,7 +168,7 @@ export function ShadowingExercise({ phrase, onComplete }: ShadowingExerciseProps
                 onClick={playAudio}
                 disabled={isSpeaking}
                 className={`
-                  flex-1 py-3 rounded-xl font-medium transition-all
+                  flex-1 py-3 rounded-aaa-xl font-medium transition-all
                   ${isSpeaking
                     ? 'bg-gray-200 dark:bg-gray-700 text-gray-500 cursor-not-allowed'
                     : 'bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-200 dark:hover:bg-indigo-800'
@@ -181,7 +181,7 @@ export function ShadowingExercise({ phrase, onComplete }: ShadowingExerciseProps
                 onClick={startShadowing}
                 disabled={listenCount < SHADOWING_CONFIG.requiredListens}
                 className={`
-                  flex-1 py-3 rounded-xl font-bold transition-all
+                  flex-1 py-3 rounded-aaa-xl font-bold transition-all
                   ${listenCount >= SHADOWING_CONFIG.requiredListens
                     ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-lg hover:shadow-xl'
                     : 'bg-gray-200 dark:bg-gray-700 text-gray-500 cursor-not-allowed'
@@ -203,7 +203,7 @@ export function ShadowingExercise({ phrase, onComplete }: ShadowingExerciseProps
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
           >
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-8 text-center">
+            <div className="bg-white dark:bg-gray-800 rounded-aaa-xl p-8 text-center">
               <motion.div
                 className="w-24 h-24 mx-auto mb-4 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full flex items-center justify-center"
                 animate={{ scale: [1, 1.1, 1] }}
@@ -239,7 +239,7 @@ export function ShadowingExercise({ phrase, onComplete }: ShadowingExerciseProps
 
               <button
                 onClick={completeShadowing}
-                className="px-8 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all"
+                className="px-8 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold rounded-aaa-xl shadow-lg hover:shadow-xl transition-all"
               >
                 ✓ He repetido la frase
               </button>
@@ -251,7 +251,7 @@ export function ShadowingExercise({ phrase, onComplete }: ShadowingExerciseProps
         {phase === 'complete' && (
           <motion.div
             key="complete"
-            className="bg-gradient-to-br from-emerald-400 to-teal-500 rounded-xl p-8 text-center"
+            className="bg-gradient-to-br from-emerald-400 to-teal-500 rounded-aaa-xl p-8 text-center"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}

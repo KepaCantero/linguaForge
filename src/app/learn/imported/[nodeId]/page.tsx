@@ -19,6 +19,7 @@ export default function ImportedNodePage() {
 
   // Estado para evitar hidratación mismatch
   const [isMounted, setIsMounted] = useState(false);
+  const [isRedirecting, setIsRedirecting] = useState(false);
 
   // Al montar en el cliente, si hay subtemas, ir directamente al primero
   // NOTA: Este hook debe estar antes de cualquier retorno condicional
@@ -30,11 +31,13 @@ export default function ImportedNodePage() {
   useEffect(() => {
     if (isMounted && node && node.subtopics.length > 0) {
       const firstSubtopic = node.subtopics[0];
+      setIsRedirecting(true);
       router.push(`/learn/imported/${nodeId}/exercises?subtopic=${firstSubtopic.id}&mode=academia`);
     }
   }, [isMounted, node, nodeId, router]);
 
-  if (!node) {
+  // Mostrar loading mientras redirige al primer subtema
+  if (!isMounted || isRedirecting || !node) {
     return (
       <div className="relative min-h-screen bg-lf-dark flex items-center justify-center">
         {/* Animated background */}

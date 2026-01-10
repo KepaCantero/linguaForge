@@ -172,7 +172,7 @@ export function ResonancePathExercise({ exercise, onComplete }: ResonancePathExe
             exit={{ opacity: 0 }}
           >
             {/* Curva de entonación nativa */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-6">
+            <div className="bg-white dark:bg-gray-800 rounded-aaa-xl p-6">
               <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">
                 Entonación Nativa
               </h4>
@@ -185,7 +185,7 @@ export function ResonancePathExercise({ exercise, onComplete }: ResonancePathExe
                 onClick={() => soundRef.current?.play()}
                 disabled={isPlaying}
                 className={`
-                  px-6 py-3 rounded-xl font-medium transition-all
+                  px-6 py-3 rounded-aaa-xl font-medium transition-all
                   ${isPlaying
                     ? 'bg-gray-200 dark:bg-gray-700 text-gray-500 cursor-not-allowed'
                     : 'bg-indigo-500 text-white hover:bg-indigo-600'
@@ -197,14 +197,14 @@ export function ResonancePathExercise({ exercise, onComplete }: ResonancePathExe
               <button
                 onClick={startRecording}
                 disabled={isPlaying}
-                className="px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all"
+                className="px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold rounded-aaa-xl shadow-lg hover:shadow-xl transition-all"
               >
                 🎤 Grabar
               </button>
             </div>
 
             {/* Frase */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-4 text-center">
+            <div className="bg-white dark:bg-gray-800 rounded-aaa-xl p-4 text-center">
               <p className="text-xl font-medium text-gray-900 dark:text-white">
                 {exercise.phrase}
               </p>
@@ -221,7 +221,7 @@ export function ResonancePathExercise({ exercise, onComplete }: ResonancePathExe
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
           >
-            <div className="bg-gradient-to-br from-emerald-400 to-teal-500 rounded-xl p-8 text-center">
+            <div className="bg-gradient-to-br from-emerald-400 to-teal-500 rounded-aaa-xl p-8 text-center">
               <motion.div
                 className="w-24 h-24 mx-auto mb-4 bg-white/20 rounded-full flex items-center justify-center"
                 animate={{ scale: [1, 1.2, 1] }}
@@ -240,7 +240,7 @@ export function ResonancePathExercise({ exercise, onComplete }: ResonancePathExe
               </p>
               <button
                 onClick={stopRecording}
-                className="px-8 py-3 bg-white text-emerald-600 font-bold rounded-xl shadow-lg hover:shadow-xl transition-all"
+                className="px-8 py-3 bg-white text-emerald-600 font-bold rounded-aaa-xl shadow-lg hover:shadow-xl transition-all"
               >
                 ✓ Terminar grabación
               </button>
@@ -257,7 +257,7 @@ export function ResonancePathExercise({ exercise, onComplete }: ResonancePathExe
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-6">
+            <div className="bg-white dark:bg-gray-800 rounded-aaa-xl p-6">
               <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
                 Comparación de Entonación
               </h4>
@@ -295,7 +295,7 @@ export function ResonancePathExercise({ exercise, onComplete }: ResonancePathExe
           <motion.div
             key="complete"
             className={`
-              rounded-xl p-8 text-center
+              rounded-aaa-xl p-8 text-center
               ${accuracy >= 90
                 ? 'bg-gradient-to-br from-emerald-400 to-teal-500'
                 : accuracy >= 80

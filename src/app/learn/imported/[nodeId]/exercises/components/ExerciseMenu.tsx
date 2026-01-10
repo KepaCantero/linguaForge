@@ -26,6 +26,7 @@ interface ExerciseMenuProps {
     janusComposer: JanusData;
   };
   onSelectExercise: (type: ExerciseType) => void;
+  onStartWarmup?: () => void;
 }
 
 export function ExerciseMenu({
@@ -34,7 +35,8 @@ export function ExerciseMenu({
   mode,
   onModeChange,
   exerciseData,
-  onSelectExercise
+  onSelectExercise,
+  onStartWarmup
 }: ExerciseMenuProps) {
   const router = useRouter();
   const prefersReducedMotion = useReducedMotion();
@@ -143,8 +145,21 @@ export function ExerciseMenu({
             </div>
           </div>
 
-          {/* Mode toggle buttons */}
+          {/* Mode toggle buttons and warmup */}
           <div className="flex items-center gap-2">
+            {/* Calentamiento button */}
+            {onStartWarmup && (
+              <motion.button
+                onClick={onStartWarmup}
+                className="p-2.5 rounded-aaa-xl bg-amber-500/20 border border-amber-500/30 text-amber-400 transition-all"
+                whileHover={shouldAnimate ? { scale: 1.05 } : {}}
+                whileTap={shouldAnimate ? { scale: 0.95 } : {}}
+                aria-label="Calentamiento Mental"
+              >
+                <span className="text-lg">🔥</span>
+              </motion.button>
+            )}
+
             <motion.button
               onClick={() => onModeChange('academia')}
               className={`px-3 py-1.5 rounded-lg text-sm font-semibold transition-all flex items-center gap-1.5 ${

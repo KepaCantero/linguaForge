@@ -163,7 +163,7 @@ export function ForgeMandateExercise({ exercises, onComplete }: ForgeMandateExer
         {phase === 'intro' && (
           <motion.div
             key="intro"
-            className="bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 rounded-xl p-8 text-center border-2 border-purple-500/50"
+            className="bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 rounded-aaa-xl p-8 text-center border-2 border-purple-500/50"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
@@ -194,7 +194,7 @@ export function ForgeMandateExercise({ exercises, onComplete }: ForgeMandateExer
             </div>
             <button
               onClick={startForgeMandate}
-              className="px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all text-lg"
+              className="px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-aaa-xl shadow-lg hover:shadow-xl transition-all text-lg"
             >
               Comenzar Misión
             </button>
@@ -211,7 +211,7 @@ export function ForgeMandateExercise({ exercises, onComplete }: ForgeMandateExer
             exit={{ opacity: 0, x: -20 }}
           >
             {/* Progress Header */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-4">
+            <div className="bg-white dark:bg-gray-800 rounded-aaa-xl p-4">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
                   Ejercicio {completedExercises + 1} de {exerciseSequence.length}
@@ -231,7 +231,7 @@ export function ForgeMandateExercise({ exercises, onComplete }: ForgeMandateExer
             </div>
 
             {/* Exercise Component */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-6">
+            <div className="bg-white dark:bg-gray-800 rounded-aaa-xl p-6">
               {currentExercise.type === 'shardDetection' && (
                 <ShardDetectionExercise
                   exercise={currentExercise.exercise as ShardDetection}
@@ -270,7 +270,7 @@ export function ForgeMandateExercise({ exercises, onComplete }: ForgeMandateExer
         {phase === 'complete' && (
           <motion.div
             key="complete"
-            className="bg-gradient-to-br from-emerald-400 to-teal-500 rounded-xl p-8 text-center"
+            className="bg-gradient-to-br from-emerald-400 to-teal-500 rounded-aaa-xl p-8 text-center"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}

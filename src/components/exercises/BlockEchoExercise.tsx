@@ -94,7 +94,7 @@ export function BlockEchoExercise({
             </div>
 
             {/* Bloque completo visualizado */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-6 space-y-4">
+            <div className="bg-white dark:bg-gray-800 rounded-aaa-xl p-6 space-y-4">
               {/* Mostrar todas las frases del bloque */}
               {block.phrases.map((phrase, idx) => {
                 const borderColors = [
@@ -181,7 +181,7 @@ export function BlockEchoExercise({
             </div>
 
             {/* Bloque para repetir */}
-            <div className="bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-xl p-6 space-y-3">
+            <div className="bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-aaa-xl p-6 space-y-3">
               {block.phrases.map((phrase) => (
                 <p
                   key={phrase.id}
@@ -195,7 +195,7 @@ export function BlockEchoExercise({
             <div className="flex justify-center">
               <button
                 onClick={handleComplete}
-                className="px-8 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all"
+                className="px-8 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold rounded-aaa-xl shadow-lg hover:shadow-xl transition-all"
               >
                 ✓ Completar
               </button>
@@ -209,7 +209,7 @@ export function BlockEchoExercise({
             key="complete"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-gradient-to-br from-emerald-400 to-teal-500 rounded-xl p-8 text-center"
+            className="bg-gradient-to-br from-emerald-400 to-teal-500 rounded-aaa-xl p-8 text-center"
           >
             <span className="text-6xl mb-4 block">🎉</span>
             <h3 className="text-white text-xl font-bold mb-2">

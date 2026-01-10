@@ -30,6 +30,7 @@ interface ExerciseHeaderProps {
   };
   mode: LessonMode;
   onModeChange: (mode: LessonMode) => void;
+  onBack: () => void;
   onStartWarmup?: () => void;
   load: {
     total: number;
@@ -65,6 +66,7 @@ export function ExerciseHeader({
   exerciseData,
   mode,
   onModeChange,
+  onBack,
   onStartWarmup,
   load,
   focusModeActive,
@@ -75,11 +77,6 @@ export function ExerciseHeader({
   const loadTotal = load.total || 0;
   const loadStatus = load.status || 'optimal';
   const loadColors = getLoadStatusColors(loadStatus);
-
-  const handleBack = () => {
-    // Volver al nodo directamente (ya no usamos la pantalla de practice)
-    router.push(`/learn/imported/${nodeId}`);
-  };
 
   const handleModeToggle = () => {
     const newMode: LessonMode = mode === 'academia' ? 'desafio' : 'academia';
@@ -109,7 +106,7 @@ export function ExerciseHeader({
               {/* Left: Back button + Exercise info */}
               <div className="flex items-center gap-3">
                 <motion.button
-                  onClick={handleBack}
+                  onClick={onBack}
                   className="p-2 rounded-lg bg-lf-dark/30 border border-white/10 text-lf-muted hover:text-white hover:bg-lf-dark/50 transition-all"
                   whileHover={{ scale: 1.05, x: -2 }}
                   whileTap={{ scale: 0.95 }}
@@ -143,7 +140,7 @@ export function ExerciseHeader({
                 {onStartWarmup && (
                   <motion.button
                     onClick={onStartWarmup}
-                    className="p-2.5 rounded-xl bg-amber-500/20 border border-amber-500/30 text-amber-400 transition-all"
+                    className="p-2.5 rounded-aaa-xl bg-amber-500/20 border border-amber-500/30 text-amber-400 transition-all"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     title="Calentamiento Mental"
@@ -155,7 +152,7 @@ export function ExerciseHeader({
                 {/* Mode Toggle button */}
                 <motion.button
                   onClick={handleModeToggle}
-                  className={`p-2.5 rounded-xl border transition-all ${
+                  className={`p-2.5 rounded-aaa-xl border transition-all ${
                     mode === 'academia'
                       ? 'bg-green-500/20 border-green-500/30 text-green-400'
                       : 'bg-purple-500/20 border-purple-500/30 text-purple-400'
@@ -170,7 +167,7 @@ export function ExerciseHeader({
                 {/* Focus Mode button */}
                 <motion.button
                   onClick={() => setFocusModeActive(!focusModeActive)}
-                  className={`p-2.5 rounded-xl border transition-all ${
+                  className={`p-2.5 rounded-aaa-xl border transition-all ${
                     focusModeActive
                       ? 'bg-lf-primary border-lf-primary text-white shadow-glow-accent'
                       : 'bg-lf-dark/30 border-white/10 text-lf-muted hover:text-white hover:bg-lf-dark/50'
@@ -185,7 +182,7 @@ export function ExerciseHeader({
                 {/* Session Summary button */}
                 <motion.button
                   onClick={() => setShowSessionSummary(true)}
-                  className="p-2.5 rounded-xl bg-lf-dark/30 border border-white/10 text-lf-muted hover:text-white hover:bg-lf-dark/50 transition-all"
+                  className="p-2.5 rounded-aaa-xl bg-lf-dark/30 border border-white/10 text-lf-muted hover:text-white hover:bg-lf-dark/50 transition-all"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   title="Ver resumen de sesión"

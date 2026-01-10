@@ -360,7 +360,7 @@ export function GlyphWeavingExercise({ exercise, onComplete }: GlyphWeavingExerc
             exit={{ opacity: 0 }}
           >
             {/* Canvas con matriz de glifos */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-4">
+            <div className="bg-white dark:bg-gray-800 rounded-aaa-xl p-4">
               <canvas
                 ref={canvasRef}
                 width={600}
@@ -400,7 +400,7 @@ export function GlyphWeavingExercise({ exercise, onComplete }: GlyphWeavingExerc
 
             {/* Estadísticas */}
             <div className="grid grid-cols-3 gap-4">
-              <div className="bg-white dark:bg-gray-800 rounded-xl p-4 text-center">
+              <div className="bg-white dark:bg-gray-800 rounded-aaa-xl p-4 text-center">
                 <div className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
                   {currentBeat}
                 </div>
@@ -408,7 +408,7 @@ export function GlyphWeavingExercise({ exercise, onComplete }: GlyphWeavingExerc
                   Beat
                 </div>
               </div>
-              <div className="bg-white dark:bg-gray-800 rounded-xl p-4 text-center">
+              <div className="bg-white dark:bg-gray-800 rounded-aaa-xl p-4 text-center">
                 <div className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">
                   {completedPatterns.size}/{exercise.pattern.length}
                 </div>
@@ -416,7 +416,7 @@ export function GlyphWeavingExercise({ exercise, onComplete }: GlyphWeavingExerc
                   Patrones
                 </div>
               </div>
-              <div className="bg-white dark:bg-gray-800 rounded-xl p-4 text-center">
+              <div className="bg-white dark:bg-gray-800 rounded-aaa-xl p-4 text-center">
                 <motion.div
                   className="text-2xl font-bold text-purple-600 dark:text-purple-400"
                   animate={isOnBeat(currentTime, exercise.bpm) ? { scale: [1, 1.3, 1] } : {}}
@@ -431,7 +431,7 @@ export function GlyphWeavingExercise({ exercise, onComplete }: GlyphWeavingExerc
             </div>
 
             {/* Barra de progreso */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-4">
+            <div className="bg-white dark:bg-gray-800 rounded-aaa-xl p-4">
               <div className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
                 <motion.div
                   className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full"
@@ -448,7 +448,7 @@ export function GlyphWeavingExercise({ exercise, onComplete }: GlyphWeavingExerc
             {/* Instrucciones */}
             {selectedGlyph && (
               <motion.div
-                className="bg-indigo-100 dark:bg-indigo-900 rounded-xl p-4 text-center"
+                className="bg-indigo-100 dark:bg-indigo-900 rounded-aaa-xl p-4 text-center"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
               >
@@ -464,7 +464,7 @@ export function GlyphWeavingExercise({ exercise, onComplete }: GlyphWeavingExerc
         {phase === 'complete' && (
           <motion.div
             key="complete"
-            className="bg-gradient-to-br from-emerald-400 to-teal-500 rounded-xl p-8 text-center"
+            className="bg-gradient-to-br from-emerald-400 to-teal-500 rounded-aaa-xl p-8 text-center"
             initial={{ opacity: 0, scale: 0.5, rotateZ: -5 }}
             animate={{ opacity: 1, scale: 1, rotateZ: 0 }}
             exit={{ opacity: 0 }}

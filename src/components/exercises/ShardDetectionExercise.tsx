@@ -167,7 +167,7 @@ export function ShardDetectionExercise({ exercise, onComplete }: ShardDetectionE
               onClick={() => handleShardSelect(shard)}
               disabled={showResult}
               className={`
-                relative aspect-square rounded-xl overflow-hidden transition-all
+                relative aspect-square rounded-aaa-xl overflow-hidden transition-all
                 ${showCorrect
                   ? 'ring-4 ring-emerald-500 scale-105'
                   : showIncorrect
@@ -236,7 +236,7 @@ export function ShardDetectionExercise({ exercise, onComplete }: ShardDetectionE
       {/* Frase y traducción */}
       {showResult && (
         <motion.div
-          className="bg-white dark:bg-gray-800 rounded-xl p-4 text-center"
+          className="bg-white dark:bg-gray-800 rounded-aaa-xl p-4 text-center"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
         >
@@ -269,7 +269,7 @@ export function ShardDetectionExercise({ exercise, onComplete }: ShardDetectionE
         {showResult && (
           <motion.div
             className={`
-              p-4 rounded-xl text-center
+              p-4 rounded-aaa-xl text-center
               ${isCorrect
                 ? 'bg-emerald-100 dark:bg-emerald-900 text-emerald-700 dark:text-emerald-300'
                 : 'bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-300'

@@ -426,7 +426,7 @@ export function JanusComposerExercise({
   return (
     <div className={`max-w-2xl mx-auto ${className}`}>
       {/* Header */}
-      <div className="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl p-4 mb-4 text-white">
+      <div className="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-aaa-xl p-4 mb-4 text-white">
         <div className="flex items-center justify-between">
           <div>
             <h3 className="font-semibold">🧩 Janus Composer</h3>
@@ -511,7 +511,7 @@ export function JanusComposerExercise({
                     {/* Opciones */}
                     <div
                       ref={(el) => { columnRefs.current[column.id] = el; }}
-                      className={`rounded-xl border-2 p-2 transition-all ${keyboardFocus.columnId === column.id ? 'ring-2 ring-indigo-400 ring-offset-2' : ''} ${colorClass}`}
+                      className={`rounded-aaa-xl border-2 p-2 transition-all ${keyboardFocus.columnId === column.id ? 'ring-2 ring-indigo-400 ring-offset-2' : ''} ${colorClass}`}
                     >
                       <div className="space-y-1.5 max-h-48 overflow-y-auto">
                         {column.options.map((option) => {
@@ -582,7 +582,7 @@ export function JanusComposerExercise({
             </div>
 
             {/* Frase generada */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700">
+            <div className="bg-white dark:bg-gray-800 rounded-aaa-xl p-4 border border-gray-200 dark:border-gray-700">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-xs text-gray-500 dark:text-gray-400 uppercase font-medium">
                   Frase resultante:
@@ -625,7 +625,7 @@ export function JanusComposerExercise({
             <button
               onClick={handleConfirmComposition}
               disabled={!allRequiredSelected || !generatedPhrase}
-              className="w-full px-4 py-3 bg-indigo-500 hover:bg-indigo-600 disabled:bg-gray-300 dark:disabled:bg-gray-700 text-white disabled:text-gray-500 dark:disabled:text-gray-400 rounded-xl font-medium transition-colors"
+              className="w-full px-4 py-3 bg-indigo-500 hover:bg-indigo-600 disabled:bg-gray-300 dark:disabled:bg-gray-700 text-white disabled:text-gray-500 dark:disabled:text-gray-400 rounded-aaa-xl font-medium transition-colors"
             >
               {allRequiredSelected && generatedPhrase
                 ? 'Confirmar frase →'
@@ -652,7 +652,7 @@ export function JanusComposerExercise({
             </div>
 
             {/* Frase destacada */}
-            <div className="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl p-6 text-white text-center">
+            <div className="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-aaa-xl p-6 text-white text-center">
               <p className="text-xl font-medium">&quot;{generatedPhrase}&quot;</p>
               {generatedTranslation && (
                 <p className="text-white/80 mt-2">{generatedTranslation}</p>
@@ -660,7 +660,7 @@ export function JanusComposerExercise({
             </div>
 
             {/* Desglose */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-4">
+            <div className="bg-white dark:bg-gray-800 rounded-aaa-xl p-4">
               <p className="text-xs text-gray-500 dark:text-gray-400 uppercase font-medium mb-3">
                 Componentes:
               </p>
@@ -689,7 +689,7 @@ export function JanusComposerExercise({
 
             {/* Regla de conjugación */}
             {exercise.conjugationRules && exercise.conjugationRules.length > 0 && (
-              <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-4 border border-blue-200 dark:border-blue-800">
+              <div className="bg-blue-50 dark:bg-blue-900/20 rounded-aaa-xl p-4 border border-blue-200 dark:border-blue-800">
                 <p className="text-sm font-medium text-blue-800 dark:text-blue-300 mb-1">
                   📚 Regla aplicada:
                 </p>
@@ -703,13 +703,13 @@ export function JanusComposerExercise({
             <div className="flex gap-3">
               <button
                 onClick={handleNewCombination}
-                className="flex-1 px-4 py-3 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-xl font-medium transition-colors"
+                className="flex-1 px-4 py-3 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-aaa-xl font-medium transition-colors"
               >
                 ← Nueva combinación
               </button>
               <button
                 onClick={handleStartPractice}
-                className="flex-1 px-4 py-3 bg-indigo-500 hover:bg-indigo-600 text-white rounded-xl font-medium transition-colors"
+                className="flex-1 px-4 py-3 bg-indigo-500 hover:bg-indigo-600 text-white rounded-aaa-xl font-medium transition-colors"
               >
                 Practicar 🎤
               </button>
@@ -732,7 +732,7 @@ export function JanusComposerExercise({
               </h3>
             </div>
 
-            <div className="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl p-6 text-white text-center">
+            <div className="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-aaa-xl p-6 text-white text-center">
               <p className="text-xl font-medium">&quot;{generatedPhrase}&quot;</p>
               {generatedTranslation && (
                 <p className="text-white/80 mt-2">{generatedTranslation}</p>
@@ -776,7 +776,7 @@ export function JanusComposerExercise({
                 <div className="w-8 h-8 rounded-full flex items-center justify-center text-sm flex-shrink-0 bg-indigo-100 dark:bg-indigo-900/50">
                   🎭
                 </div>
-                <div className="flex-1 p-3 rounded-xl max-w-[80%] bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                <div className="flex-1 p-3 rounded-aaa-xl max-w-[80%] bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
                   <p className="text-gray-900 dark:text-white">
                     {currentDialogue.prompt}
                   </p>
@@ -793,7 +793,7 @@ export function JanusComposerExercise({
                 <div className="w-8 h-8 rounded-full flex items-center justify-center text-sm flex-shrink-0 bg-emerald-100 dark:bg-emerald-900/50">
                   👤
                 </div>
-                <div className="flex-1 p-3 rounded-xl max-w-[80%] bg-emerald-100 dark:bg-emerald-900/30">
+                <div className="flex-1 p-3 rounded-aaa-xl max-w-[80%] bg-emerald-100 dark:bg-emerald-900/30">
                   <p className="text-gray-900 dark:text-white">
                     &quot;{generatedPhrase}&quot;
                   </p>
@@ -816,7 +816,7 @@ export function JanusComposerExercise({
                   <div className="w-8 h-8 rounded-full flex items-center justify-center text-sm flex-shrink-0 bg-indigo-100 dark:bg-indigo-900/50">
                     🎭
                   </div>
-                  <div className="flex-1 p-3 rounded-xl max-w-[80%] bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                  <div className="flex-1 p-3 rounded-aaa-xl max-w-[80%] bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
                     <p className="text-gray-900 dark:text-white">
                       {currentDialogue.response}
                     </p>
@@ -827,7 +827,7 @@ export function JanusComposerExercise({
 
             <button
               onClick={handleCompleteDialogue}
-              className="w-full px-4 py-3 bg-indigo-500 hover:bg-indigo-600 text-white rounded-xl font-medium transition-colors"
+              className="w-full px-4 py-3 bg-indigo-500 hover:bg-indigo-600 text-white rounded-aaa-xl font-medium transition-colors"
             >
               {currentDialogueIndex < (exercise.practiceDialogues?.length || 0) - 1
                 ? 'Siguiente diálogo →'
@@ -850,7 +850,7 @@ export function JanusComposerExercise({
               ¡Ejercicio completado!
             </h3>
 
-            <div className="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl p-4 text-white mt-6 inline-block">
+            <div className="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-aaa-xl p-4 text-white mt-6 inline-block">
               <p className="text-lg font-medium">&quot;{generatedPhrase}&quot;</p>
             </div>
 

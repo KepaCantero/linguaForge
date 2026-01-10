@@ -150,14 +150,14 @@ export function ClozeExercise({ phrase, block, onComplete }: ClozeExerciseProps)
       {/* Contexto del bloque si existe */}
       {block && (
         <motion.div
-          className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-4 border border-blue-200 dark:border-blue-800"
+          className="bg-lf-info/10 dark:bg-lf-info/20 rounded-aaa-xl p-4 border border-lf-info/30 dark:border-lf-info/40 shadow-glass-xl backdrop-blur-aaa"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <div className="text-xs font-semibold text-blue-700 dark:text-blue-300 mb-2">
+          <div className="text-xs font-semibold text-lf-info dark:text-lf-info/80 mb-2">
             {block.title}
           </div>
-          <div className="text-xs text-blue-600 dark:text-blue-400">
+          <div className="text-xs text-lf-info/70 dark:text-lf-info/60">
             {block.context}
           </div>
         </motion.div>
@@ -165,7 +165,7 @@ export function ClozeExercise({ phrase, block, onComplete }: ClozeExerciseProps)
 
       {/* Bloque completo con todas las frases */}
       <motion.div
-        className="bg-white dark:bg-gray-800 rounded-xl p-6"
+        className="bg-glass-surface dark:bg-lf-soft/50 rounded-aaa-xl p-6 shadow-glass-xl backdrop-blur-aaa border border-lf-muted/20"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
       >
@@ -177,8 +177,8 @@ export function ClozeExercise({ phrase, block, onComplete }: ClozeExerciseProps)
               : p.text;
             
             return (
-              <div key={p.id} className={isCurrentPhrase ? "bg-indigo-50 dark:bg-indigo-900/20 rounded-lg p-3 border-2 border-indigo-200 dark:border-indigo-800" : ""}>
-                <p className={`text-lg font-medium text-gray-900 dark:text-white leading-relaxed ${isCurrentPhrase ? "" : "opacity-60"}`}>
+              <div key={p.id} className={isCurrentPhrase ? "bg-lf-primary/10 dark:bg-lf-primary/20 rounded-lg p-3 border-2 border-lf-primary/30 dark:border-lf-primary/40" : ""}>
+                <p className={`text-lg font-medium text-lf-dark dark:text-white leading-relaxed ${isCurrentPhrase ? "" : "opacity-60"}`}>
                   {phraseText.split("______").map((part, index, array) => (
                     <span key={index}>
                       {part}
@@ -189,9 +189,9 @@ export function ClozeExercise({ phrase, block, onComplete }: ClozeExerciseProps)
                           ${
                             showResult
                               ? isCorrect
-                                ? "bg-emerald-100 dark:bg-emerald-900 text-emerald-700 dark:text-emerald-300"
-                                : "bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-300"
-                              : "bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300"
+                                ? "bg-lf-success/20 dark:bg-lf-success/30 text-lf-success dark:text-lf-success"
+                                : "bg-lf-error/20 dark:bg-lf-error/30 text-lf-error dark:text-lf-error"
+                              : "bg-lf-primary/20 dark:bg-lf-primary/30 text-lf-primary dark:text-lf-primary"
                           }
                         `}
                           initial={showResult && isCorrect ? { scale: 0.8 } : {}}
@@ -209,7 +209,7 @@ export function ClozeExercise({ phrase, block, onComplete }: ClozeExerciseProps)
                   ))}
                 </p>
                 {!isCurrentPhrase && showTranslation && (
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                  <p className="text-xs text-lf-muted dark:text-lf-muted/70 mt-1">
                       {p.translation}
                     </p>
                 )}
@@ -222,7 +222,7 @@ export function ClozeExercise({ phrase, block, onComplete }: ClozeExerciseProps)
         <div className="mt-4 flex items-center justify-center">
           <button
             onClick={handleToggleTranslation}
-            className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all bg-lf-soft/50 dark:bg-lf-muted/30 text-lf-muted dark:text-lf-muted/80 hover:bg-lf-muted/20 dark:hover:bg-lf-muted/40 border border-lf-muted/30"
           >
             <span>{showTranslation ? "👁️" : "👁️‍🗨️"}</span>
             <span>
@@ -241,13 +241,13 @@ export function ClozeExercise({ phrase, block, onComplete }: ClozeExerciseProps)
             {block ? (
               <div className="space-y-1">
                 {block.phrases.map((p) => (
-                  <p key={p.id} className="text-sm text-gray-500 dark:text-gray-400">
+                  <p key={p.id} className="text-sm text-lf-muted dark:text-lf-muted/70">
                     <span className="font-medium">{p.text}:</span> {p.translation}
                   </p>
                 ))}
               </div>
             ) : (
-              <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
+              <p className="text-sm text-lf-muted dark:text-lf-muted/70 text-center">
                 {phrase.translation}
               </p>
             )}
@@ -262,8 +262,8 @@ export function ClozeExercise({ phrase, block, onComplete }: ClozeExerciseProps)
             mt-4 px-4 py-2 rounded-lg flex items-center justify-center gap-2 transition-all mx-auto
             ${
               isSpeaking
-                ? "bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-400"
-                : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
+                ? "bg-lf-primary/20 dark:bg-lf-primary/30 text-lf-primary dark:text-lf-primary"
+                : "bg-lf-soft/50 dark:bg-lf-muted/30 text-lf-dark dark:text-lf-muted hover:bg-lf-muted/20 dark:hover:bg-lf-muted/40 border border-lf-muted/30"
             }
           `}
         >
@@ -290,29 +290,28 @@ export function ClozeExercise({ phrase, block, onComplete }: ClozeExerciseProps)
               onClick={() => handleOptionSelect(option)}
               disabled={showResult}
               className={`
-                p-4 rounded-xl font-medium text-center transition-all
+                p-4 rounded-aaa-xl font-medium text-center transition-all
                 ${
                   showCorrect
-                    ? "bg-emerald-500 text-white ring-4 ring-emerald-300"
+                    ? "bg-lf-success text-white shadow-glow-success ring-4 ring-lf-success/50"
                     : showIncorrect
-                    ? "bg-red-500 text-white ring-4 ring-red-300"
+                    ? "bg-lf-error text-white shadow-glow-accent ring-4 ring-lf-error/50"
                     : isSelected
-                    ? "bg-indigo-500 text-white"
-                    : "bg-white dark:bg-gray-800 text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700"
+                    ? "bg-lf-primary text-white shadow-resonance"
+                    : "bg-glass-surface dark:bg-lf-soft/50 text-lf-dark dark:text-white hover:bg-lf-primary/10 dark:hover:bg-lf-primary/20 border border-lf-muted/30"
                 }
                 ${showResult ? "cursor-default opacity-50" : "cursor-pointer"}
-                border border-gray-200 dark:border-gray-700
               `}
               initial={{ opacity: 0, scale: 0.9 }}
               animate={
                 showCorrect
-                  ? { 
-                      scale: [1, 1.15, 1], 
+                  ? {
+                      scale: [1, 1.15, 1],
                       boxShadow: [
-                        "0 0 0px rgba(16, 185, 129, 0)", 
-                        "0 0 25px rgba(16, 185, 129, 0.6)", 
-                        "0 0 15px rgba(16, 185, 129, 0.4)"
-                      ] 
+                        "0 0 0px rgba(34, 197, 94, 0)",
+                        "0 0 25px rgba(34, 197, 94, 0.6)",
+                        "0 0 15px rgba(34, 197, 94, 0.4)"
+                      ]
                     }
                   : showIncorrect
                   ? { x: [0, -8, 8, -8, 8, 0] }
@@ -335,11 +334,11 @@ export function ClozeExercise({ phrase, block, onComplete }: ClozeExerciseProps)
         {showResult && (
           <motion.div
             className={`
-              p-4 rounded-xl text-center
+              p-4 rounded-xl text-center shadow-glass-xl backdrop-blur-aaa
               ${
                 isCorrect
-                  ? "bg-emerald-100 dark:bg-emerald-900 text-emerald-700 dark:text-emerald-300"
-                  : "bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-300"
+                  ? "bg-lf-success/20 dark:bg-lf-success/30 text-lf-success dark:text-lf-success border border-lf-success/40"
+                  : "bg-lf-error/20 dark:bg-lf-error/30 text-lf-error dark:text-lf-error border border-lf-error/40"
               }
             `}
             initial={{ opacity: 0, scale: 0.8 }}

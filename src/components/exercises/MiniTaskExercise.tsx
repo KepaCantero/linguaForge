@@ -72,7 +72,7 @@ export function MiniTaskExercise({
     <div className="space-y-6">
       {/* Prompt */}
       <motion.div
-        className="bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl p-6 text-white"
+        className="bg-gradient-to-br from-purple-500 to-indigo-600 rounded-aaa-xl p-6 text-white"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
       >
@@ -120,7 +120,7 @@ export function MiniTaskExercise({
               value={userInput}
               onChange={(e) => setUserInput(e.target.value)}
               placeholder="Escribe tu respuesta en francés..."
-              className="w-full h-32 p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl resize-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 dark:text-white placeholder-gray-400"
+              className="w-full h-32 p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-aaa-xl resize-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 dark:text-white placeholder-gray-400"
               disabled={submitted}
             />
             <div className="absolute bottom-3 right-3 text-sm text-gray-400">
@@ -164,7 +164,7 @@ export function MiniTaskExercise({
           <div className="flex gap-3">
             <button
               onClick={() => setShowExample(!showExample)}
-              className="px-4 py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-all"
+              className="px-4 py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-aaa-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-all"
             >
               {showExample ? 'Ocultar ejemplo' : 'Ver ejemplo'}
             </button>
@@ -172,7 +172,7 @@ export function MiniTaskExercise({
               onClick={handleSubmit}
               disabled={wordCount < miniTask.minWords}
               className={`
-                flex-1 py-3 rounded-xl font-bold transition-all
+                flex-1 py-3 rounded-aaa-xl font-bold transition-all
                 ${wordCount >= miniTask.minWords
                   ? 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg hover:shadow-xl'
                   : 'bg-gray-200 dark:bg-gray-700 text-gray-500 cursor-not-allowed'
@@ -187,7 +187,7 @@ export function MiniTaskExercise({
           <AnimatePresence>
             {showExample && (
               <motion.div
-                className="bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-200 dark:border-indigo-800 rounded-xl p-4"
+                className="bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-200 dark:border-indigo-800 rounded-aaa-xl p-4"
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
@@ -206,7 +206,7 @@ export function MiniTaskExercise({
         /* Resultado */
         <motion.div
           className={`
-            rounded-xl p-6 text-center
+            rounded-aaa-xl p-6 text-center
             ${result?.success
               ? 'bg-gradient-to-br from-emerald-400 to-teal-500'
               : 'bg-gradient-to-br from-orange-400 to-red-500'

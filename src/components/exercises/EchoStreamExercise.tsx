@@ -317,7 +317,7 @@ export function EchoStreamExercise({ exercise, onComplete }: EchoStreamExerciseP
             exit={{ opacity: 0 }}
           >
             {/* Canvas con waveform */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-4">
+            <div className="bg-white dark:bg-gray-800 rounded-aaa-xl p-4">
               <canvas
                 ref={canvasRef}
                 width={600}
@@ -331,7 +331,7 @@ export function EchoStreamExercise({ exercise, onComplete }: EchoStreamExerciseP
 
             {/* Estadísticas */}
             <div className="grid grid-cols-2 gap-4">
-              <div className="bg-white dark:bg-gray-800 rounded-xl p-4 text-center">
+              <div className="bg-white dark:bg-gray-800 rounded-aaa-xl p-4 text-center">
                 <motion.div
                   className="text-2xl font-bold text-indigo-600 dark:text-indigo-400"
                   key={powerWordsDetected.size}
@@ -345,7 +345,7 @@ export function EchoStreamExercise({ exercise, onComplete }: EchoStreamExerciseP
                   Power Words
                 </div>
               </div>
-              <div className="bg-white dark:bg-gray-800 rounded-xl p-4 text-center">
+              <div className="bg-white dark:bg-gray-800 rounded-aaa-xl p-4 text-center">
                 <div className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">
                   {accuracy.toFixed(0)}%
                 </div>
@@ -356,7 +356,7 @@ export function EchoStreamExercise({ exercise, onComplete }: EchoStreamExerciseP
             </div>
 
             {/* Barra de progreso */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-4">
+            <div className="bg-white dark:bg-gray-800 rounded-aaa-xl p-4">
               <div className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
                 <motion.div
                   className="h-full rounded-full"
@@ -381,7 +381,7 @@ export function EchoStreamExercise({ exercise, onComplete }: EchoStreamExerciseP
             </div>
 
             {/* Frase */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-4 text-center">
+            <div className="bg-white dark:bg-gray-800 rounded-aaa-xl p-4 text-center">
               <p className="text-lg font-medium text-gray-900 dark:text-white">
                 {exercise.phrase}
               </p>
@@ -412,7 +412,7 @@ export function EchoStreamExercise({ exercise, onComplete }: EchoStreamExerciseP
           <motion.div
             key="complete"
             className={`
-              rounded-xl p-8 text-center
+              rounded-aaa-xl p-8 text-center
               ${accuracy >= 90
                 ? 'bg-gradient-to-br from-emerald-400 to-teal-500'
                 : 'bg-gradient-to-br from-indigo-400 to-purple-500'

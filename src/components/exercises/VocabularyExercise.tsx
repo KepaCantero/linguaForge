@@ -66,7 +66,7 @@ export function VocabularyExercise({
 
       {/* Imagen */}
       <motion.div
-        className="relative w-full h-64 rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700"
+        className="relative w-full h-64 rounded-aaa-xl overflow-hidden bg-gray-100 dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700"
         initial={{ opacity: 0, y: -30, rotateX: 15 }}
         animate={{ opacity: 1, y: 0, rotateX: 0 }}
         transition={{ type: "spring", stiffness: 100, damping: 15 }}
@@ -93,7 +93,7 @@ export function VocabularyExercise({
               onClick={() => handleOptionSelect(option)}
               disabled={showResult}
               className={`
-                p-4 rounded-xl font-medium text-center transition-all
+                p-4 rounded-aaa-xl font-medium text-center transition-all
                 ${
                   showCorrect
                     ? "bg-emerald-500 text-white ring-4 ring-emerald-300"
@@ -140,7 +140,7 @@ export function VocabularyExercise({
         {showResult && (
           <motion.div
             className={`
-              p-4 rounded-xl text-center
+              p-4 rounded-aaa-xl text-center
               ${
                 isCorrect
                   ? "bg-emerald-100 dark:bg-emerald-900 text-emerald-700 dark:text-emerald-300"

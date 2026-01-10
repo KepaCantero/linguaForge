@@ -354,7 +354,7 @@ export function InteractiveSpeechExercise({
             exit={{ opacity: 0, y: -20 }}
             className="space-y-4"
           >
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-5 shadow-md border border-gray-100 dark:border-gray-700">
+            <div className="bg-white dark:bg-gray-800 rounded-aaa-xl p-5 shadow-md border border-gray-100 dark:border-gray-700">
               <div className="flex items-start gap-3">
                 <div className="w-10 h-10 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center text-xl flex-shrink-0">
                   👤
@@ -398,7 +398,7 @@ export function InteractiveSpeechExercise({
             )}
 
             {/* Zona de respuesta */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-5 shadow-md border-2 border-emerald-200 dark:border-emerald-800">
+            <div className="bg-white dark:bg-gray-800 rounded-aaa-xl p-5 shadow-md border-2 border-emerald-200 dark:border-emerald-800">
               <div className="text-center mb-4">
                 <span className="inline-flex items-center gap-1 px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 rounded-full text-sm text-emerald-700 dark:text-emerald-300 font-medium">
                   🎤 {currentStep.type === 'closing' ? 'Cierra la conversación' : 'Tu respuesta'}
@@ -495,7 +495,7 @@ export function InteractiveSpeechExercise({
               ¡Conversación completada!
             </h3>
 
-            <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-4 mt-6 inline-block">
+            <div className="bg-gray-50 dark:bg-gray-800 rounded-aaa-xl p-4 mt-6 inline-block">
               <div className="grid grid-cols-2 gap-6">
                 <div>
                   <p className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">

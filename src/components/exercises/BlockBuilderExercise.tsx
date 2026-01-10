@@ -90,7 +90,7 @@ export function BlockBuilderExercise({ exercise, onComplete }: BlockBuilderExerc
       </div>
 
       {/* Área de construcción */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl p-4 min-h-[200px] border-2 border-dashed border-gray-300 dark:border-gray-600">
+      <div className="bg-white dark:bg-gray-800 rounded-aaa-xl p-4 min-h-[200px] border-2 border-dashed border-gray-300 dark:border-gray-600">
         {selectedComponents.length === 0 ? (
           <div className="text-center text-gray-400 dark:text-gray-500 py-8">
             Arrastra los componentes aquí
@@ -195,7 +195,7 @@ export function BlockBuilderExercise({ exercise, onComplete }: BlockBuilderExerc
           onClick={handleConfirm}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="w-full px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all"
+          className="w-full px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-bold rounded-aaa-xl shadow-lg hover:shadow-xl transition-all"
         >
           Confirmar Bloque
         </motion.button>
@@ -207,7 +207,7 @@ export function BlockBuilderExercise({ exercise, onComplete }: BlockBuilderExerc
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           className={`
-            rounded-xl p-6 text-center
+            rounded-aaa-xl p-6 text-center
             ${isCorrect
               ? 'bg-gradient-to-br from-emerald-400 to-teal-500'
               : 'bg-gradient-to-br from-orange-400 to-red-500'
