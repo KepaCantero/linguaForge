@@ -2,6 +2,7 @@
 
 import { useState, useMemo, Suspense, useCallback, useEffect } from 'react';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
+import { motion } from 'framer-motion';
 import { useImportedNodesStore } from '@/store/useImportedNodesStore';
 import {
   generateClozeExercises,
@@ -10,26 +11,17 @@ import {
   generateDialogueIntonationExercises,
   generateJanusComposerExercises,
 } from '@/services/generateExercisesFromPhrases';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { useCognitiveLoad, useCognitiveLoadStore } from '@/store/useCognitiveLoadStore';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { getSessionFeedback } from '@/services/postCognitiveRewards';
 import type {
   Phrase,
   ConversationalEcho,
   DialogueIntonation,
   JanusComposer,
 } from '@/types';
-import { WarmupChoice } from './components/WarmupChoice';
-import { ExerciseMenu } from './components/ExerciseMenu';
 import { ExerciseRenderer } from './components/ExerciseRenderer';
-import { WarmupExercise } from './components/WarmupExercise';
 import { ExerciseHeader } from './components/ExerciseHeader';
 
 export type LessonMode = 'academia' | 'desafio';
 export type ExerciseType = 'cloze' | 'variations' | 'conversationalEcho' | 'dialogueIntonation' | 'janusComposer' | null;
-type PagePhase = 'warmup-choice' | 'warmup-exercise' | 'exercise-menu' | 'doing-exercise';
-type WarmupType = 'rhythm' | 'visual' | null;
 
 function ExercisesPageContent() {
   const params = useParams();
@@ -48,28 +40,11 @@ function ExercisesPageContent() {
     return () => clearTimeout(timer);
   }, []);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const node = nodes.find((n) => n.id === nodeId);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const subtopic = useMemo(() =>
     node?.subtopics.find((s) => s.id === subtopicId),
     [node, subtopicId]
   );
-
-  // Control de fase: menú → ejercicios (warmup eliminado)
-  const [pagePhase, setPagePhase] = useState<PagePhase>('exercise-menu');
-  const [selectedWarmup, setSelectedWarmup] = useState<WarmupType>(null);
-  const [focusModeActive, setFocusModeActive] = useState(false);
-
-  // Post-cognitive rewards
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [showRewards, setShowRewards] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [rewardData, setRewardData] = useState<ReturnType<typeof getSessionFeedback> | null>(null);
-
-  // Session summary
-  const [, setShowSessionSummary] = useState(false);
-  const [focusModeStartTime, setFocusModeStartTime] = useState<number | null>(null);
 
   // Mode state (can be changed from within exercises)
   const [currentMode, setCurrentMode] = useState<LessonMode>(mode);
@@ -82,11 +57,6 @@ function ExercisesPageContent() {
   const handleModeChange = useCallback((newMode: LessonMode) => {
     setCurrentMode(newMode);
   }, []);
-
-  // CLT: Obtener estado de carga cognitiva
-  const { load } = useCognitiveLoad();
-  const { updateGermaneLoad } = useCognitiveLoadStore();
-  // const showCognitiveLoad = true; // Siempre mostrar carga cognitiva
 
   // Generar todos los tipos de ejercicios
   const exerciseData = useMemo(() => {
@@ -117,15 +87,17 @@ function ExercisesPageContent() {
     } | null;
   }, [subtopic]);
 
-  // Formatear objeto load para ExerciseHeader
-  const headerLoad = useMemo(() => {
-    const total = load.total;
-    const status = total <= 40 ? 'low' as const : total <= 70 ? 'optimal' as const : total <= 85 ? 'high' as const : 'overload' as const;
-    return {
-      total,
-      status
-    };
-  }, [load.total]);
+  const [selectedExerciseType, setSelectedExerciseType] = useState<ExerciseType>(null);
+  const [exerciseIndices, setExerciseIndices] = useState({
+    cloze: 0,
+    variations: 0,
+    conversationalEcho: 0,
+    dialogueIntonation: 0,
+    janusComposer: 0,
+  });
+  const [focusModeActive, setFocusModeActive] = useState(false);
+  const [, setShowSessionSummary] = useState(false);
+  const [focusModeStartTime, setFocusModeStartTime] = useState<number | null>(null);
 
   // Track focus mode duration
   useEffect(() => {
@@ -136,85 +108,38 @@ function ExercisesPageContent() {
     }
   }, [focusModeActive, focusModeStartTime]);
 
-  const [selectedExerciseType, setSelectedExerciseType] = useState<ExerciseType>(null);
-  const [exerciseIndices, setExerciseIndices] = useState({
-    cloze: 0,
-    variations: 0,
-    conversationalEcho: 0,
-    dialogueIntonation: 0,
-    janusComposer: 0,
-  });
-
   const handleSelectExercise = useCallback((type: ExerciseType) => {
     setSelectedExerciseType(type);
-    setPagePhase('doing-exercise');
-  }, []);
-
-  const handleSelectWarmup = useCallback((warmup: WarmupType) => {
-    setSelectedWarmup(warmup);
-    setPagePhase('warmup-exercise');
-  }, []);
-
-  const handleWarmupComplete = useCallback((score: number) => {
-    console.log('[Warmup] Completado con score:', score);
-    setPagePhase('exercise-menu');
-  }, []);
-
-  const handleSkipWarmup = useCallback(() => {
-    setPagePhase('exercise-menu');
   }, []);
 
   const handleExerciseComplete = useCallback(() => {
     if (!selectedExerciseType || !exerciseData) return;
 
-    // CLT: Actualizar carga germana al completar ejercicio
-    updateGermaneLoad(5, 'exercise_completed');
-
-    // Calcular recompensas post-cognitivas
-    const performanceMetrics = {
-      accuracy: 1.0, // 100% correct
-      averageResponseTime: 30000,
-      exercisesCompleted: exerciseIndices[selectedExerciseType] + 1,
-      consecutiveCorrect: 1,
-      cognitiveLoad: load,
-      sessionDuration: 60, // 1 minuto en segundos
-      focusModeUsed: focusModeActive,
-    };
-
-    const { rewards, feedback: sessionFeedback } = getSessionFeedback(performanceMetrics, false);
-
-    setRewardData({ rewards, feedback: sessionFeedback });
-    setShowRewards(true);
-
-    // En modo desafío, avanzar automáticamente después de las recompensas
+    // En modo desafío, avanzar automáticamente
     if (currentMode === 'desafio') {
       const currentIndex = exerciseIndices[selectedExerciseType];
       const exercises = exerciseData[selectedExerciseType];
 
       if (exercises && currentIndex < exercises.length - 1) {
-        // Avanzar después de cerrar recompensas
         setTimeout(() => {
           setExerciseIndices((prev) => ({
             ...prev,
             [selectedExerciseType]: prev[selectedExerciseType] + 1,
           }));
-          setSelectedExerciseType(null);
-        }, 3000);
+        }, 500);
       } else {
-        // Completar este tipo de ejercicio, pasar al siguiente o terminar
         setTimeout(() => {
           setSelectedExerciseType(null);
-        }, 3000);
+        }, 500);
       }
     } else {
-      // En modo academia, volver al menú después de las recompensas
+      // En modo academia, volver al menú
       setTimeout(() => {
         setSelectedExerciseType(null);
-      }, 3000);
+      }, 500);
     }
-  }, [selectedExerciseType, exerciseIndices, exerciseData, currentMode, load, updateGermaneLoad, focusModeActive]);
+  }, [selectedExerciseType, exerciseIndices, exerciseData, currentMode]);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleBack = useCallback(() => {
     if (selectedExerciseType && currentMode === 'academia') {
       setSelectedExerciseType(null);
@@ -226,24 +151,21 @@ function ExercisesPageContent() {
   // Mostrar loading mientras Zustand hidrata los datos
   if (!isLoaded) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-4 border-indigo-500 border-t-transparent" />
+      <div className="min-h-screen bg-lf-dark flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-4 border-lf-primary border-t-transparent" />
       </div>
     );
   }
 
   if (!node || !subtopic || !exerciseData) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen bg-lf-dark flex items-center justify-center">
         <div className="text-center">
           <div className="text-6xl mb-4">404</div>
-          <p className="text-gray-600 dark:text-gray-400 mb-4">Subtema no encontrado</p>
-          <div className="text-xs text-gray-500 mb-4">
-            Debug: hasNode={!!node}, hasSubtopic={!!subtopic}, hasExerciseData={!!exerciseData}
-          </div>
+          <p className="text-lf-muted mb-4">Subtema no encontrado</p>
           <button
             onClick={() => router.push(`/learn/imported/${nodeId}`)}
-            className="text-indigo-600 hover:text-indigo-700"
+            className="text-lf-primary hover:text-lf-primary/80"
           >
             Volver al nodo
           </button>
@@ -252,49 +174,10 @@ function ExercisesPageContent() {
     );
   }
 
-  // Pantalla de warmup choice
-  if (pagePhase === 'warmup-choice') {
-    return (
-      <WarmupChoice
-        subtopicId={subtopicId}
-        nodeId={nodeId}
-        onSelectWarmup={handleSelectWarmup}
-        onSkipWarmup={handleSkipWarmup}
-      />
-    );
-  }
-
-  // Ejecutar warmup seleccionado
-  if (pagePhase === 'warmup-exercise' && selectedWarmup) {
-    return (
-      <WarmupExercise
-        selectedWarmup={selectedWarmup}
-        onComplete={handleWarmupComplete}
-        onSkip={handleSkipWarmup}
-      />
-    );
-  }
-
-  // Menú de ejercicios (modo academia o inicio)
-  if (!selectedExerciseType && pagePhase === 'exercise-menu') {
-    return (
-      <ExerciseMenu
-        nodeId={nodeId}
-        subtopicId={subtopicId}
-        mode={currentMode}
-        onModeChange={handleModeChange}
-        exerciseData={exerciseData}
-        onSelectExercise={handleSelectExercise}
-        onStartWarmup={() => setPagePhase('warmup-choice')}
-      />
-    );
-  }
-
-  // Renderizar ejercicio seleccionado
+  // Render exercise header and content when exercise is selected
   if (selectedExerciseType) {
     return (
       <div className={focusModeActive ? 'fixed inset-0 cursor-none' : ''}>
-        {/* Focus Mode Overlay */}
         {focusModeActive && (
           <div className="fixed inset-0 bg-black/70 pointer-events-none z-40" />
         )}
@@ -309,8 +192,8 @@ function ExercisesPageContent() {
             mode={currentMode}
             onModeChange={handleModeChange}
             onBack={handleBack}
-            onStartWarmup={() => setPagePhase('warmup-choice')}
-            load={headerLoad}
+            onStartWarmup={() => {}}
+            load={{ total: 50, status: 'optimal' }}
             focusModeActive={focusModeActive}
             setFocusModeActive={setFocusModeActive}
             setShowSessionSummary={setShowSessionSummary}
@@ -330,15 +213,167 @@ function ExercisesPageContent() {
     );
   }
 
-  return null;
+  // Exercise Menu - AAA Design (inline, no separate component)
+  const exercises = [
+    {
+      type: 'cloze' as ExerciseType,
+      icon: '✏️',
+      title: 'Cloze',
+      description: 'Completa las frases con la palabra correcta',
+      count: exerciseData.cloze?.length || 0,
+    },
+    {
+      type: 'variations' as ExerciseType,
+      icon: '🔄',
+      title: 'Variaciones',
+      description: 'Aprende diferentes formas de decir lo mismo',
+      count: exerciseData.variations?.length || 0,
+    },
+    {
+      type: 'conversationalEcho' as ExerciseType,
+      icon: '💬',
+      title: 'Echo Conversacional',
+      description: 'Responde en contexto conversacional',
+      count: exerciseData.conversationalEcho?.length || 0,
+    },
+    {
+      type: 'dialogueIntonation' as ExerciseType,
+      icon: '🎤',
+      title: 'Entonación de Diálogo',
+      description: 'Practica el ritmo y entonación',
+      count: exerciseData.dialogueIntonation?.length || 0,
+    },
+    {
+      type: 'janusComposer' as ExerciseType,
+      icon: '🧩',
+      title: 'Matriz Janus',
+      description: 'Construye frases combinando columnas',
+      count: exerciseData.janusComposer?.length || 0,
+    },
+  ].filter(ex => ex.count > 0);
+
+  const totalExercises = exercises.reduce((sum, ex) => sum + ex.count, 0);
+
+  return (
+    <div className="min-h-screen bg-lf-dark pb-20">
+      {/* Header */}
+      <header className="bg-glass-surface dark:bg-lf-soft/50 border-b border-lf-muted/20 backdrop-blur-aaa sticky top-0 z-10">
+        <div className="max-w-lg mx-auto px-4 py-4 flex items-center gap-4">
+          <button
+            onClick={() => router.push(`/learn/imported/${nodeId}`)}
+            className="flex items-center justify-center w-10 h-10 rounded-full text-lf-muted hover:text-white transition-colors"
+          >
+            <span className="text-xl">←</span>
+          </button>
+          <div className="flex-1">
+            <h1 className="font-semibold text-white line-clamp-1">
+              {subtopic.title}
+            </h1>
+            <p className="text-xs text-lf-muted/70">
+              {totalExercises} ejercicios disponibles
+            </p>
+          </div>
+        </div>
+      </header>
+
+      {/* Exercise Menu - AAA inline design */}
+      <main className="max-w-lg mx-auto px-4 pt-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center mb-8"
+        >
+          <h2 className="text-3xl font-bold text-white mb-2">
+            Ejercicios
+          </h2>
+          <p className="text-lf-muted">
+            Elige el tipo de ejercicio que quieres practicar
+          </p>
+        </motion.div>
+
+        <div className="space-y-4">
+          {/* Exercise items - AAA list design */}
+          {exercises.map((exercise, index) => (
+            <motion.button
+              key={exercise.type}
+              onClick={() => handleSelectExercise(exercise.type)}
+              className="relative w-full overflow-hidden group"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: index * 0.05 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              {/* Hover glow effect */}
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-lf-primary/20 via-lf-secondary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
+                initial={false}
+              />
+
+              {/* Content */}
+              <div className="relative flex items-center justify-between p-4 border-b border-lf-muted/20 hover:border-lf-primary/30 transition-all">
+                <div className="flex items-center gap-4">
+                  {/* Icon with animated background */}
+                  <div className="relative">
+                    <motion.div
+                      className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl bg-lf-primary/20"
+                      animate={{
+                        scale: [1, 1.05, 1],
+                      }}
+                      transition={{
+                        duration: 3,
+                        repeat: Infinity,
+                        delay: index * 0.2,
+                      }}
+                    >
+                      {exercise.icon}
+                    </motion.div>
+                  </div>
+
+                  {/* Title and info */}
+                  <div className="text-left">
+                    <h3 className="font-semibold text-white">
+                      {exercise.title}
+                    </h3>
+                    <p className="text-sm text-lf-muted/70">
+                      {exercise.description}
+                    </p>
+                    <div className="flex items-center gap-2 mt-1">
+                      <span className="text-xs text-lf-primary bg-lf-primary/10 px-2 py-0.5 rounded-md">
+                        {exercise.count} ejercicio{exercise.count !== 1 ? 's' : ''}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Arrow */}
+                <motion.span
+                  className="text-lf-muted/50 text-xl group-hover:text-lf-primary group-hover:translate-x-1 transition-all"
+                  animate={{
+                    x: [0, 4, 0],
+                  }}
+                  transition={{
+                    duration: 1.5,
+                    repeat: Infinity,
+                    delay: index * 0.1,
+                  }}
+                >
+                  →
+                </motion.span>
+              </div>
+            </motion.button>
+          ))}
+        </div>
+      </main>
+    </div>
+  );
 }
 
 export default function ExercisesPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-4 border-indigo-500 border-t-transparent" />
+        <div className="min-h-screen bg-lf-dark flex items-center justify-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-4 border-lf-primary border-t-transparent" />
         </div>
       }
     >

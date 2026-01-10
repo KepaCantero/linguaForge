@@ -87,9 +87,9 @@ function renderExerciseByType(
       return <ShadowingExercise phrase={data as Phrase} onComplete={() => onComplete(true)} />;
     default:
       return (
-        <div className="text-center p-8 bg-white dark:bg-gray-800 rounded-xl">
-          <p className="text-gray-500">Tipo no soportado: {exerciseType}</p>
-          <button onClick={() => onComplete(true)} className="mt-4 px-6 py-2 bg-indigo-600 text-white rounded-lg">
+        <div className="text-center p-8 bg-lf-soft/30 rounded-aaa-xl border border-lf-muted/30">
+          <p className="text-lf-muted">Tipo no soportado: {exerciseType}</p>
+          <button onClick={() => onComplete(true)} className="mt-4 px-6 py-2 bg-lf-primary text-white rounded-xl">
             Continuar
           </button>
         </div>
@@ -351,10 +351,10 @@ export default function LessonPage() {
   // Loading state
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+      <div className="min-h-screen flex items-center justify-center bg-lf-dark">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-4 border-indigo-500 border-t-transparent mx-auto mb-4" />
-          <p className="text-gray-600 dark:text-gray-400">Cargando lección...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-4 border-lf-primary border-t-transparent mx-auto mb-4" />
+          <p className="text-lf-muted">Cargando lección...</p>
         </div>
       </div>
     );
@@ -363,16 +363,16 @@ export default function LessonPage() {
   // Error state
   if (error || !lessonContent) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+      <div className="min-h-screen flex items-center justify-center bg-lf-dark">
         <div className="text-center p-6">
           <div className="text-6xl mb-4">😕</div>
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+          <h2 className="text-xl font-bold text-white mb-2">
             No se pudo cargar la lección
           </h2>
-          <p className="text-gray-600 dark:text-gray-400 mb-4">{error}</p>
+          <p className="text-lf-muted mb-4">{error}</p>
           <button
             onClick={handleBack}
-            className="px-6 py-3 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700"
+            className="px-6 py-3 bg-lf-primary text-white rounded-aaa-xl hover:bg-lf-primary/90"
           >
             Volver
           </button>
@@ -381,7 +381,7 @@ export default function LessonPage() {
     );
   }
 
-  // Exercise Menu (no category selected)
+  // Exercise Menu (no category selected) - AAA Design without cards
   if (!selectedCategory) {
     const totalExercises = categories.reduce((sum, cat) => sum + cat.items.length, 0);
 
@@ -404,117 +404,172 @@ export default function LessonPage() {
           )}
         </AnimatePresence>
 
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-20">
+        <div className="min-h-screen bg-lf-dark pb-20">
         {/* Header */}
-        <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
+        <header className="bg-glass-surface dark:bg-lf-soft/50 border-b border-lf-muted/20 backdrop-blur-aaa sticky top-0 z-10">
           <div className="max-w-lg mx-auto px-4 py-4 flex items-center gap-4">
             <button
               onClick={handleBack}
-              className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+              className="flex items-center justify-center w-10 h-10 rounded-full text-lf-muted hover:text-white transition-colors"
             >
               <span className="text-xl">←</span>
             </button>
             <div className="flex-1">
-              <h1 className="font-semibold text-gray-900 dark:text-white line-clamp-1">
+              <h1 className="font-semibold text-white line-clamp-1">
                 {leaf?.title || lessonContent.title}
               </h1>
-              <p className="text-xs text-gray-500 dark:text-gray-400">
+              <p className="text-xs text-lf-muted/70">
                 {totalExercises} ejercicios disponibles
               </p>
             </div>
           </div>
         </header>
 
-        {/* Exercise Menu */}
+        {/* Exercise Menu - AAA Design without cards */}
         <main className="max-w-lg mx-auto px-4 pt-8">
           <div className="text-center mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-              Menú de Ejercicios
+            <h2 className="text-3xl font-bold text-white mb-2">
+              Ejercicios
             </h2>
-            <p className="text-gray-600 dark:text-gray-400">
+            <p className="text-lf-muted">
               Elige el tipo de ejercicio que quieres practicar
             </p>
           </div>
 
           {categories.length === 0 ? (
-            <div className="text-center p-8 bg-white dark:bg-gray-800 rounded-xl">
+            <div className="text-center p-8 bg-lf-soft/30 rounded-aaa-xl border border-lf-muted/30">
               <div className="text-4xl mb-4">📭</div>
-              <p className="text-gray-500 dark:text-gray-400">
+              <p className="text-lf-muted">
                 No hay ejercicios disponibles en esta lección
               </p>
             </div>
           ) : (
-            <div className="space-y-3">
-              {/* Tarjeta de Calentamiento */}
+            <div className="space-y-4">
+              {/* Warmup Button - AAA Design */}
               <motion.button
                 onClick={handleStartWarmup}
-                className={`w-full rounded-xl p-4 text-left border-2 transition-all ${
-                  warmupCompleted
-                    ? 'bg-green-50 dark:bg-green-900/20 border-green-300 dark:border-green-700'
-                    : 'bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/30 dark:to-purple-900/30 border-indigo-300 dark:border-indigo-600 hover:border-indigo-400 dark:hover:border-indigo-500'
-                }`}
+                className={`
+                  relative w-full overflow-hidden rounded-aaa-xl p-5 text-left border-2 transition-all
+                  ${warmupCompleted
+                    ? 'bg-lf-success/10 dark:bg-lf-success/20 border-lf-success/50 shadow-glow-success'
+                    : 'bg-lf-primary/10 dark:bg-lf-primary/20 border-lf-primary/50 hover:border-lf-primary'
+                  }
+                `}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                whileHover={{ scale: 1.01 }}
+                whileTap={{ scale: 0.99 }}
               >
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <span className="text-3xl">{warmupCompleted ? '✅' : '🧠'}</span>
+                  <div className="flex items-center gap-4">
+                    <motion.span
+                      className="text-4xl"
+                      animate={warmupCompleted ? {} : {
+                        scale: [1, 1.1, 1],
+                        rotate: [0, 5, -5, 0],
+                      }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    >
+                      {warmupCompleted ? '✅' : '🧠'}
+                    </motion.span>
                     <div>
-                      <h3 className="font-semibold text-gray-900 dark:text-white">
+                      <h3 className="font-bold text-white text-lg">
                         Calentamiento Cerebral
                       </h3>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                      <p className="text-sm text-lf-muted">
                         {warmupCompleted
                           ? '¡Cerebro listo para aprender!'
                           : 'Activa tu cerebro antes de practicar'}
                       </p>
-                      <p className="text-xs text-indigo-600 dark:text-indigo-400 mt-1">
-                        ~30-60 segundos
-                      </p>
                     </div>
                   </div>
-                  <span className="text-gray-400 text-xl">
+                  <span className="text-lf-muted text-2xl">
                     {warmupCompleted ? '🔄' : '→'}
                   </span>
                 </div>
+                {!warmupCompleted && (
+                  <div className="mt-3 flex items-center gap-2">
+                    <span className="text-xs text-lf-primary/80 bg-lf-primary/10 px-2 py-1 rounded-md">
+                      ~30-60 segundos
+                    </span>
+                  </div>
+                )}
               </motion.button>
 
-              {/* Separador */}
+              {/* Separator */}
               <div className="flex items-center gap-3 py-2">
-                <div className="flex-1 h-px bg-gray-200 dark:bg-gray-700" />
-                <span className="text-xs text-gray-400 dark:text-gray-500">EJERCICIOS</span>
-                <div className="flex-1 h-px bg-gray-200 dark:bg-gray-700" />
+                <div className="flex-1 h-px bg-lf-muted/20" />
+                <span className="text-xs text-lf-muted/60 uppercase tracking-wider">Ejercicios</span>
+                <div className="flex-1 h-px bg-lf-muted/20" />
               </div>
 
+              {/* Exercise items - AAA list design (no cards) */}
               {categories.map((category, index) => (
                 <motion.button
                   key={category.id}
                   onClick={() => handleSelectCategory(category.id)}
-                  className="w-full bg-white dark:bg-gray-800 rounded-xl p-4 text-left border-2 border-gray-200 dark:border-gray-700 hover:border-indigo-500 dark:hover:border-indigo-400 transition-all"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  className="relative w-full overflow-hidden group"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.05 }}
-                  whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <span className="text-3xl">{category.icon}</span>
-                      <div>
-                        <h3 className="font-semibold text-gray-900 dark:text-white">
+                  {/* Hover glow effect */}
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-lf-primary/20 via-lf-secondary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
+                    initial={false}
+                  />
+
+                  {/* Content */}
+                  <div className="relative flex items-center justify-between p-4 border-b border-lf-muted/20 hover:border-lf-primary/30 transition-all">
+                    <div className="flex items-center gap-4">
+                      {/* Icon with animated background */}
+                      <div className="relative">
+                        <motion.div
+                          className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl bg-lf-primary/20"
+                          animate={{
+                            scale: [1, 1.05, 1],
+                          }}
+                          transition={{
+                            duration: 3,
+                            repeat: Infinity,
+                            delay: index * 0.2,
+                          }}
+                        >
+                          {category.icon}
+                        </motion.div>
+                      </div>
+
+                      {/* Title and info */}
+                      <div className="text-left">
+                        <h3 className="font-semibold text-white">
                           {category.title}
                         </h3>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                        <p className="text-sm text-lf-muted/70">
                           {category.description}
                         </p>
-                        <p className="text-xs text-indigo-600 dark:text-indigo-400 mt-1">
-                          {category.items.length} ejercicio{category.items.length !== 1 ? 's' : ''}
-                        </p>
+                        <div className="flex items-center gap-2 mt-1">
+                          <span className="text-xs text-lf-primary bg-lf-primary/10 px-2 py-0.5 rounded-md">
+                            {category.items.length} ejercicio{category.items.length !== 1 ? 's' : ''}
+                          </span>
+                        </div>
                       </div>
                     </div>
-                    <span className="text-gray-400 text-xl">→</span>
+
+                    {/* Arrow */}
+                    <motion.span
+                      className="text-lf-muted/50 text-xl group-hover:text-lf-primary group-hover:translate-x-1 transition-all"
+                      animate={{
+                        x: [0, 4, 0],
+                      }}
+                      transition={{
+                        duration: 1.5,
+                        repeat: Infinity,
+                        delay: index * 0.1,
+                      }}
+                    >
+                      →
+                    </motion.span>
                   </div>
                 </motion.button>
               ))}
@@ -533,22 +588,22 @@ export default function LessonPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col">
+    <div className="min-h-screen bg-lf-dark flex flex-col">
       {/* Header */}
-      <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
+      <header className="bg-glass-surface dark:bg-lf-soft/50 border-b border-lf-muted/20 backdrop-blur-aaa sticky top-0 z-10">
         <div className="max-w-lg mx-auto px-4 py-3">
           <div className="flex items-center justify-between mb-2">
             <button
               onClick={handleBack}
-              className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+              className="text-lf-muted hover:text-white transition-colors"
             >
               ←
             </button>
             <div className="text-center">
-              <span className="text-sm font-medium text-gray-900 dark:text-white">
+              <span className="text-sm font-medium text-white">
                 {currentCategory?.icon} {currentCategory?.title}
               </span>
-              <span className="text-xs text-gray-500 dark:text-gray-400 block">
+              <span className="text-xs text-lf-muted/70 block">
                 {currentIndex + 1} / {totalInCategory}
               </span>
             </div>
@@ -556,9 +611,9 @@ export default function LessonPage() {
           </div>
 
           {/* Progress bar */}
-          <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+          <div className="h-2 bg-lf-muted/20 rounded-full overflow-hidden">
             <motion.div
-              className="h-full bg-indigo-500 rounded-full"
+              className="h-full bg-gradient-to-r from-lf-primary to-lf-secondary rounded-full"
               initial={{ width: 0 }}
               animate={{ width: `${((currentIndex + 1) / totalInCategory) * 100}%` }}
               transition={{ duration: 0.3 }}

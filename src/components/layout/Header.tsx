@@ -209,58 +209,6 @@ export function Header() {
               </StatTooltip>
             </li>
 
-            {/* Divider */}
-            <li
-              aria-hidden="true"
-              className="w-px h-6 bg-gradient-to-b from-transparent via-lf-primary/30 to-transparent hidden sm:block"
-            />
-
-            {/* Coins */}
-            <motion.li whileHover={{ y: -2 }} transition={{ type: 'spring', stiffness: 400, damping: 30 }}>
-              <StatTooltip stat="coins">
-                <div
-                  className="px-2.5 py-1.5 rounded-xl bg-glass-surface backdrop-blur-md border border-white/10 flex items-center gap-1.5"
-                  role="status"
-                  aria-label={`${coins} monedas`}
-                >
-                  <motion.span
-                    className="text-lf-secondary"
-                    aria-hidden="true"
-                    animate={{ rotate: [0, 10, -10, 0] }}
-                    transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-                  >
-                    ◈
-                  </motion.span>
-                  <span className="font-rajdhani font-medium text-white text-sm">
-                    <CountUpNumber value={coins} duration={0.6} />
-                  </span>
-                </div>
-              </StatTooltip>
-            </motion.li>
-
-            {/* Gems */}
-            <motion.li whileHover={{ y: -2 }} transition={{ type: 'spring', stiffness: 400, damping: 30 }}>
-              <StatTooltip stat="gems">
-                <div
-                  className="px-2.5 py-1.5 rounded-xl bg-glass-surface backdrop-blur-md border border-white/10 flex items-center gap-1.5"
-                  role="status"
-                  aria-label={`${gems} gemas`}
-                >
-                  <motion.span
-                    className="text-lf-secondary"
-                    aria-hidden="true"
-                    animate={{ rotate: [0, -15, 15, 0] }}
-                    transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
-                  >
-                    ⬡
-                  </motion.span>
-                  <span className="font-rajdhani font-medium text-white text-sm">
-                    <CountUpNumber value={gems} duration={0.6} />
-                  </span>
-                </div>
-              </StatTooltip>
-            </motion.li>
-
             {/* Streak */}
             <motion.li whileHover={{ y: -2, scale: 1.05 }} transition={{ type: 'spring', stiffness: 400, damping: 30 }}>
               <StatTooltip stat="streak">
