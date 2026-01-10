@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter, useParams } from 'next/navigation';
@@ -15,6 +16,23 @@ export default function ImportedNodePage() {
 
   const { nodes } = useImportedNodesStore();
   const node = nodes.find((n) => n.id === nodeId);
+
+  // Estado para evitar hidratación mismatch
+  const [isMounted, setIsMounted] = useState(false);
+
+  // Al montar en el cliente, si hay subtemas, ir directamente al primero
+  // NOTA: Este hook debe estar antes de cualquier retorno condicional
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  // Redirigir al primer subtema si existe
+  useEffect(() => {
+    if (isMounted && node && node.subtopics.length > 0) {
+      const firstSubtopic = node.subtopics[0];
+      router.push(`/learn/imported/${nodeId}/exercises?subtopic=${firstSubtopic.id}&mode=academia`);
+    }
+  }, [isMounted, node, nodeId, router]);
 
   if (!node) {
     return (
@@ -71,7 +89,7 @@ export default function ImportedNodePage() {
   }
 
   const handleSubtopicClick = (subtopicId: string) => {
-    router.push(`/learn/imported/${nodeId}/practice?subtopic=${subtopicId}`);
+    router.push(`/learn/imported/${nodeId}/exercises?subtopic=${subtopicId}&mode=academia`);
   };
 
   return (

@@ -17,6 +17,7 @@ interface ExerciseMenuProps {
   nodeId: string;
   subtopicId: string | null;
   mode: LessonMode;
+  onModeChange: (mode: LessonMode) => void;
   exerciseData: {
     cloze: ClozeData;
     variations: VariationsData;
@@ -31,6 +32,7 @@ export function ExerciseMenu({
   nodeId,
   subtopicId,
   mode,
+  onModeChange,
   exerciseData,
   onSelectExercise
 }: ExerciseMenuProps) {
@@ -114,13 +116,13 @@ export function ExerciseMenu({
       <header className="relative border-b border-white/10 backdrop-blur-md">
         <div className="max-w-lg mx-auto px-4 py-4 flex items-center gap-4">
           <button
-            onClick={() => router.push(`/learn/imported/${nodeId}/practice?subtopic=${subtopicId}`)}
+            onClick={() => router.push(`/learn/imported/${nodeId}`)}
             className="flex items-center justify-center w-12 h-12 rounded-full focus:outline-none focus:ring-4 focus:ring-lf-accent focus:ring-offset-2 focus:ring-offset-lf-dark"
             style={{
               minWidth: '48px',
               minHeight: '48px',
             }}
-            aria-label="Volver a práctica"
+            aria-label="Volver al nodo"
           >
             <motion.span
               className="text-2xl"
@@ -130,13 +132,47 @@ export function ExerciseMenu({
               ←
             </motion.span>
           </button>
-          <div className="flex-1">
-            <h1 className="font-bold text-white line-clamp-1">
-              Ejercicios
-            </h1>
-            <p className="text-xs text-lf-muted">
-              {totalExercises} disponibles
-            </p>
+          <div className="flex-1 flex items-center gap-3">
+            <div>
+              <h1 className="font-bold text-white line-clamp-1">
+                Ejercicios
+              </h1>
+              <p className="text-xs text-lf-muted">
+                {totalExercises} disponibles
+              </p>
+            </div>
+          </div>
+
+          {/* Mode toggle buttons */}
+          <div className="flex items-center gap-2">
+            <motion.button
+              onClick={() => onModeChange('academia')}
+              className={`px-3 py-1.5 rounded-lg text-sm font-semibold transition-all flex items-center gap-1.5 ${
+                mode === 'academia'
+                  ? 'bg-green-500/20 border border-green-500/30 text-green-400'
+                  : 'bg-lf-dark/30 border border-white/10 text-lf-muted hover:text-white hover:bg-lf-dark/50'
+              }`}
+              whileHover={shouldAnimate ? { scale: 1.05 } : {}}
+              whileTap={shouldAnimate ? { scale: 0.95 } : {}}
+              aria-label="Modo Academia: Entrenamiento sin límite de tiempo"
+            >
+              <span>📚</span>
+              <span className="hidden sm:inline">Academia</span>
+            </motion.button>
+            <motion.button
+              onClick={() => onModeChange('desafio')}
+              className={`px-3 py-1.5 rounded-lg text-sm font-semibold transition-all flex items-center gap-1.5 ${
+                mode === 'desafio'
+                  ? 'bg-purple-500/20 border border-purple-500/30 text-purple-400'
+                  : 'bg-lf-dark/30 border border-white/10 text-lf-muted hover:text-white hover:bg-lf-dark/50'
+              }`}
+              whileHover={shouldAnimate ? { scale: 1.05 } : {}}
+              whileTap={shouldAnimate ? { scale: 0.95 } : {}}
+              aria-label="Modo Desafío: Competitivo con límite de tiempo"
+            >
+              <span>⚡</span>
+              <span className="hidden sm:inline">Desafío</span>
+            </motion.button>
           </div>
         </div>
       </header>
@@ -248,6 +284,72 @@ export function ExerciseMenu({
               </div>
             </motion.button>
           ))}
+
+          {/* Mode switch section */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="mt-8 pt-6 border-t border-white/10"
+          >
+            <h3 className="text-lg font-bold text-white mb-4 text-center">
+              Cambiar modo de práctica
+            </h3>
+            <div className="grid grid-cols-2 gap-4">
+              {/* Switch to opposite mode card */}
+              <motion.button
+                onClick={() => onModeChange(mode === 'academia' ? 'desafio' : 'academia')}
+                className={`relative overflow-hidden rounded-2xl p-4 border-2 text-left transition-all ${
+                  mode === 'academia'
+                    ? 'bg-purple-500/10 border-purple-500/30'
+                    : 'bg-green-500/10 border-green-500/30'
+                }`}
+                whileHover={shouldAnimate ? { scale: 1.02 } : {}}
+                whileTap={shouldAnimate ? { scale: 0.98 } : {}}
+                aria-label={`Cambiar a ${mode === 'academia' ? 'Desafío' : 'Academia'}`}
+              >
+                {/* Glow effect */}
+                <motion.div
+                  className="absolute inset-0 rounded-2xl blur-xl"
+                  style={{
+                    background: mode === 'academia'
+                      ? 'radial-gradient(circle, rgba(168, 85, 247, 0.4), transparent)'
+                      : 'radial-gradient(circle, rgba(34, 197, 94, 0.4), transparent)',
+                  }}
+                  animate={shouldAnimate ? {
+                    scale: [1, 1.2, 1],
+                    opacity: [0.3, 0.5, 0.3],
+                  } : {}}
+                  transition={{ duration: 3, repeat: Infinity }}
+                />
+
+                <div className="relative">
+                  <motion.div
+                    className="w-12 h-12 rounded-full flex items-center justify-center text-2xl mx-auto mb-3"
+                    style={{
+                      background: mode === 'academia'
+                        ? 'radial-gradient(circle at 30% 30%, #A855F7, #9333EA)'
+                        : 'radial-gradient(circle at 30% 30%, #22C55E, #16A34A)',
+                      willChange: shouldAnimate ? 'transform' : 'auto',
+                    }}
+                    animate={shouldAnimate ? {
+                      scale: [1, 1.1, 1],
+                      rotate: [0, 5, -5, 0],
+                    } : {}}
+                    transition={{ duration: 4, repeat: Infinity }}
+                  >
+                    {mode === 'academia' ? '⚡' : '📚'}
+                  </motion.div>
+                  <h4 className="font-bold text-white text-center mb-1">
+                    {mode === 'academia' ? 'Desafío' : 'Academia'}
+                  </h4>
+                  <p className="text-xs text-lf-muted text-center">
+                    {mode === 'academia' ? 'Competitivo • XP 1.5x' : 'Entrenamiento • XP 1.0x'}
+                  </p>
+                </div>
+              </motion.button>
+            </div>
+          </motion.div>
         </div>
       </main>
     </div>

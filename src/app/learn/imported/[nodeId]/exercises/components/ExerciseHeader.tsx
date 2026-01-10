@@ -29,6 +29,8 @@ interface ExerciseHeaderProps {
     janusComposer: JanusComposer[];
   };
   mode: LessonMode;
+  onModeChange: (mode: LessonMode) => void;
+  onStartWarmup?: () => void;
   load: {
     total: number;
     status: 'low' | 'optimal' | 'high' | 'overload';
@@ -62,6 +64,8 @@ export function ExerciseHeader({
   exerciseIndices,
   exerciseData,
   mode,
+  onModeChange,
+  onStartWarmup,
   load,
   focusModeActive,
   setFocusModeActive,
@@ -73,12 +77,13 @@ export function ExerciseHeader({
   const loadColors = getLoadStatusColors(loadStatus);
 
   const handleBack = () => {
-    if (selectedExerciseType && mode === 'academia') {
-      // En modo academia, volver al menú (dejar que el componente padre maneje esto)
-      router.back();
-      return;
-    }
-    router.push(`/learn/imported/${nodeId}/practice?subtopic=${subtopicId}`);
+    // Volver al nodo directamente (ya no usamos la pantalla de practice)
+    router.push(`/learn/imported/${nodeId}`);
+  };
+
+  const handleModeToggle = () => {
+    const newMode: LessonMode = mode === 'academia' ? 'desafio' : 'academia';
+    onModeChange(newMode);
   };
 
   return (
@@ -134,6 +139,34 @@ export function ExerciseHeader({
 
               {/* Right: Action buttons */}
               <div className="flex items-center gap-2">
+                {/* Warmup button */}
+                {onStartWarmup && (
+                  <motion.button
+                    onClick={onStartWarmup}
+                    className="p-2.5 rounded-xl bg-amber-500/20 border border-amber-500/30 text-amber-400 transition-all"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    title="Calentamiento Mental"
+                  >
+                    <span className="text-lg">🔥</span>
+                  </motion.button>
+                )}
+
+                {/* Mode Toggle button */}
+                <motion.button
+                  onClick={handleModeToggle}
+                  className={`p-2.5 rounded-xl border transition-all ${
+                    mode === 'academia'
+                      ? 'bg-green-500/20 border-green-500/30 text-green-400'
+                      : 'bg-purple-500/20 border-purple-500/30 text-purple-400'
+                  }`}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  title={mode === 'academia' ? 'Cambiar a Desafío' : 'Cambiar a Academia'}
+                >
+                  <span className="text-lg">{mode === 'academia' ? '📚' : '⚡'}</span>
+                </motion.button>
+
                 {/* Focus Mode button */}
                 <motion.button
                   onClick={() => setFocusModeActive(!focusModeActive)}

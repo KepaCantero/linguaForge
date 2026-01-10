@@ -56,8 +56,8 @@ function ExercisesPageContent() {
     [node, subtopicId]
   );
 
-  // Control de fase: warmup opcional → menú → ejercicios
-  const [pagePhase, setPagePhase] = useState<PagePhase>('warmup-choice');
+  // Control de fase: menú → ejercicios (warmup eliminado)
+  const [pagePhase, setPagePhase] = useState<PagePhase>('exercise-menu');
   const [selectedWarmup, setSelectedWarmup] = useState<WarmupType>(null);
   const [focusModeActive, setFocusModeActive] = useState(false);
 
@@ -70,6 +70,18 @@ function ExercisesPageContent() {
   // Session summary
   const [, setShowSessionSummary] = useState(false);
   const [focusModeStartTime, setFocusModeStartTime] = useState<number | null>(null);
+
+  // Mode state (can be changed from within exercises)
+  const [currentMode, setCurrentMode] = useState<LessonMode>(mode);
+
+  // Update current mode when URL param changes
+  useEffect(() => {
+    setCurrentMode(mode);
+  }, [mode]);
+
+  const handleModeChange = useCallback((newMode: LessonMode) => {
+    setCurrentMode(newMode);
+  }, []);
 
   // CLT: Obtener estado de carga cognitiva
   const { load } = useCognitiveLoad();
@@ -175,7 +187,7 @@ function ExercisesPageContent() {
     setShowRewards(true);
 
     // En modo desafío, avanzar automáticamente después de las recompensas
-    if (mode === 'desafio') {
+    if (currentMode === 'desafio') {
       const currentIndex = exerciseIndices[selectedExerciseType];
       const exercises = exerciseData[selectedExerciseType];
 
@@ -200,16 +212,16 @@ function ExercisesPageContent() {
         setSelectedExerciseType(null);
       }, 3000);
     }
-  }, [selectedExerciseType, exerciseIndices, exerciseData, mode, load, updateGermaneLoad, focusModeActive]);
+  }, [selectedExerciseType, exerciseIndices, exerciseData, currentMode, load, updateGermaneLoad, focusModeActive]);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleBack = useCallback(() => {
-    if (selectedExerciseType && mode === 'academia') {
+    if (selectedExerciseType && currentMode === 'academia') {
       setSelectedExerciseType(null);
     } else {
-      router.push(`/learn/imported/${nodeId}/practice?subtopic=${subtopicId}`);
+      router.push(`/learn/imported/${nodeId}`);
     }
-  }, [selectedExerciseType, mode, router, nodeId, subtopicId]);
+  }, [selectedExerciseType, currentMode, router, nodeId]);
 
   // Mostrar loading mientras Zustand hidrata los datos
   if (!isLoaded) {
@@ -269,7 +281,8 @@ function ExercisesPageContent() {
       <ExerciseMenu
         nodeId={nodeId}
         subtopicId={subtopicId}
-        mode={mode}
+        mode={currentMode}
+        onModeChange={handleModeChange}
         exerciseData={exerciseData}
         onSelectExercise={handleSelectExercise}
       />
@@ -292,7 +305,9 @@ function ExercisesPageContent() {
             selectedExerciseType={selectedExerciseType}
             exerciseIndices={exerciseIndices}
             exerciseData={exerciseData}
-            mode={mode}
+            mode={currentMode}
+            onModeChange={handleModeChange}
+            onStartWarmup={() => setPagePhase('warmup-choice')}
             load={headerLoad}
             focusModeActive={focusModeActive}
             setFocusModeActive={setFocusModeActive}
@@ -302,7 +317,7 @@ function ExercisesPageContent() {
             selectedExerciseType={selectedExerciseType}
             exerciseIndices={exerciseIndices}
             exerciseData={exerciseData}
-            mode={mode}
+            mode={currentMode}
             focusModeActive={focusModeActive}
             setFocusModeActive={setFocusModeActive}
             onComplete={handleExerciseComplete}
