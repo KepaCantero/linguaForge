@@ -329,165 +329,79 @@ export default function VideoInputPage() {
   }, [videoId, duration, activeLanguage, activeLevel, inputStore]);
 
   return (
-    <div className="space-y-8 pb-32">
-      {/* Stats Orbital HUD */}
-      <div className="relative w-full h-[45vh] flex items-center justify-center">
-        {/* Outer decorative rings */}
-        {[0, 1, 2, 3].map((i) => (
-          <motion.div
-            key={i}
-            className="absolute rounded-full border"
-            style={{
-              width: `${200 + i * 40}px`,
-              height: `${200 + i * 40}px`,
-              borderColor: `rgba(236, 72, 153, ${0.15 - i * 0.03})`,
-              borderStyle: i % 2 === 0 ? 'solid' : 'dashed',
-            }}
-            animate={{
-              rotate: i % 2 === 0 ? [0, 360] : [360, 0],
-              scale: [1, 1.02, 1],
-            }}
-            transition={{
-              duration: 25 + i * 8,
-              repeat: Infinity,
-              ease: 'linear',
-            }}
-          />
-        ))}
+    <div className="space-y-6 pb-32">
+      {/* Stats Section - Clear Card Layout */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="px-4"
+      >
+        <h1 className="text-3xl font-bold text-white text-center mb-2">Video Input</h1>
+        <p className="text-sm text-lf-muted text-center mb-6">Aprende francés con videos de YouTube</p>
 
-        {/* Central Core - Video */}
-        <motion.div
-          className="relative w-32 h-32 rounded-full z-10"
-          style={{
-            background: 'radial-gradient(circle at 30% 30%, #EC4899, #DB2777)',
-          }}
-          animate={{
-            scale: [1, 1.06, 1],
-            rotate: [0, 5, -5, 0],
-          }}
-          transition={{ duration: 4, repeat: Infinity }}
-          whileHover={{ scale: 1.12 }}
-        >
-          {/* Core glow */}
+        {/* Stats Cards */}
+        <div className="grid grid-cols-2 gap-4 max-w-md mx-auto">
+          {/* Videos Watched Card */}
           <motion.div
-            className="absolute inset-0 rounded-full blur-2xl"
-            style={{
-              background: 'radial-gradient(circle, rgba(236, 72, 153, 0.8), transparent)',
-            }}
-            animate={{
-              scale: [1, 1.5, 1],
-              opacity: [0.5, 0.9, 0.5],
-            }}
-            transition={{ duration: 3, repeat: Infinity }}
-          />
-
-          {/* Core icon */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.1 }}
+            className="relative overflow-hidden rounded-2xl border-2 bg-glass-surface backdrop-blur-aaa border-pink-500/30 p-5"
+            whileHover={{ scale: 1.05, y: -4 }}
+          >
+            {/* Animated gradient background */}
             <motion.div
-              className="text-5xl"
+              className="absolute inset-0 bg-gradient-to-br from-pink-500/10 to-purple-500/10"
               animate={{
-                scale: [1, 1.15, 1],
-                rotate: [0, 10, -10, 0],
+                opacity: [0.3, 0.5, 0.3],
               }}
               transition={{ duration: 3, repeat: Infinity }}
-            >
-              🎬
-            </motion.div>
-          </div>
-        </motion.div>
-
-        {/* Stat orbs in orbital arrangement */}
-        <motion.div
-          className="absolute"
-          style={{
-            left: 'calc(50% - 50px)',
-            top: 'calc(50% - 120px)',
-          }}
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0, type: 'spring', stiffness: 200 }}
-        >
-          <motion.div
-            className="relative w-24 h-24 rounded-full cursor-pointer"
-            style={{
-              background: 'radial-gradient(circle at 30% 30%, #EC4899, #DB2777)',
-            }}
-            animate={{ y: [0, -6, 0] }}
-            transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-            whileHover={{ scale: 1.15, y: -18 }}
-          >
-            <motion.div
-              className="absolute inset-0 rounded-full blur-lg"
-              style={{ background: 'radial-gradient(circle, #EC4899CC, transparent)' }}
-              animate={{ scale: [1, 1.3, 1], opacity: [0.5, 0.8, 0.5] }}
-              transition={{ duration: 2, repeat: Infinity }}
             />
-            <div className="absolute inset-0 flex items-center justify-center text-3xl">📺</div>
-            <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-center">
-              <div className="text-sm font-bold text-white">{videoStats.viewCount}</div>
-              <div className="text-xs text-lf-muted">Videos</div>
+
+            {/* Content */}
+            <div className="relative">
+              <div className="flex items-center gap-2 mb-3">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center">
+                  <span className="text-xl">📺</span>
+                </div>
+                <span className="text-sm text-lf-muted font-medium">Videos</span>
+              </div>
+              <div className="text-3xl font-bold text-white">{videoStats.viewCount}</div>
+              <div className="text-xs text-lf-muted mt-1">Vistos</div>
             </div>
           </motion.div>
-        </motion.div>
 
-        <motion.div
-          className="absolute"
-          style={{
-            left: 'calc(50% + 70px)',
-            top: 'calc(50%)',
-          }}
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.1, type: 'spring', stiffness: 200 }}
-        >
+          {/* Total Hours Card */}
           <motion.div
-            className="relative w-24 h-24 rounded-full cursor-pointer"
-            style={{
-              background: 'radial-gradient(circle at 30% 30%, #F472B6, #EC4899)',
-            }}
-            animate={{ y: [0, -6, 0] }}
-            transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
-            whileHover={{ scale: 1.15, y: -18 }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.2 }}
+            className="relative overflow-hidden rounded-2xl border-2 bg-glass-surface backdrop-blur-aaa border-purple-500/30 p-5"
+            whileHover={{ scale: 1.05, y: -4 }}
           >
+            {/* Animated gradient background */}
             <motion.div
-              className="absolute inset-0 rounded-full blur-lg"
-              style={{ background: 'radial-gradient(circle, #F472B6CC, transparent)' }}
-              animate={{ scale: [1, 1.3, 1], opacity: [0.5, 0.8, 0.5] }}
-              transition={{ duration: 2, repeat: Infinity, delay: 0.1 }}
+              className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-pink-500/10"
+              animate={{
+                opacity: [0.3, 0.5, 0.3],
+              }}
+              transition={{ duration: 3, repeat: Infinity, delay: 0.5 }}
             />
-            <div className="absolute inset-0 flex items-center justify-center text-3xl">⏱️</div>
-            <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-center">
-              <div className="text-sm font-bold text-white">{videoStats.totalHours}h</div>
-              <div className="text-xs text-lf-muted">Horas</div>
+
+            {/* Content */}
+            <div className="relative">
+              <div className="flex items-center gap-2 mb-3">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+                  <span className="text-xl">⏱️</span>
+                </div>
+                <span className="text-sm text-lf-muted font-medium">Horas</span>
+              </div>
+              <div className="text-3xl font-bold text-white">{videoStats.totalHours}</div>
+              <div className="text-xs text-lf-muted mt-1">Tiempo total</div>
             </div>
           </motion.div>
-        </motion.div>
-
-        {/* Floating particles */}
-        {[0, 1, 2, 3, 4, 5].map((i) => (
-          <motion.div
-            key={i}
-            className="absolute w-2 h-2 rounded-full opacity-70"
-            style={{
-              background: i % 2 === 0 ? "#EC4899" : "#F472B6",
-              left: `${25 + (i * 8) % 50}%`,
-              top: `${15 + (i * 10) % 70}%`,
-            }}
-            animate={{
-              y: [0, -50, 0],
-              x: [0, (i % 2 === 0 ? 30 : -30), 0],
-              scale: [1, 0.6, 1],
-              opacity: [0.7, 0.3, 0.7],
-            }}
-            transition={{
-              duration: 6 + i,
-              repeat: Infinity,
-              ease: 'easeInOut',
-              delay: i * 0.3,
-            }}
-          />
-        ))}
-      </div>
+        </div>
+      </motion.div>
 
       {/* Input Section with Orbital Design */}
       <motion.div

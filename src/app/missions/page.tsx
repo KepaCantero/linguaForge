@@ -4,8 +4,8 @@ import { useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { MissionFeed } from '@/components/missions';
 import { useMissionStore, type Mission } from '@/store/useMissionStore';
+import { Crown, Flame, Zap, Hexagon, Sword, Brain } from 'lucide-react';
 
 export default function MissionsPage() {
   const router = useRouter();
@@ -45,332 +45,276 @@ export default function MissionsPage() {
   const totalCount = dailyMissions.length;
   const progress = totalCount > 0 ? (completedCount / totalCount) * 100 : 0;
 
+  // Mission type configuration
+  const missionConfig: Record<string, { icon: React.ReactNode; color: string; gradient: string; label: string }> = {
+    input: { icon: <Zap className="w-6 h-6" />, color: 'text-yellow-400', gradient: 'from-yellow-500 to-orange-500', label: 'Input' },
+    exercises: { icon: <Sword className="w-6 h-6" />, color: 'text-purple-400', gradient: 'from-purple-500 to-pink-500', label: 'Ejercicios' },
+    janus: { icon: <Hexagon className="w-6 h-6" />, color: 'text-blue-400', gradient: 'from-blue-500 to-cyan-500', label: 'Janus' },
+    streak: { icon: <Flame className="w-6 h-6" />, color: 'text-orange-400', gradient: 'from-orange-500 to-red-500', label: 'Racha' },
+    forgeMandate: { icon: <Crown className="w-6 h-6" />, color: 'text-amber-400', gradient: 'from-amber-500 to-yellow-500', label: 'Desafío' },
+  };
+
   return (
-    <div className="space-y-8">
-      {/* Main Progress Orb - Giant central HUD */}
-      <div className="relative w-full h-[50vh] flex items-center justify-center">
-        {/* Outer rotating rings */}
-        {[0, 1, 2, 3, 4].map((i) => (
-          <motion.div
-            key={i}
-            className="absolute rounded-full border-2"
-            style={{
-              width: `${200 + i * 40}px`,
-              height: `${200 + i * 40}px`,
-              borderColor: i % 2 === 0 ? 'rgba(99, 102, 241, 0.3)' : 'rgba(192, 38, 211, 0.3)',
-            }}
-            animate={{
-              rotate: i % 2 === 0 ? [0, 360] : [360, 0],
-              scale: [1, 1.05, 1],
-            }}
-            transition={{
-              duration: 20 + i * 5,
-              repeat: Infinity,
-              ease: 'linear',
-            }}
-          />
-        ))}
-
-        {/* Progress ring */}
-        <svg
-          className="absolute"
-          style={{ width: '280px', height: '280px' }}
-          viewBox="0 0 100 100"
-        >
-          <defs>
-            <linearGradient id="progress-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#6366F1" />
-              <stop offset="50%" stopColor="#C026D3" />
-              <stop offset="100%" stopColor="#FDE047" />
-            </linearGradient>
-          </defs>
-          <circle
-            cx="50"
-            cy="50"
-            r="45"
-            fill="none"
-            stroke="rgba(255,255,255,0.1)"
-            strokeWidth="2"
-          />
-          <motion.circle
-            cx="50"
-            cy="50"
-            r="45"
-            fill="none"
-            stroke="url(#progress-gradient)"
-            strokeWidth="3"
-            strokeLinecap="round"
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: progress / 100 }}
-            transition={{ duration: 1.5 }}
-            style={{
-              strokeDasharray: '282.74',
-              strokeDashoffset: '0',
-              transformOrigin: 'center',
-            }}
-          />
-        </svg>
-
-        {/* Central orb */}
-        <motion.div
-          className="relative w-48 h-48 rounded-full cursor-pointer"
-          style={{
-            background: progress === 100
-              ? 'radial-gradient(circle at 30% 30%, #22C55E, #16A34A, #15803D)'
-              : 'radial-gradient(circle at 30% 30%, #6366F1, #4F46E5, #4338CA)',
-          }}
-          animate={{
-            scale: [1, 1.08, 1],
-            rotate: [0, 5, -5, 0],
-          }}
-          transition={{ duration: 4, repeat: Infinity }}
-          whileHover={{ scale: 1.12 }}
-        >
-          {/* Inner glow */}
-          <motion.div
-            className="absolute inset-4 rounded-full blur-xl"
-            style={{
-              background: progress === 100
-                ? 'radial-gradient(circle, rgba(34, 197, 94, 0.8), transparent)'
-                : 'radial-gradient(circle, rgba(99, 102, 241, 0.8), transparent)',
-            }}
-            animate={{
-              scale: [1, 1.4, 1],
-              opacity: [0.6, 1, 0.6],
-            }}
-            transition={{ duration: 3, repeat: Infinity }}
-          />
-
-          {/* Content */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-            <motion.div
-              className="text-6xl mb-2"
-              animate={{
-                scale: [1, 1.1, 1],
-                rotate: [0, 10, -10, 0],
-              }}
-              transition={{ duration: 2, repeat: Infinity }}
-            >
-              {progress === 100 ? '🏆' : '⚔️'}
-            </motion.div>
-            <motion.div
-              className="text-4xl font-bold text-white"
-              animate={{
-                textShadow: [
-                  '0 0 10px rgba(255,255,255,0.5)',
-                  '0 0 20px rgba(255,255,255,0.8)',
-                  '0 0 10px rgba(255,255,255,0.5)',
-                ],
-              }}
-              transition={{ duration: 2, repeat: Infinity }}
-            >
-              {completedCount}/{totalCount}
-            </motion.div>
-            <div className="text-sm text-lf-muted mt-1">
-              {progress === 100 ? '¡Completado!' : 'Misiones'}
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Floating particles */}
-        {[0, 1, 2, 3, 4, 5].map((i) => (
-          <motion.div
-            key={i}
-            className="absolute w-2 h-2 rounded-full"
-            style={{
-              background: i % 2 === 0 ? '#6366F1' : '#C026D3',
-              left: `${30 + (i * 10) % 40}%`,
-              top: `${20 + (i * 15) % 60}%`,
-            }}
-            animate={{
-              y: [0, -40, 0],
-              x: [0, (i % 2 === 0 ? 30 : -30), 0],
-              scale: [1, 0, 1],
-              opacity: [0.8, 0.3, 0.8],
-            }}
-            transition={{
-              duration: 5 + i,
-              repeat: Infinity,
-              ease: 'easeInOut',
-              delay: i * 0.4,
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Mission Orbs - Floating spheres instead of list */}
-      <div className="flex flex-wrap justify-center gap-6">
-        {dailyMissions.map((mission, index) => (
-          <MissionOrb
-            key={mission.id}
-            mission={mission}
-            index={index}
-            onStart={() => handleMissionStart(mission)}
-          />
-        ))}
-      </div>
-
-      {/* Memory Bank Quick Access Orb */}
+    <div className="space-y-6 pb-32">
+      {/* Header Section - Premium AAA Design */}
       <motion.div
-        initial={{ opacity: 0, scale: 0 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 0.5, type: 'spring' }}
-        className="flex justify-center"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="text-center mb-8"
       >
-        <Link href="/decks/review">
-          <motion.div
-            className="relative w-24 h-24 rounded-full cursor-pointer"
-            whileHover={{ scale: 1.1, rotate: 15 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            {/* Rotating outer ring */}
-            <motion.div
-              className="absolute inset-0 rounded-full"
-              style={{
-                background: 'conic-gradient(from 0deg, #A855F7, #EC4899, #FDE047, #A855F7)',
-              }}
-              animate={{ rotate: 360 }}
-              transition={{ duration: 6, repeat: Infinity, ease: 'linear' }}
-            />
+        <h1 className="text-4xl font-bold text-white mb-2">Misiones Diarias</h1>
+        <p className="text-sm text-lf-muted">Completa tus misiones para ganar recompensas</p>
+      </motion.div>
 
-            {/* Inner orb */}
-            <div className="absolute inset-1 rounded-full bg-lf-dark flex items-center justify-center">
-              <motion.span
-                className="text-4xl"
+      {/* Progress Card - Duolingo Style */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="mx-4"
+      >
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-lf-primary via-lf-secondary to-lf-accent p-[2px]">
+          <div className="relative rounded-2xl bg-lf-dark p-6">
+            {/* Progress Header */}
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <h2 className="text-2xl font-bold text-white">Progreso de Hoy</h2>
+                <p className="text-sm text-lf-muted">{completedCount} de {totalCount} misiones completadas</p>
+              </div>
+              <motion.div
+                className="text-5xl"
                 animate={{
-                  rotate: -360,
-                  scale: [1, 1.2, 1],
+                  scale: [1, 1.1, 1],
+                  rotate: [0, 5, -5, 0],
                 }}
-                transition={{
-                  rotate: { duration: 8, repeat: Infinity, ease: 'linear' },
-                  scale: { duration: 2, repeat: Infinity },
-                }}
+                transition={{ duration: 2, repeat: Infinity }}
               >
-                🧠
-              </motion.span>
+                {progress === 100 ? '🏆' : '⚔️'}
+              </motion.div>
             </div>
 
-            {/* Pulse rings */}
-            {[0, 1].map((i) => (
+            {/* Progress Bar */}
+            <div className="relative h-4 bg-lf-dark/50 rounded-full overflow-hidden border border-white/10">
               <motion.div
-                key={i}
-                className="absolute inset-0 rounded-full border-2 border-purple-500/50"
+                className="absolute inset-y-0 left-0 h-full bg-gradient-to-r from-lf-primary via-lf-secondary to-lf-accent rounded-full"
+                style={{ backgroundSize: '200% 100%' }}
+                initial={{ width: 0 }}
                 animate={{
-                  scale: [1, 1.5, 1],
-                  opacity: [0.5, 0, 0.5],
+                  width: `${progress}%`,
+                  backgroundPosition: ['0% 50%', '100% 50%'],
                 }}
                 transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  delay: i,
+                  width: { duration: 1, ease: 'easeOut' },
+                  backgroundPosition: { duration: 3, repeat: Infinity, ease: 'linear' },
                 }}
               />
-            ))}
+            </div>
+
+            {/* Percentage Badge */}
+            <div className="mt-4 flex items-center justify-between">
+              <span className="text-3xl font-bold text-white">{Math.round(progress)}%</span>
+              {progress === 100 && (
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  className="px-4 py-2 rounded-xl bg-green-500/20 border border-green-500/30 text-green-300 font-semibold"
+                >
+                  ¡Completado!
+                </motion.div>
+              )}
+            </div>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Mission Cards - Duolingo Style List */}
+      <div className="mx-4 space-y-4">
+        <h3 className="text-lg font-bold text-white mb-2">Tus Misiones</h3>
+        {dailyMissions.map((mission, index) => {
+          const config = missionConfig[mission.type] || missionConfig.exercises;
+          const progress = mission.target > 0 ? (mission.current / mission.target) * 100 : 0;
+
+          return (
+            <motion.div
+              key={mission.id}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: index * 0.1 }}
+              className="relative"
+            >
+              <motion.div
+                className={`
+                  relative overflow-hidden rounded-2xl border-2 p-5 cursor-pointer
+                  transition-all duration-300
+                  ${mission.completed
+                    ? 'bg-green-500/10 border-green-500/30'
+                    : 'bg-glass-surface backdrop-blur-aaa border-white/20 hover:border-white/30'
+                  }
+                `}
+                whileHover={{ scale: 1.02, y: -4 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => !mission.completed && handleMissionStart(mission)}
+              >
+                {/* Background Gradient for non-completed */}
+                {!mission.completed && (
+                  <motion.div
+                    className={`absolute inset-0 bg-gradient-to-br ${config.gradient} opacity-0`}
+                    whileHover={{ opacity: 0.1 }}
+                    transition={{ duration: 0.3 }}
+                  />
+                )}
+
+                {/* Content */}
+                <div className="relative flex items-start gap-4">
+                  {/* Icon Container */}
+                  <motion.div
+                    className={`
+                      flex-shrink-0 w-14 h-14 rounded-xl flex items-center justify-center
+                      ${mission.completed
+                        ? 'bg-green-500/20'
+                        : `bg-gradient-to-br ${config.gradient}`
+                      }
+                    `}
+                    whileHover={{ rotate: 5 }}
+                    transition={{ type: 'spring', stiffness: 300 }}
+                  >
+                    <div className={mission.completed ? 'text-green-400' : 'text-white'}>
+                      {mission.completed ? <Sword className="w-7 h-7" /> : config.icon}
+                    </div>
+                  </motion.div>
+
+                  {/* Mission Info */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-start justify-between mb-2">
+                      <div className="flex-1">
+                        <h4 className={`text-lg font-bold mb-1 ${mission.completed ? 'text-green-400' : 'text-white'}`}>
+                          {mission.title}
+                        </h4>
+                        <p className="text-sm text-lf-muted line-clamp-2">
+                          {mission.description}
+                        </p>
+                      </div>
+
+                      {/* Reward Badge */}
+                      <div className="ml-3 flex-shrink-0">
+                        <motion.div
+                          className="px-3 py-1.5 rounded-lg bg-lf-accent/20 border border-lf-accent/30"
+                          animate={{
+                            scale: [1, 1.05, 1],
+                          }}
+                          transition={{ duration: 2, repeat: Infinity }}
+                        >
+                          <span className="text-sm font-bold text-lf-accent">+{mission.reward?.xp || 0} XP</span>
+                        </motion.div>
+                      </div>
+                    </div>
+
+                    {/* Progress Section */}
+                    {!mission.completed && (
+                      <div className="mt-3">
+                        <div className="flex items-center justify-between text-sm mb-2">
+                          <span className="text-white font-medium">{mission.current} / {mission.target}</span>
+                          <span className="text-lf-muted">{Math.round(progress)}%</span>
+                        </div>
+                        <div className="relative h-2 bg-lf-dark/50 rounded-full overflow-hidden">
+                          <motion.div
+                            className={`absolute inset-y-0 left-0 h-full bg-gradient-to-r ${config.gradient} rounded-full`}
+                            style={{ backgroundSize: '200% 100%' }}
+                            initial={{ width: 0 }}
+                            animate={{
+                              width: `${progress}%`,
+                              backgroundPosition: ['0% 50%', '100% 50%'],
+                            }}
+                            transition={{
+                              width: { duration: 0.5 },
+                              backgroundPosition: { duration: 3, repeat: Infinity, ease: 'linear' },
+                            }}
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Completed Badge */}
+                    {mission.completed && (
+                      <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        className="mt-3 inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-green-500/20 border border-green-500/30"
+                      >
+                        <span className="text-green-400 text-lg">✓</span>
+                        <span className="text-green-300 font-semibold">Completado</span>
+                      </motion.div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Start Button (for non-completed) */}
+                {!mission.completed && (
+                  <motion.div
+                    className="absolute right-5 bottom-5"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                  >
+                    <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${config.gradient} flex items-center justify-center shadow-lg`}>
+                      <span className="text-white font-bold">→</span>
+                    </div>
+                  </motion.div>
+                )}
+              </motion.div>
+            </motion.div>
+          );
+        })}
+      </div>
+
+      {/* Memory Bank Quick Access - Card Style */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5 }}
+        className="mx-4 mt-8"
+      >
+        <Link href="/decks/review" className="block">
+          <motion.div
+            className="relative overflow-hidden rounded-2xl border-2 p-5 bg-glass-surface backdrop-blur-aaa border-purple-500/30 cursor-pointer"
+            whileHover={{ scale: 1.02, y: -4 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            {/* Animated gradient background */}
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-purple-500/10"
+              animate={{
+                x: ['-100%', '100%'],
+              }}
+              transition={{
+                duration: 3,
+                repeat: Infinity,
+                ease: 'linear',
+              }}
+            />
+
+            {/* Content */}
+            <div className="relative flex items-center gap-4">
+              {/* Icon */}
+              <div className="flex-shrink-0 w-14 h-14 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+                <Brain className="w-7 h-7 text-white" />
+              </div>
+
+              {/* Info */}
+              <div className="flex-1">
+                <h4 className="text-lg font-bold text-white">Memory Bank</h4>
+                <p className="text-sm text-lf-muted">Repasa tus tarjetas de spaced repetition</p>
+              </div>
+
+              {/* Arrow */}
+              <motion.div
+                animate={{ x: [0, 5, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+              >
+                <span className="text-2xl text-purple-400">→</span>
+              </motion.div>
+            </div>
           </motion.div>
         </Link>
       </motion.div>
     </div>
-  );
-}
-
-// Individual Mission Orb
-interface MissionOrbProps {
-  mission: Mission;
-  index: number;
-  onStart: () => void;
-}
-
-function MissionOrb({ mission, index, onStart }: MissionOrbProps) {
-  const isCompleted = mission.completed;
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 50, scale: 0 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{
-        delay: index * 0.1,
-        type: 'spring',
-        stiffness: 150,
-      }}
-      className="relative"
-    >
-      <motion.div
-        className="w-20 h-20 rounded-full cursor-pointer relative"
-        onClick={onStart}
-        whileHover={{ scale: 1.15, y: -10 }}
-        whileTap={{ scale: 0.95 }}
-      >
-        {/* Main orb */}
-        <motion.div
-          className="absolute inset-0 rounded-full"
-          style={{
-            background: isCompleted
-              ? 'radial-gradient(circle at 30% 30%, #22C55E, #16A34A)'
-              : 'radial-gradient(circle at 30% 30%, #6366F1, #4F46E5)',
-          }}
-          animate={{
-            y: [0, -3, 0],
-          }}
-          transition={{
-            duration: 3 + index * 0.5,
-            repeat: Infinity,
-            ease: 'easeInOut',
-          }}
-        >
-          {/* Glow effect */}
-          <motion.div
-            className="absolute inset-0 rounded-full blur-md"
-            style={{
-              background: isCompleted
-                ? 'radial-gradient(circle, rgba(34, 197, 94, 0.8), transparent)'
-                : 'radial-gradient(circle, rgba(99, 102, 241, 0.8), transparent)',
-            }}
-            animate={{
-              scale: [1, 1.3, 1],
-              opacity: [0.5, 0.8, 0.5],
-            }}
-            transition={{ duration: 2, repeat: Infinity, delay: index * 0.3 }}
-          />
-        </motion.div>
-
-        {/* Icon */}
-        <div className="absolute inset-0 flex items-center justify-center text-3xl">
-          {isCompleted ? '✓' : '⚔️'}
-        </div>
-
-        {/* XP reward badge */}
-        {mission.reward?.xp && (
-          <motion.div
-            className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-lf-accent text-lf-dark text-xs font-bold flex items-center justify-center"
-            animate={{
-              scale: [1, 1.1, 1],
-            }}
-            transition={{ duration: 1, repeat: Infinity, delay: index * 0.5 }}
-          >
-            {mission.reward.xp}
-          </motion.div>
-        )}
-
-        {/* Completion ring */}
-        {isCompleted && (
-          <motion.div
-            className="absolute inset-0 rounded-full border-2 border-green-400"
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1.2, opacity: 0 }}
-            transition={{ duration: 1, repeat: Infinity }}
-          />
-        )}
-      </motion.div>
-
-      {/* Title tooltip */}
-      <motion.div
-        className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 px-3 py-1 rounded-lg bg-lf-dark/90 backdrop-blur-md border border-white/20 text-center whitespace-nowrap opacity-0 hover:opacity-100 transition-opacity pointer-events-none"
-        initial={{ y: 5 }}
-        whileHover={{ y: 0, opacity: 1 }}
-      >
-        <p className="text-xs font-semibold text-white">{mission.title}</p>
-        <p className="text-xs text-lf-muted">{mission.reward?.xp || 0} XP</p>
-      </motion.div>
-    </motion.div>
   );
 }
