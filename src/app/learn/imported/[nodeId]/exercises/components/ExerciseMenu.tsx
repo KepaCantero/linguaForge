@@ -120,11 +120,10 @@ export function ExerciseMenu({
               minWidth: '48px',
               minHeight: '48px',
             }}
-            aria-label="Volver a selección de modo"
+            aria-label="Volver a práctica"
           >
             <motion.span
               className="text-2xl"
-              style={{ textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}
               whileHover={shouldAnimate ? { x: -4 } : {}}
               transition={{ type: 'spring', stiffness: 300 }}
             >
@@ -132,14 +131,11 @@ export function ExerciseMenu({
             </motion.span>
           </button>
           <div className="flex-1">
-            <h1
-              className="font-bold text-white line-clamp-1"
-              style={{ textShadow: '0 2px 4px rgba(0,0,0,0.6)' }}
-            >
-              {exercises[0]?.title}
+            <h1 className="font-bold text-white line-clamp-1">
+              Ejercicios
             </h1>
             <p className="text-xs text-lf-muted">
-              {totalExercises} ejercicios disponibles
+              {totalExercises} disponibles
             </p>
           </div>
         </div>
@@ -152,19 +148,11 @@ export function ExerciseMenu({
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-8"
         >
-          <h2
-            className="text-3xl font-bold text-white mb-3"
-            style={{ textShadow: '0 2px 8px rgba(0,0,0,0.6)' }}
-          >
-            Menú de Ejercicios
+          <h2 className="text-3xl font-bold text-white mb-3">
+            ¡Elige tu ejercicio!
           </h2>
-          <p
-            className="text-lf-muted"
-            style={{ textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}
-          >
-            {mode === 'academia'
-              ? 'Elige el ejercicio que quieres practicar'
-              : 'Completa todos los ejercicios en orden'}
+          <p className="text-lf-muted">
+            Practica de diferentes formas
           </p>
         </motion.div>
 
