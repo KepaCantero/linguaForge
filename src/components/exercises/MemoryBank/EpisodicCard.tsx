@@ -243,12 +243,14 @@ export function EpisodicCard({
         drag={!disabled}
         dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
         dragElastic={0.7}
+        dragCursor="grab"
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
         onTap={handleTap}
         onDoubleClick={handleFlip}
-        whileHover={!disabled ? { scale: 1.02 } : undefined}
-        whileTap={!disabled ? { scale: 0.98 } : undefined}
+        whileHover={!disabled ? { scale: 1.02, cursor: 'grab' } : undefined}
+        whileTap={!disabled ? { scale: 0.98, cursor: 'grabbing' } : undefined}
+        whileDrag={{ cursor: 'grabbing' }}
       >
         {/* Sombra dinámica */}
         <motion.div
