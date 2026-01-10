@@ -87,6 +87,7 @@ function ImportPageContent() {
   const [selectedIcon, setSelectedIcon] = useState('📚');
   const [subtopics, setSubtopics] = useState<Subtopic[]>([]);
   const [newSubtopicTitle, setNewSubtopicTitle] = useState('');
+  const [extractedPhrases, setExtractedPhrases] = useState<string[]>([]);
 
   const sources = [
     { id: 'podcast' as const, icon: '🎙️', label: t.import.podcast },
@@ -172,16 +173,9 @@ function ImportPageContent() {
     // Extraer frases del contenido
     const phrases = extractPhrases(content);
 
-    // Crear un subtópico por defecto con las frases
-    if (phrases.length > 0) {
-      setSubtopics([
-        {
-          id: `subtopic-${Date.now()}`,
-          title: 'Contenido principal',
-          phrases,
-        },
-      ]);
-    }
+    // No crear subtópico por defecto - el usuario debe crear los suyos
+    // Las frases se almacenarán temporalmente para usarlas al crear subtópicos
+    setExtractedPhrases(phrases);
 
     // Sugerir título basado en las primeras palabras
     const suggestedTitle = content.substring(0, 50).split(' ').slice(0, 5).join(' ');
@@ -193,12 +187,15 @@ function ImportPageContent() {
   const handleAddSubtopic = () => {
     if (!newSubtopicTitle.trim()) return;
 
+    // Al primer subtópico se le asignan todas las frases extraídas
+    const phrasesToAdd = subtopics.length === 0 ? extractedPhrases : [];
+
     setSubtopics([
       ...subtopics,
       {
         id: `subtopic-${Date.now()}`,
         title: newSubtopicTitle.trim(),
-        phrases: [],
+        phrases: phrasesToAdd,
       },
     ]);
     setNewSubtopicTitle('');
@@ -210,6 +207,10 @@ function ImportPageContent() {
 
   const handleCreateNode = () => {
     if (!topicTitle.trim() || !selectedSource) return;
+    if (subtopics.length === 0) {
+      alert('Debes crear al menos un subtópico antes de continuar.');
+      return;
+    }
 
     createNode({
       title: topicTitle.trim(),
@@ -247,6 +248,7 @@ function ImportPageContent() {
     setTopicTitle('');
     setSelectedIcon('📚');
     setSubtopics([]);
+    setExtractedPhrases([]);
     setYoutubeUrl('');
     setTranscript(null);
     setVideoId(null);
@@ -610,9 +612,19 @@ function ImportPageContent() {
                 transition={{ duration: 4, repeat: Infinity, delay: 2 }}
               />
               <div className="relative">
-                <label className="block text-sm font-medium text-white mb-3">
+                <label className="block text-sm font-medium text-white mb-2">
                   Subtópicos ({subtopics.length})
                 </label>
+                {extractedPhrases.length > 0 && subtopics.length === 0 && (
+                  <p className="text-xs text-lf-accent mb-3">
+                    ✓ {extractedPhrases.length} frases extraídas listas para asignar
+                  </p>
+                )}
+                {subtopics.length > 0 && (
+                  <p className="text-xs text-lf-muted mb-3">
+                    {subtopics.reduce((acc, s) => acc + s.phrases.length, 0)} de {extractedPhrases.length} frases asignadas
+                  </p>
+                )}
 
                 <div className="space-y-2 mb-4">
                   {subtopics.map((subtopic) => (
@@ -648,7 +660,7 @@ function ImportPageContent() {
                     type="text"
                     value={newSubtopicTitle}
                     onChange={(e) => setNewSubtopicTitle(e.target.value)}
-                    placeholder="Nuevo subtópico..."
+                    placeholder={subtopics.length === 0 ? "Ej: Vocabulario, Gramática..." : "Nuevo subtópico..."}
                     className="flex-1 px-4 py-2.5 rounded-xl bg-lf-dark/30 border border-white/20 text-white placeholder:text-lf-muted focus:ring-2 focus:ring-lf-accent focus:border-transparent"
                     onKeyDown={(e) => e.key === 'Enter' && handleAddSubtopic()}
                   />
@@ -699,12 +711,12 @@ function ImportPageContent() {
 
             <motion.button
               onClick={handleCreateNode}
-              disabled={!topicTitle.trim()}
+              disabled={!topicTitle.trim() || subtopics.length === 0}
               whileHover={{ scale: 1.02, y: -2 }}
               whileTap={{ scale: 0.98 }}
               className="w-full py-4 rounded-xl bg-gradient-to-r from-lf-primary to-lf-secondary text-white font-bold shadow-glass-xl hover:shadow-glow-accent disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             >
-              Crear nodo →
+              {subtopics.length === 0 ? 'Crea al menos un subtópico' : 'Crear nodo →'}
             </motion.button>
           </motion.div>
         )}
