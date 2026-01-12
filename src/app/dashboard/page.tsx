@@ -27,7 +27,7 @@ export default function DashboardPage() {
 
       <motion.div
         initial={{ opacity: 0, y: 30 }}
-        animate={isMounted ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
+        animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
       >
         <NeuralDashboard

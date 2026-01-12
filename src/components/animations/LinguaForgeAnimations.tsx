@@ -11,7 +11,7 @@
 'use client';
 
 import { motion, Variants } from 'framer-motion';
-import { ReactNode } from 'react';
+import { ReactNode, isValidElement } from 'react';
 
 // ============================================================
 // CONSTANTES DE DURACIÓN
@@ -341,6 +341,15 @@ export function StaggerList({
   children: ReactNode;
   className?: string;
 }) {
+  // Helper to generate stable keys for children
+  const getChildKey = (child: ReactNode, index: number): string => {
+    if (child && isValidElement(child) && child.key != null) {
+      return String(child.key);
+    }
+    // Fallback to index with prefix for stability
+    return `stagger-child-${index}`;
+  };
+
   return (
     <motion.div
       initial="hidden"
@@ -351,7 +360,7 @@ export function StaggerList({
       {Array.isArray(children) ? (
         children.map((child, index) => (
           <motion.div
-            key={index}
+            key={getChildKey(child, index)}
             variants={staggerItem}
             custom={index}
           >

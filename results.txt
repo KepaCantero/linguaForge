@@ -8,296 +8,40 @@
 ║                                                                      ║
 ╚══════════════════════════════════════════════════════════════════════╝
 [0m
-2026-01-12 07:16:44
+2026-01-12 16:26:33
 
 [0;34m🔍 Ejecutando análisis estático...[0m
        → TypeScript strict check...
 [0;32m✅ TypeScript: OK (strict mode)[0m
        → ESLint analysis...
-[0;32m✅ ESLint: OK (0
-0 errores, 306 warnings) [0m
-       → Security audit...
-[1;33m⚠️  Vulnerabilidades de seguridad detectadas (revisar .quality-temp/audit.log)[0m
+[0;31m❌ ESLint falló con errores críticos[0m
+  276:9   warning  Unexpected console statement                                     no-console
+  288:9   warning  Unexpected console statement                                     no-console
 
-[0;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
-[0;35m  👃 DETECCIÓN DE CODE SMELLS[0m
-[0;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+/Users/kepa.cantero/Projects/lingua-forge/src/store/useConstructionStore.ts
+  305:5  warning  Arrow function has too many lines (170). Maximum allowed is 120  max-lines-per-function
 
-[0;34m🔍 Buscando uso de 'any' no justificado...[0m
-[0;31m❌ Uso de 'any' detectado:[0m
-src/components/exercises/intonation/PracticingPhase.tsx:13:  onRecordingComplete: (recording: any) => void;
-src/components/exercises/janus/PracticePhase.tsx:7:  onRecordingComplete: (recording: any) => void;
-src/components/exercises/interactive/ResponsePhase.tsx:5:  exercise: any;
-src/components/exercises/interactive/ResponsePhase.tsx:6:  currentStep: any;
-src/components/exercises/interactive/ResponsePhase.tsx:13:  onRecordingComplete: (recording: any) => void;
-src/components/exercises/interactive/ResponsePhase.tsx:83:  currentStep: any;
-src/components/exercises/interactive/ResponsePhase.tsx:88:  onRecordingComplete: (recording: any) => void;
-src/components/exercises/MemoryBank/SwipeIndicators.tsx:4:  leftIndicatorOpacity: any;
-src/components/exercises/MemoryBank/SwipeIndicators.tsx:5:  rightIndicatorOpacity: any;
-src/components/exercises/conversational/RespondingPhase.tsx:16:  onRecordingComplete: (recording: any) => void;
+/Users/kepa.cantero/Projects/lingua-forge/src/store/useGamificationStore.ts
+  54:5  warning  Arrow function has too many lines (170). Maximum allowed is 120  max-lines-per-function
 
-[0;34m🔍 Buscando @ts-ignore/@ts-nocheck...[0m
-[0;32m✅ Sin @ts-ignore/@ts-nocheck[0m
+/Users/kepa.cantero/Projects/lingua-forge/src/store/useImportedNodesStore.ts
+   89:9   warning  Unexpected console statement  no-console
+  106:13  warning  Unexpected console statement  no-console
+  175:9   warning  Unexpected console statement  no-console
+  176:9   warning  Unexpected console statement  no-console
+  179:13  warning  Unexpected console statement  no-console
 
-[0;34m🔍 Buscando console.log en código de producción...[0m
-[0;32m✅ Sin console.log en producción[0m
+/Users/kepa.cantero/Projects/lingua-forge/src/store/useInputStore.ts
+  47:5  warning  Arrow function has too many lines (189). Maximum allowed is 120  max-lines-per-function
 
-[0;34m🔍 Buscando funciones peligrosas (eval, Function)...[0m
-[0;32m✅ Sin funciones peligrosas[0m
+/Users/kepa.cantero/Projects/lingua-forge/src/store/useMissionStore.ts
+  215:5  warning  Arrow function has too many lines (168). Maximum allowed is 120  max-lines-per-function
 
-[0;34m🔍 Buscando innerHTML (riesgo XSS)...[0m
-[0;32m✅ Sin uso de innerHTML[0m
+/Users/kepa.cantero/Projects/lingua-forge/src/store/useNodeProgressStore.ts
+  80:5  warning  Arrow function has too many lines (143). Maximum allowed is 120  max-lines-per-function
 
-[0;34m🔍 Buscando TODO/FIXME sin referencia...[0m
-[1;33m⚠️  TODO/FIXME sin referencia de issue:[0m
-src/components/ui/ErrorBoundary.tsx:34:    // TODO: Implementar integración con servicio de error tracking
-src/services/conjugationService.ts:875:// TODO: Completar exportación de funciones auxiliares
-src/services/speechService.ts:7:// TODO: Re-enable when audioAnalysis is fully implemented
+/Users/kepa.cantero/Projects/lingua-forge/src/store/useSRSStore.ts
+  91:5  warning  Arrow function has too many lines (266). Maximum allowed is 120  max-lines-per-function
 
-[0;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
-[0;35m  📋 DUPLICACIÓN DE CÓDIGO[0m
-[0;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+✖ 273 problems (2 errors, 271 warnings)
 
-[0;34m🔍 Buscando componentes potencialmente duplicados...[0m
-[1;33m⚠️  Componentes con nombres duplicados:[0m
-CompletePhase.tsx
-PreviewPhase.tsx
-WelcomeModal.tsx
-
-[0;34m🔍 Buscando hooks personalizados duplicados...[0m
-[0;32m✅ Sin hooks duplicados[0m
-
-[0;34m🔍 Buscando stores Zustand duplicados...[0m
-[0;32m✅ Sin stores duplicados[0m
-
-[0;34m🔍 Buscando archivos con código muy similar...[0m
-[1;33m⚠️  Código duplicado detectado:[0m
-No .js .jsx files found in the list of paths
-
-[0;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
-[0;35m  🧬 COMPLEJIDAD Y DISEÑO[0m
-[0;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
-
-[0;34m🔍 Buscando archivos demasiado largos (> 800 líneas)...[0m
-[1;33m⚠️  Archivos largos detectados (considerar dividir):[0m
-src/schemas/content.ts: 852 líneas
-src/lib/progression/construction.ts: 1245 líneas
-src/lib/sound/construction.ts: 1583 líneas
-src/lib/animations/construction.ts: 983 líneas
-src/services/conjugationService.ts: 883 líneas
-total: 69988 líneas
-
-[0;34m🔍 Analizando tamaño de funciones...[0m
-[1;33m⚠️  Funciones largas detectadas:[0m
-/Users/kepa.cantero/Projects/lingua-forge/src/app/import/components/YouTubeContentStep.tsx: line 16, col 8, Error - Function 'YouTubeContentStep' has too many lines (130). Maximum allowed is 80. (max-lines-per-function)
-/Users/kepa.cantero/Projects/lingua-forge/src/app/import/hooks/useImportFlow.ts: line 19, col 8, Error - Function 'useImportFlow' has too many lines (121). Maximum allowed is 80. (max-lines-per-function)
-/Users/kepa.cantero/Projects/lingua-forge/src/app/import/page.tsx: line 13, col 1, Error - Function 'ImportPageContent' has too many lines (83). Maximum allowed is 80. (max-lines-per-function)
-/Users/kepa.cantero/Projects/lingua-forge/src/app/input/audio/components/AudioInputSection.tsx: line 21, col 8, Error - Function 'AudioInputSection' has too many lines (185). Maximum allowed is 80. (max-lines-per-function)
-/Users/kepa.cantero/Projects/lingua-forge/src/app/input/audio/components/AudioOrbitalHUD.tsx: line 9, col 8, Error - Function 'AudioOrbitalHUD' has too many lines (117). Maximum allowed is 80. (max-lines-per-function)
-
-[0;34m🔍 Analizando complejidad ciclomática...[0m
-[1;33m⚠️  Funciones complejas detectadas:[0m
-/Users/kepa.cantero/Projects/lingua-forge/src/components/exercises/MemoryBank/MemoryBankSession.tsx: line 58, col 8, Error - Function 'MemoryBankSession' has a complexity of 16. Maximum allowed is 15. (complexity)
-/Users/kepa.cantero/Projects/lingua-forge/src/components/exercises/PragmaStrikeExercise.tsx: line 16, col 8, Error - Function 'PragmaStrikeExercise' has a complexity of 28. Maximum allowed is 15. (complexity)
-/Users/kepa.cantero/Projects/lingua-forge/src/components/exercises/ShadowingExercise.tsx: line 17, col 8, Error - Function 'ShadowingExercise' has a complexity of 16. Maximum allowed is 15. (complexity)
-/Users/kepa.cantero/Projects/lingua-forge/src/components/exercises/VariationsExercise.tsx: line 16, col 8, Error - Function 'VariationsExercise' has a complexity of 23. Maximum allowed is 15. (complexity)
-/Users/kepa.cantero/Projects/lingua-forge/src/components/gamification/PostCognitiveRewards.tsx: line 21, col 8, Error - Function 'PostCognitiveRewards' has a complexity of 16. Maximum allowed is 15. (complexity)
-
-[0;34m🔍 Analizando profundidad de anidamiento...[0m
-[0;32m✅ Profundidad de anidamiento OK[0m
-
-[0;34m🔍 Analizando número de parámetros...[0m
-[0;32m✅ Número de parámetros OK[0m
-
-[0;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
-[0;35m  ⚛️  COMPONENTS REACT[0m
-[0;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
-
-[0;34m🔍 Analizando componentes con muchos props...[0m
-[0;32m✅ Componentes con número razonable de props[0m
-
-[0;34m🔍 Buscando componentes con demasiados hooks...[0m
-[1;33m⚠️  Componentes con muchos hooks (considerar custom hook):[0m
-src/components/auth/LoginForm.tsx: 12 hooks
-src/components/construction/BuilderInventory.tsx: 25 hooks
-src/components/construction/Construction3D.tsx: 15 hooks
-src/components/construction/ConstructionMilestones.tsx: 11 hooks
-src/components/construction/MaterialGallery.tsx: 16 hooks
-src/components/exercises/BlockBuilderExercise.tsx: 11 hooks
-src/components/exercises/ClozeExercise/index.tsx: 13 hooks
-src/components/exercises/ConversationalEchoExercise.tsx: 20 hooks
-src/components/exercises/DialogueIntonationExercise.tsx: 19 hooks
-src/components/exercises/InteractiveSpeechExercise.tsx: 27 hooks
-src/components/exercises/JanusComposerExercise.tsx: 31 hooks
-src/components/exercises/MemoryBank/EpisodicCard.tsx: 28 hooks
-src/components/exercises/MemoryBank/MemoryBankSession.tsx: 20 hooks
-src/components/exercises/MiniTaskExercise.tsx: 12 hooks
-src/components/exercises/PragmaStrikeExercise.tsx: 12 hooks
-src/components/exercises/ShadowingExercise.tsx: 12 hooks
-src/components/exercises/VariationsExercise.tsx: 12 hooks
-src/components/focus/FocusMode.tsx: 16 hooks
-src/components/help/HelpButton.tsx: 13 hooks
-src/components/help/KeyboardShortcuts.tsx: 11 hooks
-src/components/input/YouTubePlayer.tsx: 11 hooks
-src/components/learn/InfiniteCourseMap.tsx: 14 hooks
-src/components/learn/LessonPlayer.tsx: 16 hooks
-src/components/missions/MissionFeed.tsx: 20 hooks
-src/components/onboarding/WelcomeModal.tsx: 19 hooks
-src/components/shared/MicroInteractions.tsx: 18 hooks
-src/components/shared/SpeechRecorder.tsx: 19 hooks
-src/components/srs/SwipeableSRSCard.tsx: 16 hooks
-src/components/transcript/PhraseSelectionPanel.tsx: 19 hooks
-src/components/transcript/TranscriptSelector.tsx: 11 hooks
-src/components/transcript/WordSelector.tsx: 15 hooks
-src/components/tutorial/TutorialProvider.tsx: 16 hooks
-src/components/warmups/RhythmSequenceWarmup.tsx: 20 hooks
-src/components/warmups/VisualMatchWarmup.tsx: 14 hooks
-
-[0;34m🔍 Buscando efectos secundarios en render...[0m
-[0;32m✅ Sin efectos secundarios problemáticos detectados[0m
-
-[0;34m🔍 Verificando keys en listas...[0m
-[1;33m⚠️  Posibles lists sin key prop:[0m
-src/components/visualization/ColorPaletteSystem.tsx:176:      {(Object.keys(COLOR_PALETTES) as ColorPalette[]).map((palette) => (
-src/components/visualization/ColorPaletteSystem.tsx-177-        <PaletteButton
---
-src/components/visualization/ColorPaletteSystem.tsx:311:        {Object.entries(theme.colors).map(([key, value]) => (
-src/components/visualization/ColorPaletteSystem.tsx-313-            <div
-
-[0;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
-[0;35m  🏗️  ARQUITECTURA Y PATRONES[0m
-[0;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
-
-[0;34m🔍 Verificando aislamiento de capa de datos...[0m
-[0;32m✅ Arquitectura de datos respetada[0m
-
-[0;34m🔍 Verificando separación de concerns...[0m
-[1;33m⚠️  Posible lógica de negocio en componentes:[0m
-src/components/input/YouTubePlayer.tsx:31:    tag.src = 'https://www.youtube.com/iframe_api';
-src/components/input/YouTubePlayer.tsx:115:          enablejsapi: 1,
-src/components/construction/BuilderInventory.tsx:192:      <p className="text-xs text-gray-400 capitalize">
-src/components/construction/BuilderInventory.tsx:547:        <p className="text-sm text-gray-400 capitalize">{RARITY_LABELS[material.rarity]} • {material.texture}</p>
-src/components/construction/BuilderInventory.tsx:578:          <p className="text-sm text-gray-400 capitalize">{element.type} • Nivel {element.unlockLevel}</p>
-
-[0;34m🔍 Buscando archivos potencialmente no usados...[0m
-[1;33m⚠️  ts-prune no instalado - omitiendo detección de archivos muertos[0m
-
-[0;34m🔍 Buscando dependencias circulares...[0m
-[0;31m❌ Dependencias circulares detectadas:[0m
-npm warn Unknown user config "email". This will stop working in the next major version of npm.
-npm warn Unknown user config "always-auth". This will stop working in the next major version of npm.
-- Finding files
-✔ No circular dependency found!
-
-[0;34m🔍 Validando reglas arquitectónicas (dependency-cruiser)...[0m
-[0;32m✅ Reglas arquitectónicas respetadas[0m
-
-[0;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
-[0;35m  🔒 SEGURIDAD Y SECRETOS[0m
-[0;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
-
-[0;34m🔍 Escaneando posibles secretos expuestos...[0m
-[0;32m✅ Sin secretos expuestos[0m
-
-[0;34m🔍 Verificando archivos .env...[0m
-[1;33m⚠️  Archivos .env sensibles detectados (asegurar que están en .gitignore)[0m
-
-[0;34m🔍 Escaneando secretos con gitleaks...[0m
-[0;31m❌ Gitleaks detectó posibles secretos:[0m
-npm warn Unknown user config "email". This will stop working in the next major version of npm.
-npm warn Unknown user config "always-auth". This will stop working in the next major version of npm.
-npm error could not determine executable to run
-npm error A complete log of this run can be found in: /Users/kepa.cantero/.npm/_logs/2026-01-12T06_17_26_475Z-debug-0.log
-
-[0;34m🔍 Buscando archivos sin tests...[0m
-       Archivos testeables: [0;36m     233[0m
-       Archivos de tests: [0;36m       0[0m
-[1;33m⚠️  Baja cobertura de archivos con tests[0m
-
-[0;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
-[0;35m  ⚡ PERFORMANCE Y BUNDLE SIZE[0m
-[0;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
-
-[0;34m🔍 Ejecutando build de producción...[0m
-[0;32m✅ Build de producción OK[0m
-       Páginas generadas: [0;36m20[0m
-
-[0;34m🔍 Analizando tamaño de páginas...[0m
-[0;32m✅ Análisis de bundle disponible (ejecutar 'ANALYZE=true npm run build' para detalles)[0m
-
-[0;34m🔍 Verificando límites de tamaño del bundle...[0m
-[1;33m⚠️  Bundle excede límites configurados:[0m
-npm warn Unknown user config "email". This will stop working in the next major version of npm.
-npm warn Unknown user config "always-auth". This will stop working in the next major version of npm.
-- Running JS in headless Chrome
-TimeoutError: Timed out after 30000 ms while waiting for the WS endpoint URL to appear in stdout!
-    at ChromeLauncher.launch (file:///Users/kepa.cantero/Projects/lingua-forge/node_modules/puppeteer-core/lib/esm/puppeteer/node/BrowserLauncher.js:133:23)
-    at runNextTicks (node:internal/process/task_queues:65:5)
-    at listOnTimeout (node:internal/timers:549:9)
-    at process.processTimers (node:internal/timers:523:7)
-    at async createBrowserEntity (file:///Users/kepa.cantero/Projects/lingua-forge/node_modules/estimo/src/create-chrome-trace.js:38:10)
-    at async createChromeTrace (file:///Users/kepa.cantero/Projects/lingua-forge/node_modules/estimo/src/create-chrome-trace.js:84:15)
-    at async processor (file:///Users/kepa.cantero/Projects/lingua-forge/node_modules/estimo/src/processor.js:93:19)
-    at async estimo (file:///Users/kepa.cantero/Projects/lingua-forge/node_modules/estimo/src/lib.js:21:9)
-    at async getTime (file:///Users/kepa.cantero/Projects/lingua-forge/node_modules/@size-limit/time/get-running-time.js:18:14)
-    at async Promise.all (index 36)
-✖ Running JS in headless Chrome
- ERROR  TypeError: Cannot read properties of undefined (reading 'javaScript')
-    at getTime (file:///Users/kepa.cantero/Projects/lingua-forge/node_modules/@size-limit/time/get-running-time.js:29:22)
-    at runNextTicks (node:internal/process/task_queues:65:5)
-    at listOnTimeout (node:internal/timers:549:9)
-    at process.processTimers (node:internal/timers:523:7)
-    at async Promise.all (index 36)
-    at async sum (file:///Users/kepa.cantero/Projects/lingua-forge/node_modules/@size-limit/time/index.js:8:11)
-    at async Object.step80 (file:///Users/kepa.cantero/Projects/lingua-forge/node_modules/@size-limit/time/index.js:30:25)
-    at async Promise.all (index 0)
-    at async step (file:///Users/kepa.cantero/Projects/lingua-forge/node_modules/size-limit/calc.js:12:11)
-    at async calc (file:///Users/kepa.cantero/Projects/lingua-forge/node_modules/size-limit/calc.js:40:36)
-
-[0;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
-[0;35m  📐 CONSISTENCIA Y ESTILO[0m
-[0;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
-
-[0;34m🔍 Verificando convenciones de命名...[0m
-[0;32m✅ Convención de interfaces OK[0m
-
-[0;34m🔍 Verificando orden de imports...[0m
-[1;33m⚠️  Imports sin ordenar:[0m
-/Users/kepa.cantero/Projects/lingua-forge/src/app/decks/page.tsx: line 9, col 41, Error - Member 'SourceType' of the import declaration should be sorted alphabetically. (sort-imports)
-/Users/kepa.cantero/Projects/lingua-forge/src/app/learn/imported/[nodeId]/exercises/components/ExerciseRenderer.tsx: line 16, col 27, Error - Member 'ExerciseType' of the import declaration should be sorted alphabetically. (sort-imports)
-/Users/kepa.cantero/Projects/lingua-forge/src/app/learn/imported/[nodeId]/exercises/page.tsx: line 11, col 27, Error - Member 'ExerciseType' of the import declaration should be sorted alphabetically. (sort-imports)
-
-[0;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
-[0;35m  📊 REPORTE FINAL DE CALIDAD[0m
-[0;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
-
-[0;36m═══════════════════════════════════════════════════════════════[0m
-[0;36m                      RESUMEN DE AUDITORÍA                        [0m
-[0;36m═══════════════════════════════════════════════════════════════[0m
-
-       [0;31m❌ ESTADO: REQUIERE ATENCIÓN - 3 errores, 15 advertencias[0m
-
-[0;36mMétricas:[0m
-       • Total de problemas: 15
-       • Errores críticos:   [0;31m3[0m
-       • Advertencias:      [1;33m15[0m
-
-[0;36mCategorías auditadas:[0m
-       ✓ Code Smells (any, ts-ignore, console.log)
-       ✓ Duplicación de código
-       ✓ Complejidad y diseño
-       ✓ Componentes React
-       ✓ Arquitectura y patrones
-       ✓ Dependencias circulares (madge)
-       ✓ Reglas arquitectónicas (dependency-cruiser)
-       ✓ Seguridad y secretos
-       ✓ Escaneo avanzado de secretos (gitleaks)
-       ✓ Tests y cobertura
-       ✓ Performance y bundle
-       ✓ Control de tamaño (size-limit)
-       ✓ Consistencia y estilo
-
-[0;36m═══════════════════════════════════════════════════════════════[0m
-
-[0;31m❌ QUALITY GATE FALLADO[0m
-[0;31m   Corrige los 3 errores críticos antes de continuar[0m

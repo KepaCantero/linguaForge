@@ -87,7 +87,7 @@ if command -v k6 &> /dev/null; then
     K6_SCRIPT="${PROJECT_ROOT}/tests/performance/load-test.js"
     mkdir -p tests/performance
 
-    if [ ! -f "$K6_SCRIPT" ]; then
+    if [[ ! -f "$K6_SCRIPT" ]]; then
         print_info "Creando script de k6..."
         cat > "$K6_SCRIPT" << 'EOF'
 import http from 'k6/http';
@@ -143,7 +143,7 @@ EOF
         print_success "K6 load tests: PASSED ✅"
 
         # Extraer métricas del resumen
-        if [ -f "${REPORT_DIR}/k6-summary-${TIMESTAMP}.json" ]; then
+        if [[ -f "${REPORT_DIR}/k6-summary-${TIMESTAMP}.json" ]]; then
             METRICS=$(node -e "
                 const fs = require('fs');
                 const data = JSON.parse(fs.readFileSync('${REPORT_DIR}/k6-summary-${TIMESTAMP}.json', 'utf-8'));
@@ -154,7 +154,7 @@ EOF
                 console.log('Failure Rate:', (metrics.http_req_failed.rate * 100).toFixed(2) + '%');
             " 2>/dev/null || echo "")
 
-            if [ -n "$METRICS" ]; then
+            if [[ -n "$METRICS" ]]; then
                 echo -e "${CYAN}${METRICS}${NC}"
             fi
         fi
@@ -178,7 +178,7 @@ if command -v lhci &> /dev/null; then
     # Crear configuración de LHCI si no existe
     LHCI_CONFIG="${PROJECT_ROOT}/lighthouserc.json"
 
-    if [ ! -f "$LHCI_CONFIG" ]; then
+    if [[ ! -f "$LHCI_CONFIG" ]]; then
         print_info "Creando configuración de Lighthouse CI..."
         cat > "$LHCI_CONFIG" << EOF
 {
@@ -249,7 +249,7 @@ if command -v lighthouse &> /dev/null; then
             --quiet \
             --chrome-flags="--headless" 2>&1 | tee -a "${REPORT_FILE}" || true
 
-        if [ -f "${REPORT_DIR}/lighthouse-${TIMESTAMP}.report.json" ]; then
+        if [[ -f "${REPORT_DIR}/lighthouse-${TIMESTAMP}.report.json" ]]; then
             print_success "Reporte de Lighthouse generado"
 
             # Extraer métricas de Web Vitals
@@ -264,7 +264,7 @@ if command -v lighthouse &> /dev/null; then
                 console.log('Performance Score:', data.categories.performance.score * 100 || 'N/A');
             " 2>/dev/null || echo "")
 
-            if [ -n "$WEB_VITALS" ]; then
+            if [[ -n "$WEB_VITALS" ]]; then
                 echo -e "${CYAN}${WEB_VITALS}${NC}"
             fi
         fi
@@ -288,7 +288,7 @@ if npm run build > /dev/null 2>&1; then
     print_success "Build completado"
 
     # Buscar archivos .next/static/chunks/
-    if [ -d ".next/static/chunks" ]; then
+    if [[ -d ".next/static/chunks" ]]; then
         TOTAL_SIZE=$(du -sh .next/static/chunks | cut -f1)
         print_info "Tamaño total de chunks: ${TOTAL_SIZE}"
 
@@ -301,7 +301,7 @@ if npm run build > /dev/null 2>&1; then
     fi
 
     # Verificar tamaño de páginas
-    if [ -d ".next/server/app" ]; then
+    if [[ -d ".next/server/app" ]]; then
         print_info "Tamaño de páginas del servidor:"
         du -h .next/server/app/**/*.js 2>/dev/null | sort -rh | head -5 | while read size file; do
             basename_file=$(basename "$file")
@@ -339,10 +339,10 @@ echo -e "  • CLS:               < ${THRESHOLD_CLS}"
 
 echo ""
 echo -e "${CYAN}Reportes generados:${NC}"
-if [ -f "${REPORT_DIR}/k6-summary-${TIMESTAMP}.json" ]; then
+if [[ -f "${REPORT_DIR}/k6-summary-${TIMESTAMP}.json" ]]; then
     echo -e "  • K6:     ${REPORT_DIR}/k6-summary-${TIMESTAMP}.json"
 fi
-if [ -f "${REPORT_DIR}/lighthouse-${TIMESTAMP}.report.json" ]; then
+if [[ -f "${REPORT_DIR}/lighthouse-${TIMESTAMP}.report.json" ]]; then
     echo -e "  • Lighthouse: ${REPORT_DIR}/lighthouse-${TIMESTAMP}.report.json"
 fi
 
@@ -350,7 +350,7 @@ fi
 # 6️⃣ EXIT CODE
 # ============================================================================
 echo ""
-if [ $PERFORMANCE_ISSUES -eq 0 ]; then
+if [[ $PERFORMANCE_ISSUES -eq 0 ]]; then
     print_success "PERFORMANCE TESTS: COMPLETADOS CON ÉXITO"
     echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     exit 0

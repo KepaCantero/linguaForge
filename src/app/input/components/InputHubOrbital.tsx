@@ -13,7 +13,7 @@ export function InputHubOrbital({ inputOptions, shouldAnimate }: InputHubOrbital
     : { duration: 0.01 };
 
   return (
-    <div className="relative w-full h-[70vh] flex items-center justify-center" role="region" aria-label="Selector de tipo de contenido">
+    <section className="relative w-full h-[70vh] flex items-center justify-center" aria-label="Selector de tipo de contenido">
       {/* Central core - Input Hub */}
       <motion.div
         className="absolute w-36 h-36 rounded-full z-10 focus:outline-none focus:ring-4 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-lf-dark"
@@ -96,6 +96,10 @@ export function InputHubOrbital({ inputOptions, shouldAnimate }: InputHubOrbital
         const x = Math.cos(angle) * radius;
         const y = Math.sin(angle) * radius;
 
+        // Build stats string for accessibility
+        const statsString = option.stats.map(s => `${s.label}: ${s.value}`).join(', ');
+        const ariaLabel = `${option.title}: ${option.description}. ${statsString}`;
+
         return (
           <motion.div
             key={option.id}
@@ -122,7 +126,7 @@ export function InputHubOrbital({ inputOptions, shouldAnimate }: InputHubOrbital
                 width: 'max(128px, 44px)',
                 height: 'max(128px, 44px)',
               }}
-              aria-label={`${option.title}: ${option.description}. ${option.stats.map(s => `${s.label}: ${s.value}`).join(', ')}`}
+              aria-label={ariaLabel}
             >
               <motion.div
                 className="relative rounded-full mx-auto"
@@ -192,8 +196,8 @@ export function InputHubOrbital({ inputOptions, shouldAnimate }: InputHubOrbital
                   {option.title}
                 </p>
                 <div className="flex items-center gap-3 mt-1 text-xs text-lf-muted">
-                  {option.stats.map((stat, i) => (
-                    <span key={i}>{stat.label}: {stat.value}</span>
+                  {option.stats.map((stat) => (
+                    <span key={`${stat.label}-${stat.value}`}>{stat.label}: {stat.value}</span>
                   ))}
                 </div>
               </motion.div>
@@ -259,6 +263,6 @@ export function InputHubOrbital({ inputOptions, shouldAnimate }: InputHubOrbital
           aria-hidden="true"
         />
       ))}
-    </div>
+    </section>
   );
 }

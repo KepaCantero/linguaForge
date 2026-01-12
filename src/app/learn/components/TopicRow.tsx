@@ -18,9 +18,20 @@ interface TopicRowProps {
   onDelete: (e: React.MouseEvent, nodeId: string) => void;
 }
 
+function getBorderClasses(topic: UnifiedTopic, isComingSoon: boolean): string {
+  if (topic.isCompleted) {
+    return 'border-lf-success/50 shadow-glow-success';
+  }
+  if (topic.isLocked || isComingSoon) {
+    return 'border-lf-muted/30';
+  }
+  return 'border-lf-primary/30 hover:border-lf-primary/50';
+}
+
 export function TopicRow({ topic, index, onDelete }: TopicRowProps) {
   const cardData = useTopicCardData(topic);
   const { backgroundClass, handleClick, isComingSoon } = cardData;
+  const borderClasses = getBorderClasses(topic, isComingSoon);
 
   return (
     <motion.div
@@ -37,12 +48,7 @@ export function TopicRow({ topic, index, onDelete }: TopicRowProps) {
         className={`
           relative p-4 border-2 transition-all duration-300
           ${backgroundClass}
-          ${topic.isCompleted
-            ? 'border-lf-success/50 shadow-glow-success'
-            : topic.isLocked || isComingSoon
-            ? 'border-lf-muted/30'
-            : 'border-lf-primary/30 hover:border-lf-primary/50'
-          }
+          ${borderClasses}
         `}
       >
         <div className="flex items-center gap-4">

@@ -62,12 +62,12 @@ echo ""
 cd "${PROJECT_ROOT}"
 
 # Detectar contexto automáticamente si no se especifica
-if [ "$CI_CONTEXT" = "auto" ]; then
-    if [ -n "$CI_COMMIT_REF_SLUG" ] || [ -n "$GITHUB_ACTIONS" ]; then
+if [[ "$CI_CONTEXT" = "auto" ]]; then
+    if [[ -n "$CI_COMMIT_REF_SLUG" ]] || [[ -n "$GITHUB_ACTIONS" ]]; then
         # Estamos en un entorno CI
-        if [ -n "$GITHUB_PULL_REQUEST_NUMBER" ] || [ -n "$CI_MERGE_REQUEST_IID" ]; then
+        if [[ -n "$GITHUB_PULL_REQUEST_NUMBER" ]] || [[ -n "$CI_MERGE_REQUEST_IID" ]]; then
             CI_CONTEXT="pr"
-        elif [ "$BRANCH_NAME" = "main" ] || [ "$BRANCH_NAME" = "master" ]; then
+        elif [[ "$BRANCH_NAME" = "main" ]] || [[ "$BRANCH_NAME" = "master" ]]; then
             CI_CONTEXT="pre-merge"
         else
             CI_CONTEXT="pr"
@@ -83,7 +83,7 @@ fi
 # ============================================================================
 # PRE-COMMIT: Validaciones rápidas
 # ============================================================================
-if [ "$CI_CONTEXT" = "pre-commit" ]; then
+if [[ "$CI_CONTEXT" = "pre-commit" ]]; then
     print_header "🔎 PRE-COMMIT VALIDATIONS"
 
     # 1. ESLint
@@ -123,7 +123,7 @@ fi
 # ============================================================================
 # PR: Validaciones intermedias
 # ============================================================================
-if [ "$CI_CONTEXT" = "pr" ]; then
+if [[ "$CI_CONTEXT" = "pr" ]]; then
     print_header "🔍 PULL REQUEST VALIDATIONS"
 
     FAILED_STEPS=0
@@ -175,7 +175,7 @@ if [ "$CI_CONTEXT" = "pr" ]; then
     echo ""
     print_header "📊 RESUMEN PR"
 
-    if [ $FAILED_STEPS -eq 0 ]; then
+    if [[ $FAILED_STEPS -eq 0 ]]; then
         print_success "PR: TODAS LAS VALIDACIONES CRÍTICAS PASARON"
         echo -e "${GREEN}${BOLD}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
         exit 0
@@ -189,7 +189,7 @@ fi
 # ============================================================================
 # PRE-MERGE: Validaciones completas
 # ============================================================================
-if [ "$CI_CONTEXT" = "pre-merge" ]; then
+if [[ "$CI_CONTEXT" = "pre-merge" ]]; then
     print_header "🚀 PRE-MERGE VALIDATIONS"
 
     print_warning "Ejecutando suite completa de tests..."
@@ -212,7 +212,7 @@ fi
 # ============================================================================
 
 # Nightly: Ejecutar tests completos + performance + visual
-if [ "$CI_CONTEXT" = "nightly" ]; then
+if [[ "$CI_CONTEXT" = "nightly" ]]; then
     print_header "🌙 NIGHTLY BUILD VALIDATIONS"
 
     print_info "Ejecutando todas las validaciones..."

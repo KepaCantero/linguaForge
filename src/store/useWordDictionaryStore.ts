@@ -7,106 +7,145 @@ const initialState = {
   words: {} as Record<string, WordInfo>,
 };
 
+// Helper functions for store actions
+function createNewWordInfo(word: string, normalized: string, type: string, cardId?: string): WordInfo {
+  const now = new Date().toISOString();
+  const validWordTypes = ['verb', 'noun', 'adverb', 'adjective', 'other'] as const;
+  const validatedType = validWordTypes.includes(type as typeof validWordTypes[number])
+    ? (type as WordInfo['type'])
+    : 'other';
+
+  return {
+    word: normalized,
+    wordOriginal: word,
+    type: validatedType,
+    firstSeen: now,
+    lastSeen: now,
+    timesSeen: 1,
+    isStudied: !!cardId,
+    isMastered: false,
+    languageCode: 'fr',
+    levelCode: 'A1',
+  };
+}
+
+function updateExistingWordInfo(existing: WordInfo, cardId?: string): Partial<WordInfo> {
+  return {
+    lastSeen: new Date().toISOString(),
+    timesSeen: existing.timesSeen + 1,
+    cardId: cardId || existing.cardId,
+    isStudied: cardId ? true : existing.isStudied,
+  };
+}
+
+function addWordToStore(
+  set: (partial: (state: WordDictionaryStore) => Partial<WordDictionaryStore>) => void,
+  get: () => WordDictionaryStore,
+  word: string,
+  type: string,
+  cardId?: string
+): void {
+  const normalized = normalizeWord(word);
+  const existing = get().words[normalized];
+
+  if (existing) {
+    set((state) => ({
+      words: {
+        ...state.words,
+        [normalized]: {
+          ...existing,
+          ...updateExistingWordInfo(existing, cardId),
+        },
+      },
+    }));
+  } else {
+    set((state) => ({
+      words: {
+        ...state.words,
+        [normalized]: createNewWordInfo(word, normalized, type, cardId),
+      },
+    }));
+  }
+}
+
+function markWordAsStudied(
+  set: (partial: (state: WordDictionaryStore) => Partial<WordDictionaryStore>) => void,
+  get: () => WordDictionaryStore,
+  word: string,
+  cardId: string
+): void {
+  const normalized = normalizeWord(word);
+  const existing = get().words[normalized];
+
+  if (existing) {
+    set((state) => ({
+      words: {
+        ...state.words,
+        [normalized]: {
+          ...existing,
+          isStudied: true,
+          cardId,
+        },
+      },
+    }));
+  }
+}
+
+function markWordAsMastered(
+  set: (partial: (state: WordDictionaryStore) => Partial<WordDictionaryStore>) => void,
+  get: () => WordDictionaryStore,
+  word: string
+): void {
+  const normalized = normalizeWord(word);
+  const existing = get().words[normalized];
+
+  if (existing) {
+    set((state) => ({
+      words: {
+        ...state.words,
+        [normalized]: {
+          ...existing,
+          isMastered: true,
+        },
+      },
+    }));
+  }
+}
+
+function updateWordSeenCount(
+  set: (partial: (state: WordDictionaryStore) => Partial<WordDictionaryStore>) => void,
+  get: () => WordDictionaryStore,
+  word: string
+): void {
+  const normalized = normalizeWord(word);
+  const existing = get().words[normalized];
+
+  if (existing) {
+    set((state) => ({
+      words: {
+        ...state.words,
+        [normalized]: {
+          ...existing,
+          lastSeen: new Date().toISOString(),
+          timesSeen: existing.timesSeen + 1,
+        },
+      },
+    }));
+  }
+}
+
 export const useWordDictionaryStore = create<WordDictionaryStore>()(
   persist(
     (set, get) => ({
       ...initialState,
 
-      addWord: (word, type, cardId) => {
-        const normalized = normalizeWord(word);
-        const now = new Date().toISOString();
-        
-        const existing = get().words[normalized];
-        
-        if (existing) {
-          // Actualizar palabra existente
-          set((state) => ({
-            words: {
-              ...state.words,
-              [normalized]: {
-                ...existing,
-                lastSeen: now,
-                timesSeen: existing.timesSeen + 1,
-                cardId: cardId || existing.cardId,
-                isStudied: cardId ? true : existing.isStudied,
-              },
-            },
-          }));
-        } else {
-          // Nueva palabra
-          set((state) => ({
-            words: {
-              ...state.words,
-              [normalized]: {
-                word: normalized,
-                wordOriginal: word,
-                type,
-                cardId,
-                firstSeen: now,
-                lastSeen: now,
-                timesSeen: 1,
-                isStudied: !!cardId,
-                isMastered: false,
-                languageCode: 'fr',
-                levelCode: 'A1',
-              },
-            },
-          }));
-        }
-      },
+      addWord: (word, type, cardId) => addWordToStore(set, get, word, type, cardId),
 
-      markAsStudied: (word, cardId) => {
-        const normalized = normalizeWord(word);
-        const existing = get().words[normalized];
-        
-        if (existing) {
-          set((state) => ({
-            words: {
-              ...state.words,
-              [normalized]: {
-                ...existing,
-                isStudied: true,
-                cardId,
-              },
-            },
-          }));
-        }
-      },
+      markAsStudied: (word, cardId) => markWordAsStudied(set, get, word, cardId),
 
-      markAsMastered: (word) => {
-        const normalized = normalizeWord(word);
-        const existing = get().words[normalized];
-        
-        if (existing) {
-          set((state) => ({
-            words: {
-              ...state.words,
-              [normalized]: {
-                ...existing,
-                isMastered: true,
-              },
-            },
-          }));
-        }
-      },
+      markAsMastered: (word) => markWordAsMastered(set, get, word),
 
-      updateWordSeen: (word) => {
-        const normalized = normalizeWord(word);
-        const existing = get().words[normalized];
-        
-        if (existing) {
-          set((state) => ({
-            words: {
-              ...state.words,
-              [normalized]: {
-                ...existing,
-                lastSeen: new Date().toISOString(),
-                timesSeen: existing.timesSeen + 1,
-              },
-            },
-          }));
-        }
-      },
+      updateWordSeen: (word) => updateWordSeenCount(set, get, word),
 
       isWordStudied: (word) => {
         const normalized = normalizeWord(word);
@@ -147,4 +186,3 @@ export const useWordDictionaryStore = create<WordDictionaryStore>()(
     }
   )
 );
-

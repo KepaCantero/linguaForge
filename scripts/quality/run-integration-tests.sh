@@ -75,7 +75,7 @@ echo "Integration tests started at $(date)" | tee -a "${REPORT_FILE}"
 # ============================================================================
 print_header "🔐 VERIFICANDO CONFIGURACIÓN"
 
-if [ ! -f ".env.test" ] && [ ! -f ".env.testing" ]; then
+if [[ ! -f ".env.test" ]] && [[ ! -f ".env.testing" ]]; then
     print_warning "No se encontró archivo .env.test o .env.testing"
     print_info "Usando variables de entorno por defecto para tests"
 fi
@@ -95,7 +95,7 @@ print_header "🗄️  BASE DE DATOS DE TEST"
 print_info "Preparando base de datos para testing..."
 
 # Crear base de datos SQLite en memoria para testing
-if [ -f "./prisma/schema.prisma" ]; then
+if [[ -f "./prisma/schema.prisma" ]]; then
     print_info "Detectado Prisma ORM"
 
     # Generar cliente de Prisma
@@ -113,7 +113,7 @@ if [ -f "./prisma/schema.prisma" ]; then
         print_error "Fallo al sincronizar schema"
         exit 1
     fi
-elif [ -f "./drizzle.config.ts" ]; then
+elif [[ -f "./drizzle.config.ts" ]]; then
     print_info "Detectado Drizzle ORM"
     print_warning "Asegúrate de que Drizzle esté configurado para testing"
 else
@@ -142,7 +142,7 @@ for pattern in "${INTEGRATION_TEST_PATTERNS[@]}"; do
     fi
 done
 
-if [ "$INTEGRATION_TESTS_FOUND" = false ]; then
+if [[ "$INTEGRATION_TESTS_FOUND" = false ]]; then
     print_warning "No se encontraron tests de integración"
     print_info "Creando directorio tests/integration/ para futuros tests"
     mkdir -p tests/integration
@@ -176,16 +176,16 @@ fi
 # ============================================================================
 print_header "📊 COBERTURA DE INTEGRACIÓN"
 
-if [ $INTEGRATION_TESTS_STATUS -eq 0 ]; then
+if [[ $INTEGRATION_TESTS_STATUS -eq 0 ]]; then
     print_info "Generando reporte de cobertura para tests de integración..."
 
     # Buscar archivos de integración específicos
     INTEGRATION_SOURCES=$(find tests/integration src/integration -name "*.test.ts" -o -name "*.test.tsx" 2>/dev/null || echo "")
 
-    if [ -n "$INTEGRATION_SOURCES" ]; then
+    if [[ -n "$INTEGRATION_SOURCES" ]]; then
         print_success "Archivos de integración testeados:"
         echo "$INTEGRATION_SOURCES" | head -5
-        if [ $(echo "$INTEGRATION_SOURCES" | wc -l) -gt 5 ]; then
+        if [[ $(echo "$INTEGRATION_SOURCES" | wc -l) -gt 5 ]]; then
             echo "  ... y más"
         fi
     fi
@@ -198,7 +198,7 @@ print_header "🧹 LIMPIEZA"
 
 print_info "Limpiando recursos de test..."
 
-if [ -f "./prisma/schema.prisma" ]; then
+if [[ -f "./prisma/schema.prisma" ]]; then
     print_info "Limpiando base de datos de test..."
     # Opcional: Limpiar DB después de tests
     # npx prisma migrate reset --force --skip-generate > /dev/null 2>&1 || true
@@ -219,7 +219,7 @@ SECONDS=$((DURATION % 60))
 echo -e "${CYAN}Duración: ${MINUTES}m ${SECONDS}s${NC}"
 echo -e "Reporte guardado en: ${REPORT_FILE}"
 
-if [ "$INTEGRATION_TESTS_FOUND" = false ]; then
+if [[ "$INTEGRATION_TESTS_FOUND" = false ]]; then
     echo -e "${YELLOW}ℹ️  No se encontraron tests de integración${NC}"
 fi
 
@@ -227,7 +227,7 @@ fi
 # 7️⃣ EXIT CODE
 # ============================================================================
 echo ""
-if [ $INTEGRATION_TESTS_STATUS -eq 0 ] || [ "$INTEGRATION_TESTS_FOUND" = false ]; then
+if [[ $INTEGRATION_TESTS_STATUS -eq 0 ]] || [[ "$INTEGRATION_TESTS_FOUND" = false ]]; then
     print_success "INTEGRATION TESTS: COMPLETADOS"
     echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     exit 0

@@ -10,6 +10,117 @@ interface AAAInputProps extends InputHTMLAttributes<HTMLInputElement> {
   variant?: 'glass' | 'solid' | 'underline';
 }
 
+// Variant style configurations
+const VARIANT_STYLES = {
+  glass: {
+    input: 'bg-glass-surface backdrop-blur-aaa border border-white/20 focus:border-lf-primary-light/60 focus:shadow-glow-accent',
+    underline: 'bg-transparent border-0 border-b-2 border-white/20 rounded-none focus:border-lf-primary focus:shadow-inner-glow',
+  },
+  solid: 'bg-white/10 backdrop-blur-md border border-white/10 focus:border-lf-primary/50',
+  underline: 'bg-transparent border-0 border-b-2 border-white/20 rounded-none focus:border-lf-primary focus:shadow-inner-glow',
+};
+
+// Helper function to get variant styles
+function getVariantStyles(variant: AAAInputProps['variant']): string {
+  switch (variant) {
+    case 'solid':
+      return VARIANT_STYLES.solid;
+    case 'underline':
+      return VARIANT_STYLES.underline;
+    case 'glass':
+    default:
+      return VARIANT_STYLES.glass.input;
+  }
+}
+
+// Helper function to get label color
+function getLabelColor(isFocused: boolean, hasError: boolean): string {
+  if (hasError) return 'text-lf-error';
+  if (isFocused) return 'text-lf-primary-light';
+  return 'text-white/60';
+}
+
+// FloatingLabel subcomponent
+interface FloatingLabelProps {
+  label: string;
+  isFocused: boolean;
+  hasValue: boolean;
+  hasError: boolean;
+}
+
+function FloatingLabel({ label, isFocused, hasValue, hasError }: FloatingLabelProps) {
+  const shouldFloat = isFocused || hasValue;
+  const labelColor = getLabelColor(isFocused, hasError);
+
+  return (
+    <motion.label
+      className={`absolute left-4 top-3.5 text-sm pointer-events-none transition-colors duration-300 ${labelColor}`}
+      initial={false}
+      animate={{
+        y: shouldFloat ? -24 : 0,
+        scale: shouldFloat ? 0.85 : 1,
+      }}
+      transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+    >
+      {label}
+    </motion.label>
+  );
+}
+
+// InputIcon subcomponent
+interface InputIconProps {
+  icon: React.ReactNode;
+  isFocused: boolean;
+}
+
+function InputIcon({ icon, isFocused }: InputIconProps) {
+  return (
+    <motion.div
+      className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40"
+      animate={{
+        color: isFocused ? 'rgba(99, 102, 241, 0.8)' : 'rgba(255, 255, 255, 0.4)',
+      }}
+      transition={{ duration: 0.3 }}
+    >
+      {icon}
+    </motion.div>
+  );
+}
+
+// FocusGlow subcomponent
+function FocusGlow() {
+  return (
+    <motion.div
+      className="absolute inset-0 rounded-xl pointer-events-none"
+      style={{ boxShadow: '0 0 20px rgba(99, 102, 241, 0.3)' }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+    />
+  );
+}
+
+// ErrorMessage subcomponent
+interface ErrorMessageProps {
+  error: string;
+}
+
+function ErrorMessage({ error }: ErrorMessageProps) {
+  return (
+    <motion.div
+      className="mt-1 text-sm text-lf-error flex items-center gap-1"
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+      transition={{ duration: 0.2 }}
+    >
+      <span className="text-xs">⚠</span>
+      {error}
+    </motion.div>
+  );
+}
+
 /**
  * Premium input component with AAA-quality interactions
  * Features:
@@ -19,140 +130,55 @@ interface AAAInputProps extends InputHTMLAttributes<HTMLInputElement> {
  * - Error states with visual feedback
  */
 export const AAAInput = forwardRef<HTMLInputElement, AAAInputProps>(
-  (
-    {
-      label,
-      error,
-      icon,
-      variant = 'glass',
-      className = '',
-      value,
-      ...props
-    },
-    ref
-  ) => {
+  ({ label, error, icon, variant = 'glass', className = '', value, ...props }, ref) => {
     const [isFocused, setIsFocused] = useState(false);
     const hasValue = value !== undefined && value !== '';
 
-    const variantStyles = {
-      glass: `
-        bg-glass-surface
-        backdrop-blur-aaa
-        border border-white/20
-        focus:border-lf-primary-light/60
-        focus:shadow-glow-accent
-      `,
-      solid: `
-        bg-white/10
-        backdrop-blur-md
-        border border-white/10
-        focus:border-lf-primary/50
-      `,
-      underline: `
-        bg-transparent
-        border-0 border-b-2 border-white/20
-        rounded-none
-        focus:border-lf-primary
-        focus:shadow-inner-glow
-      `,
+    const variantStyles = getVariantStyles(variant);
+    const baseStyles = `w-full px-4 py-3 rounded-xl text-white placeholder-white/40 outline-none transition-all duration-300 ${variantStyles} ${error ? 'border-lf-error focus:border-lf-error-dark' : ''} ${className}`;
+    const wrapperStyles = variant === 'underline' ? '' : 'relative';
+    const paddingTop = label && (isFocused || hasValue) ? '1.5rem' : '0.75rem';
+
+    const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+      setIsFocused(true);
+      props.onFocus?.(e);
     };
 
-    const baseStyles = `
-      w-full px-4 py-3
-      rounded-xl
-      text-white placeholder-white/40
-      outline-none
-      transition-all duration-300
-      ${variantStyles[variant]}
-      ${error ? 'border-lf-error focus:border-lf-error-dark' : ''}
-      ${className}
-    `;
-
-    const wrapperStyles = variant === 'underline' ? '' : 'relative';
+    const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+      setIsFocused(false);
+      props.onBlur?.(e);
+    };
 
     return (
       <div className={wrapperStyles}>
         {/* Floating label */}
-        {label && (
-          <motion.label
-            className={`
-              absolute left-4 top-3.5
-              text-sm pointer-events-none
-              transition-colors duration-300
-              ${error ? 'text-lf-error' : isFocused ? 'text-lf-primary-light' : 'text-white/60'}
-            `}
-            initial={false}
-            animate={{
-              y: isFocused || hasValue ? -24 : 0,
-              scale: isFocused || hasValue ? 0.85 : 1,
-            }}
-            transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-          >
-            {label}
-          </motion.label>
-        )}
+        {label && <FloatingLabel label={label} isFocused={isFocused} hasValue={hasValue} hasError={!!error} />}
 
         {/* Input container */}
         <div className="relative">
           {/* Icon */}
-          {icon && (
-            <motion.div
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40"
-              animate={{
-                color: isFocused ? 'rgba(99, 102, 241, 0.8)' : 'rgba(255, 255, 255, 0.4)',
-              }}
-              transition={{ duration: 0.3 }}
-            >
-              {icon}
-            </motion.div>
-          )}
+          {icon && <InputIcon icon={icon} isFocused={isFocused} />}
 
           {/* Input */}
           <input
             ref={ref}
             className={baseStyles}
             value={value}
-            onFocus={(e) => {
-              setIsFocused(true);
-              props.onFocus?.(e);
-            }}
-            onBlur={(e) => {
-              setIsFocused(false);
-              props.onBlur?.(e);
-            }}
-            style={{ paddingTop: label && (isFocused || hasValue) ? '1.5rem' : '0.75rem' }}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            style={{ paddingTop }}
             {...props}
           />
 
           {/* Focus glow effect */}
           <AnimatePresence>
-            {isFocused && (
-              <motion.div
-                className="absolute inset-0 rounded-xl pointer-events-none"
-                style={{ boxShadow: '0 0 20px rgba(99, 102, 241, 0.3)' }}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
-              />
-            )}
+            {isFocused && <FocusGlow />}
           </AnimatePresence>
         </div>
 
         {/* Error message with animation */}
         <AnimatePresence>
-          {error && (
-            <motion.div
-              className="mt-1 text-sm text-lf-error flex items-center gap-1"
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.2 }}
-            >
-              <span className="text-xs">⚠</span>
-              {error}
-            </motion.div>
-          )}
+          {error && <ErrorMessage error={error} />}
         </AnimatePresence>
       </div>
     );
@@ -172,108 +198,42 @@ interface AAATextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElem
 }
 
 export const AAATextarea = forwardRef<HTMLTextAreaElement, AAATextareaProps>(
-  (
-    {
-      label,
-      error,
-      variant = 'glass',
-      className = '',
-      rows = 4,
-      onFocus,
-      onBlur,
-      ...props
-    },
-    ref
-  ) => {
+  ({ label, error, variant = 'glass', className = '', rows = 4, onFocus, onBlur, ...props }, ref) => {
     const [isFocused, setIsFocused] = useState(false);
     const hasValue = props.value !== undefined && props.value !== '';
 
-    const variantStyles = {
-      glass: `
-        bg-glass-surface
-        backdrop-blur-aaa
-        border border-white/20
-        focus:border-lf-primary-light/60
-        resize-none
-      `,
-      solid: `
-        bg-white/10
-        backdrop-blur-md
-        border border-white/10
-        focus:border-lf-primary/50
-        resize-none
-      `,
-      underline: `
-        bg-transparent
-        border-0 border-b-2 border-white/20
-        rounded-none
-        focus:border-lf-primary
-        resize-none
-      `,
+    const variantStyles = getVariantStyles(variant);
+    const baseStyles = `w-full px-4 py-3 rounded-xl text-white placeholder-white/40 outline-none transition-all duration-300 resize-none ${variantStyles} ${error ? 'border-lf-error' : ''} ${className}`;
+    const paddingTop = label && (isFocused || hasValue) ? '1.5rem' : '0.75rem';
+
+    const handleFocus = (e: React.FocusEvent<HTMLTextAreaElement>) => {
+      setIsFocused(true);
+      onFocus?.(e);
     };
 
-    const baseStyles = `
-      w-full px-4 py-3
-      rounded-xl
-      text-white placeholder-white/40
-      outline-none
-      transition-all duration-300
-      ${variantStyles[variant]}
-      ${error ? 'border-lf-error' : ''}
-      ${className}
-    `;
+    const handleBlur = (e: React.FocusEvent<HTMLTextAreaElement>) => {
+      setIsFocused(false);
+      onBlur?.(e);
+    };
 
     return (
       <div className="relative">
         {/* Floating label */}
-        {label && (
-          <motion.label
-            className={`
-              absolute left-4 top-3.5
-              text-sm pointer-events-none
-              transition-colors duration-300
-              ${error ? 'text-lf-error' : isFocused ? 'text-lf-primary-light' : 'text-white/60'}
-            `}
-            initial={false}
-            animate={{
-              y: isFocused || hasValue ? -24 : 0,
-              scale: isFocused || hasValue ? 0.85 : 1,
-            }}
-            transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-          >
-            {label}
-          </motion.label>
-        )}
+        {label && <FloatingLabel label={label} isFocused={isFocused} hasValue={hasValue} hasError={!!error} />}
 
         <textarea
           ref={ref}
           rows={rows}
           className={baseStyles}
-          onFocus={(e) => {
-            setIsFocused(true);
-            onFocus?.(e);
-          }}
-          onBlur={(e) => {
-            setIsFocused(false);
-            onBlur?.(e);
-          }}
-          style={{ paddingTop: label && (isFocused || hasValue) ? '1.5rem' : '0.75rem' }}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          style={{ paddingTop }}
           {...(props as any)}
         />
 
         {/* Error message */}
         <AnimatePresence>
-          {error && (
-            <motion.div
-              className="mt-1 text-sm text-lf-error"
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.2 }}
-            >
-              {error}
-            </motion.div>
-          )}
+          {error && <ErrorMessage error={error} />}
         </AnimatePresence>
       </div>
     );

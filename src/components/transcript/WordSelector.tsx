@@ -42,11 +42,43 @@ export function WordSelector({
     // Dividir en frases primero
     const sentenceEndings = /[.!?]\s+/;
     const sentences = transcript.split(sentenceEndings);
-    
+
     // Extraer keywords de todas las frases
     const allKeywords = extractKeywords(transcript);
     const keywordsSet = new Set(allKeywords.map(k => k.normalized));
-    
+
+    const createWordData = (
+      word: string,
+      normalized: string,
+      sentence: string,
+      sentenceIndex: number,
+      position: number
+    ): typeof wordsWithContext[0] | null => {
+      const isKeyword = keywordsSet.has(normalized);
+      const keywordInfo = allKeywords.find(k => k.normalized === normalized);
+
+      return {
+        word,
+        normalized,
+        sentence: sentence.trim(),
+        sentenceIndex,
+        position,
+        isKeyword,
+        ...(keywordInfo?.type !== undefined && { wordType: keywordInfo.type }),
+      };
+    };
+
+    const processSentence = (sentence: string, sentenceIndex: number) => {
+      const sentenceWords = sentence.split(/\s+/).filter(w => w.length > 0);
+      return sentenceWords.map((word, position) => {
+        const cleaned = word.replace(/[.,;:!?()\[\]{}'"]/g, '');
+        if (cleaned.length < 3) return null;
+
+        const normalized = normalizeWord(cleaned);
+        return createWordData(cleaned, normalized, sentence, sentenceIndex, position);
+      }).filter((w): w is typeof wordsWithContext[0] => w !== null);
+    };
+
     const words: Array<{
       word: string;
       normalized: string;
@@ -58,25 +90,7 @@ export function WordSelector({
     }> = [];
 
     sentences.forEach((sentence, sentenceIndex) => {
-      const sentenceWords = sentence.split(/\s+/).filter(w => w.length > 0);
-      sentenceWords.forEach((word, position) => {
-        const cleaned = word.replace(/[.,;:!?()\[\]{}'"]/g, '');
-        if (cleaned.length >= 3) {
-          const normalized = normalizeWord(cleaned);
-          const isKeyword = keywordsSet.has(normalized);
-          const keywordInfo = allKeywords.find(k => k.normalized === normalized);
-
-          words.push({
-            word: cleaned,
-            normalized,
-            sentence: sentence.trim(),
-            sentenceIndex,
-            position,
-            isKeyword,
-            ...(keywordInfo?.type !== undefined && { wordType: keywordInfo.type }),
-          });
-        }
-      });
+      words.push(...processSentence(sentence, sentenceIndex));
     });
 
     return words;

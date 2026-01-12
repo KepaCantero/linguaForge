@@ -77,36 +77,53 @@ function getShortcutAction(
   shiftKey: boolean,
   config: KeyboardShortcutConfig
 ): (() => void) | null {
-  // Ignorar shortcuts con Ctrl/Cmd (para no interferir con atajos del navegador)
   if (ctrlKey || metaKey) return null;
 
-  // Normalizar tecla
   const normalizedKey = key.toLowerCase();
+  const hasShift = shiftKey;
 
-  // SRS shortcuts
-  if (normalizedKey === '1' && config.onRateAgain) return config.onRateAgain;
-  if (normalizedKey === '2' && config.onRateHard) return config.onRateHard;
-  if (normalizedKey === '3' && config.onRateGood) return config.onRateGood;
-  if (normalizedKey === '4' && config.onRateEasy) return config.onRateEasy;
+  const srsActions = getSRSAction(normalizedKey, config);
+  if (srsActions) return srsActions;
 
-  // Navigation shortcuts
-  if (normalizedKey === ' ' && config.onNext) return config.onNext;
-  if (normalizedKey === 's' && !shiftKey && config.onSkip) return config.onSkip;
-  if (normalizedKey === 'arrowleft' && config.onPrevious) return config.onPrevious;
-  if (normalizedKey === 'arrowright' && config.onNext) return config.onNext;
+  const navActions = getNavigationAction(normalizedKey, hasShift, config);
+  if (navActions) return navActions;
 
-  // General shortcuts
-  if (normalizedKey === 'enter' && config.onConfirm) return config.onConfirm;
-  if (normalizedKey === 'escape' && config.onCancel) return config.onCancel;
-  if (normalizedKey === 'f' && !shiftKey && config.onToggleFocus) return config.onToggleFocus;
-  if (normalizedKey === 'h' && !shiftKey && config.onShowHint) return config.onShowHint;
-  if (normalizedKey === 'a' && !shiftKey && config.onPlayAudio) return config.onPlayAudio;
+  const generalActions = getGeneralAction(normalizedKey, hasShift, config);
+  if (generalActions) return generalActions;
 
-  // Custom mappings
-  if (config.customMappings?.[normalizedKey]) {
-    return config.customMappings[normalizedKey];
+  return config.customMappings?.[normalizedKey] || null;
+}
+
+function getSRSAction(key: string, config: KeyboardShortcutConfig): (() => void) | null {
+  const actions: Partial<Record<keyof KeyboardShortcutConfig, string>> = {
+    onRateAgain: '1',
+    onRateHard: '2',
+    onRateGood: '3',
+    onRateEasy: '4',
+  };
+
+  for (const [callback, keyName] of Object.entries(actions)) {
+    if (key === keyName && config[callback as keyof KeyboardShortcutConfig]) {
+      return config[callback as keyof KeyboardShortcutConfig] as () => void;
+    }
   }
+  return null;
+}
 
+function getNavigationAction(key: string, hasShift: boolean, config: KeyboardShortcutConfig): (() => void) | null {
+  if (key === ' ' && config.onNext) return config.onNext;
+  if (key === 's' && !hasShift && config.onSkip) return config.onSkip;
+  if (key === 'arrowleft' && config.onPrevious) return config.onPrevious;
+  if (key === 'arrowright' && config.onNext) return config.onNext;
+  return null;
+}
+
+function getGeneralAction(key: string, hasShift: boolean, config: KeyboardShortcutConfig): (() => void) | null {
+  if (key === 'enter' && config.onConfirm) return config.onConfirm;
+  if (key === 'escape' && config.onCancel) return config.onCancel;
+  if (key === 'f' && !hasShift && config.onToggleFocus) return config.onToggleFocus;
+  if (key === 'h' && !hasShift && config.onShowHint) return config.onShowHint;
+  if (key === 'a' && !hasShift && config.onPlayAudio) return config.onPlayAudio;
   return null;
 }
 

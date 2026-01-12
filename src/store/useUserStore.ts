@@ -53,65 +53,15 @@ export const useUserStore = create<UserStore>()(
     (set) => ({
       ...initialState,
 
-      setAppLanguage: (appLanguage) => {
-        console.log('[UserStore] setAppLanguage:', appLanguage);
-        set({ appLanguage });
+      setAppLanguage: (appLanguage) => set({ appLanguage }),
 
-        // Verificar que se guardó
-        setTimeout(() => {
-          const stored = localStorage.getItem('linguaforge-user');
-          if (stored) {
-            try {
-              const parsed = JSON.parse(stored);
-              console.log('[UserStore] LocalStorage appLanguage después de setAppLanguage:', parsed.state?.appLanguage);
-            } catch (e) {
-              console.error('[UserStore] Error verificando localStorage:', e);
-            }
-          }
-        }, 100);
-      },
-
-      setMode: (mode) => {
-        console.log('[UserStore] setMode:', mode);
-        set({ mode });
-
-        // Verificar que se guardó
-        setTimeout(() => {
-          const stored = localStorage.getItem('linguaforge-user');
-          if (stored) {
-            try {
-              const parsed = JSON.parse(stored);
-              console.log('[UserStore] LocalStorage mode después de setMode:', parsed.state?.mode);
-            } catch (e) {
-              console.error('[UserStore] Error verificando localStorage:', e);
-            }
-          }
-        }, 100);
-      },
+      setMode: (mode) => set({ mode }),
 
       setDailyGoal: (dailyGoal) => set({ dailyGoal }),
 
       setNotifications: (notifications) => set({ notifications }),
 
-      completeOnboarding: () => {
-        console.log('[UserStore] completeOnboarding llamado');
-        set({ hasCompletedOnboarding: true });
-
-        // Verificar que se guardó
-        setTimeout(() => {
-          const stored = localStorage.getItem('linguaforge-user');
-          if (stored) {
-            try {
-              const parsed = JSON.parse(stored);
-              console.log('[UserStore] Después de completeOnboarding, hasCompletedOnboarding:', parsed.state?.hasCompletedOnboarding);
-            } catch (e) {
-              console.error('[UserStore] Error verificando localStorage:', e);
-            }
-          } else {
-            console.error('[UserStore] ERROR: localStorage vacío después de completeOnboarding!');
-          }
-        }, 100);
-      },
+      completeOnboarding: () => set({ hasCompletedOnboarding: true }),
 
       resetOnboarding: () => set({ hasCompletedOnboarding: false }),
 
@@ -128,14 +78,8 @@ export const useUserStore = create<UserStore>()(
         dailyGoal: state.dailyGoal,
         notifications: state.notifications,
       }),
-      onRehydrateStorage: () => (state) => {
-        console.log('[UserStore] Rehidratando store...');
-        console.log('[UserStore] Estado cargado:', state);
-        if (state) {
-          console.log('[UserStore] appLanguage:', state.appLanguage);
-          console.log('[UserStore] mode:', state.mode);
-          console.log('[UserStore] hasCompletedOnboarding:', state.hasCompletedOnboarding);
-        }
+      onRehydrateStorage: () => () => {
+        // Rehidratación completada
       },
     }
   )

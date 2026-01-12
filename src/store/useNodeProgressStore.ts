@@ -1,19 +1,21 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-// Progreso de un nodo individual
+// ============================================================
+// TYPES
+// ============================================================
+
 interface NodeProgress {
   nodeId: string;
-  completedLessons: string[]; // IDs de lecciones completadas
+  completedLessons: string[];
   currentLessonIndex: number;
   completedExercises: number;
   totalExercises: number;
-  percentage: number; // 0-100
+  percentage: number;
   isUnlocked: boolean;
   isComplete: boolean;
 }
 
-// Progreso de ejercicio actual
 interface CurrentExercise {
   nodeId: string;
   lessonId: string;
@@ -22,53 +24,131 @@ interface CurrentExercise {
 }
 
 interface NodeProgressState {
-  // Progreso por nodo
   nodes: Record<string, NodeProgress>;
-
-  // Ejercicio actual en progreso
   currentExercise: CurrentExercise | null;
 }
 
 interface NodeProgressActions {
-  // Inicializar nodos del modo guiado
   initGuidedNodes: (nodeIds: string[]) => void;
-
-  // Empezar una lección
   startLesson: (nodeId: string, lessonId: string, totalExercises: number) => void;
-
-  // Completar un ejercicio
-  completeExercise: (nodeId: string, correct: boolean) => void;
-
-  // Completar una lección
+  completeExercise: (nodeId: string) => void;
   completeLesson: (nodeId: string, lessonId: string) => void;
-
-  // Desbloquear el siguiente nodo
   unlockNextNode: (currentNodeId: string) => void;
-
-  // Obtener progreso de un nodo
   getNodeProgress: (nodeId: string) => NodeProgress | undefined;
-
-  // Verificar si un nodo está desbloqueado
   isNodeUnlocked: (nodeId: string) => boolean;
-
-  // Reset
   resetProgress: () => void;
 }
 
 type NodeProgressStore = NodeProgressState & NodeProgressActions;
 
-const GUIDED_NODE_ORDER = ['node-1', 'node-2', 'node-3', 'node-4', 'node-5'];
+// ============================================================
+// CONSTANTS
+// ============================================================
 
-const createDefaultNodeProgress = (nodeId: string, isFirst: boolean): NodeProgress => ({
-  nodeId,
-  completedLessons: [],
-  currentLessonIndex: 0,
-  completedExercises: 0,
-  totalExercises: 0,
-  percentage: 0,
-  isUnlocked: isFirst, // Solo el primero está desbloqueado
-  isComplete: false,
-});
+const GUIDED_NODE_ORDER = ['node-1', 'node-2', 'node-3', 'node-4', 'node-5'] as const;
+const LESSONS_PER_NODE = 4;
+
+// ============================================================
+// HELPER FUNCTIONS
+// ============================================================
+
+function createDefaultNodeProgress(nodeId: string, isFirst: boolean): NodeProgress {
+  return {
+    nodeId,
+    completedLessons: [],
+    currentLessonIndex: 0,
+    completedExercises: 0,
+    totalExercises: 0,
+    percentage: 0,
+    isUnlocked: isFirst,
+    isComplete: false,
+  };
+}
+
+function updateNodeInStore(
+  nodes: Record<string, NodeProgress>,
+  nodeId: string,
+  updates: Partial<NodeProgress>
+): Record<string, NodeProgress> {
+  const node = nodes[nodeId];
+  if (!node) return nodes;
+
+  return {
+    ...nodes,
+    [nodeId]: { ...node, ...updates },
+  };
+}
+
+function calculateExercisePercentage(completed: number, total: number): number {
+  if (total === 0) return 0;
+  return Math.min(Math.round((completed / total) * 100), 100);
+}
+
+function calculateLessonPercentage(completedLessonsCount: number): number {
+  return Math.min(Math.round((completedLessonsCount / LESSONS_PER_NODE) * 100), 100);
+}
+
+function getNextNodeIndex(currentNodeId: string): number {
+  return (GUIDED_NODE_ORDER as readonly string[]).indexOf(currentNodeId);
+}
+
+function shouldUnlockNext(currentIndex: number): boolean {
+  return currentIndex >= 0 && currentIndex < GUIDED_NODE_ORDER.length - 1;
+}
+
+function createExerciseProgress(
+  nodes: Record<string, NodeProgress>,
+  nodeId: string,
+  exerciseIndex: number
+): { nodes: Record<string, NodeProgress>; currentExercise: CurrentExercise | null } {
+  const node = nodes[nodeId];
+  if (!node) {
+    return { nodes, currentExercise: null };
+  }
+
+  const newCompletedExercises = node.completedExercises + 1;
+  const newPercentage = calculateExercisePercentage(newCompletedExercises, node.totalExercises);
+
+  return {
+    nodes: updateNodeInStore(nodes, nodeId, {
+      completedExercises: newCompletedExercises,
+      percentage: newPercentage,
+    }),
+    currentExercise: {
+      nodeId,
+      lessonId: '',
+      exerciseIndex: exerciseIndex + 1,
+      totalExercises: node.totalExercises,
+    },
+  };
+}
+
+function createLessonProgress(
+  nodes: Record<string, NodeProgress>,
+  nodeId: string,
+  lessonId: string
+): Record<string, NodeProgress> {
+  const node = nodes[nodeId];
+  if (!node) return nodes;
+
+  const completedLessons = node.completedLessons.includes(lessonId)
+    ? node.completedLessons
+    : [...node.completedLessons, lessonId];
+
+  const percentage = calculateLessonPercentage(completedLessons.length);
+  const isComplete = percentage >= 100;
+
+  return updateNodeInStore(nodes, nodeId, {
+    completedLessons,
+    currentLessonIndex: completedLessons.length,
+    percentage,
+    isComplete,
+  });
+}
+
+// ============================================================
+// STORE
+// ============================================================
 
 const initialState: NodeProgressState = {
   nodes: {},
@@ -83,104 +163,45 @@ export const useNodeProgressStore = create<NodeProgressStore>()(
       initGuidedNodes: (nodeIds) => {
         const nodes: Record<string, NodeProgress> = {};
         nodeIds.forEach((nodeId, index) => {
-          // Si ya existe, mantener el progreso
           const existing = get().nodes[nodeId];
-          if (existing) {
-            nodes[nodeId] = existing;
-          } else {
-            nodes[nodeId] = createDefaultNodeProgress(nodeId, index === 0);
-          }
+          nodes[nodeId] = existing ?? createDefaultNodeProgress(nodeId, index === 0);
         });
         set({ nodes });
       },
 
       startLesson: (nodeId, lessonId, totalExercises) => {
         set({
-          currentExercise: {
-            nodeId,
-            lessonId,
-            exerciseIndex: 0,
-            totalExercises,
-          },
+          currentExercise: { nodeId, lessonId, exerciseIndex: 0, totalExercises },
         });
 
-        // Actualizar total de ejercicios si es necesario
         set((state) => {
           const node = state.nodes[nodeId];
           if (!node) return state;
 
           return {
-            nodes: {
-              ...state.nodes,
-              [nodeId]: {
-                ...node,
-                totalExercises: Math.max(node.totalExercises, totalExercises),
-              },
-            },
+            nodes: updateNodeInStore(state.nodes, nodeId, {
+              totalExercises: Math.max(node.totalExercises, totalExercises),
+            }),
           };
         });
       },
 
       completeExercise: (nodeId) => {
         set((state) => {
-          const node = state.nodes[nodeId];
-          const current = state.currentExercise;
-
-          if (!node || !current) return state;
-
-          const newCompletedExercises = node.completedExercises + 1;
-          const newPercentage = node.totalExercises > 0
-            ? Math.round((newCompletedExercises / node.totalExercises) * 100)
-            : 0;
-
+          const result = createExerciseProgress(state.nodes, nodeId, state.currentExercise?.exerciseIndex ?? 0);
           return {
-            nodes: {
-              ...state.nodes,
-              [nodeId]: {
-                ...node,
-                completedExercises: newCompletedExercises,
-                percentage: Math.min(newPercentage, 100),
-              },
-            },
-            currentExercise: {
-              ...current,
-              exerciseIndex: current.exerciseIndex + 1,
-            },
+            nodes: result.nodes,
+            currentExercise: result.currentExercise ?? state.currentExercise,
           };
         });
       },
 
       completeLesson: (nodeId, lessonId) => {
-        set((state) => {
-          const node = state.nodes[nodeId];
-          if (!node) return state;
+        set((state) => ({
+          nodes: createLessonProgress(state.nodes, nodeId, lessonId),
+          currentExercise: null,
+        }));
 
-          const completedLessons = node.completedLessons.includes(lessonId)
-            ? node.completedLessons
-            : [...node.completedLessons, lessonId];
-
-          // Una lección tiene ~4 ejercicios típicamente
-          // Cada nodo tiene 4 lecciones = 16 ejercicios por nodo
-          const LESSONS_PER_NODE = 4;
-          const percentage = Math.round((completedLessons.length / LESSONS_PER_NODE) * 100);
-          const isComplete = percentage >= 100;
-
-          return {
-            nodes: {
-              ...state.nodes,
-              [nodeId]: {
-                ...node,
-                completedLessons,
-                currentLessonIndex: completedLessons.length,
-                percentage: Math.min(percentage, 100),
-                isComplete,
-              },
-            },
-            currentExercise: null,
-          };
-        });
-
-        // Si el nodo está completo, desbloquear el siguiente
         const updatedNode = get().nodes[nodeId];
         if (updatedNode?.isComplete) {
           get().unlockNextNode(nodeId);
@@ -188,8 +209,8 @@ export const useNodeProgressStore = create<NodeProgressStore>()(
       },
 
       unlockNextNode: (currentNodeId) => {
-        const currentIndex = GUIDED_NODE_ORDER.indexOf(currentNodeId);
-        if (currentIndex < 0 || currentIndex >= GUIDED_NODE_ORDER.length - 1) return;
+        const currentIndex = getNextNodeIndex(currentNodeId);
+        if (!shouldUnlockNext(currentIndex)) return;
 
         const nextNodeId = GUIDED_NODE_ORDER[currentIndex + 1];
 
@@ -198,13 +219,7 @@ export const useNodeProgressStore = create<NodeProgressStore>()(
           if (!nextNode || nextNode.isUnlocked) return state;
 
           return {
-            nodes: {
-              ...state.nodes,
-              [nextNodeId]: {
-                ...nextNode,
-                isUnlocked: true,
-              },
-            },
+            nodes: updateNodeInStore(state.nodes, nextNodeId, { isUnlocked: true }),
           };
         });
       },
@@ -214,8 +229,7 @@ export const useNodeProgressStore = create<NodeProgressStore>()(
       },
 
       isNodeUnlocked: (nodeId) => {
-        const node = get().nodes[nodeId];
-        return node?.isUnlocked ?? false;
+        return get().nodes[nodeId]?.isUnlocked ?? false;
       },
 
       resetProgress: () => set(initialState),
@@ -226,7 +240,10 @@ export const useNodeProgressStore = create<NodeProgressStore>()(
   )
 );
 
-// Helper hooks
+// ============================================================
+// HOOKS
+// ============================================================
+
 export function useNodeProgress(nodeId: string) {
   return useNodeProgressStore((state) => state.nodes[nodeId]);
 }

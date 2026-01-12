@@ -2,6 +2,10 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { getLevelByXP, getRankByXP, STREAK_CONFIG, COIN_RULES, HP_CONFIG, type HunterRank } from '@/lib/constants';
 
+// ============================================================
+// TYPES
+// ============================================================
+
 interface GamificationStore {
   // Estado
   xp: number;
@@ -12,21 +16,25 @@ interface GamificationStore {
   streak: number;
   lastActiveDate: string | null;
   longestStreak: number;
-  lastRankUpXP: number; // XP cuando subió de rango por última vez
-  hp: number; // Salud (Health Points)
-  streakFrozenUntil: string | null; // Fecha hasta la cual el streak está congelado
+  lastRankUpXP: number;
+  hp: number;
+  streakFrozenUntil: string | null;
 
   // Acciones
   addXP: (amount: number) => void;
   addCoins: (amount: number) => void;
   addGems: (amount: number) => void;
   updateStreak: () => { continued: boolean; lost: boolean; newStreak: number };
-  freezeStreak: () => boolean; // Consume 5 gems, retorna true si exitoso
+  freezeStreak: () => boolean;
   reduceHP: (amount: number) => void;
   recoverHP: (amount: number) => void;
   canAccessPremium: () => boolean;
   resetGamification: () => void;
 }
+
+// ============================================================
+// CONSTANTS
+// ============================================================
 
 const initialState = {
   xp: 0,
@@ -42,12 +50,92 @@ const initialState = {
   streakFrozenUntil: null as string | null,
 };
 
+const SURGE_CHANCE = 0.1;
+const STREAK_MILESTONES = [7, 30, 100] as const;
+const GEMS_FOR_FREEZE = 5;
+const FREEZE_HOURS = 24;
+
+// ============================================================
+// HELPER FUNCTIONS
+// ============================================================
+
 function getDateString(date: Date): string {
-  // Ajustar por la hora de reset (4:00 AM)
   const adjusted = new Date(date);
   adjusted.setHours(adjusted.getHours() - STREAK_CONFIG.resetHour);
   return adjusted.toISOString().split('T')[0];
 }
+
+function calculateXPWithSurge(amount: number): { actualAmount: number; isSurge: boolean } {
+  const isSurge = Math.random() < SURGE_CHANCE;
+  const actualAmount = isSurge ? amount * 2 : amount;
+  return { actualAmount, isSurge };
+}
+
+function dispatchXPEvents(actualAmount: number, originalAmount: number, leveledUp: boolean, newLevel: number, previousLevel: number): void {
+  if (typeof window === 'undefined') return;
+
+  if (actualAmount !== originalAmount) {
+    globalThis.dispatchEvent(new CustomEvent('xp-surge', { detail: { amount: actualAmount, original: originalAmount } }));
+  }
+
+  globalThis.dispatchEvent(new CustomEvent('xp-gained', { detail: { amount: actualAmount } }));
+
+  if (leveledUp) {
+    globalThis.dispatchEvent(new CustomEvent('level-up', { detail: { newLevel, previousLevel } }));
+  }
+}
+
+function calculateStreakBonus(newStreak: number): number {
+  if (STREAK_MILESTONES.includes(newStreak as typeof STREAK_MILESTONES[number])) {
+    return COIN_RULES[`streak${newStreak}` as keyof typeof COIN_RULES] ?? 0;
+  }
+  return 0;
+}
+
+function isStreakFrozen(stamp: string | null, now: Date): boolean {
+  if (!stamp) return false;
+  return now < new Date(stamp);
+}
+
+function calculateNewStreak(
+  currentStreak: number,
+  lastActiveDate: string | null,
+  now: Date,
+  longestStreak: number,
+  currentCoins: number
+): { streak: number; lastActiveDate: string; longestStreak: number; coins: number; continued: boolean; lost: boolean } {
+  const todayStr = getDateString(now);
+
+  if (!lastActiveDate) {
+    return { streak: 1, lastActiveDate: todayStr, longestStreak: Math.max(1, longestStreak), coins: currentCoins, continued: true, lost: false };
+  }
+
+  if (lastActiveDate === todayStr) {
+    return { streak: currentStreak, lastActiveDate: todayStr, longestStreak, coins: currentCoins, continued: true, lost: false };
+  }
+
+  const lastDate = new Date(lastActiveDate);
+  const diffDays = Math.floor((now.getTime() - lastDate.getTime()) / (1000 * 60 * 60 * 24));
+
+  if (diffDays === 1) {
+    const newStreak = currentStreak + 1;
+    const bonusCoins = calculateStreakBonus(newStreak);
+    return {
+      streak: newStreak,
+      lastActiveDate: todayStr,
+      longestStreak: Math.max(newStreak, longestStreak),
+      coins: currentCoins + bonusCoins,
+      continued: true,
+      lost: false,
+    };
+  }
+
+  return { streak: 1, lastActiveDate: todayStr, longestStreak, coins: currentCoins, continued: false, lost: true };
+}
+
+// ============================================================
+// STORE
+// ============================================================
 
 export const useGamificationStore = create<GamificationStore>()(
   persist(
@@ -56,37 +144,17 @@ export const useGamificationStore = create<GamificationStore>()(
 
       addXP: (amount) => {
         set((state) => {
-          // Variable rewards: 10% probabilidad de "surge crítico" (doble XP)
-          const isSurge = Math.random() < 0.1;
-          const actualAmount = isSurge ? amount * 2 : amount;
-
+          const { actualAmount } = calculateXPWithSurge(amount);
           const newXP = state.xp + actualAmount;
           const levelInfo = getLevelByXP(newXP);
           const rankInfo = getRankByXP(newXP);
           const previousRank = state.rank;
           const previousLevel = state.level;
 
-          // Verificar si subió de rango
           const rankUp = rankInfo.rank !== previousRank && rankInfo.xpRequired > state.lastRankUpXP;
-
-          // Verificar si subió de nivel
           const leveledUp = levelInfo.level > previousLevel;
 
-          // Mostrar notificación de surge si aplica
-          if (isSurge && typeof window !== 'undefined') {
-            // Disparar evento para animación de surge (se manejará en UI)
-            globalThis.dispatchEvent(new CustomEvent('xp-surge', { detail: { amount: actualAmount, original: amount } }));
-          }
-
-          // Disparar evento de XP ganado (para construcción rewards)
-          if (typeof window !== 'undefined') {
-            globalThis.dispatchEvent(new CustomEvent('xp-gained', { detail: { amount: actualAmount } }));
-          }
-
-          // Disparar evento de nivel subido (para construction bonuses)
-          if (leveledUp && typeof window !== 'undefined') {
-            globalThis.dispatchEvent(new CustomEvent('level-up', { detail: { newLevel: levelInfo.level, previousLevel } }));
-          }
+          dispatchXPEvents(actualAmount, amount, leveledUp, levelInfo.level, previousLevel);
 
           return {
             xp: newXP,
@@ -98,104 +166,59 @@ export const useGamificationStore = create<GamificationStore>()(
       },
 
       addCoins: (amount) => {
-        set((state) => ({
-          coins: state.coins + amount,
-        }));
+        set((state) => ({ coins: state.coins + amount }));
 
-        // Disparar evento de coins ganados (para feedback visual)
         if (typeof window !== 'undefined' && amount > 0) {
           globalThis.dispatchEvent(new CustomEvent('coins-gained', { detail: { amount } }));
         }
       },
 
       addGems: (amount) => {
-        set((state) => ({
-          gems: state.gems + amount,
-        }));
+        set((state) => ({ gems: state.gems + amount }));
       },
 
       updateStreak: () => {
         const state = get();
         const now = new Date();
-        const todayStr = getDateString(now);
 
-        // Verificar si streak está congelado
-        if (state.streakFrozenUntil) {
-          const frozenUntil = new Date(state.streakFrozenUntil);
-          if (now < frozenUntil) {
-            // Streak congelado - no se pierde pero tampoco se incrementa
-            return { continued: true, lost: false, newStreak: state.streak };
-          } else {
-            // Período de congelación expirado, limpiar
-            set({ streakFrozenUntil: null });
-          }
-        }
-
-        // Si ya se actualizó hoy, no hacer nada
-        if (state.lastActiveDate === todayStr) {
+        if (isStreakFrozen(state.streakFrozenUntil, now)) {
           return { continued: true, lost: false, newStreak: state.streak };
         }
 
-        // Si es la primera vez
-        if (!state.lastActiveDate) {
-          set({
-            streak: 1,
-            lastActiveDate: todayStr,
-            longestStreak: Math.max(1, state.longestStreak),
-          });
-          return { continued: true, lost: false, newStreak: 1 };
+        if (state.streakFrozenUntil) {
+          set({ streakFrozenUntil: null });
         }
 
-        // Calcular diferencia de días
-        const lastDate = new Date(state.lastActiveDate);
-        const diffTime = now.getTime() - lastDate.getTime();
-        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+        const result = calculateNewStreak(
+          state.streak,
+          state.lastActiveDate,
+          now,
+          state.longestStreak,
+          state.coins
+        );
 
-        if (diffDays === 1) {
-          // Día consecutivo - streak continúa
-          const newStreak = state.streak + 1;
+        set({
+          streak: result.streak,
+          lastActiveDate: result.lastActiveDate,
+          longestStreak: result.longestStreak,
+          coins: result.coins,
+        });
 
-          // Verificar milestone para bonus de coins
-          let bonusCoins = 0;
-          if (newStreak === 7) bonusCoins = COIN_RULES.streak7;
-          if (newStreak === 30) bonusCoins = COIN_RULES.streak30;
-          if (newStreak === 100) bonusCoins = COIN_RULES.streak100;
-
-          set({
-            streak: newStreak,
-            lastActiveDate: todayStr,
-            longestStreak: Math.max(newStreak, state.longestStreak),
-            coins: state.coins + bonusCoins,
-          });
-
-          return { continued: true, lost: false, newStreak };
-        } else if (diffDays > 1) {
-          // Streak perdido (a menos que esté congelado)
-          set({
-            streak: 1,
-            lastActiveDate: todayStr,
-          });
-          return { continued: false, lost: true, newStreak: 1 };
-        }
-
-        // Mismo día (no debería llegar aquí)
-        return { continued: true, lost: false, newStreak: state.streak };
+        return { continued: result.continued, lost: result.lost, newStreak: result.streak };
       },
 
       freezeStreak: () => {
         const state = get();
-        
-        // Verificar si tiene suficientes gems
-        if (state.gems < 5) {
+
+        if (state.gems < GEMS_FOR_FREEZE) {
           return false;
         }
 
-        // Congelar streak por 24 horas
         const frozenUntil = new Date();
-        frozenUntil.setHours(frozenUntil.getHours() + 24);
+        frozenUntil.setHours(frozenUntil.getHours() + FREEZE_HOURS);
 
         set({
-          gems: state.gems - 5,
+          gems: state.gems - GEMS_FOR_FREEZE,
           streakFrozenUntil: frozenUntil.toISOString(),
         });
 
@@ -203,20 +226,15 @@ export const useGamificationStore = create<GamificationStore>()(
       },
 
       reduceHP: (amount) => {
-        set((state) => ({
-          hp: Math.max(0, state.hp - amount),
-        }));
+        set((state) => ({ hp: Math.max(0, state.hp - amount) }));
       },
 
       recoverHP: (amount) => {
-        set((state) => ({
-          hp: Math.min(HP_CONFIG.maxHP, state.hp + amount),
-        }));
+        set((state) => ({ hp: Math.min(HP_CONFIG.maxHP, state.hp + amount) }));
       },
 
       canAccessPremium: () => {
-        const state = get();
-        return state.hp >= HP_CONFIG.minHPForPremium;
+        return get().hp >= HP_CONFIG.minHPForPremium;
       },
 
       resetGamification: () => set(initialState),

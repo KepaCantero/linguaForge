@@ -13,7 +13,7 @@ import type {
   JanusComposer,
   Phrase,
 } from '@/types';
-import type { LessonMode, ExerciseType } from '@/hooks/useExerciseFlow';
+import type { ExerciseType, LessonMode } from '@/hooks/useExerciseFlow';
 
 interface ExerciseRendererProps {
   selectedExerciseType: ExerciseType;

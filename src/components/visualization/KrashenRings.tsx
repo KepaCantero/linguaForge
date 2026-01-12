@@ -12,7 +12,6 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useMemo } from 'react';
 
 // ============================================================
 // TIPOS
@@ -74,7 +73,285 @@ export const KRASHEN_ZONES: Record<string, KrashenZone> = {
 };
 
 // ============================================================
-// COMPONENTES
+// HELPER FUNCTIONS
+// ============================================================
+
+function getCurrentZone(currentLevel: number): 'comfort' | 'learning' | 'challenge' {
+  if (currentLevel < 50) return 'comfort';
+  if (currentLevel < 80) return 'learning';
+  return 'challenge';
+}
+
+function getInputAppropriateness(currentLevel: number, inputLevel?: number): 'optimal' | 'good' | 'too-hard' | 'too-easy' | null {
+  if (!inputLevel) return null;
+  const diff = Math.abs(inputLevel - currentLevel);
+  if (diff <= 15) return 'optimal';
+  if (diff <= 30) return 'good';
+  if (inputLevel > currentLevel + 30) return 'too-hard';
+  return 'too-easy';
+}
+
+function getInputBadgeColor(appropriateness: 'optimal' | 'good' | 'too-hard' | 'too-easy'): string {
+  const colors = {
+    optimal: 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300',
+    good: 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300',
+    'too-hard': 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300',
+    'too-easy': 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300',
+  };
+  return colors[appropriateness];
+}
+
+function getInputBadgeLabel(appropriateness: 'optimal' | 'good' | 'too-hard' | 'too-easy'): string {
+  const labels = {
+    optimal: '✨ Nivel perfecto de input (i+1)',
+    good: '👍 Nivel apropiado',
+    'too-hard': '⚠️ Material avanzado - necesitas apoyo',
+    'too-easy': '📚 Material de repaso',
+  };
+  return labels[appropriateness];
+}
+
+// ============================================================
+// SUB-COMPONENTES
+// ============================================================
+
+// SVG Definitions - gradients and filters
+function SvgDefinitions() {
+  return (
+    <defs>
+      <linearGradient id="gradient-comfort" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#22C55E" stopOpacity="0.8" />
+        <stop offset="100%" stopColor="#16A34A" stopOpacity="0.9" />
+      </linearGradient>
+      <linearGradient id="gradient-learning" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#6366F1" stopOpacity="0.8" />
+        <stop offset="100%" stopColor="#4F46E5" stopOpacity="0.9" />
+      </linearGradient>
+      <linearGradient id="gradient-challenge" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#F59E0B" stopOpacity="0.8" />
+        <stop offset="100%" stopColor="#D97706" stopOpacity="0.9" />
+      </linearGradient>
+      <filter id="glow">
+        <feGaussianBlur stdDeviation="3" result="coloredBlur" />
+        <feMerge>
+          <feMergeNode in="coloredBlur" />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+    </defs>
+  );
+}
+
+// KrashenRing - individual ring component
+interface KrashenRingProps {
+  zone: 'comfort' | 'learning' | 'challenge';
+  currentZone: 'comfort' | 'learning' | 'challenge';
+  showLabel: boolean;
+  onClick?: () => void;
+}
+
+function KrashenRing({ zone, currentZone, showLabel, onClick }: KrashenRingProps) {
+  const isActive = currentZone === zone;
+  const config = {
+    comfort: { r: 70, label: 'i', labelY: 95, delay: 0.2, opacity: isActive ? 1 : 0.7 },
+    learning: { r: 100, label: 'i+1', labelY: 65, delay: 0.1, opacity: isActive ? 1 : 0.5 },
+    challenge: { r: 130, label: 'i+2+', labelY: 35, delay: 0, opacity: isActive ? 1 : 0.25 },
+  }[zone];
+
+  return (
+    <g className="cursor-pointer" onClick={onClick}>
+      <motion.circle
+        cx="140"
+        cy="140"
+        r={config.r}
+        fill="none"
+        stroke={`url(#gradient-${zone})`}
+        strokeWidth="16"
+        opacity={config.opacity}
+        filter={isActive ? 'url(#glow)' : undefined}
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: config.opacity }}
+        transition={{ duration: 0.5, delay: config.delay }}
+      />
+      {showLabel && isActive && (
+        <motion.text
+          x="140"
+          y={config.labelY}
+          textAnchor="middle"
+          className="font-quicksand font-semibold text-sm"
+          fill={KRASHEN_ZONES[zone].color}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3 + config.delay }}
+        >
+          {config.label}
+        </motion.text>
+      )}
+    </g>
+  );
+}
+
+// CurrentLevelIndicator - center indicator showing current level
+interface CurrentLevelIndicatorProps {
+  currentLevel: number;
+  currentZone: 'comfort' | 'learning' | 'challenge';
+}
+
+function CurrentLevelIndicator({ currentLevel, currentZone }: CurrentLevelIndicatorProps) {
+  return (
+    <>
+      <motion.circle
+        cx="140"
+        cy="140"
+        r="15"
+        fill={KRASHEN_ZONES[currentZone].color}
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        transition={{ type: 'spring', stiffness: 300, damping: 20, delay: 0.5 }}
+      />
+      <motion.text
+        x="140"
+        y="145"
+        textAnchor="middle"
+        className="font-inter font-bold text-lg"
+        fill="white"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.6 }}
+      >
+        {Math.round(currentLevel)}
+      </motion.text>
+    </>
+  );
+}
+
+// InputLevelIndicator - shows input level relative to current level
+interface InputLevelIndicatorProps {
+  inputLevel: number;
+  appropriateness: 'optimal' | 'good' | 'too-hard' | 'too-easy';
+}
+
+function InputLevelIndicator({ inputLevel, appropriateness }: InputLevelIndicatorProps) {
+  const color = appropriateness === 'optimal' ? '#22C55E' : appropriateness === 'good' ? '#6366F1' : '#EF4444';
+
+  return (
+    <g>
+      <motion.line
+        x1="140"
+        y1="140"
+        x2="240"
+        y2="80"
+        stroke={color}
+        strokeWidth="2"
+        strokeDasharray="4 4"
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: 1 }}
+        transition={{ duration: 0.5, delay: 0.7 }}
+      />
+      <motion.circle
+        cx="240"
+        cy="80"
+        r="12"
+        fill={color}
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        transition={{ delay: 0.8 }}
+      />
+      <motion.text
+        x="240"
+        y="84"
+        textAnchor="middle"
+        className="font-inter font-semibold text-xs"
+        fill="white"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.9 }}
+      >
+        {inputLevel}
+      </motion.text>
+    </g>
+  );
+}
+
+// InputAppropriatenessBadge - shows badge with input level message
+interface InputAppropriatenessBadgeProps {
+  appropriateness: 'optimal' | 'good' | 'too-hard' | 'too-easy';
+}
+
+function InputAppropriatenessBadge({ appropriateness }: InputAppropriatenessBadgeProps) {
+  return (
+    <div className={`mt-3 px-4 py-2 rounded-lg text-sm font-medium ${getInputBadgeColor(appropriateness)}`}>
+      {getInputBadgeLabel(appropriateness)}
+    </div>
+  );
+}
+
+// ZoneLabel - label component for zones
+function ZoneLabel({ zone, isActive }: { zone: KrashenZone; isActive: boolean }) {
+  return (
+    <motion.div
+      className={`p-2 rounded-lg border-2 ${isActive ? '' : 'opacity-50'}`}
+      style={{
+        backgroundColor: isActive ? zone.color + '20' : 'transparent',
+        borderColor: zone.color,
+      }}
+      animate={isActive ? { scale: [1, 1.05, 1] } : {}}
+      transition={{ duration: 2, repeat: isActive ? Infinity : 0 }}
+    >
+      <div className="text-xs font-semibold" style={{ color: zone.color }}>
+        {zone.name}
+      </div>
+    </motion.div>
+  );
+}
+
+// CompactKrashenRings - compact variant without complex animations
+function CompactKrashenRings({ currentZone, size }: { currentZone: 'comfort' | 'learning' | 'challenge'; size: number }) {
+  return (
+    <div className="relative inline-block">
+      <svg width={size / 2} height={size / 2} viewBox="0 0 140 140">
+        <circle
+          cx="70"
+          cy="70"
+          r="65"
+          fill="none"
+          stroke={currentZone === 'challenge' ? KRASHEN_ZONES.challenge.color : '#FEE2E2'}
+          strokeWidth="8"
+          opacity={currentZone === 'challenge' ? 1 : 0.3}
+        />
+        <circle
+          cx="70"
+          cy="70"
+          r="50"
+          fill="none"
+          stroke={currentZone === 'learning' ? KRASHEN_ZONES.learning.color : '#DBEAFE'}
+          strokeWidth="8"
+          opacity={currentZone === 'learning' ? 1 : 0.5}
+        />
+        <circle
+          cx="70"
+          cy="70"
+          r="35"
+          fill="none"
+          stroke={currentZone === 'comfort' ? KRASHEN_ZONES.comfort.color : '#DCFCE7'}
+          strokeWidth="8"
+          opacity={currentZone === 'comfort' ? 1 : 0.7}
+        />
+        <motion.circle
+          cx="70"
+          cy="70"
+          r="8"
+          fill={KRASHEN_ZONES[currentZone].color}
+          animate={{ scale: [1, 1.2, 1] }}
+          transition={{ duration: 2, repeat: Infinity }}
+        />
+      </svg>
+    </div>
+  );
+}
+
+// ============================================================
+// MAIN COMPONENT
 // ============================================================
 
 /**
@@ -89,269 +366,54 @@ export function KrashenRings({
   variant = 'full',
   onZoneClick,
 }: KrashenRingsProps) {
-  // Determinar en qué zona se encuentra el estudiante
-  const currentZone = useMemo(() => {
-    if (currentLevel < 50) return 'comfort';
-    if (currentLevel < 80) return 'learning';
-    return 'challenge';
-  }, [currentLevel]);
+  const currentZone = getCurrentZone(currentLevel);
+  const inputAppropriateness = getInputAppropriateness(currentLevel, inputLevel);
 
-  // Determinar si el input es apropiado
-  const inputAppropriateness = useMemo(() => {
-    if (!inputLevel) return null;
-
-    const diff = Math.abs(inputLevel - currentLevel);
-
-    if (diff <= 15) return 'optimal'; // i+1 perfecto
-    if (diff <= 30) return 'good'; // aceptable
-    if (inputLevel > currentLevel + 30) return 'too-hard'; // i+3 o más
-    return 'too-easy'; // muy por debajo del nivel
-  }, [currentLevel, inputLevel]);
-
-  // Renderizado compacto (sin animaciones complejas)
+  // Compact variant
   if (variant === 'compact') {
     return (
-      <div className={`relative inline-block ${className}`}>
-        <svg width={size / 2} height={size / 2} viewBox="0 0 140 140">
-          {/* Anillo exterior - Zona de desafío */}
-          <circle
-            cx="70"
-            cy="70"
-            r="65"
-            fill="none"
-            stroke={currentZone === 'challenge' ? KRASHEN_ZONES.challenge.color : '#FEE2E2'}
-            strokeWidth="8"
-            opacity={currentZone === 'challenge' ? 1 : 0.3}
-          />
-          {/* Anillo medio - Zona de aprendizaje */}
-          <circle
-            cx="70"
-            cy="70"
-            r="50"
-            fill="none"
-            stroke={currentZone === 'learning' ? KRASHEN_ZONES.learning.color : '#DBEAFE'}
-            strokeWidth="8"
-            opacity={currentZone === 'learning' ? 1 : 0.5}
-          />
-          {/* Anillo interior - Zona de confort */}
-          <circle
-            cx="70"
-            cy="70"
-            r="35"
-            fill="none"
-            stroke={currentZone === 'comfort' ? KRASHEN_ZONES.comfort.color : '#DCFCE7'}
-            strokeWidth="8"
-            opacity={currentZone === 'comfort' ? 1 : 0.7}
-          />
-          {/* Indicador de nivel actual */}
-          <motion.circle
-            cx="70"
-            cy="70"
-            r="8"
-            fill={KRASHEN_ZONES[currentZone].color}
-            animate={{ scale: [1, 1.2, 1] }}
-            transition={{ duration: 2, repeat: Infinity }}
-          />
-        </svg>
+      <div className={className}>
+        <CompactKrashenRings currentZone={currentZone} size={size} />
       </div>
     );
   }
 
-  // Renderizado completo con animaciones
+  // Full variant with animations
   return (
     <div className={`relative flex flex-col items-center ${className}`}>
       <svg width={size} height={size} viewBox="0 0 280 280" className="overflow-visible">
-        {/* Definiciones de gradientes */}
-        <defs>
-          <linearGradient id="gradient-comfort" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#22C55E" stopOpacity="0.8" />
-            <stop offset="100%" stopColor="#16A34A" stopOpacity="0.9" />
-          </linearGradient>
-          <linearGradient id="gradient-learning" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#6366F1" stopOpacity="0.8" />
-            <stop offset="100%" stopColor="#4F46E5" stopOpacity="0.9" />
-          </linearGradient>
-          <linearGradient id="gradient-challenge" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#F59E0B" stopOpacity="0.8" />
-            <stop offset="100%" stopColor="#D97706" stopOpacity="0.9" />
-          </linearGradient>
-          <filter id="glow">
-            <feGaussianBlur stdDeviation="3" result="coloredBlur" />
-            <feMerge>
-              <feMergeNode in="coloredBlur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-        </defs>
+        <SvgDefinitions />
 
-        {/* Anillo exterior - Zona de desafío (i+2+) */}
-        <g
-          className="cursor-pointer"
+        {/* Rings */}
+        <KrashenRing
+          zone="challenge"
+          currentZone={currentZone}
+          showLabel={showLabels}
           onClick={() => onZoneClick?.('challenge')}
-        >
-          <motion.circle
-            cx="140"
-            cy="140"
-            r="130"
-            fill="none"
-            stroke="url(#gradient-challenge)"
-            strokeWidth="16"
-            opacity={currentZone === 'challenge' ? 1 : 0.25}
-            filter={currentZone === 'challenge' ? 'url(#glow)' : undefined}
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: currentZone === 'challenge' ? 1 : 0.25 }}
-            transition={{ duration: 0.5 }}
-          />
-          {showLabels && currentZone === 'challenge' && (
-            <motion.text
-              x="140"
-              y="35"
-              textAnchor="middle"
-              className="font-quicksand font-semibold text-sm"
-              fill="#F59E0B"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
-            >
-              i+2+
-            </motion.text>
-          )}
-        </g>
-
-        {/* Anillo medio - Zona de aprendizaje (i+1) */}
-        <g
-          className="cursor-pointer"
-          onClick={() => onZoneClick?.('learning')}
-        >
-          <motion.circle
-            cx="140"
-            cy="140"
-            r="100"
-            fill="none"
-            stroke="url(#gradient-learning)"
-            strokeWidth="16"
-            opacity={currentZone === 'learning' ? 1 : 0.5}
-            filter={currentZone === 'learning' ? 'url(#glow)' : undefined}
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: currentZone === 'learning' ? 1 : 0.5 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-          />
-          {showLabels && currentZone === 'learning' && (
-            <motion.text
-              x="140"
-              y="65"
-              textAnchor="middle"
-              className="font-quicksand font-semibold text-base"
-              fill="#6366F1"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4 }}
-            >
-              i+1
-            </motion.text>
-          )}
-        </g>
-
-        {/* Anillo interior - Zona de confort (i) */}
-        <g
-          className="cursor-pointer"
-          onClick={() => onZoneClick?.('comfort')}
-        >
-          <motion.circle
-            cx="140"
-            cy="140"
-            r="70"
-            fill="none"
-            stroke="url(#gradient-comfort)"
-            strokeWidth="16"
-            opacity={currentZone === 'comfort' ? 1 : 0.7}
-            filter={currentZone === 'comfort' ? 'url(#glow)' : undefined}
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: currentZone === 'comfort' ? 1 : 0.7 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          />
-          {showLabels && currentZone === 'comfort' && (
-            <motion.text
-              x="140"
-              y="95"
-              textAnchor="middle"
-              className="font-quicksand font-semibold text-sm"
-              fill="#22C55E"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-            >
-              i
-            </motion.text>
-          )}
-        </g>
-
-        {/* Indicador de nivel actual */}
-        <motion.circle
-          cx="140"
-          cy="140"
-          r="15"
-          fill={KRASHEN_ZONES[currentZone].color}
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ type: 'spring', stiffness: 300, damping: 20, delay: 0.5 }}
         />
-        <motion.text
-          x="140"
-          y="145"
-          textAnchor="middle"
-          className="font-inter font-bold text-lg"
-          fill="white"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6 }}
-        >
-          {Math.round(currentLevel)}
-        </motion.text>
+        <KrashenRing
+          zone="learning"
+          currentZone={currentZone}
+          showLabel={showLabels}
+          onClick={() => onZoneClick?.('learning')}
+        />
+        <KrashenRing
+          zone="comfort"
+          currentZone={currentZone}
+          showLabel={showLabels}
+          onClick={() => onZoneClick?.('comfort')}
+        />
 
-        {/* Indicador de input si está disponible */}
-        {inputLevel !== undefined && (
-          <g>
-            {/* Línea punteada al nivel de input */}
-            <motion.line
-              x1="140"
-              y1="140"
-              x2="240"
-              y2="80"
-              stroke={inputAppropriateness === 'optimal' ? '#22C55E' : inputAppropriateness === 'good' ? '#6366F1' : '#EF4444'}
-              strokeWidth="2"
-              strokeDasharray="4 4"
-              initial={{ pathLength: 0 }}
-              animate={{ pathLength: 1 }}
-              transition={{ duration: 0.5, delay: 0.7 }}
-            />
-            {/* Círculo de nivel de input */}
-            <motion.circle
-              cx="240"
-              cy="80"
-              r="12"
-              fill={inputAppropriateness === 'optimal' ? '#22C55E' : inputAppropriateness === 'good' ? '#6366F1' : '#EF4444'}
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.8 }}
-            />
-            <motion.text
-              x="240"
-              y="84"
-              textAnchor="middle"
-              className="font-inter font-semibold text-xs"
-              fill="white"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.9 }}
-            >
-              {inputLevel}
-            </motion.text>
-          </g>
+        {/* Current level indicator */}
+        <CurrentLevelIndicator currentLevel={currentLevel} currentZone={currentZone} />
+
+        {/* Input level indicator */}
+        {inputLevel !== undefined && inputAppropriateness && (
+          <InputLevelIndicator inputLevel={inputLevel} appropriateness={inputAppropriateness} />
         )}
       </svg>
 
-      {/* Labels descriptivos */}
+      {/* Zone labels */}
       {variant === 'full' && showLabels && (
         <div className="mt-4 grid grid-cols-3 gap-2 text-center">
           <ZoneLabel zone={KRASHEN_ZONES.comfort} isActive={currentZone === 'comfort'} />
@@ -360,49 +422,11 @@ export function KrashenRings({
         </div>
       )}
 
-      {/* Indicador de apropiación del input */}
+      {/* Input appropriateness badge */}
       {inputLevel !== undefined && inputAppropriateness && (
-        <div className={`mt-3 px-4 py-2 rounded-lg text-sm font-medium ${
-          inputAppropriateness === 'optimal'
-            ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300'
-            : inputAppropriateness === 'good'
-            ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
-            : inputAppropriateness === 'too-hard'
-            ? 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300'
-            : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300'
-        }`}>
-          {inputAppropriateness === 'optimal' && '✨ Nivel perfecto de input (i+1)'}
-          {inputAppropriateness === 'good' && '👍 Nivel apropiado'}
-          {inputAppropriateness === 'too-hard' && '⚠️ Material avanzado - necesitas apoyo'}
-          {inputAppropriateness === 'too-easy' && '📚 Material de repaso'}
-        </div>
+        <InputAppropriatenessBadge appropriateness={inputAppropriateness} />
       )}
     </div>
-  );
-}
-
-/**
- * ZoneLabel - Etiqueta de zona
- */
-function ZoneLabel({ zone, isActive }: { zone: KrashenZone; isActive: boolean }) {
-  return (
-    <motion.div
-      className={`p-2 rounded-lg border-2 ${
-        isActive
-          ? ''
-          : 'opacity-50'
-      }`}
-      style={{
-        backgroundColor: isActive ? zone.color + '20' : 'transparent',
-        borderColor: zone.color,
-      }}
-      animate={isActive ? { scale: [1, 1.05, 1] } : {}}
-      transition={{ duration: 2, repeat: isActive ? Infinity : 0 }}
-    >
-      <div className="text-xs font-semibold" style={{ color: zone.color }}>
-        {zone.name}
-      </div>
-    </motion.div>
   );
 }
 

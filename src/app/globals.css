@@ -463,8 +463,8 @@
 
 /* Selection - soft sage */
 ::selection {
-  background: rgba(114, 168, 125, 0.3);
-  color: white;
+  background: rgba(114, 168, 125, 0.5);
+  color: #1a202c;
 }
 
 /* ============================================

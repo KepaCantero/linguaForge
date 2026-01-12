@@ -1,14 +1,11 @@
 'use client';
 
-import { useEffect, useState, useMemo } from 'react';
-import { useRouter } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useEffect, useMemo, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
 import { useUserStore } from '@/store/useUserStore';
 import { useNodeProgressStore } from '@/store/useNodeProgressStore';
 import { useImportedNodesStore } from '@/store/useImportedNodesStore';
-import { useTreeProgressStore } from '@/store/useTreeProgressStore';
-import { getTranslations } from '@/i18n';
 import { TopicCard } from './components/TopicCard';
 import { TopicRow } from './components/TopicRow';
 import type { UnifiedTopic } from './types';
@@ -21,18 +18,14 @@ import { CATEGORIES, A0_COURSES, COMING_SOON_COURSES } from './types';
 export type { UnifiedTopic } from './types';
 
 export default function LearnPage() {
-  const router = useRouter();
   const { appLanguage } = useUserStore();
   const { nodes, initGuidedNodes, isNodeUnlocked } = useNodeProgressStore();
   const { nodes: importedNodes, deleteNode } = useImportedNodesStore();
-  const { treeProgress } = useTreeProgressStore();
-  const t = getTranslations(appLanguage);
   const [isMounted, setIsMounted] = useState(false);
 
   // UI State
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [selectedLevel, setSelectedLevel] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [showOnlyAvailable, setShowOnlyAvailable] = useState(false);
 

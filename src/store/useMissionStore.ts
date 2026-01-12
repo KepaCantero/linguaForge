@@ -5,34 +5,26 @@ import { useGamificationStore } from './useGamificationStore';
 import type { MissionType as WarmupMissionType } from '@/schemas/warmup';
 
 // ============================================================
-// CONSTANTES CLT (Cognitive Load Theory)
+// CONSTANTS (CLT - Cognitive Load Theory)
 // ============================================================
 
-/**
- * Umbrales de carga cognitiva para misiones
- * Basado en CLT: intrinsic (contenidos) + extraneous (distracciones) - germane (aprendizaje)
- */
 export const COGNITIVE_LOAD_THRESHOLDS = {
-  LOW: 30,      // Input pasivo, escucha/lectura
-  MEDIUM: 50,   // Ejercicios guiados
-  HIGH: 65,     // Construcción activa
-  VERY_HIGH: 75, // Integración compleja
+  LOW: 30,
+  MEDIUM: 50,
+  HIGH: 65,
+  VERY_HIGH: 75,
 } as const;
 
-/**
- * Tipos de calentamiento por tipo de misión
- * Mapeo basado en sistemas cerebrales activados
- */
 export const WARMUP_BY_MISSION_TYPE: Record<Mission['type'], WarmupMissionType> = {
-  input: 'vocabulary',    // Input activa vocabulario (sistema temporal)
-  exercises: 'grammar',    // Ejercicios activan gramática (sistema motor)
-  janus: 'grammar',        // Janus activa estructuras (Broca)
-  streak: 'mixed',         // Streak es variado
-  forgeMandate: 'mixed',   // Forge Mandate integra todo
+  input: 'vocabulary',
+  exercises: 'grammar',
+  janus: 'grammar',
+  streak: 'mixed',
+  forgeMandate: 'mixed',
 } as const;
 
 // ============================================================
-// TIPOS
+// TYPES
 // ============================================================
 
 export type MissionType =
@@ -56,14 +48,12 @@ export interface Mission {
   };
   completed: boolean;
   completedAt?: string;
-  // Campos para calentamientos
   warmupId?: string;
-  warmupMissionType?: WarmupMissionType; // 'grammar' | 'vocabulary' | 'pronunciation' | 'mixed'
+  warmupMissionType?: WarmupMissionType;
   difficulty?: 'low' | 'medium' | 'high';
-  // Campos CLT (Cognitive Load Theory)
-  cognitiveLoadTarget?: number;    // 0-100: Carga cognitiva esperada
-  estimatedMinutes?: number;       // Tiempo estimado
-  requiresFocus?: boolean;         // Si requiere modo focus
+  cognitiveLoadTarget?: number;
+  estimatedMinutes?: number;
+  requiresFocus?: boolean;
 }
 
 export interface MissionCompletion {
@@ -78,7 +68,7 @@ export interface MissionCompletion {
 
 interface MissionStore {
   dailyMissions: Mission[];
-  completedMissions: string[]; // IDs de misiones completadas hoy
+  completedMissions: string[];
   missionHistory: MissionCompletion[];
   lastGeneratedDate: string | null;
 
@@ -87,12 +77,15 @@ interface MissionStore {
   updateMissionProgress: (missionId: string, progress: number) => void;
   getMissionProgress: (missionId: string) => number;
   areAllMissionsComplete: () => boolean;
-  checkDailyHP: () => void; // Verificar y reducir HP si es necesario
-  
-  // Nuevos métodos para calentamientos
+  checkDailyHP: () => void;
+
   getWarmupForMission: (missionId: string) => { warmupId?: string; warmupMissionType?: WarmupMissionType } | null;
   setWarmupForMission: (missionId: string, warmupId: string, warmupMissionType: WarmupMissionType) => void;
 }
+
+// ============================================================
+// HELPER FUNCTIONS
+// ============================================================
 
 function getDateString(date: Date): string {
   const adjusted = new Date(date);
@@ -100,27 +93,54 @@ function getDateString(date: Date): string {
   return adjusted.toISOString().split('T')[0];
 }
 
-const generateMissionId = (type: string, index: number): string => {
+function generateMissionId(type: string, index: number): string {
   return `mission-${type}-${Date.now()}-${index}`;
-};
+}
 
-// ============================================================
-// HELPERS DE GENERACIÓN DE MISIONES
-// ============================================================
-
-/**
- * Obtiene la dificultad basada en el nivel del usuario
- */
 function getMissionDifficulty(userLevel: number): 'low' | 'medium' | 'high' {
   if (userLevel <= 3) return 'low';
   if (userLevel <= 6) return 'medium';
   return 'high';
 }
 
-/**
- * Genera misión de input (siempre presente)
- * CLT: Carga baja (input pasivo), requiere focus para retención
- */
+function shouldGenerateNewMissions(lastDate: string | null, todayStr: string, currentMissionsCount: number): boolean {
+  return lastDate !== todayStr || currentMissionsCount === 0;
+}
+
+function applyMissionRewards(mission: Mission): void {
+  const gamificationStore = useGamificationStore.getState();
+  gamificationStore.addXP(mission.reward.xp);
+  gamificationStore.addCoins(mission.reward.coins);
+  if (mission.reward.gems) {
+    gamificationStore.addGems(mission.reward.gems);
+  }
+  gamificationStore.recoverHP(HP_CONFIG.recoveryPerMission);
+}
+
+function createCompletion(missionId: string, reward: Mission['reward']): MissionCompletion {
+  return {
+    missionId,
+    completedAt: new Date().toISOString(),
+    rewardEarned: reward,
+  };
+}
+
+function updateMissionInList(
+  missions: Mission[],
+  missionId: string,
+  updater: (mission: Mission) => Mission
+): Mission[] {
+  return missions.map((m) => (m.id === missionId ? updater(m) : m));
+}
+
+function calculateHPPenalty(incompleteCount: number): number {
+  return incompleteCount * HP_CONFIG.dailyMissionHP;
+}
+
+// ============================================================
+// MISSION GENERATORS
+// ============================================================
+
 function generateInputMission(index: number, userLevel: number, difficulty: 'low' | 'medium' | 'high'): Mission {
   const targetMinutes = 5 + userLevel * 2;
   return {
@@ -140,10 +160,6 @@ function generateInputMission(index: number, userLevel: number, difficulty: 'low
   };
 }
 
-/**
- * Genera misión de ejercicios
- * CLT: Carga media (ejercicios activos), requiere focus
- */
 function generateExercisesMission(index: number, userLevel: number, difficulty: 'low' | 'medium' | 'high'): Mission {
   const targetCount = 3 + Math.floor(userLevel / 2);
   return {
@@ -163,10 +179,6 @@ function generateExercisesMission(index: number, userLevel: number, difficulty: 
   };
 }
 
-/**
- * Genera misión de Janus (solo si usuario tiene nivel suficiente)
- * CLT: Carga alta (construcción de frases), requiere focus profundo
- */
 function generateJanusMission(index: number, userLevel: number): Mission | null {
   if (userLevel < 2) return null;
 
@@ -188,10 +200,6 @@ function generateJanusMission(index: number, userLevel: number): Mission | null 
   };
 }
 
-/**
- * Genera misión de Forge Mandate (siempre presente)
- * CLT: Carga muy alta (integración de todo), requiere focus profundo
- */
 function generateForgeMandateMission(index: number): Mission {
   return {
     id: generateMissionId('forgeMandate', index),
@@ -210,6 +218,26 @@ function generateForgeMandateMission(index: number): Mission {
   };
 }
 
+function generateAllMissions(userLevel: number): Mission[] {
+  const missions: Mission[] = [];
+  const difficulty = getMissionDifficulty(userLevel);
+
+  missions.push(generateInputMission(0, userLevel, difficulty));
+  missions.push(generateExercisesMission(1, userLevel, difficulty));
+
+  const janusMission = generateJanusMission(2, userLevel);
+  if (janusMission) {
+    missions.push(janusMission);
+  }
+
+  missions.push(generateForgeMandateMission(missions.length));
+  return missions;
+}
+
+// ============================================================
+// STORE
+// ============================================================
+
 export const useMissionStore = create<MissionStore>()(
   persist(
     (set, get) => ({
@@ -222,33 +250,12 @@ export const useMissionStore = create<MissionStore>()(
         const state = get();
         const todayStr = getDateString(new Date());
 
-        // Si ya se generaron misiones hoy, no hacer nada
-        if (state.lastGeneratedDate === todayStr && state.dailyMissions.length > 0) {
+        if (!shouldGenerateNewMissions(state.lastGeneratedDate, todayStr, state.dailyMissions.length)) {
           return;
         }
 
-        // Obtener datos del usuario para generar misiones adaptativas
-        const gamificationState = useGamificationStore.getState();
-        const userLevel = gamificationState.level;
-        const difficulty = getMissionDifficulty(userLevel);
-
-        // Generar misiones usando funciones auxiliares
-        const missions: Mission[] = [];
-
-        // Misión 1: Input (siempre presente)
-        missions.push(generateInputMission(0, userLevel, difficulty));
-
-        // Misión 2: Ejercicios
-        missions.push(generateExercisesMission(1, userLevel, difficulty));
-
-        // Misión 3: Janus (solo si usuario tiene nivel suficiente)
-        const janusMission = generateJanusMission(2, userLevel);
-        if (janusMission) {
-          missions.push(janusMission);
-        }
-
-        // Misión 4: Forge Mandate (siempre presente)
-        missions.push(generateForgeMandateMission(missions.length));
+        const userLevel = useGamificationStore.getState().level;
+        const missions = generateAllMissions(userLevel);
 
         set({
           dailyMissions: missions,
@@ -263,66 +270,43 @@ export const useMissionStore = create<MissionStore>()(
 
         if (!mission || mission.completed) return;
 
-        const updatedMissions = state.dailyMissions.map((m) =>
-          m.id === missionId
-            ? {
-                ...m,
-                completed: true,
-                completedAt: new Date().toISOString(),
-              }
-            : m
-        );
-
-        const completedMissionIds = [...state.completedMissions, missionId];
-
-        // Agregar a historial
-        const completion: MissionCompletion = {
-          missionId,
+        const updatedMissions = updateMissionInList(state.dailyMissions, missionId, (m) => ({
+          ...m,
+          completed: true,
           completedAt: new Date().toISOString(),
-          rewardEarned: mission.reward,
-        };
+        }));
 
-        // Aplicar recompensas
-        const gamificationStore = useGamificationStore.getState();
-        gamificationStore.addXP(mission.reward.xp);
-        gamificationStore.addCoins(mission.reward.coins);
-        if (mission.reward.gems) {
-          gamificationStore.addGems(mission.reward.gems);
-        }
-
-        // Recuperar HP
-        gamificationStore.recoverHP(HP_CONFIG.recoveryPerMission);
+        applyMissionRewards(mission);
 
         set({
           dailyMissions: updatedMissions,
-          completedMissions: completedMissionIds,
-          missionHistory: [...state.missionHistory, completion],
+          completedMissions: [...state.completedMissions, missionId],
+          missionHistory: [...state.missionHistory, createCompletion(missionId, mission.reward)],
         });
       },
 
       updateMissionProgress: (missionId: string, progress: number) => {
         const state = get();
+        let shouldComplete = false;
+
         const updatedMissions = state.dailyMissions.map((m) => {
           if (m.id === missionId) {
             const newCurrent = Math.min(m.target, progress);
-            const isCompleted = newCurrent >= m.target && !m.completed;
-            
-            if (isCompleted) {
-              // Completar automáticamente si alcanza el target
-              get().completeMission(missionId);
-            }
-            
+            shouldComplete = newCurrent >= m.target && !m.completed;
             return { ...m, current: newCurrent };
           }
           return m;
         });
 
         set({ dailyMissions: updatedMissions });
+
+        if (shouldComplete) {
+          get().completeMission(missionId);
+        }
       },
 
       getMissionProgress: (missionId: string) => {
-        const state = get();
-        const mission = state.dailyMissions.find((m) => m.id === missionId);
+        const mission = get().dailyMissions.find((m) => m.id === missionId);
         if (!mission) return 0;
         return (mission.current / mission.target) * 100;
       },
@@ -336,30 +320,24 @@ export const useMissionStore = create<MissionStore>()(
         const state = get();
         const todayStr = getDateString(new Date());
 
-        // Solo verificar si es un nuevo día
         if (state.lastGeneratedDate === todayStr) return;
 
-        // Verificar misiones del día anterior
         const yesterdayStr = getDateString(new Date(Date.now() - 24 * 60 * 60 * 1000));
-        
+
         if (state.lastGeneratedDate === yesterdayStr) {
-          const incompleteMissions = state.dailyMissions.filter((m) => !m.completed);
-          const hpToReduce = incompleteMissions.length * HP_CONFIG.dailyMissionHP;
+          const incompleteCount = state.dailyMissions.filter((m) => !m.completed).length;
+          const hpToReduce = calculateHPPenalty(incompleteCount);
 
           if (hpToReduce > 0) {
-            const gamificationStore = useGamificationStore.getState();
-            gamificationStore.reduceHP(hpToReduce);
+            useGamificationStore.getState().reduceHP(hpToReduce);
           }
         }
 
-        // Generar nuevas misiones para hoy
         get().generateDailyMissions();
       },
-      
-      // Obtener información de calentamiento para una misión
+
       getWarmupForMission: (missionId: string) => {
-        const state = get();
-        const mission = state.dailyMissions.find(m => m.id === missionId);
+        const mission = get().dailyMissions.find((m) => m.id === missionId);
         if (!mission) return null;
 
         return {
@@ -367,17 +345,15 @@ export const useMissionStore = create<MissionStore>()(
           ...(mission.warmupMissionType !== undefined && { warmupMissionType: mission.warmupMissionType }),
         };
       },
-      
-      // Establecer calentamiento para una misión
+
       setWarmupForMission: (missionId: string, warmupId: string, warmupMissionType: WarmupMissionType) => {
-        const state = get();
-        const updatedMissions = state.dailyMissions.map(m =>
-          m.id === missionId
-            ? { ...m, warmupId, warmupMissionType }
-            : m
-        );
-        
-        set({ dailyMissions: updatedMissions });
+        set((state) => ({
+          dailyMissions: updateMissionInList(state.dailyMissions, missionId, (m) => ({
+            ...m,
+            warmupId,
+            warmupMissionType,
+          })),
+        }));
       },
     }),
     {
@@ -385,4 +361,3 @@ export const useMissionStore = create<MissionStore>()(
     }
   )
 );
-

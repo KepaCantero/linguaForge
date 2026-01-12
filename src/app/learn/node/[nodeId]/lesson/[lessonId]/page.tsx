@@ -1,12 +1,12 @@
 'use client';
 
 import { useParams, useRouter } from 'next/navigation';
-import { useCallback, useState, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useCallback, useMemo, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useLesson } from '@/hooks/useLesson';
 import { useGamificationStore } from '@/store/useGamificationStore';
 import { WarmupGate } from '@/components/warmups';
-import type { MissionType, Difficulty } from '@/schemas/warmup';
+import type { Difficulty, MissionType } from '@/schemas/warmup';
 
 // Exercise components
 import { ClozeExercise } from '@/components/exercises/ClozeExercise';
@@ -19,13 +19,13 @@ import { JanusComposerExercise } from '@/components/exercises/JanusComposerExerc
 import { ShadowingExercise } from '@/components/exercises/ShadowingExercise';
 
 import type {
-  LessonContent,
-  Phrase,
-  Vocabulary,
-  PragmaStrike,
   ConversationalEcho,
   DialogueIntonation,
   JanusComposer,
+  LessonContent,
+  Phrase,
+  PragmaStrike,
+  Vocabulary,
 } from '@/types';
 
 // Exercise category with items
@@ -212,27 +212,19 @@ function buildExerciseCategories(lessonContent: LessonContent): ExerciseCategory
   }
 
   // Shadowing from conversational blocks
-  const shadowingItems: Array<{ id: string; type: string; data: unknown }> = [];
-  if (lessonContent.conversationalBlocks) {
-    lessonContent.conversationalBlocks.forEach((block) => {
-      block.phrases.forEach((phrase, i) => {
-        if (phrase.audioUrl) {
-          shadowingItems.push({ id: `shadow-${block.id}-${i}`, type: 'shadowing', data: phrase });
-        }
-      });
-    });
-  }
+  const shadowingItems = lessonContent.conversationalBlocks?.flatMap((block) =>
+    block.phrases
+      .filter((phrase) => phrase.audioUrl)
+      .map((phrase, i) => ({ id: `shadow-${block.id}-${i}`, type: 'shadowing' as const, data: phrase }))
+  ) ?? [];
+
   // Variations
-  const variationItems: Array<{ id: string; type: string; data: unknown }> = [];
-  if (lessonContent.conversationalBlocks) {
-    lessonContent.conversationalBlocks.forEach((block) => {
-      block.phrases.forEach((phrase, i) => {
-        if (phrase.variations && phrase.variations.length > 0) {
-          variationItems.push({ id: `var-${block.id}-${i}`, type: 'variations', data: phrase });
-        }
-      });
-    });
-  }
+  const variationItems = lessonContent.conversationalBlocks?.flatMap((block) =>
+    block.phrases
+      .filter((phrase) => phrase.variations && phrase.variations.length > 0)
+      .map((phrase, i) => ({ id: `var-${block.id}-${i}`, type: 'variations' as const, data: phrase }))
+  ) ?? [];
+
   if (variationItems.length > 0) {
     categories.push({
       id: 'variations',

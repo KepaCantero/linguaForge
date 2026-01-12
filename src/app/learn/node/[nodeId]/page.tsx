@@ -3,7 +3,7 @@
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useMemo } from 'react';
 import { useUserStore } from '@/store/useUserStore';
-import { useNodeProgressStore, useNodeProgress } from '@/store/useNodeProgressStore';
+import { useNodeProgress, useNodeProgressStore } from '@/store/useNodeProgressStore';
 import { getTranslations } from '@/i18n';
 import { GUIDED_NODES } from '@/components/learn/CourseMap';
 

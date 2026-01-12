@@ -8,7 +8,7 @@ import { FocusModeStyles } from '@/components/exercises/FocusModeStyles';
 import { ExercisesLoadingState } from '@/components/exercises/ExercisesLoadingState';
 import { ExercisesNotFoundState } from '@/components/exercises/ExercisesNotFoundState';
 import { ExerciseSelectedView } from '@/components/exercises/ExerciseSelectedView';
-import { useExerciseFlow, type ExerciseType, type LessonMode } from '@/hooks/useExerciseFlow';
+import { type ExerciseType, type LessonMode, useExerciseFlow } from '@/hooks/useExerciseFlow';
 import { useWarmupHandler } from '@/hooks/useWarmupHandler';
 import { useFocusMode } from '@/hooks/useFocusMode';
 import { useExerciseProgression } from '@/hooks/useExerciseProgression';

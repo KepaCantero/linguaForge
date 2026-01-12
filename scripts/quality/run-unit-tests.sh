@@ -118,7 +118,7 @@ if npm run test:coverage -- --run \
     print_success "Reporte de cobertura generado"
 
     # Extraer métricas de cobertura si existe el archivo JSON
-    if [ -f "coverage/coverage-summary.json" ]; then
+    if [[ -f "coverage/coverage-summary.json" ]]; then
         print_info "Métricas de cobertura:"
 
         # Extraer porcentajes usando Node.js
@@ -139,7 +139,7 @@ if npm run test:coverage -- --run \
         COVERAGE_PCT=$(node -e "console.log(JSON.parse(require('fs').readFileSync('coverage/coverage-summary.json', 'utf-8')).total.lines.pct)" 2>/dev/null || echo "0")
         COVERAGE_INT=$(echo "$COVERAGE_PCT" | cut -d'.' -f1)
 
-        if [ "$COVERAGE_INT" -lt 70 ]; then
+        if [[ "$COVERAGE_INT" -lt 70 ]]; then
             print_error "Cobertura insuficiente: ${COVERAGE_PCT}% (mínimo: 70%)"
             COVERAGE_STATUS=1
         else
@@ -168,7 +168,7 @@ SECONDS=$((DURATION % 60))
 echo -e "${CYAN}Duración: ${MINUTES}m ${SECONDS}s${NC}"
 echo -e "Reporte guardado en: ${REPORT_FILE}"
 
-if [ -f "coverage/index.html" ]; then
+if [[ -f "coverage/index.html" ]]; then
     echo -e "Reporte HTML: coverage/index.html"
 fi
 
@@ -176,16 +176,16 @@ fi
 # 5️⃣ EXIT CODE
 # ============================================================================
 echo ""
-if [ $UNIT_TESTS_STATUS -eq 0 ] && [ $COVERAGE_STATUS -eq 0 ]; then
+if [[ $UNIT_TESTS_STATUS -eq 0 ]] && [[ $COVERAGE_STATUS -eq 0 ]]; then
     print_success "UNIT TESTS: COMPLETADOS CON ÉXITO"
     echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     exit 0
 else
     print_error "UNIT TESTS: FALLADOS"
-    if [ $UNIT_TESTS_STATUS -ne 0 ]; then
+    if [[ $UNIT_TESTS_STATUS -ne 0 ]]; then
         echo -e "  • Tests fallaron"
     fi
-    if [ $COVERAGE_STATUS -ne 0 ]; then
+    if [[ $COVERAGE_STATUS -ne 0 ]]; then
         echo -e "  • Cobertura insuficiente"
     fi
     echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"

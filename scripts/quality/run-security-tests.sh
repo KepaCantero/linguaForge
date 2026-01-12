@@ -82,7 +82,7 @@ if npm audit --audit-level=high --json > "${REPORT_DIR}/npm-audit-${TIMESTAMP}.j
     print_success "npm audit: Sin vulnerabilidades high/critical ✅"
 
     # Extraer métricas del JSON
-    if [ -f "${REPORT_DIR}/npm-audit-${TIMESTAMP}.json" ]; then
+    if [[ -f "${REPORT_DIR}/npm-audit-${TIMESTAMP}.json" ]]; then
         VULN_INFO=$(node -e "
             const fs = require('fs');
             const data = JSON.parse(fs.readFileSync('${REPORT_DIR}/npm-audit-${TIMESTAMP}.json', 'utf-8'));
@@ -94,7 +94,7 @@ if npm audit --audit-level=high --json > "${REPORT_DIR}/npm-audit-${TIMESTAMP}.j
             }
         " 2>/dev/null || echo "")
 
-        if [ -n "$VULN_INFO" ]; then
+        if [[ -n "$VULN_INFO" ]]; then
             echo -e "${CYAN}${VULN_INFO}${NC}"
         fi
     fi
@@ -102,7 +102,7 @@ else
     print_warning "npm audit: Se detectaron vulnerabilidades"
 
     # Extraer número de vulnerabilidades
-    if [ -f "${REPORT_DIR}/npm-audit-${TIMESTAMP}.json" ]; then
+    if [[ -f "${REPORT_DIR}/npm-audit-${TIMESTAMP}.json" ]]; then
         VULN_COUNTS=$(node -e "
             const fs = require('fs');
             const data = JSON.parse(fs.readFileSync('${REPORT_DIR}/npm-audit-${TIMESTAMP}.json', 'utf-8'));
@@ -124,7 +124,7 @@ else
 
         echo -e "${YELLOW}${VULN_COUNTS}${NC}"
 
-        if [ "$HIGH_COUNT" -gt 0 ] || [ "$CRITICAL_COUNT" -gt 0 ]; then
+        if [[ "$HIGH_COUNT" -gt 0 ]] || [[ "$CRITICAL_COUNT" -gt 0 ]]; then
             print_error "Vulnerabilidades detectadas:"
             echo -e "  • High: ${HIGH_COUNT}"
             echo -e "  • Critical: ${CRITICAL_COUNT}"
@@ -204,7 +204,7 @@ elif command -v docker &> /dev/null; then
             --output-file "/zap/wrk/zap-report-${TIMESTAMP}.html" \
             "${API_BASE_URL}" 2>&1 | tee -a "${REPORT_FILE}" || true
 
-        if [ -f "${REPORT_DIR}/zap-report-${TIMESTAMP}.html" ]; then
+        if [[ -f "${REPORT_DIR}/zap-report-${TIMESTAMP}.html" ]]; then
             print_success "ZAP reporte generado ✅"
         else
             print_warning "No se pudo generar reporte ZAP"
@@ -234,10 +234,10 @@ SECRETS_FOUND=$(grep -rnE "$SECRETS_PATTERN" src/ \
     --exclude-dir={mocks,fixtures,stories} \
     2>/dev/null || echo "")
 
-if [ -n "$SECRETS_FOUND" ]; then
+if [[ -n "$SECRETS_FOUND" ]]; then
     print_error "Posibles secretos expuestos:"
     echo "$SECRETS_FOUND" | head -5
-    if [ $(echo "$SECRETS_FOUND" | wc -l) -gt 5 ]; then
+    if [[ $(echo "$SECRETS_FOUND" | wc -l) -gt 5 ]]; then
         echo "  ... y más"
     fi
     ((TOTAL_SECURITY_ISSUES++))
@@ -252,7 +252,7 @@ print_header "📄 ARCHIVOS .ENV"
 
 print_info "Verificando archivos de entorno..."
 
-if [ -f ".env.local" ] || [ -f ".env.production.local" ]; then
+if [[ -f ".env.local" ]] || [[ -f ".env.production.local" ]]; then
     print_error "Archivos .env sensibles detectados"
     print_warning "Asegura que están en .gitignore"
 
@@ -303,10 +303,10 @@ echo -e "  • Issues:    ${YELLOW}${TOTAL_SECURITY_ISSUES}${NC}"
 echo ""
 echo -e "${CYAN}Reportes generados:${NC}"
 echo -e "  • npm-audit: ${REPORT_DIR}/npm-audit-${TIMESTAMP}.json"
-if [ -f "${REPORT_DIR}/snyk-${TIMESTAMP}.json" ]; then
+if [[ -f "${REPORT_DIR}/snyk-${TIMESTAMP}.json" ]]; then
     echo -e "  • Snyk:      ${REPORT_DIR}/snyk-${TIMESTAMP}.json"
 fi
-if [ -f "${REPORT_DIR}/zap-report-${TIMESTAMP}.html" ]; then
+if [[ -f "${REPORT_DIR}/zap-report-${TIMESTAMP}.html" ]]; then
     echo -e "  • ZAP:       ${REPORT_DIR}/zap-report-${TIMESTAMP}.html"
 fi
 
@@ -319,12 +319,12 @@ TOTAL_CRITICAL_VULNERABILITIES=${TOTAL_CRITICAL_VULNERABILITIES:-0}
 TOTAL_HIGH_VULNERABILITIES=${TOTAL_HIGH_VULNERABILITIES:-0}
 TOTAL_SECURITY_ISSUES=${TOTAL_SECURITY_ISSUES:-0}
 
-if [ $TOTAL_CRITICAL_VULNERABILITIES -gt 0 ]; then
+if [[ $TOTAL_CRITICAL_VULNERABILITIES -gt 0 ]]; then
     print_error "SECURITY TESTS: CRITICAL VULNERABILITIES DETECTADAS"
     echo -e "${RED}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     print_info "Corrige las vulnerabilidades críticas antes de continuar"
     exit 1
-elif [ $TOTAL_HIGH_VULNERABILITIES -gt 0 ] || [ $TOTAL_SECURITY_ISSUES -gt 0 ]; then
+elif [[ $TOTAL_HIGH_VULNERABILITIES -gt 0 ]] || [[ $TOTAL_SECURITY_ISSUES -gt 0 ]]; then
     print_warning "SECURITY TESTS: ISSUES DETECTADOS"
     echo -e "${YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     print_info "Revisa los reportes y corrige los issues"

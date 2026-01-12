@@ -9,17 +9,17 @@
  */
 
 import { useState, useCallback, useRef } from 'react';
-import { motion, useMotionValue, useTransform, useSpring, PanInfo } from 'framer-motion';
+import { motion, PanInfo, type MotionValue } from 'framer-motion';
 import {
   type TextureType,
   type LearningContext,
   getTextureForContext,
   getTextureByType,
-  getPhysicsConfig,
   type TextureProperties,
 } from '@/lib/textures';
 import { useHaptic } from '@/lib/haptic';
 import { useSoundEngine } from '@/lib/soundEngine';
+import { useCardMotion } from './hooks/useCardMotion';
 import { SwipeIndicators } from './SwipeIndicators';
 import { CardFace } from './CardFace';
 
@@ -50,7 +50,7 @@ export interface EpisodicCardProps {
   onTap?: () => void;
   disabled?: boolean;
   className?: string;
-  isFocusMode?: boolean; // New prop for focus mode styling
+  isFocusMode?: boolean;
 }
 
 // ============================================
@@ -58,7 +58,6 @@ export interface EpisodicCardProps {
 // ============================================
 
 const SWIPE_THRESHOLD = 100;
-const ROTATION_RANGE = 15;
 const CARD_WIDTH = 320;
 const CARD_HEIGHT = 200;
 
@@ -82,7 +81,7 @@ export function EpisodicCard({
   const [isDragging, setIsDragging] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
-  // Hooks
+  // Custom hooks
   const haptic = useHaptic();
   const sound = useSoundEngine();
 
@@ -91,38 +90,8 @@ export function EpisodicCard({
     ? getTextureByType(textureType)
     : getTextureForContext(content.context);
 
-  // Configuración de física basada en textura
-  const physicsConfig = getPhysicsConfig(texture);
-
-  // Motion values
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const rotateY = useMotionValue(0);
-
-  // Transformaciones basadas en posición X
-  const rotate = useTransform(x, [-200, 0, 200], [-ROTATION_RANGE, 0, ROTATION_RANGE]);
-  const scale = useTransform(
-    x,
-    [-200, -100, 0, 100, 200],
-    [0.95, 0.98, 1, 0.98, 0.95]
-  );
-
-  // Indicadores de swipe
-  const leftIndicatorOpacity = useTransform(x, [-SWIPE_THRESHOLD, 0], [1, 0]);
-  const rightIndicatorOpacity = useTransform(x, [0, SWIPE_THRESHOLD], [0, 1]);
-
-  // Spring para animaciones suaves
-  const springX = useSpring(x, physicsConfig);
-  const springY = useSpring(y, physicsConfig);
-  const springRotateY = useSpring(rotateY, {
-    stiffness: 200,
-    damping: 30,
-  });
-
-  // Sombra dinámica basada en elevación
-  const shadowY = useTransform(y, [-50, 0, 50], [20, 12, 4]);
-  const shadowBlur = useTransform(y, [-50, 0, 50], [30, 20, 10]);
-  const shadowOpacity = useTransform(y, [-50, 0, 50], [0.3, 0.15, 0.05]);
+  // Motion values - agrupados en custom hook
+  const cardMotion = useCardMotion(texture);
 
   // ============================================
   // HANDLERS
@@ -133,14 +102,14 @@ export function EpisodicCard({
 
     const newFlipped = !isFlipped;
     setIsFlipped(newFlipped);
-    rotateY.set(newFlipped ? 180 : 0);
+    cardMotion.rotateY.set(newFlipped ? 180 : 0);
 
     // Feedback
     haptic.cardFlip();
     sound.playCardFlip();
 
     onFlip?.(newFlipped);
-  }, [isFlipped, disabled, rotateY, haptic, sound, onFlip]);
+  }, [disabled, isFlipped, cardMotion, haptic, sound, onFlip]);
 
   const handleDragStart = useCallback(() => {
     if (disabled) return;
@@ -170,12 +139,12 @@ export function EpisodicCard({
         onSwipeRight();
       } else {
         // Volver a posición original
-        x.set(0);
-        y.set(0);
+        cardMotion.x.set(0);
+        cardMotion.y.set(0);
         haptic.tap();
       }
     },
-    [disabled, x, y, haptic, sound, onSwipeLeft, onSwipeRight]
+    [disabled, cardMotion, haptic, sound, onSwipeLeft, onSwipeRight]
   );
 
   const handleTap = useCallback(() => {
@@ -199,19 +168,19 @@ export function EpisodicCard({
   return (
     <div className={`relative ${className}`} style={cardStyle}>
       <SwipeIndicators
-        leftIndicatorOpacity={leftIndicatorOpacity}
-        rightIndicatorOpacity={rightIndicatorOpacity}
+        leftIndicatorOpacity={cardMotion.leftIndicatorOpacity}
+        rightIndicatorOpacity={cardMotion.rightIndicatorOpacity}
       />
 
       <motion.div
         ref={cardRef}
         className={`select-none ${!disabled ? 'cursor-grab active:cursor-grabbing' : ''}`}
         style={{
-          x: springX,
-          y: springY,
-          rotate,
-          scale,
-          rotateY: springRotateY,
+          x: cardMotion.springX,
+          y: cardMotion.springY,
+          rotate: cardMotion.rotate,
+          scale: cardMotion.scale,
+          rotateY: cardMotion.springRotateY,
           transformStyle: 'preserve-3d',
           cursor: !disabled ? 'grab' : 'default',
         }}
@@ -229,11 +198,7 @@ export function EpisodicCard({
         <motion.div
           className="absolute inset-0 rounded-2xl"
           style={{
-            boxShadow: useTransform(
-              [shadowY, shadowBlur, shadowOpacity],
-              ([sy, sb, so]) =>
-                `0 ${sy}px ${sb}px rgba(0, 0, 0, ${so})`
-            ),
+            boxShadow: cardMotion.shadowTransform,
             zIndex: -1,
           }}
         />

@@ -1,0 +1,5895 @@
+src/app/dashboard/page.tsx
+
+
+This conditional operation returns the same value whether the condition is "true" or "false".
+
+Intentionality
+Reliability
+
+
+2
+Medium
+No tags
++
+Open
+Not assigned
+L30
+15min effort
+7 hours ago
+Bug
+Major
+src/app/decks/review/hooks/reviewHelpers.ts
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L8
+5min effort
+7 hours ago
+Code Smell
+Major
+src/app/decks/review/hooks/useReviewHandlers.ts
+
+
+Provide multiple methods instead of using "isCorrect" to determine which action to take.
+
+Adaptability
+Maintainability
+
+
+2
+Medium
+design
+type-dependent
++
+Open
+Not assigned
+L8
+15min effort
+7 hours ago
+Code Smell
+Major
+
+
+Provide multiple methods instead of using "isCorrect" to determine which action to take.
+
+Adaptability
+Maintainability
+
+
+2
+Medium
+design
+type-dependent
++
+Open
+Not assigned
+L12
+15min effort
+7 hours ago
+Code Smell
+Major
+src/app/globals.css
+
+
+Text does not meet the minimal contrast requirement with its background.
+
+Consistency
+Maintainability
+
+
+2
+Medium
+accessibility
+contrast
+...
++
+Open
+Not assigned
+L467
+5min effort
+7 hours ago
+Code Smell
+Major
+src/app/input/components/InputHubOrbital.tsx
+
+
+Use <section aria-label=...>, or <section aria-labelledby=...> instead of the "region" role to ensure accessibility across all devices.
+
+Consistency
+Maintainability
+
+
+2
+Medium
+accessibility
+react
++
+Open
+Not assigned
+L16
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Refactor this code to not use nested template literals.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+brain-overload
+confusing
++
+Open
+Not assigned
+L125
+10min effort
+7 hours ago
+Code Smell
+Major
+
+
+Do not use Array index in keys
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+jsx
+performance
+...
++
+Open
+Not assigned
+L196
+5min effort
+7 hours ago
+Code Smell
+Major
+src/app/input/video/page.tsx
+
+
+Prefer using an optional chain expression instead, as it's more concise and easier to read.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+No tags
++
+Open
+Not assigned
+L28
+5min effort
+7 hours ago
+Code Smell
+Major
+src/app/learn/components/TopicRow.tsx
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L42
+5min effort
+7 hours ago
+Code Smell
+Major
+src/.../[nodeId]/practice/components/ModeCard.tsx
+
+
+Do not use Array index in keys
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+jsx
+performance
+...
++
+Open
+Not assigned
+L168
+5min effort
+7 hours ago
+Code Smell
+Major
+src/.../[nodeId]/lesson/[lessonId]/page.tsx
+
+
+Either use this collection's contents or remove the collection.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+suspicious
+unused
++
+Open
+Not assigned
+L215
+2min effort
+7 hours ago
+Code Smell
+Major
+src/app/learn/page.tsx
+
+
+Remove this useless assignment to variable "router".
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+cwe
+unused
++
+Open
+Not assigned
+L24
+1min effort
+7 hours ago
+Code Smell
+Major
+
+
+Remove this useless assignment to variable "deleteNode".
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+cwe
+unused
++
+Open
+Not assigned
+L27
+1min effort
+7 hours ago
+Code Smell
+Major
+
+
+Remove this useless assignment to variable "treeProgress".
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+cwe
+unused
++
+Open
+Not assigned
+L28
+1min effort
+7 hours ago
+Code Smell
+Major
+
+
+Remove this useless assignment to variable "t".
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+cwe
+unused
++
+Open
+Not assigned
+L29
+1min effort
+7 hours ago
+Code Smell
+Major
+
+
+Remove this useless assignment to variable "selectedLevel".
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+cwe
+unused
++
+Open
+Not assigned
+L35
+1min effort
+7 hours ago
+Code Smell
+Major
+
+
+Remove this useless assignment to variable "setSelectedLevel".
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+cwe
+unused
++
+Open
+Not assigned
+L35
+1min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L396
+5min effort
+7 hours ago
+Code Smell
+Major
+src/app/onboarding/page.tsx
+
+
+Do not use Array index in keys
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+jsx
+performance
+...
++
+Open
+Not assigned
+L202
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Do not use Array index in keys
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+jsx
+performance
+...
++
+Open
+Not assigned
+L233
+5min effort
+7 hours ago
+Code Smell
+Major
+src/app/page.tsx
+
+
+Do not use Array index in keys
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+jsx
+performance
+...
++
+Open
+Not assigned
+L114
+5min effort
+7 hours ago
+Code Smell
+Major
+src/app/profile/page.tsx
+
+
+Ambiguous spacing after previous element span
+
+Consistency
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L140
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Ambiguous spacing after previous element span
+
+Consistency
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L214
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L234
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Ambiguous spacing after previous element span
+
+Consistency
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L269
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Ambiguous spacing after previous element span
+
+Consistency
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L380
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/animations/LinguaForgeAnimations.tsx
+
+
+Do not use Array index in keys
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+jsx
+performance
+...
++
+Open
+Not assigned
+L354
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/auth/LoginForm.tsx
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L185
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L188
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/construction/Construction3D.tsx
+
+
+Unknown property 'args' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L172
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'args' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L174
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'args' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L176
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'args' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L178
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'args' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L180
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'args' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L182
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'position' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L189
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'rotation' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L190
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'castShadow' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L195
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'receiveShadow' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L196
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'roughness' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L201
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'metalness' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L202
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'emissive' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L203
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'emissiveIntensity' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L204
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'transparent' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L205
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'rotation' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L218
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'position' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L218
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'receiveShadow' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L218
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'args' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L219
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'args' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L244
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'position' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L245
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'intensity' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L284
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'position' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L286
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'intensity' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L287
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'castShadow' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L288
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'shadow-mapSize' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L289
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'shadow-camera-far' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L290
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'shadow-camera-left' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L291
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'shadow-camera-right' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L292
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'shadow-camera-top' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L293
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'shadow-camera-bottom' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L294
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'position' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L296
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'intensity' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L296
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'intensity' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L424
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'position' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L425
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'intensity' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L425
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/construction/ConstructionHeader.tsx
+
+
+Ambiguous spacing after previous element span
+
+Consistency
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L39
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/construction/ConstructionMilestones.tsx
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L176
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L178
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Review this redundant assignment: "progress" already holds the assigned value along all execution paths.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+redundant
++
+Open
+Not assigned
+L440
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/construction/MaterialGallery.tsx
+
+
+Unknown property 'receiveShadow' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L130
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'castShadow' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L130
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'args' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L131
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'object' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L132
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'attach' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L132
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'intensity' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L147
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'position' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L148
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'intensity' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L148
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'castShadow' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L148
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'position' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L149
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'intensity' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L149
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/construction/WelcomeModal.tsx
+
+
+Ambiguous spacing after previous element span
+
+Consistency
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L35
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Ambiguous spacing after previous element span
+
+Consistency
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L39
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Ambiguous spacing after previous element span
+
+Consistency
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L43
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/decks/DeckCard.tsx
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L20
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/exercises/BlockBuilderExercise.tsx
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L120
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/exercises/BlockSwapExercise.tsx
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L81
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L84
+5min effort
+7 hours ago
+Code Smell
+Major
+src/.../ClozeExercise/components/ClozeControls.tsx
+
+
+Provide multiple methods instead of using "showResult" to determine which action to take.
+
+Adaptability
+Maintainability
+
+
+2
+Medium
+design
+type-dependent
++
+Open
+Not assigned
+L45
+15min effort
+7 hours ago
+Code Smell
+Major
+src/.../ClozeExercise/components/ClozeInput.tsx
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L22
+5min effort
+7 hours ago
+Code Smell
+Major
+src/.../ClozeExercise/components/ClozePhrase.tsx
+
+
+Do not use Array index in keys
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+jsx
+performance
+...
++
+Open
+Not assigned
+L49
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/exercises/DialogueIntonationExercise.tsx
+
+
+Remove this useless assignment to variable "userRhythmPattern".
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+cwe
+unused
++
+Open
+Not assigned
+L33
+1min effort
+7 hours ago
+Code Smell
+Major
+
+
+Remove this useless assignment to variable "currentSimilarity".
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+cwe
+unused
++
+Open
+Not assigned
+L34
+1min effort
+7 hours ago
+Code Smell
+Major
+
+
+Do not use Array index in keys
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+jsx
+performance
+...
++
+Open
+Not assigned
+L186
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/exercises/FocusModeStyles.tsx
+
+
+Unknown property 'jsx' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L8
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'global' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L8
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/exercises/InteractiveSpeechExercise.tsx
+
+
+Remove this useless assignment to variable "startWaitingForResponse".
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+cwe
+unused
++
+Open
+Not assigned
+L91
+1min effort
+7 hours ago
+Code Smell
+Major
+
+
+Do not use Array index in keys
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+jsx
+performance
+...
++
+Open
+Not assigned
+L218
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/exercises/JanusComposerExercise.tsx
+
+
+Remove this useless assignment to variable "moveFocusToColumn".
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+cwe
+unused
++
+Open
+Not assigned
+L242
+1min effort
+7 hours ago
+Code Smell
+Major
+
+
+Remove this useless assignment to variable "moveFocusToOption".
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+cwe
+unused
++
+Open
+Not assigned
+L259
+1min effort
+7 hours ago
+Code Smell
+Major
+src/.../exercises/MemoryBank/CardFace.tsx
+
+
+Do not use Array index in keys
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+jsx
+performance
+...
++
+Open
+Not assigned
+L80
+5min effort
+7 hours ago
+Code Smell
+Major
+src/.../exercises/MemoryBank/MemoryBankSession.tsx
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L218
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L229
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/exercises/PragmaStrikeExercise.tsx
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L189
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L191
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L269
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/exercises/ShadowingExercise.tsx
+
+
+Do not use Array index in keys
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+jsx
+performance
+...
++
+Open
+Not assigned
+L155
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/exercises/VariationsExercise.tsx
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L87
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L267
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/exercises/VocabularyExercise.tsx
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L100
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L102
+5min effort
+7 hours ago
+Code Smell
+Major
+src/.../exercises/conversational/FeedbackDisplay.tsx
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L26
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L27
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L28
+5min effort
+7 hours ago
+Code Smell
+Major
+src/.../exercises/conversational/RespondingPhase.tsx
+
+
+Do not use Array index in keys
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+jsx
+performance
+...
++
+Open
+Not assigned
+L91
+5min effort
+7 hours ago
+Code Smell
+Major
+src/.../exercises/interactive/ResponsePhase.tsx
+
+
+Do not use Array index in keys
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+jsx
+performance
+...
++
+Open
+Not assigned
+L148
+5min effort
+7 hours ago
+Code Smell
+Major
+src/.../exercises/interactive/SystemSpeakPhase.tsx
+
+
+Ambiguous spacing after previous element span
+
+Consistency
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L36
+5min effort
+7 hours ago
+Code Smell
+Major
+src/.../exercises/intonation/PreviewPhase.tsx
+
+
+Ambiguous spacing after previous element span
+
+Consistency
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L34
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Do not use Array index in keys
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+jsx
+performance
+...
++
+Open
+Not assigned
+L71
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/exercises/janus/ComposingPhase.tsx
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L237
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/focus/FocusMode.tsx
+
+
+Unknown property 'jsx' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L275
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unknown property 'global' found
+
+Intentionality
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L275
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/gamification/PostCognitiveRewards.tsx
+
+
+Do not use Array index in keys
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+jsx
+performance
+...
++
+Open
+Not assigned
+L178
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L216
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L218
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Do not use Array index in keys
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+jsx
+performance
+...
++
+Open
+Not assigned
+L265
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Do not use Array index in keys
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+jsx
+performance
+...
++
+Open
+Not assigned
+L280
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/help/KeyboardShortcuts.tsx
+
+
+Avoid non-native interactive elements. If using native HTML is not possible, add an appropriate role and support for tabbing, mouse, keyboard, and touch inputs to an interactive content element.
+
+Consistency
+Reliability
+
+
+2
+Medium
+Maintainability
+
+
+3
+Low
+accessibility
+react
++
+Open
+Not assigned
+L121
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Ambiguous spacing after previous element span
+
+Consistency
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+react
++
+Open
+Not assigned
+L129
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Do not use Array index in keys
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+jsx
+performance
+...
++
+Open
+Not assigned
+L154
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Do not use Array index in keys
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+jsx
+performance
+...
++
+Open
+Not assigned
+L161
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/import/ImportNodeConfigurator.tsx
+
+
+Use <details>, <fieldset>, <optgroup>, or <address> instead of the "group" role to ensure accessibility across all devices.
+
+Consistency
+Maintainability
+
+
+2
+Medium
+accessibility
+react
++
+Open
+Not assigned
+L102
+5min effort
+6 hours ago
+Code Smell
+Major
+src/components/import/ImportStepIndicator.tsx
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L39
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/input/LoadedTextView.tsx
+
+
+Use <section aria-label=...>, or <section aria-labelledby=...> instead of the "region" role to ensure accessibility across all devices.
+
+Consistency
+Maintainability
+
+
+2
+Medium
+accessibility
+react
++
+Open
+Not assigned
+L75
+5min effort
+6 hours ago
+Code Smell
+Major
+src/components/input/YouTubePlayer.tsx
+
+
+Prefer using an optional chain expression instead, as it's more concise and easier to read.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+No tags
++
+Open
+Not assigned
+L19
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/layout/Header.tsx
+
+
+Remove this useless assignment to variable "coins".
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+cwe
+unused
++
+Open
+Not assigned
+L19
+1min effort
+7 hours ago
+Code Smell
+Major
+
+
+Remove this useless assignment to variable "gems".
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+cwe
+unused
++
+Open
+Not assigned
+L19
+1min effort
+7 hours ago
+Code Smell
+Major
+
+
+Use <progress> instead of the "progressbar" role to ensure accessibility across all devices.
+
+Consistency
+Maintainability
+
+
+2
+Medium
+accessibility
+react
++
+Open
+Not assigned
+L105
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/learn/ContinueCard.tsx
+
+
+Remove this useless assignment to variable "clearSession".
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+cwe
+unused
++
+Open
+Not assigned
+L204
+1min effort
+7 hours ago
+Code Smell
+Major
+src/components/learn/CourseMap.tsx
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L168
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L178
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/learn/InfiniteCourseMap.tsx
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L387
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L389
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L394
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L437
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L439
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L483
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/learn/LessonPlayer.tsx
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L166
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L175
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/missions/MissionFeed.tsx
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L70
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L315
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/onboarding/WelcomeModal.tsx
+
+
+Do not use Array index in keys
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+jsx
+performance
+...
++
+Open
+Not assigned
+L286
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/session/SessionSummary.tsx
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L212
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Do not use Array index in keys
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+jsx
+performance
+...
++
+Open
+Not assigned
+L307
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L313
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Do not use Array index in keys
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+jsx
+performance
+...
++
+Open
+Not assigned
+L336
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L342
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L349
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/shared/EmptyState.tsx
+
+
+Do not use Array index in keys
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+jsx
+performance
+...
++
+Open
+Not assigned
+L74
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Do not use Array index in keys
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+jsx
+performance
+...
++
+Open
+Not assigned
+L82
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/shared/LoadingSkeleton.tsx
+
+
+Do not use Array index in keys
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+jsx
+performance
+...
++
+Open
+Not assigned
+L47
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Do not use Array index in keys
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+jsx
+performance
+...
++
+Open
+Not assigned
+L80
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Do not use Array index in keys
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+jsx
+performance
+...
++
+Open
+Not assigned
+L98
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Do not use Array index in keys
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+jsx
+performance
+...
++
+Open
+Not assigned
+L132
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Do not use Array index in keys
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+jsx
+performance
+...
++
+Open
+Not assigned
+L147
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Do not use Array index in keys
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+jsx
+performance
+...
++
+Open
+Not assigned
+L169
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Do not use Array index in keys
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+jsx
+performance
+...
++
+Open
+Not assigned
+L191
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/shared/RhythmVisualizer.tsx
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L105
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L110
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Do not use Array index in keys
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+jsx
+performance
+...
++
+Open
+Not assigned
+L136
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Prefer using an optional chain expression instead, as it's more concise and easier to read.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+No tags
++
+Open
+Not assigned
+L146
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Do not use Array index in keys
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+jsx
+performance
+...
++
+Open
+Not assigned
+L185
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L225
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/shared/SpeechRecorder.tsx
+
+
+Do not use Array index in keys
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+jsx
+performance
+...
++
+Open
+Not assigned
+L202
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/theme/ThemeToggle.tsx
+
+
+Remove this useless assignment to variable "theme".
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+cwe
+unused
++
+Open
+Not assigned
+L13
+1min effort
+7 hours ago
+Code Smell
+Major
+src/components/transcript/PhraseSelectionPanel.tsx
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L146
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Refactor this code to not use nested template literals.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+brain-overload
+confusing
++
+Open
+Not assigned
+L151
+10min effort
+7 hours ago
+Code Smell
+Major
+
+
+Refactor this code to not use nested template literals.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+brain-overload
+confusing
++
+Open
+Not assigned
+L151
+10min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L345
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/transcript/TranscriptSelector.tsx
+
+
+Do not use Array index in keys
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+jsx
+performance
+...
++
+Open
+Not assigned
+L182
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Non-interactive elements should not be assigned mouse or keyboard event listeners.
+
+Consistency
+Reliability
+
+
+3
+Low
+Maintainability
+
+
+2
+Medium
+accessibility
+react
++
+Open
+Not assigned
+L214
+5min effort
+3 hours ago
+Code Smell
+Major
+
+
+Use <section aria-label=...>, or <section aria-labelledby=...> instead of the "region" role to ensure accessibility across all devices.
+
+Consistency
+Maintainability
+
+
+2
+Medium
+accessibility
+react
++
+Open
+Not assigned
+L214
+5min effort
+3 hours ago
+Code Smell
+Major
+
+
+`tabIndex` should only be declared on interactive elements.
+
+Consistency
+Reliability
+
+
+2
+Medium
+Maintainability
+
+
+3
+Low
+accessibility
+react
++
+Open
+Not assigned
+L232
+5min effort
+3 hours ago
+Code Smell
+Major
+src/components/transcript/WordSelector.tsx
+
+
+Unnecessary escape character: \[.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+No tags
++
+Open
+Not assigned
+L63
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L149
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Do not use Array index in keys
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+jsx
+performance
+...
++
+Open
+Not assigned
+L194
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Do not use Array index in keys
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+jsx
+performance
+...
++
+Open
+Not assigned
+L199
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L206
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L211
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L278
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/tutorial/TutorialProvider.tsx
+
+
+Prefer `childNode.remove()` over `parentNode.removeChild(childNode)`.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+dom
+javascript
+...
++
+Open
+Not assigned
+L348
+2min effort
+7 hours ago
+Code Smell
+Major
+
+
+The object passed as the value prop to the Context provider changes every render. To fix this consider wrapping it in a useMemo hook.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+jsx
+performance
+...
++
+Open
+Not assigned
+L418
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/ui/AAAAnimatedBackground.tsx
+
+
+Do not use Array index in keys
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+jsx
+performance
+...
++
+Open
+Not assigned
+L115
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/ui/AAAInput.tsx
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L82
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L235
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/ui/AAAPageLayout.tsx
+
+
+Do not use Array index in keys
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+jsx
+performance
+...
++
+Open
+Not assigned
+L182
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/ui/GamificationFeedback.tsx
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L170
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/ui/HPIndicator.tsx
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L34
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/ui/ParticlesSurge.tsx
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L39
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/ui/RankBadge.tsx
+
+
+Avoid non-native interactive elements. If using native HTML is not possible, add an appropriate role and support for tabbing, mouse, keyboard, and touch inputs to an interactive content element.
+
+Consistency
+Reliability
+
+
+2
+Medium
+Maintainability
+
+
+3
+Low
+accessibility
+react
++
+Open
+Not assigned
+L61
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+`tabIndex` should only be declared on interactive elements.
+
+Consistency
+Reliability
+
+
+2
+Medium
+Maintainability
+
+
+3
+Low
+accessibility
+react
++
+Open
+Not assigned
+L67
+5min effort
+3 hours ago
+Code Smell
+Major
+src/components/ui/Tooltip.tsx
+
+
+Avoid non-native interactive elements. If using native HTML is not possible, add an appropriate role and support for tabbing, mouse, keyboard, and touch inputs to an interactive content element.
+
+Consistency
+Reliability
+
+
+2
+Medium
+Maintainability
+
+
+3
+Low
+accessibility
+react
++
+Open
+Not assigned
+L77
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+`tabIndex` should only be declared on interactive elements.
+
+Consistency
+Reliability
+
+
+2
+Medium
+Maintainability
+
+
+3
+Low
+accessibility
+react
++
+Open
+Not assigned
+L83
+5min effort
+3 hours ago
+Code Smell
+Major
+src/components/visualization/BrainZoneActivation.tsx
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L533
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/visualization/KrashenRings.tsx
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L321
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L333
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L368
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L370
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L419
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L456
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/visualization/SynapticDensity.tsx
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L131
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L132
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L261
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L331
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Do not use Array index in keys
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+jsx
+performance
+...
++
+Open
+Not assigned
+L397
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Do not use Array index in keys
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+jsx
+performance
+...
++
+Open
+Not assigned
+L443
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/warmups/RhythmSequenceWarmup.tsx
+
+
+Do not use Array index in keys
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+jsx
+performance
+...
++
+Open
+Not assigned
+L227
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L231
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/warmups/VisualMatchWarmup.tsx
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L210
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L213
+5min effort
+7 hours ago
+Code Smell
+Major
+src/components/warmups/WarmupGate.tsx
+
+
+Do not use Array index in keys
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+jsx
+performance
+...
++
+Open
+Not assigned
+L329
+5min effort
+7 hours ago
+Code Smell
+Major
+src/contexts/AuthContext.tsx
+
+
+The object passed as the value prop to the Context provider changes every render. To fix this consider wrapping it in a useMemo hook.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+jsx
+performance
+...
++
+Open
+Not assigned
+L175
+5min effort
+7 hours ago
+Code Smell
+Major
+src/hooks/useExerciseFlow.ts
+
+
+Remove this useless assignment to variable "setIsLoaded".
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+cwe
+unused
++
+Open
+Not assigned
+L63
+1min effort
+7 hours ago
+Code Smell
+Major
+
+
+Prefer using an optional chain expression instead, as it's more concise and easier to read.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+No tags
++
+Open
+Not assigned
+L82
+5min effort
+7 hours ago
+Code Smell
+Major
+src/hooks/useLessonExercises.ts
+
+
+This branch's code block is the same as the block for the branch on line 86.
+
+Adaptability
+Maintainability
+
+
+2
+Medium
+design
+suspicious
++
+Open
+Not assigned
+L90
+10min effort
+7 hours ago
+Code Smell
+Major
+
+
+'If' statement should not be the only statement in 'else' block
+
+Consistency
+Maintainability
+
+
+2
+Medium
+No tags
++
+Open
+Not assigned
+L108
+5min effort
+7 hours ago
+Code Smell
+Major
+src/hooks/useMicroInteractions.tsx
+
+
+Unexpected lexical declaration in case block.
+
+Consistency
+Maintainability
+
+
+2
+Medium
+No tags
++
+Open
+Not assigned
+L101
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Use <input type="button">, <input type="image">, <input type="reset">, <input type="submit">, or <button> instead of the "button" role to ensure accessibility across all devices.
+
+Consistency
+Maintainability
+
+
+2
+Medium
+accessibility
+react
++
+Open
+Not assigned
+L194
+5min effort
+3 hours ago
+Code Smell
+Major
+src/hooks/useOptimizedAnimation.ts
+
+
+Consider removing 'undefined' type or '?' specifier, one of them is redundant.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+redundant
+type-dependent
++
+Open
+Not assigned
+L27
+1min effort
+7 hours ago
+Code Smell
+Major
+src/hooks/useSync.ts
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L182
+5min effort
+7 hours ago
+Code Smell
+Major
+src/lib/services/progressService.ts
+
+
+Prefer using an optional chain expression instead, as it's more concise and easier to read.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+No tags
++
+Open
+Not assigned
+L60
+5min effort
+7 hours ago
+Code Smell
+Major
+src/lib/sound/construction.ts
+
+
+Member 'categoryGains' is never reassigned; mark it as `readonly`.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
+type-dependent
++
+Open
+Not assigned
+L999
+2min effort
+7 hours ago
+Code Smell
+Major
+
+
+Member 'activeNodes' is never reassigned; mark it as `readonly`.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
+type-dependent
++
+Open
+Not assigned
+L1000
+2min effort
+7 hours ago
+Code Smell
+Major
+
+
+Member 'ambientLoops' is never reassigned; mark it as `readonly`.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
+type-dependent
++
+Open
+Not assigned
+L1001
+2min effort
+7 hours ago
+Code Smell
+Major
+
+
+Member 'musicState' is never reassigned; mark it as `readonly`.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
+type-dependent
++
+Open
+Not assigned
+L1002
+2min effort
+7 hours ago
+Code Smell
+Major
+
+
+Member 'state' is never reassigned; mark it as `readonly`.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
+type-dependent
++
+Open
+Not assigned
+L1009
+2min effort
+7 hours ago
+Code Smell
+Major
+src/lib/soundEngine.ts
+
+
+Member 'categoryGains' is never reassigned; mark it as `readonly`.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
+type-dependent
++
+Open
+Not assigned
+L80
+2min effort
+7 hours ago
+Code Smell
+Major
+
+
+Member 'activeOscillators' is never reassigned; mark it as `readonly`.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
+type-dependent
++
+Open
+Not assigned
+L81
+2min effort
+7 hours ago
+Code Smell
+Major
+
+
+Member 'state' is never reassigned; mark it as `readonly`.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
+type-dependent
++
+Open
+Not assigned
+L82
+2min effort
+7 hours ago
+Code Smell
+Major
+src/lib/srsAdapter.ts
+
+
+Move this array "sort" operation to a separate statement or replace it with "toSorted".
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+type-dependent
++
+Open
+Not assigned
+L252
+5min effort
+7 hours ago
+Code Smell
+Major
+src/lib/validators.ts
+
+
+Member 'validators' is never reassigned; mark it as `readonly`.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
+type-dependent
++
+Open
+Not assigned
+L263
+2min effort
+7 hours ago
+Code Smell
+Major
+
+
+Member 'callbacks' is never reassigned; mark it as `readonly`.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
+type-dependent
++
+Open
+Not assigned
+L264
+2min effort
+7 hours ago
+Code Smell
+Major
+src/services/circuitBreaker.ts
+
+
+This branch's code block is the same as the block for the branch on line 132.
+
+Adaptability
+Maintainability
+
+
+2
+Medium
+design
+suspicious
++
+Open
+Not assigned
+L134
+10min effort
+7 hours ago
+Code Smell
+Major
+
+
+Member 'breakers' is never reassigned; mark it as `readonly`.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
+type-dependent
++
+Open
+Not assigned
+L244
+2min effort
+7 hours ago
+Code Smell
+Major
+src/services/cognitiveLoadMetrics.ts
+
+
+Review this redundant assignment: "streakDays" already holds the assigned value along all execution paths.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+redundant
++
+Open
+Not assigned
+L441
+5min effort
+7 hours ago
+Code Smell
+Major
+src/services/conjugationService.ts
+
+
+Replace this alternation with a character class.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+regex
+type-dependent
++
+Open
+Not assigned
+L848
+5min effort
+7 hours ago
+Code Smell
+Major
+src/services/constructionIntegration.ts
+
+
+'If' statement should not be the only statement in 'else' block
+
+Consistency
+Maintainability
+
+
+2
+Medium
+No tags
++
+Open
+Not assigned
+L571
+5min effort
+7 hours ago
+Code Smell
+Major
+src/services/errorHandler.ts
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L181
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L182
+5min effort
+7 hours ago
+Code Smell
+Major
+src/services/generateExercisesFromPhrases.ts
+
+
+Unnecessary escape character: \[.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+No tags
++
+Open
+Not assigned
+L232
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unnecessary escape character: \[.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+No tags
++
+Open
+Not assigned
+L253
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unnecessary escape character: \[.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+No tags
++
+Open
+Not assigned
+L284
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Unnecessary escape character: \[.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+No tags
++
+Open
+Not assigned
+L391
+5min effort
+7 hours ago
+Code Smell
+Major
+src/services/janusKeyboardNavigationService.ts
+
+
+Remove this useless assignment to variable "selections".
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+cwe
+unused
++
+Open
+Not assigned
+L118
+1min effort
+7 hours ago
+Code Smell
+Major
+
+
+This case duplicates the one on line 156
+
+Intentionality
+Reliability
+
+
+2
+Medium
+pitfall
+unused
++
+Open
+Not assigned
+L179
+10min effort
+7 hours ago
+Bug
+Major
+src/services/memoryBankIntegration.ts
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L233
+5min effort
+7 hours ago
+Code Smell
+Major
+src/services/postCognitiveFeedback.ts
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L364
+5min effort
+7 hours ago
+Code Smell
+Major
+src/services/rateLimiter.ts
+
+
+Member 'store' is never reassigned; mark it as `readonly`.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
+type-dependent
++
+Open
+Not assigned
+L37
+2min effort
+7 hours ago
+Code Smell
+Major
+
+
+Member 'config' is never reassigned; mark it as `readonly`.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
+type-dependent
++
+Open
+Not assigned
+L66
+2min effort
+7 hours ago
+Code Smell
+Major
+
+
+Member 'storage' is never reassigned; mark it as `readonly`.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
+type-dependent
++
+Open
+Not assigned
+L67
+2min effort
+7 hours ago
+Code Smell
+Major
+src/services/repository/achievementRepository.ts
+
+
+Prefer using an optional chain expression instead, as it's more concise and easier to read.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+No tags
++
+Open
+Not assigned
+L261
+5min effort
+7 hours ago
+Code Smell
+Major
+src/services/repository/lessonProgressRepository.ts
+
+
+Remove this useless assignment to variable "newAccuracy".
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+cwe
+unused
++
+Open
+Not assigned
+L178
+1min effort
+7 hours ago
+Code Smell
+Major
+src/services/speechService.ts
+
+
+'If' statement should not be the only statement in 'else' block
+
+Consistency
+Maintainability
+
+
+2
+Medium
+No tags
++
+Open
+Not assigned
+L81
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Remove this useless assignment to variable "feedbackType".
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+cwe
+unused
++
+Open
+Not assigned
+L215
+1min effort
+7 hours ago
+Code Smell
+Major
+
+
+Review this redundant assignment: "feedbackType" already holds the assigned value along all execution paths.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+redundant
++
+Open
+Not assigned
+L229
+5min effort
+7 hours ago
+Code Smell
+Major
+src/services/ttsService.ts
+
+
+Member 'synth' is never reassigned; mark it as `readonly`.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
+type-dependent
++
+Open
+Not assigned
+L9
+2min effort
+7 hours ago
+Code Smell
+Major
+src/services/wordExtractor.ts
+
+
+Remove duplicates in this character class.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+regex
+type-dependent
++
+Open
+Not assigned
+L144
+5min effort
+7 hours ago
+Code Smell
+Major
+src/services/youtubeTranscriptService.ts
+
+
+Prefer using an optional chain expression instead, as it's more concise and easier to read.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+No tags
++
+Open
+Not assigned
+L32
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L127
+5min effort
+7 hours ago
+Code Smell
+Major
+src/store/useCognitiveLoadStore.ts
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L392
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L393
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L427
+5min effort
+7 hours ago
+Code Smell
+Major
+
+
+Extract this nested ternary operation into an independent statement.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+confusing
++
+Open
+Not assigned
+L427
+5min effort
+7 hours ago
+Code Smell
+Major
+src/store/useImportedNodesStore.ts
+
+
+Prefer using an optional chain expression instead, as it's more concise and easier to read.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+No tags
++
+Open
+Not assigned
+L177
+5min effort
+7 hours ago
+Code Smell
+Major
+src/store/useSRSStore.ts
+
+
+Review this redundant assignment: "streakDays" already holds the assigned value along all execution paths.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+redundant
++
+Open
+Not assigned
+L272
+5min effort
+7 hours ago
+Code Smell
+Major
+src/store/useThemeStore.ts
+
+
+Remove this useless assignment to variable "getTheme".
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+cwe
+unused
++
+Open
+Not assigned
+L139
+1min effort
+7 hours ago
+Code Smell
+Major
+
+
+Remove this useless assignment to variable "isLight".
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+cwe
+unused
++
+Open
+Not assigned
+L166
+1min effort
+7 hours ago
+Code Smell
+Major
+src/store/useWordDictionaryStore.ts
+
+
+Prefer using an optional chain expression instead, as it's more concise and easier to read.
+
+Intentionality
+Maintainability
+
+
+2
+Medium
+No tags
++
+Open
+Not assigned
+L137
+5min effort
+7 hours ago
+Code Smell
+Major

@@ -64,16 +64,277 @@ const colorClasses: Record<string, { bg: string; border: string; ring: string; g
   },
 };
 
+// Helper functions for complexity reduction
+function getNodeCardStyles(isLocked: boolean): string {
+  return isLocked
+    ? 'opacity-40 cursor-not-allowed border-white/10 bg-lf-dark/30'
+    : 'bg-glass-surface backdrop-blur-aaa border-white/20 shadow-glass-xl hover:border-white/30';
+}
+
+function getNodeIconStyles(isLocked: boolean, isCompleted: boolean, colors: typeof colorClasses[string]): string {
+  if (isLocked) return 'bg-lf-dark/50 border-white/10';
+  if (isCompleted) return 'bg-gradient-to-br from-lf-success to-lf-success-dark border-lf-success/30 shadow-glow-success';
+  return `${colors.bg} ${colors.border} shadow-depth-lg`;
+}
+
+interface NodeRenderData {
+  nodeProgress: NodeProgress;
+  colors: typeof colorClasses[string];
+  nodeTranslations: any;
+  isCompleted: boolean;
+  isActive: boolean;
+}
+
+function prepareNodeData(node: typeof GUIDED_NODES[number], progress: NodeProgress[], t: any): NodeRenderData {
+  const nodeProgress = progress.find((p) => p.nodeId === node.id) || {
+    nodeId: node.id,
+    completed: 0,
+    isLocked: node.id !== 'node-1',
+  };
+  const colors = colorClasses[node.color];
+  const nodeTranslations = t.learn.nodes[node.category as NodeCategory];
+  const isCompleted = nodeProgress.completed >= 100;
+  const isActive = !nodeProgress.isLocked && !isCompleted;
+
+  return { nodeProgress, colors, nodeTranslations, isCompleted, isActive };
+}
+
+// NodeIcon subcomponent
+interface NodeIconProps {
+  isLocked: boolean;
+  isCompleted: boolean;
+  isActive: boolean;
+  icon: string;
+  colors: typeof colorClasses[string];
+}
+
+function NodeIcon({ isLocked, isCompleted, isActive, icon, colors }: NodeIconProps) {
+  const iconStyles = getNodeIconStyles(isLocked, isCompleted, colors);
+
+  if (isLocked) {
+    return <span className="text-lf-muted">🔒</span>;
+  }
+  if (isCompleted) {
+    return <span className="text-white text-2xl">✓</span>;
+  }
+  return (
+    <>
+      <motion.div
+        className={`absolute inset-0 rounded-aaa-xl bg-gradient-to-br ${colors.gradient} opacity-30 blur-md`}
+        animate={{
+          scale: [1, 1.1, 1],
+          opacity: [0.3, 0.6, 0.3],
+        }}
+        transition={{
+          duration: 3,
+          repeat: Infinity,
+          ease: 'easeInOut',
+        }}
+      />
+      <span className="relative">{icon}</span>
+    </>
+  );
+}
+
+// NodeStatusBadge subcomponent
+interface NodeStatusBadgeProps {
+  isActive: boolean;
+  isCompleted: boolean;
+  completed: number;
+  startLabel: string;
+  continueLabel: string;
+}
+
+function NodeStatusBadge({ isActive, isCompleted, completed, startLabel, continueLabel }: NodeStatusBadgeProps) {
+  if (isActive) {
+    return (
+      <motion.span
+        className="px-3 py-1.5 text-xs font-bold bg-gradient-to-r from-lf-primary to-lf-secondary text-white rounded-lg shadow-glow-accent"
+        animate={{
+          scale: [1, 1.05, 1],
+          opacity: [0.8, 1, 0.8],
+        }}
+        transition={{ duration: 2, repeat: Infinity }}
+      >
+        {completed > 0 ? continueLabel : startLabel}
+      </motion.span>
+    );
+  }
+  if (isCompleted) {
+    return (
+      <motion.span
+        className="text-4xl"
+        animate={{
+          scale: [1, 1.1, 1],
+          rotate: [0, 5, -5, 0],
+        }}
+        transition={{ duration: 1, repeat: Infinity }}
+      >
+        ✨
+      </motion.span>
+    );
+  }
+  return null;
+}
+
+// NodeProgressBar subcomponent
+interface NodeProgressBarProps {
+  isLocked: boolean;
+  completed: number;
+  colors: typeof colorClasses[string];
+  index: number;
+}
+
+function NodeProgressBar({ isLocked, completed, colors, index }: NodeProgressBarProps) {
+  if (isLocked) return null;
+
+  return (
+    <div className="relative h-2 bg-lf-dark/50 rounded-full overflow-hidden shadow-inner">
+      <motion.div
+        className={`absolute inset-y-0 left-0 bg-gradient-to-r ${colors.gradient} rounded-full`}
+        style={{ backgroundSize: '200% 100%' }}
+        initial={{ width: 0 }}
+        animate={{
+          width: `${completed}%`,
+          backgroundPosition: ['0% 50%', '100% 50%']
+        }}
+        transition={{
+          width: { duration: 0.8, delay: index * 0.1, ease: 'easeOut' },
+          backgroundPosition: { duration: 3, repeat: Infinity, ease: 'linear' },
+        }}
+      />
+    </div>
+  );
+}
+
+// CourseMapNode subcomponent
+interface CourseMapNodeProps {
+  node: typeof GUIDED_NODES[number];
+  index: number;
+  data: NodeRenderData;
+  startLabel: string;
+  continueLabel: string;
+}
+
+function CourseMapNode({ node, index, data, startLabel, continueLabel }: CourseMapNodeProps) {
+  const { nodeProgress, colors, nodeTranslations, isCompleted, isActive } = data;
+  const cardStyles = getNodeCardStyles(nodeProgress.isLocked);
+
+  return (
+    <motion.div
+      key={node.id}
+      initial={{ opacity: 0, x: -30 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ delay: index * 0.1, type: 'spring', stiffness: 100 }}
+    >
+      <Link
+        href={nodeProgress.isLocked ? '#' : `/learn/node/${node.id}`}
+        onClick={(e) => nodeProgress.isLocked && e.preventDefault()}
+        className="block relative"
+      >
+        <div className={`relative overflow-hidden rounded-aaa-xl border-2 transition-all duration-500 ${cardStyles}`}>
+          {/* Animated gradient background */}
+          {!nodeProgress.isLocked && (
+            <motion.div
+              className={`absolute inset-0 bg-gradient-to-br ${colors.gradient} opacity-0 group-hover:opacity-10`}
+              animate={{
+                opacity: [0.05, 0.15, 0.05],
+                scale: [1, 1.02, 1],
+              }}
+              transition={{
+                duration: 4,
+                repeat: Infinity,
+                ease: 'easeInOut',
+                delay: index * 0.5,
+              }}
+            />
+          )}
+
+          {/* Inner glow on hover */}
+          {isActive && (
+            <motion.div
+              className={`absolute inset-0 rounded-aaa-xl shadow-${colors.glow} opacity-0 hover:opacity-30 transition-opacity duration-500`}
+            />
+          )}
+
+          {/* Content */}
+          <div className="relative p-5 pl-24">
+            {/* Icono del nodo */}
+            <motion.div
+              className={`absolute left-4 top-1/2 -translate-y-1/2 w-16 h-16 rounded-aaa-xl flex items-center justify-center text-3xl border-2 ${getNodeIconStyles(nodeProgress.isLocked, isCompleted, colors)}`}
+              whileHover={isActive ? { scale: 1.05, rotate: 5 } : {}}
+              transition={{ type: 'spring', stiffness: 300 }}
+            >
+              <NodeIcon
+                isLocked={nodeProgress.isLocked}
+                isCompleted={isCompleted}
+                isActive={isActive}
+                icon={node.icon}
+                colors={colors}
+              />
+            </motion.div>
+
+            {/* Contenido */}
+            <div className="flex-1">
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="font-bold text-xl text-white">
+                  {nodeTranslations.title}
+                </h3>
+                {!nodeProgress.isLocked && (
+                  <motion.span
+                    className="text-2xl font-bold bg-gradient-to-r from-lf-accent to-lf-secondary bg-clip-text text-transparent"
+                    animate={isActive ? {
+                      scale: [1, 1.05, 1],
+                    } : {}}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  >
+                    {nodeProgress.completed}%
+                  </motion.span>
+                )}
+              </div>
+              <p className="text-sm text-lf-muted mb-3">
+                {nodeTranslations.description}
+              </p>
+
+              <NodeProgressBar
+                isLocked={nodeProgress.isLocked}
+                completed={nodeProgress.completed}
+                colors={colors}
+                index={index}
+              />
+            </div>
+
+            {/* Indicador de estado */}
+            <div className="absolute right-5 top-5">
+              <NodeStatusBadge
+                isActive={isActive}
+                isCompleted={isCompleted}
+                completed={nodeProgress.completed}
+                startLabel={startLabel}
+                continueLabel={continueLabel}
+              />
+            </div>
+          </div>
+
+          {/* Glow effect on bottom */}
+          {isActive && (
+            <motion.div
+              className={`absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r ${colors.gradient}`}
+              animate={{
+                opacity: [0.3, 0.8, 0.3],
+                scaleX: [0.8, 1, 0.8],
+              }}
+              transition={{ duration: 2, repeat: Infinity }}
+            />
+          )}
+        </div>
+      </Link>
+    </motion.div>
+  );
+}
+
 export function CourseMap({ progress, translations }: CourseMapProps) {
   const t = translations;
-
-  const getNodeProgress = (nodeId: string): NodeProgress => {
-    return progress.find((p) => p.nodeId === nodeId) || {
-      nodeId,
-      completed: 0,
-      isLocked: nodeId !== 'node-1', // Solo el primero desbloqueado por defecto
-    };
-  };
 
   return (
     <div className="w-full max-w-md mx-auto px-4">
@@ -104,183 +365,16 @@ export function CourseMap({ progress, translations }: CourseMapProps) {
 
         <div className="space-y-5 relative">
           {GUIDED_NODES.map((node, index) => {
-            const nodeProgress = getNodeProgress(node.id);
-            const colors = colorClasses[node.color];
-            const nodeTranslations = t.learn.nodes[node.category as NodeCategory];
-            const isCompleted = nodeProgress.completed >= 100;
-            const isActive = !nodeProgress.isLocked && !isCompleted;
-
+            const data = prepareNodeData(node, progress, t);
             return (
-              <motion.div
+              <CourseMapNode
                 key={node.id}
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.1, type: 'spring', stiffness: 100 }}
-              >
-                <Link
-                  href={nodeProgress.isLocked ? '#' : `/learn/node/${node.id}`}
-                  onClick={(e) => nodeProgress.isLocked && e.preventDefault()}
-                  className="block relative"
-                >
-                  {/* Glass card */}
-                  <div
-                    className={`
-                      relative overflow-hidden rounded-aaa-xl border-2 transition-all duration-500
-                      ${nodeProgress.isLocked
-                        ? 'opacity-40 cursor-not-allowed border-white/10 bg-lf-dark/30'
-                        : 'bg-glass-surface backdrop-blur-aaa border-white/20 shadow-glass-xl hover:border-white/30'
-                      }
-                    `}
-                  >
-                    {/* Animated gradient background */}
-                    {!nodeProgress.isLocked && (
-                      <motion.div
-                        className={`absolute inset-0 bg-gradient-to-br ${colors.gradient} opacity-0 group-hover:opacity-10`}
-                        animate={{
-                          opacity: [0.05, 0.15, 0.05],
-                          scale: [1, 1.02, 1],
-                        }}
-                        transition={{
-                          duration: 4,
-                          repeat: Infinity,
-                          ease: 'easeInOut',
-                          delay: index * 0.5,
-                        }}
-                      />
-                    )}
-
-                    {/* Inner glow on hover */}
-                    {isActive && (
-                      <motion.div
-                        className={`absolute inset-0 rounded-aaa-xl shadow-${colors.glow} opacity-0 hover:opacity-30 transition-opacity duration-500`}
-                      />
-                    )}
-
-                    {/* Content */}
-                    <div className="relative p-5 pl-24">
-                      {/* Icono del nodo */}
-                      <motion.div
-                        className={`
-                          absolute left-4 top-1/2 -translate-y-1/2 w-16 h-16 rounded-aaa-xl
-                          flex items-center justify-center text-3xl border-2
-                          ${nodeProgress.isLocked
-                            ? 'bg-lf-dark/50 border-white/10'
-                            : isCompleted
-                            ? 'bg-gradient-to-br from-lf-success to-lf-success-dark border-lf-success/30 shadow-glow-success'
-                            : `${colors.bg} ${colors.border} shadow-depth-lg`
-                          }
-                        `}
-                        whileHover={isActive ? { scale: 1.05, rotate: 5 } : {}}
-                        transition={{ type: 'spring', stiffness: 300 }}
-                      >
-                        {nodeProgress.isLocked ? (
-                          <span className="text-lf-muted">🔒</span>
-                        ) : isCompleted ? (
-                          <span className="text-white text-2xl">✓</span>
-                        ) : (
-                          <>
-                            <motion.div
-                              className={`absolute inset-0 rounded-aaa-xl bg-gradient-to-br ${colors.gradient} opacity-30 blur-md`}
-                              animate={{
-                                scale: [1, 1.1, 1],
-                                opacity: [0.3, 0.6, 0.3],
-                              }}
-                              transition={{
-                                duration: 3,
-                                repeat: Infinity,
-                                ease: 'easeInOut',
-                              }}
-                            />
-                            <span className="relative">{node.icon}</span>
-                          </>
-                        )}
-                      </motion.div>
-
-                      {/* Contenido */}
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between mb-2">
-                          <h3 className="font-bold text-xl text-white">
-                            {nodeTranslations.title}
-                          </h3>
-                          {!nodeProgress.isLocked && (
-                            <motion.span
-                              className="text-2xl font-bold bg-gradient-to-r from-lf-accent to-lf-secondary bg-clip-text text-transparent"
-                              animate={isActive ? {
-                                scale: [1, 1.05, 1],
-                              } : {}}
-                              transition={{ duration: 2, repeat: Infinity }}
-                            >
-                              {nodeProgress.completed}%
-                            </motion.span>
-                          )}
-                        </div>
-                        <p className="text-sm text-lf-muted mb-3">
-                          {nodeTranslations.description}
-                        </p>
-
-                        {/* Barra de progreso */}
-                        {!nodeProgress.isLocked && (
-                          <div className="relative h-2 bg-lf-dark/50 rounded-full overflow-hidden shadow-inner">
-                            <motion.div
-                              className={`absolute inset-y-0 left-0 bg-gradient-to-r ${colors.gradient} rounded-full`}
-                              style={{ backgroundSize: '200% 100%' }}
-                              initial={{ width: 0 }}
-                              animate={{
-                                width: `${nodeProgress.completed}%`,
-                                backgroundPosition: ['0% 50%', '100% 50%']
-                              }}
-                              transition={{
-                                width: { duration: 0.8, delay: index * 0.1, ease: 'easeOut' },
-                                backgroundPosition: { duration: 3, repeat: Infinity, ease: 'linear' },
-                              }}
-                            />
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Indicador de estado */}
-                      <div className="absolute right-5 top-5">
-                        {isActive && (
-                          <motion.span
-                            className="px-3 py-1.5 text-xs font-bold bg-gradient-to-r from-lf-primary to-lf-secondary text-white rounded-lg shadow-glow-accent"
-                            animate={{
-                              scale: [1, 1.05, 1],
-                              opacity: [0.8, 1, 0.8],
-                            }}
-                            transition={{ duration: 2, repeat: Infinity }}
-                          >
-                            {nodeProgress.completed > 0 ? t.learn.continue : t.learn.start}
-                          </motion.span>
-                        )}
-                        {isCompleted && (
-                          <motion.span
-                            className="text-4xl"
-                            animate={{
-                              scale: [1, 1.1, 1],
-                              rotate: [0, 5, -5, 0],
-                            }}
-                            transition={{ duration: 1, repeat: Infinity }}
-                          >
-                            ✨
-                          </motion.span>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Glow effect on bottom */}
-                    {isActive && (
-                      <motion.div
-                        className={`absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r ${colors.gradient}`}
-                        animate={{
-                          opacity: [0.3, 0.8, 0.3],
-                          scaleX: [0.8, 1, 0.8],
-                        }}
-                        transition={{ duration: 2, repeat: Infinity }}
-                      />
-                    )}
-                  </div>
-                </Link>
-              </motion.div>
+                node={node}
+                index={index}
+                data={data}
+                startLabel={t.learn.start}
+                continueLabel={t.learn.continue}
+              />
             );
           })}
         </div>

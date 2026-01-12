@@ -72,39 +72,15 @@ export function useLessonExercises(lessonMode: LessonMode | null): UseLessonExer
     const moveToNextExerciseType = useCallback((lessonContent: LessonContent | null) => {
         if (!lessonContent) return;
 
-        const hasPhrases = (lessonContent.phrases?.length || 0) > 0 || (lessonContent.conversationalBlocks?.length || 0) > 0;
-        const hasPragmaStrike = (lessonContent.coreExercises?.pragmaStrike?.length || 0) > 0;
-        const hasShardDetection = (lessonContent.coreExercises?.shardDetection?.length || 0) > 0;
-        const hasEchoStream = (lessonContent.coreExercises?.echoStream?.length || 0) > 0;
-        const hasGlyphWeaving = (lessonContent.coreExercises?.glyphWeaving?.length || 0) > 0;
-        const hasResonancePath = (lessonContent.coreExercises?.resonancePath?.length || 0) > 0;
+        const exerciseAvailability = getExerciseAvailability(lessonContent);
+        const nextExercise = getNextExerciseType(exerciseType, exerciseAvailability);
 
-        // Exercise sequence: Vocabulary -> Pragma Strike -> Phrases -> Shard Detection -> Echo Stream -> Glyph Weaving -> Resonance Path -> Input -> Test
-        if (exerciseType === 'vocabulary' && hasPragmaStrike) {
-            setExerciseType('pragmaStrike');
-            setPragmaIndex(0);
-        } else if (exerciseType === 'vocabulary' && hasPhrases) {
-            setExerciseType('phrases');
-            setPhrasePhase('cloze');
-            setPhraseIndex(0);
-        } else if (exerciseType === 'pragmaStrike' && hasPhrases) {
-            setExerciseType('phrases');
-            setPhrasePhase('cloze');
-            setPhraseIndex(0);
-        } else if (exerciseType === 'phrases' && hasShardDetection) {
-            setExerciseType('shardDetection');
-            setShardIndex(0);
-        } else if (exerciseType === 'shardDetection' && hasEchoStream) {
-            setExerciseType('echoStream');
-            setEchoStreamIndex(0);
-        } else if (exerciseType === 'echoStream' && hasGlyphWeaving) {
-            setExerciseType('glyphWeaving');
-            setGlyphWeavingIndex(0);
-        } else if (exerciseType === 'glyphWeaving' && hasResonancePath) {
-            setExerciseType('resonancePath');
-            setResonancePathIndex(0);
+        if (nextExercise) {
+            setExerciseType(nextExercise as any);
+            if (nextExercise === 'phrases') setPhrasePhase('cloze');
+            const indexSetter = getIndexSetter(nextExercise);
+            if (indexSetter) indexSetter(0);
         } else {
-            // All exercises completed, move to input or test
             if (lessonContent.inputContent && lessonContent.inputContent.length > 0) {
                 setPhase('input');
                 setInputIndex(0);
@@ -114,7 +90,59 @@ export function useLessonExercises(lessonMode: LessonMode | null): UseLessonExer
                 setPhase('complete');
             }
         }
-    }, [exerciseType]);
+    }, [exerciseType, setPhrasePhase, setPragmaIndex, setPhraseIndex, setShardIndex, setEchoStreamIndex, setGlyphWeavingIndex, setResonancePathIndex, setInputIndex]);
+
+    function getExerciseAvailability(content: LessonContent) {
+        return {
+            hasPhrases: (content.phrases?.length || 0) > 0 || (content.conversationalBlocks?.length || 0) > 0,
+            hasPragmaStrike: (content.coreExercises?.pragmaStrike?.length || 0) > 0,
+            hasShardDetection: (content.coreExercises?.shardDetection?.length || 0) > 0,
+            hasEchoStream: (content.coreExercises?.echoStream?.length || 0) > 0,
+            hasGlyphWeaving: (content.coreExercises?.glyphWeaving?.length || 0) > 0,
+            hasResonancePath: (content.coreExercises?.resonancePath?.length || 0) > 0,
+        };
+    }
+
+    function getNextExerciseType(current: string | null, availability: ReturnType<typeof getExerciseAvailability>) {
+        if (!current) return null;
+
+        const transitions: Record<string, { available: boolean; next: string }[]> = {
+            'vocabulary': [
+                { available: availability.hasPragmaStrike, next: 'pragmaStrike' },
+                { available: availability.hasPhrases, next: 'phrases' },
+            ],
+            'pragmaStrike': [
+                { available: availability.hasPhrases, next: 'phrases' },
+            ],
+            'phrases': [
+                { available: availability.hasShardDetection, next: 'shardDetection' },
+            ],
+            'shardDetection': [
+                { available: availability.hasEchoStream, next: 'echoStream' },
+            ],
+            'echoStream': [
+                { available: availability.hasGlyphWeaving, next: 'glyphWeaving' },
+            ],
+            'glyphWeaving': [
+                { available: availability.hasResonancePath, next: 'resonancePath' },
+            ],
+        };
+
+        const possibleTransitions = transitions[current];
+        return possibleTransitions?.find(t => t.available)?.next || null;
+    }
+
+    function getIndexSetter(type: string): ((i: number) => void) | undefined {
+        const setters: Record<string, (i: number) => void> = {
+            'pragmaStrike': setPragmaIndex,
+            'phrases': setPhraseIndex,
+            'shardDetection': setShardIndex,
+            'echoStream': setEchoStreamIndex,
+            'glyphWeaving': setGlyphWeavingIndex,
+            'resonancePath': setResonancePathIndex,
+        };
+        return setters[type];
+    }
 
     const state = useMemo<ExerciseState>(() => ({
         phase,

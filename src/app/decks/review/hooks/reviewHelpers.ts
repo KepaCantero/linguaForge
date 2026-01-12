@@ -1,11 +1,15 @@
 import type { SRSCard } from '@/types/srs';
 import type { MemoryBankCard } from '@/components/exercises/MemoryBank/MemoryBankSession';
 
+function getDifficultyFromEaseFactor(easeFactor: number): 'easy' | 'medium' | 'hard' {
+  if (easeFactor <= 1.8) return 'hard';
+  if (easeFactor <= 2.2) return 'medium';
+  return 'easy';
+}
+
 export function convertToMemoryBankCards(srsCards: SRSCard[]): MemoryBankCard[] {
   return srsCards.map(card => {
-    const difficulty: 'easy' | 'medium' | 'hard' =
-      card.easeFactor <= 1.8 ? 'hard' :
-      card.easeFactor <= 2.2 ? 'medium' : 'easy';
+    const difficulty = getDifficultyFromEaseFactor(card.easeFactor);
 
     return {
       id: card.id,

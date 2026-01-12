@@ -52,19 +52,23 @@ export function MiniTaskExercise({
     setResult({ success, matchedKeywords });
     setSubmitted(true);
 
-    if (success) {
-      addXP(XP_RULES.miniTaskComplete);
-      addCoins(20);
-      // Registrar palabras habladas/escritas
-      addWordsSpoken(
-        languageCode as 'fr' | 'de',
-        levelCode as 'A1' | 'A2',
-        wordCount
-      );
+    if (!success) {
+      setTimeout(() => {
+        onComplete(false);
+      }, 2500);
+      return;
     }
 
+    addXP(XP_RULES.miniTaskComplete);
+    addCoins(20);
+    addWordsSpoken(
+      languageCode as 'fr' | 'de',
+      levelCode as 'A1' | 'A2',
+      wordCount
+    );
+
     setTimeout(() => {
-      onComplete(success);
+      onComplete(true);
     }, 2500);
   }, [wordCount, miniTask, checkKeywords, addXP, addCoins, addWordsSpoken, languageCode, levelCode, onComplete]);
 

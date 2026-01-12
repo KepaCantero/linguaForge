@@ -304,18 +304,23 @@ function MissionCard({
   const progress = Math.min(100, (mission.current / mission.target) * 100);
   const isComplete = mission.completed;
 
+  const getCardStyles = (): string => {
+    const baseStyles = 'relative overflow-hidden rounded-xl transition-all duration-300 ';
+    const stateStyles = isComplete
+      ? 'bg-green-900/20 border border-green-500/30'
+      : isExpanded
+      ? 'bg-gray-800/80 border border-indigo-500/50 shadow-lg shadow-indigo-500/10'
+      : 'bg-gray-800/50 border border-gray-700/50 hover:border-gray-600';
+    const padding = compact ? 'p-3' : 'p-4';
+    return `${baseStyles}${stateStyles} ${padding}`;
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1 }}
-      className={`relative overflow-hidden rounded-xl transition-all duration-300 ${
-        isComplete
-          ? 'bg-green-900/20 border border-green-500/30'
-          : isExpanded
-          ? 'bg-gray-800/80 border border-indigo-500/50 shadow-lg shadow-indigo-500/10'
-          : 'bg-gray-800/50 border border-gray-700/50 hover:border-gray-600'
-      } ${compact ? 'p-3' : 'p-4'}`}
+      className={getCardStyles()}
       onClick={onClick}
     >
       {/* Barra de progreso de fondo */}
@@ -354,102 +359,193 @@ function MissionCard({
         </div>
 
         {/* Barra de progreso */}
-        {!compact && (
-          <div className="mt-3 flex items-center gap-3">
-            <div className="flex-1 h-2 bg-gray-700 rounded-full overflow-hidden">
-              <motion.div
-                className={`h-full ${isComplete ? 'bg-green-500' : 'bg-indigo-500'}`}
-                initial={{ width: 0 }}
-                animate={{ width: `${progress}%` }}
-                transition={{ duration: 0.5, ease: 'easeOut' }}
-              />
-            </div>
-            <span className="text-sm text-gray-400 min-w-[60px] text-right">
-              {mission.current}/{mission.target}
-            </span>
-          </div>
-        )}
+        {!compact && <MissionProgressBar progress={progress} isComplete={isComplete} mission={mission} />}
 
         {/* Detalles expandidos */}
         <AnimatePresence>
           {isExpanded && !isComplete && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="mt-4 pt-4 border-t border-gray-700/50"
-            >
-              <div className="flex flex-wrap gap-4 text-sm">
-                {/* Recompensa */}
-                <div className="flex items-center gap-2">
-                  <span className="text-amber-400">+{mission.reward.xp} XP</span>
-                  <span className="text-yellow-400">+{mission.reward.coins} 🪙</span>
-                  {mission.reward.gems && (
-                    <span className="text-purple-400">+{mission.reward.gems} 💎</span>
-                  )}
-                </div>
-
-                {/* Dificultad */}
-                {mission.difficulty && (
-                  <div className={`${getDifficultyColor(mission.difficulty)}`}>
-                    {mission.difficulty === 'low' && '⬇️ Fácil'}
-                    {mission.difficulty === 'medium' && '➡️ Media'}
-                    {mission.difficulty === 'high' && '⬆️ Difícil'}
-                  </div>
-                )}
-
-                {/* Tiempo estimado */}
-                {mission.estimatedMinutes && (
-                  <div className="text-gray-400">
-                    ⏱️ ~{mission.estimatedMinutes} min
-                  </div>
-                )}
-              </div>
-
-              {/* Indicador de carga cognitiva */}
-              {showCognitiveLoad && mission.cognitiveLoadTarget && (
-                <div className="mt-3">
-                  <div className="flex items-center justify-between text-xs text-gray-500 mb-1">
-                    <span>Carga Cognitiva</span>
-                    <span>{mission.cognitiveLoadTarget}%</span>
-                  </div>
-                  <div className="h-1.5 bg-gray-700 rounded-full overflow-hidden">
-                    <div
-                      className={`h-full ${getLoadColor(mission.cognitiveLoadTarget)}`}
-                      style={{ width: `${mission.cognitiveLoadTarget}%` }}
-                    />
-                  </div>
-                </div>
-              )}
-
-              {/* Botones de acción */}
-              <div className="mt-4 flex gap-3">
-                {mission.warmupMissionType && (
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onWarmup();
-                    }}
-                    className="flex-1 py-2 px-4 bg-indigo-600/30 hover:bg-indigo-600/50 text-indigo-300 rounded-lg text-sm font-medium transition-colors"
-                  >
-                    🧠 Con Calentamiento
-                  </button>
-                )}
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onStartDirect();
-                  }}
-                  className="flex-1 py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-medium transition-colors"
-                >
-                  ▶️ Comenzar Directo
-                </button>
-              </div>
-            </motion.div>
+            <MissionExpandedDetails
+              mission={mission}
+              showCognitiveLoad={showCognitiveLoad}
+              getLoadColor={getLoadColor}
+              getDifficultyColor={getDifficultyColor}
+              onWarmup={onWarmup}
+              onStartDirect={onStartDirect}
+            />
           )}
         </AnimatePresence>
       </div>
     </motion.div>
+  );
+}
+
+// MissionProgressBar subcomponent
+interface MissionProgressBarProps {
+  progress: number;
+  isComplete: boolean;
+  mission: Mission;
+}
+
+function MissionProgressBar({ progress, isComplete, mission }: MissionProgressBarProps) {
+  return (
+    <div className="mt-3 flex items-center gap-3">
+      <div className="flex-1 h-2 bg-gray-700 rounded-full overflow-hidden">
+        <motion.div
+          className={`h-full ${isComplete ? 'bg-green-500' : 'bg-indigo-500'}`}
+          initial={{ width: 0 }}
+          animate={{ width: `${progress}%` }}
+          transition={{ duration: 0.5, ease: 'easeOut' }}
+        />
+      </div>
+      <span className="text-sm text-gray-400 min-w-[60px] text-right">
+        {mission.current}/{mission.target}
+      </span>
+    </div>
+  );
+}
+
+// MissionExpandedDetails subcomponent
+interface MissionExpandedDetailsProps {
+  mission: Mission;
+  showCognitiveLoad: boolean;
+  getLoadColor: (load: number) => string;
+  getDifficultyColor: (difficulty?: 'low' | 'medium' | 'high') => string;
+  onWarmup: () => void;
+  onStartDirect: () => void;
+}
+
+function MissionExpandedDetails({
+  mission,
+  showCognitiveLoad,
+  getLoadColor,
+  getDifficultyColor,
+  onWarmup,
+  onStartDirect,
+}: MissionExpandedDetailsProps) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, height: 0 }}
+      animate={{ opacity: 1, height: 'auto' }}
+      exit={{ opacity: 0, height: 0 }}
+      className="mt-4 pt-4 border-t border-gray-700/50"
+    >
+      <div className="flex flex-wrap gap-4 text-sm">
+        {/* Recompensa */}
+        <MissionRewards reward={mission.reward} />
+
+        {/* Dificultad */}
+        {mission.difficulty && <MissionDifficulty difficulty={mission.difficulty} getDifficultyColor={getDifficultyColor} />}
+
+        {/* Tiempo estimado */}
+        {mission.estimatedMinutes && (
+          <div className="text-gray-400">⏱️ ~{mission.estimatedMinutes} min</div>
+        )}
+      </div>
+
+      {/* Indicador de carga cognitiva */}
+      {showCognitiveLoad && mission.cognitiveLoadTarget && (
+        <MissionCognitiveLoad cognitiveLoadTarget={mission.cognitiveLoadTarget} getLoadColor={getLoadColor} />
+      )}
+
+      {/* Botones de acción */}
+      <MissionActionButtons
+        hasWarmup={!!mission.warmupMissionType}
+        onWarmup={onWarmup}
+        onStartDirect={onStartDirect}
+      />
+    </motion.div>
+  );
+}
+
+// MissionRewards subcomponent
+interface MissionRewardsProps {
+  reward: Mission['reward'];
+}
+
+function MissionRewards({ reward }: MissionRewardsProps) {
+  return (
+    <div className="flex items-center gap-2">
+      <span className="text-amber-400">+{reward.xp} XP</span>
+      <span className="text-yellow-400">+{reward.coins} 🪙</span>
+      {reward.gems && <span className="text-purple-400">+{reward.gems} 💎</span>}
+    </div>
+  );
+}
+
+// MissionDifficulty subcomponent
+interface MissionDifficultyProps {
+  difficulty: 'low' | 'medium' | 'high';
+  getDifficultyColor: (difficulty?: 'low' | 'medium' | 'high') => string;
+}
+
+function MissionDifficulty({ difficulty, getDifficultyColor }: MissionDifficultyProps) {
+  const labels = {
+    low: '⬇️ Fácil',
+    medium: '➡️ Media',
+    high: '⬆️ Difícil',
+  };
+
+  return <div className={getDifficultyColor(difficulty)}>{labels[difficulty]}</div>;
+}
+
+// MissionCognitiveLoad subcomponent
+interface MissionCognitiveLoadProps {
+  cognitiveLoadTarget: number;
+  getLoadColor: (load: number) => string;
+}
+
+function MissionCognitiveLoad({ cognitiveLoadTarget, getLoadColor }: MissionCognitiveLoadProps) {
+  return (
+    <div className="mt-3">
+      <div className="flex items-center justify-between text-xs text-gray-500 mb-1">
+        <span>Carga Cognitiva</span>
+        <span>{cognitiveLoadTarget}%</span>
+      </div>
+      <div className="h-1.5 bg-gray-700 rounded-full overflow-hidden">
+        <div
+          className={`h-full ${getLoadColor(cognitiveLoadTarget)}`}
+          style={{ width: `${cognitiveLoadTarget}%` }}
+        />
+      </div>
+    </div>
+  );
+}
+
+// MissionActionButtons subcomponent
+interface MissionActionButtonsProps {
+  hasWarmup: boolean;
+  onWarmup: () => void;
+  onStartDirect: () => void;
+}
+
+function MissionActionButtons({ hasWarmup, onWarmup, onStartDirect }: MissionActionButtonsProps) {
+  const handleWarmupClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onWarmup();
+  };
+
+  const handleStartDirectClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onStartDirect();
+  };
+
+  return (
+    <div className="mt-4 flex gap-3">
+      {hasWarmup && (
+        <button
+          onClick={handleWarmupClick}
+          className="flex-1 py-2 px-4 bg-indigo-600/30 hover:bg-indigo-600/50 text-indigo-300 rounded-lg text-sm font-medium transition-colors"
+        >
+          🧠 Con Calentamiento
+        </button>
+      )}
+      <button
+        onClick={handleStartDirectClick}
+        className="flex-1 py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-medium transition-colors"
+      >
+        ▶️ Comenzar Directo
+      </button>
+    </div>
   );
 }
 

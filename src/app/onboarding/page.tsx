@@ -9,6 +9,13 @@ import { getTranslations, type AppLanguage } from '@/i18n';
 
 type Step = 'language' | 'mode';
 
+function getLanguageButtonClasses(selectedLang: AppLanguage, buttonLang: AppLanguage): string {
+  const baseClasses = 'w-full p-4 rounded-xl border-2 transition-all flex items-center gap-4 ';
+  return selectedLang === buttonLang
+    ? baseClasses + 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20'
+    : baseClasses + 'border-gray-200 dark:border-gray-700 hover:border-indigo-300';
+}
+
 export default function OnboardingPage() {
   const router = useRouter();
   const { appLanguage, setAppLanguage, setMode, completeOnboarding } = useUserStore();
@@ -117,11 +124,7 @@ export default function OnboardingPage() {
               <div className="space-y-3">
                 <button
                   onClick={() => handleLanguageSelect('es')}
-                  className={`w-full p-4 rounded-xl border-2 transition-all flex items-center gap-4 ${
-                    selectedLang === 'es'
-                      ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20'
-                      : 'border-gray-200 dark:border-gray-700 hover:border-indigo-300'
-                  }`}
+                  className={getLanguageButtonClasses(selectedLang, 'es')}
                 >
                   <span className="text-3xl">🇪🇸</span>
                   <span className="text-lg font-medium text-gray-900 dark:text-white">
@@ -131,11 +134,7 @@ export default function OnboardingPage() {
 
                 <button
                   onClick={() => handleLanguageSelect('en')}
-                  className={`w-full p-4 rounded-xl border-2 transition-all flex items-center gap-4 ${
-                    selectedLang === 'en'
-                      ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20'
-                      : 'border-gray-200 dark:border-gray-700 hover:border-indigo-300'
-                  }`}
+                  className={getLanguageButtonClasses(selectedLang, 'en')}
                 >
                   <span className="text-3xl">🇬🇧</span>
                   <span className="text-lg font-medium text-gray-900 dark:text-white">
@@ -197,9 +196,9 @@ export default function OnboardingPage() {
                   {t.onboarding.guidedMode.detail}
                 </p>
                 <div className="mt-4 pl-12 flex gap-2">
-                  {['🏠', '🍽️', '🚇', '🏥', '🆘'].map((emoji, i) => (
+                  {['🏠', '🍽️', '🚇', '🏥', '🆘'].map((emoji) => (
                     <span
-                      key={i}
+                      key={emoji}
                       className="w-8 h-8 flex items-center justify-center bg-gray-100 dark:bg-gray-700 rounded-full text-sm"
                     >
                       {emoji}

@@ -165,7 +165,7 @@ export function ModeCard({ mode, onSelect, shouldAnimate }: ModeCardProps) {
         <div className="space-y-3">
           {features.map((feature, index) => (
             <motion.div
-              key={index}
+              key={`${feature.icon}-${feature.text}`}
               className="flex items-center gap-3 text-sm text-gray-300"
               style={{ textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}
               initial={{ opacity: 0, x: -10 }}

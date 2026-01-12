@@ -341,6 +341,171 @@ export function InfiniteCourseMap({ translations, userProgress }: InfiniteCourse
   );
 }
 
+// Helper functions for TopicOrb
+function getCardStyles(isLocked: boolean, isCompleted: boolean, isInProgress: boolean): string {
+  const baseStyles = 'rounded-xl p-3 border transition-all duration-300 ';
+  if (isLocked) return baseStyles + 'bg-lf-dark/50 border-white/10';
+  if (isCompleted) return baseStyles + 'bg-green-500/10 border-green-500/30';
+  if (isInProgress) return baseStyles + 'bg-orange-500/10 border-orange-500/30';
+  return baseStyles + 'bg-glass-surface backdrop-blur-aaa border-white/20';
+}
+
+function getHoverColor(isCompleted: boolean, isInProgress: boolean, nodeColor: string): string {
+  if (isCompleted) return '#22C55E';
+  if (isInProgress) return '#F59E0B';
+  return nodeColor;
+}
+
+function getIconBackground(isLocked: boolean, isCompleted: boolean, isInProgress: boolean, nodeGradient: string): string {
+  if (isLocked) return 'radial-gradient(circle at 30% 30%, #334155, #1E293B)';
+  if (isCompleted) return 'radial-gradient(circle at 30% 30%, #22C55E, #16A34A)';
+  if (isInProgress) return 'radial-gradient(circle at 30% 30%, #F59E0B, #D97706)';
+  return nodeGradient;
+}
+
+function getGlowBackground(isCompleted: boolean, isInProgress: boolean, nodeColor: string): string {
+  if (isInProgress) return `radial-gradient(circle, rgba(245, 158, 11, 0.6), transparent)`;
+  if (isCompleted) return `radial-gradient(circle, rgba(34, 197, 94, 0.6), transparent)`;
+  return `radial-gradient(circle, ${nodeColor}66, transparent)`;
+}
+
+function LockOverlay() {
+  return (
+    <div className="absolute inset-0 rounded-xl bg-black/60 backdrop-blur-sm z-20 flex items-center justify-center">
+      <span className="text-xl">🔒</span>
+    </div>
+  );
+}
+
+// ProgressRing subcomponent
+interface ProgressRingProps {
+  isLocked: boolean;
+  isCompleted: boolean;
+  progress: number;
+  delay: number;
+}
+
+function ProgressRing({ isLocked, isCompleted, progress, delay }: ProgressRingProps) {
+  if (isLocked) return null;
+
+  return (
+    <svg className="absolute inset-0 rotate-[-90deg]" style={{ width: '100%', height: '100%' }}>
+      <circle
+        cx="50%"
+        cy="50%"
+        r="45%"
+        fill="none"
+        stroke="rgba(255,255,255,0.15)"
+        strokeWidth="2"
+      />
+      <motion.circle
+        cx="50%"
+        cy="50%"
+        r="45%"
+        fill="none"
+        stroke={isCompleted ? '#22C55E' : '#FDE047'}
+        strokeWidth="2"
+        strokeLinecap="round"
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: progress / 100 }}
+        transition={{ duration: 1, delay: delay * 0.05 }}
+        style={{
+          strokeDasharray: '282.74',
+          strokeDashoffset: '0',
+        }}
+      />
+    </svg>
+  );
+}
+
+// TopicIcon subcomponent
+interface TopicIconProps {
+  isLocked: boolean;
+  isCompleted: boolean;
+  isInProgress: boolean;
+  icon: string;
+  gradient: string;
+}
+
+function TopicIcon({ isLocked, isCompleted, isInProgress, icon, gradient }: TopicIconProps) {
+  const background = getIconBackground(isLocked, isCompleted, isInProgress, gradient);
+
+  return (
+    <motion.div
+      className="absolute inset-0 rounded-lg flex items-center justify-center text-lg"
+      style={{ background }}
+    >
+      {icon}
+    </motion.div>
+  );
+}
+
+// TopicOrbContent subcomponent
+interface TopicOrbContentProps {
+  node: TopicNode;
+  isLocked: boolean;
+  isCompleted: boolean;
+  isInProgress: boolean;
+  delay: number;
+}
+
+function TopicOrbContent({ node, isLocked, isCompleted, isInProgress, delay }: TopicOrbContentProps) {
+  return (
+    <>
+      {/* Icon + Title Row */}
+      <div className="flex items-start gap-2 mb-2">
+        {/* Compact icon circle */}
+        <div className="relative w-10 h-10 flex-shrink-0">
+          <ProgressRing isLocked={isLocked} isCompleted={isCompleted} progress={node.progress} delay={delay} />
+          <TopicIcon
+            isLocked={isLocked}
+            isCompleted={isCompleted}
+            isInProgress={isInProgress}
+            icon={node.icon}
+            gradient={node.gradient}
+          />
+        </div>
+
+        {/* Title and level */}
+        <div className="flex-1 min-w-0">
+          <h3 className="text-sm font-semibold text-white truncate" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}>
+            {node.title}
+          </h3>
+          <div className="flex items-center gap-2 mt-1">
+            <span className="text-xs font-bold px-1.5 py-0.5 rounded bg-white/10 text-white/80">
+              {node.level}
+            </span>
+            {!isLocked && (
+              <span className="text-xs text-white/60">
+                {isCompleted ? '✓ Completado' : `${node.progress}%`}
+              </span>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* XP Reward for completed nodes */}
+      {isCompleted && (
+        <motion.div
+          className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-lf-accent text-lf-dark text-xs font-bold flex items-center justify-center shadow-lg"
+          animate={{ scale: [1, 1.1, 1] }}
+          transition={{ duration: 1, repeat: Infinity, delay: delay * 0.1 }}
+        >
+          +{node.xpReward}
+        </motion.div>
+      )}
+
+      {/* Glow effect on hover */}
+      {!isLocked && (
+        <motion.div
+          className="absolute inset-0 rounded-xl blur-md opacity-0 group-hover:opacity-30 transition-opacity"
+          style={{ background: getGlowBackground(isCompleted, isInProgress, node.color) }}
+        />
+      )}
+    </>
+  );
+}
+
 // Individual Topic Orb Component
 interface TopicOrbProps {
   node: TopicNode;
@@ -352,6 +517,10 @@ function TopicOrb({ node, index, delay }: TopicOrbProps) {
   const isLocked = node.isLocked;
   const isCompleted = node.isCompleted;
   const isInProgress = !isLocked && !isCompleted && node.progress > 0;
+
+  const cardStyles = getCardStyles(isLocked, isCompleted, isInProgress);
+  const ariaLabel = `${node.title} - ${node.level}${isLocked ? ' (bloqueado)' : ''}${isCompleted ? ' (completado)' : ''}`;
+  const hoverColor = getHoverColor(isCompleted, isInProgress, node.color);
 
   return (
     <motion.div
@@ -367,124 +536,22 @@ function TopicOrb({ node, index, delay }: TopicOrbProps) {
       <Link
         href={isLocked ? '#' : `/learn/node/${node.id}`}
         className={`block ${isLocked ? 'cursor-not-allowed' : 'cursor-pointer'}`}
-        aria-label={`${node.title} - ${node.level}${isLocked ? ' (bloqueado)' : ''}${isCompleted ? ' (completado)' : ''}`}
+        aria-label={ariaLabel}
       >
-        {/* Compact Topic Card */}
         <div className="relative group">
-          {/* Lock overlay for locked nodes */}
-          {isLocked && (
-            <div className="absolute inset-0 rounded-xl bg-black/60 backdrop-blur-sm z-20 flex items-center justify-center">
-              <span className="text-xl">🔒</span>
-            </div>
-          )}
-
-          {/* Card with glass effect */}
+          {isLocked && <LockOverlay />}
           <motion.div
-            className={`
-              rounded-xl p-3 border transition-all duration-300
-              ${isLocked
-                ? 'bg-lf-dark/50 border-white/10'
-                : isCompleted
-                ? 'bg-green-500/10 border-green-500/30'
-                : isInProgress
-                ? 'bg-orange-500/10 border-orange-500/30'
-                : 'bg-glass-surface backdrop-blur-aaa border-white/20'
-              }
-            `}
-            whileHover={!isLocked ? { scale: 1.02, borderColor: isCompleted ? '#22C55E' : isInProgress ? '#F59E0B' : node.color } : {}}
+            className={cardStyles}
+            whileHover={!isLocked ? { scale: 1.02, borderColor: hoverColor } : {}}
             transition={{ duration: 0.2 }}
           >
-            {/* Icon + Title Row */}
-            <div className="flex items-start gap-2 mb-2">
-              {/* Compact icon circle */}
-              <div className="relative w-10 h-10 flex-shrink-0">
-                {/* Progress ring */}
-                {!isLocked && (
-                  <svg className="absolute inset-0 rotate-[-90deg]" style={{ width: '100%', height: '100%' }}>
-                    <circle
-                      cx="50%"
-                      cy="50%"
-                      r="45%"
-                      fill="none"
-                      stroke="rgba(255,255,255,0.15)"
-                      strokeWidth="2"
-                    />
-                    <motion.circle
-                      cx="50%"
-                      cy="50%"
-                      r="45%"
-                      fill="none"
-                      stroke={isCompleted ? '#22C55E' : '#FDE047'}
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      initial={{ pathLength: 0 }}
-                      animate={{ pathLength: node.progress / 100 }}
-                      transition={{ duration: 1, delay: delay * 0.05 }}
-                      style={{
-                        strokeDasharray: '282.74',
-                        strokeDashoffset: '0',
-                      }}
-                    />
-                  </svg>
-                )}
-
-                {/* Icon background */}
-                <motion.div
-                  className="absolute inset-0 rounded-lg flex items-center justify-center text-lg"
-                  style={{
-                    background: isLocked
-                      ? 'radial-gradient(circle at 30% 30%, #334155, #1E293B)'
-                      : isCompleted
-                      ? 'radial-gradient(circle at 30% 30%, #22C55E, #16A34A)'
-                      : isInProgress
-                      ? 'radial-gradient(circle at 30% 30%, #F59E0B, #D97706)'
-                      : node.gradient,
-                  }}
-                >
-                  {node.icon}
-                </motion.div>
-              </div>
-
-              {/* Title and level */}
-              <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-semibold text-white truncate" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}>
-                  {node.title}
-                </h3>
-                <div className="flex items-center gap-2 mt-1">
-                  <span className="text-xs font-bold px-1.5 py-0.5 rounded bg-white/10 text-white/80">
-                    {node.level}
-                  </span>
-                  {!isLocked && (
-                    <span className="text-xs text-white/60">
-                      {isCompleted ? '✓ Completado' : `${node.progress}%`}
-                    </span>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {/* XP Reward for completed nodes */}
-            {isCompleted && (
-              <motion.div
-                className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-lf-accent text-lf-dark text-xs font-bold flex items-center justify-center shadow-lg"
-                animate={{ scale: [1, 1.1, 1] }}
-                transition={{ duration: 1, repeat: Infinity, delay: delay * 0.1 }}
-              >
-                +{node.xpReward}
-              </motion.div>
-            )}
-
-            {/* Glow effect on hover */}
-            {!isLocked && (
-              <motion.div
-                className="absolute inset-0 rounded-xl blur-md opacity-0 group-hover:opacity-30 transition-opacity"
-                style={{
-                  background: isInProgress || isCompleted
-                    ? `radial-gradient(circle, ${isCompleted ? 'rgba(34, 197, 94, 0.6)' : 'rgba(245, 158, 11, 0.6)'}, transparent)`
-                    : `radial-gradient(circle, ${node.color}66, transparent)`,
-                }}
-              />
-            )}
+            <TopicOrbContent
+              node={node}
+              isLocked={isLocked}
+              isCompleted={isCompleted}
+              isInProgress={isInProgress}
+              delay={delay}
+            />
           </motion.div>
         </div>
       </Link>

@@ -136,7 +136,7 @@ if (typeof window !== 'undefined') {
  * Hook para obtener el tema resuelto y función para cambiarlo
  */
 export function useTheme() {
-  const { mode, resolved, setTheme, toggleTheme, getTheme } = useThemeStore();
+  const { mode, resolved, setTheme, toggleTheme } = useThemeStore();
 
   // Escuchar cambios en preferencia del sistema cuando mode='system'
   if (typeof window !== 'undefined' && mode === 'system') {
@@ -163,7 +163,7 @@ export function useTheme() {
  * Hook para obtener clases CSS según el tema
  */
 export function useThemeClasses() {
-  const { isDark, isLight } = useTheme();
+  const { isDark } = useTheme();
 
   return {
     root: isDark ? 'dark' : 'light',

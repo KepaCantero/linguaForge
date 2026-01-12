@@ -1,21 +1,15 @@
 'use client';
 
-import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import type { JanusComposer } from '@/schemas/content';
 import type { JanusCompositionResult, SpeechRecordingResult } from '@/types';
 import { generateConjugatedPhrase } from '@/services/conjugationService';
 import { useGamificationStore } from '@/store/useGamificationStore';
-import {
-  getAdjacentColumnFocus,
-  getAdjacentOptionFocus,
-  processKeyboardEvent,
-  initializeKeyboardFocus,
-  type KeyboardFocusState,
-} from '@/services/janusKeyboardNavigationService';
+import { useJanusKeyboardNavigation, type ColumnSelection } from './hooks/useJanusKeyboardNavigation';
 import { JanusHeader } from './janus/JanusHeader';
 import { KeyboardHints } from './janus/KeyboardHints';
-import { ComposingPhase, type ComposingColumn } from './janus/ComposingPhase';
+import { ComposingPhase } from './janus/ComposingPhase';
 import { PreviewPhase } from './janus/PreviewPhase';
 import { PracticePhase } from './janus/PracticePhase';
 import { DialoguePhase } from './janus/DialoguePhase';
@@ -30,13 +24,6 @@ interface JanusComposerExerciseProps {
   onComplete: (result: JanusCompositionResult) => void;
   onSkip?: () => void;
   className?: string;
-}
-
-interface ColumnSelection {
-  columnId: string;
-  optionId: string;
-  value: string;
-  translation?: string;
 }
 
 type Phase = 'composing' | 'preview' | 'practice' | 'dialogue' | 'complete';
@@ -69,15 +56,6 @@ export function JanusComposerExercise({
   const [dialoguesCompleted, setDialoguesCompleted] = useState(0);
   const [phrasesCreated, setPhrasesCreated] = useState(0);
 
-  // Keyboard navigation state
-  const [keyboardFocus, setKeyboardFocus] = useState<KeyboardFocusState>({
-    columnId: null,
-    optionId: null,
-  });
-  const [hoveredTranslation, setHoveredTranslation] = useState<string | null>(null);
-  const columnRefs = useRef<Record<string, HTMLDivElement | null>>({});
-  const optionRefs = useRef<Record<string, HTMLButtonElement | null>>({});
-
   // Ordenar columnas: Subject > Verb > Complement > Time
   const orderedColumns = useMemo(() => {
     const order = ['subject', 'verb', 'complement', 'time'];
@@ -100,7 +78,6 @@ export function JanusComposerExercise({
 
     if (!subjectSel || !verbSel) return null;
 
-    // Obtener valores
     const subject = subjectSel.value;
     const verb = verbSel.value;
 
@@ -134,7 +111,7 @@ export function JanusComposerExercise({
     return parts.join(' ').trim() || 'Frase en español...';
   }, [orderedColumns, selections, generatedPhrase]);
 
-  // Verificar si todas las columnas principales están seleccionadas (subject y verb son requeridas)
+  // Verificar si todas las columnas principales están seleccionadas
   const allRequiredSelected = useMemo(() => {
     const requiredTypes = ['subject', 'verb'];
     return orderedColumns.every(col =>
@@ -203,11 +180,9 @@ export function JanusComposerExercise({
   }, [selections, generatedPhrase, generatedTranslation, dialoguesCompleted, addGems, onComplete]);
 
   // Manejar grabación completada
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleRecordingComplete = useCallback((_recording: SpeechRecordingResult) => {
     addXP(XP_VALUES.practiceSuccess);
 
-    // Si hay diálogos de práctica, ir a ellos
     if (exercise.practiceDialogues && exercise.practiceDialogues.length > 0) {
       setCurrentDialogueIndex(0);
       setPhase('dialogue');
@@ -234,126 +209,17 @@ export function JanusComposerExercise({
     setPhase('composing');
   }, []);
 
-  // ============================================================
-  // NAVEGACIÓN POR TECLADO
-  // ============================================================
-
-  // Mover foco a una columna específica
-  const moveFocusToColumn = useCallback((direction: 'next' | 'prev') => {
-    const newFocus = getAdjacentColumnFocus(keyboardFocus, orderedColumns, direction);
-
-    if (newFocus.columnId && newFocus.optionId) {
-      setKeyboardFocus(newFocus);
-
-      // Scroll al elemento
-      setTimeout(() => {
-        optionRefs.current[`${newFocus.columnId}-${newFocus.optionId}`]?.scrollIntoView({
-          behavior: 'smooth',
-          block: 'nearest',
-        });
-      }, 0);
-    }
-  }, [keyboardFocus, orderedColumns]);
-
-  // Mover foco a una opción dentro de la columna actual
-  const moveFocusToOption = useCallback((direction: 'next' | 'prev') => {
-    const newFocus = getAdjacentOptionFocus(keyboardFocus, orderedColumns, direction);
-
-    if (newFocus.optionId && newFocus.columnId) {
-      setKeyboardFocus(newFocus);
-
-      // Scroll al elemento
-      setTimeout(() => {
-        optionRefs.current[`${newFocus.columnId}-${newFocus.optionId}`]?.scrollIntoView({
-          behavior: 'smooth',
-          block: 'nearest',
-        });
-      }, 0);
-    }
-  }, [keyboardFocus, orderedColumns]);
-
-  // Seleccionar la opción enfocada
-  const selectFocusedOption = useCallback(() => {
-    if (!keyboardFocus.columnId || !keyboardFocus.optionId) return;
-
-    const column = orderedColumns.find(col => col.id === keyboardFocus.columnId);
-    if (!column) return;
-
-    const option = column.options.find(opt => opt.id === keyboardFocus.optionId);
-    if (!option) return;
-
-    handleSelectOption(column.id, {
-      id: option.id,
-      text: option.text,
-      ...(option.translation !== undefined && { translation: option.translation }),
-    });
-
-    // Auto-mover a la siguiente columna requerida
-    const requiredTypes = ['subject', 'verb'];
-    const nextRequiredColumn = orderedColumns.find((col, index) => {
-      const colIndex = orderedColumns.findIndex(c => c.id === column.id);
-      return index > colIndex && requiredTypes.includes(col.type) && !selections[col.id];
-    });
-
-    if (nextRequiredColumn) {
-      const firstOption = nextRequiredColumn.options[0];
-      setKeyboardFocus({
-        columnId: nextRequiredColumn.id,
-        optionId: firstOption?.id || null,
-      });
-    }
-  }, [keyboardFocus.columnId, keyboardFocus.optionId, orderedColumns, selections, handleSelectOption]);
-
-  // Manejar teclas de navegación
-  const handleKeyDown = useCallback((event: KeyboardEvent) => {
-    const result = processKeyboardEvent({
-      event,
-      phase,
-      currentFocus: keyboardFocus,
-      columns: orderedColumns,
-      selections,
-      canSubmit: !!generatedPhrase,
-      canPreview: false, // not implemented
-    });
-
-    if (result.preventDefault) {
-      event.preventDefault();
-    }
-
-    if (result.newFocus) {
-      setKeyboardFocus(result.newFocus);
-    }
-
-    switch (result.action) {
-      case 'select_focused':
-        selectFocusedOption();
-        break;
-      case 'clear_column':
-        if (result.newFocus?.columnId) {
-          handleClearSelection(result.newFocus.columnId);
-        }
-        break;
-      case 'clear_all':
-        handleReset();
-        break;
-      case 'submit':
-        handleConfirmComposition();
-        break;
-    }
-  }, [phase, keyboardFocus, orderedColumns, selections, generatedPhrase, selectFocusedOption, handleClearSelection, handleReset, handleConfirmComposition]);
-
-  // Efecto para registrar eventos de teclado
-  useEffect(() => {
-    globalThis.addEventListener('keydown', handleKeyDown);
-    return () => globalThis.removeEventListener('keydown', handleKeyDown);
-  }, [handleKeyDown]);
-
-  // Inicializar foco en la primera columna al entrar en composing phase
-  useEffect(() => {
-    if (phase === 'composing' && !keyboardFocus.columnId && orderedColumns.length > 0) {
-      setKeyboardFocus(initializeKeyboardFocus(orderedColumns));
-    }
-  }, [phase, keyboardFocus.columnId, orderedColumns]);
+  // Navegación por teclado - custom hook
+  const keyboardNav = useJanusKeyboardNavigation({
+    phase,
+    columns: orderedColumns,
+    selections,
+    generatedPhrase: generatedPhrase || '',
+    onSelectOption: handleSelectOption,
+    onClearSelection: handleClearSelection,
+    onReset: handleReset,
+    onConfirmComposition: handleConfirmComposition,
+  });
 
   const currentDialogue = exercise.practiceDialogues?.[currentDialogueIndex];
 
@@ -361,11 +227,9 @@ export function JanusComposerExercise({
     <div className={`max-w-2xl mx-auto ${className}`}>
       <JanusHeader phrasesCreated={phrasesCreated} />
 
-      {/* Keyboard navigation hints - solo visible en composing phase */}
       {phase === 'composing' && <KeyboardHints />}
 
       <AnimatePresence mode="wait">
-        {/* Fase de composición */}
         {phase === 'composing' && (
           <ComposingPhase
             columns={orderedColumns}
@@ -373,19 +237,18 @@ export function JanusComposerExercise({
             generatedPhrase={generatedPhrase}
             generatedTranslation={generatedTranslation}
             allRequiredSelected={allRequiredSelected}
-            keyboardFocus={keyboardFocus}
-            hoveredTranslation={hoveredTranslation}
-            columnRefs={columnRefs}
-            optionRefs={optionRefs}
+            keyboardFocus={keyboardNav.keyboardFocus}
+            hoveredTranslation={keyboardNav.hoveredTranslation}
+            columnRefs={keyboardNav.columnRefs}
+            optionRefs={keyboardNav.optionRefs}
             onSelectOption={handleSelectOption}
             onClearSelection={handleClearSelection}
             onReset={handleReset}
             onConfirmComposition={handleConfirmComposition}
-            onHoverTranslation={setHoveredTranslation}
+            onHoverTranslation={keyboardNav.setHoveredTranslation}
           />
         )}
 
-        {/* Fase de preview */}
         {phase === 'preview' && generatedPhrase && (
           <PreviewPhase
             generatedPhrase={generatedPhrase}
@@ -398,7 +261,6 @@ export function JanusComposerExercise({
           />
         )}
 
-        {/* Fase de práctica */}
         {phase === 'practice' && generatedPhrase && (
           <PracticePhase
             generatedPhrase={generatedPhrase}
@@ -407,7 +269,6 @@ export function JanusComposerExercise({
           />
         )}
 
-        {/* Fase de diálogo */}
         {phase === 'dialogue' && currentDialogue && (
           <DialoguePhase
             currentDialogue={currentDialogue}
@@ -419,7 +280,6 @@ export function JanusComposerExercise({
           />
         )}
 
-        {/* Completado */}
         {phase === 'complete' && (
           <CompletePhase
             generatedPhrase={generatedPhrase}
@@ -428,7 +288,6 @@ export function JanusComposerExercise({
         )}
       </AnimatePresence>
 
-      {/* Botón de saltar */}
       {onSkip && phase !== 'complete' && (
         <div className="mt-6 text-center">
           <button

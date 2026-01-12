@@ -6,7 +6,7 @@ import { DecksStats } from '@/components/decks/DecksStats';
 import { DecksFilters } from '@/components/decks/DecksFilters';
 import { DeckCard } from '@/components/decks/DeckCard';
 import { DecksEmptyState } from '@/components/decks/DecksEmptyState';
-import { type FilterType, useDecksData, type SourceType } from './hooks/useDecksData';
+import { type FilterType, type SourceType, useDecksData } from './hooks/useDecksData';
 
 export default function DecksPage() {
   const [filter, setFilter] = useState<FilterType>('all');

@@ -86,26 +86,9 @@ export const useImportedNodesStore = create<ImportedNodesStore>()(
           percentage: 0,
         };
 
-        console.log('[ImportedNodesStore] Creating node:', {
-          id,
-          title: nodeData.title,
-          subtopicsCount: nodeData.subtopics.length,
-          totalPhrases: nodeData.subtopics.reduce((acc, s) => acc + s.phrases.length, 0),
-        });
-
         set((state) => ({
           nodes: [...state.nodes, newNode],
         }));
-
-        // Verificar que se guardó
-        setTimeout(() => {
-          const stored = localStorage.getItem('linguaforge-imported-nodes');
-          if (!stored) {
-            console.error('[ImportedNodesStore] ERROR: No se guardó en localStorage!');
-          } else {
-            console.log('[ImportedNodesStore] Guardado correctamente, tamaño:', stored.length, 'bytes');
-          }
-        }, 100);
 
         return id;
       },
@@ -171,14 +154,8 @@ export const useImportedNodesStore = create<ImportedNodesStore>()(
     }),
     {
       name: 'linguaforge-imported-nodes',
-      onRehydrateStorage: () => (state) => {
-        console.log('[ImportedNodesStore] Rehidratando store...');
-        console.log('[ImportedNodesStore] Nodos cargados:', state?.nodes?.length || 0);
-        if (state && state.nodes) {
-          state.nodes.forEach(node => {
-            console.log('[ImportedNodesStore] - Node:', node.id, node.title);
-          });
-        }
+      onRehydrateStorage: () => () => {
+        // Rehidratación completada
       },
     }
   )

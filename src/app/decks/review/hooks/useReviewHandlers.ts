@@ -4,12 +4,20 @@ import { useWordDictionaryStore } from '@/store/useWordDictionaryStore';
 import type { ReviewResponse, SRSCard } from '@/types/srs';
 import type { SessionMetrics } from '@/components/exercises/MemoryBank/MemoryBankSession';
 
-function getReviewResponse(isCorrect: boolean): ReviewResponse {
-  return isCorrect ? 'good' : 'again';
+function getReviewResponseForCorrect(): ReviewResponse {
+  return 'good';
 }
 
-function calculateExerciseXP(isCorrect: boolean): number {
-  return isCorrect ? 10 : 5;
+function getReviewResponseForIncorrect(): ReviewResponse {
+  return 'again';
+}
+
+function calculateXPForCorrect(): number {
+  return 10;
+}
+
+function calculateXPForIncorrect(): number {
+  return 5;
 }
 
 export interface ReviewHandlersProps {
@@ -39,7 +47,7 @@ export function useReviewHandlers({
   const handleExerciseComplete = useCallback((correct: boolean) => {
     if (!currentCard) return;
 
-    const response = getReviewResponse(correct);
+    const response = correct ? getReviewResponseForCorrect() : getReviewResponseForIncorrect();
     const updatedCard = reviewCard(currentCard.id, response);
 
     setSessionStats(prev => ({
@@ -47,7 +55,7 @@ export function useReviewHandlers({
       incorrect: prev.incorrect + (correct ? 0 : 1),
     }));
 
-    addXP(calculateExerciseXP(correct));
+    addXP(correct ? calculateXPForCorrect() : calculateXPForIncorrect());
 
     if (updatedCard?.status === 'graduated') {
       markAsMastered(currentCard.phrase);
@@ -78,7 +86,7 @@ export function useReviewHandlers({
   const handleMemoryBankCardReview = useCallback((cardId: string, isCorrect: boolean) => {
     const card = cardsToReview.find(c => c.id === cardId);
     if (card) {
-      const response: ReviewResponse = isCorrect ? 'good' : 'again';
+      const response = isCorrect ? getReviewResponseForCorrect() : getReviewResponseForIncorrect();
       const updatedCard = reviewCard(card.id, response);
 
       if (updatedCard?.status === 'graduated') {

@@ -109,9 +109,9 @@ export default function Home() {
             { icon: '🎯', label: 'A0 Level' },
             { icon: '🗣️', label: 'Real French' },
             { icon: '🎮', label: 'Gamified' },
-          ].map((feature, i) => (
+          ].map((feature) => (
             <div
-              key={i}
+              key={feature.label}
               className="bg-white/10 backdrop-blur rounded-xl p-3 text-center"
             >
               <div className="text-2xl mb-1">{feature.icon}</div>

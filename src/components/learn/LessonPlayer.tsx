@@ -70,7 +70,7 @@ export function LessonPlayer({ lesson, onComplete }: LessonPlayerProps) {
     }
 
     // Actualizar progreso en el store
-    completeExercise(lesson.nodeId, correct);
+    completeExercise(lesson.nodeId);
 
     // Pasar al siguiente ejercicio o terminar
     if (currentIndex < totalExercises - 1) {

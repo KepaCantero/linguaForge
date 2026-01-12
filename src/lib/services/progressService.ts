@@ -58,36 +58,11 @@ export async function saveExerciseCompletion(
     let progress: LessonProgress;
 
     if (fetchError && fetchError.code === 'PGRST116') {
-      // No existe, crear nuevo
-      progress = {
-        user_id: userId,
-        lesson_id: lessonId,
-        ...(worldId !== undefined && { world_id: worldId }),
-        completed_exercises: [exerciseId],
-        correct_answers: isCorrect ? 1 : 0,
-        total_attempts: 1,
-        status: 'in_progress',
-        started_at: new Date().toISOString(),
-        last_activity_at: new Date().toISOString(),
-        xp_earned: 0,
-      };
+      progress = createNewProgress(userId, lessonId, exerciseId, isCorrect, worldId);
     } else if (fetchError) {
       throw fetchError;
     } else {
-      // Actualizar existente
-      const completedExercises = existingProgress.completed_exercises || [];
-      const isNewExercise = !completedExercises.includes(exerciseId);
-
-      progress = {
-        ...existingProgress,
-        completed_exercises: isNewExercise
-          ? [...completedExercises, exerciseId]
-          : completedExercises,
-        correct_answers: existingProgress.correct_answers + (isCorrect ? 1 : 0),
-        total_attempts: existingProgress.total_attempts + 1,
-        status: existingProgress.status === 'not_started' ? 'in_progress' : existingProgress.status,
-        last_activity_at: new Date().toISOString(),
-      };
+      progress = updateExistingProgress(existingProgress, exerciseId, isCorrect);
     }
 
     // Guardar en Supabase
@@ -104,6 +79,47 @@ export async function saveExerciseCompletion(
     console.error('Error saving exercise completion:', error);
     return { error: error instanceof Error ? error : new Error('Unknown error') };
   }
+}
+
+function createNewProgress(
+  userId: string,
+  lessonId: string,
+  exerciseId: string,
+  isCorrect: boolean,
+  worldId?: string
+): LessonProgress {
+  return {
+    user_id: userId,
+    lesson_id: lessonId,
+    ...(worldId !== undefined && { world_id: worldId }),
+    completed_exercises: [exerciseId],
+    correct_answers: isCorrect ? 1 : 0,
+    total_attempts: 1,
+    status: 'in_progress',
+    started_at: new Date().toISOString(),
+    last_activity_at: new Date().toISOString(),
+    xp_earned: 0,
+  };
+}
+
+function updateExistingProgress(
+  existingProgress: any,
+  exerciseId: string,
+  isCorrect: boolean
+): LessonProgress {
+  const completedExercises = existingProgress.completed_exercises || [];
+  const isNewExercise = !completedExercises.includes(exerciseId);
+
+  return {
+    ...existingProgress,
+    completed_exercises: isNewExercise
+      ? [...completedExercises, exerciseId]
+      : completedExercises,
+    correct_answers: existingProgress.correct_answers + (isCorrect ? 1 : 0),
+    total_attempts: existingProgress.total_attempts + 1,
+    status: existingProgress.status === 'not_started' ? 'in_progress' : existingProgress.status,
+    last_activity_at: new Date().toISOString(),
+  };
 }
 
 /**

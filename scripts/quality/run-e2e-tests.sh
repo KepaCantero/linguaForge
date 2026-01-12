@@ -111,7 +111,7 @@ print_info "Esperando a que el servidor esté listo..."
 MAX_WAIT=30
 WAIT_COUNT=0
 
-while [ $WAIT_COUNT -lt $MAX_WAIT ]; do
+while [[ $WAIT_COUNT -lt $MAX_WAIT ]]; do
     if curl -s -f "http://localhost:${PORT}" > /dev/null 2>&1; then
         print_success "Servidor listo en http://localhost:${PORT}"
         break
@@ -121,7 +121,7 @@ while [ $WAIT_COUNT -lt $MAX_WAIT ]; do
     echo -n "."
 done
 
-if [ $WAIT_COUNT -eq $MAX_WAIT ]; then
+if [[ $WAIT_COUNT -eq $MAX_WAIT ]]; then
     print_error "El servidor no inició en ${MAX_WAIT}s"
     cat .logs/server.log
     kill $SERVER_PID 2>/dev/null || true
@@ -147,7 +147,7 @@ for pattern in "${E2E_TEST_PATTERNS[@]}"; do
     fi
 done
 
-if [ "$E2E_TESTS_FOUND" = false ]; then
+if [[ "$E2E_TESTS_FOUND" = false ]]; then
     print_warning "No se encontraron tests E2E"
     print_info "Flujos críticos que deberían probarse:"
     echo "  • Onboarding de usuario"
@@ -193,7 +193,7 @@ fi
 # ============================================================================
 print_header "📊 GENERANDO REPORTES"
 
-if [ -d "${REPORT_DIR}/playwright-report-${TIMESTAMP}" ]; then
+if [[ -d "${REPORT_DIR}/playwright-report-${TIMESTAMP}" ]]; then
     print_success "Reporte HTML generado"
     print_info "Ubicación: ${REPORT_DIR}/playwright-report-${TIMESTAMP}/index.html"
 
@@ -207,7 +207,7 @@ fi
 # ============================================================================
 # 5️⃣ CAPTURAR SCREENSHOTS DE FALLAS
 # ============================================================================
-if [ $E2E_TESTS_STATUS -ne 0 ]; then
+if [[ $E2E_TESTS_STATUS -ne 0 ]]; then
     print_info "Screenshots de fallas guardadas en:"
     echo "  • test-results/"
     echo "  • ${REPORT_DIR}/playwright-report-${TIMESTAMP}/"
@@ -240,7 +240,7 @@ SECONDS=$((DURATION % 60))
 echo -e "${CYAN}Duración: ${MINUTES}m ${SECONDS}s${NC}"
 echo -e "Reporte guardado en: ${REPORT_FILE}"
 
-if [ -d "${REPORT_DIR}/playwright-report-${TIMESTAMP}" ]; then
+if [[ -d "${REPORT_DIR}/playwright-report-${TIMESTAMP}" ]]; then
     echo -e "Reporte HTML: ${REPORT_DIR}/playwright-report-${TIMESTAMP}/index.html"
 fi
 
@@ -248,7 +248,7 @@ fi
 # 8️⃣ EXIT CODE
 # ============================================================================
 echo ""
-if [ $E2E_TESTS_STATUS -eq 0 ]; then
+if [[ $E2E_TESTS_STATUS -eq 0 ]]; then
     print_success "E2E TESTS: COMPLETADOS CON ÉXITO"
     echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     exit 0

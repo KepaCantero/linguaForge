@@ -42,18 +42,19 @@ export function ServiceWorkerRegistration() {
         // Verificar actualizaciones
         registration.addEventListener('updatefound', () => {
           const newWorker = registration.installing;
-          if (newWorker) {
-            newWorker.addEventListener('statechange', () => {
-              if (
-                newWorker.state === 'installed' &&
-                navigator.serviceWorker.controller
-              ) {
-                // Nueva versión disponible
-                setState((s) => ({ ...s, isUpdateAvailable: true }));
-                console.log('[PWA] New version available');
-              }
-            });
-          }
+          if (!newWorker) return;
+
+          newWorker.addEventListener('statechange', () => {
+            const isNewVersionInstalled =
+              newWorker.state === 'installed' &&
+              navigator.serviceWorker.controller;
+
+            if (isNewVersionInstalled) {
+              // Nueva versión disponible
+              setState((s) => ({ ...s, isUpdateAvailable: true }));
+              console.log('[PWA] New version available');
+            }
+          });
         });
 
         // Escuchar mensajes del service worker

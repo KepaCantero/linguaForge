@@ -21,6 +21,126 @@ interface PhraseSelectionPanelProps {
   onPhrasesAdded?: (count: number) => void;
 }
 
+// Helper function to get type labels
+function getTypeLabel(type: string): string {
+  const labels: Record<string, string> = {
+    verb: 'Verbos',
+    noun: 'Sustantivos',
+    adverb: 'Adverbios',
+    adjective: 'Adjetivos',
+    other: 'Otras',
+  };
+  return labels[type] || type;
+}
+
+// Helper function to get type colors
+function getTypeColor(type: string): string {
+  const colors: Record<string, string> = {
+    verb: 'bg-blue-100 dark:bg-blue-900/30 border-blue-300 dark:border-blue-700',
+    noun: 'bg-green-100 dark:bg-green-900/30 border-green-300 dark:border-green-700',
+    adverb: 'bg-purple-100 dark:bg-purple-900/30 border-purple-300 dark:border-purple-700',
+    adjective: 'bg-orange-100 dark:bg-orange-900/30 border-orange-300 dark:border-orange-700',
+    other: 'bg-gray-100 dark:bg-gray-700/50 border-gray-300 dark:border-gray-600',
+  };
+  return colors[type] || colors.other;
+}
+
+// WordItem subcomponent
+interface WordItemProps {
+  word: ExtractedWord;
+  selectedPhrases: SelectedPhrase[];
+  translations: Record<string, string>;
+  isTranslating: boolean;
+  isWordStudied: (word: string) => boolean;
+}
+
+function WordItem({ word, selectedPhrases, translations, isTranslating, isWordStudied }: WordItemProps) {
+  const isStudied = isWordStudied(word.normalized);
+  const originalPhrase = selectedPhrases.find(p =>
+    p.text.toLowerCase().includes(word.word.toLowerCase())
+  );
+
+  return (
+    <motion.div
+      key={word.normalized}
+      initial={{ opacity: 0, x: -20 }}
+      animate={{ opacity: 1, x: 0 }}
+      className={`p-2 rounded border ${
+        isStudied
+          ? 'bg-gray-50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700 opacity-60'
+          : 'bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600'
+      }`}
+    >
+      <div className="flex items-start justify-between gap-2 mb-1">
+        <div className="flex-1">
+          <p className={`text-sm font-medium ${isStudied ? 'text-gray-500 dark:text-gray-400' : 'text-gray-900 dark:text-white'}`}>
+            {word.word}
+          </p>
+          {originalPhrase && (
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 italic">
+              "{originalPhrase.text.substring(0, 60)}..."
+            </p>
+          )}
+        </div>
+        {isStudied && (
+          <span className="text-xs text-green-600 dark:text-green-400">✓ Estudiada</span>
+        )}
+      </div>
+
+      {!isStudied && (
+        <div className="mt-1">
+          {isTranslating && !translations[word.normalized] ? (
+            <div className="px-2 py-1.5 text-xs text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-700/50 rounded border border-gray-200 dark:border-gray-600">
+              Traduciendo...
+            </div>
+          ) : (
+            <div className="px-2 py-1.5 text-sm text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-700/50 rounded border border-gray-200 dark:border-gray-600">
+              {translations[word.normalized] || word.word}
+            </div>
+          )}
+        </div>
+      )}
+    </motion.div>
+  );
+}
+
+// WordTypeGroup subcomponent
+interface WordTypeGroupProps {
+  type: string;
+  words: ExtractedWord[];
+  selectedPhrases: SelectedPhrase[];
+  translations: Record<string, string>;
+  isTranslating: boolean;
+  isWordStudied: (word: string) => boolean;
+}
+
+function WordTypeGroup({ type, words, selectedPhrases, translations, isTranslating, isWordStudied }: WordTypeGroupProps) {
+  if (words.length === 0) return null;
+
+  const typeLabel = getTypeLabel(type);
+  const typeColor = getTypeColor(type);
+
+  return (
+    <div className={`p-3 rounded-lg border ${typeColor}`}>
+      <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-2">
+        {typeLabel} ({words.length})
+      </h4>
+      <div className="space-y-2">
+        {words.map((word) => (
+          <WordItem
+            key={word.normalized}
+            word={word}
+            selectedPhrases={selectedPhrases}
+            translations={translations}
+            isTranslating={isTranslating}
+            isWordStudied={isWordStudied}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function PhraseSelectionPanel({
   selectedPhrases,
   source,
@@ -31,7 +151,7 @@ export function PhraseSelectionPanel({
   const { addXP } = useGamificationStore();
   const { activeLanguage, activeLevel } = useProgressStore();
   const { getNewWords, addWord, isWordStudied } = useWordDictionaryStore();
-  
+
   const [translations, setTranslations] = useState<Record<string, string>>({});
   const [isCreating, setIsCreating] = useState(false);
   const [isTranslating, setIsTranslating] = useState(false);
@@ -59,17 +179,17 @@ export function PhraseSelectionPanel({
       adjective: [],
       other: [],
     };
-    
+
     newWords.forEach(word => {
       grouped[word.type].push(word);
     });
-    
+
     return grouped;
   }, [newWords]);
 
   // Traducir automáticamente las palabras nuevas cuando cambian
-  const newWordsKeys = useMemo(() => 
-    newWords.map(w => w.normalized).sort().join(','), 
+  const newWordsKeys = useMemo(() =>
+    newWords.map(w => w.normalized).sort().join(','),
     [newWords]
   );
 
@@ -82,10 +202,10 @@ export function PhraseSelectionPanel({
         const wordsToTranslate = newWords
           .filter(word => !translations[word.normalized])
           .map(word => word.word);
-        
+
         if (wordsToTranslate.length > 0) {
           const newTranslations = await translateWords(wordsToTranslate);
-          
+
           // Mapear traducciones usando normalized como key
           const normalizedTranslations: Record<string, string> = {};
           newWords.forEach(word => {
@@ -93,7 +213,7 @@ export function PhraseSelectionPanel({
               normalizedTranslations[word.normalized] = newTranslations[word.word];
             }
           });
-          
+
           setTranslations(prev => ({
             ...prev,
             ...normalizedTranslations,
@@ -117,40 +237,32 @@ export function PhraseSelectionPanel({
     }
 
     setIsCreating(true);
-    
-    try {
-      // Crear cards para palabras individuales (no frases completas)
-      // Cada card será para una palabra con su contexto
-      // Crear cards para todas las palabras nuevas (ya tienen traducción automática)
-      const cardsToCreate = newWords
-        .map(word => {
-          // Encontrar la frase original donde aparece esta palabra
-          const originalPhrase = selectedPhrases.find(p => 
-            p.text.toLowerCase().includes(word.word.toLowerCase())
-          ) || selectedPhrases[0];
 
-          // Crear frase de ejemplo con la palabra destacada
-          const examplePhrase = originalPhrase.text;
-          
-          return {
-            phrase: word.word, // La palabra individual
-            translation: translations[word.normalized]?.trim() || word.word, // Usar traducción automática o palabra original como fallback
-            source: {
-              ...source,
-              context: `Ejemplo: "${examplePhrase}"`,
-              timestamp: originalPhrase.start ?? source.timestamp,
-            },
-            languageCode: activeLanguage,
-            levelCode: activeLevel,
-            tags: [
-              source.type === 'video' ? 'video' : source.type === 'audio' ? 'audio' : 'text',
-              'transcript',
-              'word',
-              word.type, // 'verb', 'noun', 'adverb', 'adjective'
-            ],
-            notes: `Tipo: ${word.type}. Contexto: ${originalPhrase.contextBefore ? `...${originalPhrase.contextBefore}` : ''} [${examplePhrase}] ${originalPhrase.contextAfter ? `${originalPhrase.contextAfter}...` : ''}`,
-          };
-        });
+    try {
+      const createCardData = (word: typeof newWords[0]) => {
+        const originalPhrase = selectedPhrases.find(p =>
+          p.text.toLowerCase().includes(word.word.toLowerCase())
+        ) || selectedPhrases[0];
+
+        const examplePhrase = originalPhrase.text;
+        const sourceTypeTag = source.type === 'video' ? 'video' : source.type === 'audio' ? 'audio' : 'text';
+
+        return {
+          phrase: word.word,
+          translation: translations[word.normalized]?.trim() || word.word,
+          source: {
+            ...source,
+            context: `Ejemplo: "${examplePhrase}"`,
+            timestamp: originalPhrase.start ?? source.timestamp,
+          },
+          languageCode: activeLanguage,
+          levelCode: activeLevel,
+          tags: [sourceTypeTag, 'transcript', 'word', word.type],
+          notes: `Tipo: ${word.type}. Contexto: ${originalPhrase.contextBefore ? `...${originalPhrase.contextBefore}` : ''} [${examplePhrase}] ${originalPhrase.contextAfter ? `${originalPhrase.contextAfter}...` : ''}`,
+        };
+      };
+
+      const cardsToCreate = newWords.map(createCardData);
 
       if (cardsToCreate.length === 0) {
         alert('No hay palabras nuevas para crear cards');
@@ -158,25 +270,19 @@ export function PhraseSelectionPanel({
         return;
       }
 
-      // Crear las cards
       const createdCards = addCards(cardsToCreate);
-      
-      // Actualizar diccionario: marcar palabras como estudiadas
+
       createdCards.forEach((card, index) => {
         const word = newWords[index];
         if (word) {
           addWord(word.word, word.type, card.id);
         }
       });
-      
-      // Dar XP por crear cards
-      addXP(cardsToCreate.length * 15); // 15 XP por card creado
-      
+
+      addXP(cardsToCreate.length * 15);
       onPhrasesAdded?.(cardsToCreate.length);
-      
-      // Limpiar selecciones
       setTranslations({});
-      
+
       alert(`✓ ${cardsToCreate.length} palabra${cardsToCreate.length !== 1 ? 's' : ''} nueva${cardsToCreate.length !== 1 ? 's' : ''} añadida${cardsToCreate.length !== 1 ? 's' : ''} al deck`);
     } catch (error) {
       console.error('Error creating cards:', error);
@@ -188,7 +294,7 @@ export function PhraseSelectionPanel({
 
   // Todas las palabras nuevas tienen traducción automática
   const canCreateCards = newWords.length > 0 && !isTranslating;
-  
+
   const totalStudiedWords = extractedWords.filter(w => isWordStudied(w.normalized)).length;
 
   return (
@@ -232,85 +338,18 @@ export function PhraseSelectionPanel({
       {showWordExtraction && (
         <div className="space-y-4 flex-1 overflow-y-auto mb-4">
           {/* Palabras nuevas por tipo */}
-          {Object.entries(wordsByType).map(([type, words]) => {
-            if (words.length === 0) return null;
-            
-            const typeLabels: Record<string, string> = {
-              verb: 'Verbos',
-              noun: 'Sustantivos',
-              adverb: 'Adverbios',
-              adjective: 'Adjetivos',
-              other: 'Otras',
-            };
-            
-            const typeColors: Record<string, string> = {
-              verb: 'bg-blue-100 dark:bg-blue-900/30 border-blue-300 dark:border-blue-700',
-              noun: 'bg-green-100 dark:bg-green-900/30 border-green-300 dark:border-green-700',
-              adverb: 'bg-purple-100 dark:bg-purple-900/30 border-purple-300 dark:border-purple-700',
-              adjective: 'bg-orange-100 dark:bg-orange-900/30 border-orange-300 dark:border-orange-700',
-              other: 'bg-gray-100 dark:bg-gray-700/50 border-gray-300 dark:border-gray-600',
-            };
-            
-            return (
-              <div key={type} className={`p-3 rounded-lg border ${typeColors[type]}`}>
-                <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-2">
-                  {typeLabels[type]} ({words.length})
-                </h4>
-                <div className="space-y-2">
-                  {words.map((word) => {
-                    const isStudied = isWordStudied(word.normalized);
-                    const originalPhrase = selectedPhrases.find(p => 
-                      p.text.toLowerCase().includes(word.word.toLowerCase())
-                    );
-                    
-                    return (
-                      <motion.div
-                        key={word.normalized}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        className={`p-2 rounded border ${
-                          isStudied 
-                            ? 'bg-gray-50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700 opacity-60'
-                            : 'bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600'
-                        }`}
-                      >
-                        <div className="flex items-start justify-between gap-2 mb-1">
-                          <div className="flex-1">
-                            <p className={`text-sm font-medium ${isStudied ? 'text-gray-500 dark:text-gray-400' : 'text-gray-900 dark:text-white'}`}>
-                              {word.word}
-                            </p>
-                            {originalPhrase && (
-                              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 italic">
-                                &ldquo;{originalPhrase.text.substring(0, 60)}...&rdquo;
-                              </p>
-                            )}
-                          </div>
-                          {isStudied && (
-                            <span className="text-xs text-green-600 dark:text-green-400">✓ Estudiada</span>
-                          )}
-                        </div>
-                        
-                        {!isStudied && (
-                          <div className="mt-1">
-                            {isTranslating && !translations[word.normalized] ? (
-                              <div className="px-2 py-1.5 text-xs text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-700/50 rounded border border-gray-200 dark:border-gray-600">
-                                Traduciendo...
-                              </div>
-                            ) : (
-                              <div className="px-2 py-1.5 text-sm text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-700/50 rounded border border-gray-200 dark:border-gray-600">
-                                {translations[word.normalized] || word.word}
-                              </div>
-                            )}
-                          </div>
-                        )}
-                      </motion.div>
-                    );
-                  })}
-                </div>
-              </div>
-            );
-          })}
-          
+          {Object.entries(wordsByType).map(([type, words]) => (
+            <WordTypeGroup
+              key={type}
+              type={type}
+              words={words}
+              selectedPhrases={selectedPhrases}
+              translations={translations}
+              isTranslating={isTranslating}
+              isWordStudied={isWordStudied}
+            />
+          ))}
+
           {newWords.length === 0 && (
             <div className="p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg text-center">
               <p className="text-sm text-green-800 dark:text-green-200">

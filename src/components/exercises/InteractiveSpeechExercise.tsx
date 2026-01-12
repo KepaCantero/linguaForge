@@ -1,27 +1,21 @@
 'use client';
 
-import { useState, useRef, useCallback, useEffect, useMemo } from 'react';
+import { useRef, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import type { InteractiveSpeech, InteractiveSpeechResult, SpeechTurnResult, SpeechRecordingResult } from '@/types';
+import type { InteractiveSpeech, SpeechRecordingResult } from '@/types';
 import { useGamificationStore } from '@/store/useGamificationStore';
-import {
-  calculateFluencyScore,
-  createSpeechTurnResult,
-  createExerciseResult,
-  XP_VALUES,
-} from '@/services/interactiveSpeechTimerService';
+import { XP_VALUES } from '@/services/interactiveSpeechTimerService';
+import { useInteractiveSpeechFlow } from './hooks/useInteractiveSpeechFlow';
 import { SystemSpeakPhase } from './interactive/SystemSpeakPhase';
 import { ResponsePhase } from './interactive/ResponsePhase';
 import { CompletePhase } from './interactive/CompletePhase';
 
 interface InteractiveSpeechExerciseProps {
   exercise: InteractiveSpeech;
-  onComplete: (result: InteractiveSpeechResult) => void;
+  onComplete: (result: any) => void;
   onSkip?: () => void;
   className?: string;
 }
-
-type Phase = 'system_speak' | 'waiting_response' | 'recording' | 'feedback' | 'complete';
 
 export function InteractiveSpeechExercise({
   exercise,
@@ -30,186 +24,51 @@ export function InteractiveSpeechExercise({
   className = '',
 }: InteractiveSpeechExerciseProps) {
   const { addXP, addGems } = useGamificationStore();
-
-  const [phase, setPhase] = useState<Phase>('system_speak');
-  const [currentStepIndex, setCurrentStepIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [turnResults, setTurnResults] = useState<SpeechTurnResult[]>([]);
-  const [responseStartTime, setResponseStartTime] = useState<number>(0);
-  const [silenceTimer, setSilenceTimer] = useState<number | null>(null);
-  const [showHint, setShowHint] = useState(false);
-  const [showExample, setShowExample] = useState(false);
-
   const audioRefs = useRef<(HTMLAudioElement | null)[]>([]);
-  const silenceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const hintTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const exampleTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const currentStep = exercise.conversationFlow[currentStepIndex];
-  const silenceConfig = useMemo(() => exercise.silenceHandling || {
-    hintAfter: 3,
-    exampleAfter: 6,
-    autoPromptAfter: 10,
-  }, [exercise.silenceHandling]);
+  const flow = useInteractiveSpeechFlow({ exercise, onComplete });
 
+  // Audio playback effect
   useEffect(() => {
-    if (currentStep?.type === 'system_speak') {
-      const audio = audioRefs.current[currentStepIndex];
+    if (flow.currentStep?.type === 'system_speak') {
+      const audio = audioRefs.current[flow.currentStepIndex];
       if (audio) {
-        setIsPlaying(true);
+        flow.setIsPlaying(true);
         audio.onended = () => {
-          setIsPlaying(false);
-          setPhase('waiting_response');
-          setResponseStartTime(Date.now());
+          flow.setIsPlaying(false);
+          flow.setPhase('waiting_response');
+          flow.setResponseStartTime(Date.now());
         };
         audio.currentTime = 0;
         audio.play().catch(() => {
-          setIsPlaying(false);
-          setPhase('waiting_response');
-          setResponseStartTime(Date.now());
+          flow.setIsPlaying(false);
+          flow.setPhase('waiting_response');
+          flow.setResponseStartTime(Date.now());
         });
       } else {
-        setPhase('waiting_response');
-        setResponseStartTime(Date.now());
+        flow.setPhase('waiting_response');
+        flow.setResponseStartTime(Date.now());
       }
     }
-  }, [currentStep, currentStepIndex]);
-
-  const cancelTimers = useCallback(() => {
-    if (silenceTimeoutRef.current) clearTimeout(silenceTimeoutRef.current);
-    if (hintTimeoutRef.current) clearTimeout(hintTimeoutRef.current);
-    if (exampleTimeoutRef.current) clearTimeout(exampleTimeoutRef.current);
-    setSilenceTimer(null);
-  }, []);
-
-  useEffect(() => {
-    return () => {
-      cancelTimers();
-    };
-  }, [cancelTimers]);
-
-  const startWaitingForResponse = useCallback(() => {
-    setPhase('waiting_response');
-    setResponseStartTime(Date.now());
-    setShowHint(false);
-    setShowExample(false);
-
-    if (hintTimeoutRef.current) clearTimeout(hintTimeoutRef.current);
-    if (exampleTimeoutRef.current) clearTimeout(exampleTimeoutRef.current);
-    if (silenceTimeoutRef.current) clearTimeout(silenceTimeoutRef.current);
-
-    let countdown = silenceConfig.autoPromptAfter;
-    setSilenceTimer(countdown);
-
-    const tick = () => {
-      countdown--;
-      setSilenceTimer(countdown);
-
-      if (countdown <= 0) {
-        cancelTimers();
-        if (currentStepIndex < exercise.conversationFlow.length - 1) {
-          setCurrentStepIndex(prev => prev + 1);
-        } else {
-          setPhase('complete');
-          cancelTimers();
-          setTimeout(() => {
-            onComplete({
-              completedTurns: turnResults.length,
-              totalTurns: exercise.conversationFlow.filter(
-                s => s.type === 'user_response' || s.type === 'closing'
-              ).length,
-              averageResponseTime: 0,
-              overallFluency: 0,
-              xpEarned: XP_VALUES.completion,
-            });
-          }, 2000);
-        }
-      } else {
-        silenceTimeoutRef.current = setTimeout(tick, 1000);
-      }
-    };
-    silenceTimeoutRef.current = setTimeout(tick, 1000);
-
-    hintTimeoutRef.current = setTimeout(() => {
-      setShowHint(true);
-    }, silenceConfig.hintAfter * 1000);
-
-    exampleTimeoutRef.current = setTimeout(() => {
-      setShowExample(true);
-    }, silenceConfig.exampleAfter * 1000);
-  }, [silenceConfig, currentStepIndex, exercise, turnResults, cancelTimers, onComplete]);
-
-  const completeExercise = useCallback(() => {
-    setPhase('complete');
-    cancelTimers();
-
-    const result = createExerciseResult(turnResults, exercise);
-    addXP(XP_VALUES.completion);
-    if (result.overallFluency >= 80) {
-      addGems(5);
-    }
-
-    setTimeout(() => {
-      onComplete(result);
-    }, 2000);
-  }, [turnResults, exercise, cancelTimers, addXP, addGems, onComplete]);
-
-  const advanceToNextStep = useCallback(() => {
-    if (currentStepIndex < exercise.conversationFlow.length - 1) {
-      setCurrentStepIndex(prev => prev + 1);
-    } else {
-      completeExercise();
-    }
-  }, [currentStepIndex, exercise.conversationFlow.length, completeExercise]);
-
-  const handleRecordingStart = useCallback(() => {
-    cancelTimers();
-    setPhase('recording');
-  }, [cancelTimers]);
+  }, [flow.currentStep, flow.currentStepIndex, flow]);
 
   const handleRecordingComplete = useCallback((recording: SpeechRecordingResult) => {
-    const responseTime = Date.now() - responseStartTime;
-    const transcript = recording.transcript?.toLowerCase() || '';
-    const expectedResponses = currentStep?.expectedResponses || currentStep?.closingPhrases || [];
-    const isValid = expectedResponses.some(expected => {
-      const expectedWords = expected.toLowerCase().split(/\s+/);
-      const matchCount = expectedWords.filter(w => transcript.includes(w)).length;
-      return matchCount >= expectedWords.length * 0.5;
-    });
-
-    const turnResult = createSpeechTurnResult(currentStepIndex, responseTime, transcript, isValid);
-    setTurnResults(prev => [...prev, turnResult]);
-
-    const { xp } = calculateFluencyScore(responseTime);
-    addXP(xp);
-
-    advanceToNextStep();
-  }, [currentStep, currentStepIndex, responseStartTime, addXP, advanceToNextStep]);
-
-  const handleSkipTurn = useCallback(() => {
-    cancelTimers();
-    advanceToNextStep();
-  }, [cancelTimers, advanceToNextStep]);
+    const result = flow.handleRecordingComplete(recording);
+    addXP(result.xp);
+  }, [flow, addXP]);
 
   const handleReplay = useCallback(() => {
-    const audio = audioRefs.current[currentStepIndex];
-    if (audio && !isPlaying) {
-      setIsPlaying(true);
-      audio.onended = () => setIsPlaying(false);
+    const audio = audioRefs.current[flow.currentStepIndex];
+    if (audio && !flow.isPlaying) {
+      flow.setIsPlaying(true);
+      audio.onended = () => flow.setIsPlaying(false);
       audio.currentTime = 0;
       audio.play();
     }
-  }, [currentStepIndex, isPlaying]);
-
-  const getExpectedResponses = useCallback((): string[] => {
-    if (currentStep?.type === 'closing' && currentStep.closingPhrases) {
-      return currentStep.closingPhrases;
-    }
-    return currentStep?.expectedResponses || [];
-  }, [currentStep]);
+  }, [flow.currentStepIndex, flow.isPlaying, flow]);
 
   const totalSteps = exercise.conversationFlow.length;
-  const progress = ((currentStepIndex + 1) / totalSteps) * 100;
+  const progress = ((flow.currentStepIndex + 1) / totalSteps) * 100;
 
   return (
     <div className={`max-w-lg mx-auto ${className}`}>
@@ -222,40 +81,40 @@ export function InteractiveSpeechExercise({
         />
       ))}
 
-      <ProgressBar currentStepIndex={currentStepIndex} totalSteps={totalSteps} progress={progress} />
+      <ProgressBar currentStepIndex={flow.currentStepIndex} totalSteps={totalSteps} progress={progress} />
 
       <AnimatePresence mode="wait">
-        {phase === 'system_speak' && currentStep && (
+        {flow.phase === 'system_speak' && flow.currentStep && (
           <SystemSpeakPhase
-            currentStep={currentStep}
-            currentStepIndex={currentStepIndex}
-            isPlaying={isPlaying}
+            currentStep={flow.currentStep}
+            currentStepIndex={flow.currentStepIndex}
+            isPlaying={flow.isPlaying}
           />
         )}
 
-        {(phase === 'waiting_response' || phase === 'recording') && currentStep && (
+        {(flow.phase === 'waiting_response' || flow.phase === 'recording') && flow.currentStep && (
           <ResponsePhase
             exercise={exercise}
-            currentStep={currentStep}
-            currentStepIndex={currentStepIndex}
-            silenceTimer={silenceTimer}
-            showHint={showHint}
-            showExample={showExample}
-            isPlaying={isPlaying}
-            getExpectedResponses={getExpectedResponses}
+            currentStep={flow.currentStep}
+            currentStepIndex={flow.currentStepIndex}
+            silenceTimer={flow.silenceTimer}
+            showHint={flow.showHint}
+            showExample={flow.showExample}
+            isPlaying={flow.isPlaying}
+            getExpectedResponses={flow.getExpectedResponses}
             onRecordingComplete={handleRecordingComplete}
-            onRecordingStart={handleRecordingStart}
+            onRecordingStart={flow.handleRecordingStart}
             onReplay={handleReplay}
-            onSkip={handleSkipTurn}
+            onSkip={flow.handleSkipTurn}
           />
         )}
 
-        {phase === 'complete' && (
-          <CompletePhase turnResults={turnResults} exercise={exercise} />
+        {flow.phase === 'complete' && (
+          <CompletePhase turnResults={flow.turnResults} exercise={exercise} />
         )}
       </AnimatePresence>
 
-      {onSkip && phase !== 'complete' && (
+      {onSkip && flow.phase !== 'complete' && (
         <div className="mt-6 text-center">
           <button
             onClick={onSkip}

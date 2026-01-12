@@ -297,6 +297,66 @@ export const CONSTRUCTION_MILESTONES = [
 ];
 
 // ============================================
+// HELPER FUNCTIONS
+// ============================================
+
+function updateMaterialInventory(
+  inventory: Record<string, number>,
+  materialId: string,
+  amount: number
+): Record<string, number> {
+  return {
+    ...inventory,
+    [materialId]: (inventory[materialId] || 0) + amount,
+  };
+}
+
+function calculateTotalMaterials(inventory: Record<string, number>): number {
+  return Object.values(inventory).reduce((sum, count) => sum + count, 0);
+}
+
+function createConstructionStats(state: ConstructionState): ConstructionStats {
+  return {
+    totalBuilds: state.totalBuilds,
+    uniqueElementsUnlocked: state.unlockedElements.length,
+    projectsCompleted: state.completedProjects.length,
+    totalMaterialsCollected: calculateTotalMaterials(state.materialInventory),
+    milestonesReached: state.constructionMilestones.length,
+  };
+}
+
+function addUniqueItem<T>(items: T[], item: T): T[] {
+  return items.includes(item) ? items : [...items, item];
+}
+
+function consumeMaterials(
+  state: ConstructionStore,
+  requirements: { materialId: string; amount: number }[]
+): void {
+  requirements.forEach((req) => {
+    state.removeMaterial(req.materialId, req.amount);
+  });
+}
+
+function validateConstructionState(state: ConstructionState): boolean {
+  try {
+    ConstructionStateSchema.parse({
+      unlockedElements: state.unlockedElements,
+      currentProject: state.currentProject,
+      elementProgress: state.elementProgress,
+      materialInventory: state.materialInventory,
+      completedProjects: state.completedProjects,
+      totalBuilds: state.totalBuilds,
+      constructionMilestones: state.constructionMilestones,
+      lastBuildDate: state.lastBuildDate,
+    });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+// ============================================
 // STORE
 // ============================================
 
@@ -305,142 +365,76 @@ export const useConstructionStore = create<ConstructionStore>()(
     (set, get) => ({
       ...initialState,
 
-      // ============================================
       // MATERIALES
-      // ============================================
-
       addMaterial: (materialId, amount) => {
-        set((state) => ({
-          materialInventory: {
-            ...state.materialInventory,
-            [materialId]: (state.materialInventory[materialId] || 0) + amount,
-          },
-        }));
+        set((state) => ({ materialInventory: updateMaterialInventory(state.materialInventory, materialId, amount) }));
       },
 
       removeMaterial: (materialId, amount) => {
         const current = get().materialInventory[materialId] || 0;
         if (current < amount) return false;
-
-        set((state) => ({
-          materialInventory: {
-            ...state.materialInventory,
-            [materialId]: current - amount,
-          },
-        }));
+        set((state) => ({ materialInventory: updateMaterialInventory(state.materialInventory, materialId, -amount) }));
         return true;
       },
 
-      getMaterialCount: (materialId) => {
-        return get().materialInventory[materialId] || 0;
-      },
+      getMaterialCount: (materialId) => get().materialInventory[materialId] || 0,
 
       hasMaterials: (requirements) => {
         const inventory = get().materialInventory;
-        return requirements.every(
-          (req) => (inventory[req.materialId] || 0) >= req.amount
-        );
+        return requirements.every((req) => (inventory[req.materialId] || 0) >= req.amount);
       },
 
-      // ============================================
       // ELEMENTOS
-      // ============================================
-
       unlockElement: (elementId) => {
-        set((state) => {
-          if (state.unlockedElements.includes(elementId)) return state;
-          return {
-            unlockedElements: [...state.unlockedElements, elementId],
-          };
-        });
+        set((state) => ({ unlockedElements: addUniqueItem(state.unlockedElements, elementId) }));
       },
 
-      isElementUnlocked: (elementId) => {
-        return get().unlockedElements.includes(elementId);
-      },
+      isElementUnlocked: (elementId) => get().unlockedElements.includes(elementId),
 
       updateElementProgress: (elementId, progress) => {
         set((state) => ({
-          elementProgress: {
-            ...state.elementProgress,
-            [elementId]: Math.min(100, Math.max(0, progress)),
-          },
+          elementProgress: { ...state.elementProgress, [elementId]: Math.min(100, Math.max(0, progress)) },
         }));
       },
 
       completeElement: (elementId) => {
         const state = get();
-
-        // Verificar materiales
         const element = ELEMENTS[elementId];
-        if (!element) return;
+        if (!element || !state.hasMaterials(element.requiredMaterials)) return;
 
-        if (!state.hasMaterials(element.requiredMaterials)) return;
+        consumeMaterials(state, element.requiredMaterials);
 
-        // Consumir materiales
-        element.requiredMaterials.forEach((req) => {
-          state.removeMaterial(req.materialId, req.amount);
-        });
-
-        // Marcar como completo
         set((state) => ({
-          elementProgress: {
-            ...state.elementProgress,
-            [elementId]: 100,
-          },
+          elementProgress: { ...state.elementProgress, [elementId]: 100 },
           totalBuilds: state.totalBuilds + 1,
           lastBuildDate: new Date().toISOString(),
         }));
 
-        // Desbloquear elemento si no está
         state.unlockElement(elementId);
       },
 
-      // ============================================
       // PROYECTOS
-      // ============================================
-
-      startProject: (projectId) => {
-        set({ currentProject: projectId });
-      },
+      startProject: (projectId) => set({ currentProject: projectId }),
 
       completeProject: (projectId) => {
         set((state) => ({
           currentProject: null,
-          completedProjects: state.completedProjects.includes(projectId)
-            ? state.completedProjects
-            : [...state.completedProjects, projectId],
+          completedProjects: addUniqueItem(state.completedProjects, projectId),
         }));
       },
 
-      abandonProject: () => {
-        set({ currentProject: null });
-      },
+      abandonProject: () => set({ currentProject: null }),
 
-      isProjectActive: () => {
-        return get().currentProject !== null;
-      },
+      isProjectActive: () => get().currentProject !== null,
 
-      // ============================================
       // HITOS
-      // ============================================
-
       addMilestone: (milestone) => {
-        set((state) => ({
-          constructionMilestones: state.constructionMilestones.includes(milestone)
-            ? state.constructionMilestones
-            : [...state.constructionMilestones, milestone],
-        }));
+        set((state) => ({ constructionMilestones: addUniqueItem(state.constructionMilestones, milestone) }));
       },
 
-      hasMilestone: (milestone) => {
-        return get().constructionMilestones.includes(milestone);
-      },
+      hasMilestone: (milestone) => get().constructionMilestones.includes(milestone),
 
-      // ============================================
       // ESTADÍSTICAS
-      // ============================================
-
       incrementBuilds: () => {
         set((state) => ({
           totalBuilds: state.totalBuilds + 1,
@@ -448,51 +442,15 @@ export const useConstructionStore = create<ConstructionStore>()(
         }));
       },
 
-      getStats: () => {
-        const state = get();
-        const totalMaterialsCollected = Object.values(state.materialInventory).reduce(
-          (sum, count) => sum + count,
-          0
-        );
+      getStats: () => createConstructionStats(get()),
 
-        return {
-          totalBuilds: state.totalBuilds,
-          uniqueElementsUnlocked: state.unlockedElements.length,
-          projectsCompleted: state.completedProjects.length,
-          totalMaterialsCollected,
-          milestonesReached: state.constructionMilestones.length,
-        };
-      },
-
-      // ============================================
       // RESET
-      // ============================================
-
-      resetConstruction: () => {
-        set(initialState);
-      },
+      resetConstruction: () => set(initialState),
     }),
     {
       name: 'french-app-construction',
-      // Validar estado al cargar
       onRehydrateStorage: () => (state) => {
-        if (state) {
-          try {
-            ConstructionStateSchema.parse({
-              unlockedElements: state.unlockedElements,
-              currentProject: state.currentProject,
-              elementProgress: state.elementProgress,
-              materialInventory: state.materialInventory,
-              completedProjects: state.completedProjects,
-              totalBuilds: state.totalBuilds,
-              constructionMilestones: state.constructionMilestones,
-              lastBuildDate: state.lastBuildDate,
-            });
-          } catch (error) {
-            console.warn('[ConstructionStore] Invalid state, resetting:', error);
-            // El estado será reseteado automáticamente si es inválido
-          }
-        }
+        if (state) validateConstructionState(state);
       },
     }
   )

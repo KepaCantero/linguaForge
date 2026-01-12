@@ -7,6 +7,13 @@ import { useAuth } from '@/contexts/AuthContext';
 
 type AuthMode = 'password' | 'magic-link';
 
+function getSubmitButtonText(loading: boolean, authMode: AuthMode): string {
+  if (loading) {
+    return authMode === 'magic-link' ? 'Enviando enlace...' : 'Iniciando sesión...';
+  }
+  return authMode === 'magic-link' ? 'Enviar Magic Link' : 'Iniciar sesión';
+}
+
 export function LoginForm() {
   const [email, setEmail] = useState('admin'); // Default to admin username
   const [password, setPassword] = useState(''); // Default to admin password
@@ -181,13 +188,7 @@ export function LoginForm() {
           disabled={loading}
           className="w-full py-3 px-4 bg-lf-primary text-white rounded-lg font-medium hover:bg-lf-primary/90 focus:outline-none focus:ring-2 focus:ring-lf-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
-          {loading
-            ? authMode === 'magic-link'
-              ? 'Enviando enlace...'
-              : 'Iniciando sesión...'
-            : authMode === 'magic-link'
-            ? 'Enviar Magic Link'
-            : 'Iniciar sesión'}
+          {getSubmitButtonText(loading, authMode)}
         </button>
 
         <div className="relative">

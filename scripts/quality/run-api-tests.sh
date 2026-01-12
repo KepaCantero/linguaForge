@@ -92,7 +92,7 @@ print_info "Buscando rutas de API en src/app/api..."
 
 API_ROUTES=$(find src/app/api -name "route.ts" -o -name "route.js" 2>/dev/null || echo "")
 
-if [ -z "$API_ROUTES" ]; then
+if [[ -z "$API_ROUTES" ]]; then
     print_warning "No se encontraron rutas de API"
     API_ROUTES_COUNT=0
 else
@@ -122,7 +122,7 @@ for pattern in "${API_TEST_PATTERNS[@]}"; do
     fi
 done
 
-if [ "$API_TESTS_FOUND" = false ]; then
+if [[ "$API_TESTS_FOUND" = false ]]; then
     print_warning "No se encontraron tests específicos de API"
     print_info "Creando tests básicos de validación..."
 
@@ -148,7 +148,7 @@ EOF
 fi
 
 # Ejecutar tests de API si existen
-if [ "$API_TESTS_FOUND" = true ]; then
+if [[ "$API_TESTS_FOUND" = true ]]; then
     print_info "Ejecutando tests de API con Vitest..."
 
     if npm run test -- --run \
@@ -178,7 +178,7 @@ SECURITY_ISSUES=0
 
 # Build list of actual API endpoints from discovered routes
 ACTUAL_API_ENDPOINTS=()
-if [ -n "$API_ROUTES" ]; then
+if [[ -n "$API_ROUTES" ]]; then
     while IFS= read -r route_file; do
         # Extract route path from file path
         route_path=$(echo "$route_file" | sed 's|src/app/api||' | sed 's|/route.ts||' | sed 's|/route.js||')
@@ -189,16 +189,16 @@ fi
 # Test 1: Verificar endpoints existentes responden correctamente
 print_info "Test: Verificando endpoints existentes..."
 
-if [ ${#ACTUAL_API_ENDPOINTS[@]} -eq 0 ]; then
+if [[ ${#ACTUAL_API_ENDPOINTS[@]} -eq 0 ]]; then
     print_info "No hay endpoints para probar"
 else
     for endpoint in "${ACTUAL_API_ENDPOINTS[@]}"; do
         # Try OPTIONS request first to check if endpoint exists
         RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" -X OPTIONS "${API_BASE_URL}${endpoint}" 2>/dev/null || echo "000")
 
-        if [ "$RESPONSE" != "000" ] && [ "$RESPONSE" != "404" ] && [ "$RESPONSE" != "405" ]; then
+        if [[ "$RESPONSE" != "000" ]] && [[ "$RESPONSE" != "404" ]] && [[ "$RESPONSE" != "405" ]]; then
             print_success "${endpoint}: Accesible ✅"
-        elif [ "$RESPONSE" = "404" ]; then
+        elif [[ "$RESPONSE" = "404" ]]; then
             print_warning "${endpoint}: Retorna 404"
         else
             print_info "${endpoint}: Responde con código ${RESPONSE}"
@@ -210,7 +210,7 @@ fi
 print_info "Test: Filtrado de datos sensibles..."
 
 # Solo probar endpoints que realmente existen
-if [ ${#ACTUAL_API_ENDPOINTS[@]} -gt 0 ]; then
+if [[ ${#ACTUAL_API_ENDPOINTS[@]} -gt 0 ]]; then
     for endpoint in "${ACTUAL_API_ENDPOINTS[@]}"; do
         # Hacer request GET simple
         RESPONSE=$(curl -s "${API_BASE_URL}${endpoint}" 2>/dev/null || echo "{}")
@@ -230,7 +230,7 @@ fi
 # Test 3: Verificar rate limiting (usar primer endpoint existente)
 print_info "Test: Rate limiting..."
 
-if [ ${#ACTUAL_API_ENDPOINTS[@]} -gt 0 ]; then
+if [[ ${#ACTUAL_API_ENDPOINTS[@]} -gt 0 ]]; then
     TEST_ENDPOINT="${ACTUAL_API_ENDPOINTS[0]}"
     print_info "Haciendo 10 requests rápidas a ${TEST_ENDPOINT}..."
 
@@ -243,7 +243,7 @@ if [ ${#ACTUAL_API_ENDPOINTS[@]} -gt 0 ]; then
         fi
     done
 
-    if [ "$RATE_LIMIT_TRIGGERED" = true ]; then
+    if [[ "$RATE_LIMIT_TRIGGERED" = true ]]; then
         print_success "Rate limiting activo ✅"
     else
         print_info "Rate limiting no detectado (opcional para desarrollo)"
@@ -262,7 +262,7 @@ print_info "Verificando contratos de API (Zod schemas)..."
 # Buscar schemas Zod en rutas de API
 SCHEMA_FILES=$(find src/app/api -name "*.schema.ts" -o -name "*schema.ts" 2>/dev/null || echo "")
 
-if [ -n "$SCHEMA_FILES" ]; then
+if [[ -n "$SCHEMA_FILES" ]]; then
     SCHEMA_COUNT=$(echo "$SCHEMA_FILES" | wc -l)
     print_success "Encontrados ${SCHEMA_COUNT} archivos de schema"
     echo "$SCHEMA_FILES" | head -5
@@ -290,11 +290,11 @@ echo -e "Issues de seguridad: ${SECURITY_ISSUES}"
 # 7️⃣ EXIT CODE
 # ============================================================================
 echo ""
-if [ $API_TESTS_STATUS -eq 0 ] && [ $SECURITY_ISSUES -eq 0 ]; then
+if [[ $API_TESTS_STATUS -eq 0 ]] && [[ $SECURITY_ISSUES -eq 0 ]]; then
     print_success "API TESTS: COMPLETADOS CON ÉXITO"
     echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     exit 0
-elif [ $API_TESTS_STATUS -eq 0 ] && [ $SECURITY_ISSUES -gt 0 ]; then
+elif [[ $API_TESTS_STATUS -eq 0 ]] && [[ $SECURITY_ISSUES -gt 0 ]]; then
     print_warning "API TESTS: COMPLETADOS CON ADVERTENCIAS"
     echo -e "${YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     exit 0

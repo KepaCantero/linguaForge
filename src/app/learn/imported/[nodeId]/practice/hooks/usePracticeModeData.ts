@@ -1,7 +1,7 @@
 'use client';
 
-import { useRouter, useParams, useSearchParams } from 'next/navigation';
-import { useImportedNodesStore, type ImportedNode, type ImportedSubtopic } from '@/store/useImportedNodesStore';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
+import { type ImportedNode, type ImportedSubtopic, useImportedNodesStore } from '@/store/useImportedNodesStore';
 
 type LessonMode = 'academia' | 'desafio';
 
