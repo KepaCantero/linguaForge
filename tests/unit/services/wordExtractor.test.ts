@@ -331,7 +331,8 @@ describe('wordExtractor', () => {
       const text = 'Je suis 😊 content!';
       const result = extractKeywords(text);
 
-      expect(result).toHaveLength(2);
+      expect(result).toHaveLength(3);
+      expect(result.map(r => r.word)).toContain('Je');
       expect(result.map(r => r.word)).toContain('suis');
       expect(result.map(r => r.word)).toContain('content');
     });
@@ -340,7 +341,8 @@ describe('wordExtractor', () => {
       const text = 'Je   mange    une   pomme.';
       const result = extractKeywords(text);
 
-      expect(result).toHaveLength(2);
+      expect(result).toHaveLength(3);
+      expect(result.map(r => r.word)).toContain('Je');
       expect(result.map(r => r.word)).toContain('mange');
       expect(result.map(r => r.word)).toContain('pomme');
     });

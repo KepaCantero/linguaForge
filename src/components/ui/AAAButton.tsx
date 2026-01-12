@@ -2,28 +2,28 @@
 
 import { forwardRef } from 'react';
 import { motion } from 'framer-motion';
+import { CALM_EASING } from '@/lib/animations';
 
 interface AAAButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'glass';
+  variant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'outline';
   size?: 'sm' | 'md' | 'lg' | 'xl';
-  glow?: boolean;
   children: React.ReactNode;
 }
 
 /**
- * Premium button component with AAA-quality interactions
- * Features:
- * - Haptic-like visual feedback
- * - Glassmorphism variants
- * - Premium glow effects
- * - Smooth micro-interactions
+ * CALM Button Component
+ *
+ * Design Philosophy:
+ * - No aggressive scale effects
+ * - Soft shadow elevation on hover
+ * - Gentle opacity change on tap
+ * - Nurturing, not demanding
  */
 export const AAAButton = forwardRef<HTMLButtonElement, AAAButtonProps>(
   (
     {
       variant = 'primary',
       size = 'md',
-      glow = true,
       children,
       className = '',
       disabled,
@@ -31,94 +31,89 @@ export const AAAButton = forwardRef<HTMLButtonElement, AAAButtonProps>(
     },
     ref
   ) => {
-    // Variant styling - AAA-quality color systems
+    // Calm variant styles - soft, inviting colors
     const variantStyles = {
       primary: `
-        bg-gradient-to-r from-lf-primary to-lf-primary-dark
+        bg-calm-sage-400
         text-white
-        border border-lf-primary-light/30
-        shadow-glow-accent
-        hover:shadow-resonance-lg
+        border border-calm-sage-300/30
+        shadow-calm-sm
       `,
       secondary: `
-        bg-gradient-to-r from-lf-secondary to-lf-secondary-light
+        bg-calm-blue-400
         text-white
-        border border-lf-secondary-light/30
-        shadow-glow-secondary
-        hover:shadow-glow-secondary
+        border border-calm-blue-300/30
+        shadow-calm-sm
       `,
       accent: `
-        bg-gradient-to-r from-lf-accent to-lf-accent-dark
-        text-lf-dark
-        border border-lf-accent-subtle/50
-        shadow-glow-accent
-        hover:shadow-glow-accent
+        bg-calm-accent-400
+        text-white
+        border border-calm-accent-300/30
+        shadow-calm-sm
       `,
       ghost: `
         bg-transparent
-        text-lf-primary-light
-        border border-lf-primary/20
-        hover:bg-lf-primary/10
-        hover:border-lf-primary/40
+        text-calm-text-primary
+        border border-transparent
+        hover:bg-calm-bg-tertiary
       `,
-      glass: `
-        bg-glass-surface
-        backdrop-blur-aaa
-        text-white
-        border border-white/20
-        shadow-glass
-        hover:bg-white/10
+      outline: `
+        bg-calm-bg-elevated
+        text-calm-text-primary
+        border border-calm-warm-200
+        shadow-calm-sm
       `,
     };
 
-    // Size system - consistent spacing
+    // Calm size system - generous padding, rounded corners
     const sizeStyles = {
       sm: 'px-4 py-2 text-sm rounded-lg',
       md: 'px-6 py-3 text-base rounded-xl',
-      lg: 'px-8 py-4 text-lg rounded-aaa-lg',
-      xl: 'px-10 py-5 text-xl rounded-aaa-xl',
+      lg: 'px-8 py-4 text-lg rounded-calm-lg',
+      xl: 'px-10 py-5 text-xl rounded-calm-xl',
     };
 
     const baseStyles = `
       relative overflow-hidden
       font-medium
       transition-all duration-300
-      focus:outline-none focus:ring-2 focus:ring-lf-primary-light/50
+      focus:outline-none focus:ring-2 focus:ring-calm-sage-400/30 focus:ring-offset-2
       disabled:opacity-50 disabled:cursor-not-allowed
       ${variantStyles[variant]}
       ${sizeStyles[size]}
       ${className}
     `;
 
+    // Calm hover shadow based on variant
+    const hoverShadow = {
+      primary: '0 4px 12px rgba(114, 168, 125, 0.15)',
+      secondary: '0 4px 12px rgba(130, 154, 177, 0.15)',
+      accent: '0 4px 12px rgba(232, 144, 124, 0.15)',
+      ghost: '0 2px 8px rgba(45, 55, 72, 0.06)',
+      outline: '0 4px 12px rgba(45, 55, 72, 0.08)',
+    };
+
     return (
       <motion.button
         ref={ref}
         className={baseStyles}
         disabled={disabled}
-        whileHover={{ scale: 1.02, y: -2 }}
-        whileTap={{ scale: 0.98, y: 0 }}
-        transition={{ type: 'spring', stiffness: 400, damping: 17 }}
-        {...(props as any)}
+        // Calm hover - just shadow elevation, no scale
+        whileHover={{
+          boxShadow: hoverShadow[variant],
+        }}
+        // Calm tap - soft opacity, no scale down
+        whileTap={{
+          opacity: 0.9,
+        }}
+        // Gentle, non-bouncy transition
+        transition={{
+          duration: 0.3,
+          ease: CALM_EASING.gentle,
+        }}
+        {...(props as React.ComponentPropsWithoutRef<typeof motion.button>)}
       >
-        {/* Shimmer effect overlay */}
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-          initial={{ x: '-100%' }}
-          whileHover={{ x: '100%' }}
-          transition={{ duration: 0.6 }}
-          style={{ mixBlendMode: 'overlay' }}
-        />
-
-        {/* Inner glow for premium feel */}
-        {glow && (
-          <motion.div
-            className="absolute inset-0 rounded-inherit shadow-inner-glow opacity-0"
-            whileHover={{ opacity: 0.5 }}
-            transition={{ duration: 0.3 }}
-          />
-        )}
-
-        {/* Button content */}
+        {/* Button content - no shimmer, no glow overlays */}
         <span className="relative z-10 flex items-center justify-center gap-2">
           {children}
         </span>

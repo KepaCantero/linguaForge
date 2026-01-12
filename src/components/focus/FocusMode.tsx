@@ -280,6 +280,28 @@ export function FocusMode({
         body.focus-mode-active * {
           cursor: none !important;
         }
+
+        /* Mostrar cursor en elementos interactivos */
+        body.focus-mode-active button *,
+        body.focus-mode-active a *,
+        body.focus-mode-active input *,
+        body.focus-mode-active [role="button"] *,
+        body.focus-mode-active [onclick] * {
+          cursor: auto !important;
+        }
+
+        body.focus-mode-active button,
+        body.focus-mode-active a,
+        body.focus-mode-active input,
+        body.focus-mode-active [role="button"],
+        body.focus-mode-active [onclick] {
+          cursor: pointer !important;
+        }
+
+        /* Mostrar cursor cuando el mouse se mueve */
+        body.focus-mode-active:hover {
+          cursor: auto !important;
+        }
       `}</style>
     </>
   );

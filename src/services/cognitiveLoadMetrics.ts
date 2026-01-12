@@ -628,51 +628,56 @@ export interface NeuroDesignMetrics {
 }
 
 /**
- * Calcula métricas completas de neurodiseño
- * Función principal que combina CLT + métricas neuronales
+ * Parámetros de entrada para cálculo de métricas de neurodiseño
  */
-export function calculateNeuroDesignMetrics(
-  inputMinutes: number,
-  wordsProcessed: number,
-  comprehensionLevel: number,
-  exercisesCompleted: number,
-  accuracy: number,
-  uniqueConcepts: number,
-  activityTypes: ExerciseType[],
-  content: ContentMetrics,
-  context: ContextMetrics,
-  activity: ActivityMetrics,
+export interface NeuroDesignInput {
+  inputMinutes: number;
+  wordsProcessed: number;
+  comprehensionLevel: number;
+  exercisesCompleted: number;
+  accuracy: number;
+  uniqueConcepts: number;
+  activityTypes: ExerciseType[];
+  content: ContentMetrics;
+  context: ContextMetrics;
+  activity: ActivityMetrics;
   previousMetrics?: {
     irrigation?: NeuronalIrrigationMetrics;
     synapticDensity?: SynapticDensityMetrics;
     neuroplasticity?: NeuroplasticityScore;
-  }
-): NeuroDesignMetrics {
+  };
+}
+
+/**
+ * Calcula métricas completas de neurodiseño
+ * Función principal que combina CLT + métricas neuronales
+ */
+export function calculateNeuroDesignMetrics(input: NeuroDesignInput): NeuroDesignMetrics {
   // Calcular carga cognitiva (CLT)
-  const cognitiveLoad = calculateCognitiveLoad(content, context, activity);
+  const cognitiveLoad = calculateCognitiveLoad(input.content, input.context, input.activity);
 
   // Calcular irrigación neuronal
   const irrigation = calculateNeuronalIrrigation(
-    inputMinutes,
-    wordsProcessed,
-    comprehensionLevel,
-    previousMetrics?.irrigation
+    input.inputMinutes,
+    input.wordsProcessed,
+    input.comprehensionLevel,
+    input.previousMetrics?.irrigation
   );
 
   // Calcular densidad sináptica
   const synapticDensity = calculateSynapticDensity(
-    exercisesCompleted,
-    accuracy,
-    uniqueConcepts,
-    previousMetrics?.synapticDensity
+    input.exercisesCompleted,
+    input.accuracy,
+    input.uniqueConcepts,
+    input.previousMetrics?.synapticDensity
   );
 
   // Calcular neuroplasticidad
   const neuroplasticity = calculateNeuroplasticityScore(
     irrigation,
     synapticDensity,
-    activityTypes,
-    previousMetrics?.neuroplasticity
+    input.activityTypes,
+    input.previousMetrics?.neuroplasticity
   );
 
   return {

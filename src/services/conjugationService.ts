@@ -872,7 +872,8 @@ export function getAvailableVerbs(): string[] {
 }
 
 // ============================================
-// EXPORTAR TODO
+// TODO: Completar exportación de funciones auxiliares
+// Issue: #44 - Exportar funciones de conjugación auxiliares
 // ============================================
 
 export {

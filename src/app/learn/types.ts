@@ -1,0 +1,56 @@
+/**
+ * Types for Learn Page
+ * Extracted to avoid circular dependencies
+ */
+
+export interface UnifiedTopic {
+  id: string;
+  type: 'a0-course' | 'imported' | 'coming-soon';
+  title: string;
+  description?: string;
+  icon: string;
+  category: string;
+  subcategory?: string;
+  level: string;
+  progress: number;
+  isLocked: boolean;
+  isCompleted: boolean;
+  totalExercises?: number;
+  completedExercises?: number;
+  color: string;
+  gradient: string;
+  href: string;
+  metadata?: {
+    phrases?: number;
+    subtopics?: number;
+    source?: string;
+  };
+}
+
+// Category definitions with colors
+export const CATEGORIES = [
+  { id: 'basics', name: 'Fundamentos', icon: '🎯', color: '#6366F1', gradient: 'linear-gradient(135deg, #6366F1, #4F46E5)' },
+  { id: 'communication', name: 'Comunicación', icon: '💬', color: '#3B82F6', gradient: 'linear-gradient(135deg, #3B82F6, #2563EB)' },
+  { id: 'food', name: 'Comida', icon: '🍽️', color: '#F59E0B', gradient: 'linear-gradient(135deg, #F59E0B, #D97706)' },
+  { id: 'travel', name: 'Viajes', icon: '✈️', color: '#10B981', gradient: 'linear-gradient(135deg, #10B981, #059669)' },
+  { id: 'health', name: 'Salud', icon: '🏥', color: '#EF4444', gradient: 'linear-gradient(135deg, #EF4444, #DC2626)' },
+  { id: 'imported', name: 'Importado', icon: '📁', color: '#8B5CF6', gradient: 'linear-gradient(135deg, #8B5CF6, #7C3AED)' },
+] as const;
+
+// A0 Course nodes (structured content from the app)
+export const A0_COURSES = [
+  { id: 'node-1', icon: '🏠', category: 'accommodation', title: 'Alojamiento', titleFr: 'Logement', description: 'Hoteles, Airbnb, reservas' },
+  { id: 'node-2', icon: '🍽️', category: 'food', title: 'Restaurantes', titleFr: 'Restaurants', description: 'Pedir comida, menús, quejas' },
+  { id: 'node-3', icon: '🚇', category: 'transport', title: 'Transporte', titleFr: 'Transport', description: 'Metro, taxi, direcciones' },
+  { id: 'node-4', icon: '🏥', category: 'health', title: 'Salud', titleFr: 'Santé', description: 'Farmacia, doctor, emergencias' },
+  { id: 'node-5', icon: '🆘', category: 'recovery', title: 'Recuperación', titleFr: 'Récupération', description: 'Perdido, policía, ayuda' },
+] as const;
+
+// Coming soon placeholders
+export const COMING_SOON_COURSES = [
+  { id: 'coming-1', icon: '👋', category: 'basics', title: 'Saludos y Presentaciones', description: 'Aprender a presentarte y saludar' },
+  { id: 'coming-2', icon: '🔢', category: 'basics', title: 'Números y Contar', description: 'Números del 0 al 1000+' },
+  { id: 'coming-3', icon: '⏰', category: 'basics', title: 'Hora y Fechas', description: 'Decir la hora y las fechas' },
+  { id: 'coming-4', icon: '👨‍👩‍👧‍👦', category: 'communication', title: 'Familia y Amigos', description: 'Describir a tu familia' },
+  { id: 'coming-5', icon: '🛍️', category: 'basics', title: 'Compras', description: 'Tiendas, precios, pagar' },
+];

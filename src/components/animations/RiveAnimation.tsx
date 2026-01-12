@@ -75,12 +75,18 @@ export function RiveAnimation({
     if (!rive || !isLoaded || Object.keys(inputs).length === 0) return;
 
     try {
-      // Rive no expone una API simple para actualizar inputs
-      // Por ahora, solo log inputs sin actualizar
-      // TODO: Implementar actualización de inputs cuando la API sea más clara
-      console.log('Rive inputs to update:', inputs);
+      // Rive Runtime API: rive.setInputValue(name, value)
+      // Issue: #XXX - Implementar actualización dinámica de inputs de Rive
+      // Referencia: https://rive.app/community/doc/docid-filebump/overview
+      //
+      // La API correcta requiere acceso a la instancia de Rive:
+      // rive.setBooleanStateAtPath('inputName', true, 'StateMachineName');
+      // rive.setNumberStateAtPath('inputName', 42, 'StateMachineName');
+      //
+      // Por ahora, solo loggear sin actualizar (feature pendiente)
+      console.log('[Rive] Inputs to update:', inputs);
     } catch (error) {
-      console.error('Error updating Rive inputs:', error);
+      console.error('[Rive] Error updating inputs:', error);
       onError?.(error instanceof Error ? error : new Error(String(error)));
     }
   }, [inputs, isLoaded, rive, onError]);

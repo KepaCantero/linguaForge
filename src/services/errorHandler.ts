@@ -79,6 +79,10 @@ function classifyError(error: unknown): ErrorCategory {
   if (error instanceof Error) {
     const message = error.message.toLowerCase();
 
+    // Network errors (include plain 'network error' string)
+    if (message.includes('network') || message.includes('fetch')) {
+      return ErrorCategory.NETWORK;
+    }
     if (message.includes('timeout') || message.includes('timed out')) {
       return ErrorCategory.TIMEOUT;
     }
@@ -95,7 +99,9 @@ function classifyError(error: unknown): ErrorCategory {
       message.includes('500') ||
       message.includes('502') ||
       message.includes('503') ||
-      message.includes('504')
+      message.includes('504') ||
+      message.includes('database') ||
+      message.includes('connection')
     ) {
       return ErrorCategory.SERVER;
     }

@@ -10,16 +10,10 @@ import { HPIndicator } from '@/components/ui/HPIndicator';
 import { CognitiveLoadIndicator } from '@/components/ui/CognitiveLoadIndicator';
 import { CountUpNumber } from '@/components/ui/CountUpNumber';
 import { StatTooltip } from '@/components/ui/Tooltip';
+import { CALM_EASING } from '@/lib/animations';
 
 /**
- * Premium Header with AAA-quality visual design
- * Inspired by: God of War (2018), Horizon Zero Dawn, The Last of Us Part II
- *
- * Features:
- * - Glassmorphism with depth layers
- * - Premium glow effects
- * - Smooth micro-interactions
- * - Atmospheric backdrop
+ * CALM Header - Serene, unobtrusive navigation
  */
 export function Header() {
   const { xp, coins, gems, streak, rank, hp } = useGamificationStore();
@@ -30,162 +24,87 @@ export function Header() {
       role="banner"
       aria-label="Barra de navegación principal"
       className="fixed top-0 left-0 right-0 h-header z-50 safe-top"
-      initial={{ y: -100, opacity: 0 }}
+      initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.1 }}
+      transition={{ duration: 0.4, ease: CALM_EASING.mist }}
     >
-      {/* Glassmorphism backdrop with depth */}
-      <div className="absolute inset-0">
-        {/* Primary glass layer */}
-        <div className="absolute inset-0 bg-glass-surface backdrop-blur-aaa" />
-
-        {/* Gradient accent at bottom */}
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-lf-primary/50 to-transparent" />
-
-        {/* Premium glow effect */}
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-b from-lf-primary/5 to-transparent"
-          animate={{
-            opacity: [0.3, 0.5, 0.3],
-          }}
-          transition={{
-            duration: 4,
-            repeat: Infinity,
-            ease: 'easeInOut',
-          }}
-        />
-
-        {/* Depth shadow */}
-        <div className="absolute bottom-0 left-0 right-0 h-4 bg-gradient-to-t from-black/20 to-transparent" />
-      </div>
+      {/* Calm backdrop - soft white with subtle border */}
+      <div className="absolute inset-0 bg-calm-bg-elevated/95 backdrop-blur-calm border-b border-calm-warm-200 shadow-calm-sm" />
 
       {/* Content */}
       <div className="relative h-full w-full px-4 flex items-center justify-between lg:container lg:mx-auto">
-        {/* Logo - Premium 3D effect */}
+        {/* Logo */}
         <motion.div
           className="flex items-center gap-2"
-          whileHover={{ scale: 1.02 }}
-          transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+          whileHover={{ opacity: 0.8 }}
+          transition={{ duration: 0.3 }}
         >
           <a
             href="/"
             aria-label="LinguaForge - Ir al inicio"
-            className="flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-lf-accent focus:ring-offset-2 focus:ring-offset-lf-dark rounded-lg"
+            className="flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-calm-sage-400 focus:ring-offset-2 rounded-lg"
           >
-            {/* Logo container with premium glow */}
-            <motion.div
-              className="relative"
-              whileHover={{ rotate: 5 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-            >
-              {/* Glow effect */}
-              <motion.div
-                className="absolute inset-0 rounded-lg bg-resonance-gradient blur-md"
-                animate={{
-                  opacity: [0.4, 0.6, 0.4],
-                  scale: [1, 1.1, 1],
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                }}
-              />
+            {/* Logo - soft sage color */}
+            <div className="relative w-9 h-9 rounded-xl bg-calm-sage-400 flex items-center justify-center shadow-calm-sm">
+              <span className="text-sm font-quicksand font-semibold text-white tracking-wide">
+                LF
+              </span>
+            </div>
 
-              {/* Main logo */}
-              <div
-                className="relative w-10 h-10 rounded-lg bg-resonance-gradient flex items-center justify-center shadow-glass-xl"
-                style={{ transform: 'translateZ(20px)' }}
-              >
-                <span className="text-base font-rajdhani font-bold text-white tracking-wide">
-                  LF
-                </span>
-
-                {/* Inner shine effect */}
-                <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-white/30 to-transparent" />
-              </div>
-            </motion.div>
-
-            {/* Brand text with gradient */}
+            {/* Brand text */}
             <div className="flex flex-col">
-              <h1 className="font-rajdhani font-bold text-lg lg:text-xl tracking-wide">
-                <span className="bg-gradient-to-r from-lf-secondary via-lf-primary-light to-lf-secondary bg-clip-text text-transparent animate-gradient-shift bg-[length:200%_100%]">
-                  LinguaForge
-                </span>
+              <h1 className="font-quicksand font-semibold text-lg text-calm-text-primary tracking-wide">
+                LinguaForge
               </h1>
-              <span className="text-[10px] text-lf-muted tracking-widest uppercase">
-                AAA Learning
+              <span className="text-[10px] text-calm-text-tertiary tracking-widest uppercase">
+                Aprende a tu ritmo
               </span>
             </div>
           </a>
         </motion.div>
 
-        {/* Stats - Premium glass cards */}
+        {/* Stats - Calm cards */}
         <nav aria-label="Estadísticas del usuario">
           <ul className="flex items-center gap-2 lg:gap-3 text-sm list-none">
             {/* Rank Badge */}
-            <motion.li whileHover={{ y: -2 }} transition={{ type: 'spring', stiffness: 400, damping: 30 }}>
-              <div className="relative">
-                <motion.div
-                  className="absolute inset-0 rounded-full bg-lf-primary/20 blur-sm"
-                  animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                />
-                <RankBadgeWithTooltip rank={rank} size="sm" tooltip />
-              </div>
-            </motion.li>
+            <li>
+              <RankBadgeWithTooltip rank={rank} size="sm" tooltip />
+            </li>
 
             {/* Divider */}
             <li
               aria-hidden="true"
-              className="w-px h-6 bg-gradient-to-b from-transparent via-lf-primary/30 to-transparent hidden sm:block"
+              className="w-px h-5 bg-calm-warm-200 hidden sm:block"
             />
 
-            {/* XP - Premium progress bar */}
+            {/* XP */}
             <li>
               <StatTooltip stat="xp">
-                <motion.div
-                  className="relative px-3 py-1.5 rounded-xl bg-glass-surface backdrop-blur-md border border-white/10"
-                  whileHover={{ scale: 1.02 }}
-                  transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                <div
+                  className="relative px-3 py-1.5 rounded-xl bg-calm-bg-secondary border border-calm-warm-200"
+                  role="status"
+                  aria-label={`${xp} puntos de experiencia, ${progress}% para el siguiente nivel`}
                 >
-                  {/* Glow effect */}
-                  <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-lf-accent/10 to-lf-secondary/10" />
-
-                  <div
-                    className="relative flex items-center gap-2"
-                    role="status"
-                    aria-label={`${xp} puntos de experiencia, ${progress}% para el siguiente nivel`}
-                  >
+                  <div className="flex items-center gap-2">
                     {/* XP Icon */}
-                    <motion.div
-                      className="w-5 h-5 rounded bg-lf-accent/20 flex items-center justify-center"
-                      animate={{
-                        scale: [1, 1.1, 1],
-                      }}
-                      transition={{
-                        duration: 2,
-                        repeat: Infinity,
-                        ease: 'easeInOut',
-                      }}
-                    >
-                      <div className="w-2.5 h-2.5 bg-lf-accent rounded-sm animate-resonance-pulse" />
-                    </motion.div>
+                    <div className="w-5 h-5 rounded bg-calm-sage-100 flex items-center justify-center">
+                      <div className="w-2.5 h-2.5 bg-calm-sage-400 rounded-sm" />
+                    </div>
 
                     {/* XP Value */}
                     <div className="flex flex-col">
                       <div className="flex items-center gap-1">
-                        <span className="text-[10px] text-lf-muted uppercase tracking-wide">
+                        <span className="text-[10px] text-calm-text-tertiary uppercase tracking-wide">
                           XP
                         </span>
-                        <span className="font-rajdhani font-bold text-lf-accent text-sm">
+                        <span className="font-quicksand font-semibold text-calm-sage-500 text-sm">
                           <CountUpNumber value={xp} duration={0.8} />
                         </span>
                       </div>
 
-                      {/* Premium progress bar */}
+                      {/* Progress bar */}
                       <div
-                        className="w-14 h-2 bg-lf-dark/50 rounded-full overflow-hidden"
+                        className="w-14 h-1.5 bg-calm-bg-tertiary rounded-full overflow-hidden"
                         role="progressbar"
                         aria-valuenow={progress}
                         aria-valuemin={0}
@@ -193,109 +112,79 @@ export function Header() {
                         aria-label="Progreso de nivel"
                       >
                         <motion.div
-                          className="h-full bg-gradient-to-r from-lf-accent via-lf-secondary to-lf-accent rounded-full"
-                          style={{ backgroundSize: '200% 100%' }}
+                          className="h-full bg-calm-sage-400 rounded-full"
                           initial={{ width: 0 }}
-                          animate={{ width: `${progress}%`, backgroundPosition: ['0% 50%', '100% 50%'] }}
-                          transition={{
-                            width: { duration: 0.5, ease: 'easeOut' },
-                            backgroundPosition: { duration: 3, repeat: Infinity, ease: 'linear' },
-                          }}
+                          animate={{ width: `${progress}%` }}
+                          transition={{ duration: 0.5, ease: 'easeOut' }}
                         />
                       </div>
                     </div>
                   </div>
-                </motion.div>
+                </div>
               </StatTooltip>
             </li>
 
             {/* Streak */}
-            <motion.li whileHover={{ y: -2, scale: 1.05 }} transition={{ type: 'spring', stiffness: 400, damping: 30 }}>
+            <li>
               <StatTooltip stat="streak">
                 <div
-                  className="px-2.5 py-1.5 rounded-xl bg-glass-surface backdrop-blur-md border border-white/10 flex items-center gap-1.5"
+                  className="px-2.5 py-1.5 rounded-xl bg-calm-bg-secondary border border-calm-warm-200 flex items-center gap-1.5"
                   role="status"
                   aria-label={`Racha de ${streak} días`}
                 >
-                  <motion.span
-                    className={`text-sm ${
-                      streak > 0
-                        ? "text-lf-accent"
-                        : "text-lf-muted"
-                    }`}
+                  <span
+                    className={`text-sm ${streak > 0 ? "" : "opacity-40"}`}
                     aria-hidden="true"
-                    animate={streak > 0 ? {
-                      scale: [1, 1.2, 1],
-                      filter: ['drop-shadow(0 0 0px rgba(253, 224, 71, 0))', 'drop-shadow(0 0 8px rgba(253, 224, 71, 0.6))', 'drop-shadow(0 0 0px rgba(253, 224, 71, 0))'],
-                    } : {}}
-                    transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
                   >
                     🔥
-                  </motion.span>
-                  <span className="font-rajdhani font-medium text-white text-sm">
+                  </span>
+                  <span className="font-quicksand font-medium text-calm-text-primary text-sm">
                     {streak}
                   </span>
                 </div>
               </StatTooltip>
-            </motion.li>
+            </li>
 
             {/* HP - Large screens */}
-            <motion.li
-              className="hidden sm:block"
-              whileHover={{ y: -2 }}
-              transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-            >
+            <li className="hidden sm:block">
               <StatTooltip stat="hp">
-                <div className="px-2.5 py-1.5 rounded-xl bg-glass-surface backdrop-blur-md border border-white/10">
+                <div className="px-2.5 py-1.5 rounded-xl bg-calm-bg-secondary border border-calm-warm-200">
                   <HPIndicator hp={hp} showLabel={false} size="sm" />
                 </div>
               </StatTooltip>
-            </motion.li>
+            </li>
 
             {/* Cognitive Load - Large screens */}
-            <motion.li
-              className="hidden md:block"
-              whileHover={{ y: -2 }}
-              transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-            >
+            <li className="hidden md:block">
               <StatTooltip stat="cognitiveLoad">
-                <div className="px-2.5 py-1.5 rounded-xl bg-glass-surface backdrop-blur-md border border-white/10">
+                <div className="px-2.5 py-1.5 rounded-xl bg-calm-bg-secondary border border-calm-warm-200">
                   <CognitiveLoadIndicator showLabel={false} size="sm" />
                 </div>
               </StatTooltip>
-            </motion.li>
+            </li>
 
             {/* Divider */}
             <li
               aria-hidden="true"
-              className="w-px h-6 bg-gradient-to-b from-transparent via-lf-primary/30 to-transparent hidden sm:block"
+              className="w-px h-5 bg-calm-warm-200 hidden sm:block"
             />
 
             {/* Profile Button */}
-            <motion.li whileHover={{ y: -2 }} transition={{ type: 'spring', stiffness: 400, damping: 30 }}>
+            <li>
               <Link
                 href="/profile"
-                className="relative px-2.5 py-1.5 rounded-xl bg-glass-surface backdrop-blur-md border border-white/10 flex items-center gap-1.5 hover:bg-white/5 transition-colors focus:outline-none focus:ring-2 focus:ring-lf-accent focus:ring-offset-2 focus:ring-offset-lf-dark"
+                className="px-2.5 py-1.5 rounded-xl bg-calm-bg-secondary border border-calm-warm-200 flex items-center gap-1.5 hover:bg-calm-bg-tertiary transition-colors focus:outline-none focus:ring-2 focus:ring-calm-sage-400 focus:ring-offset-2"
                 aria-label="Ir al perfil"
               >
-                <User className="w-4 h-4 text-lf-muted" aria-hidden="true" />
-                <span className="hidden lg:inline font-rajdhani font-medium text-white text-sm">
+                <User className="w-4 h-4 text-calm-text-secondary" aria-hidden="true" />
+                <span className="hidden lg:inline font-quicksand font-medium text-calm-text-primary text-sm">
                   Perfil
                 </span>
               </Link>
-            </motion.li>
+            </li>
           </ul>
         </nav>
       </div>
-
-      {/* Animated bottom border */}
-      <motion.div
-        className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-lf-primary to-transparent"
-        initial={{ scaleX: 0 }}
-        animate={{ scaleX: 1 }}
-        transition={{ duration: 1, delay: 0.5, ease: 'easeOut' }}
-        style={{ originX: 0.5 }}
-      />
     </motion.header>
   );
 }

@@ -1,45 +1,46 @@
 import type { Metadata, Viewport } from 'next';
-import { Rajdhani, Atkinson_Hyperlegible, Quicksand, Inter } from 'next/font/google';
+import { Atkinson_Hyperlegible, Inter, Quicksand, Rajdhani } from 'next/font/google';
 import './globals.css';
 import { Header } from '@/components/layout/Header';
 import { BottomNav } from '@/components/layout/BottomNav';
-import { XPSurgeEffect } from '@/components/ui/XPSurgeEffect';
-import { GamificationFeedback } from '@/components/ui/GamificationFeedback';
 import { Providers } from './providers';
-import { AAAAnimatedBackground } from '@/components/ui/AAAAnimatedBackground';
 import { AAAErrorBoundary } from '@/components/ui/ErrorBoundary';
 import { TutorialProvider } from '@/components/tutorial';
 import { HelpButton } from '@/components/help';
 
+// Quicksand for headings - softer than Rajdhani
+const quicksand = Quicksand({
+  subsets: ['latin'],
+  weight: ['400', '500', '600'],
+  variable: '--font-quicksand',
+  display: 'swap',
+});
+
+// Keep Rajdhani available for legacy components
 const rajdhani = Rajdhani({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
   variable: '--font-rajdhani',
 });
 
+// Inter for body
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600'],
+  variable: '--font-inter',
+  display: 'swap',
+});
+
+// Atkinson for accessibility
 const atkinson = Atkinson_Hyperlegible({
   subsets: ['latin'],
   weight: ['400', '700'],
   variable: '--font-atkinson',
 });
 
-const quicksand = Quicksand({
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
-  variable: '--font-quicksand',
-  display: 'swap',
-});
-
-const inter = Inter({
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
-  variable: '--font-inter',
-  display: 'swap',
-});
-
 export const metadata: Metadata = {
-  title: 'LinguaForge - Forja tu Dominio del Francés',
-  description: 'Domina el francés con un sistema de progresión único',
+  title: 'LinguaForge - Aprende Francés a Tu Ritmo',
+  description: 'Aprende francés en un espacio tranquilo, donde equivocarse está bien',
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
@@ -48,8 +49,9 @@ export const metadata: Metadata = {
   },
 };
 
+// Dark mode calm theme color
 export const viewport: Viewport = {
-  themeColor: '#0F172A',
+  themeColor: '#1C2127',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
@@ -63,7 +65,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className={`${rajdhani.variable} ${atkinson.variable} ${quicksand.variable} ${inter.variable}`}>
+    <html
+      lang="es"
+      className={`${rajdhani.variable} ${quicksand.variable} ${inter.variable} ${atkinson.variable}`}
+    >
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -74,7 +79,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-title" content="LinguaForge" />
       </head>
       <body className="font-atkinson antialiased text-white">
-        {/* Skip link para accesibilidad - solo visible al recibir foco */}
+        {/* Skip link */}
         <a
           href="#main-content"
           className="sr-only rounded-lg bg-lf-accent px-4 py-2 text-lf-dark focus:fixed focus:left-4 focus:top-4 focus:z-[100]"
@@ -85,14 +90,10 @@ export default function RootLayout({
         <Providers>
           <TutorialProvider>
             <AAAErrorBoundary>
-              <AAAAnimatedBackground variant="midnight" intensity="medium">
-                <XPSurgeEffect />
-                <GamificationFeedback />
-
-                {/* Header semántico */}
+              {/* Calm dark background */}
+              <div className="min-h-screen">
                 <Header />
 
-                {/* Main content con landmark */}
                 <main
                   id="main-content"
                   role="main"
@@ -104,12 +105,9 @@ export default function RootLayout({
                   </div>
                 </main>
 
-                {/* Navigation semántica */}
                 <BottomNav />
-
-                {/* Botón de ayuda flotante */}
                 <HelpButton />
-              </AAAAnimatedBackground>
+              </div>
             </AAAErrorBoundary>
           </TutorialProvider>
         </Providers>

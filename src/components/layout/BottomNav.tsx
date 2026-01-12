@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
+import { CALM_EASING } from "@/lib/animations";
 
 const navItems = [
   {
@@ -23,13 +24,6 @@ const navItems = [
     label: "Misiones",
     ariaLabel: "Misiones diarias",
   },
-  // Palace option hidden - can be enabled later when feature is ready
-  // {
-  //   href: "/construction",
-  //   icon: "🏰",
-  //   label: "Palacio",
-  //   ariaLabel: "Palacio de construcción",
-  // },
   {
     href: "/decks",
     icon: "📚",
@@ -38,6 +32,9 @@ const navItems = [
   },
 ];
 
+/**
+ * CALM Bottom Navigation - Gentle, unobtrusive
+ */
 export function BottomNav() {
   const pathname = usePathname();
 
@@ -47,22 +44,8 @@ export function BottomNav() {
       aria-label="Navegación principal"
       className="fixed bottom-0 left-0 right-0 h-nav z-50 safe-bottom"
     >
-      {/* Glassmorphism background */}
-      <div className="absolute inset-0 bg-glass-surface backdrop-blur-aaa border-t border-white/20" />
-
-      {/* Gradient glow at top */}
-      <motion.div
-        className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-lf-primary/50 to-transparent"
-        animate={{
-          opacity: [0.3, 0.6, 0.3],
-          scaleX: [0.8, 1, 0.8],
-        }}
-        transition={{
-          duration: 3,
-          repeat: Infinity,
-          ease: 'easeInOut',
-        }}
-      />
+      {/* Calm backdrop */}
+      <div className="absolute inset-0 bg-calm-bg-elevated/95 backdrop-blur-calm border-t border-calm-warm-200 shadow-calm-md" />
 
       <ul className="relative h-full w-full flex items-center justify-around lg:container lg:mx-auto list-none">
         {navItems.map((item) => {
@@ -77,49 +60,43 @@ export function BottomNav() {
                 aria-current={isActive ? "page" : undefined}
                 className={`
                   relative flex flex-col items-center justify-center w-full h-full
-                  transition-all duration-300
-                  focus:outline-none focus:ring-2 focus:ring-inset focus:ring-lf-accent
+                  transition-colors duration-300
+                  focus:outline-none focus:ring-2 focus:ring-inset focus:ring-calm-sage-400
                   ${
                     isActive
-                      ? "text-lf-accent"
-                      : "text-lf-muted hover:text-lf-secondary"
+                      ? "text-calm-sage-500"
+                      : "text-calm-text-tertiary hover:text-calm-text-secondary"
                   }
                 `}
               >
-                {/* Active indicator */}
+                {/* Active indicator - subtle sage background */}
                 {isActive && (
                   <motion.div
-                    className="absolute inset-x-3 inset-y-2 bg-lf-accent/20 rounded-xl backdrop-blur-sm"
+                    className="absolute inset-x-3 inset-y-2 bg-calm-sage-50 rounded-xl"
                     layoutId="nav-active-indicator"
-                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 150,
+                      damping: 25
+                    }}
                     aria-hidden="true"
                   />
                 )}
 
-                {/* Icon with glow */}
+                {/* Icon */}
                 <motion.div
                   className="relative z-10 mb-1"
-                  whileTap={{ scale: 0.9 }}
+                  whileTap={{ opacity: 0.7 }}
+                  transition={{ duration: 0.2 }}
                 >
-                  {isActive && (
-                    <motion.div
-                      className="absolute inset-0 blur-md bg-lf-accent/50 rounded-full"
-                      animate={{
-                        scale: [1, 1.2, 1],
-                        opacity: [0.4, 0.7, 0.4],
-                      }}
-                      transition={{
-                        duration: 2,
-                        repeat: Infinity,
-                        ease: 'easeInOut',
-                      }}
-                    />
-                  )}
-                  <span className="relative text-xl">{item.icon}</span>
+                  <span className="text-xl">{item.icon}</span>
                 </motion.div>
 
                 {/* Label */}
-                <span className="relative z-10 font-rajdhani text-xs font-semibold tracking-wide uppercase">
+                <span className={`
+                  relative z-10 font-quicksand text-xs font-medium tracking-wide
+                  ${isActive ? "text-calm-sage-600" : ""}
+                `}>
                   {item.label}
                 </span>
               </Link>

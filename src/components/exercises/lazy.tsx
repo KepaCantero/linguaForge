@@ -60,27 +60,6 @@ export const LazyJanusComposerExercise = dynamic(
   { loading: ExerciseLoading, ssr: false }
 );
 
-// Ejercicios legacy
-export const LazyEchoStreamExercise = dynamic(
-  () => import('./EchoStreamExercise').then((mod) => mod.EchoStreamExercise),
-  { loading: ExerciseLoading, ssr: false }
-);
-
-export const LazyShardDetectionExercise = dynamic(
-  () => import('./ShardDetectionExercise').then((mod) => mod.ShardDetectionExercise),
-  { loading: ExerciseLoading, ssr: false }
-);
-
-export const LazyGlyphWeavingExercise = dynamic(
-  () => import('./GlyphWeavingExercise').then((mod) => mod.GlyphWeavingExercise),
-  { loading: ExerciseLoading, ssr: false }
-);
-
-export const LazyResonancePathExercise = dynamic(
-  () => import('./ResonancePathExercise').then((mod) => mod.ResonancePathExercise),
-  { loading: ExerciseLoading, ssr: false }
-);
-
 // Otros ejercicios
 export const LazyMiniTaskExercise = dynamic(
   () => import('./MiniTaskExercise').then((mod) => mod.MiniTaskExercise),
@@ -89,11 +68,6 @@ export const LazyMiniTaskExercise = dynamic(
 
 export const LazyBlockEchoExercise = dynamic(
   () => import('./BlockEchoExercise').then((mod) => mod.BlockEchoExercise),
-  { loading: ExerciseLoading, ssr: false }
-);
-
-export const LazyForgeMandateExercise = dynamic(
-  () => import('./ForgeMandateExercise').then((mod) => mod.ForgeMandateExercise),
   { loading: ExerciseLoading, ssr: false }
 );
 

@@ -5,6 +5,7 @@
  */
 
 // TODO: Re-enable when audioAnalysis is fully implemented
+// Issue: #43 - Re-enable audioAnalysis when fully implemented
 // import { analyzeIntonation, calculateIntonationSimilarity } from "@/lib/audioAnalysis";
 
 export interface RhythmPattern {

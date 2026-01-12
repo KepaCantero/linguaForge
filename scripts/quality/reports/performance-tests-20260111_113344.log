@@ -1,0 +1,10 @@
+Performance tests started at Sun Jan 11 11:33:44 CET 2026
+✅  .lighthouseci/ directory writable
+✅  Configuration file found
+✅  Chrome installation found
+Healthcheck passed!
+
+Running Lighthouse 3 time(s) on http://localhost:3000
+Run #1...done.
+Run #2...done.
+Run #3...

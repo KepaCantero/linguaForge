@@ -1,0 +1,822 @@
+Unit tests started at Sat Jan 10 23:27:55 CET 2026
+npm warn Unknown user config "email". This will stop working in the next major version of npm.
+npm warn Unknown user config "always-auth". This will stop working in the next major version of npm.
+
+> french-app@0.1.0 test
+> vitest run --run --reporter=verbose --reporter=json --outputFile=/Users/kepa.cantero/Projects/frenchWebApp/scripts/quality/reports/unit-results-20260110_232755.json
+
+
+[1m[46m RUN [49m[22m [36mv4.0.16 [39m[90m/Users/kepa.cantero/Projects/frenchWebApp[39m
+
+[90mstderr[2m | tests/unit/services/translationService.test.ts[2m > [22m[2mtranslationService[2m > [22m[2mtranslateToSpanish[2m > [22m[2mdebería retornar texto original si API falla
+[22m[39mError translating text: Error: API Error
+    at [90m/Users/kepa.cantero/Projects/frenchWebApp/[39mtests/unit/services/translationService.test.ts:62:39
+    at [90mfile:///Users/kepa.cantero/Projects/frenchWebApp/[39mnode_modules/[4m@vitest[24m/runner/dist/index.js:145:11
+    at [90mfile:///Users/kepa.cantero/Projects/frenchWebApp/[39mnode_modules/[4m@vitest[24m/runner/dist/index.js:915:26
+    at [90mfile:///Users/kepa.cantero/Projects/frenchWebApp/[39mnode_modules/[4m@vitest[24m/runner/dist/index.js:1243:20
+    at new Promise (<anonymous>)
+    at runWithTimeout [90m(file:///Users/kepa.cantero/Projects/frenchWebApp/[39mnode_modules/[4m@vitest[24m/runner/dist/index.js:1209:10[90m)[39m
+    at [90mfile:///Users/kepa.cantero/Projects/frenchWebApp/[39mnode_modules/[4m@vitest[24m/runner/dist/index.js:1653:37
+    at Traces.$ [90m(file:///Users/kepa.cantero/Projects/frenchWebApp/[39mnode_modules/[4mvitest[24m/dist/chunks/traces.U4xDYhzZ.js:115:27[90m)[39m
+    at trace [90m(file:///Users/kepa.cantero/Projects/frenchWebApp/[39mnode_modules/[4mvitest[24m/dist/chunks/test.B8ej_ZHS.js:239:21[90m)[39m
+    at runTest [90m(file:///Users/kepa.cantero/Projects/frenchWebApp/[39mnode_modules/[4m@vitest[24m/runner/dist/index.js:1653:12[90m)[39m
+
+ [32m✓[39m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mnormalizeWord[2m > [22mdebería convertir a minúsculas[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mnormalizeWord[2m > [22mdebería eliminar acentos[32m 3[2mms[22m[39m
+ [32m✓[39m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mnormalizeWord[2m > [22mdebería eliminar puntuación[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mnormalizeWord[2m > [22mdebería manejar palabras vacías[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mnormalizeWord[2m > [22mdebería manejar combinaciones complejas[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mdetectWordType[2m > [22mverbos[2m > [22mdebería detectar verbos en -er[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mdetectWordType[2m > [22mverbos[2m > [22mdebería detectar verbos en -ir[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mdetectWordType[2m > [22mverbos[2m > [22mdebería detectar verbos en -re[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mdetectWordType[2m > [22mverbos[2m > [22mdebería detectar verbos en -oir[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mdetectWordType[2m > [22mverbos[2m > [22mdebería detectar verbos en -tre[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mdetectWordType[2m > [22mverbos[2m > [22mNO debería detectar sustantivos que terminan igual[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mdetectWordType[2m > [22madverbios[2m > [22mdebería detectar adverbios en -ment[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mdetectWordType[2m > [22madverbios[2m > [22mdebería detectar adverbios en -ement[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mdetectWordType[2m > [22madjetivos[2m > [22mdebería detectar adjetivos en -eux[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mdetectWordType[2m > [22madjetivos[2m > [22mdebería detectar adjetivos en -euse[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mdetectWordType[2m > [22madjetivos[2m > [22mdebería detectar adjetivos en -if[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mdetectWordType[2m > [22madjetivos[2m > [22mdebería detectar adjetivos en -ive[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mdetectWordType[2m > [22madjetivos[2m > [22mdebería detectar adjetivos comunes[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mdetectWordType[2m > [22madjetivos[2m > [22mdebería detectar adjetivos en plural[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mdetectWordType[2m > [22madjetivos[2m > [22mNO debería detectar adjetivos cortos en plural[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mdetectWordType[2m > [22msustantivos[2m > [22mdebería detectar sustantivos como default para palabras largas[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mdetectWordType[2m > [22msustantivos[2m > [22mNO debería detectar palabras cortas como sustantivos[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mdetectWordType[2m > [22mcasos límite[2m > [22mdebería manejar palabras desconocidas[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mdetectWordType[2m > [22mcasos límite[2m > [22mdebería manejar palabras vacías[32m 0[2mms[22m[39m
+ [31m×[39m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mextractKeywords[2m > [22mdebería extraer palabras clave de texto simple[32m 7[2mms[22m[39m
+[31m   → expected [ { word: 'Je', …(4) }, …(4) ] to have a length of 4 but got 5[39m
+ [31m×[39m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mextractKeywords[2m > [22mdebería filtrar palabras comunes[32m 1[2mms[22m[39m
+[31m   → expected [ { word: 'Je', …(4) }, …(4) ] to have a length of 4 but got 5[39m
+ [32m✓[39m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mextractKeywords[2m > [22mdebería normalizar palabras[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mextractKeywords[2m > [22mdebería eliminar duplicados[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mextractKeywords[2m > [22mdebería asignar tipos correctos[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mextractKeywords[2m > [22mdebería manejar texto vacío[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mextractKeywords[2m > [22mdebería filtrar palabras muy cortas[32m 0[2mms[22m[39m
+ [31m×[39m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mextractKeywords[2m > [22mdeber mantener posición de palabras[32m 1[2mms[22m[39m
+[31m   → expected 3 to be 4 // Object.is equality[39m
+ [32m✓[39m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mextractKeywords[2m > [22mdebería incluir contexto completo[32m 0[2mms[22m[39m
+ [31m×[39m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mextractKeywordsFromPhrases[2m > [22mdebería extraer palabras de múltiples frases[32m 1[2mms[22m[39m
+[31m   → expected [ Array(7) ] to not include 'Elle'[39m
+ [32m✓[39m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mextractKeywordsFromPhrases[2m > [22mdebería eliminar duplicados entre frases[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mextractKeywordsFromPhrases[2m > [22mdebería manejar array vacío[32m 0[2mms[22m[39m
+ [31m×[39m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mcasos complejos[2m > [22mdebería manejar texto con contracciones[32m 1[2mms[22m[39m
+[31m   → expected [ { word: 'J\'aime', …(4) }, …(4) ] to have a length of 6 but got 5[39m
+ [31m×[39m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mcasos complejos[2m > [22mdebería manejar texto con números[32m 1[2mms[22m[39m
+[31m   → expected [ { word: 'Il', …(4) }, …(2) ] to have a length of 5 but got 3[39m
+ [32m✓[39m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mcasos complejos[2m > [22mdebería manejar texto con emojis[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mcasos complejos[2m > [22mdebería manejar texto con múltiples espacios[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mCONSTRUCTION_MILESTONES[2m > [22mshould have at least 50 milestones[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mCONSTRUCTION_MILESTONES[2m > [22mshould have all required properties for each milestone[32m 9[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mCONSTRUCTION_MILESTONES[2m > [22mshould have unique IDs for all milestones[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mCONSTRUCTION_MILESTONES[2m > [22mshould have 7 categories represented[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mCONSTRUCTION_MILESTONES[2m > [22mshould have all 5 rarities represented[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mCONSTRUCTION_MILESTONES[2m > [22mshould have valid reward values[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mCONSTRUCTION_MILESTONES[2m > [22mshould have milestone with xp rewards scaling with rarity[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mCONSTRUCTION_MILESTONES[2m > [22mshould have some hidden milestones[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mSTREAK_BONUSES[2m > [22mshould have 7 streak tiers[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mSTREAK_BONUSES[2m > [22mshould have increasing streak requirements[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mSTREAK_BONUSES[2m > [22mshould have increasing multipliers[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mSTREAK_BONUSES[2m > [22mshould start with 1.0x multiplier at 1 day[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mSTREAK_BONUSES[2m > [22mshould cap at 3.0x multiplier[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mSTREAK_BONUSES[2m > [22mshould have increasing xpBonus[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mMASTERY_LEVELS[2m > [22mshould have 10 mastery levels[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mMASTERY_LEVELS[2m > [22mshould have unique titles[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mMASTERY_LEVELS[2m > [22mshould have increasing XP requirements[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mMASTERY_LEVELS[2m > [22mshould have levels from 1 to 10[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mMASTERY_LEVELS[2m > [22mshould start with Aprendiz and end with Inmortal[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mMASTERY_LEVELS[2m > [22mshould start at 0 XP required[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mMASTERY_BONUSES[2m > [22mshould have bonus entries[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mMASTERY_BONUSES[2m > [22mshould have all required properties for each bonus[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mMASTERY_BONUSES[2m > [22mshould have valid bonus types[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mMASTERY_BONUSES[2m > [22mshould have bonuses at various levels[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mMASTERY_BONUSES[2m > [22mshould have positive values for bonuses[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mTHEME_BONUSES[2m > [22mshould have 5 French themes[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mTHEME_BONUSES[2m > [22mshould have all required properties[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mTHEME_BONUSES[2m > [22mshould have bonus multipliers greater than 1[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mTHEME_BONUSES[2m > [22mshould require multiple elements for completion[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mTHEME_BONUSES[2m > [22mshould have unique theme IDs[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mTEMPORAL_EVENTS[2m > [22mshould have 4 seasonal events[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mTEMPORAL_EVENTS[2m > [22mshould have all required properties[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mTEMPORAL_EVENTS[2m > [22mshould have valid date strings[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mTEMPORAL_EVENTS[2m > [22mshould have exclusive materials[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mTEMPORAL_EVENTS[2m > [22mshould have special milestones[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mTEMPORAL_EVENTS[2m > [22mshould have French-themed events[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mgetStreakBonus[2m > [22mshould return 1.0x for 0 days[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mgetStreakBonus[2m > [22mshould return 1.0x for 1 day[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mgetStreakBonus[2m > [22mshould return 1.1x for 3 days[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mgetStreakBonus[2m > [22mshould return 1.25x for 7 days[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mgetStreakBonus[2m > [22mshould return 1.5x for 14 days[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mgetStreakBonus[2m > [22mshould return 2.0x for 30 days[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mgetStreakBonus[2m > [22mshould return 3.0x for 100+ days[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mgetStreakBonus[2m > [22mshould return correct tier for between-tier values[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mgetStreakBonus[2m > [22mshould include xpBonus in result[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mgetMasteryLevel[2m > [22mshould return level 1 for 0 XP[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mgetMasteryLevel[2m > [22mshould return level 1 for less than 100 XP[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mgetMasteryLevel[2m > [22mshould return level 2 for 100+ XP[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mgetMasteryLevel[2m > [22mshould return level 10 for 10000+ XP[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mgetMasteryLevel[2m > [22mshould return level 10 for very high XP[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mgetMasteryLevel[2m > [22mshould return correct intermediate levels[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mgetMasteryLevel[2m > [22mshould include progress in result[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mgetMasteryBonuses[2m > [22mshould return empty for level 1[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mgetMasteryBonuses[2m > [22mshould return bonuses for level 2+[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mgetMasteryBonuses[2m > [22mshould return more bonuses at higher levels[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mgetMasteryBonuses[2m > [22mshould return empty for invalid levels[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mgetMasteryBonuses[2m > [22mshould filter by level correctly[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mcheckMilestoneCompletion[2m > [22mshould return false for incomplete count milestone[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mcheckMilestoneCompletion[2m > [22mshould return true for completed count milestone[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mcheckMilestoneCompletion[2m > [22mshould check unique materials for unique type[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mcheckMilestoneCompletion[2m > [22mshould check streak for streak type[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mcheckMilestoneCompletion[2m > [22mshould check events completed for event type[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mcheckMilestoneCompletion[2m > [22mshould check element-specific builds[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mgetPendingMilestones[2m > [22mshould return all non-hidden milestones for empty completed list[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mgetPendingMilestones[2m > [22mshould exclude completed milestones[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mgetPendingMilestones[2m > [22mshould exclude hidden milestones[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mgetPendingMilestones[2m > [22mshould filter by category if provided[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mgetPendingMilestones[2m > [22mshould be sorted by order[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mgetNextMilestone[2m > [22mshould return a milestone for empty state[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mgetNextMilestone[2m > [22mshould return the first pending milestone for minimal progress[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mgetNextMilestone[2m > [22mshould return milestone with progress >= 25%[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mgetNextMilestone[2m > [22mshould return null if all milestones completed[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mcalculateMilestoneReward[2m > [22mshould return base rewards with multiplier 1.0 and no bonus[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mcalculateMilestoneReward[2m > [22mshould apply streak multiplier to rewards[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mcalculateMilestoneReward[2m > [22mshould apply mastery bonus to rewards[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mcalculateMilestoneReward[2m > [22mshould combine multiplier and bonus[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mcalculateMilestoneReward[2m > [22mshould preserve gems without multiplier[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mcalculateMilestoneReward[2m > [22mshould round rewards to integers[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mcheckThemeCompletion[2m > [22mshould return false for empty elements[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mcheckThemeCompletion[2m > [22mshould return false for partial completion[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mcheckThemeCompletion[2m > [22mshould return true when all elements completed[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mcheckThemeCompletion[2m > [22mshould return true with extra elements[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mcheckThemeCompletion[2m > [22mshould work for all themes[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22misEventActive[2m > [22mshould return false for future events[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22misEventActive[2m > [22mshould return false for past events[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22misEventActive[2m > [22mshould return true for current events[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mgetActiveEvents[2m > [22mshould return array of events[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mgetActiveEvents[2m > [22mshould only return events that pass isEventActive[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mcalculatePrestige[2m > [22mshould return level 0 for no XP[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mcalculatePrestige[2m > [22mshould return level 1 for 5000+ XP[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mcalculatePrestige[2m > [22mshould increase with milestones completed[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mcalculatePrestige[2m > [22mshould return object with level, title, nextLevelXP[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mcalculatePrestige[2m > [22mshould cap at highest level[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/progression.test.ts[2m > [22mcalculatePrestige[2m > [22mshould have increasing nextLevelXP[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/errorHandler.test.ts[2m > [22mcreateAppError[2m > [22mdebería crear un AppError con metadata completa[32m 4[2mms[22m[39m
+ [32m✓[39m tests/unit/services/errorHandler.test.ts[2m > [22mcreateAppError[2m > [22mdebería copiar stack trace del error original[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/errorHandler.test.ts[2m > [22mcreateAppError[2m > [22mdebería asignar retryable false para errores no reintentables[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/errorHandler.test.ts[2m > [22mwithRetry[2m > [22mdebería ejecutar la función exitosamente en el primer intento[32m 4[2mms[22m[39m
+ [32m✓[39m tests/unit/services/translationService.test.ts[2m > [22mtranslationService[2m > [22mtranslateToSpanish[2m > [22mdebería retornar traducción desde API[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/services/translationService.test.ts[2m > [22mtranslationService[2m > [22mtranslateToSpanish[2m > [22mdebería retornar texto original si API falla[32m 5[2mms[22m[39m
+ [32m✓[39m tests/unit/services/translationService.test.ts[2m > [22mtranslationService[2m > [22mtranslateToSpanish[2m > [22mdebería guardar en cache después de traducir[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/services/translationService.test.ts[2m > [22mtranslationService[2m > [22mtranslateWords[2m > [22mdebería traducir múltiples palabras en paralelo[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/services/translationService.test.ts[2m > [22mtranslationService[2m > [22mtranslateWords[2m > [22mdebería procesar múltiples palabras[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/translationService.test.ts[2m > [22mtranslationService[2m > [22mgetCacheStats[2m > [22mdebería retornar estadísticas de cache[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/translationService.test.ts[2m > [22mtranslationService[2m > [22mgetCacheStats[2m > [22mdebería manejar cache vacía[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mPBR_MATERIALS[2m > [22mdebe tener al menos 15 materiales definidos[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mPBR_MATERIALS[2m > [22mcada material debe tener id único[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mPBR_MATERIALS[2m > [22mcada material debe tener propiedades PBR válidas[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mPBR_MATERIALS[2m > [22mdebe tener materiales de cada textura[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mPBR_MATERIALS[2m > [22mdebe tener materiales de cada rareza[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mPBR_MATERIALS[2m > [22mmateriales de madera[2m > [22moak_wood debe tener propiedades correctas[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mPBR_MATERIALS[2m > [22mmateriales de madera[2m > [22mmahogany_wood debe ser uncommon[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mPBR_MATERIALS[2m > [22mmateriales de madera[2m > [22mebony_wood debe ser rare[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mPBR_MATERIALS[2m > [22mmateriales de piedra[2m > [22mlimestone debe ser common[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mPBR_MATERIALS[2m > [22mmateriales de piedra[2m > [22mmarble debe tener propiedades de brillo[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mPBR_MATERIALS[2m > [22mmateriales de piedra[2m > [22mobsidian debe tener alta reflectividad[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mPBR_MATERIALS[2m > [22mmateriales de vidrio[2m > [22mclear_glass debe ser transparente[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mPBR_MATERIALS[2m > [22mmateriales de vidrio[2m > [22mstained_glass debe tener emisión[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mPBR_MATERIALS[2m > [22mmateriales de vidrio[2m > [22mcrystal_glass debe tener alto IOR[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mPBR_MATERIALS[2m > [22mmateriales de metal[2m > [22miron debe tener alta metalness[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mPBR_MATERIALS[2m > [22mmateriales de metal[2m > [22mgold debe ser epic[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mPBR_MATERIALS[2m > [22mmateriales de cristal mágico[2m > [22mamethyst debe tener emisión[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mPBR_MATERIALS[2m > [22mmateriales de cristal mágico[2m > [22mdiamond debe ser legendary[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mLOD_CONFIGS[2m > [22mdebe tener 4 niveles de LOD[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mLOD_CONFIGS[2m > [22mlos niveles deben estar ordenados por distancia[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mLOD_CONFIGS[2m > [22mel primer nivel debe tener máxima calidad[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mLOD_CONFIGS[2m > [22mel último nivel debe tener mínima calidad[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mLOD_CONFIGS[2m > [22mcada nivel debe tener propiedades válidas[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mcreatePBRMaterial[2m > [22mdebe crear material con propiedades básicas[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mcreatePBRMaterial[2m > [22mdebe aplicar variante si se especifica[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mcreatePBRMaterial[2m > [22mdebe ignorar variante inválida[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mcreatePBRMaterial[2m > [22mdebe aplicar weathering level[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mcreatePBRMaterial[2m > [22mdebe limitar roughness entre 0 y 1[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mcreatePBRMaterial[2m > [22mdebe crear material transparente para vidrio[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mcreatePBRMaterial[2m > [22mdebe incluir propiedades de sheen[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mcreateSimpleMaterial[2m > [22mdebe crear material estándar simplificado[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mcreateSimpleMaterial[2m > [22mdebe aplicar variante[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mcreateSimpleMaterial[2m > [22mno debe incluir propiedades avanzadas como clearcoat[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mgetPBRMaterial[2m > [22mdebe retornar material existente[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mgetPBRMaterial[2m > [22mdebe retornar undefined para material inexistente[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mgetPBRMaterial[2m > [22mdebe retornar la configuración completa[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mgetMaterialsByTexture[2m > [22mdebe retornar materiales de madera[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mgetMaterialsByTexture[2m > [22mdebe retornar materiales de piedra[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mgetMaterialsByTexture[2m > [22mdebe retornar materiales de vidrio[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mgetMaterialsByTexture[2m > [22mdebe retornar materiales de metal[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mgetMaterialsByTexture[2m > [22mdebe retornar materiales de cristal[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mgetMaterialsByTexture[2m > [22mdebe retornar array vacío para textura inválida[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mgetMaterialsByRarity[2m > [22mdebe retornar materiales comunes[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mgetMaterialsByRarity[2m > [22mdebe retornar materiales uncommon[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mgetMaterialsByRarity[2m > [22mdebe retornar materiales raros[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mgetMaterialsByRarity[2m > [22mdebe retornar materiales epic[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mgetMaterialsByRarity[2m > [22mdebe retornar materiales legendarios[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mgetMaterialsByRarity[2m > [22mla cantidad de materiales debe disminuir con la rareza[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mgetLODForDistance[2m > [22mdebe retornar LOD 0 para distancia 0[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mgetLODForDistance[2m > [22mdebe retornar LOD 0 para distancia negativa[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mgetLODForDistance[2m > [22mdebe retornar LOD 1 para distancia media-baja[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mgetLODForDistance[2m > [22mdebe retornar LOD 2 para distancia media[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mgetLODForDistance[2m > [22mdebe retornar LOD 3 para distancia alta[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mgetLODForDistance[2m > [22mdebe retornar LOD 3 para distancias muy altas[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mgetLODForDistance[2m > [22mdebe retornar LOD con todas las propiedades[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22msupportsAdvancedMaterials[2m > [22mdebe retornar false si window no existe[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22msupportsAdvancedMaterials[2m > [22mdebe retornar false si no hay contexto WebGL[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22msupportsAdvancedMaterials[2m > [22mdebe verificar extensiones WebGL[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22msupportsAdvancedMaterials[2m > [22mdebe retornar false si falta alguna extensión[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mMaterial Variants[2m > [22mcada variante debe tener id único dentro del material[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mMaterial Variants[2m > [22mcada variante debe tener modificadores válidos[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mMaterial Variants[2m > [22mlos modificadores no deben causar valores fuera de rango[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mWeathering Levels[2m > [22mcada material debe tener al menos un weathering level[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mWeathering Levels[2m > [22mel primer weathering level debe ser el estado original[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mWeathering Levels[2m > [22mweathering levels deben estar ordenados[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/pbr.test.ts[2m > [22mPBR Materials System[2m > [22mWeathering Levels[2m > [22mweathering debe aumentar roughness progresivamente[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/stores/zustand-stores.test.ts[2m > [22mZustand Stores - Basic Functionality[2m > [22mSimple Store (No Persistence)[2m > [22mdebería inicializar con el estado correcto[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/stores/zustand-stores.test.ts[2m > [22mZustand Stores - Basic Functionality[2m > [22mSimple Store (No Persistence)[2m > [22mdebería incrementar el contador[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/stores/zustand-stores.test.ts[2m > [22mZustand Stores - Basic Functionality[2m > [22mSimple Store (No Persistence)[2m > [22mdebería decrementar el contador[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/stores/zustand-stores.test.ts[2m > [22mZustand Stores - Basic Functionality[2m > [22mSimple Store (No Persistence)[2m > [22mdebería resetear el estado[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/stores/zustand-stores.test.ts[2m > [22mZustand Stores - Basic Functionality[2m > [22mSimple Store (No Persistence)[2m > [22mdebería mantener estado entre múltiples gets[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/stores/zustand-stores.test.ts[2m > [22mZustand Stores - Basic Functionality[2m > [22mPersisted Store[2m > [22mdebería inicializar con valores por defecto[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/stores/zustand-stores.test.ts[2m > [22mZustand Stores - Basic Functionality[2m > [22mPersisted Store[2m > [22mdebería actualizar el nombre[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/stores/zustand-stores.test.ts[2m > [22mZustand Stores - Basic Functionality[2m > [22mPersisted Store[2m > [22mdebería actualizar la edad[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/stores/zustand-stores.test.ts[2m > [22mZustand Stores - Basic Functionality[2m > [22mPersisted Store[2m > [22mdebería resetear al estado inicial[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/stores/zustand-stores.test.ts[2m > [22mZustand Stores - Basic Functionality[2m > [22mState Updates[2m > [22mdebería actualizar estado de forma inmutable[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/stores/zustand-stores.test.ts[2m > [22mZustand Stores - Basic Functionality[2m > [22mState Updates[2m > [22mdebería permitir múltiples actualizaciones[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/stores/zustand-stores.test.ts[2m > [22mZustand Stores - Basic Functionality[2m > [22mStore API[2m > [22mdebería exponer getState[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/stores/zustand-stores.test.ts[2m > [22mZustand Stores - Basic Functionality[2m > [22mStore API[2m > [22mdebería exponer setState a través de acciones[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/stores/zustand-stores.test.ts[2m > [22mZustand Stores - Basic Functionality[2m > [22mStore API[2m > [22mdebería mantener consistencia en el estado[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/stores/zustand-stores.test.ts[2m > [22mZustand Stores - Basic Functionality[2m > [22mError Handling[2m > [22mdebería manejar actualizaciones asíncronas correctamente[32m 12[2mms[22m[39m
+ [32m✓[39m tests/unit/stores/zustand-stores.test.ts[2m > [22mZustand Stores - Basic Functionality[2m > [22mError Handling[2m > [22mdebería manejar múltiples actualizaciones rápidas[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/stores/zustand-stores.test.ts[2m > [22mZustand Stores - Basic Functionality[2m > [22mPerformance[2m > [22mdebería manejar grandes volúmenes de actualizaciones[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/stores/zustand-stores.test.ts[2m > [22mZustand Stores - Basic Functionality[2m > [22mPerformance[2m > [22mdebería tener acceso rápido al estado[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/stores/zustand-stores.test.ts[2m > [22mZustand Stores - Integration with Real Stores[2m > [22mdebería simular el patrón de useSRSStore[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/stores/zustand-stores.test.ts[2m > [22mZustand Stores - Integration with Real Stores[2m > [22mdebería simular el patrón de useUserStore[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/stores/zustand-stores.test.ts[2m > [22mZustand Stores - Integration with Real Stores[2m > [22mdebería simular el patrón de useInputStore[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/stores/zustand-stores.test.ts[2m > [22mZustand Stores - Edge Cases[2m > [22mdebería manejar estado vacío[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/stores/zustand-stores.test.ts[2m > [22mZustand Stores - Edge Cases[2m > [22mdebería manejar objetos complejos en estado[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/stores/zustand-stores.test.ts[2m > [22mZustand Stores - Edge Cases[2m > [22mdebería manejar arrays en estado[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/stores/zustand-stores.test.ts[2m > [22mZustand Stores - Memory Management[2m > [22mdebería liberar memoria al resetear[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/stores/zustand-stores.test.ts[2m > [22mZustand Stores - Memory Management[2m > [22mdebería manejar múltiples suscripciones sin memory leaks[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mSOUND_CONFIGS[2m > [22mshould have 70 sound configurations[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mSOUND_CONFIGS[2m > [22mshould have all required properties for each config[32m 8[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mSOUND_CONFIGS[2m > [22mshould have valid envelope properties[32m 6[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mSOUND_CONFIGS[2m > [22mshould have valid frequencies[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mSOUND_CONFIGS[2m > [22mshould have valid volumes[32m 6[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mSOUND_CONFIGS[2m > [22mshould have valid durations[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mSOUND_CONFIGS[2m > [22mshould have at least one harmonic[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mSOUND_CONFIGS[2m > [22mshould have valid oscillator types[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mSOUND_CONFIGS categories[2m > [22mshould have material sounds (25)[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mSOUND_CONFIGS categories[2m > [22mshould have action sounds[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mSOUND_CONFIGS categories[2m > [22mshould have UI sounds (10)[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mSOUND_CONFIGS categories[2m > [22mshould have celebration sounds[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mSOUND_CONFIGS categories[2m > [22mshould have ambient sounds (8)[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mSOUND_CONFIGS categories[2m > [22mshould have ASMR sounds[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mSOUND_CONFIGS categories[2m > [22mshould have music tracks (4)[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mSOUND_CONFIGS categories[2m > [22mshould have all 7 categories[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mMATERIAL_SOUND_MAP[2m > [22mshould have 5 material mappings[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mMATERIAL_SOUND_MAP[2m > [22mshould map all construction materials[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mMATERIAL_SOUND_MAP[2m > [22mshould have tap, place, and asmr sounds for each material[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mMATERIAL_SOUND_MAP[2m > [22mshould reference valid sound configs[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mMATERIAL_SOUND_MAP[2m > [22mshould have correct sound types for wood[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mMATERIAL_SOUND_MAP[2m > [22mshould have correct sound types for stone[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mMATERIAL_SOUND_MAP[2m > [22mshould have correct sound types for metal[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mMATERIAL_SOUND_MAP[2m > [22mshould have correct sound types for glass[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mMATERIAL_SOUND_MAP[2m > [22mshould have correct sound types for crystal[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mMaterial sound configurations[2m > [22mwood sounds should use triangle oscillator for organic feel[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mMaterial sound configurations[2m > [22mstone sounds should have low base frequencies[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mMaterial sound configurations[2m > [22mmetal sounds should have higher frequencies for resonance[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mMaterial sound configurations[2m > [22mglass sounds should have highest frequencies for crisp sound[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mMaterial sound configurations[2m > [22mcrystal sounds should have ethereal high frequencies[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mCelebration sound configurations[2m > [22mshould have longer durations for impact[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mCelebration sound configurations[2m > [22mshould have higher volumes for prominence[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mCelebration sound configurations[2m > [22mshould not be spatial (global sounds)[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mUI sound configurations[2m > [22mshould have short durations for responsiveness[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mUI sound configurations[2m > [22mshould have moderate volumes to not be intrusive[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mUI sound configurations[2m > [22mshould use sine oscillator for clean sound[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mUI sound configurations[2m > [22mshould not be spatial[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mAmbient sound configurations[2m > [22mshould have long durations[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mAmbient sound configurations[2m > [22mshould have low volumes for background[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mAmbient sound configurations[2m > [22mshould be loopable[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mAmbient sound configurations[2m > [22mshould have long attack times for smooth fade in[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mMusic configurations[2m > [22mshould have very long durations[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mMusic configurations[2m > [22mshould be loopable[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mMusic configurations[2m > [22mshould use musical note frequencies[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mConstructionSoundEngine[2m > [22minitialization[2m > [22mshould not be initialized by default[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mConstructionSoundEngine[2m > [22minitialization[2m > [22mshould have default state values[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mConstructionSoundEngine[2m > [22minitialization[2m > [22mshould have category volumes for all 7 categories[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mConstructionSoundEngine[2m > [22mmute control[2m > [22mshould not be muted by default[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mConstructionSoundEngine[2m > [22mmute control[2m > [22mshould allow setting muted state[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mConstructionSoundEngine[2m > [22mvolume control[2m > [22mshould clamp master volume between 0 and 1[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mConstructionSoundEngine[2m > [22mvolume control[2m > [22mshould allow setting category volume[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mConstructionSoundEngine[2m > [22mvolume control[2m > [22mshould clamp category volume between 0 and 1[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mConstructionSoundEngine[2m > [22mmusic state[2m > [22mshould have initial music state[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mConstructionSoundEngine[2m > [22mmusic state[2m > [22mshould allow setting music mood[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mConstructionSoundEngine[2m > [22mmusic state[2m > [22mshould allow setting music intensity[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mConstructionSoundEngine[2m > [22mmusic state[2m > [22mshould clamp music intensity between 0 and 1[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mgetConstructionSoundEngine[2m > [22mshould return the same instance on multiple calls[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mSound type completeness[2m > [22mshould have configs for all defined sound types[32m 9[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mSound type completeness[2m > [22mshould have 70 total sound types[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mSound characteristics by category[2m > [22mspatial sounds should be material, action, ambient, asmr, or celebration related[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mSound characteristics by category[2m > [22mcelebration sounds should have longer release times[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/constructionSound.test.ts[2m > [22mSound characteristics by category[2m > [22mASMR sounds should use sawtooth or sine for texture[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mMATERIALS constant[2m > [22mdebe tener 15 materiales definidos[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mMATERIALS constant[2m > [22mcada material debe tener propiedades requeridas[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mMATERIALS constant[2m > [22mdebe tener materiales de cada textura[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mMATERIALS constant[2m > [22mdebe tener materiales de cada rareza[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mMATERIALS constant[2m > [22mxpCost debe aumentar con la rareza[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mELEMENTS constant[2m > [22mdebe tener 14 elementos definidos[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mELEMENTS constant[2m > [22mcada elemento debe tener propiedades requeridas[32m 3[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mELEMENTS constant[2m > [22mtodos los materiales requeridos deben existir[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mELEMENTS constant[2m > [22mdebe tener elementos de varios tipos[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mCONSTRUCTION_MILESTONES[2m > [22mdebe tener 6 hitos definidos[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mCONSTRUCTION_MILESTONES[2m > [22mlos hitos deben estar ordenados por builds[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mCONSTRUCTION_MILESTONES[2m > [22mcada hito debe tener recompensas[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mCONSTRUCTION_MILESTONES[2m > [22mlas recompensas deben aumentar con el hito[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mMaterial Management[2m > [22maddMaterial[2m > [22mdebe agregar materiales al inventario[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mMaterial Management[2m > [22maddMaterial[2m > [22mdebe acumular materiales existentes[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mMaterial Management[2m > [22maddMaterial[2m > [22mdebe manejar múltiples materiales[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mMaterial Management[2m > [22mremoveMaterial[2m > [22mdebe remover materiales del inventario[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mMaterial Management[2m > [22mremoveMaterial[2m > [22mdebe retornar false si no hay suficiente material[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mMaterial Management[2m > [22mremoveMaterial[2m > [22mdebe retornar false si el material no existe[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mMaterial Management[2m > [22mremoveMaterial[2m > [22mdebe permitir remover todo el material disponible[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mMaterial Management[2m > [22mgetMaterialCount[2m > [22mdebe retornar cantidad de material[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mMaterial Management[2m > [22mgetMaterialCount[2m > [22mdebe retornar 0 para material inexistente[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mMaterial Management[2m > [22mhasMaterials[2m > [22mdebe verificar si hay materiales suficientes[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mMaterial Management[2m > [22mhasMaterials[2m > [22mdebe retornar false si falta algún material[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mMaterial Management[2m > [22mhasMaterials[2m > [22mdebe retornar false si la cantidad es insuficiente[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mMaterial Management[2m > [22mhasMaterials[2m > [22mdebe retornar true para lista vacía[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mElement Management[2m > [22munlockElement[2m > [22mdebe desbloquear elemento[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mElement Management[2m > [22munlockElement[2m > [22mno debe duplicar elementos desbloqueados[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mElement Management[2m > [22misElementUnlocked[2m > [22mdebe verificar si elemento está desbloqueado[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mElement Management[2m > [22mupdateElementProgress[2m > [22mdebe actualizar progreso de elemento[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mElement Management[2m > [22mupdateElementProgress[2m > [22mdebe limitar progreso a 0-100[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mElement Management[2m > [22mcompleteElement[2m > [22mdebe completar elemento con materiales suficientes[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mElement Management[2m > [22mcompleteElement[2m > [22mno debe completar elemento sin materiales suficientes[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mElement Management[2m > [22mcompleteElement[2m > [22mno debe completar elemento inexistente[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mElement Management[2m > [22mcompleteElement[2m > [22mdebe actualizar lastBuildDate[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mProject Management[2m > [22mstartProject[2m > [22mdebe iniciar proyecto[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mProject Management[2m > [22mstartProject[2m > [22mdebe reemplazar proyecto actual[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mProject Management[2m > [22mcompleteProject[2m > [22mdebe completar proyecto[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mProject Management[2m > [22mcompleteProject[2m > [22mno debe duplicar proyectos completados[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mProject Management[2m > [22mabandonProject[2m > [22mdebe abandonar proyecto actual[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mProject Management[2m > [22misProjectActive[2m > [22mdebe verificar si hay proyecto activo[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mMilestones[2m > [22maddMilestone[2m > [22mdebe agregar hito[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mMilestones[2m > [22maddMilestone[2m > [22mno debe duplicar hitos[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mMilestones[2m > [22mhasMilestone[2m > [22mdebe verificar si tiene hito[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mStatistics[2m > [22mincrementBuilds[2m > [22mdebe incrementar total de builds[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mStatistics[2m > [22mincrementBuilds[2m > [22mdebe actualizar lastBuildDate[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mStatistics[2m > [22mgetStats[2m > [22mdebe retornar estadísticas completas[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mStatistics[2m > [22mgetStats[2m > [22mdebe retornar stats vacías inicialmente[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mReset[2m > [22mdebe resetear todo el estado[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mHelper Functions[2m > [22museMaterialsByRarity[2m > [22mdebe retornar materiales comunes[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mHelper Functions[2m > [22museMaterialsByRarity[2m > [22mdebe retornar materiales legendarios[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mHelper Functions[2m > [22mgetElementsByType[2m > [22mdebe retornar elementos de tipo foundation[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mHelper Functions[2m > [22mgetElementsByType[2m > [22mdebe retornar elementos de tipo wall[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mHelper Functions[2m > [22mgetElementsByType[2m > [22mdebe retornar array vacío para tipo inexistente[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/store/constructionStore.test.ts[2m > [22museConstructionStore[2m > [22mIntegration Tests[2m > [22mdebe manejar flujo completo de construcción[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/analytics.test.ts[2m > [22mAnalytics Module[2m > [22mInitialization[2m > [22mshould initialize analytics with default config[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/analytics.test.ts[2m > [22mAnalytics Module[2m > [22mInitialization[2m > [22mshould respect custom config[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/analytics.test.ts[2m > [22mAnalytics Module[2m > [22mInitialization[2m > [22mshould load existing session data[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/analytics.test.ts[2m > [22mAnalytics Module[2m > [22mEvent Tracking[2m > [22mshould track events when analytics is enabled[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/analytics.test.ts[2m > [22mAnalytics Module[2m > [22mEvent Tracking[2m > [22mshould not track events when analytics is disabled[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/analytics.test.ts[2m > [22mAnalytics Module[2m > [22mEvent Tracking[2m > [22mshould respect sampling rate[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/analytics.test.ts[2m > [22mAnalytics Module[2m > [22mEvent Tracking[2m > [22mshould auto-flush when batch size is reached[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/analytics.test.ts[2m > [22mAnalytics Module[2m > [22mEvent Retrieval[2m > [22mshould get events by type[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/analytics.test.ts[2m > [22mAnalytics Module[2m > [22mEvent Retrieval[2m > [22mshould get recent events[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/analytics.test.ts[2m > [22mAnalytics Module[2m > [22mEvent Retrieval[2m > [22mshould limit recent events[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/analytics.test.ts[2m > [22mAnalytics Module[2m > [22mAnalytics Summary[2m > [22mshould return correct summary[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/analytics.test.ts[2m > [22mAnalytics Module[2m > [22mAnalytics Summary[2m > [22mshould count events correctly[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/analytics.test.ts[2m > [22mAnalytics Module[2m > [22mEnable/Disable[2m > [22mshould toggle analytics enabled state[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/analytics.test.ts[2m > [22mAnalytics Module[2m > [22mEnable/Disable[2m > [22mshould persist enabled state[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/analytics.test.ts[2m > [22mAnalytics Module[2m > [22mCleanup[2m > [22mshould clear all analytics data[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/analytics.test.ts[2m > [22mAnalytics Module[2m > [22mCleanup[2m > [22mshould clear localStorage[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/analytics.test.ts[2m > [22mAnalytics Module[2m > [22mEdge Cases[2m > [22mshould handle corrupted localStorage gracefully[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/analytics.test.ts[2m > [22mAnalytics Module[2m > [22mEdge Cases[2m > [22mshould handle full localStorage gracefully[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/analytics.test.ts[2m > [22mAnalytics Module[2m > [22mEdge Cases[2m > [22mshould trim events when limit is exceeded[32m 104[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/analytics.test.ts[2m > [22mAnalytics Module[2m > [22mSession Tracking[2m > [22mshould track session start on initialization[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/analytics.test.ts[2m > [22mAnalytics Module[2m > [22mSession Tracking[2m > [22mshould track session end on cleanup[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/analytics.test.ts[2m > [22mAnalytics Module[2m > [22mEvent Properties[2m > [22mshould store exercise properties correctly[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/analytics.test.ts[2m > [22mAnalytics Module[2m > [22mEvent Properties[2m > [22mshould store lesson properties correctly[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/translationService.test.ts[2m > [22mtranslationService[2m > [22mpreloadCommonTranslations[2m > [22mdebería pre-cargar traducciones comunes[32m 203[2mms[22m[39m
+ [32m✓[39m tests/unit/services/translationService.test.ts[2m > [22mtranslationService[2m > [22mclearTranslationCache[2m > [22mdebería limpiar la cache[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/translationService.test.ts[2m > [22mtranslationService[2m > [22mclearTranslationCache[2m > [22mno debería hacer nada en servidor[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/translationService.test.ts[2m > [22mtranslationService[2m > [22mgetCacheStats[2m > [22mdebería retornar estadísticas de cache[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/translationService.test.ts[2m > [22mtranslationService[2m > [22mgetCacheStats[2m > [22mdebería manejar cache vacía[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/translationService.test.ts[2m > [22mrate limiting[2m > [22mdebería permitir múltiples traducciones en rápida sucesión[32m 0[2mms[22m[39m
+[90mstdout[2m | tests/unit/lib/soundEffects.test.ts[2m > [22m[2msoundEffects - con inicialización[2m > [22m[2mdebería inicializar correctamente
+[22m[39m[SoundEffects] Sistema de audio inicializado
+
+ [32m✓[39m tests/unit/services/circuitBreaker.test.ts[2m > [22mCircuitBreaker[2m > [22mdebería iniciar en estado CLOSED[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/services/circuitBreaker.test.ts[2m > [22mCircuitBreaker[2m > [22mdebería ejecutar exitosamente una función en estado CLOSED[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/circuitBreaker.test.ts[2m > [22mCircuitBreaker[2m > [22mdebería registrar fallos en estado CLOSED[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/circuitBreaker.test.ts[2m > [22mCircuitBreaker[2m > [22mdebería abrir el circuito después del umbral de fallos[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/circuitBreaker.test.ts[2m > [22mCircuitBreaker[2m > [22mdebería fall rápido en estado OPEN[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/circuitBreaker.test.ts[2m > [22mCircuitBreaker[2m > [22mdebería transicionar a HALF_OPEN después del timeout[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/services/circuitBreaker.test.ts[2m > [22mCircuitBreaker[2m > [22mdebería cerrar el circuito después de éxitos en HALF_OPEN[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/circuitBreaker.test.ts[2m > [22mCircuitBreaker[2m > [22mdebería volver a abrir si falla en HALF_OPEN[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/circuitBreaker.test.ts[2m > [22mCircuitBreaker[2m > [22mdebería resetear correctamente[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/circuitBreaker.test.ts[2m > [22mCircuitBreakerPresets[2m > [22mdebería tener presets con configuraciones diferentes[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/circuitBreaker.test.ts[2m > [22mCircuitBreakerPresets[2m > [22mdebería tener presets con timeouts diferentes[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/circuitBreaker.test.ts[2m > [22mCircuitBreakerRegistry[2m > [22mdebería crear breakers automáticamente[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/circuitBreaker.test.ts[2m > [22mCircuitBreakerRegistry[2m > [22mdebería registrar breakers personalizados[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/circuitBreaker.test.ts[2m > [22mCircuitBreakerRegistry[2m > [22mdebería obtener estados de todos los breakers[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/circuitBreaker.test.ts[2m > [22mwithCircuitBreaker[2m > [22mdebería ejecutar a través del circuit breaker[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/circuitBreaker.test.ts[2m > [22mwithCircuitBreaker[2m > [22mdebería capturar errores a través del circuit breaker[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/circuitBreaker.test.ts[2m > [22mCircuitBreakerMetrics[2m > [22mdebería obtener métricas de todos los circuit breakers[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/services/circuitBreaker.test.ts[2m > [22mCircuitBreakerMetrics[2m > [22mdebería marcar correctamente disponibilidad[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/soundEffects.test.ts[2m > [22msoundEffects[2m > [22mgestión de estado[2m > [22mdebería habilitar/deshabilitar sonidos[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/soundEffects.test.ts[2m > [22msoundEffects[2m > [22mgestión de estado[2m > [22mdebería establecer y obtener volumen[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/soundEffects.test.ts[2m > [22msoundEffects[2m > [22mgestión de estado[2m > [22mdebería clamp volumen entre 0 y 1[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/soundEffects.test.ts[2m > [22msoundEffects[2m > [22mgestión de estado[2m > [22mdebería verificar inicialización[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/soundEffects.test.ts[2m > [22msoundEffects[2m > [22mgestión de estado[2m > [22mdebería manejar NaN como volumen 0[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/soundEffects.test.ts[2m > [22msoundEffects[2m > [22mreproducción de sonidos[2m > [22mno debería lanzar errores al reproducir cuando no está inicializado[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/soundEffects.test.ts[2m > [22msoundEffects[2m > [22mreproducción de sonidos[2m > [22mno debería reproducir si está deshabilitado[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/soundEffects.test.ts[2m > [22msoundEffects[2m > [22mreproducción de sonidos[2m > [22mdebería tener método playCorrect[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/soundEffects.test.ts[2m > [22msoundEffects[2m > [22mreproducción de sonidos[2m > [22mdebería tener método playIncorrect[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/soundEffects.test.ts[2m > [22msoundEffects[2m > [22mfunciones de conveniencia[2m > [22mplaySound debería llamar a soundEffects.play[32m 3[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/soundEffects.test.ts[2m > [22msoundEffects[2m > [22mfunciones de conveniencia[2m > [22mplaySoundCorrect debería llamar a soundEffects.playCorrect[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/soundEffects.test.ts[2m > [22msoundEffects[2m > [22mfunciones de conveniencia[2m > [22mplaySoundIncorrect debería llamar a soundEffects.playIncorrect[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/soundEffects.test.ts[2m > [22msoundEffects[2m > [22mfunciones de conveniencia[2m > [22msetSoundEnabled debería llamar a soundEffects.setEnabled[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/soundEffects.test.ts[2m > [22msoundEffects[2m > [22mfunciones de conveniencia[2m > [22misSoundEnabled debería llamar a soundEffects.isEnabled[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/soundEffects.test.ts[2m > [22msoundEffects[2m > [22mfunciones de conveniencia[2m > [22msetSoundVolume debería llamar a soundEffects.setVolume[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/soundEffects.test.ts[2m > [22msoundEffects[2m > [22mfunciones de conveniencia[2m > [22mgetSoundVolume debería llamar a soundEffects.getVolume[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/soundEffects.test.ts[2m > [22msoundEffects[2m > [22mpersistencia de preferencias[2m > [22mdebería persistir estado de habilitación[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/soundEffects.test.ts[2m > [22msoundEffects[2m > [22mpersistencia de preferencias[2m > [22mdebería persistir volumen[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/soundEffects.test.ts[2m > [22msoundEffects[2m > [22mtipos TypeScript[2m > [22mSoundId debería incluir todos los sonidos[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/soundEffects.test.ts[2m > [22msoundEffects[2m > [22mmanejo de casos extremos[2m > [22mdebería manejar volúmenes límite[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/soundEffects.test.ts[2m > [22msoundEffects[2m > [22mmanejo de casos extremos[2m > [22mdebería manejar toggle de enabled[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/soundEffects.test.ts[2m > [22msoundEffects - con inicialización[2m > [22mdebería inicializar correctamente[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/soundEffects.test.ts[2m > [22msoundEffects - con inicialización[2m > [22mdebería reproducir todos los sonidos sin errores[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/services/memoryBankIntegration.test.ts[2m > [22mmemoryBankIntegration[2m > [22mgetConfigForLevel[2m > [22mdebe retornar configuración para nivel 1[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/services/memoryBankIntegration.test.ts[2m > [22mmemoryBankIntegration[2m > [22mgetConfigForLevel[2m > [22mdebe retornar configuración para nivel 5[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/memoryBankIntegration.test.ts[2m > [22mmemoryBankIntegration[2m > [22mgetConfigForLevel[2m > [22mdebe retornar configuración para nivel 10[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/memoryBankIntegration.test.ts[2m > [22mmemoryBankIntegration[2m > [22mgetConfigForLevel[2m > [22mdebe limitar niveles menores a 1[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/services/memoryBankIntegration.test.ts[2m > [22mmemoryBankIntegration[2m > [22mgetConfigForLevel[2m > [22mdebe limitar niveles mayores a 10[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/memoryBankIntegration.test.ts[2m > [22mmemoryBankIntegration[2m > [22mgetConfigForLevel[2m > [22mla configuración debe tener todas las propiedades requeridas[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/services/memoryBankIntegration.test.ts[2m > [22mmemoryBankIntegration[2m > [22mgetConfigForLevel[2m > [22mminCards debe ser menor o igual a maxCards[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/memoryBankIntegration.test.ts[2m > [22mmemoryBankIntegration[2m > [22mgenerateMemoryBankWorkout[2m > [22mdebe generar workout con cards válidas[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/memoryBankIntegration.test.ts[2m > [22mmemoryBankIntegration[2m > [22mgenerateMemoryBankWorkout[2m > [22mdebe respetar límites de cards según nivel[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/memoryBankIntegration.test.ts[2m > [22mmemoryBankIntegration[2m > [22mgenerateMemoryBankWorkout[2m > [22mdebe manejar menos cards de las mínimas[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/memoryBankIntegration.test.ts[2m > [22mmemoryBankIntegration[2m > [22mgenerateMemoryBankWorkout[2m > [22mdebe calcular tiempo estimado correctamente[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/memoryBankIntegration.test.ts[2m > [22mmemoryBankIntegration[2m > [22mgenerateMemoryBankWorkout[2m > [22mdebe asignar contexto según tipo de misión[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/memoryBankIntegration.test.ts[2m > [22mmemoryBankIntegration[2m > [22mgenerateMemoryBankWorkout[2m > [22mdebe priorizar cards no revisadas[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/memoryBankIntegration.test.ts[2m > [22mmemoryBankIntegration[2m > [22mcalculateRewards[2m > [22mdebe calcular XP base correctamente[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/memoryBankIntegration.test.ts[2m > [22mmemoryBankIntegration[2m > [22mcalculateRewards[2m > [22mdebe aplicar bonus por precisión alta[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/memoryBankIntegration.test.ts[2m > [22mmemoryBankIntegration[2m > [22mcalculateRewards[2m > [22mno debe aplicar bonus si precisión es baja[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/memoryBankIntegration.test.ts[2m > [22mmemoryBankIntegration[2m > [22mcalculateRewards[2m > [22mdebe aplicar bonus por racha de 7+ días[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/memoryBankIntegration.test.ts[2m > [22mmemoryBankIntegration[2m > [22mcalculateRewards[2m > [22mdebe dar bonus por sesión perfecta[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/memoryBankIntegration.test.ts[2m > [22mmemoryBankIntegration[2m > [22mcalculateRewards[2m > [22mdebe calcular coins basados en XP[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/memoryBankIntegration.test.ts[2m > [22mmemoryBankIntegration[2m > [22mgenerateMemoryBankMission[2m > [22mdebe generar misión con estructura válida[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/memoryBankIntegration.test.ts[2m > [22mmemoryBankIntegration[2m > [22mgenerateMemoryBankMission[2m > [22mdebe ajustar dificultad según nivel[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/memoryBankIntegration.test.ts[2m > [22mmemoryBankIntegration[2m > [22mgenerateMemoryBankMission[2m > [22mdebe escalar target con el nivel[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/memoryBankIntegration.test.ts[2m > [22mmemoryBankIntegration[2m > [22mshouldSuggestMemoryBank[2m > [22mno debe sugerir si HP es muy bajo[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/memoryBankIntegration.test.ts[2m > [22mmemoryBankIntegration[2m > [22mshouldSuggestMemoryBank[2m > [22mdebe sugerir con urgencia alta si hay muchas cards pendientes[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/memoryBankIntegration.test.ts[2m > [22mmemoryBankIntegration[2m > [22mshouldSuggestMemoryBank[2m > [22mdebe sugerir con urgencia media si pasaron más de 24 horas[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/memoryBankIntegration.test.ts[2m > [22mmemoryBankIntegration[2m > [22mshouldSuggestMemoryBank[2m > [22mdebe sugerir con urgencia baja para cards normales[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/memoryBankIntegration.test.ts[2m > [22mmemoryBankIntegration[2m > [22mshouldSuggestMemoryBank[2m > [22mno debe sugerir si hay pocas cards[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/memoryBankIntegration.test.ts[2m > [22mmemoryBankIntegration[2m > [22msessionMetricsToMissionProgress[2m > [22mdebe sumar cards revisadas al progreso actual[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/memoryBankIntegration.test.ts[2m > [22mmemoryBankIntegration[2m > [22msessionMetricsToMissionProgress[2m > [22mdebe funcionar con progreso inicial en 0[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/memoryBankIntegration.test.ts[2m > [22mmemoryBankIntegration[2m > [22mgetMemoryBankStats[2m > [22mdebe calcular estadísticas agregadas[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/memoryBankIntegration.test.ts[2m > [22mmemoryBankIntegration[2m > [22mgetMemoryBankStats[2m > [22mdebe manejar array vacío[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/memoryBankIntegration.test.ts[2m > [22mmemoryBankIntegration[2m > [22mgetMemoryBankStats[2m > [22mdebe calcular precisión correctamente[32m 0[2mms[22m[39m
+[90mstderr[2m | tests/unit/lib/haptic.test.ts[2m > [22m[2mhaptic[2m > [22m[2mtriggerHaptic[2m > [22m[2mdebe retornar false para patrón desconocido
+[22m[39m[Haptic] Unknown pattern type: unknown
+
+ [32m✓[39m tests/unit/lib/textures.test.ts[2m > [22mtextures[2m > [22mTEXTURES constant[2m > [22mdebe tener 6 tipos de texturas definidas[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/textures.test.ts[2m > [22mtextures[2m > [22mTEXTURES constant[2m > [22mdebe incluir todas las texturas requeridas[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/textures.test.ts[2m > [22mtextures[2m > [22mTEXTURES constant[2m > [22mcada textura debe tener todas las propiedades requeridas[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/textures.test.ts[2m > [22mtextures[2m > [22mgetTextureForContext[2m > [22mdebe retornar textura paper para vocabulary[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/textures.test.ts[2m > [22mtextures[2m > [22mgetTextureForContext[2m > [22mdebe retornar textura wood para conversation[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/textures.test.ts[2m > [22mtextures[2m > [22mgetTextureForContext[2m > [22mdebe retornar textura metal para grammar[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/textures.test.ts[2m > [22mtextures[2m > [22mgetTextureForContext[2m > [22mdebe retornar textura glass para culture[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/textures.test.ts[2m > [22mtextures[2m > [22mgetTextureForContext[2m > [22mdebe retornar textura crystal para advanced[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/textures.test.ts[2m > [22mtextures[2m > [22mgetTextureByType[2m > [22mdebe retornar la textura correcta por tipo[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/textures.test.ts[2m > [22mtextures[2m > [22mgetTextureStyles[2m > [22mdebe retornar estilos CSS válidos[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/textures.test.ts[2m > [22mtextures[2m > [22mgetTextureStyles[2m > [22mdebe funcionar para todas las texturas[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/textures.test.ts[2m > [22mtextures[2m > [22mgetPhysicsConfig[2m > [22mdebe retornar configuración de física válida[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/textures.test.ts[2m > [22mtextures[2m > [22mgetPhysicsConfig[2m > [22mtexturas más pesadas deben tener mayor amortiguación[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/textures.test.ts[2m > [22mtextures[2m > [22mgetPhysicsConfig[2m > [22mtexturas más ligeras deben tener mayor rigidez[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/textures.test.ts[2m > [22mtextures[2m > [22mgetTexturesForContext[2m > [22mdebe retornar texturas que incluyen el contexto vocabulary[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/textures.test.ts[2m > [22mtextures[2m > [22mgetTexturesForContext[2m > [22mdebe retornar texturas que incluyen el contexto grammar[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/textures.test.ts[2m > [22mtextures[2m > [22mvalidateTexture[2m > [22mdebe validar una textura correcta[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/textures.test.ts[2m > [22mtextures[2m > [22mvalidateTexture[2m > [22mdebe rechazar una textura inválida[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/textures.test.ts[2m > [22mtextures[2m > [22mvalidateTexture[2m > [22mdebe rechazar textura con propiedades faltantes[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/textures.test.ts[2m > [22mtextures[2m > [22mTEXTURE_TYPES[2m > [22mdebe exportar array de tipos válidos[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/textures.test.ts[2m > [22mtextures[2m > [22mLEARNING_CONTEXTS[2m > [22mdebe exportar array de contextos válidos[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/textures.test.ts[2m > [22mtextures[2m > [22mLEARNING_CONTEXTS[2m > [22mdebe incluir todos los contextos esperados[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/haptic.test.ts[2m > [22mhaptic[2m > [22mHAPTIC_PATTERNS[2m > [22mdebe tener 12 patrones definidos[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/haptic.test.ts[2m > [22mhaptic[2m > [22mHAPTIC_PATTERNS[2m > [22mcada patrón debe tener estructura válida[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/haptic.test.ts[2m > [22mhaptic[2m > [22mHAPTIC_PATTERNS[2m > [22mlos patrones deben tener duraciones positivas[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/haptic.test.ts[2m > [22mhaptic[2m > [22mHAPTIC_PATTERN_TYPES[2m > [22mdebe exportar todos los tipos de patrones[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/haptic.test.ts[2m > [22mhaptic[2m > [22misHapticSupported[2m > [22mdebe retornar true si vibrate está disponible[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/haptic.test.ts[2m > [22mhaptic[2m > [22misHapticSupported[2m > [22mdebe retornar false si vibrate no está disponible[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/haptic.test.ts[2m > [22mhaptic[2m > [22msetHapticEnabled / isHapticEnabled[2m > [22mdebe habilitar/deshabilitar el feedback háptico[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/haptic.test.ts[2m > [22mhaptic[2m > [22mvibrate[2m > [22mdebe llamar a navigator.vibrate con el patrón correcto[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/haptic.test.ts[2m > [22mhaptic[2m > [22mvibrate[2m > [22mdebe retornar false si háptico está deshabilitado[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/haptic.test.ts[2m > [22mhaptic[2m > [22mstopVibration[2m > [22mdebe llamar a vibrate(0) para detener vibración[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/haptic.test.ts[2m > [22mhaptic[2m > [22mtriggerHaptic[2m > [22mdebe ejecutar el patrón success correctamente[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/haptic.test.ts[2m > [22mhaptic[2m > [22mtriggerHaptic[2m > [22mdebe ejecutar el patrón error correctamente[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/haptic.test.ts[2m > [22mhaptic[2m > [22mtriggerHaptic[2m > [22mdebe retornar false para patrón desconocido[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/haptic.test.ts[2m > [22mhaptic[2m > [22mtriggerHapticWithIntensity[2m > [22mdebe ajustar duración según multiplicador[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/haptic.test.ts[2m > [22mhaptic[2m > [22mtriggerHapticWithIntensity[2m > [22mdebe reducir duración con multiplicador menor a 1[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/haptic.test.ts[2m > [22mhaptic[2m > [22mfunciones de feedback específicas[2m > [22mhapticSuccess debe ejecutar patrón success[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/haptic.test.ts[2m > [22mhaptic[2m > [22mfunciones de feedback específicas[2m > [22mhapticError debe ejecutar patrón error[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/haptic.test.ts[2m > [22mhaptic[2m > [22mfunciones de feedback específicas[2m > [22mhapticTap debe ejecutar patrón tap[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/haptic.test.ts[2m > [22mhaptic[2m > [22mfunciones de feedback específicas[2m > [22mhapticSelect debe ejecutar patrón select[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/haptic.test.ts[2m > [22mhaptic[2m > [22mfunciones de feedback específicas[2m > [22mhapticMilestone debe ejecutar patrón milestone[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/haptic.test.ts[2m > [22mhaptic[2m > [22mfunciones de feedback específicas[2m > [22mhapticCardFlip debe ejecutar patrón card_flip[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/haptic.test.ts[2m > [22mhaptic[2m > [22mfunciones de feedback específicas[2m > [22mhapticDragStart debe ejecutar patrón drag_start[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/haptic.test.ts[2m > [22mhaptic[2m > [22mfunciones de feedback específicas[2m > [22mhapticDragEnd debe ejecutar patrón drag_end[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/haptic.test.ts[2m > [22mhaptic[2m > [22mfunciones de feedback específicas[2m > [22mhapticLevelUp debe ejecutar patrón level_up[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/haptic.test.ts[2m > [22mhaptic[2m > [22mvisualFeedback[2m > [22mdebe animar elemento con tipo shake[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/haptic.test.ts[2m > [22mhaptic[2m > [22mvisualFeedback[2m > [22mdebe animar elemento con tipo pulse[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/haptic.test.ts[2m > [22mhaptic[2m > [22mvisualFeedback[2m > [22mdebe animar elemento con tipo flash[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/haptic.test.ts[2m > [22mhaptic[2m > [22mvisualFeedback[2m > [22mdebe respetar duración personalizada[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/haptic.test.ts[2m > [22mhaptic[2m > [22mhapticWithFallback[2m > [22mdebe usar vibración si está soportada[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/haptic.test.ts[2m > [22mhaptic[2m > [22mhapticWithFallback[2m > [22mdebe usar fallback visual si vibración no está soportada[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/haptic.test.ts[2m > [22mhaptic[2m > [22museHaptic hook[2m > [22mdebe retornar todas las funciones necesarias[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/haptic.test.ts[2m > [22mhaptic[2m > [22museHaptic hook[2m > [22mlas funciones del hook deben funcionar correctamente[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/validators.test.ts[2m > [22mZodValidator[2m > [22mvalidate[2m > [22mshould validate correct data successfully[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/validators.test.ts[2m > [22mZodValidator[2m > [22mvalidate[2m > [22mshould return errors for invalid data[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/validators.test.ts[2m > [22mZodValidator[2m > [22mvalidate[2m > [22mshould handle partial validation errors[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/validators.test.ts[2m > [22mZodValidator[2m > [22mpartialValidate[2m > [22mshould validate partial data for updates[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/validators.test.ts[2m > [22mZodValidator[2m > [22mpartialValidate[2m > [22mshould validate partial data with required fields[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/validators.test.ts[2m > [22mFormValidator[2m > [22mvalidateField[2m > [22mshould validate a single field correctly[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/validators.test.ts[2m > [22mFormValidator[2m > [22mvalidateField[2m > [22mshould return error for invalid field[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/validators.test.ts[2m > [22mFormValidator[2m > [22mvalidateForm[2m > [22mshould validate multiple fields[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/validators.test.ts[2m > [22mFormValidator[2m > [22mvalidateForm[2m > [22mshould detect validation errors in form[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/validators.test.ts[2m > [22mFormValidator[2m > [22mgetErrorMessages[2m > [22mshould get all error messages[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/validators.test.ts[2m > [22mFormValidator[2m > [22mgetErrorMessages[2m > [22mshould return empty array when no errors[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/validators.test.ts[2m > [22mDataSanitizer[2m > [22mclean[2m > [22mshould remove undefined, null, and empty string values[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/validators.test.ts[2m > [22mDataSanitizer[2m > [22mclean[2m > [22mshould preserve falsy values that are valid[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/validators.test.ts[2m > [22mDataSanitizer[2m > [22mtrimStrings[2m > [22mshould trim all string values[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/validators.test.ts[2m > [22mDataSanitizer[2m > [22mtrimStrings[2m > [22mshould preserve non-string values[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/validators.test.ts[2m > [22mDataSanitizer[2m > [22msanitizeAndValidate[2m > [22mshould sanitize and validate in one step[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/validators.test.ts[2m > [22mDataSanitizer[2m > [22msanitizeAndValidate[2m > [22mshould return validation errors after sanitization[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/validators.test.ts[2m > [22mGlobal Realtime Validator[2m > [22mregisterField[2m > [22mshould register a field for validation[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/validators.test.ts[2m > [22mGlobal Realtime Validator[2m > [22mvalidateField[2m > [22mshould validate a registered field[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/validators.test.ts[2m > [22mGlobal Realtime Validator[2m > [22mvalidateField[2m > [22mshould handle unknown fields gracefully[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/validators.test.ts[2m > [22mGlobal Realtime Validator[2m > [22mupdateField[2m > [22mshould update field and trigger validation[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/validators.test.ts[2m > [22mGlobal Realtime Validator[2m > [22mupdateField[2m > [22mshould return validation result[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/validators.test.ts[2m > [22mGlobal Realtime Validator[2m > [22munregisterField[2m > [22mshould remove a registered field[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/validators.test.ts[2m > [22mValidation Error Handling[2m > [22mshould handle nested object validation errors[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/lib/validators.test.ts[2m > [22mValidation Error Handling[2m > [22mshould handle array validation errors[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mcalculateTopicRewards[2m > [22mdebe calcular recompensas base por nivel[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mcalculateTopicRewards[2m > [22mdebe aplicar bonus por racha[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mcalculateTopicRewards[2m > [22mdebe aplicar bonus por precisión perfecta[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mcalculateTopicRewards[2m > [22mdebe aplicar bonus por velocidad[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mcalculateTopicRewards[2m > [22mdebe generar drops de materiales según tipo de tema[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mcalculateTopicRewards[2m > [22mdebe dar gems por racha de 7+ días[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mcalculateTopicRewards[2m > [22mdebe manejar topic type desconocido[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mcalculateTopicRewards[2m > [22mdebe aplicar multiplicador de bonuses correctamente[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mcalculateTopicRewards[2m > [22mdebe incluir drops diferentes para grammar vs vocabulary[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mcalculateBuildRewards[2m > [22mdebe retornar recompensas base del elemento[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mcalculateBuildRewards[2m > [22mdebe aplicar multiplicador de nivel[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mcalculateBuildRewards[2m > [22mdebe aplicar bonus por racha[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mcalculateBuildRewards[2m > [22mdebe retornar recompensas vacías para elemento inexistente[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mcalculateBuildRewards[2m > [22mdebe dar gems por elementos epic/legendary[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mcalculateBuildCost[2m > [22mdebe calcular costo de materiales[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mcalculateBuildCost[2m > [22mdebe incluir todos los materiales requeridos[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mcalculateBuildCost[2m > [22mdebe retornar costo vacío para elemento inexistente[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mcalculateBuildCost[2m > [22mdebe calcular costo para elementos con múltiples materiales[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mcanUnlockElement[2m > [22mdebe permitir desbloqueo si cumple nivel[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mcanUnlockElement[2m > [22mdebe rechazar si nivel insuficiente[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mcanUnlockElement[2m > [22mdebe rechazar si temas insuficientes[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mcanUnlockElement[2m > [22mdebe retornar error para elemento inexistente[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mcanUnlockElement[2m > [22mdebe verificar múltiples requisitos correctamente[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mgetUnlockableElements[2m > [22mdebe retornar elementos desbloqueables por nivel[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mgetUnlockableElements[2m > [22mdebe excluir elementos ya desbloqueados[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mgetUnlockableElements[2m > [22mdebe retornar más elementos para niveles altos[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mgetUnlockableElements[2m > [22mdebe retornar array vacío si todo está desbloqueado[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mcheckMilestones[2m > [22mdebe detectar nuevos hitos alcanzados[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mcheckMilestones[2m > [22mdebe excluir hitos ya alcanzados[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mcheckMilestones[2m > [22mdebe calcular recompensas acumuladas[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mcheckMilestones[2m > [22mdebe retornar vacío si no hay nuevos hitos[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mcheckMilestones[2m > [22mdebe manejar 0 builds[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mconvertXPToMaterials[2m > [22mdebe calcular cantidad de materiales por XP[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mconvertXPToMaterials[2m > [22mdebe retornar error para material inexistente[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mconvertXPToMaterials[2m > [22mdebe retornar error si XP insuficiente[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mconvertXPToMaterials[2m > [22mdebe calcular correctamente para materiales caros[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mconvertCoinsToMaterials[2m > [22mdebe calcular cantidad de materiales por coins[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mconvertCoinsToMaterials[2m > [22mdebe retornar error para material inexistente[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mconvertCoinsToMaterials[2m > [22mdebe retornar error si coins insuficientes[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mcalculateCollectionValue[2m > [22mdebe calcular valor total de inventario[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mcalculateCollectionValue[2m > [22mdebe calcular breakdown por rareza[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mcalculateCollectionValue[2m > [22mdebe manejar inventario vacío[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mcalculateCollectionValue[2m > [22mdebe ignorar materiales inexistentes[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mcalculateCollectionValue[2m > [22mdebe ignorar cantidades 0[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mgenerateEventRewards[2m > [22mdebe generar recompensas para evento diario[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mgenerateEventRewards[2m > [22mdebe generar recompensas para evento semanal[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mgenerateEventRewards[2m > [22mdebe generar recompensas para evento especial[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mgenerateEventRewards[2m > [22mdebe escalar recompensas con nivel de usuario[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mgenerateEventRewards[2m > [22mdebe generar materiales aleatorios[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mgenerateEventRewards[2m > [22mdebe ajustar rareza de materiales según tipo de evento[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mIntegration Tests[2m > [22mdebe calcular flujo completo de recompensas por lección[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mIntegration Tests[2m > [22mdebe manejar progresión de construcción completa[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/constructionIntegration.test.ts[2m > [22mconstructionIntegration[2m > [22mIntegration Tests[2m > [22mdebe calcular valor de colección correctamente[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/errorHandler.test.ts[2m > [22mwithRetry[2m > [22mdebería reintentar en caso de error reintentable[33m 1001[2mms[22m[39m
+ [32m✓[39m tests/unit/services/errorHandler.test.ts[2m > [22mwithRetry[2m > [22mdebería lanzar error después de todos los intentos[33m 3008[2mms[22m[39m
+ [32m✓[39m tests/unit/services/errorHandler.test.ts[2m > [22mwithRetry[2m > [22mdebería usar custom retry config[32m 102[2mms[22m[39m
+ [32m✓[39m tests/unit/services/errorHandler.test.ts[2m > [22mwithRetry[2m > [22mdebería no reintentar errores no reintentables[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/services/errorHandler.test.ts[2m > [22mwithRetry[2m > [22mdebería ejecutar callback onError cuando ocurre un error[33m 3002[2mms[22m[39m
+ [32m✓[39m tests/unit/services/errorHandler.test.ts[2m > [22mwithRetry[2m > [22mdebería ejecutar fallback cuando está disponible[33m 3002[2mms[22m[39m
+ [32m✓[39m tests/unit/services/errorHandler.test.ts[2m > [22mwithRetry[2m > [22mdebería esperar entre reintentos con exponential backoff[33m 303[2mms[22m[39m
+ [32m✓[39m tests/unit/services/errorHandler.test.ts[2m > [22mSupabase Wrappers[2m > [22msupabaseQuery[2m > [22mdebería retornar data exitosamente[32m 1[2mms[22m[39m
+ [31m×[39m tests/unit/services/errorHandler.test.ts[2m > [22mSupabase Wrappers[2m > [22msupabaseQuery[2m > [22mdebería lanzar error si Supabase retorna error[32m 6[2mms[22m[39m
+[31m   → expected [Function] to throw error including 'Supabase query failed' but got 'Operation failed (attempt 1/3)'[39m
+ [31m×[39m tests/unit/services/errorHandler.test.ts[2m > [22mSupabase Wrappers[2m > [22msupabaseQuery[2m > [22mdebería lanzar error si data es null[32m 2[2mms[22m[39m
+[31m   → expected [Function] to throw error including 'Supabase query returned null' but got 'Operation failed (attempt 1/3)'[39m
+ [32m✓[39m tests/unit/services/errorHandler.test.ts[2m > [22mSupabase Wrappers[2m > [22msupabaseQueryOptional[2m > [22mdebería retornar data exitosamente[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/errorHandler.test.ts[2m > [22mSupabase Wrappers[2m > [22msupabaseQueryOptional[2m > [22mdebería retornar null si Supabase retorna null[32m 0[2mms[22m[39m
+ [31m×[39m tests/unit/services/errorHandler.test.ts[2m > [22mSupabase Wrappers[2m > [22msupabaseQueryOptional[2m > [22mdebería lanzar error si Supabase retorna error[32m 1[2mms[22m[39m
+[31m   → expected [Function] to throw error including 'Supabase query failed' but got 'Operation failed (attempt 1/3)'[39m
+ [32m✓[39m tests/unit/services/errorHandler.test.ts[2m > [22mType Guards[2m > [22misAppError debería identificar correctamente AppErrors[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/services/errorHandler.test.ts[2m > [22mType Guards[2m > [22misRetryable debería verificar si un error es reintentable[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/services/errorHandler.test.ts[2m > [22mType Guards[2m > [22misNetworkError debería identificar errores de red[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/services/errorHandler.test.ts[2m > [22mType Guards[2m > [22misAuthError debería identificar errores de autenticación[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/errorHandler.test.ts[2m > [22mEdge Cases[2m > [22mdebería manejar errores anidados correctamente[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/errorHandler.test.ts[2m > [22mEdge Cases[2m > [22mdebería manejar errores sin mensaje[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/errorHandler.test.ts[2m > [22mEdge Cases[2m > [22mdebería manejar retry con maxAttempts = 1[32m 0[2mms[22m[39m
+ [32m✓[39m tests/unit/services/errorHandler.test.ts[2m > [22mEdge Cases[2m > [22mdebería manejar contexto complejo en errores[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/services/errorHandler.test.ts[2m > [22mEdge Cases[2m > [22mdebería asignar categorías correctas para diferentes errores[32m 1[2mms[22m[39m
+ [32m✓[39m tests/unit/services/errorHandler.test.ts[2m > [22mPerformance and Stress Tests[2m > [22mdebería manejar grandes volúmenes de errores sin memory leaks[32m 2[2mms[22m[39m
+ [32m✓[39m tests/unit/services/errorHandler.test.ts[2m > [22mPerformance and Stress Tests[2m > [22mdebería ejecutar rápidamente operaciones exitosas[32m 0[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 9 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m tests/unit/services/errorHandler.test.ts[2m > [22mSupabase Wrappers[2m > [22msupabaseQuery[2m > [22mdebería lanzar error si Supabase retorna error
+[31m[1mAssertionError[22m: expected [Function] to throw error including 'Supabase query failed' but got 'Operation failed (attempt 1/3)'[39m
+
+Expected: [32m"Supabase query failed"[39m
+Received: [31m"Operation failed (attempt 1/3)"[39m
+
+[36m [2m❯[22m tests/unit/services/errorHandler.test.ts:[2m204:7[22m[39m
+    [90m202| [39m      })[33m;[39m
+    [90m203| [39m
+    [90m204| [39m      await expect(supabaseQuery(() => mockSupabaseResult())).rejects.…
+    [90m   | [39m      [31m^[39m
+    [90m205| [39m    })[33m;[39m
+    [90m206| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/9]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/unit/services/errorHandler.test.ts[2m > [22mSupabase Wrappers[2m > [22msupabaseQuery[2m > [22mdebería lanzar error si data es null
+[31m[1mAssertionError[22m: expected [Function] to throw error including 'Supabase query returned null' but got 'Operation failed (attempt 1/3)'[39m
+
+Expected: [32m"Supabase query returned null"[39m
+Received: [31m"Operation failed (attempt 1/3)"[39m
+
+[36m [2m❯[22m tests/unit/services/errorHandler.test.ts:[2m213:7[22m[39m
+    [90m211| [39m      })[33m;[39m
+    [90m212| [39m
+    [90m213| [39m      await expect(supabaseQuery(() => mockSupabaseResult())).rejects.…
+    [90m   | [39m      [31m^[39m
+    [90m214| [39m    })[33m;[39m
+    [90m215| [39m  })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/9]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/unit/services/errorHandler.test.ts[2m > [22mSupabase Wrappers[2m > [22msupabaseQueryOptional[2m > [22mdebería lanzar error si Supabase retorna error
+[31m[1mAssertionError[22m: expected [Function] to throw error including 'Supabase query failed' but got 'Operation failed (attempt 1/3)'[39m
+
+Expected: [32m"Supabase query failed"[39m
+Received: [31m"Operation failed (attempt 1/3)"[39m
+
+[36m [2m❯[22m tests/unit/services/errorHandler.test.ts:[2m247:7[22m[39m
+    [90m245| [39m      })[33m;[39m
+    [90m246| [39m
+    [90m247| [39m      await expect(supabaseQueryOptional(() => mockSupabaseResult())).…
+    [90m   | [39m      [31m^[39m
+    [90m248| [39m    })[33m;[39m
+    [90m249| [39m  })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/9]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mextractKeywords[2m > [22mdebería extraer palabras clave de texto simple
+[31m[1mAssertionError[22m: expected [ { word: 'Je', …(4) }, …(4) ] to have a length of 4 but got 5[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 4[39m
+[31m+ 5[39m
+
+[36m [2m❯[22m tests/unit/services/wordExtractor.test.ts:[2m183:22[22m[39m
+    [90m181| [39m      [35mconst[39m result [33m=[39m [34mextractKeywords[39m(text)[33m;[39m
+    [90m182| [39m
+    [90m183| [39m      [34mexpect[39m(result)[33m.[39m[34mtoHaveLength[39m([34m4[39m)[33m;[39m
+    [90m   | [39m                     [31m^[39m
+    [90m184| [39m
+    [90m185| [39m      [90m// Verificar que no incluye palabras comunes[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/9]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mextractKeywords[2m > [22mdebería filtrar palabras comunes
+[31m[1mAssertionError[22m: expected [ { word: 'Je', …(4) }, …(4) ] to have a length of 4 but got 5[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 4[39m
+[31m+ 5[39m
+
+[36m [2m❯[22m tests/unit/services/wordExtractor.test.ts:[2m199:22[22m[39m
+    [90m197| [39m      [35mconst[39m result [33m=[39m [34mextractKeywords[39m(text)[33m;[39m
+    [90m198| [39m
+    [90m199| [39m      [34mexpect[39m(result)[33m.[39m[34mtoHaveLength[39m([34m4[39m)[33m;[39m
+    [90m   | [39m                     [31m^[39m
+    [90m200| [39m      [34mexpect[39m(result[33m.[39m[34mmap[39m(r [33m=>[39m r[33m.[39mword))[33m.[39m[34mtoContain[39m([32m'suis'[39m)[33m;[39m
+    [90m201| [39m      [34mexpect[39m(result[33m.[39m[34mmap[39m(r [33m=>[39m r[33m.[39mword))[33m.[39m[34mtoContain[39m([32m'français'[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/9]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mextractKeywords[2m > [22mdeber mantener posición de palabras
+[31m[1mAssertionError[22m: expected 3 to be 4 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 4[39m
+[31m+ 3[39m
+
+[36m [2m❯[22m tests/unit/services/wordExtractor.test.ts:[2m253:34[22m[39m
+    [90m251| [39m
+    [90m252| [39m      expect(result).toHaveLength(2); // dos y trois (un y quatre son …
+    [90m253| [39m      [34mexpect[39m(result[[34m0[39m][33m.[39mposition)[33m.[39m[34mtoBe[39m([34m4[39m)[33m;[39m [90m// después de 'un '[39m
+    [90m   | [39m                                 [31m^[39m
+    [90m254| [39m      [34mexpect[39m(result[[34m1[39m][33m.[39mposition)[33m.[39m[34mtoBe[39m([34m9[39m)[33m;[39m [90m// después de 'un deux '[39m
+    [90m255| [39m    })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/9]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mextractKeywordsFromPhrases[2m > [22mdebería extraer palabras de múltiples frases
+[31m[1mAssertionError[22m: expected [ Array(7) ] to not include 'Elle'[39m
+[36m [2m❯[22m tests/unit/services/wordExtractor.test.ts:[2m285:25[22m[39m
+    [90m283| [39m      [34mexpect[39m(words)[33m.[39m[34mtoContain[39m([32m'chanson'[39m)[33m;[39m
+    [90m284| [39m      [34mexpect[39m(words)[33m.[39mnot[33m.[39m[34mtoContain[39m([32m'une'[39m)[33m;[39m [90m// palabra común[39m
+    [90m285| [39m      [34mexpect[39m(words)[33m.[39mnot[33m.[39m[34mtoContain[39m([32m'Elle'[39m)[33m;[39m [90m// palabra común/pronombre[39m
+    [90m   | [39m                        [31m^[39m
+    [90m286| [39m    })[33m;[39m
+    [90m287| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/9]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mcasos complejos[2m > [22mdebería manejar texto con contracciones
+[31m[1mAssertionError[22m: expected [ { word: 'J\'aime', …(4) }, …(4) ] to have a length of 6 but got 5[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 6[39m
+[31m+ 5[39m
+
+[36m [2m❯[22m tests/unit/services/wordExtractor.test.ts:[2m311:22[22m[39m
+    [90m309| [39m      [35mconst[39m result [33m=[39m [34mextractKeywords[39m(text)[33m;[39m
+    [90m310| [39m
+    [90m311| [39m      [34mexpect[39m(result)[33m.[39m[34mtoHaveLength[39m([34m6[39m)[33m;[39m
+    [90m   | [39m                     [31m^[39m
+    [90m312| [39m      [34mexpect[39m(result[33m.[39m[34mmap[39m(r [33m=>[39m r[33m.[39mword))[33m.[39m[34mtoContain[39m([32m'J\'aime'[39m)[33m;[39m
+    [90m313| [39m      [34mexpect[39m(result[33m.[39m[34mmap[39m(r [33m=>[39m r[33m.[39mword))[33m.[39m[34mtoContain[39m([32m'café'[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/9]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/unit/services/wordExtractor.test.ts[2m > [22mwordExtractor[2m > [22mcasos complejos[2m > [22mdebería manejar texto con números
+[31m[1mAssertionError[22m: expected [ { word: 'Il', …(4) }, …(2) ] to have a length of 5 but got 3[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 5[39m
+[31m+ 3[39m
+
+[36m [2m❯[22m tests/unit/services/wordExtractor.test.ts:[2m324:22[22m[39m
+    [90m322| [39m      [35mconst[39m result [33m=[39m [34mextractKeywords[39m(text)[33m;[39m
+    [90m323| [39m
+    [90m324| [39m      [34mexpect[39m(result)[33m.[39m[34mtoHaveLength[39m([34m5[39m)[33m;[39m
+    [90m   | [39m                     [31m^[39m
+    [90m325| [39m      [34mexpect[39m(result[33m.[39m[34mmap[39m(r [33m=>[39m r[33m.[39mword))[33m.[39m[34mtoContain[39m([32m'Il'[39m)[33m;[39m
+    [90m326| [39m      [34mexpect[39m(result[33m.[39m[34mmap[39m(r [33m=>[39m r[33m.[39mword))[33m.[39m[34mtoContain[39m([32m'maisons'[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/9]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m14 passed[39m[22m[90m (16)[39m
+[2m      Tests [22m [1m[31m9 failed[39m[22m[2m | [22m[1m[32m603 passed[39m[22m[90m (612)[39m
+[2m   Start at [22m 23:27:56
+[2m   Duration [22m 12.28s[2m (transform 2.35s, setup 2.74s, import 3.02s, tests 11.00s, environment 15.61s)[22m
+
+JSON report written to /Users/kepa.cantero/Projects/frenchWebApp/scripts/quality/reports/unit-results-20260110_232755.json
+npm warn Unknown user config "email". This will stop working in the next major version of npm.
+npm warn Unknown user config "always-auth". This will stop working in the next major version of npm.
+
+> french-app@0.1.0 test:coverage
+> vitest run --coverage --run --reporter=json --outputFile=/Users/kepa.cantero/Projects/frenchWebApp/scripts/quality/reports/unit-results-20260110_232755.json
+
+JSON report written to /Users/kepa.cantero/Projects/frenchWebApp/scripts/quality/reports/unit-results-20260110_232755.json

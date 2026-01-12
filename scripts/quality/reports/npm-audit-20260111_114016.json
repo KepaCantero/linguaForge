@@ -1,0 +1,65 @@
+npm warn Unknown user config "email". This will stop working in the next major version of npm.
+npm warn Unknown user config "always-auth". This will stop working in the next major version of npm.
+(node:26717) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.
+(Use `node --trace-warnings ...` to show where the warning was created)
+npm warn audit 403 Forbidden - POST https://nexus.appfire.com/repository/appfire-npm/-/npm/v1/security/advisories/bulk
+npm error audit endpoint returned an error
+{
+  "message": "403 Forbidden - POST https://nexus.appfire.com/repository/appfire-npm/-/npm/v1/security/advisories/bulk",
+  "method": "POST",
+  "uri": "https://nexus.appfire.com/repository/appfire-npm/-/npm/v1/security/advisories/bulk",
+  "headers": {
+    "server": [
+      "nginx/1.28.0"
+    ],
+    "date": [
+      "Sun, 11 Jan 2026 10:40:17 GMT"
+    ],
+    "content-type": [
+      "text/html"
+    ],
+    "transfer-encoding": [
+      "chunked"
+    ],
+    "connection": [
+      "keep-alive"
+    ],
+    "x-content-type-options": [
+      "nosniff"
+    ],
+    "content-security-policy": [
+      "default-src https: data: blob: 'unsafe-inline'; script-src https: 'unsafe-inline' 'unsafe-eval'"
+    ],
+    "strict-transport-security": [
+      "max-age=31536000; includeSubDomains;, max-age=31536000"
+    ],
+    "x-xss-protection": [
+      "1; mode=block"
+    ],
+    "cache-control": [
+      "no-cache, no-store, max-age=0, must-revalidate, post-check=0, pre-check=0"
+    ],
+    "pragma": [
+      "no-cache"
+    ],
+    "expires": [
+      "0"
+    ],
+    "x-frame-options": [
+      "DENY"
+    ],
+    "content-encoding": [
+      "gzip"
+    ],
+    "x-fetch-attempts": [
+      "1"
+    ]
+  },
+  "statusCode": 403,
+  "body": "\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <title>403 - Sonatype Nexus Repository</title>\n  <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"/>\n\n\n  <link rel=\"icon\" type=\"image/png\" href=\"../../../../../../../static/rapture/resources/safari-favicon-32x32.png?3.81.1-01\" sizes=\"32x32\">\n  <link rel=\"mask-icon\" href=\"../../../../../../../static/rapture/resources/favicon-white.svg?3.81.1-01\" color=\"#00bb6c\">\n  <link rel=\"icon\" type=\"image/png\" href=\"../../../../../../../static/rapture/resources/favicon.svg?3.81.1-01\" sizes=\"16x16\">\n\n  <link rel=\"stylesheet\" type=\"text/css\" href=\"../../../../../../../static/css/nexus-content.css?3.81.1-01\"/>\n</head>\n<body>\n<div class=\"nexus-header\">\n  <a href=\"../../../../../../..\">\n    <div class=\"product-logo\">\n      <img src=\"../../../../../../../static/rapture/resources/nxrm-reverse-icon.png?3.81.1-01\" alt=\"Product logo\"/>\n    </div>\n    <div class=\"product-id\">\n      <div class=\"product-id__line-1\">\n        <span class=\"product-name\">Sonatype Nexus Repository</span>\n      </div>\n      <div class=\"product-id__line-2\">\n        <span class=\"product-spec\">3.81.1-01</span>\n      </div>\n    </div>\n  </a>\n</div>\n\n<div class=\"nexus-body\">\n  <div class=\"content-header\">\n    <img src=\"../../../../../../../static/rapture/resources/icons/x32/exclamation.png?3.81.1-01\" alt=\"Exclamation point\" aria-role=\"presentation\"/>\n    <span class=\"title\">Error 403</span>\n    <span class=\"description\">Forbidden</span>\n  </div>\n  <div class=\"content-body\">\n    <div class=\"content-section\">\n      Forbidden\n    </div>\n  </div>\n</div>\n</body>\n</html>\n\n",
+  "error": {
+    "summary": "",
+    "detail": ""
+  }
+}
+npm error A complete log of this run can be found in: /Users/kepa.cantero/.npm/_logs/2026-01-11T10_40_16_820Z-debug-0.log

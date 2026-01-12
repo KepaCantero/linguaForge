@@ -13,10 +13,6 @@ import { ClozeExercise } from '@/components/exercises/ClozeExercise';
 import { VocabularyExercise } from '@/components/exercises/VocabularyExercise';
 import { VariationsExercise } from '@/components/exercises/VariationsExercise';
 import { PragmaStrikeExercise } from '@/components/exercises/PragmaStrikeExercise';
-import { ShardDetectionExercise } from '@/components/exercises/ShardDetectionExercise';
-import { EchoStreamExercise } from '@/components/exercises/EchoStreamExercise';
-import { GlyphWeavingExercise } from '@/components/exercises/GlyphWeavingExercise';
-import { ResonancePathExercise } from '@/components/exercises/ResonancePathExercise';
 import { ConversationalEchoExercise } from '@/components/exercises/ConversationalEchoExercise';
 import { DialogueIntonationExercise } from '@/components/exercises/DialogueIntonationExercise';
 import { JanusComposerExercise } from '@/components/exercises/JanusComposerExercise';
@@ -27,10 +23,6 @@ import type {
   Phrase,
   Vocabulary,
   PragmaStrike,
-  ShardDetection,
-  EchoStream,
-  GlyphWeaving,
-  ResonancePath,
   ConversationalEcho,
   DialogueIntonation,
   JanusComposer,
@@ -69,14 +61,6 @@ function renderExerciseByType(
       return <VariationsExercise phrase={data as Phrase} onComplete={() => onComplete(true)} />;
     case 'pragmaStrike':
       return <PragmaStrikeExercise exercise={data as PragmaStrike} onComplete={onComplete} />;
-    case 'shardDetection':
-      return <ShardDetectionExercise exercise={data as ShardDetection} onComplete={onComplete} />;
-    case 'echoStream':
-      return <EchoStreamExercise exercise={data as EchoStream} onComplete={() => onComplete(true)} />;
-    case 'glyphWeaving':
-      return <GlyphWeavingExercise exercise={data as GlyphWeaving} onComplete={() => onComplete(true)} />;
-    case 'resonancePath':
-      return <ResonancePathExercise exercise={data as ResonancePath} onComplete={() => onComplete(true)} />;
     case 'conversationalEcho':
       return <ConversationalEchoExercise exercise={data as ConversationalEcho} onComplete={() => onComplete(true)} showHints />;
     case 'dialogueIntonation':
@@ -406,21 +390,66 @@ export default function LessonPage() {
 
         <div className="min-h-screen bg-lf-dark pb-20">
         {/* Header */}
-        <header className="bg-glass-surface dark:bg-lf-soft/50 border-b border-lf-muted/20 backdrop-blur-aaa sticky top-0 z-10">
-          <div className="max-w-lg mx-auto px-4 py-4 flex items-center gap-4">
-            <button
-              onClick={handleBack}
-              className="flex items-center justify-center w-10 h-10 rounded-full text-lf-muted hover:text-white transition-colors"
-            >
-              <span className="text-xl">←</span>
-            </button>
-            <div className="flex-1">
-              <h1 className="font-semibold text-white line-clamp-1">
-                {leaf?.title || lessonContent.title}
-              </h1>
-              <p className="text-xs text-lf-muted/70">
-                {totalExercises} ejercicios disponibles
-              </p>
+        <header className="bg-lf-soft/80 border-b border-lf-muted/40 backdrop-blur-aaa sticky top-0 z-10">
+          <div className="max-w-lg mx-auto px-4 py-3">
+            {/* Top row: Back button + Title */}
+            <div className="flex items-center gap-3 mb-3">
+              <button
+                onClick={handleBack}
+                className="flex items-center justify-center w-9 h-9 rounded-full text-lf-muted hover:text-white transition-colors"
+              >
+                <span className="text-lg">←</span>
+              </button>
+              <div className="flex-1">
+                <h1 className="font-semibold text-white line-clamp-1">
+                  {leaf?.title || lessonContent.title}
+                </h1>
+                <p className="text-xs text-lf-muted/70">
+                  {totalExercises} ejercicios disponibles
+                </p>
+              </div>
+            </div>
+
+            {/* Action buttons row */}
+            <div className="flex items-center gap-2">
+              {/* Calentamiento button */}
+              <motion.button
+                onClick={handleStartWarmup}
+                className={`
+                  flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl border text-sm font-semibold transition-all
+                  ${warmupCompleted
+                    ? 'bg-green-500/30 border-green-500/50 text-green-400'
+                    : 'bg-amber-500/20 border-amber-500/30 text-amber-400 hover:bg-amber-500/30'
+                  }
+                `}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <span>{warmupCompleted ? '✅' : '🧠'}</span>
+                <span>Calentamiento</span>
+              </motion.button>
+
+              {/* Academia button */}
+              <motion.button
+                onClick={() => {/* Scroll to exercises */}}
+                className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-green-500/20 border border-green-500/30 text-green-400 text-sm font-semibold hover:bg-green-500/30 transition-all"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <span>📚</span>
+                <span>Academia</span>
+              </motion.button>
+
+              {/* Ejercicios button */}
+              <motion.button
+                onClick={() => {/* Scroll to exercises */}}
+                className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-lf-primary/30 border border-lf-primary/50 text-lf-primary text-sm font-semibold hover:bg-lf-primary/40 transition-all"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <span>✏️</span>
+                <span>Ejercicios</span>
+              </motion.button>
             </div>
           </div>
         </header>
@@ -445,57 +474,6 @@ export default function LessonPage() {
             </div>
           ) : (
             <div className="space-y-4">
-              {/* Warmup Button - AAA Design */}
-              <motion.button
-                onClick={handleStartWarmup}
-                className={`
-                  relative w-full overflow-hidden rounded-aaa-xl p-5 text-left border-2 transition-all
-                  ${warmupCompleted
-                    ? 'bg-lf-success/10 dark:bg-lf-success/20 border-lf-success/50 shadow-glow-success'
-                    : 'bg-lf-primary/10 dark:bg-lf-primary/20 border-lf-primary/50 hover:border-lf-primary'
-                  }
-                `}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                whileHover={{ scale: 1.01 }}
-                whileTap={{ scale: 0.99 }}
-              >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    <motion.span
-                      className="text-4xl"
-                      animate={warmupCompleted ? {} : {
-                        scale: [1, 1.1, 1],
-                        rotate: [0, 5, -5, 0],
-                      }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    >
-                      {warmupCompleted ? '✅' : '🧠'}
-                    </motion.span>
-                    <div>
-                      <h3 className="font-bold text-white text-lg">
-                        Calentamiento Cerebral
-                      </h3>
-                      <p className="text-sm text-lf-muted">
-                        {warmupCompleted
-                          ? '¡Cerebro listo para aprender!'
-                          : 'Activa tu cerebro antes de practicar'}
-                      </p>
-                    </div>
-                  </div>
-                  <span className="text-lf-muted text-2xl">
-                    {warmupCompleted ? '🔄' : '→'}
-                  </span>
-                </div>
-                {!warmupCompleted && (
-                  <div className="mt-3 flex items-center gap-2">
-                    <span className="text-xs text-lf-primary/80 bg-lf-primary/10 px-2 py-1 rounded-md">
-                      ~30-60 segundos
-                    </span>
-                  </div>
-                )}
-              </motion.button>
-
               {/* Separator */}
               <div className="flex items-center gap-3 py-2">
                 <div className="flex-1 h-px bg-lf-muted/20" />

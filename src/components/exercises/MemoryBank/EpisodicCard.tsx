@@ -20,6 +20,8 @@ import {
 } from '@/lib/textures';
 import { useHaptic } from '@/lib/haptic';
 import { useSoundEngine } from '@/lib/soundEngine';
+import { SwipeIndicators } from './SwipeIndicators';
+import { CardFace } from './CardFace';
 
 // ============================================
 // TIPOS
@@ -194,50 +196,13 @@ export function EpisodicCard({
     transformStyle: 'preserve-3d',
   };
 
-  const faceBaseStyle: React.CSSProperties = {
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
-    backfaceVisibility: 'hidden',
-    borderRadius: 16,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 24,
-    // SOLID background instead of transparent gradient
-    background: isFocusMode
-      ? 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)'
-      : 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
-    border: '2px solid rgba(99, 102, 241, 0.5)',
-    boxShadow: isFocusMode
-      ? '0 25px 50px -12px rgba(99, 102, 241, 0.5), 0 0 30px rgba(99, 102, 241, 0.3)'
-      : '0 10px 40px rgba(0, 0, 0, 0.3)',
-  };
-
-  // ============================================
-  // RENDER
-  // ============================================
-
   return (
     <div className={`relative ${className}`} style={cardStyle}>
-      {/* Indicador Swipe Izquierda (Incorrecto) */}
-      <motion.div
-        className="absolute -left-16 top-1/2 -translate-y-1/2 text-4xl"
-        style={{ opacity: leftIndicatorOpacity }}
-      >
-        <span className="text-red-500 drop-shadow-lg">✗</span>
-      </motion.div>
+      <SwipeIndicators
+        leftIndicatorOpacity={leftIndicatorOpacity}
+        rightIndicatorOpacity={rightIndicatorOpacity}
+      />
 
-      {/* Indicador Swipe Derecha (Correcto) */}
-      <motion.div
-        className="absolute -right-16 top-1/2 -translate-y-1/2 text-4xl"
-        style={{ opacity: rightIndicatorOpacity }}
-      >
-        <span className="text-green-500 drop-shadow-lg">✓</span>
-      </motion.div>
-
-      {/* Tarjeta Principal */}
       <motion.div
         ref={cardRef}
         className={`select-none ${!disabled ? 'cursor-grab active:cursor-grabbing' : ''}`}
@@ -261,7 +226,6 @@ export function EpisodicCard({
         whileHover={!disabled ? { scale: 1.02 } : undefined}
         whileTap={!disabled ? { scale: 0.98 } : undefined}
       >
-        {/* Sombra dinámica */}
         <motion.div
           className="absolute inset-0 rounded-2xl"
           style={{
@@ -274,102 +238,28 @@ export function EpisodicCard({
           }}
         />
 
-        {/* Cara Frontal */}
-        <motion.div
-          style={{
-            ...faceBaseStyle,
-            rotateY: 0,
-            zIndex: isFlipped ? 0 : 1,
-          }}
-        >
-          <div className="text-center">
-            <p
-              className="text-2xl font-bold text-white drop-shadow-lg"
-            >
-              {content.front.text}
-            </p>
-            {content.front.subtext && (
-              <p className="text-base mt-3 text-white/80 font-medium">
-                {content.front.subtext}
-              </p>
-            )}
-          </div>
+        <CardFace
+          text={content.front.text}
+          subtext={content.front.subtext}
+          difficulty={content.difficulty}
+          rotateY={0}
+          zIndex={isFlipped ? 0 : 1}
+          showFlipHint
+        />
 
-          {/* Indicador de dificultad */}
-          {content.difficulty && (
-            <div className="absolute bottom-3 right-3">
-              <DifficultyIndicator difficulty={content.difficulty} />
-            </div>
-          )}
-
-          {/* Indicador de flip */}
-          <div className="absolute bottom-3 left-3 text-xs text-white/50 bg-black/30 px-2 py-1 rounded-full">
-            Doble click para voltear
-          </div>
-        </motion.div>
-
-        {/* Cara Posterior */}
-        <motion.div
-          style={{
-            ...faceBaseStyle,
-            rotateY: 180,
-            zIndex: isFlipped ? 1 : 0,
-          }}
-        >
-          <div className="text-center">
-            <p
-              className="text-2xl font-bold text-white drop-shadow-lg"
-            >
-              {content.back.text}
-            </p>
-            {content.back.subtext && (
-              <p className="text-base mt-3 text-white/80 font-medium">
-                {content.back.subtext}
-              </p>
-            )}
-          </div>
-        </motion.div>
+        <CardFace
+          text={content.back.text}
+          subtext={content.back.subtext}
+          rotateY={180}
+          zIndex={isFlipped ? 1 : 0}
+        />
       </motion.div>
 
-      {/* Instrucciones */}
       {!disabled && !isFocusMode && (
         <div className="absolute -bottom-8 left-0 right-0 text-center text-sm text-white/70 bg-black/30 px-3 py-1 rounded-full mx-auto w-fit">
           Desliza para responder • Doble click para voltear
         </div>
       )}
-    </div>
-  );
-}
-
-// ============================================
-// SUBCOMPONENTES
-// ============================================
-
-interface DifficultyIndicatorProps {
-  difficulty: 'easy' | 'medium' | 'hard';
-}
-
-function DifficultyIndicator({ difficulty }: DifficultyIndicatorProps) {
-  const colors = {
-    easy: 'bg-green-400 shadow-green-400/50',
-    medium: 'bg-yellow-400 shadow-yellow-400/50',
-    hard: 'bg-red-400 shadow-red-400/50',
-  };
-
-  const dots = {
-    easy: 1,
-    medium: 2,
-    hard: 3,
-  };
-
-  return (
-    <div className="flex gap-1.5 bg-black/30 px-2 py-1 rounded-full backdrop-blur-sm">
-      {Array.from({ length: dots[difficulty] }).map((_, i) => (
-        <div
-          key={i}
-          className={`w-2.5 h-2.5 rounded-full ${colors[difficulty]} shadow-lg`}
-        />
-      ))}
     </div>
   );
 }

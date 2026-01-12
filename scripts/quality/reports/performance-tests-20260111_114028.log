@@ -1,0 +1,65 @@
+Performance tests started at Sun Jan 11 11:40:28 CET 2026
+✅  .lighthouseci/ directory writable
+✅  Configuration file found
+✅  Chrome installation found
+Healthcheck passed!
+
+Running Lighthouse 3 time(s) on http://localhost:3000
+Run #1...done.
+Run #2...done.
+Run #3...done.
+Running Lighthouse 3 time(s) on http://localhost:3000/learn
+Run #1...done.
+Run #2...done.
+Run #3...done.
+Done running Lighthouse!
+
+Checking assertions against 2 URL(s), 6 total run(s)
+
+2 result(s) for [1mhttp://localhost:3000/[0m :
+
+  [31m✘[0m  [1mno-vulnerable-libraries[0m failure for [1mauditRan[0m assertion
+       "no-vulnerable-libraries" is not a known audit.
+
+        expected: >=[32m1[0m
+           found: [31m0[0m
+      [2mall values: 0, 0, 0[0m
+
+
+  ⚠️  [1merrors-in-console[0m warning for [1mminScore[0m assertion
+       Browser errors were logged to the console
+       https://developer.chrome.com/docs/lighthouse/best-practices/errors-in-console/
+
+        expected: >=[32m0.9[0m
+           found: [31m0[0m
+      [2mall values: 0, 0, 0[0m
+
+2 result(s) for [1mhttp://localhost:3000/auth/login?redirect=%2Flearn[0m :
+
+  [31m✘[0m  [1mno-vulnerable-libraries[0m failure for [1mauditRan[0m assertion
+       "no-vulnerable-libraries" is not a known audit.
+
+        expected: >=[32m1[0m
+           found: [31m0[0m
+      [2mall values: 0, 0, 0[0m
+
+
+  ⚠️  [1merrors-in-console[0m warning for [1mminScore[0m assertion
+       Browser errors were logged to the console
+       https://developer.chrome.com/docs/lighthouse/best-practices/errors-in-console/
+
+        expected: >=[32m0.9[0m
+           found: [31m0[0m
+      [2mall values: 0, 0, 0[0m
+
+Assertion failed. Exiting with status code 1.
+
+Uploading median LHR of http://localhost:3000/...(node:29629) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.
+(Use `node --trace-warnings ...` to show where the warning was created)
+success!
+Open the report at https://storage.googleapis.com/lighthouse-infrastructure.appspot.com/reports/1768128149714-54308.report.html
+Uploading median LHR of http://localhost:3000/auth/login?redirect=%2Flearn...success!
+Open the report at https://storage.googleapis.com/lighthouse-infrastructure.appspot.com/reports/1768128150464-11927.report.html
+No GitHub token set, skipping GitHub status check.
+
+assert command failed. Exiting with status code 1.

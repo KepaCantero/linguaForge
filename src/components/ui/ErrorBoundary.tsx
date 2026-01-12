@@ -28,8 +28,15 @@ export class AAAErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    // Log errores a consola en desarrollo
     console.error('AAA Error Boundary caught:', error, errorInfo);
-    // TODO: Log to error tracking service (Sentry, LogRocket, etc.)
+
+    // TODO: Implementar integración con servicio de error tracking
+    // Issue: #42 - Integrar Sentry o LogRocket para producción
+    // Referencia: https://docs.sentry.io/platforms/javascript/guides/nextjs/
+    //
+    // Ejemplo de implementación futura:
+    // Sentry.captureException(error, { contexts: { react: { componentStack: errorInfo.componentStack } } });
   }
 
   render() {

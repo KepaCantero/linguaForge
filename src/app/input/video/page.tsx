@@ -1,12 +1,11 @@
 'use client';
 
-import { useState, useMemo, useRef, useCallback } from 'react';
-import Link from 'next/link';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInputStore } from '@/store/useInputStore';
 import { useProgressStore } from '@/store/useProgressStore';
 import { YouTubePlayer } from '@/components/input/YouTubePlayer';
-import { extractVideoId, getYouTubeTranscript, convertTranscriptToPhrases, type YouTubeTranscript } from '@/services/youtubeTranscriptService';
+import { convertTranscriptToPhrases, extractVideoId, getYouTubeTranscript, type YouTubeTranscript } from '@/services/youtubeTranscriptService';
 import { WordSelector } from '@/components/transcript/WordSelector';
 import { QuickReviewButton } from '@/components/transcript/QuickReviewButton';
 import { ContentSource } from '@/types/srs';
@@ -106,7 +105,7 @@ interface VideoPlayerSectionProps {
 function VideoPlayerSection({
   videoId,
   videoTitle,
-  youtubeUrl,
+  youtubeUrl: _youtubeUrl,
   currentTime,
   duration,
   onTimeUpdate,

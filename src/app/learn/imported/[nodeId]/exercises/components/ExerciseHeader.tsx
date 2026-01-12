@@ -1,14 +1,13 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import type { RewardCalculation } from '@/services/postCognitiveRewards';
-import type { LessonMode, ExerciseType } from '../page';
+import type { ExerciseType, LessonMode } from '@/hooks/useExerciseFlow';
 import type {
-  Phrase,
   ConversationalEcho,
   DialogueIntonation,
-  JanusComposer
+  JanusComposer,
+  Phrase,
 } from '@/types';
 
 export interface RewardsData {
@@ -17,8 +16,8 @@ export interface RewardsData {
 }
 
 interface ExerciseHeaderProps {
-  nodeId: string;
-  subtopicId: string | null;
+  _nodeId: string;
+  _subtopicId: string | null;
   selectedExerciseType: ExerciseType;
   exerciseIndices: Record<string, number>;
   exerciseData: {
@@ -59,8 +58,8 @@ function getLoadStatusColors(status: 'low' | 'optimal' | 'high' | 'overload') {
 }
 
 export function ExerciseHeader({
-  nodeId,
-  subtopicId,
+  _nodeId,
+  _subtopicId,
   selectedExerciseType,
   exerciseIndices,
   exerciseData,
@@ -73,7 +72,6 @@ export function ExerciseHeader({
   setFocusModeActive,
   setShowSessionSummary
 }: ExerciseHeaderProps) {
-  const router = useRouter();
   const loadTotal = load.total || 0;
   const loadStatus = load.status || 'optimal';
   const loadColors = getLoadStatusColors(loadStatus);

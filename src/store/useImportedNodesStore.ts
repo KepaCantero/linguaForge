@@ -59,6 +59,8 @@ interface ImportedNodesActions {
 
 type ImportedNodesStore = ImportedNodesState & ImportedNodesActions;
 
+export type { ImportedNodesStore };
+
 const initialState: ImportedNodesState = {
   nodes: [],
 };

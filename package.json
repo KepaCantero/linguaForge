@@ -9,7 +9,9 @@
     "lint": "next lint",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "quality": "./quality-ultimate.sh",
+    "quality:fix": "npm run lint -- --fix"
   },
   "dependencies": {
     "@react-three/drei": "^9.88.0",
@@ -44,6 +46,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.57.0",
+    "@size-limit/preset-app": "^12.0.0",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.1",
     "@types/howler": "^2.2.12",
@@ -53,12 +56,44 @@
     "@types/react-dom": "^18",
     "@vitejs/plugin-react": "^5.1.2",
     "@vitest/coverage-v8": "^4.0.16",
+    "dependency-cruiser": "^17.3.6",
     "eslint": "^8",
     "eslint-config-next": "14.2.35",
+    "gitleaks": "^1.0.0",
     "jsdom": "^27.4.0",
+    "madge": "^8.0.0",
     "postcss": "^8",
+    "size-limit": "^12.0.0",
     "tailwindcss": "^3.4.1",
     "typescript": "^5",
     "vitest": "^4.0.16"
-  }
+  },
+  "overrides": {
+    "glob": "^10.4.6",
+    "globby": "^11.0.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "glob": "^10.4.6",
+      "globby": "^11.0.0"
+    }
+  },
+  "size-limit": [
+    {
+      "name": "Initial JS bundle",
+      "path": ".next/static/chunks/**/*.js",
+      "limit": "300 KB",
+      "gzip": false
+    },
+    {
+      "name": "Main app page",
+      "path": ".next/static/chunks/pages/_app*.js",
+      "limit": "100 KB"
+    },
+    {
+      "name": "Framework chunks",
+      "path": ".next/static/chunks/framework*.js",
+      "limit": "80 KB"
+    }
+  ]
 }
