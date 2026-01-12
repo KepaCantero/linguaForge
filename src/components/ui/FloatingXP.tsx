@@ -31,9 +31,9 @@ export function FloatingXP() {
       }, 1500);
     };
 
-    window.addEventListener("xp-gained", handleXP as EventListener);
+    globalThis.addEventListener("xp-gained", handleXP as EventListener);
     return () =>
-      window.removeEventListener("xp-gained", handleXP as EventListener);
+      globalThis.removeEventListener("xp-gained", handleXP as EventListener);
   }, []);
 
   return (

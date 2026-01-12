@@ -79,7 +79,7 @@ export function grantMaterialsForXP(xpGained: number): Record<string, number> {
 
   // Disparar evento para feedback visual
   if (typeof window !== 'undefined' && Object.keys(granted).length > 0) {
-    window.dispatchEvent(new CustomEvent('materials-gained', { detail: granted }));
+    globalThis.dispatchEvent(new CustomEvent('materials-gained', { detail: granted }));
   }
 
   return granted;
@@ -143,7 +143,7 @@ export function grantMaterialsForLevelUp(newLevel: number): Record<string, numbe
 
   // Disparar evento para feedback visual
   if (typeof window !== 'undefined' && Object.keys(granted).length > 0) {
-    window.dispatchEvent(new CustomEvent('materials-gained', { detail: granted }));
+    globalThis.dispatchEvent(new CustomEvent('materials-gained', { detail: granted }));
   }
 
   return granted;
@@ -155,12 +155,12 @@ export function grantMaterialsForLevelUp(newLevel: number): Record<string, numbe
 export function initConstructionRewards() {
   // Escuchar eventos de XP ganado
   if (typeof window !== 'undefined') {
-    window.addEventListener('xp-gained', ((e: CustomEvent<{ amount: number }>) => {
+    globalThis.addEventListener('xp-gained', ((e: CustomEvent<{ amount: number }>) => {
       grantMaterialsForXP(e.detail.amount);
     }) as EventListener);
 
     // Escuchar eventos de nivel subido
-    window.addEventListener('level-up', ((e: CustomEvent<{ newLevel: number }>) => {
+    globalThis.addEventListener('level-up', ((e: CustomEvent<{ newLevel: number }>) => {
       grantMaterialsForLevelUp(e.detail.newLevel);
     }) as EventListener);
   }

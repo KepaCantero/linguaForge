@@ -75,17 +75,17 @@ export const useGamificationStore = create<GamificationStore>()(
           // Mostrar notificación de surge si aplica
           if (isSurge && typeof window !== 'undefined') {
             // Disparar evento para animación de surge (se manejará en UI)
-            window.dispatchEvent(new CustomEvent('xp-surge', { detail: { amount: actualAmount, original: amount } }));
+            globalThis.dispatchEvent(new CustomEvent('xp-surge', { detail: { amount: actualAmount, original: amount } }));
           }
 
           // Disparar evento de XP ganado (para construcción rewards)
           if (typeof window !== 'undefined') {
-            window.dispatchEvent(new CustomEvent('xp-gained', { detail: { amount: actualAmount } }));
+            globalThis.dispatchEvent(new CustomEvent('xp-gained', { detail: { amount: actualAmount } }));
           }
 
           // Disparar evento de nivel subido (para construction bonuses)
           if (leveledUp && typeof window !== 'undefined') {
-            window.dispatchEvent(new CustomEvent('level-up', { detail: { newLevel: levelInfo.level, previousLevel } }));
+            globalThis.dispatchEvent(new CustomEvent('level-up', { detail: { newLevel: levelInfo.level, previousLevel } }));
           }
 
           return {
@@ -104,7 +104,7 @@ export const useGamificationStore = create<GamificationStore>()(
 
         // Disparar evento de coins ganados (para feedback visual)
         if (typeof window !== 'undefined' && amount > 0) {
-          window.dispatchEvent(new CustomEvent('coins-gained', { detail: { amount } }));
+          globalThis.dispatchEvent(new CustomEvent('coins-gained', { detail: { amount } }));
         }
       },
 

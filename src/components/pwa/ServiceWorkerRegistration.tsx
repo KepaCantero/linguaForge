@@ -25,8 +25,8 @@ export function ServiceWorkerRegistration() {
     const handleOnline = () => setState((s) => ({ ...s, isOffline: false }));
     const handleOffline = () => setState((s) => ({ ...s, isOffline: true }));
 
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
+    globalThis.addEventListener('online', handleOnline);
+    globalThis.addEventListener('offline', handleOffline);
     setState((s) => ({ ...s, isOffline: !navigator.onLine }));
 
     // Registrar service worker
@@ -60,7 +60,7 @@ export function ServiceWorkerRegistration() {
         navigator.serviceWorker.addEventListener('message', (event) => {
           if (event.data?.type === 'SYNC_PROGRESS') {
             // Disparar evento para que la app sincronice
-            window.dispatchEvent(new CustomEvent('sw-sync-progress'));
+            globalThis.dispatchEvent(new CustomEvent('sw-sync-progress'));
           }
         });
       } catch (error) {
@@ -71,8 +71,8 @@ export function ServiceWorkerRegistration() {
     registerSW();
 
     return () => {
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
+      globalThis.removeEventListener('online', handleOnline);
+      globalThis.removeEventListener('offline', handleOffline);
     };
   }, []);
 

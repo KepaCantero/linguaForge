@@ -344,8 +344,8 @@ export function JanusComposerExercise({
 
   // Efecto para registrar eventos de teclado
   useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    globalThis.addEventListener('keydown', handleKeyDown);
+    return () => globalThis.removeEventListener('keydown', handleKeyDown);
   }, [handleKeyDown]);
 
   // Inicializar foco en la primera columna al entrar en composing phase

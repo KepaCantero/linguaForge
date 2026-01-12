@@ -118,7 +118,7 @@ describe('Post Cognitive Rewards Service', () => {
     it('should unlock perfect session achievement', () => {
       const perfectMetrics = {
         ...baseMetrics,
-        accuracy: 1.0,
+        accuracy: 1,
         exercisesCompleted: 12,
       };
       const rewards = calculatePostCognitiveRewards(perfectMetrics);

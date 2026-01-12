@@ -190,9 +190,9 @@ export const CreateNotificationSettingsValidator = NotificationSettingsSchema.om
   updated_at: true
 }).extend({
   user_id: z.string().uuid('Invalid user ID'),
-  reminder_time: z.string().regex(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/, 'Reminder time must be in HH:mm format').optional(),
-  quiet_hours_start: z.string().regex(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/, 'Quiet hours start must be in HH:mm format').optional(),
-  quiet_hours_end: z.string().regex(/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/, 'Quiet hours end must be in HH:mm format').optional(),
+  reminder_time: z.string().regex(/^([01]?\d|2[0-3]):[0-5]\d$/, 'Reminder time must be in HH:mm format').optional(),
+  quiet_hours_start: z.string().regex(/^([01]?\d|2[0-3]):[0-5]\d$/, 'Quiet hours start must be in HH:mm format').optional(),
+  quiet_hours_end: z.string().regex(/^([01]?\d|2[0-3]):[0-5]\d$/, 'Quiet hours end must be in HH:mm format').optional(),
 });
 
 // ============================================
@@ -223,7 +223,7 @@ export const RegistrationDataValidator = z.object({
     .min(8, 'Password must be at least 8 characters')
     .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
     .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
-    .regex(/[0-9]/, 'Password must contain at least one number')
+    .regex(/\d/, 'Password must contain at least one number')
     .regex(/[^A-Za-z0-9]/, 'Password must contain at least one special character'),
   full_name: z.string().max(100, 'Full name must be at most 100 characters').optional(),
   native_language: z.string().max(10, 'Invalid language code').optional(),
@@ -237,7 +237,7 @@ export const PasswordUpdateValidator = z.object({
     .min(8, 'Password must be at least 8 characters')
     .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
     .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
-    .regex(/[0-9]/, 'Password must contain at least one number')
+    .regex(/\d/, 'Password must contain at least one number')
     .regex(/[^A-Za-z0-9]/, 'Password must contain at least one special character'),
 });
 

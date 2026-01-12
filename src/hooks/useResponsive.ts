@@ -75,12 +75,12 @@ export function useResponsive(): UseResponsiveReturn {
     };
 
     updateState();
-    window.addEventListener("resize", updateState);
-    window.addEventListener("orientationchange", updateState);
+    globalThis.addEventListener("resize", updateState);
+    globalThis.addEventListener("orientationchange", updateState);
 
     return () => {
-      window.removeEventListener("resize", updateState);
-      window.removeEventListener("orientationchange", updateState);
+      globalThis.removeEventListener("resize", updateState);
+      globalThis.removeEventListener("orientationchange", updateState);
     };
   }, []);
 

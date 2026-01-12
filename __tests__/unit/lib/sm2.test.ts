@@ -402,8 +402,8 @@ describe('SM-2 Algorithm', () => {
 
     it('debe calcular promedio correctamente', () => {
       const cards = [
-        createMockCard({ id: '1', easeFactor: 2.0 }),
-        createMockCard({ id: '2', easeFactor: 3.0 }),
+        createMockCard({ id: '1', easeFactor: 2 }),
+        createMockCard({ id: '2', easeFactor: 3 }),
       ];
 
       expect(calculateAverageEaseFactor(cards)).toBe(2.5);

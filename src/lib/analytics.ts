@@ -335,5 +335,5 @@ export function cleanupAnalytics(): void {
 
 // Auto-cleanup on page unload
 if (typeof window !== 'undefined') {
-  window.addEventListener('beforeunload', cleanupAnalytics);
+  globalThis.addEventListener('beforeunload', cleanupAnalytics);
 }

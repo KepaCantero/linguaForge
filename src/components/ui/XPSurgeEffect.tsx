@@ -28,14 +28,14 @@ export function XPSurgeEffect() {
       setSurgeActive(true);
     };
 
-    window.addEventListener('xp-surge', handleXPSurge as EventListener);
-    window.addEventListener('level-up', handleLevelUp);
-    window.addEventListener('rank-up', handleRankUp);
+    globalThis.addEventListener('xp-surge', handleXPSurge as EventListener);
+    globalThis.addEventListener('level-up', handleLevelUp);
+    globalThis.addEventListener('rank-up', handleRankUp);
 
     return () => {
-      window.removeEventListener('xp-surge', handleXPSurge as EventListener);
-      window.removeEventListener('level-up', handleLevelUp);
-      window.removeEventListener('rank-up', handleRankUp);
+      globalThis.removeEventListener('xp-surge', handleXPSurge as EventListener);
+      globalThis.removeEventListener('level-up', handleLevelUp);
+      globalThis.removeEventListener('rank-up', handleRankUp);
     };
   }, []);
 

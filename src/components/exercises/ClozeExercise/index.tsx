@@ -69,8 +69,8 @@ export function ClozeExercise({ phrase, block, onComplete }: ClozeExerciseProps)
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    globalThis.addEventListener('keydown', handleKeyDown);
+    return () => globalThis.removeEventListener('keydown', handleKeyDown);
   }, [showResult, isSpeaking, playPhrase]);
 
   return (

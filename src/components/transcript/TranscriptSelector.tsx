@@ -42,7 +42,7 @@ export function TranscriptSelector({
   const handleTextSelection = useCallback(() => {
     // Pequeño delay para asegurar que la selección está completa
     setTimeout(() => {
-      const selection = window.getSelection();
+      const selection = globalThis.getSelection();
       if (!selection || selection.rangeCount === 0) {
         setIsSelecting(false);
         return;
@@ -72,7 +72,7 @@ export function TranscriptSelector({
       e.stopPropagation();
     }
 
-    const selection = window.getSelection();
+    const selection = globalThis.getSelection();
     if (!selection || selection.rangeCount === 0) {
       setIsSelecting(false);
       return;
@@ -231,7 +231,7 @@ export function TranscriptSelector({
             className="mt-2 p-2 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg border border-indigo-200 dark:border-indigo-800"
           >
             <p className="text-xs font-medium text-indigo-800 dark:text-indigo-200 mb-2">
-              ✓ Texto seleccionado: &ldquo;{window.getSelection()?.toString().trim().substring(0, 50)}...&rdquo;
+              ✓ Texto seleccionado: &ldquo;{globalThis.getSelection()?.toString().trim().substring(0, 50)}...&rdquo;
             </p>
             <div className="flex items-center gap-2">
               <button
@@ -248,7 +248,7 @@ export function TranscriptSelector({
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
-                  window.getSelection()?.removeAllRanges();
+                  globalThis.getSelection()?.removeAllRanges();
                   setIsSelecting(false);
                 }}
                 className="text-xs bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded font-medium transition-colors"

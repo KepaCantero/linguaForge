@@ -65,16 +65,16 @@ export function GamificationFeedback() {
       }
     };
 
-    window.addEventListener("xp-gained", handleXP as EventListener);
-    window.addEventListener("level-up", handleLevelUp as EventListener);
-    window.addEventListener("coins-gained", handleCoins as EventListener);
-    window.addEventListener("materials-gained", handleMaterials as EventListener);
+    globalThis.addEventListener("xp-gained", handleXP as EventListener);
+    globalThis.addEventListener("level-up", handleLevelUp as EventListener);
+    globalThis.addEventListener("coins-gained", handleCoins as EventListener);
+    globalThis.addEventListener("materials-gained", handleMaterials as EventListener);
 
     return () => {
-      window.removeEventListener("xp-gained", handleXP as EventListener);
-      window.removeEventListener("level-up", handleLevelUp as EventListener);
-      window.removeEventListener("coins-gained", handleCoins as EventListener);
-      window.removeEventListener("materials-gained", handleMaterials as EventListener);
+      globalThis.removeEventListener("xp-gained", handleXP as EventListener);
+      globalThis.removeEventListener("level-up", handleLevelUp as EventListener);
+      globalThis.removeEventListener("coins-gained", handleCoins as EventListener);
+      globalThis.removeEventListener("materials-gained", handleMaterials as EventListener);
     };
   }, [addFeedback]);
 
@@ -197,19 +197,19 @@ export function GamificationFeedback() {
  */
 export function useGamificationFeedback() {
   const triggerXP = (amount: number, isSurge = false) => {
-    window.dispatchEvent(
+    globalThis.dispatchEvent(
       new CustomEvent("xp-gained", { detail: { amount, isSurge } })
     );
   };
 
   const triggerCoins = (amount: number) => {
-    window.dispatchEvent(
+    globalThis.dispatchEvent(
       new CustomEvent("coins-gained", { detail: { amount } })
     );
   };
 
   const triggerMaterials = (materials: Record<string, number>) => {
-    window.dispatchEvent(
+    globalThis.dispatchEvent(
       new CustomEvent("materials-gained", { detail: materials })
     );
   };

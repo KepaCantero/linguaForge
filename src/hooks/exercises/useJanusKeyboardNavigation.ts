@@ -140,8 +140,8 @@ export function useJanusKeyboardNavigation({
 
   // Register keyboard event listeners
   useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    globalThis.addEventListener('keydown', handleKeyDown);
+    return () => globalThis.removeEventListener('keydown', handleKeyDown);
   }, [handleKeyDown]);
 
   // Initialize focus on first column when entering composing phase

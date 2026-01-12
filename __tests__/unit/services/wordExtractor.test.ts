@@ -286,7 +286,7 @@ describe('wordExtractor', () => {
       const result = extractKeywords(text);
 
       expect(result[0].context).toBe(text);
-      expect(result[result.length - 1].context).toBe(text);
+      expect(result.at(-1)?.context).toBe(text);
     });
   });
 

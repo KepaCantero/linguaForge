@@ -131,8 +131,8 @@ export function useClozeState({
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    globalThis.addEventListener('keydown', handleKeyDown);
+    return () => globalThis.removeEventListener('keydown', handleKeyDown);
   }, [state.showResult, phrase.clozeOptions, selectOption]);
 
   // Auto-play audio on correct answer

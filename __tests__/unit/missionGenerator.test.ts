@@ -200,7 +200,7 @@ describe('Mission Generator Service', () => {
 
       const ordered = suggestMissionOrder(missions);
 
-      expect(ordered[ordered.length - 1].type).toBe('forgeMandate');
+      expect(ordered.at(-1)?.type).toBe('forgeMandate');
     });
 
     it('should put input before other types', () => {
