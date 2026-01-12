@@ -1,16 +1,17 @@
 import { motion } from 'framer-motion';
+import type { SpeechRecordingResult, InteractiveSpeech, InteractiveSpeechNode } from '@/types';
 import { SpeechRecorder } from '@/components/shared/SpeechRecorder';
 
 interface ResponsePhaseProps {
-  exercise: any;
-  currentStep: any;
+  exercise: InteractiveSpeech;
+  currentStep: InteractiveSpeechNode;
   currentStepIndex: number;
   silenceTimer: number | null;
   showHint: boolean;
   showExample: boolean;
   isPlaying: boolean;
   getExpectedResponses: () => string[];
-  onRecordingComplete: (recording: any) => void;
+  onRecordingComplete: (recording: SpeechRecordingResult) => void;
   onRecordingStart: () => void;
   onReplay: () => void;
   onSkip: () => void;
@@ -80,12 +81,12 @@ export function ResponsePhase({
 }
 
 interface ResponseCardProps {
-  currentStep: any;
+  currentStep: InteractiveSpeechNode;
   silenceTimer: number | null;
   showHint: boolean;
   showExample: boolean;
   getExpectedResponses: () => string[];
-  onRecordingComplete: (recording: any) => void;
+  onRecordingComplete: (recording: SpeechRecordingResult) => void;
   onRecordingStart: () => void;
 }
 

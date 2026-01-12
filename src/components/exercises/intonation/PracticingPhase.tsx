@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import type { DialogueIntonation } from '@/schemas/content';
+import type { SpeechRecordingResult } from '@/types';
 import { SpeechRecorder } from '@/components/shared/SpeechRecorder';
 
 interface PracticingPhaseProps {
@@ -10,7 +11,7 @@ interface PracticingPhaseProps {
   isPlaying: boolean;
   onPlayContext: () => void;
   onPlayExample: () => void;
-  onRecordingComplete: (recording: any) => void;
+  onRecordingComplete: (recording: SpeechRecordingResult) => void;
   onRecordingStart: () => void;
 }
 

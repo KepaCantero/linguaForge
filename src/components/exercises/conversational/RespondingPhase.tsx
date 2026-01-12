@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import type { SpeechRecordingResult } from '@/types';
 import { SpeechRecorder } from '@/components/shared/SpeechRecorder';
 import type { ConversationalEcho } from '@/schemas/content';
 
@@ -13,7 +14,7 @@ interface RespondingPhaseProps {
     showHint: boolean;
   };
   onRecordingStart: () => void;
-  onRecordingComplete: (recording: any) => void;
+  onRecordingComplete: (recording: SpeechRecordingResult) => void;
   onToggleHint: () => void;
 }
 

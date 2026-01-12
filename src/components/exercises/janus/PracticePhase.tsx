@@ -1,10 +1,11 @@
 import { motion } from 'framer-motion';
+import type { SpeechRecordingResult } from '@/types';
 import { SpeechRecorder } from '@/components/shared/SpeechRecorder';
 
 interface PracticePhaseProps {
   generatedPhrase: string | null;
   generatedTranslation: string | null;
-  onRecordingComplete: (recording: any) => void;
+  onRecordingComplete: (recording: SpeechRecordingResult) => void;
 }
 
 export function PracticePhase({
