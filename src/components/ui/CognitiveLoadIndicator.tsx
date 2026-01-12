@@ -65,9 +65,8 @@ export function CognitiveLoadIndicator({
   const sizeClasses = size === 'sm' ? 'w-4 h-4' : 'w-6 h-6';
 
   return (
-    <div
+    <output
       className={`flex items-center gap-1.5 px-2 py-1 rounded-lg ${colors.bgLight} ${colors.border} border`}
-      role="status"
       aria-label={`Carga cognitiva: ${Math.round(load.total)}%, ${colors.label}`}
       title={`Carga cognitiva: ${Math.round(load.total)}% - ${colors.label}`}
     >
@@ -97,6 +96,6 @@ export function CognitiveLoadIndicator({
           {colors.label}
         </span>
       )}
-    </div>
+    </output>
   );
 }

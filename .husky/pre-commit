@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo "🔒 Running quality gate before commit..."
+bash scripts/quality/quality-ultimate.sh
+EXIT_CODE=$?
+
+if [ $EXIT_CODE -ne 0 ]; then
+  echo ""
+  echo "❌ QUALITY GATE FAILED"
+  echo "   Please fix the issues above before committing."
+  echo "   Run: bash scripts/quality/quality-ultimate.sh"
+  echo ""
+  exit 1
+fi
+
+echo "✅ Quality gate passed"

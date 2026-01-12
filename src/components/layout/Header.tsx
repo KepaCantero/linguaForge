@@ -80,9 +80,8 @@ export function Header() {
             {/* XP */}
             <li>
               <StatTooltip stat="xp">
-                <div
+                <output
                   className="relative px-3 py-1.5 rounded-xl bg-calm-bg-secondary border border-calm-warm-200"
-                  role="status"
                   aria-label={`${xp} puntos de experiencia, ${progress}% para el siguiente nivel`}
                 >
                   <div className="flex items-center gap-2">
@@ -120,16 +119,15 @@ export function Header() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </output>
               </StatTooltip>
             </li>
 
             {/* Streak */}
             <li>
               <StatTooltip stat="streak">
-                <div
+                <output
                   className="px-2.5 py-1.5 rounded-xl bg-calm-bg-secondary border border-calm-warm-200 flex items-center gap-1.5"
-                  role="status"
                   aria-label={`Racha de ${streak} días`}
                 >
                   <span
@@ -141,7 +139,7 @@ export function Header() {
                   <span className="font-quicksand font-medium text-calm-text-primary text-sm">
                     {streak}
                   </span>
-                </div>
+                </output>
               </StatTooltip>
             </li>
 

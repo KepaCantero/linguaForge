@@ -213,6 +213,8 @@ export function TranscriptSelector({
     return (
       <div
         ref={textRef}
+        role="region"
+        aria-label="Selector de transcripción de texto"
         className="select-text cursor-text"
         onMouseUp={handleTextSelection}
         onDoubleClick={(e) => {
@@ -220,6 +222,14 @@ export function TranscriptSelector({
           e.stopPropagation();
           confirmTextSelection(e);
         }}
+        onKeyDown={(e) => {
+          // Confirmar selección con Enter cuando hay texto seleccionado
+          if ((e.key === 'Enter' || e.key === ' ') && isSelecting) {
+            e.preventDefault();
+            confirmTextSelection();
+          }
+        }}
+        tabIndex={0}
       >
         <p className="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap leading-relaxed">
           {transcript}

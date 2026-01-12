@@ -196,6 +196,14 @@ export function withMicroInteractions<P extends object>(
         onMouseEnter={() => handleInteraction('hover')}
         onMouseDown={() => handleInteraction('click')}
         onClick={() => handleInteraction(defaultType)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            handleInteraction(defaultType);
+          }
+        }}
+        tabIndex={0}
+        role="button"
       >
         <Component {...props} />
       </div>

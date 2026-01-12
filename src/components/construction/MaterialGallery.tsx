@@ -256,10 +256,10 @@ function GalleryCard({ material, amount, isSelected, compact, onClick }: Gallery
         {/* Valores */}
         <div className="flex justify-between text-xs">
           <span className="text-indigo-400">
-            <span className="text-gray-500">XP:</span> {material.xpCost}
+            <span className="text-gray-500">XP:</span>{material.xpCost}
           </span>
           <span className="text-yellow-400">
-            <span className="text-gray-500">Coins:</span> {material.coinCost}
+            <span className="text-gray-500">Coins:</span>{material.coinCost}
           </span>
         </div>
       </div>

@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import type { ColumnDefinition } from '@/schemas/content';
+import type { JanusComposerColumn } from '@/schemas/content';
 import {
   getAdjacentColumnFocus,
   getAdjacentOptionFocus,
@@ -15,8 +15,13 @@ import {
 // ============================================
 
 export interface UseJanusKeyboardNavigationParams {
-  columns: ColumnDefinition[];
-  selections: Record<string, unknown>;
+  columns: JanusComposerColumn[];
+  selections: Record<string, {
+    columnId: string;
+    optionId: string;
+    value: string;
+    translation?: string;
+  }>;
   phase: string;
   generatedPhrase: string | null;
   onColumnClear?: (columnId: string) => void;

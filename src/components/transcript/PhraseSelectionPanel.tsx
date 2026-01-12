@@ -138,7 +138,7 @@ export function PhraseSelectionPanel({
             source: {
               ...source,
               context: `Ejemplo: "${examplePhrase}"`,
-              timestamp: originalPhrase.start !== undefined ? originalPhrase.start : source.timestamp,
+              timestamp: originalPhrase.start ?? source.timestamp,
             },
             languageCode: activeLanguage,
             levelCode: activeLevel,

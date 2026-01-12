@@ -80,6 +80,7 @@ export function Tooltip({
       onMouseLeave={hideTooltip}
       onFocus={showTooltip}
       onBlur={hideTooltip}
+      tabIndex={0}
     >
       {children}
       <AnimatePresence>

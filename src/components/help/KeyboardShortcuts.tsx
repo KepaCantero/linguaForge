@@ -97,14 +97,14 @@ export function KeyboardShortcutsModal({ isOpen, onClose }: KeyboardShortcutsMod
       {isOpen && (
         <>
           {/* Overlay */}
-          <motion.div
+          <motion.button
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: prefersReduced ? 0 : 0.2 }}
-            className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm"
+            className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm cursor-pointer border-0 p-0"
             onClick={onClose}
-            aria-hidden="true"
+            aria-label="Cerrar atajos de teclado"
           />
 
           {/* Modal */}

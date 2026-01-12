@@ -62,6 +62,9 @@ export function RankBadgeWithTooltip({ rank, tooltip = true, ...props }: RankBad
       className="relative"
       onMouseEnter={() => tooltip && setShowTooltip(true)}
       onMouseLeave={() => tooltip && setShowTooltip(false)}
+      onFocus={() => tooltip && setShowTooltip(true)}
+      onBlur={() => tooltip && setShowTooltip(false)}
+      tabIndex={0}
     >
       <RankBadge rank={rank} {...props} />
       <AnimatePresence>

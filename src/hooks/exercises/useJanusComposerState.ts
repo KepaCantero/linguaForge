@@ -31,6 +31,7 @@ export interface JanusComposerState {
   generatedPhrase: string | null;
   generatedTranslation: string | null;
   allRequiredSelected: boolean;
+  orderedColumns: JanusComposer['columns'];
 }
 
 export interface JanusComposerActions {
@@ -50,7 +51,7 @@ type Phase = 'composing' | 'preview' | 'practice' | 'dialogue' | 'complete';
 // CONSTANTS
 // ============================================================
 
-const COLUMN_ORDER = ['subject', 'verb', 'complement', 'time'] as const;
+const COLUMN_ORDER = ['subject', 'verb', 'complement', 'time', 'other'] as const;
 const REQUIRED_TYPES = ['subject', 'verb'] as const;
 
 // ============================================================
@@ -125,7 +126,7 @@ export function useJanusComposerState(exercise: JanusComposer): JanusComposerSta
 
   const allRequiredSelected = useMemo(() => {
     return orderedColumns.every(col =>
-      !REQUIRED_TYPES.includes(col.type) || selections[col.id]
+      !(col.type === 'subject' || col.type === 'verb') || selections[col.id]
     );
   }, [orderedColumns, selections]);
 

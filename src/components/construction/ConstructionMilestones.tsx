@@ -559,7 +559,7 @@ export function ConstructionMilestones({
       {activeEvents.length > 0 && (
         <div className="bg-gradient-to-r from-pink-50 to-purple-50 dark:from-pink-900/20 dark:to-purple-900/20 rounded-xl p-4 border border-pink-200 dark:border-pink-800">
           <h3 className="font-bold text-pink-700 dark:text-pink-400 flex items-center gap-2 mb-2">
-            <span>🎪</span> Eventos Activos
+            <span>🎪</span>Eventos Activos
           </h3>
           <div className="space-y-2">
             {activeEvents.map((event) => (
@@ -610,7 +610,7 @@ export function ConstructionMilestones({
       {(activeCategory === 'all' || activeCategory === 'theme') && (
         <div>
           <h3 className="font-bold text-lg text-gray-800 dark:text-gray-200 mb-3 flex items-center gap-2">
-            <span>🎨</span> Temas Especiales
+            <span>🎨</span>Temas Especiales
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {themesWithProgress.map(({ theme, isCompleted, progress }) => (

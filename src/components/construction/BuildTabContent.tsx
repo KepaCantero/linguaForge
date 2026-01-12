@@ -72,7 +72,7 @@ export function BuildTabContent({
       {activeEvents.length > 0 && (
         <div className="bg-gradient-to-r from-purple-900/30 to-pink-900/30 rounded-2xl p-4 border border-purple-500/30">
           <h3 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
-            <span>🎉</span> Eventos Activos
+            <span>🎉</span>Eventos Activos
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {activeEvents.map(event => (

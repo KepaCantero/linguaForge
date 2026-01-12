@@ -1,8 +1,8 @@
-import { motion } from 'framer-motion';
+import { motion, type MotionValue } from 'framer-motion';
 
 interface SwipeIndicatorsProps {
-  leftIndicatorOpacity: number;
-  rightIndicatorOpacity: number;
+  leftIndicatorOpacity: MotionValue<number> | number;
+  rightIndicatorOpacity: MotionValue<number> | number;
 }
 
 export function SwipeIndicators({ leftIndicatorOpacity, rightIndicatorOpacity }: SwipeIndicatorsProps) {

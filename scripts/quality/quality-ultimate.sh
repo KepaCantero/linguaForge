@@ -497,12 +497,16 @@ fi
 # 8.3 Escaneo avanzado de secretos con gitleaks
 print_section "Escaneando secretos con gitleaks..."
 mkdir -p .quality-temp
-if npx gitleaks detect --source . --no-git --redact > .quality-temp/gitleaks.log 2>&1; then
-    print_success "Sin secretos detectados por gitleaks"
+if command -v gitleaks &> /dev/null || npx gitleaks --version &> /dev/null 2>&1; then
+    if npx gitleaks detect --source . --no-git --redact > .quality-temp/gitleaks.log 2>&1; then
+        print_success "Sin secretos detectados por gitleaks"
+    else
+        print_error "Gitleaks detectó posibles secretos:"
+        cat .quality-temp/gitleaks.log | head -20
+        count_issue
+    fi
 else
-    print_error "Gitleaks detectó posibles secretos:"
-    cat .quality-temp/gitleaks.log | head -20
-    count_issue
+    print_warning "Gitleaks no está instalado, omitiendo escaneo de secretos"
 fi
 
 # 9.3 Verificar archivos sin tests
