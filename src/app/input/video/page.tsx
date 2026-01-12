@@ -204,10 +204,11 @@ function TranscriptSection({
 
       {showManualTranscript && !transcript && (
         <div className="mt-4 p-4 rounded-aaa-xl bg-glass-surface backdrop-blur-aaa border border-white/20">
-          <label className="block text-sm font-medium text-white/90 mb-2">
+          <label htmlFor="manual-transcript" className="block text-sm font-medium text-white/90 mb-2">
             Transcripción manual
           </label>
           <textarea
+            id="manual-transcript"
             value={transcriptText}
             onChange={(e) => onTranscriptChange(e.target.value)}
             placeholder="Pega aquí la transcripción del video..."

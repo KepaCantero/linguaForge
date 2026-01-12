@@ -324,7 +324,7 @@ function TransitionScreen({ score }: TransitionScreenProps) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
-        {[...Array(20)].map((_, i) => (
+        {[...new Array(20)].map((_, i) => (
           <motion.div
             key={i}
             className="absolute w-2 h-2 bg-indigo-400 rounded-full"

@@ -60,13 +60,14 @@ export function AudioInputSection({
           </motion.div>
 
           <div className="flex items-center gap-3 px-4">
-            <label className="text-sm text-white/70 whitespace-nowrap">
+            <label htmlFor="audio-duration" className="text-sm text-white/70 whitespace-nowrap">
               Duración (seg):
             </label>
             <input
+              id="audio-duration"
               type="number"
               value={duration}
-              onChange={(e) => setDuration(parseInt(e.target.value) || 0)}
+              onChange={(e) => setDuration(Number.parseInt(e.target.value, 10) || 0)}
               min="0"
               className="flex-1 px-4 py-3 rounded-aaa-xl bg-glass-surface backdrop-blur-aaa border border-white/20 text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
               placeholder="300"
@@ -166,7 +167,7 @@ export function AudioInputSection({
           </div>
 
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-white/90">
+            <label htmlFor="audio-transcript" className="block text-sm font-medium text-white/90">
               Transcripción
             </label>
             {transcriptText ? (
@@ -181,6 +182,7 @@ export function AudioInputSection({
               />
             ) : (
               <textarea
+                id="audio-transcript"
                 value={transcriptText}
                 onChange={(e) => setTranscriptText(e.target.value)}
                 placeholder="Pega aquí la transcripción del audio..."

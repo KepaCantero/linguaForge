@@ -69,10 +69,10 @@ export function LoadedTextView({
 
       {/* Word Selector or Text Display */}
       <div className="space-y-2">
-        <label className="block text-sm font-medium text-white/90">
+        <h3 id="content-heading" className="block text-sm font-medium text-white/90">
           Contenido
-        </label>
-        <div className="mb-4">
+        </h3>
+        <div role="region" aria-labelledby="content-heading" className="mb-4">
           <WordSelector
             transcript={textContent}
             source={{

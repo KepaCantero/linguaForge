@@ -475,7 +475,7 @@ class SoundEffectsManager {
 
       const savedVolume = localStorage.getItem(VOLUME_KEY);
       if (savedVolume !== null) {
-        this.volume = parseFloat(savedVolume);
+        this.volume = Number.parseFloat(savedVolume);
       }
     }
   }

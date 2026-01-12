@@ -53,11 +53,12 @@ export function YouTubeContentStep({
 
       <div className="space-y-4">
         <div className="relative overflow-hidden rounded-xl bg-glass-surface backdrop-blur-md border border-white/20 p-4">
-          <label className="block text-sm font-medium text-white mb-2">
+          <label htmlFor="youtube-url" className="block text-sm font-medium text-white mb-2">
             URL del video de YouTube
           </label>
           <div className="flex gap-2">
             <input
+              id="youtube-url"
               type="text"
               value={youTubeImport.youtubeUrl}
               onChange={(e) => youTubeImport.setYoutubeUrl(e.target.value)}
@@ -111,10 +112,11 @@ export function YouTubeContentStep({
         )}
 
         <div className="relative overflow-hidden rounded-xl bg-glass-surface backdrop-blur-md border border-white/20 p-4">
-          <label className="block text-sm font-medium text-white mb-2">
+          <label htmlFor="transcript-content" className="block text-sm font-medium text-white mb-2">
             Transcripción (puedes editarla)
           </label>
           <textarea
+            id="transcript-content"
             value={youTubeImport.content}
             onChange={(e) => { setContent(e.target.value); youTubeImport.setContent(e.target.value); }}
             placeholder={youTubeImport.transcript ? 'La transcripción aparecerá aquí...' : 'Pega la URL del video y haz clic en "Obtener" o pega la transcripción manualmente...'}

@@ -114,20 +114,19 @@ export async function GET(request: NextRequest) {
  * Valida y extrae el token de API
  */
 function getApiToken(): string {
-  const apiToken = process.env.YOUTUBE_TRANSCRIPT_API_TOKEN || '695811745bddf83b19b86ef5';
+  const apiToken = process.env.YOUTUBE_TRANSCRIPT_API_TOKEN;
+
+  if (!apiToken) {
+    console.error('YOUTUBE_TRANSCRIPT_API_TOKEN no está configurado');
+    throw new Error('API token no configurado');
+  }
 
   console.log('[YouTube Transcript API] Environment check:', {
     hasToken: !!apiToken,
     tokenLength: apiToken?.length || 0,
     tokenPreview: apiToken ? `${apiToken.substring(0, 10)}...` : 'none',
     nodeEnv: process.env.NODE_ENV,
-    usingHardcoded: !process.env.YOUTUBE_TRANSCRIPT_API_TOKEN,
   });
-
-  if (!apiToken) {
-    console.error('YOUTUBE_TRANSCRIPT_API_TOKEN no está configurado');
-    throw new Error('API token no configurado');
-  }
 
   return apiToken;
 }
@@ -150,7 +149,7 @@ function validateResponse(response: Response): void {
   // Rate limiting
   if (response.status === 429) {
     const retryAfter = response.headers.get('Retry-After');
-    const waitSeconds = retryAfter ? parseInt(retryAfter, 10) : 10;
+    const waitSeconds = retryAfter ? Number.parseInt(retryAfter, 10) : 10;
     throw new Error(`Rate limit exceeded. Wait ${waitSeconds} seconds`);
   }
 
@@ -292,8 +291,12 @@ async function fetchYouTubeTranscript(videoId: string): Promise<TranscriptItem[]
     throw new Error('No transcript data returned from API');
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const videoData = (data as any[])[0] as Record<string, unknown>;
+  const firstItem = data[0];
+  if (!firstItem || typeof firstItem !== 'object') {
+    console.error('[YouTube Transcript API] First item is not an object');
+    throw new Error('Invalid video data format');
+  }
+  const videoData = firstItem as Record<string, unknown>;
   console.log('[YouTube Transcript API] Video data keys:', Object.keys(videoData || {}));
 
   // 7. Extraer array de transcripciones (soporta múltiples formatos)

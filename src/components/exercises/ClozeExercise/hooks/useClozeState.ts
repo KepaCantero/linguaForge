@@ -120,7 +120,7 @@ export function useClozeState({
     if (state.showResult) return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      const keyNum = parseInt(e.key);
+      const keyNum = Number.parseInt(e.key, 10);
       if (
         keyNum >= 1 &&
         keyNum <= KEYBOARD_OPTIONS &&

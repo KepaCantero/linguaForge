@@ -197,7 +197,7 @@ export function SpeechRecorder({
       {/* Placeholder para forma de onda */}
       {showWaveform && isRecording && (
         <div className="flex items-center gap-1 h-8">
-          {[...Array(12)].map((_, i) => (
+          {[...new Array(12)].map((_, i) => (
             <motion.div
               key={i}
               className="w-1 bg-indigo-500 rounded-full"

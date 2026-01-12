@@ -73,10 +73,11 @@ export function ImportNodeConfigurator({
           transition={{ duration: 4, repeat: Infinity }}
         />
         <div className="relative">
-          <label className="block text-sm font-medium text-white mb-2">
+          <label htmlFor="topic-title" className="block text-sm font-medium text-white mb-2">
             Nombre del tópico
           </label>
           <input
+            id="topic-title"
             type="text"
             value={topicTitle}
             onChange={(e) => onTopicTitleChange(e.target.value)}
@@ -94,14 +95,15 @@ export function ImportNodeConfigurator({
           transition={{ duration: 4, repeat: Infinity, delay: 1 }}
         />
         <div className="relative">
-          <label className="block text-sm font-medium text-white mb-3">
-            Icono
-          </label>
-          <div className="flex flex-wrap gap-2">
-            {NODE_ICONS.map((icon) => (
-              <motion.button
-                key={icon}
-                onClick={() => onIconSelect(icon)}
+          <fieldset className="border-0 p-0 m-0">
+            <legend className="block text-sm font-medium text-white mb-3">
+              Icono
+            </legend>
+            <div className="flex flex-wrap gap-2" role="group" aria-label="Selección de icono">
+              {NODE_ICONS.map((icon) => (
+                <motion.button
+                  key={icon}
+                  onClick={() => onIconSelect(icon)}
                 whileHover={{ scale: 1.1, rotate: 5 }}
                 whileTap={{ scale: 0.9 }}
                 className={`w-12 h-12 rounded-xl text-2xl flex items-center justify-center transition-all border-2 ${
@@ -113,7 +115,8 @@ export function ImportNodeConfigurator({
                 {icon}
               </motion.button>
             ))}
-          </div>
+            </div>
+          </fieldset>
         </div>
       </div>
 

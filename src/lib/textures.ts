@@ -211,7 +211,7 @@ export function getTextureHoverStyles(texture: TextureProperties): {
     base: getTextureStyles(texture),
     hover: {
       boxShadow: texture.shadow.replace(/\d+px/g, (match) => {
-        const num = parseInt(match);
+        const num = Number.parseInt(match, 10);
         return `${Math.round(num * 1.3)}px`;
       }),
       transform: 'translateY(-2px)',

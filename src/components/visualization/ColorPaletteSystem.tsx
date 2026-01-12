@@ -379,7 +379,7 @@ export function ContrastChecker({
       const rgb = hex
         .replace('#', '')
         .match(/.{2}/g)
-        ?.map((x) => parseInt(x, 16)) || [0, 0, 0];
+        ?.map((x) => Number.parseInt(x, 16)) || [0, 0, 0];
 
       const [r, g, b] = rgb.map((v) => {
         v /= 255;
@@ -441,7 +441,7 @@ export function PaletteGenerator({
       const rgb = hex
         .replace('#', '')
         .match(/.{2}/g)
-        ?.map((x) => parseInt(x, 16)) || [0, 0, 0];
+        ?.map((x) => Number.parseInt(x, 16)) || [0, 0, 0];
 
       const [r, g, b] = rgb.map((v) => v / 255);
 

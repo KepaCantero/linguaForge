@@ -157,8 +157,8 @@ export function generateDialogueIntonationExercises(phrases: string[]): Dialogue
       userTurns: [1], // El segundo turno es del usuario
       rhythmPatterns: dialogue.map((_turn, turnIndex) => ({
         turnIndex,
-        segments: Array(10).fill(0).map(() => Math.random() * 100 + 50),
-        pauses: Array(9).fill(0).map(() => Math.random() * 50 + 20),
+        segments: new Array(10).fill(0).map(() => Math.random() * 100 + 50),
+        pauses: new Array(9).fill(0).map(() => Math.random() * 50 + 20),
       })),
     });
   }

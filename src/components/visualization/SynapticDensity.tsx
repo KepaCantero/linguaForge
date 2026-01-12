@@ -438,7 +438,7 @@ export function SynapticGrowth({
 
       {/* Partículas de crecimiento */}
       <div className="absolute inset-0 overflow-hidden">
-        {[...Array(5)].map((_, i) => (
+        {[...new Array(5)].map((_, i) => (
           <motion.div
             key={i}
             className="absolute top-0 bottom-0 w-1 bg-white/30"
