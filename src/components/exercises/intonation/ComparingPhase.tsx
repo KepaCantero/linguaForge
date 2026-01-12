@@ -34,7 +34,6 @@ export function ComparingPhase({
 
       <RhythmFeedback
         similarity={result.rhythmAnalysis.overallSimilarity}
-        feedback={result.feedback}
       />
 
       <div className="flex gap-3">
@@ -66,6 +65,12 @@ function ResultHeader({ result }: ResultHeaderProps) {
     return '💡';
   };
 
+  const getTitle = () => {
+    if (result.rhythmAnalysis.overallSimilarity >= 0.8) return '¡Excelente entonación!';
+    if (result.rhythmAnalysis.overallSimilarity >= 0.5) return 'Buen intento';
+    return 'Sigue practicando';
+  };
+
   return (
     <div className={`rounded-aaa-xl p-6 text-center ${
       result.rhythmAnalysis.overallSimilarity >= 0.7
@@ -78,7 +83,7 @@ function ResultHeader({ result }: ResultHeaderProps) {
           ? 'text-emerald-800 dark:text-emerald-200'
           : 'text-amber-800 dark:text-amber-200'
       }`}>
-        {result.feedback.title}
+        {getTitle()}
       </p>
       {result.xpEarned > 0 && (
         <p className="text-sm text-amber-600 dark:text-amber-400 mt-1">

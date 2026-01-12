@@ -166,10 +166,10 @@ function ExampleSection({ getExpectedResponses }: ExampleSectionProps) {
         🔊 Ejemplo de respuesta:
       </p>
       <p className="text-sm text-amber-700 dark:text-amber-200">
-        "{getExpectedResponses()[0]}"
+        &quot;{getExpectedResponses()[0]}&quot;
       </p>
       <p className="text-xs text-amber-600 dark:text-amber-400 mt-2">
-        O si no entendiste: "Pardon, pouvez-vous répéter ?"
+        O si no entendiste: &quot;Pardon, pouvez-vous répéter ?&quot;
       </p>
     </motion.div>
   );
