@@ -145,7 +145,7 @@ function HintSection({ getExpectedResponses }: HintSectionProps) {
       </p>
       <ul className="text-sm text-blue-700 dark:text-blue-200 space-y-1">
         {getExpectedResponses().slice(0, 2).map((resp, i) => (
-          <li key={i}>• {resp}</li>
+          <li key={`hint-response-${i}`}>• {resp}</li>
         ))}
       </ul>
     </motion.div>

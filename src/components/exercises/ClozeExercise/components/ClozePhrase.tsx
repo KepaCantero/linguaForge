@@ -1,5 +1,6 @@
 'use client';
 
+import { Fragment } from 'react';
 import { Phrase, ClozeOption } from '@/types';
 import { ClozeInput } from './ClozeInput';
 
@@ -46,7 +47,7 @@ export function ClozePhrase({
     <div className={getContainerClassName()}>
       <p className={getTextClassName()}>
         {parts.map((part, index, array) => (
-          <span key={index}>
+          <Fragment key={`part-${index}-${part.slice(0, 10)}`}>
             {part}
             {index < array.length - 1 && (
               <ClozeInput
@@ -56,7 +57,7 @@ export function ClozePhrase({
                 correctOption={correctOption}
               />
             )}
-          </span>
+          </Fragment>
         ))}
       </p>
       {!isCurrentPhrase && showTranslation && (

@@ -72,11 +72,6 @@ export function grantMaterialsForXP(xpGained: number): Record<string, number> {
     }
   }
 
-  // Log para debugging
-  if (Object.keys(granted).length > 0) {
-    console.log(`[Construction Rewards] Granted materials for ${xpGained} XP:`, granted);
-  }
-
   // Disparar evento para feedback visual
   if (typeof window !== 'undefined' && Object.keys(granted).length > 0) {
     globalThis.dispatchEvent(new CustomEvent('materials-gained', { detail: granted }));
@@ -138,8 +133,6 @@ export function grantMaterialsForLevelUp(newLevel: number): Record<string, numbe
       granted[material.id] = (granted[material.id] || 0) + amount;
     }
   }
-
-  console.log(`[Construction Rewards] Level up bonus for level ${newLevel}:`, granted);
 
   // Disparar evento para feedback visual
   if (typeof window !== 'undefined' && Object.keys(granted).length > 0) {

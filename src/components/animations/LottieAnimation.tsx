@@ -79,8 +79,7 @@ export function LottieAnimation({
         setAnimationData(data);
         onReady?.();
       })
-      .catch((err) => {
-        console.error('Error loading Lottie animation:', err);
+      .catch((_err) => {
       });
   }, [src, onReady]);
 

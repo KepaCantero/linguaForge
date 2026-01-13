@@ -14,6 +14,24 @@ interface MiniTaskExerciseProps {
   onComplete: (success: boolean) => void;
 }
 
+interface ExerciseResult {
+  success: boolean;
+  matchedKeywords: string[];
+}
+
+// Calcular resultado del ejercicio
+function calculateResult(
+  checkKeywords: string[],
+  totalKeywords: number
+): ExerciseResult {
+  const keywordPercentage = (checkKeywords.length / totalKeywords) * 100;
+  const success = keywordPercentage >= MINITASK_CONFIG.minKeywordsPercent;
+  return { success, matchedKeywords: checkKeywords };
+}
+
+// Retraso para completar
+const COMPLETE_DELAY = 2500;
+
 export function MiniTaskExercise({
   miniTask,
   languageCode,
@@ -24,7 +42,7 @@ export function MiniTaskExercise({
   const { addWordsSpoken } = useInputStore();
   const [userInput, setUserInput] = useState('');
   const [submitted, setSubmitted] = useState(false);
-  const [result, setResult] = useState<{ success: boolean; matchedKeywords: string[] } | null>(null);
+  const [result, setResult] = useState<ExerciseResult | null>(null);
   const [showExample, setShowExample] = useState(false);
 
   // Verificar keywords encontradas
@@ -42,23 +60,8 @@ export function MiniTaskExercise({
     return userInput.trim().split(/\s+/).filter(w => w.length > 0).length;
   }, [userInput]);
 
-  const handleSubmit = useCallback(() => {
-    if (wordCount < miniTask.minWords) return;
-
-    const matchedKeywords = checkKeywords;
-    const keywordPercentage = (matchedKeywords.length / miniTask.keywords.length) * 100;
-    const success = keywordPercentage >= MINITASK_CONFIG.minKeywordsPercent;
-
-    setResult({ success, matchedKeywords });
-    setSubmitted(true);
-
-    if (!success) {
-      setTimeout(() => {
-        onComplete(false);
-      }, 2500);
-      return;
-    }
-
+  // Manejar respuesta exitosa
+  const handleSuccess = useCallback(() => {
     addXP(XP_RULES.miniTaskComplete);
     addCoins(20);
     addWordsSpoken(
@@ -66,11 +69,27 @@ export function MiniTaskExercise({
       levelCode as 'A1' | 'A2',
       wordCount
     );
+    setTimeout(() => onComplete(true), COMPLETE_DELAY);
+  }, [addXP, addCoins, addWordsSpoken, languageCode, levelCode, wordCount, onComplete]);
 
-    setTimeout(() => {
-      onComplete(true);
-    }, 2500);
-  }, [wordCount, miniTask, checkKeywords, addXP, addCoins, addWordsSpoken, languageCode, levelCode, onComplete]);
+  // Manejar respuesta fallida
+  const handleFailure = useCallback(() => {
+    setTimeout(() => onComplete(false), COMPLETE_DELAY);
+  }, [onComplete]);
+
+  const handleSubmit = useCallback(() => {
+    if (wordCount < miniTask.minWords) return;
+
+    const exerciseResult = calculateResult(checkKeywords, miniTask.keywords.length);
+    setResult(exerciseResult);
+    setSubmitted(true);
+
+    if (exerciseResult.success) {
+      handleSuccess();
+    } else {
+      handleFailure();
+    }
+  }, [wordCount, miniTask, checkKeywords, handleSuccess, handleFailure]);
 
   return (
     <div className="space-y-6">

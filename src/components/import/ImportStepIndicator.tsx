@@ -11,6 +11,31 @@ interface ImportStepIndicatorProps {
 const STEPS: ImportStep[] = ['source', 'content', 'configure'];
 
 /**
+ * Determina las clases CSS para un paso del indicador
+ */
+function getStepClasses(
+  step: ImportStep,
+  currentStep: ImportStep,
+  stepIndex: number,
+  currentStepIndex: number
+): string {
+  const isActive = currentStep === step || currentStep === 'success';
+  const isCompleted = stepIndex < currentStepIndex;
+
+  const baseClasses = 'w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold border-2';
+
+  if (isActive) {
+    return `${baseClasses} bg-gradient-to-r from-lf-primary to-lf-secondary border-lf-primary text-white shadow-glow-accent`;
+  }
+
+  if (isCompleted) {
+    return `${baseClasses} bg-gradient-to-r from-green-500 to-emerald-500 border-green-500 text-white`;
+  }
+
+  return `${baseClasses} bg-lf-dark/30 border-white/20 text-lf-muted`;
+}
+
+/**
  * Import Step Indicator Component
  * Displays the progress of the multi-step import wizard
  * Reduces complexity of main import page component
@@ -33,13 +58,7 @@ export function ImportStepIndicator({ currentStep }: ImportStepIndicatorProps) {
         {STEPS.map((step, i) => (
           <div key={step} className="flex items-center flex-1">
             <motion.div
-              className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold border-2 ${
-                currentStep === step || currentStep === 'success'
-                  ? 'bg-gradient-to-r from-lf-primary to-lf-secondary border-lf-primary text-white shadow-glow-accent'
-                  : i < currentStepIndex
-                  ? 'bg-gradient-to-r from-green-500 to-emerald-500 border-green-500 text-white'
-                  : 'bg-lf-dark/30 border-white/20 text-lf-muted'
-              }`}
+              className={getStepClasses(step, currentStep, i, currentStepIndex)}
               whileHover={{ scale: 1.05 }}
               transition={{ type: 'spring', stiffness: 300 }}
             >

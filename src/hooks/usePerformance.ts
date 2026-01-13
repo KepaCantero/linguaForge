@@ -221,12 +221,11 @@ export function useStableCallback<T extends (...args: unknown[]) => unknown>(cal
 /**
  * Hook para contar renders (solo desarrollo)
  */
-export function useRenderCount(componentName: string): number {
+export function useRenderCount(_componentName: string): number {
   const countRef = useRef(0);
   countRef.current++;
 
   if (process.env.NODE_ENV === 'development') {
-    console.log(`[Render] ${componentName}: ${countRef.current}`);
   }
 
   return countRef.current;

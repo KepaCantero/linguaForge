@@ -59,8 +59,7 @@ function saveCache(cache: TranslationCache): void {
 
     localStorage.setItem(CACHE_KEY, JSON.stringify(cache));
   } catch {
-    // localStorage lleno o no disponible
-    console.warn('Could not save translation cache');
+    // localStorage lleno o no disponible - cache save failed silently
   }
 }
 
@@ -140,8 +139,8 @@ export async function translateToSpanish(text: string): Promise<string> {
     cacheTranslation(text, translation);
 
     return translation;
-  } catch (error) {
-    console.error('Error translating text:', error);
+  } catch {
+    // TODO: Add proper logging service for translation errors
     // Fallback: retornar el texto original si falla la traducción
     return text;
   }

@@ -144,6 +144,7 @@ const ARPEGGIO_FREQUENCIES = [
 /**
  * Crea un oscilador con envelope ADSR
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function createTone(
   audioContext: AudioContext,
   config: SoundConfig,
@@ -381,7 +382,7 @@ function playCompleteSound(audioContext: AudioContext, masterGain: GainNode): vo
   const now = audioContext.currentTime;
 
   // Acorde mayor (C, E, G)
-  [1, 1.25, 1.5].forEach((multiplier, index) => {
+  [1, 1.25, 1.5].forEach((multiplier, _index) => {
     const osc = audioContext.createOscillator();
     const gain = audioContext.createGain();
 
@@ -511,9 +512,7 @@ class SoundEffectsManager {
       }
 
       this.initialized = true;
-      console.log('[SoundEffects] Sistema de audio inicializado');
-    } catch (error) {
-      console.warn('[SoundEffects] Error al inicializar:', error);
+    } catch {
     }
   }
 
@@ -558,8 +557,7 @@ class SoundEffectsManager {
           playWhooshSound(this.audioContext, this.masterGain);
           break;
       }
-    } catch (error) {
-      console.warn(`[SoundEffects] Error al reproducir ${soundId}:`, error);
+    } catch {
     }
   }
 

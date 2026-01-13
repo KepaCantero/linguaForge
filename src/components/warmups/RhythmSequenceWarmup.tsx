@@ -224,7 +224,7 @@ export function RhythmSequenceWarmup({
           <div className="flex gap-3">
             {patternSteps.map((step, i) => (
               <motion.div
-                key={i}
+                key={`rhythm-step-${i}-${step}`}
                 className={`w-16 h-16 rounded-xl flex items-center justify-center text-2xl ${
                   i === currentStep && isPlaying
                     ? `${getActionColor(step.action)} scale-110 ring-4 ring-white/50`

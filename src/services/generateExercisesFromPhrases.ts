@@ -14,13 +14,18 @@ import type {
 // Generar ejercicios Cloze a partir de frases
 export function generateClozeExercises(phrases: string[]): Phrase[] {
   if (!phrases || phrases.length === 0) return [];
-  
+
+  const STOP_WORDS = new Set([
+    'le', 'la', 'les', 'un', 'une', 'des', 'de', 'du', 'à', 'au', 'aux', 'et', 'ou', 'mais',
+    'je', 'tu', 'il', 'elle', 'nous', 'vous', 'ils', 'elles', 'est', 'sont', 'être', 'avoir',
+    'avec', 'sans', 'pour', 'par',
+  ]);
+
   return phrases.map((phraseText, index) => {
     const words = phraseText.split(/\s+/);
-    const stopWords = ['le', 'la', 'les', 'un', 'une', 'des', 'de', 'du', 'à', 'au', 'aux', 'et', 'ou', 'mais', 'je', 'tu', 'il', 'elle', 'nous', 'vous', 'ils', 'elles', 'est', 'sont', 'être', 'avoir', 'avec', 'sans', 'pour', 'par'];
-    
+
     const keywords = words.filter(
-      (word) => word.length >= 4 && !stopWords.includes(word.toLowerCase().replace(/[.,!?;:]/g, ''))
+      (word) => word.length >= 4 && !STOP_WORDS.has(word.toLowerCase().replace(/[.,!?;:]/g, ''))
     );
 
     const targetWord = keywords.length > 0 
@@ -229,7 +234,7 @@ export class JanusComposerGenerator {
     const extractedSubjects = new Set<string>();
 
     for (const phrase of phrases) {
-      const words = phrase.split(/\s+/).map(w => w.replace(/[.,!?;:()\[\]{}'"]/g, ''));
+      const words = phrase.split(/\s+/).map(w => w.replace(/[.,!?;:()[\]{}'"]/g, ''));
       const firstWord = words[0];
 
       if (this.commonSubjects.some(s => s.text.toLowerCase() === firstWord.toLowerCase())) {
@@ -250,7 +255,7 @@ export class JanusComposerGenerator {
     const extractedVerbs = new Set<string>();
 
     for (const phrase of phrases) {
-      const words = phrase.split(/\s+/).map(w => w.replace(/[.,!?;:()\[\]{}'"]/g, ''));
+      const words = phrase.split(/\s+/).map(w => w.replace(/[.,!?;:()[\]{}'"]/g, ''));
 
       // Buscar verbos después del sujeto (posiciones 1-4)
       for (let i = 1; i < Math.min(words.length, 5); i++) {
@@ -281,7 +286,7 @@ export class JanusComposerGenerator {
     const extractedSubjects = new Set(this.extractSubjects(phrases));
 
     for (const phrase of phrases) {
-      const words = phrase.split(/\s+/).map(w => w.replace(/[.,!?;:()\[\]{}'"]/g, ''));
+      const words = phrase.split(/\s+/).map(w => w.replace(/[.,!?;:()[\]{}'"]/g, ''));
 
       // Extraer sustantivos y adjetivos (después de posición 2)
       for (let i = 2; i < words.length; i++) {
@@ -388,7 +393,7 @@ export class JanusComposerGenerator {
    * @returns true si la palabra parece ser un verbo
    */
   private isVerb(word: string): boolean {
-    const cleanWord = word.replace(/[.,!?;:()\[\]{}'"]/g, '');
+    const cleanWord = word.replace(/[.,!?;:()[\]{}'"]/g, '');
 
     // Verificar si es verbo común
     if (this.commonVerbs.some(v => cleanWord.startsWith(v) || cleanWord.includes(v))) {

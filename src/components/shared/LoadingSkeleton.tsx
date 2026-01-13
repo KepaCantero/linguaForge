@@ -44,7 +44,7 @@ export function TextSkeleton({ lines = 3, className = '' }: { lines?: number; cl
     <div className={`space-y-2 ${className}`}>
       {Array.from({ length: lines }).map((_, i) => (
         <Skeleton
-          key={i}
+          key={`text-line-${i}`}
           className={`h-4 ${i === lines - 1 ? 'w-2/3' : 'w-full'}`}
         />
       ))}
@@ -77,7 +77,7 @@ export function ListSkeleton({ items = 5, className = '' }: { items?: number; cl
   return (
     <div className={`space-y-3 ${className}`}>
       {Array.from({ length: items }).map((_, i) => (
-        <div key={i} className="flex items-center gap-3 p-3 bg-white dark:bg-gray-800 rounded-lg">
+        <div key={`list-item-${i}`} className="flex items-center gap-3 p-3 bg-white dark:bg-gray-800 rounded-lg">
           <Skeleton className="w-10 h-10 rounded-full" />
           <div className="flex-1">
             <Skeleton className="h-4 w-3/4 mb-1" />
@@ -95,7 +95,7 @@ export function StatsSkeleton({ stats = 4, className = '' }: { stats?: number; c
   return (
     <div className={`grid grid-cols-2 md:grid-cols-${stats} gap-4 ${className}`}>
       {Array.from({ length: stats }).map((_, i) => (
-        <div key={i} className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3">
+        <div key={`stat-item-${i}`} className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3">
           <Skeleton className="h-3 w-1/2 mb-2" />
           <Skeleton className="h-6 w-3/4" />
         </div>
@@ -129,7 +129,7 @@ export function DecksSkeleton() {
         <Skeleton className="h-10 w-32 rounded-lg" />
       </div>
       {Array.from({ length: 3 }).map((_, i) => (
-        <CardSkeleton key={i} />
+        <CardSkeleton key={`deck-${i}`} />
       ))}
     </div>
   );
@@ -144,7 +144,7 @@ export function MissionsSkeleton() {
         <Skeleton className="h-6 w-24 rounded-full" />
       </div>
       {Array.from({ length: 4 }).map((_, i) => (
-        <div key={i} className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700">
+        <div key={`mission-${i}`} className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700">
           <div className="flex items-center gap-3 mb-3">
             <Skeleton className="w-10 h-10 rounded-lg" />
             <div className="flex-1">
@@ -166,7 +166,7 @@ export function InputSkeleton() {
     <div className="space-y-6">
       <div className="grid grid-cols-3 gap-4">
         {Array.from({ length: 3 }).map((_, i) => (
-          <div key={i} className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 text-center">
+          <div key={`input-option-${i}`} className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 text-center">
             <Skeleton className="w-16 h-16 mx-auto rounded-full mb-3" />
             <Skeleton className="h-5 w-2/3 mx-auto mb-2" />
             <Skeleton className="h-3 w-3/4 mx-auto" />
@@ -188,7 +188,7 @@ export function LearnSkeleton() {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {Array.from({ length: 6 }).map((_, i) => (
-          <div key={i} className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700">
+          <div key={`learn-item-${i}`} className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700">
             <div className="flex items-center gap-3 mb-3">
               <Skeleton className="w-12 h-12 rounded-lg" />
               <div className="flex-1">
@@ -238,7 +238,7 @@ export function ExerciseSkeleton() {
       <div className="grid grid-cols-2 gap-3 mb-6">
         {[1, 2, 3, 4].map((i) => (
           <Skeleton
-            key={i}
+            key={`exercise-option-${i}`}
             className="h-14 rounded-xl bg-lf-soft border border-lf-primary/10"
           />
         ))}
@@ -275,7 +275,7 @@ export function ListeningExerciseSkeleton() {
       <div className="space-y-3">
         {[1, 2, 3, 4].map((i) => (
           <Skeleton
-            key={i}
+            key={`listening-option-${i}`}
             className="h-16 rounded-xl bg-lf-soft border border-lf-primary/10"
           />
         ))}
@@ -406,7 +406,7 @@ export function SessionResultsSkeleton() {
       {/* Stats */}
       <div className="grid grid-cols-3 gap-4 mb-6">
         {[1, 2, 3].map((i) => (
-          <div key={i} className="bg-lf-dark/30 rounded-xl p-4 text-center">
+          <div key={`dashboard-stat-${i}`} className="bg-lf-dark/30 rounded-xl p-4 text-center">
             <Skeleton className="h-8 w-12 mx-auto mb-2 bg-lf-muted/30" />
             <Skeleton className="h-4 w-16 mx-auto bg-lf-muted/20" />
           </div>

@@ -52,10 +52,25 @@ export async function analyzeRhythm(
 
   const channelData = audioBuffer.getChannelData(0);
   const sampleRate = audioBuffer.sampleRate;
+  const pattern = detectRhythmPattern(channelData, sampleRate);
 
-  // Detectar segmentos de habla (ventanas con energía significativa)
-  const windowSize = Math.floor(sampleRate * 0.05); // 50ms
-  const threshold = 0.01; // Umbral de energía
+  // Calcular similitud si hay patrón nativo
+  const overallSimilarity = nativePattern
+    ? calculateRhythmSimilarity(pattern, nativePattern)
+    : 50;
+
+  return { pattern, overallSimilarity };
+}
+
+/**
+ * Detecta patrones de ritmo (segmentos y pausas) en datos de audio
+ */
+function detectRhythmPattern(channelData: Float32Array, sampleRate: number): RhythmPattern {
+  const WINDOW_SIZE_MS = 50;
+  const THRESHOLD = 0.01;
+  const MS_MULTIPLIER = 1000;
+
+  const windowSize = Math.floor(sampleRate * (WINDOW_SIZE_MS / 1000));
   const segments: number[] = [];
   const pauses: number[] = [];
 
@@ -65,43 +80,59 @@ export async function analyzeRhythm(
 
   for (let i = 0; i < channelData.length; i += windowSize) {
     const window = channelData.slice(i, Math.min(i + windowSize, channelData.length));
-    const energy = window.reduce((sum, sample) => sum + Math.abs(sample), 0) / window.length;
+    const energy = calculateWindowEnergy(window);
 
-    if (energy > threshold) {
-      if (inSpeech) {
-        currentSegment += windowSize;
-      } else {
-        if (currentPause > 0) {
-          pauses.push((currentPause / sampleRate) * 1000); // Convertir a ms
-        }
-        inSpeech = true;
-        currentSegment = windowSize;
-      }
+    if (energy > THRESHOLD) {
+      const result = handleSpeechSegment(inSpeech, currentPause, currentSegment, windowSize, sampleRate, pauses);
+      inSpeech = result.inSpeech;
+      currentPause = result.currentPause;
+      currentSegment = result.currentSegment;
     } else {
-      if (inSpeech) {
-        segments.push((currentSegment / sampleRate) * 1000); // Convertir a ms
-        currentPause = windowSize;
-        inSpeech = false;
-      } else {
-        currentPause += windowSize;
+      // Transitioning from speech to silence
+      if (inSpeech && currentSegment > 0) {
+        segments.push((currentSegment / sampleRate) * 1000);
       }
+      inSpeech = false;
+      currentPause = currentPause + windowSize;
+      currentSegment = 0;
     }
   }
 
   // Agregar último segmento si existe
   if (inSpeech && currentSegment > 0) {
-    segments.push((currentSegment / sampleRate) * 1000);
+    segments.push((currentSegment / sampleRate) * MS_MULTIPLIER);
   }
 
-  const pattern: RhythmPattern = { segments, pauses };
+  return { segments, pauses };
+}
 
-  // Calcular similitud si hay patrón nativo
-  let overallSimilarity = 50; // Default si no hay patrón nativo
-  if (nativePattern) {
-    overallSimilarity = calculateRhythmSimilarity(pattern, nativePattern);
+/**
+ * Calcula energía promedio de una ventana de audio
+ */
+function calculateWindowEnergy(window: Float32Array): number {
+  return window.reduce((sum, sample) => sum + Math.abs(sample), 0) / window.length;
+}
+
+/**
+ * Maneja un segmento de habla
+ */
+function handleSpeechSegment(
+  inSpeech: boolean,
+  currentPause: number,
+  currentSegment: number,
+  windowSize: number,
+  sampleRate: number,
+  pauses: number[]
+): { inSpeech: boolean; currentPause: number; currentSegment: number } {
+  if (inSpeech) {
+    return { inSpeech: true, currentPause, currentSegment: currentSegment + windowSize };
   }
 
-  return { pattern, overallSimilarity };
+  if (currentPause > 0) {
+    pauses.push((currentPause / sampleRate) * 1000);
+  }
+
+  return { inSpeech: true, currentPause: 0, currentSegment: windowSize };
 }
 
 /**

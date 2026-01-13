@@ -304,7 +304,7 @@ export function SessionSummary({
             <div className="h-16 flex items-end gap-1">
               {session.loadHistory.slice(-20).map((load, i) => (
                 <motion.div
-                  key={i}
+                  key={`load-history-${i}-${load.toFixed(0)}`}
                   initial={{ height: 0 }}
                   animate={{ height: `${load}%` }}
                   transition={{ delay: i * 0.05 }}
@@ -333,7 +333,7 @@ export function SessionSummary({
             <div className="space-y-2">
               {insights.map((insight, i) => (
                 <motion.div
-                  key={i}
+                  key={`insight-${i}-${insight.type}`}
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.1 * i }}

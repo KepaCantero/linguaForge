@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState, useMemo, useCallback } from 'react';
 import { User, Session, AuthError } from '@supabase/supabase-js';
 import { createClient } from '@/lib/supabase/client';
 
@@ -82,7 +82,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return () => subscription.unsubscribe();
   }, []);
 
-  const signIn = async (email: string, password: string) => {
+  const signIn = useCallback(async (email: string, password: string) => {
     // Check for demo admin credentials
     if (email === ADMIN_CREDENTIALS.email && password === ADMIN_CREDENTIALS.password) {
       const demoUser: DemoUser = {
@@ -106,9 +106,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       password,
     });
     return { error };
-  };
+  }, []);
 
-  const signUp = async (email: string, password: string, fullName?: string) => {
+  const signUp = useCallback(async (email: string, password: string, fullName?: string) => {
     if (!supabase) {
       return { error: { message: 'Supabase is not configured', status: 500 } as AuthError };
     }
@@ -122,9 +122,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       },
     });
     return { error };
-  };
+  }, []);
 
-  const signOut = async () => {
+  const signOut = useCallback(async () => {
     // Clear demo user
     if (isDemoUser) {
       setUser(null);
@@ -135,9 +135,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     if (!supabase) return;
     await supabase.auth.signOut();
-  };
+  }, [isDemoUser]);
 
-  const signInWithGoogle = async () => {
+  const signInWithGoogle = useCallback(async () => {
     if (!supabase) return;
     await supabase.auth.signInWithOAuth({
       provider: 'google',
@@ -145,9 +145,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         redirectTo: `${window.location.origin}/auth/callback`,
       },
     });
-  };
+  }, []);
 
-  const resetPassword = async (email: string) => {
+  const resetPassword = useCallback(async (email: string) => {
     if (!supabase) {
       return { error: { message: 'Supabase is not configured', status: 500 } as AuthError };
     }
@@ -155,9 +155,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       redirectTo: `${window.location.origin}/auth/reset-password`,
     });
     return { error };
-  };
+  }, []);
 
-  const signInWithMagicLink = async (email: string) => {
+  const signInWithMagicLink = useCallback(async (email: string) => {
     if (!supabase) {
       return { error: { message: 'Supabase is not configured', status: 500 } as AuthError };
     }
@@ -168,24 +168,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       },
     });
     return { error };
-  };
+  }, []);
+
+  const value = useMemo(() => ({
+    user,
+    session,
+    loading,
+    isConfigured: !!supabase,
+    isDemoUser,
+    signIn,
+    signUp,
+    signOut,
+    signInWithGoogle,
+    signInWithMagicLink,
+    resetPassword,
+  }), [user, session, loading, isDemoUser, signIn, signUp, signOut, signInWithGoogle, signInWithMagicLink, resetPassword]);
 
   return (
-    <AuthContext.Provider
-      value={{
-        user,
-        session,
-        loading,
-        isConfigured: !!supabase,
-        isDemoUser,
-        signIn,
-        signUp,
-        signOut,
-        signInWithGoogle,
-        signInWithMagicLink,
-        resetPassword,
-      }}
-    >
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );

@@ -531,6 +531,34 @@ export function calculateCollectionValue(
 }
 
 /**
+ * Determina la rareza de material basada en evento y roll
+ */
+function determineEventRarity(eventType: 'daily' | 'weekly' | 'special', roll: number): MaterialRarity {
+  const SPECIAL_THRESHOLDS = { legendary: 0.1, epic: 0.3, rare: 0.6 };
+  const WEEKLY_THRESHOLDS = { epic: 0.05, rare: 0.2, uncommon: 0.5 };
+  const DAILY_THRESHOLDS = { rare: 0.1, uncommon: 0.35 };
+
+  if (eventType === 'special') {
+    if (roll < SPECIAL_THRESHOLDS.legendary) return 'legendary';
+    if (roll < SPECIAL_THRESHOLDS.epic) return 'epic';
+    if (roll < SPECIAL_THRESHOLDS.rare) return 'rare';
+    return 'uncommon';
+  }
+
+  if (eventType === 'weekly') {
+    if (roll < WEEKLY_THRESHOLDS.epic) return 'epic';
+    if (roll < WEEKLY_THRESHOLDS.rare) return 'rare';
+    if (roll < WEEKLY_THRESHOLDS.uncommon) return 'uncommon';
+    return 'common';
+  }
+
+  // Daily
+  if (roll < DAILY_THRESHOLDS.rare) return 'rare';
+  if (roll < DAILY_THRESHOLDS.uncommon) return 'uncommon';
+  return 'common';
+}
+
+/**
  * Genera recompensas aleatorias para eventos especiales
  */
 export function generateEventRewards(
@@ -546,7 +574,7 @@ export function generateEventRewards(
     gems: eventType === 'special' ? Math.floor(Math.random() * 3) + 1 : 0,
     materials: [],
     bonuses: [],
-    achievements: [],
+    achievements: eventType === 'special' ? ['special_event_completed'] : [],
   };
 
   // Generar drops de materiales con rareza ajustada
@@ -555,22 +583,7 @@ export function generateEventRewards(
 
   for (let i = 0; i < materialCount; i++) {
     const roll = Math.random();
-    let targetRarity: MaterialRarity = 'common';
-
-    // Ajustar rareza según tipo de evento
-    if (eventType === 'special') {
-      if (roll < 0.1) targetRarity = 'legendary';
-      else if (roll < 0.3) targetRarity = 'epic';
-      else if (roll < 0.6) targetRarity = 'rare';
-      else targetRarity = 'uncommon';
-    } else if (eventType === 'weekly') {
-      if (roll < 0.05) targetRarity = 'epic';
-      else if (roll < 0.2) targetRarity = 'rare';
-      else if (roll < 0.5) targetRarity = 'uncommon';
-    } else {
-      if (roll < 0.1) targetRarity = 'rare';
-      else if (roll < 0.35) targetRarity = 'uncommon';
-    }
+    const targetRarity = determineEventRarity(eventType, roll);
 
     const eligibleMaterials = allMaterials.filter((m) => m.rarity === targetRarity);
     if (eligibleMaterials.length > 0) {
@@ -581,10 +594,6 @@ export function generateEventRewards(
         isBonus: false,
       });
     }
-  }
-
-  if (eventType === 'special') {
-    rewards.achievements.push('special_event_completed');
   }
 
   return rewards;

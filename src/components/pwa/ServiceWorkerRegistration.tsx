@@ -25,9 +25,33 @@ export function ServiceWorkerRegistration() {
     const handleOnline = () => setState((s) => ({ ...s, isOffline: false }));
     const handleOffline = () => setState((s) => ({ ...s, isOffline: true }));
 
-    globalThis.addEventListener('online', handleOnline);
-    globalThis.addEventListener('offline', handleOffline);
-    setState((s) => ({ ...s, isOffline: !navigator.onLine }));
+    // Manejar cambios de estado del nuevo service worker
+    const handleWorkerStateChange = (newWorker: ServiceWorker) => {
+      const isNewVersionInstalled =
+        newWorker.state === 'installed' &&
+        navigator.serviceWorker.controller;
+
+      if (isNewVersionInstalled) {
+        setState((s) => ({ ...s, isUpdateAvailable: true }));
+      }
+    };
+
+    // Configurar detección de actualizaciones
+    const setupUpdateDetection = (registration: ServiceWorkerRegistration) => {
+      registration.addEventListener('updatefound', () => {
+        const newWorker = registration.installing;
+        if (newWorker) {
+          newWorker.addEventListener('statechange', () => handleWorkerStateChange(newWorker));
+        }
+      });
+    };
+
+    // Manejar mensajes del service worker
+    const handleServiceWorkerMessage = (event: MessageEvent) => {
+      if (event.data?.type === 'SYNC_PROGRESS') {
+        globalThis.dispatchEvent(new CustomEvent('sw-sync-progress'));
+      }
+    };
 
     // Registrar service worker
     const registerSW = async () => {
@@ -37,37 +61,16 @@ export function ServiceWorkerRegistration() {
         });
 
         setState((s) => ({ ...s, isRegistered: true }));
-        console.log('[PWA] Service Worker registered:', registration.scope);
-
-        // Verificar actualizaciones
-        registration.addEventListener('updatefound', () => {
-          const newWorker = registration.installing;
-          if (!newWorker) return;
-
-          newWorker.addEventListener('statechange', () => {
-            const isNewVersionInstalled =
-              newWorker.state === 'installed' &&
-              navigator.serviceWorker.controller;
-
-            if (isNewVersionInstalled) {
-              // Nueva versión disponible
-              setState((s) => ({ ...s, isUpdateAvailable: true }));
-              console.log('[PWA] New version available');
-            }
-          });
-        });
-
-        // Escuchar mensajes del service worker
-        navigator.serviceWorker.addEventListener('message', (event) => {
-          if (event.data?.type === 'SYNC_PROGRESS') {
-            // Disparar evento para que la app sincronice
-            globalThis.dispatchEvent(new CustomEvent('sw-sync-progress'));
-          }
-        });
-      } catch (error) {
-        console.error('[PWA] Service Worker registration failed:', error);
+        setupUpdateDetection(registration);
+        navigator.serviceWorker.addEventListener('message', handleServiceWorkerMessage);
+      } catch (_error) {
+        // TODO: Add proper logging service for SW registration errors
       }
     };
+
+    globalThis.addEventListener('online', handleOnline);
+    globalThis.addEventListener('offline', handleOffline);
+    setState((s) => ({ ...s, isOffline: !navigator.onLine }));
 
     registerSW();
 

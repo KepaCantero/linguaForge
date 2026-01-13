@@ -9,7 +9,6 @@ import {
   calculateFluencyScore,
   createSpeechTurnResult,
   createExerciseResult,
-  XP_VALUES,
 } from '@/services/interactiveSpeechTimerService';
 
 type Phase = 'system_speak' | 'waiting_response' | 'recording' | 'feedback' | 'complete';

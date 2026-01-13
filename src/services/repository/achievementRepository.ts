@@ -26,7 +26,6 @@ export class AchievementRepository extends BaseRepository<Achievement> {
       orderBy: { column: 'rarity', ascending: true },
     }).then((result) => {
       if (result.error) {
-        console.error(`Error fetching achievements for category ${category}:`, result.error);
         return [];
       }
       return result.data || [];
@@ -42,7 +41,6 @@ export class AchievementRepository extends BaseRepository<Achievement> {
       orderBy: { column: 'name', ascending: true },
     }).then((result) => {
       if (result.error) {
-        console.error(`Error fetching achievements with rarity ${rarity}:`, result.error);
         return [];
       }
       return result.data || [];
@@ -59,7 +57,6 @@ export class AchievementRepository extends BaseRepository<Achievement> {
       orderBy: { column: 'name', ascending: true },
     }).then((result) => {
       if (result.error) {
-        console.error(`Error searching achievements with condition ${condition}:`, result.error);
         return [];
       }
       return result.data || [];
@@ -78,7 +75,6 @@ export class AchievementRepository extends BaseRepository<Achievement> {
       orderBy: { column: 'xp_reward', ascending: true },
     }).then((result) => {
       if (result.error) {
-        console.error(`Error fetching recommended achievements for user ${userId}:`, result.error);
         return [];
       }
       return result.data || [];
@@ -103,7 +99,6 @@ export class UserAchievementRepository extends BaseRepository<UserAchievement> {
       orderBy: { column: 'unlocked_at', ascending: false },
     }).then((result) => {
       if (result.error) {
-        console.error(`Error fetching achievements for user ${userId}:`, result.error);
         return [];
       }
       return result.data || [];
@@ -119,7 +114,6 @@ export class UserAchievementRepository extends BaseRepository<UserAchievement> {
     });
 
     if (result.error) {
-      console.error(`Error checking achievement for user ${userId}:`, result.error);
       return false;
     }
 
@@ -137,7 +131,6 @@ export class UserAchievementRepository extends BaseRepository<UserAchievement> {
     // Verificar si ya está desbloqueado
     const hasAchievement = await this.hasUserAchievement(userId, achievementId);
     if (hasAchievement) {
-      console.log(`User ${userId} already has achievement ${achievementId}`);
       return null;
     }
 
@@ -151,18 +144,15 @@ export class UserAchievementRepository extends BaseRepository<UserAchievement> {
     const { data: created, error } = await this.create(userAchievement);
 
     if (error) {
-      console.error(`Error unlocking achievement ${achievementId} for user ${userId}:`, error);
       return null;
     }
 
     if (!created) {
-      console.error(`Failed to create achievement record for user ${userId}`);
       return null;
     }
 
     const validated = UserAchievementSchema.safeParse(created);
     if (!validated.success) {
-      console.error('Invalid user achievement data returned from database:', validated.error);
       return null;
     }
 
@@ -259,7 +249,6 @@ export class UserAchievementRepository extends BaseRepository<UserAchievement> {
     });
 
     if (!userAchievementResult || !userAchievementResult.data) {
-      console.error(`User achievement not found for user ${userId} and achievement ${achievementId}`);
       return null;
     }
 
@@ -269,18 +258,15 @@ export class UserAchievementRepository extends BaseRepository<UserAchievement> {
     });
 
     if (error) {
-      console.error(`Error updating progress for achievement ${achievementId}:`, error);
       return null;
     }
 
     if (!updated) {
-      console.error(`Failed to update achievement record for user ${userId}`);
       return null;
     }
 
     const validated = UserAchievementSchema.safeParse(updated);
     if (!validated.success) {
-      console.error('Invalid user achievement data returned from database:', validated.error);
       return null;
     }
 
@@ -303,7 +289,6 @@ export class UserAchievementRepository extends BaseRepository<UserAchievement> {
         .order('created_at', { ascending: false });
 
       if (error) {
-        console.error('Error fetching top achievers:', error);
         return [];
       }
 
@@ -341,8 +326,7 @@ export class UserAchievementRepository extends BaseRepository<UserAchievement> {
       );
 
       return result;
-    } catch (error) {
-      console.error('Error fetching top achievers:', error);
+    } catch {
       return [];
     }
   }

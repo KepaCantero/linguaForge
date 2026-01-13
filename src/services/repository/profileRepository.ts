@@ -19,7 +19,6 @@ export class ProfileRepository extends BaseRepository<Profile> {
       where: `user_id = eq.${userId}`,
     }).then((result) => {
       if (result.error) {
-        console.error(`Error finding profile for user ${userId}:`, result.error);
         return null;
       }
       return result.data;
@@ -34,7 +33,6 @@ export class ProfileRepository extends BaseRepository<Profile> {
       where: `username = eq.${username}`,
     }).then((result) => {
       if (result.error) {
-        console.error(`Error finding profile with username ${username}:`, result.error);
         return null;
       }
       return result.data;
@@ -51,18 +49,15 @@ export class ProfileRepository extends BaseRepository<Profile> {
     const { data: updated, error } = await this.update(id, data);
 
     if (error) {
-      console.error(`Error updating profile ${id}:`, error);
       return null;
     }
 
     if (!updated) {
-      console.error(`Failed to update profile record for ${id}`);
       return null;
     }
 
     const validated = ProfileSchema.safeParse(updated);
     if (!validated.success) {
-      console.error('Invalid profile data returned from database:', validated.error);
       return null;
     }
 
@@ -82,18 +77,15 @@ export class ProfileRepository extends BaseRepository<Profile> {
     });
 
     if (error) {
-      console.error('Error upserting profile:', error);
       return null;
     }
 
     if (!upserted) {
-      console.error('Failed to upsert profile record');
       return null;
     }
 
     const validated = ProfileSchema.safeParse(upserted);
     if (!validated.success) {
-      console.error('Invalid profile data returned from database:', validated.error);
       return null;
     }
 
@@ -141,8 +133,7 @@ export class ProfileRepository extends BaseRepository<Profile> {
         withBio: withBio || 0,
         lastWeekActive: lastWeekActive || 0,
       };
-    } catch (error) {
-      console.error('Error fetching profile stats:', error);
+    } catch {
       return {
         total: 0,
         withAvatar: 0,
@@ -161,7 +152,6 @@ export class ProfileRepository extends BaseRepository<Profile> {
       orderBy: { column: 'username', ascending: true },
     }).then((result) => {
       if (result.error) {
-        console.error(`Error finding profiles with native language ${language}:`, result.error);
         return [];
       }
       return result.data || [];
@@ -177,7 +167,6 @@ export class ProfileRepository extends BaseRepository<Profile> {
       orderBy: { column: 'username', ascending: true },
     }).then((result) => {
       if (result.error) {
-        console.error(`Error finding profiles with learning language ${language}:`, result.error);
         return [];
       }
       return result.data || [];
@@ -194,7 +183,6 @@ export class ProfileRepository extends BaseRepository<Profile> {
       .eq('user_id', userId);
 
     if (error) {
-      console.error(`Error deleting profile for user ${userId}:`, error);
       return false;
     }
 

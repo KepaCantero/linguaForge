@@ -40,7 +40,6 @@ export function BlockEchoExercise({
         }
       },
       onloaderror: () => {
-        console.warn("Error loading audio, continuing without audio");
         setIsPlaying(false);
       },
     });

@@ -126,7 +126,6 @@ export function SpeechRecorder({
         });
       }, 100);
     } catch (err) {
-      console.error("Error accessing microphone:", err);
       setError(
         err instanceof Error
           ? err.message
@@ -199,7 +198,7 @@ export function SpeechRecorder({
         <div className="flex items-center gap-1 h-8">
           {[...new Array(12)].map((_, i) => (
             <motion.div
-              key={i}
+              key={`waveform-bar-${i}`}
               className="w-1 bg-indigo-500 rounded-full"
               animate={{
                 height: [4, 16 + Math.random() * 16, 4],

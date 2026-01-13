@@ -21,21 +21,16 @@ async function fetchAndProcessTranscript(
   videoId: string
 ): Promise<{ transcript: YouTubeTranscript | null; transcriptText: string; error: string | null }> {
   try {
-    console.log('[Video Page] Fetching transcript for video:', videoId);
     const fetchedTranscript = await getYouTubeTranscript(videoId);
-    console.log('[Video Page] Received transcript:', fetchedTranscript);
 
     if (fetchedTranscript && fetchedTranscript.phrases && fetchedTranscript.phrases.length > 0) {
       const phrases = convertTranscriptToPhrases(fetchedTranscript);
       const transcriptText = phrases.join('\n');
-      console.log('[Video Page] Transcript loaded successfully:', phrases.length, 'phrases');
       return { transcript: fetchedTranscript, transcriptText, error: null };
     }
 
-    console.warn('[Video Page] No transcript found or empty phrases');
     return { transcript: null, transcriptText: '', error: 'No se encontró transcripción para este video' };
   } catch (error) {
-    console.error('[Video Page] Error fetching transcript:', error);
     const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
     return { transcript: null, transcriptText: '', error: `Error: ${errorMessage}` };
   }

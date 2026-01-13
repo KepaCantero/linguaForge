@@ -9,7 +9,7 @@
  */
 
 import { useState, useCallback, useRef } from 'react';
-import { motion, PanInfo, type MotionValue } from 'framer-motion';
+import { motion, PanInfo } from 'framer-motion';
 import {
   type TextureType,
   type LearningContext,

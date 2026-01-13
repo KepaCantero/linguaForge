@@ -106,88 +106,142 @@ export interface ProcessKeyboardEventOptions {
   phase: string;
   currentFocus: KeyboardFocusState;
   columns: Column[];
-  selections: Record<string, ColumnSelection>;
   canSubmit: boolean;
   canPreview: boolean;
+}
+
+/**
+ * Verifica si el evento debe ser ignorado (fase incorrecta o input enfocado)
+ */
+function shouldIgnoreEvent(event: KeyboardEvent, phase: string): boolean {
+  if (phase !== 'composing') {
+    return true;
+  }
+
+  const target = event.target as HTMLElement;
+  const isInputElement = target.tagName === 'INPUT' || target.tagName === 'TEXTAREA';
+
+  return isInputElement;
+}
+
+/**
+ * Maneja navegación horizontal entre columnas
+ */
+function handleHorizontalNavigation(
+  key: string,
+  shiftKey: boolean,
+  currentFocus: KeyboardFocusState,
+  columns: Column[]
+): Pick<KeyboardNavigationResult, 'newFocus' | 'preventDefault'> {
+  const direction = key === 'ArrowLeft' ? 'prev' : shiftKey ? 'prev' : 'next';
+
+  return {
+    newFocus: getAdjacentColumnFocus(currentFocus, columns, direction),
+    preventDefault: true,
+  };
+}
+
+/**
+ * Maneja navegación vertical entre opciones
+ */
+function handleVerticalNavigation(
+  key: string,
+  currentFocus: KeyboardFocusState,
+  columns: Column[]
+): Pick<KeyboardNavigationResult, 'newFocus' | 'preventDefault'> {
+  const direction = key === 'ArrowUp' ? 'prev' : 'next';
+
+  return {
+    newFocus: getAdjacentOptionFocus(currentFocus, columns, direction),
+    preventDefault: true,
+  };
+}
+
+/**
+ * Maneja tecla Enter (selección o submit)
+ */
+function handleEnterKey(
+  shiftKey: boolean,
+  canSubmit: boolean,
+  _currentFocus: KeyboardFocusState
+): Pick<KeyboardNavigationResult, 'action' | 'preventDefault'> {
+  if (shiftKey && canSubmit) {
+    return { action: 'submit', preventDefault: true };
+  }
+
+  return { action: 'select_focused', preventDefault: true };
+}
+
+/**
+ * Maneja teclas de borrado (Backspace, Delete, Escape)
+ */
+function handleDeletionKeys(
+  key: string,
+  currentFocus: KeyboardFocusState
+): Pick<KeyboardNavigationResult, 'action' | 'preventDefault'> {
+  if (key === 'Escape') {
+    return { action: 'clear_all', preventDefault: false };
+  }
+
+  const action = currentFocus.columnId ? 'clear_column' : 'clear_all';
+  return { action, preventDefault: false };
+}
+
+/**
+ * Maneja atajo de teclado para preview
+ */
+function handlePreviewShortcut(
+  ctrlKey: boolean,
+  metaKey: boolean,
+  canPreview: boolean
+): Pick<KeyboardNavigationResult, 'action' | 'preventDefault'> {
+  if (!ctrlKey && !metaKey) {
+    return { action: 'none', preventDefault: false };
+  }
+
+  return {
+    action: canPreview ? 'preview' : 'none',
+    preventDefault: true,
+  };
 }
 
 /**
  * Processes a keyboard event and returns the navigation action
  */
 export function processKeyboardEvent(options: ProcessKeyboardEventOptions): KeyboardNavigationResult {
-  const { event, phase, currentFocus, columns, selections, canSubmit, canPreview } = options;
-  // Only process in composing phase
-  if (phase !== 'composing') {
+  const { event, phase, currentFocus, columns, canSubmit, canPreview } = options;
+
+  if (shouldIgnoreEvent(event, phase)) {
     return { action: 'none' };
   }
 
-  // Ignore if user is typing in an input
-  const target = event.target as HTMLElement;
-  if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {
-    return { action: 'none' };
-  }
+  const { key, shiftKey, ctrlKey, metaKey } = event;
 
-  let newFocus: KeyboardFocusState | undefined;
-  let action: KeyboardNavigationResult['action'] = 'none';
-  let preventDefault = false;
-
-  switch (event.key) {
+  switch (key) {
     case 'ArrowLeft':
-      newFocus = getAdjacentColumnFocus(currentFocus, columns, 'prev');
-      preventDefault = true;
-      break;
-
     case 'ArrowRight':
     case 'Tab':
-      newFocus = getAdjacentColumnFocus(currentFocus, columns, event.shiftKey ? 'prev' : 'next');
-      preventDefault = true;
-      break;
+      return handleHorizontalNavigation(key, shiftKey, currentFocus, columns);
 
     case 'ArrowUp':
-      newFocus = getAdjacentOptionFocus(currentFocus, columns, 'prev');
-      preventDefault = true;
-      break;
-
     case 'ArrowDown':
-      newFocus = getAdjacentOptionFocus(currentFocus, columns, 'next');
-      preventDefault = true;
-      break;
+      return handleVerticalNavigation(key, currentFocus, columns);
 
     case 'Enter':
-    case ' ':
-      action = 'select_focused';
-      preventDefault = true;
-      break;
+      return handleEnterKey(shiftKey, canSubmit, currentFocus);
 
     case 'Backspace':
     case 'Delete':
-      action = currentFocus.columnId ? 'clear_column' : 'clear_all';
-      break;
-
     case 'Escape':
-      action = 'clear_all';
-      break;
+      return handleDeletionKeys(key, currentFocus);
 
     case 'p':
     case 'P':
-      if (event.ctrlKey || event.metaKey) {
-        action = canPreview ? 'preview' : 'none';
-        preventDefault = true;
-      }
-      break;
-
-    case 'Enter':
-      if (event.shiftKey && canSubmit) {
-        action = 'submit';
-        preventDefault = true;
-      }
-      break;
+      return handlePreviewShortcut(ctrlKey, metaKey, canPreview);
 
     default:
       return { action: 'none' };
   }
-
-  return { newFocus, action, preventDefault };
 }
 
 /**

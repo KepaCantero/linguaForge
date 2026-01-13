@@ -78,7 +78,7 @@ function WordItem({ word, selectedPhrases, translations, isTranslating, isWordSt
           </p>
           {originalPhrase && (
             <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 italic">
-              "{originalPhrase.text.substring(0, 60)}..."
+              &ldquo;{originalPhrase.text.substring(0, 60)}...&rdquo;
             </p>
           )}
         </div>
@@ -139,6 +139,20 @@ function WordTypeGroup({ type, words, selectedPhrases, translations, isTranslati
       </div>
     </div>
   );
+}
+
+/**
+ * Retorna la forma plural o singular de una palabra según el count
+ */
+function pluralize(word: string, count: number): string {
+  return count === 1 ? word : `${word}s`;
+}
+
+/**
+ * Formatea un mensaje de cantidad con pluralización
+ */
+function formatCountMessage(count: number, singular: string, plural: string): string {
+  return `${count} ${count === 1 ? singular : plural}`;
 }
 
 export function PhraseSelectionPanel({
@@ -203,24 +217,24 @@ export function PhraseSelectionPanel({
           .filter(word => !translations[word.normalized])
           .map(word => word.word);
 
-        if (wordsToTranslate.length > 0) {
-          const newTranslations = await translateWords(wordsToTranslate);
+        if (wordsToTranslate.length === 0) return;
 
-          // Mapear traducciones usando normalized como key
-          const normalizedTranslations: Record<string, string> = {};
-          newWords.forEach(word => {
-            if (newTranslations[word.word]) {
-              normalizedTranslations[word.normalized] = newTranslations[word.word];
-            }
-          });
+        const newTranslations = await translateWords(wordsToTranslate);
 
-          setTranslations(prev => ({
-            ...prev,
-            ...normalizedTranslations,
-          }));
-        }
-      } catch (error) {
-        console.error('Error translating words:', error);
+        // Mapear traducciones usando normalized como key
+        const normalizedTranslations: Record<string, string> = {};
+        newWords.forEach(word => {
+          if (newTranslations[word.word]) {
+            normalizedTranslations[word.normalized] = newTranslations[word.word];
+          }
+        });
+
+        setTranslations(prev => ({
+          ...prev,
+          ...normalizedTranslations,
+        }));
+      } catch (_error) {
+        // TODO: Add proper logging service for translation errors
       } finally {
         setIsTranslating(false);
       }
@@ -229,6 +243,45 @@ export function PhraseSelectionPanel({
     translateNewWords();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newWordsKeys]); // Solo cuando cambian las palabras nuevas
+
+  // Encontrar frase original para una palabra
+  const findOriginalPhrase = useCallback((word: ExtractedWord) => {
+    return selectedPhrases.find(p =>
+      p.text.toLowerCase().includes(word.word.toLowerCase())
+    ) || selectedPhrases[0];
+  }, [selectedPhrases]);
+
+  // Crear datos de card para una palabra
+  const createCardData = useCallback((word: ExtractedWord) => {
+    const originalPhrase = findOriginalPhrase(word);
+    const examplePhrase = originalPhrase.text;
+    const sourceTypeTag = source.type === 'video' || source.type === 'audio' ? source.type : 'text';
+
+    // Construir contexto de manera legible
+    const CONTEXT_PREFIX = '...';
+    const CONTEXT_SUFFIX = '...';
+    const contextBefore = originalPhrase.contextBefore
+      ? `${CONTEXT_PREFIX}${originalPhrase.contextBefore} `
+      : '';
+    const contextAfter = originalPhrase.contextAfter
+      ? ` ${originalPhrase.contextAfter}${CONTEXT_SUFFIX}`
+      : '';
+    const context = `${contextBefore}[${examplePhrase}]${contextAfter}`;
+
+    return {
+      phrase: word.word,
+      translation: translations[word.normalized]?.trim() || word.word,
+      source: {
+        ...source,
+        context: `Ejemplo: "${examplePhrase}"`,
+        timestamp: originalPhrase.start ?? source.timestamp,
+      },
+      languageCode: activeLanguage,
+      levelCode: activeLevel,
+      tags: [sourceTypeTag, 'transcript', 'word', word.type],
+      notes: `Tipo: ${word.type}. Contexto: ${context}`,
+    };
+  }, [findOriginalPhrase, translations, source, activeLanguage, activeLevel]);
 
   const handleCreateCards = useCallback(async () => {
     if (newWords.length === 0) {
@@ -239,29 +292,6 @@ export function PhraseSelectionPanel({
     setIsCreating(true);
 
     try {
-      const createCardData = (word: typeof newWords[0]) => {
-        const originalPhrase = selectedPhrases.find(p =>
-          p.text.toLowerCase().includes(word.word.toLowerCase())
-        ) || selectedPhrases[0];
-
-        const examplePhrase = originalPhrase.text;
-        const sourceTypeTag = source.type === 'video' ? 'video' : source.type === 'audio' ? 'audio' : 'text';
-
-        return {
-          phrase: word.word,
-          translation: translations[word.normalized]?.trim() || word.word,
-          source: {
-            ...source,
-            context: `Ejemplo: "${examplePhrase}"`,
-            timestamp: originalPhrase.start ?? source.timestamp,
-          },
-          languageCode: activeLanguage,
-          levelCode: activeLevel,
-          tags: [sourceTypeTag, 'transcript', 'word', word.type],
-          notes: `Tipo: ${word.type}. Contexto: ${originalPhrase.contextBefore ? `...${originalPhrase.contextBefore}` : ''} [${examplePhrase}] ${originalPhrase.contextAfter ? `${originalPhrase.contextAfter}...` : ''}`,
-        };
-      };
-
       const cardsToCreate = newWords.map(createCardData);
 
       if (cardsToCreate.length === 0) {
@@ -283,14 +313,14 @@ export function PhraseSelectionPanel({
       onPhrasesAdded?.(cardsToCreate.length);
       setTranslations({});
 
-      alert(`✓ ${cardsToCreate.length} palabra${cardsToCreate.length !== 1 ? 's' : ''} nueva${cardsToCreate.length !== 1 ? 's' : ''} añadida${cardsToCreate.length !== 1 ? 's' : ''} al deck`);
-    } catch (error) {
-      console.error('Error creating cards:', error);
+      alert(`✓ ${formatCountMessage(cardsToCreate.length, 'palabra nueva añadida', 'palabras nuevas añadidas')} al deck`);
+    } catch (_error) {
+      // TODO: Add proper logging service for card creation errors
       alert('Error al crear las cards. Por favor, intenta de nuevo.');
     } finally {
       setIsCreating(false);
     }
-  }, [newWords, selectedPhrases, translations, source, activeLanguage, activeLevel, addCards, addXP, addWord, onPhrasesAdded]);
+  }, [newWords, createCardData, addCards, addXP, addWord, onPhrasesAdded]);
 
   // Todas las palabras nuevas tienen traducción automática
   const canCreateCards = newWords.length > 0 && !isTranslating;
@@ -364,9 +394,9 @@ export function PhraseSelectionPanel({
       <div className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700">
         <div className="text-sm text-gray-600 dark:text-gray-400">
           {isTranslating ? (
-            <span>Traduciendo {newWords.length} palabra{newWords.length !== 1 ? 's' : ''}...</span>
+            <span>Traduciendo {pluralize('palabra', newWords.length)}...</span>
           ) : (
-            <span>{newWords.length} palabra{newWords.length !== 1 ? 's' : ''} nueva{newWords.length !== 1 ? 's' : ''} lista{newWords.length !== 1 ? 's' : ''}</span>
+            <span>{formatCountMessage(newWords.length, 'palabra nueva lista', 'palabras nuevas listas')}</span>
           )}
         </div>
         <button
@@ -381,7 +411,7 @@ export function PhraseSelectionPanel({
           `}
         >
           <IconPlus />
-          {isCreating ? 'Creando...' : `Crear ${newWords.length} card${newWords.length !== 1 ? 's' : ''} (Cloze/Detection)`}
+          {isCreating ? 'Creando...' : `Crear ${pluralize('card', newWords.length)} (Cloze/Detection)`}
         </button>
       </div>
     </motion.div>

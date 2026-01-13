@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo, useCallback, useRef, useEffect } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Link from 'next/link';
 import type { TranslationKeys } from '@/i18n';
 
@@ -91,7 +91,7 @@ interface InfiniteCourseMapProps {
   userProgress?: Record<string, any>; // Accept any progress format
 }
 
-export function InfiniteCourseMap({ translations, userProgress }: InfiniteCourseMapProps) {
+export function InfiniteCourseMap({ translations, userProgress: _userProgress }: InfiniteCourseMapProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedLevel, setSelectedLevel] = useState<string | null>(null);

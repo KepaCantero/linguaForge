@@ -4,7 +4,6 @@ import { useRef, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { InteractiveSpeech, SpeechRecordingResult } from '@/types';
 import { useGamificationStore } from '@/store/useGamificationStore';
-import { XP_VALUES } from '@/services/interactiveSpeechTimerService';
 import { useInteractiveSpeechFlow } from './hooks/useInteractiveSpeechFlow';
 import { SystemSpeakPhase } from './interactive/SystemSpeakPhase';
 import { ResponsePhase } from './interactive/ResponsePhase';
@@ -23,7 +22,7 @@ export function InteractiveSpeechExercise({
   onSkip,
   className = '',
 }: InteractiveSpeechExerciseProps) {
-  const { addXP, addGems } = useGamificationStore();
+  const { addXP } = useGamificationStore();
   const audioRefs = useRef<(HTMLAudioElement | null)[]>([]);
 
   const flow = useInteractiveSpeechFlow({ exercise, onComplete });
@@ -72,10 +71,10 @@ export function InteractiveSpeechExercise({
 
   return (
     <div className={`max-w-lg mx-auto ${className}`}>
-      {exercise.conversationFlow.map((step, i) => (
+      {exercise.conversationFlow.map((step) => (
         <audio
-          key={i}
-          ref={el => { audioRefs.current[i] = el; }}
+          key={`audio-${step.audioUrl}`}
+          ref={el => { audioRefs.current[exercise.conversationFlow.indexOf(step)] = el; }}
           src={step.audioUrl}
           preload="auto"
         />

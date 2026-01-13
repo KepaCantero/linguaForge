@@ -20,7 +20,7 @@ interface ExercisesHeaderProps {
  */
 export function ExercisesHeader({
   subtopicTitle,
-  nodeId,
+  nodeId: _nodeId,
   currentMode,
   warmupCompleted,
   onBack,

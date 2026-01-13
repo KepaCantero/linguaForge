@@ -9,7 +9,6 @@ import { useMemo } from 'react';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import {
   TRANSITIONS,
-  SPRING_CONFIG,
   shouldAnimateComplex,
   getOptimizedConfig,
   getCriticalConfig,
@@ -19,12 +18,12 @@ import {
 // HOOK PRINCIPAL
 // ============================================
 
-interface OptimizedMotionConfig {
+interface _OptimizedMotionConfig {
   initial?: object;
   animate?: object;
   exit?: object;
   transition?: object;
-  layout?: 'position' | undefined;
+  layout?: 'position';
 }
 
 /**

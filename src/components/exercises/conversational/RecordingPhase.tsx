@@ -4,7 +4,7 @@ interface RecordingPhaseProps {
   onComplete?: () => void;
 }
 
-export function RecordingPhase({ onComplete }: RecordingPhaseProps) {
+export function RecordingPhase({ onComplete: _onComplete }: RecordingPhaseProps) {
   return (
     <motion.div
       key="recording"

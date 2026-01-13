@@ -19,7 +19,6 @@ export class LessonProgressRepository extends BaseRepository<LessonProgress> {
       where: `user_id = eq.${userId} and lesson_id = eq.${lessonId}`,
     }).then((result) => {
       if (result.error) {
-        console.error(`Error finding lesson progress for user ${userId} and lesson ${lessonId}:`, result.error);
         return null;
       }
       return result.data;
@@ -60,7 +59,6 @@ export class LessonProgressRepository extends BaseRepository<LessonProgress> {
     const { data, error } = await query;
 
     if (error) {
-      console.error(`Error fetching lesson progress for user ${userId}:`, error);
       return [];
     }
 
@@ -101,7 +99,6 @@ export class LessonProgressRepository extends BaseRepository<LessonProgress> {
 
       return this.create(createData).then((result) => {
         if (result.error) {
-          console.error(`Error creating lesson progress for ${lessonId}:`, result.error);
           return null;
         }
         return result.data;
@@ -122,18 +119,15 @@ export class LessonProgressRepository extends BaseRepository<LessonProgress> {
     const { data: updated, error } = await this.update(existing.id, updateData);
 
     if (error) {
-      console.error(`Error updating lesson progress for ${lessonId}:`, error);
       return null;
     }
 
     if (!updated) {
-      console.error(`Failed to update lesson progress record for ${lessonId}`);
       return null;
     }
 
     const validated = LessonProgressSchema.safeParse(updated);
     if (!validated.success) {
-      console.error('Invalid lesson progress data returned from database:', validated.error);
       return null;
     }
 
@@ -241,8 +235,7 @@ export class LessonProgressRepository extends BaseRepository<LessonProgress> {
         completedExercises,
         averageAccuracy,
       };
-    } catch (error) {
-      console.error('Error fetching user progress stats:', error);
+    } catch {
       return {
         totalLessons: 0,
         completedLessons: 0,
@@ -287,7 +280,6 @@ export class LessonProgressRepository extends BaseRepository<LessonProgress> {
       .eq('user_id', userId);
 
     if (error) {
-      console.error(`Error deleting lesson progress for user ${userId}:`, error);
       return 0;
     }
 

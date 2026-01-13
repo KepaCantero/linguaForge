@@ -190,7 +190,7 @@ export async function syncGamification(
       ...(conflicts.length > 0 && { conflicts }),
     };
   } catch (error) {
-    console.error('[SyncService] Error syncing gamification:', error);
+    // TODO: Add proper logging service for sync errors
     return {
       success: false,
       error: error instanceof Error ? error.message : 'Unknown error',
@@ -278,7 +278,7 @@ export async function syncProgress(
       }),
     };
   } catch (error) {
-    console.error('[SyncService] Error syncing progress:', error);
+    // TODO: Add proper logging service for sync errors
     return {
       success: false,
       error: error instanceof Error ? error.message : 'Unknown error',
@@ -372,11 +372,10 @@ export function createAutoSync(
     // Sync cuando vuelve online
     const cleanup = registerConnectivityListeners(
       () => {
-        console.log('[SyncService] Online - syncing...');
         performSync();
       },
       () => {
-        console.log('[SyncService] Offline - sync paused');
+        // Sync paused while offline
       }
     );
 

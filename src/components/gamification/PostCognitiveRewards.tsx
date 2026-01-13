@@ -236,7 +236,7 @@ function MultipliersDisplay({ multipliers }: { multipliers: RewardCalculation['m
       <div className="flex flex-wrap gap-2">
         {multipliers.map((mult, i) => (
           <motion.div
-            key={i}
+            key={`multiplier-${i}-${mult.name}`}
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.3 + i * 0.1 }}
@@ -354,7 +354,7 @@ function TipsSection({ tips }: { tips: string[] }) {
       <p className="text-sm text-gray-500 mb-2">Consejos</p>
       <ul className="space-y-1">
         {tips.map((tip, i) => (
-          <li key={i} className="text-sm text-gray-400 flex items-start gap-2">
+          <li key={`tip-${i}-${tip.slice(0, 10)}`} className="text-sm text-gray-400 flex items-start gap-2">
             <span className="text-amber-400">•</span>
             {tip}
           </li>
@@ -370,7 +370,7 @@ function NextStepsSection({ steps }: { steps: string[] }) {
       <p className="text-sm text-gray-500 mb-2">Próximos Pasos</p>
       <ul className="space-y-1">
         {steps.map((step, i) => (
-          <li key={i} className="text-sm text-gray-400 flex items-start gap-2">
+          <li key={`next-step-${i}-${step.slice(0, 10)}`} className="text-sm text-gray-400 flex items-start gap-2">
             <span className="text-green-400">→</span>
             {step}
           </li>

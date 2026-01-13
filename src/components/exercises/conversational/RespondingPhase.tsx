@@ -88,7 +88,7 @@ function HintsSection({ exercise, showHint, onToggle }: HintsSectionProps) {
           <ul className="space-y-1">
             {exercise.expectedResponses.map((resp, i) => (
               <li
-                key={i}
+                key={`expected-response-${i}-${resp.text.slice(0, 10)}`}
                 className={`text-sm ${
                   resp.isOptimal
                     ? 'text-indigo-600 dark:text-indigo-400 font-medium'

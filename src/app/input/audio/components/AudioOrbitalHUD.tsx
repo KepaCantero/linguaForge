@@ -12,7 +12,7 @@ export function AudioOrbitalHUD({ audioStats }: AudioOrbitalHUDProps) {
       {/* Outer decorative rings */}
       {[0, 1, 2, 3].map((i) => (
         <motion.div
-          key={i}
+          key={`audio-ring-${i}`}
           className="absolute rounded-full border"
           style={{
             width: `${200 + i * 40}px`,
@@ -105,7 +105,7 @@ export function AudioOrbitalHUD({ audioStats }: AudioOrbitalHUDProps) {
       {/* Floating particles */}
       {[0, 1, 2, 3, 4, 5].map((i) => (
         <motion.div
-          key={i}
+          key={`audio-particle-${i}`}
           className="absolute w-2 h-2 rounded-full opacity-70"
           style={{
             background: i % 2 === 0 ? "#10B981" : "#34D399",

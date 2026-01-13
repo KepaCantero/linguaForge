@@ -52,7 +52,6 @@ type Phase = 'composing' | 'preview' | 'practice' | 'dialogue' | 'complete';
 // ============================================================
 
 const COLUMN_ORDER = ['subject', 'verb', 'complement', 'time', 'other'] as const;
-const REQUIRED_TYPES = ['subject', 'verb'] as const;
 
 // ============================================================
 // HELPER FUNCTIONS

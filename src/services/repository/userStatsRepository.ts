@@ -19,7 +19,6 @@ export class UserStatsRepository extends BaseRepository<UserStats> {
       where: `user_id = eq.${userId}`,
     }).then((result) => {
       if (result.error) {
-        console.error(`Error finding user stats for user ${userId}:`, result.error);
         return null;
       }
       return result.data;
@@ -46,18 +45,15 @@ export class UserStatsRepository extends BaseRepository<UserStats> {
       const { data: updated, error } = await this.update(existing.id, updateData);
 
       if (error) {
-        console.error(`Error updating user stats for user ${userId}:`, error);
         return null;
       }
 
       if (!updated) {
-        console.error(`Failed to update user stats record for ${userId}`);
         return null;
       }
 
       const validated = UserStatsSchema.safeParse(updated);
       if (!validated.success) {
-        console.error('Invalid user stats data returned from database:', validated.error);
         return null;
       }
 
@@ -76,18 +72,15 @@ export class UserStatsRepository extends BaseRepository<UserStats> {
 
       const result = await this.create(createData);
       if (result.error) {
-        console.error(`Error creating user stats for user ${userId}:`, result.error);
         return null;
       }
 
       if (!result.data) {
-        console.error(`Failed to create user stats record for user ${userId}`);
         return null;
       }
 
       const validated = UserStatsSchema.safeParse(result.data);
       if (!validated.success) {
-        console.error('Invalid user stats data returned from database:', validated.error);
         return null;
       }
 
@@ -288,7 +281,6 @@ export class UserStatsRepository extends BaseRepository<UserStats> {
         .limit(limit);
 
       if (error) {
-        console.error('Error fetching top users by XP:', error);
         return [];
       }
 
@@ -298,8 +290,7 @@ export class UserStatsRepository extends BaseRepository<UserStats> {
         .map((result) => result.data);
 
       return validated;
-    } catch (error) {
-      console.error('Error fetching top users:', error);
+    } catch {
       return [];
     }
   }
@@ -316,7 +307,6 @@ export class UserStatsRepository extends BaseRepository<UserStats> {
         .limit(limit);
 
       if (error) {
-        console.error('Error fetching top users by lessons:', error);
         return [];
       }
 
@@ -326,8 +316,7 @@ export class UserStatsRepository extends BaseRepository<UserStats> {
         .map((result) => result.data);
 
       return validated;
-    } catch (error) {
-      console.error('Error fetching top users:', error);
+    } catch {
       return [];
     }
   }
@@ -398,8 +387,7 @@ export class UserStatsRepository extends BaseRepository<UserStats> {
         averageLevel: Math.round(averageLevel),
         topUser: topUser ? UserStatsSchema.parse(topUser) : null,
       };
-    } catch (error) {
-      console.error('Error fetching global stats:', error);
+    } catch {
       return {
         totalUsers: 0,
         totalXP: 0,

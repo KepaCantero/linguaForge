@@ -77,7 +77,7 @@ function DifficultyIndicator({ difficulty }: DifficultyIndicatorProps) {
     <div className="flex gap-1.5 bg-black/30 px-2 py-1 rounded-full backdrop-blur-sm">
       {Array.from({ length: dots[difficulty] }).map((_, i) => (
         <div
-          key={i}
+          key={`difficulty-dot-${difficulty}-${i}`}
           className={`w-2.5 h-2.5 rounded-full ${colors[difficulty]} shadow-lg`}
         />
       ))}

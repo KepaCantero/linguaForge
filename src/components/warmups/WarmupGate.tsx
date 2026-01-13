@@ -326,7 +326,7 @@ function TransitionScreen({ score }: TransitionScreenProps) {
       >
         {[...new Array(20)].map((_, i) => (
           <motion.div
-            key={i}
+            key={`warmup-particle-${i}`}
             className="absolute w-2 h-2 bg-indigo-400 rounded-full"
             initial={{
               x: '50%',

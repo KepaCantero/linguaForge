@@ -30,8 +30,6 @@ export function DialogueIntonationExercise({
   const [phase, setPhase] = useState<Phase>('preview');
   const [currentTurnIndex, setCurrentTurnIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [userRhythmPattern, setUserRhythmPattern] = useState<number[]>([]);
-  const [currentSimilarity, setCurrentSimilarity] = useState<number>(0);
   const [turnResults, setTurnResults] = useState<IntonationEvaluationResult[]>([]);
 
   const audioRefs = useRef<(HTMLAudioElement | null)[]>([]);
@@ -144,9 +142,6 @@ export function DialogueIntonationExercise({
       turnIndex: userTurnIndices[currentTurnIndex],
     };
 
-    setUserRhythmPattern(result.rhythmAnalysis.pattern);
-    setCurrentSimilarity(result.rhythmAnalysis.overallSimilarity);
-
     addXP(result.xpEarned);
     if (result.rhythmAnalysis.overallSimilarity >= 0.8) {
       addGems(2);
@@ -159,8 +154,6 @@ export function DialogueIntonationExercise({
   const handleContinue = useCallback(() => {
     if (currentTurnIndex < userTurnIndices.length - 1) {
       setCurrentTurnIndex(prev => prev + 1);
-      setUserRhythmPattern([]);
-      setCurrentSimilarity(0);
       setPhase('practicing');
     } else {
       setPhase('complete');
@@ -170,8 +163,6 @@ export function DialogueIntonationExercise({
 
   const handleRetry = useCallback(() => {
     setTurnResults(prev => prev.slice(0, -1));
-    setUserRhythmPattern([]);
-    setCurrentSimilarity(0);
     setPhase('practicing');
   }, []);
 
@@ -181,10 +172,10 @@ export function DialogueIntonationExercise({
 
   return (
     <div className={`max-w-lg mx-auto ${className}`}>
-      {exercise.dialogue.map((turn, i) => (
+      {exercise.dialogue.map((turn) => (
         <audio
-          key={i}
-          ref={el => { audioRefs.current[i] = el; }}
+          key={`dialogue-audio-${turn.audioUrl}`}
+          ref={el => { audioRefs.current[exercise.dialogue.indexOf(turn)] = el; }}
           src={turn.audioUrl}
           preload="auto"
         />

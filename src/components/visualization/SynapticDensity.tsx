@@ -15,7 +15,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useMemo, useState, useRef } from 'react';
+import { useMemo, useState, useRef, useCallback } from 'react';
 
 // ============================================================
 // TIPOS
@@ -99,74 +99,111 @@ export function SynapticDensity({
   const [activeNeuron, setActiveNeuron] = useState<string | null>(null);
   const canvasRef = useRef<HTMLDivElement>(null);
 
+  // Determinar tipo de neurona según capa
+  const getNeuronType = useCallback((layer: number, totalLayers: number): Neuron['type'] => {
+    if (layer === 0) return 'input';
+    if (layer === totalLayers - 1) return 'output';
+    return 'hidden';
+  }, []);
+
+  // Crear neurona individual
+  const createNeuron = useCallback((
+    layer: number,
+    index: number,
+    totalLayers: number,
+    neuronsPerLayer: number,
+    size: number
+  ): Neuron => {
+    const x = (layer / (totalLayers - 1)) * 0.8 + 0.1;
+    const y = (index / neuronsPerLayer) * 0.8 + 0.1;
+    const type = getNeuronType(layer, totalLayers);
+    const label = type === 'input' ? 'Input' : type === 'output' ? 'Output' : undefined;
+
+    return {
+      id: `n-${layer}-${index}`,
+      x: x * size,
+      y: y * size,
+      activation: Math.random() * 0.5,
+      type,
+      ...(label ? { label } : {}),
+    };
+  }, [getNeuronType]);
+
+  // Generar neuronas simuladas
+  const generateNeurons = useCallback((connectionCount: number, size: number): Neuron[] => {
+    const neurons: Neuron[] = [];
+    const neuronCount = Math.min(50, 10 + Math.floor(connectionCount / 5));
+    const layers = 3;
+    const neuronsPerLayer = Math.ceil(neuronCount / layers);
+
+    for (let layer = 0; layer < layers; layer++) {
+      for (let i = 0; i < neuronsPerLayer; i++) {
+        if (neurons.length >= neuronCount) break;
+        neurons.push(createNeuron(layer, i, layers, neuronsPerLayer, size));
+      }
+    }
+
+    return neurons;
+  }, [createNeuron]);
+
+  // Crear sinapsis individual
+  const createSynapse = useCallback((
+    index: number,
+    from: Neuron,
+    to: Neuron,
+    strength: number,
+    activePathways: string[]
+  ): Synapse => ({
+    id: `s-${index}`,
+    from: from.id,
+    to: to.id,
+    strength: strength / 100,
+    lastActivated: Date.now() - Math.random() * 10000,
+    pathway: activePathways[Math.floor(Math.random() * activePathways.length)] || 'semantic',
+  }), []);
+
+  // Generar sinapsis simuladas
+  const generateSynapses = useCallback((
+    connectionCount: number,
+    neurons: Neuron[],
+    strength: number,
+    activePathways: string[]
+  ): Synapse[] => {
+    const synapses: Synapse[] = [];
+    const synapseCount = Math.min(100, connectionCount);
+    const inputNeurons = neurons.filter(n => n.type === 'input');
+    const hiddenNeurons = neurons.filter(n => n.type === 'hidden');
+    const outputNeurons = neurons.filter(n => n.type === 'output');
+    const inputHiddenRatio = 0.4;
+    const inputToHiddenCount = Math.floor(synapseCount * inputHiddenRatio);
+
+    for (let i = 0; i < synapseCount; i++) {
+      const isInputToHidden = i < inputToHiddenCount;
+      const fromNeurons = isInputToHidden ? inputNeurons : hiddenNeurons;
+      const toNeurons = isInputToHidden ? hiddenNeurons : outputNeurons;
+
+      const from = fromNeurons[Math.floor(Math.random() * fromNeurons.length)];
+      const to = toNeurons[Math.floor(Math.random() * toNeurons.length)];
+
+      if (from && to) {
+        synapses.push(createSynapse(i, from, to, strength, activePathways));
+      }
+    }
+
+    return synapses;
+  }, [createSynapse]);
+
   // Generar neuronas y sinapsis simuladas si no se proporcionan
   const { displayNeurons, displaySynapses } = useMemo(() => {
     if (neurons.length > 0 && synapses.length > 0) {
       return { displayNeurons: neurons, displaySynapses: synapses };
     }
 
-    // Generar visualización basada en métricas
-    const simulatedNeurons: Neuron[] = [];
-    const simulatedSynapses: Synapse[] = [];
-
-    const neuronCount = Math.min(50, 10 + Math.floor(connectionCount / 5));
-    const synapseCount = Math.min(100, connectionCount);
-
-    // Crear neuronas en patrón de red neuronal
-    const layers = 3;
-    const neuronsPerLayer = Math.ceil(neuronCount / layers);
-
-    for (let layer = 0; layer < layers; layer++) {
-      for (let i = 0; i < neuronsPerLayer; i++) {
-        if (simulatedNeurons.length >= neuronCount) break;
-
-        const x = (layer / (layers - 1)) * 0.8 + 0.1;
-        const y = (i / neuronsPerLayer) * 0.8 + 0.1;
-
-        simulatedNeurons.push({
-          id: `n-${layer}-${i}`,
-          x: x * size,
-          y: y * size,
-          activation: Math.random() * 0.5,
-          type: layer === 0 ? 'input' : layer === layers - 1 ? 'output' : 'hidden',
-          ...(layer === 0 ? { label: 'Input' } : layer === layers - 1 ? { label: 'Output' } : {}),
-        });
-      }
-    }
-
-    // Crear sinapsis entre neuronas de capas adyacentes
-    const inputNeurons = simulatedNeurons.filter(n => n.type === 'input');
-    const hiddenNeurons = simulatedNeurons.filter(n => n.type === 'hidden');
-    const outputNeurons = simulatedNeurons.filter(n => n.type === 'output');
-
-    for (let i = 0; i < synapseCount; i++) {
-      let from: Neuron | undefined;
-      let to: Neuron | undefined;
-
-      if (i < synapseCount * 0.4) {
-        // Input to Hidden
-        from = inputNeurons[Math.floor(Math.random() * inputNeurons.length)];
-        to = hiddenNeurons[Math.floor(Math.random() * hiddenNeurons.length)];
-      } else {
-        // Hidden to Output
-        from = hiddenNeurons[Math.floor(Math.random() * hiddenNeurons.length)];
-        to = outputNeurons[Math.floor(Math.random() * outputNeurons.length)];
-      }
-
-      if (from && to) {
-        simulatedSynapses.push({
-          id: `s-${i}`,
-          from: from.id,
-          to: to.id,
-          strength: strength / 100,
-          lastActivated: Date.now() - Math.random() * 10000,
-          pathway: activePathways[Math.floor(Math.random() * activePathways.length)] as string || 'semantic',
-        });
-      }
-    }
+    const simulatedNeurons = generateNeurons(connectionCount, size);
+    const simulatedSynapses = generateSynapses(connectionCount, simulatedNeurons, strength, activePathways);
 
     return { displayNeurons: simulatedNeurons, displaySynapses: simulatedSynapses };
-  }, [neurons, synapses, strength, connectionCount, activePathways, size]);
+  }, [neurons, synapses, connectionCount, size, strength, activePathways, generateNeurons, generateSynapses]);
 
   return (
     <div
@@ -394,7 +431,7 @@ export function SynapticHeatmap({
     >
       {data.flat().map((value, index) => (
         <motion.div
-          key={index}
+          key={`heatmap-cell-${index}-${value.toFixed(2)}`}
           className="rounded-sm"
           style={{
             backgroundColor: `rgba(99, 102, 241, ${value})`,
@@ -440,7 +477,7 @@ export function SynapticGrowth({
       <div className="absolute inset-0 overflow-hidden">
         {[...new Array(5)].map((_, i) => (
           <motion.div
-            key={i}
+            key={`growth-particle-${i}`}
             className="absolute top-0 bottom-0 w-1 bg-white/30"
             initial={{ x: '-10%' }}
             animate={{

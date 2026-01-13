@@ -4,7 +4,7 @@ interface ResetSuccessProps {
   email: string;
 }
 
-export function ResetSuccess({ email }: ResetSuccessProps) {
+export function ResetSuccess({ email: _email }: ResetSuccessProps) {
   return (
     <div className="min-h-[calc(100dvh-var(--header-height)-var(--nav-height))] flex items-center justify-center py-12 px-4">
       <div className="w-full max-w-md text-center space-y-4">

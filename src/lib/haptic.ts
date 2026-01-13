@@ -170,7 +170,6 @@ export function vibrate(pattern: number[]): boolean {
   try {
     return navigator.vibrate(pattern);
   } catch {
-    console.warn('[Haptic] Vibration failed');
     return false;
   }
 }
@@ -194,7 +193,6 @@ export function stopVibration(): boolean {
 export function triggerHaptic(type: HapticPatternType): boolean {
   const pattern = HAPTIC_PATTERNS[type];
   if (!pattern) {
-    console.warn(`[Haptic] Unknown pattern type: ${type}`);
     return false;
   }
 

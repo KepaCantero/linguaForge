@@ -39,7 +39,6 @@ export function useLesson(leafId: string, language: LanguageCode, level: LevelCo
                     jsonPath = `/content/${language}/${level}/lessons/${leafId}.json`;
                 }
 
-                console.log(`[useLesson] Loading from: ${jsonPath}`);
 
                 const response = await fetch(jsonPath);
 
@@ -48,13 +47,6 @@ export function useLesson(leafId: string, language: LanguageCode, level: LevelCo
                 }
 
                 const rawData = await response.json();
-
-                console.log(`[useLesson] Loaded lesson:`, {
-                    leafId: rawData.leafId,
-                    title: rawData.title,
-                    hasConversationalBlocks: !!rawData.conversationalBlocks,
-                    hasCoreExercises: !!rawData.coreExercises,
-                });
 
                 if (!isMounted) return;
 
@@ -72,7 +64,6 @@ export function useLesson(leafId: string, language: LanguageCode, level: LevelCo
                 setLessonContent(rawData);
             } catch (err) {
                 if (!isMounted) return;
-                console.error('[useLesson] Error:', err);
                 setError(err instanceof Error ? err.message : 'Error al cargar la lección');
             } finally {
                 if (isMounted) {

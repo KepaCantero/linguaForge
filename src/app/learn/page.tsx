@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
-import { useUserStore } from '@/store/useUserStore';
 import { useNodeProgressStore } from '@/store/useNodeProgressStore';
 import { useImportedNodesStore } from '@/store/useImportedNodesStore';
 import { TopicCard } from './components/TopicCard';
@@ -18,9 +17,8 @@ import { CATEGORIES, A0_COURSES, COMING_SOON_COURSES } from './types';
 export type { UnifiedTopic } from './types';
 
 export default function LearnPage() {
-  const { appLanguage } = useUserStore();
   const { nodes, initGuidedNodes, isNodeUnlocked } = useNodeProgressStore();
-  const { nodes: importedNodes, deleteNode } = useImportedNodesStore();
+  const { nodes: importedNodes } = useImportedNodesStore();
   const [isMounted, setIsMounted] = useState(false);
 
   // UI State

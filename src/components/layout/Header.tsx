@@ -16,7 +16,7 @@ import { CALM_EASING } from '@/lib/animations';
  * CALM Header - Serene, unobtrusive navigation
  */
 export function Header() {
-  const { xp, coins, gems, streak, rank, hp } = useGamificationStore();
+  const { xp, streak, rank, hp } = useGamificationStore();
   const progress = getLevelProgress(xp);
 
   return (

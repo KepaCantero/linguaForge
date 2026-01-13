@@ -179,7 +179,7 @@ export function AAACard({
           {stats && stats.length > 0 && (
             <div className="flex items-center gap-4 mt-4 pt-4 border-t border-white/10">
               {stats.map((stat, i) => (
-                <div key={i} className="flex-1">
+                <div key={`aaa-stat-${i}-${stat.label}`} className="flex-1">
                   <div className="text-xs text-lf-muted mb-1">
                     {stat.label}
                   </div>

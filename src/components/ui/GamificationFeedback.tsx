@@ -25,14 +25,16 @@ const FEEDBACK_DURATION = 2000;
 export function GamificationFeedback() {
   const [feedbacks, setFeedbacks] = useState<FeedbackItem[]>([]);
 
-  // Añadir feedback
+  // Añadir feedback con eliminación automática
   const addFeedback = useCallback((type: FeedbackItem["type"], amount: number, subtitle?: string) => {
     const id = Date.now() + Math.random();
     setFeedbacks((prev) => [...prev, { id, type, amount, subtitle }]);
 
-    setTimeout(() => {
+    // Programar eliminación
+    const removeFeedback = () => {
       setFeedbacks((prev) => prev.filter((f) => f.id !== id));
-    }, FEEDBACK_DURATION);
+    };
+    setTimeout(removeFeedback, FEEDBACK_DURATION);
   }, []);
 
   useEffect(() => {

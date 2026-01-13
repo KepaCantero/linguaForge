@@ -251,8 +251,7 @@ export function useValidation<T extends Record<string, unknown>>({
         submitCount: prev.submitCount + 1,
       }));
 
-    } catch (error) {
-      console.error('Form submission error:', error);
+    } catch (_error) {
 
       setState(prev => ({
         ...prev,

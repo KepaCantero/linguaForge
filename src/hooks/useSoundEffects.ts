@@ -109,7 +109,9 @@ export function useSoundEffectsInit() {
     const handleUserInteraction = () => {
       if (!hasInteracted) {
         setHasInteracted(true);
-        initSoundEffects().catch(console.warn);
+        initSoundEffects().catch(() => {
+          // TODO: Add proper logging service for sound initialization errors
+        });
       }
     };
 

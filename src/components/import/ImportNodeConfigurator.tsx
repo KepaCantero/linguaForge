@@ -99,7 +99,7 @@ export function ImportNodeConfigurator({
             <legend className="block text-sm font-medium text-white mb-3">
               Icono
             </legend>
-            <div className="flex flex-wrap gap-2" role="group" aria-label="Selección de icono">
+            <div className="flex flex-wrap gap-2">
               {NODE_ICONS.map((icon) => (
                 <motion.button
                   key={icon}

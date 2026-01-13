@@ -52,7 +52,7 @@ export function useJanusKeyboardNavigation({
   const optionRefs = useRef<Record<string, HTMLButtonElement | null>>({});
 
   // Mover foco a una columna específica
-  const moveFocusToColumn = useCallback((direction: 'next' | 'prev') => {
+  const _moveFocusToColumn = useCallback((direction: 'next' | 'prev') => {
     const newFocus = getAdjacentColumnFocus(keyboardFocus, columns, direction);
 
     if (newFocus.columnId && newFocus.optionId) {
@@ -69,7 +69,7 @@ export function useJanusKeyboardNavigation({
   }, [keyboardFocus, columns]);
 
   // Mover foco a una opción dentro de la columna actual
-  const moveFocusToOption = useCallback((direction: 'next' | 'prev') => {
+  const _moveFocusToOption = useCallback((direction: 'next' | 'prev') => {
     const newFocus = getAdjacentOptionFocus(keyboardFocus, columns, direction);
 
     if (newFocus.optionId && newFocus.columnId) {
@@ -124,7 +124,6 @@ export function useJanusKeyboardNavigation({
       phase,
       currentFocus: keyboardFocus,
       columns,
-      selections,
       canSubmit: !!generatedPhrase,
       canPreview: false,
     });

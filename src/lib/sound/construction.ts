@@ -1033,7 +1033,6 @@ class ConstructionSoundEngine {
         (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
 
       if (!AudioContextClass) {
-        console.warn('[ConstructionSound] Web Audio API not supported');
         return false;
       }
 
@@ -1062,8 +1061,7 @@ class ConstructionSoundEngine {
 
       this.state.initialized = true;
       return true;
-    } catch (error) {
-      console.error('[ConstructionSound] Initialization failed:', error);
+    } catch {
       return false;
     }
   }

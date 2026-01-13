@@ -16,7 +16,7 @@ const youtubeAPIReadyCallbacks: (() => void)[] = [];
 
 function loadYouTubeAPI(): Promise<void> {
   return new Promise((resolve) => {
-    if (window.YT && window.YT.Player) {
+    if (window.YT?.Player) {
       resolve();
       return;
     }
@@ -145,8 +145,7 @@ export function YouTubePlayer({
       });
 
       playerInstanceRef.current = player;
-    } catch (error) {
-      console.error('Error initializing YouTube player:', error);
+    } catch {
     }
 
     return () => {

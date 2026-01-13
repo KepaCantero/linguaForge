@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { NeuralDashboard } from '@/components/visualization/NeuralDashboard';
 import { OrbitalHUD } from '@/components/dashboard/OrbitalHUD';
@@ -8,12 +7,7 @@ import { CognitiveLoadSection } from '@/components/dashboard/CognitiveLoadSectio
 import { useDashboardData } from './hooks/useDashboardData';
 
 export default function DashboardPage() {
-  const [isMounted, setIsMounted] = useState(false);
   const data = useDashboardData();
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   return (
     <div className="space-y-8">

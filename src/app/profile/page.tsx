@@ -6,7 +6,7 @@ import { useInputStore } from '@/store/useInputStore';
 import { useGamificationStore } from '@/store/useGamificationStore';
 import { useUserStore } from '@/store/useUserStore';
 import { getLevelByXP, SUPPORTED_LANGUAGES, SUPPORTED_LEVELS } from '@/lib/constants';
-import { User, Settings, Info, AlertTriangle, Bell, Volume2, Moon, Sun } from 'lucide-react';
+import { User, Settings, Info, AlertTriangle, Bell, Volume2, Moon } from 'lucide-react';
 
 const LANGUAGE_INFO: Record<string, { flag: string; name: string; gradient: string }> = {
   fr: { flag: '🇫🇷', name: 'Francés', gradient: 'from-blue-500 to-indigo-500' },

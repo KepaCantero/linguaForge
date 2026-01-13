@@ -97,7 +97,6 @@ export function useSync(options: UseSyncOptions = {}): UseSyncReturn {
 
       return result;
     } catch (error) {
-      console.error('[useSync] Sync failed:', error);
       const errorResult: SyncResult = {
         success: false,
         error: error instanceof Error ? error.message : 'Unknown error',

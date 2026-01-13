@@ -38,39 +38,20 @@ export async function loadLesson(
           jsonPath = `/content/${lang}/${level}/lessons/${leafId}.json`;
         }
 
-        console.log(`[LessonLoader] Attempting to load from: ${jsonPath}`);
 
         const response = await fetch(jsonPath, {
           cache: 'no-store', // En desarrollo, siempre recargar
         });
 
-        console.log(`[LessonLoader] Response status: ${response.status} ${response.statusText}`);
 
         if (!response.ok) {
           throw new Error(`Failed to load lesson: ${response.status} ${response.statusText}`);
         }
 
         const rawData = await response.json();
-        console.log(`[LessonLoader] Loaded data for ${leafId}, has leafId: ${!!rawData.leafId}`);
-
-        // Debug: verificar datos antes de validar
-        console.log(`[LessonLoader] Loading ${leafId}:`, {
-          hasCoreExercises: !!rawData.coreExercises,
-          pragmaStrike: rawData.coreExercises?.pragmaStrike?.length || 0,
-          shardDetection: rawData.coreExercises?.shardDetection?.length || 0,
-        });
 
         // Validar con Zod
         const validatedLesson = LessonContentSchema.parse(rawData);
-
-        // Debug: verificar datos después de validar
-        console.log(`[LessonLoader] Validated ${leafId}:`, {
-          hasCoreExercises: !!validatedLesson.coreExercises,
-          pragmaStrike: validatedLesson.coreExercises?.pragmaStrike?.length || 0,
-          shardDetection: validatedLesson.coreExercises?.shardDetection?.length || 0,
-          hasInputContent: !!validatedLesson.inputContent?.length,
-          hasMiniTest: !!validatedLesson.miniTest,
-        });
 
         // Guardar en cache
         lessonCache.set(cacheKey, validatedLesson);
@@ -82,14 +63,10 @@ export async function loadLesson(
     if (result.success && result.result) {
       return result.result;
     } else {
-      console.error(`[LessonLoader] Circuit breaker failed for lesson ${leafId}:`, result.error);
       return null;
     }
   } catch (error) {
-    console.error(`[LessonLoader] Error loading lesson ${leafId}:`, error);
     if (error instanceof Error) {
-      console.error('[LessonLoader] Error details:', error.message);
-      console.error('[LessonLoader] Error stack:', error.stack);
     }
     return null;
   }

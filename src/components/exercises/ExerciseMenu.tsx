@@ -24,7 +24,7 @@ interface ExerciseMenuProps {
  */
 export function ExerciseMenu({
   exercises,
-  subtopicTitle,
+  subtopicTitle: _subtopicTitle,
   onSelectExercise,
 }: ExerciseMenuProps) {
   return (

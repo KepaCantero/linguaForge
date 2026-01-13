@@ -144,6 +144,7 @@ export function executeTimeoutAction(
   action: TimeoutAction,
   setCurrentStepIndex: (index: number) => void,
   setPhase: (phase: string) => void,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setResponseStartTime: (time: number) => void
 ): void {
   if (action.type === 'next_step' && action.stepIndex !== undefined) {

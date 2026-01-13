@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useRef } from 'react';
-import { motion, MotionProps, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 /**
  * Micro-interaction types for different feedback scenarios
@@ -96,12 +96,13 @@ export function useMicroInteractions() {
             currentBrightness = 1 + (brightness - 1) * Math.sin(easeOut * Math.PI);
             break;
 
-          case 'error':
+          case 'error': {
             // Shake animation
             const shakeIntensity = Math.sin(easeOut * Math.PI * 4) * (rotate || 5);
             currentRotate = shakeIntensity;
             currentScale = 1 - 0.05 * easeOut;
             break;
+          }
 
           case 'warning':
             // Gentle pulse
@@ -191,22 +192,16 @@ export function withMicroInteractions<P extends object>(
     }, [trigger, defaultType]);
 
     return (
-      <div
+      <button
         ref={elementRef as any}
         onMouseEnter={() => handleInteraction('hover')}
         onMouseDown={() => handleInteraction('click')}
         onClick={() => handleInteraction(defaultType)}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            handleInteraction(defaultType);
-          }
-        }}
-        tabIndex={0}
-        role="button"
+        type="button"
+        style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
       >
         <Component {...props} />
-      </div>
+      </button>
     );
   };
 }

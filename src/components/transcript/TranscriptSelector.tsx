@@ -176,10 +176,11 @@ export function TranscriptSelector({
       return (
         <div className="space-y-2">
           {transcriptPhrases.map((phrase, index) => {
-            const isSelected = selectedPhrases.some(p => p.id === `phrase-${phrase.start}-${index}`);
+            const phraseId = `phrase-${phrase.start}-${index}`;
+            const isSelected = selectedPhrases.some(p => p.id === phraseId);
             return (
               <button
-                key={`phrase-${index}`}
+                key={phraseId}
                 onClick={() => handlePhraseClick(phrase, index)}
                 className={`
                   w-full text-left p-3 rounded-lg transition-all
@@ -211,9 +212,8 @@ export function TranscriptSelector({
 
     // Modo texto: texto seleccionable
     return (
-      <div
+      <section
         ref={textRef}
-        role="region"
         aria-label="Selector de transcripción de texto"
         className="select-text cursor-text"
         onMouseUp={handleTextSelection}
@@ -271,7 +271,7 @@ export function TranscriptSelector({
             </p>
           </motion.div>
         )}
-      </div>
+      </section>
     );
   };
 
@@ -307,7 +307,7 @@ export function TranscriptSelector({
         )}
         {selectedPhrases.length > 0 && (
           <span className="ml-auto text-sm text-gray-600 dark:text-gray-400">
-            {selectedPhrases.length} seleccionada{selectedPhrases.length !== 1 ? 's' : ''}
+            {selectedPhrases.length} {selectedPhrases.length === 1 ? 'seleccionada' : 'seleccionadas'}
           </span>
         )}
       </div>

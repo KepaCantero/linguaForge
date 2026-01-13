@@ -107,7 +107,6 @@ class ContextualSoundEngine {
       // Crear AudioContext
       const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
       if (!AudioContextClass) {
-        console.warn('[SoundEngine] Web Audio API not supported');
         return false;
       }
 
@@ -134,8 +133,7 @@ class ContextualSoundEngine {
 
       this.state.initialized = true;
       return true;
-    } catch (error) {
-      console.error('[SoundEngine] Initialization failed:', error);
+    } catch {
       return false;
     }
   }

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useMemo, useEffect } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import type { JanusComposer } from '@/schemas/content';
 import type { JanusCompositionResult, SpeechRecordingResult } from '@/types';

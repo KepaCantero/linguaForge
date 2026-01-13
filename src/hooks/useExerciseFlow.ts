@@ -1,6 +1,6 @@
 import { useState, useCallback, useMemo } from 'react';
 import { useRouter, useParams, useSearchParams } from 'next/navigation';
-import { useImportedNodesStore, type ImportedNode, type ImportedNodesStore } from '@/store/useImportedNodesStore';
+import { useImportedNodesStore, type ImportedNode } from '@/store/useImportedNodesStore';
 import {
   generateClozeExercises,
   generateVariationsExercises,
@@ -60,7 +60,6 @@ export function useExerciseFlow(): ExerciseFlowState & ExerciseFlowActions {
   const subtopicId = searchParams.get('subtopic');
   const modeParam = (searchParams.get('mode') || 'academia') as LessonMode;
 
-  const [isLoaded, setIsLoaded] = useState(false);
   const [currentMode, setCurrentMode] = useState<LessonMode>(modeParam);
   const [selectedExerciseType, setSelectedExerciseType] = useState<ExerciseType>(null);
   const [exerciseIndices, setExerciseIndices] = useState({
@@ -79,7 +78,7 @@ export function useExerciseFlow(): ExerciseFlowState & ExerciseFlowActions {
 
   // Generar todos los tipos de ejercicios
   const exerciseData = useMemo((): ExerciseData | null => {
-    if (!subtopic || !subtopic.phrases || subtopic.phrases.length === 0) {
+    if (!subtopic?.phrases?.length) {
       return null;
     }
 
@@ -149,7 +148,7 @@ export function useExerciseFlow(): ExerciseFlowState & ExerciseFlowActions {
     selectedExerciseType,
     exerciseIndices,
     currentMode,
-    isLoaded,
+    isLoaded: true,
     setSelectedExerciseType,
     handleModeChange,
     handleSelectExercise,

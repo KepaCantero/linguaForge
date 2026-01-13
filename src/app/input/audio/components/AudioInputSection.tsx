@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import { WordSelector } from "@/components/transcript/WordSelector";
-import { QuickReviewButton } from "@/components/transcript/QuickReviewButton";
 import { ContentSource } from "@/types/srs";
 
 interface AudioInputSectionProps {
@@ -23,7 +22,7 @@ export function AudioInputSection({
   setAudioUrl,
   audioId,
   audioTitle,
-  setAudioTitle,
+  setAudioTitle: _setAudioTitle,
   duration,
   setDuration,
   transcriptText,

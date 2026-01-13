@@ -19,26 +19,9 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Verificar estado del store
-  useEffect(() => {
-    if (isHydrated) {
-      console.log('[HomePage] hasCompletedOnboarding:', hasCompletedOnboarding);
-      const stored = localStorage.getItem('linguaforge-user');
-      if (stored) {
-        try {
-          const parsed = JSON.parse(stored);
-          console.log('[HomePage] LocalStorage hasCompletedOnboarding:', parsed.state?.hasCompletedOnboarding);
-        } catch (e) {
-          console.error('[HomePage] Error parsing localStorage:', e);
-        }
-      }
-    }
-  }, [hasCompletedOnboarding, isHydrated]);
-
   // Si ya completó el onboarding, redirigir a /learn
   useEffect(() => {
     if (isHydrated && hasCompletedOnboarding) {
-      console.log('[HomePage] Redirigiendo a /learn...');
       router.push('/learn');
     }
   }, [hasCompletedOnboarding, router, isHydrated]);

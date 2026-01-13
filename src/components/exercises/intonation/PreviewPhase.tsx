@@ -64,11 +64,11 @@ interface DialogueListProps {
 function DialogueList({ dialogue }: DialogueListProps) {
   return (
     <div className="bg-white dark:bg-gray-800 rounded-aaa-xl p-4 space-y-3 border border-gray-100 dark:border-gray-700">
-      {dialogue.map((turn, i) => {
+      {dialogue.map((turn) => {
         const isUserTurn = turn.speaker === 'user';
         return (
           <div
-            key={i}
+            key={`dialogue-turn-${turn.speaker}-${turn.text.slice(0, 20)}`}
             className={`flex gap-3 ${isUserTurn ? 'flex-row-reverse' : ''}`}
           >
             <div className={`

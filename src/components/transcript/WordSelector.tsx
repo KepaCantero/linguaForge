@@ -23,6 +23,31 @@ interface SelectedWord extends ExtractedWord {
   isTranslating?: boolean;
 }
 
+// Helper functions for button styling
+function getWordButtonClassName(isSelected: boolean, isStudied: boolean): string {
+  const baseClasses = 'inline-block px-1 py-0.5 mx-0.5 rounded transition-all';
+
+  if (isSelected) {
+    return `${baseClasses} bg-indigo-500 text-white font-medium`;
+  }
+
+  if (isStudied) {
+    return `${baseClasses} text-gray-400 dark:text-gray-600 cursor-not-allowed`;
+  }
+
+  return `${baseClasses} hover:bg-indigo-100 dark:hover:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 cursor-pointer`;
+}
+
+function getWordButtonTitle(isStudied: boolean, isSelected: boolean): string {
+  if (isStudied) return 'Ya estudiada';
+  if (isSelected) return 'Click para quitar';
+  return 'Click para añadir';
+}
+
+function pluralizeCards(count: number): string {
+  return count === 1 ? 'card' : 'cards';
+}
+
 export function WordSelector({
   transcript,
   source,
@@ -71,7 +96,7 @@ export function WordSelector({
     const processSentence = (sentence: string, sentenceIndex: number) => {
       const sentenceWords = sentence.split(/\s+/).filter(w => w.length > 0);
       return sentenceWords.map((word, position) => {
-        const cleaned = word.replace(/[.,;:!?()\[\]{}'"]/g, '');
+        const cleaned = word.replace(/[.,;:!?()[\]{}'"]/g, '');
         if (cleaned.length < 3) return null;
 
         const normalized = normalizeWord(cleaned);
@@ -160,7 +185,7 @@ export function WordSelector({
         languageCode: activeLanguage,
         levelCode: activeLevel,
         tags: [
-          source.type === 'video' ? 'video' : source.type === 'audio' ? 'audio' : 'text',
+          source.type === 'video' || source.type === 'audio' ? source.type : 'text',
           'transcript',
           'word',
           word.type,
@@ -169,7 +194,7 @@ export function WordSelector({
       }));
 
       const createdCards = addCards(cardsToCreate);
-      
+
       // Actualizar diccionario
       wordsArray.forEach((word, index) => {
         if (createdCards[index]) {
@@ -184,9 +209,9 @@ export function WordSelector({
       setSelectedWords(new Map());
       setTranslations({});
 
-      alert(`✓ ${cardsToCreate.length} palabra${cardsToCreate.length !== 1 ? 's' : ''} añadida${cardsToCreate.length !== 1 ? 's' : ''} al deck`);
-    } catch (error) {
-      console.error('Error creating cards:', error);
+      alert(`✓ ${cardsToCreate.length} ${cardsToCreate.length === 1 ? 'palabra añadida' : 'palabras añadidas'} al deck`);
+    } catch (_error) {
+      // TODO: Add proper logging service for card creation errors
       alert('Error al crear las cards');
     } finally {
       setIsCreating(false);
@@ -202,27 +227,20 @@ export function WordSelector({
             const normalized = wordData.normalized;
             const isSelected = selectedWords.has(normalized);
             const isStudied = isWordStudied(normalized);
+            const uniqueKey = `${wordData.sentenceIndex}-${wordData.position}-${wordData.normalized}`;
 
             // Si no es palabra clave, mostrar normal
             if (!wordData.isKeyword) {
-              return <span key={index}>{wordData.word} </span>;
+              return <span key={uniqueKey}>{wordData.word} </span>;
             }
 
             return (
               <button
-                key={index}
+                key={uniqueKey}
                 onClick={() => handleWordClick(wordData)}
                 disabled={isStudied}
-                className={`
-                  inline-block px-1 py-0.5 mx-0.5 rounded transition-all
-                  ${isSelected
-                    ? 'bg-indigo-500 text-white font-medium'
-                    : isStudied
-                    ? 'text-gray-400 dark:text-gray-600 cursor-not-allowed'
-                    : 'hover:bg-indigo-100 dark:hover:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 cursor-pointer'
-                  }
-                `}
-                title={isStudied ? 'Ya estudiada' : isSelected ? 'Click para quitar' : 'Click para añadir'}
+                className={getWordButtonClassName(isSelected, isStudied)}
+                title={getWordButtonTitle(isStudied, isSelected)}
               >
                 {wordData.word}
               </button>
@@ -289,7 +307,7 @@ export function WordSelector({
             disabled={isCreating}
             className="w-full py-2 bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-300 dark:disabled:bg-gray-700 text-white disabled:text-gray-500 font-medium rounded-lg transition-colors"
           >
-            {isCreating ? 'Creando...' : `Crear ${selectedWords.size} card${selectedWords.size !== 1 ? 's' : ''}`}
+            {isCreating ? 'Creando...' : `Crear ${selectedWords.size} ${pluralizeCards(selectedWords.size)}`}
           </button>
         </motion.div>
       )}

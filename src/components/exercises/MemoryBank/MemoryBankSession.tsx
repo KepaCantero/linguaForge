@@ -14,7 +14,7 @@ import { EpisodicCard, type EpisodicCardContent } from './EpisodicCard';
 import { type LearningContext, getTextureForContext } from '@/lib/textures';
 import { useHaptic } from '@/lib/haptic';
 import { useSoundEngine } from '@/lib/soundEngine';
-import { X, Minimize2 } from 'lucide-react';
+import { X } from 'lucide-react';
 
 // ============================================
 // TIPOS
@@ -434,7 +434,7 @@ function FocusModeParticles() {
     <>
       {[0, 1, 2, 3, 4, 5].map((i) => (
         <motion.div
-          key={i}
+          key={`focus-particle-${i}`}
           className="absolute w-1 h-1 rounded-full bg-white/30"
           style={{
             left: `${20 + i * 15}%`,

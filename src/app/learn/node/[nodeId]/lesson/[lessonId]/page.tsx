@@ -218,6 +218,16 @@ function buildExerciseCategories(lessonContent: LessonContent): ExerciseCategory
       .map((phrase, i) => ({ id: `shadow-${block.id}-${i}`, type: 'shadowing' as const, data: phrase }))
   ) ?? [];
 
+  if (shadowingItems.length > 0) {
+    categories.push({
+      id: 'shadowing',
+      title: 'Shadowing',
+      icon: '🎤',
+      description: 'Repite y practica la pronunciación',
+      items: shadowingItems,
+    });
+  }
+
   // Variations
   const variationItems = lessonContent.conversationalBlocks?.flatMap((block) =>
     block.phrases
@@ -311,13 +321,12 @@ export default function LessonPage() {
     setShowWarmupGate(true);
   }, []);
 
-  const handleWarmupComplete = useCallback((score: number) => {
-    console.log(`Warmup completado con puntuación: ${score}`);
+  const handleWarmupComplete = useCallback((_score: number) => {
     setWarmupCompleted(true);
   }, []);
 
   const handleWarmupSkip = useCallback(() => {
-    console.log('Warmup saltado');
+    // Warmup skipped - no action needed
   }, []);
 
   const handleWarmupDone = useCallback(() => {

@@ -71,7 +71,7 @@ export function EmptyState({
 
             if (action.href) {
               return (
-                <Link key={index} href={action.href} className={buttonClass}>
+                <Link key={`action-${action.label}-${action.href}`} href={action.href} className={buttonClass}>
                   {action.label}
                 </Link>
               );
@@ -79,7 +79,7 @@ export function EmptyState({
 
             return (
               <button
-                key={index}
+                key={`action-${action.label}-${index}`}
                 onClick={action.onClick}
                 className={buttonClass}
               >

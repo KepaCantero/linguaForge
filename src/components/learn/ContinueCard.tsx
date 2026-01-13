@@ -201,7 +201,7 @@ export function ContinueCard({ className = '' }: ContinueCardProps) {
 export function ContinueCardCompact({ className = '' }: ContinueCardProps) {
   const router = useRouter();
   const prefersReduced = useReducedMotion();
-  const { lastSession, clearSession, hasRecentSession } = useSessionStore();
+  const { lastSession, hasRecentSession } = useSessionStore();
 
   if (!lastSession || !hasRecentSession()) {
     return null;

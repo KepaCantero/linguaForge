@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface XPNotification {
@@ -10,8 +10,19 @@ interface XPNotification {
   y: number;
 }
 
+const NOTIFICATION_DURATION = 1500;
+
 export function FloatingXP() {
   const [notifications, setNotifications] = useState<XPNotification[]>([]);
+
+  const addNotification = useCallback((amount: number, x: number, y: number) => {
+    const id = Date.now();
+    setNotifications((prev) => [...prev, { id, amount, x, y }]);
+
+    setTimeout(() => {
+      setNotifications((prev) => prev.filter((n) => n.id !== id));
+    }, NOTIFICATION_DURATION);
+  }, []);
 
   useEffect(() => {
     const handleXP = (
@@ -23,18 +34,13 @@ export function FloatingXP() {
         y = window.innerHeight / 2,
       } = event.detail;
 
-      const id = Date.now();
-      setNotifications((prev) => [...prev, { id, amount, x, y }]);
-
-      setTimeout(() => {
-        setNotifications((prev) => prev.filter((n) => n.id !== id));
-      }, 1500);
+      addNotification(amount, x, y);
     };
 
     globalThis.addEventListener("xp-gained", handleXP as EventListener);
     return () =>
       globalThis.removeEventListener("xp-gained", handleXP as EventListener);
-  }, []);
+  }, [addNotification]);
 
   return (
     <div className="fixed inset-0 pointer-events-none z-50">

@@ -72,7 +72,6 @@ class TTSService {
    */
   speak(text: string, onEnd?: TTSCallback, onStart?: TTSCallback): void {
     if (!this.synth) {
-      console.warn('Speech synthesis not available');
       onEnd?.();
       return;
     }
@@ -101,8 +100,8 @@ class TTSService {
       onEnd?.();
     };
 
-    utterance.onerror = (event) => {
-      console.error('TTS Error:', event.error);
+    utterance.onerror = (_event) => {
+      // TODO: Add proper logging service for TTS errors
       onEnd?.();
     };
 

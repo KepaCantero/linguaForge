@@ -46,7 +46,7 @@ export function InputHubOrbital({ inputOptions, shouldAnimate }: InputHubOrbital
 
         {[0, 1, 2].map((i) => (
           <motion.div
-            key={i}
+            key={`input-orbital-ring-${i}`}
             className="absolute rounded-full border-2 border-purple-500/30"
             style={{
               width: `${100 + i * 30}px`,
@@ -241,7 +241,7 @@ export function InputHubOrbital({ inputOptions, shouldAnimate }: InputHubOrbital
       {/* Floating particles */}
       {shouldAnimate && [0, 1, 2, 3, 4, 5, 6].map((i) => (
         <motion.div
-          key={i}
+          key={`input-particle-${i}`}
           className="absolute w-2 h-2 rounded-full bg-lf-accent opacity-70"
           style={{
             left: `${20 + (i * 10) % 60}%`,

@@ -108,16 +108,15 @@ export function MissionFeed({
 
   // Manejar completar warmup
   const handleWarmupComplete = useCallback(
-    (score: number) => {
-      console.log(`Warmup completed with score: ${score}`);
-      // El score se guarda en el store, no necesitamos hacer nada más aquí
+    (_score: number) => {
+      // Score is saved in store, no additional action needed
     },
     []
   );
 
   // Manejar saltar warmup
   const handleWarmupSkip = useCallback(() => {
-    console.log('Warmup skipped');
+    // Warmup skipped - no action needed
   }, []);
 
   // Manejar comenzar misión después de warmup

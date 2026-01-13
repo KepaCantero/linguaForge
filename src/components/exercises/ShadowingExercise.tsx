@@ -259,7 +259,7 @@ function ListenCounter({ listenCount }: ListenCounterProps) {
       <div className="flex gap-2">
         {Array.from({ length: SHADOWING_CONFIG.requiredListens }).map((_, i) => (
           <div
-            key={i}
+            key={`shadowing-progress-${i}`}
             className={`
               flex-1 h-2 rounded-full
               ${i < listenCount ? 'bg-indigo-500' : 'bg-gray-200 dark:bg-gray-700'}

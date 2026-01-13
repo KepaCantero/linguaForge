@@ -37,9 +37,8 @@ export async function GET(request: NextRequest) {
       thumbnail: data.thumbnail_url,
       author: data.author_name,
     });
-  } catch (error) {
-    console.error('Error fetching video info:', error);
-    
+  } catch {
+
     // Retornar valores por defecto en caso de error
     return NextResponse.json({
       title: `Video ${videoId}`,

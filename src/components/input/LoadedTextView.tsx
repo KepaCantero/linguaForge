@@ -72,7 +72,7 @@ export function LoadedTextView({
         <h3 id="content-heading" className="block text-sm font-medium text-white/90">
           Contenido
         </h3>
-        <div role="region" aria-labelledby="content-heading" className="mb-4">
+        <section aria-labelledby="content-heading" className="mb-4">
           <WordSelector
             transcript={textContent}
             source={{
@@ -81,7 +81,7 @@ export function LoadedTextView({
               title: textTitle || `Texto ${textId}`,
             } as ContentSource}
           />
-        </div>
+        </section>
       </div>
 
       {/* Play Audio Button */}

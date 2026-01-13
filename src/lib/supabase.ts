@@ -92,7 +92,6 @@ export const logSupabaseOperation = (
   table: string,
   details?: Record<string, unknown>
 ): void => {
-  console.log(`[Supabase] ${operation} on table "${table}"`, details || '');
 };
 
 // Función helper para validación de datos antes de insertar/actualizar

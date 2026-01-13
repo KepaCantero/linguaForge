@@ -193,8 +193,7 @@ export class SRSCardRepository extends BaseRepository<SRSCard> {
     // Por ahora, hacemos updates individuales en paralelo
     await Promise.all(
       cards.map((card) =>
-        this.update(card.id, card).catch((err) => {
-          console.error(`Failed to update card ${card.id}:`, err);
+        this.update(card.id, card).catch((_err) => {
         })
       )
     );

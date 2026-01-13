@@ -4,7 +4,7 @@
  */
 
 import { authRepository } from './repository/authRepository';
-import type { AuthCallbackResult, SessionResult, UserResult } from './repository/authRepository';
+import type { SessionResult, UserResult } from './repository/authRepository';
 
 // ============================================
 // TIPOS
@@ -34,7 +34,6 @@ export async function handleAuthCallback(input: AuthCallbackInput): Promise<Auth
 
   // Validar que tenemos un código
   if (!code) {
-    console.error('[AuthService] No code provided in auth callback');
     return {
       success: false,
       redirectTo,
@@ -46,7 +45,6 @@ export async function handleAuthCallback(input: AuthCallbackInput): Promise<Auth
   const result = await authRepository.exchangeCodeForSession(code);
 
   if (!result.success) {
-    console.error('[AuthService] Failed to exchange code for session:', result.error);
     return {
       success: false,
       redirectTo,
@@ -54,7 +52,6 @@ export async function handleAuthCallback(input: AuthCallbackInput): Promise<Auth
     };
   }
 
-  console.log('[AuthService] Auth callback successful, redirecting to:', redirectTo);
   return {
     success: true,
     redirectTo,

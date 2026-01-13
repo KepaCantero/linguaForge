@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion';
 
 type TabId = 'build' | 'inventory' | 'gallery' | 'milestones';
 

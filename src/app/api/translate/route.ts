@@ -64,7 +64,6 @@ export async function POST(request: NextRequest) {
       });
     }
   } catch (error) {
-    console.error('Translation error:', error);
     return NextResponse.json(
       { 
         error: 'Translation failed',

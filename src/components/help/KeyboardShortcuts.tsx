@@ -122,6 +122,7 @@ export function KeyboardShortcutsModal({ isOpen, onClose }: KeyboardShortcutsMod
               className="pointer-events-auto w-full max-w-2xl max-h-[80vh] overflow-hidden
                          bg-lf-soft rounded-2xl border border-lf-primary/20 shadow-2xl"
               onClick={(e) => e.stopPropagation()}
+              onKeyDown={(e) => e.stopPropagation()}
             >
               {/* Header */}
               <div className="flex items-center justify-between p-6 border-b border-lf-primary/10">

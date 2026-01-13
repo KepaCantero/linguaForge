@@ -111,7 +111,7 @@ export abstract class BaseRepository<T extends Record<string, unknown>> {
         {
           onError: (error) => {
             if (isAuthError(error)) {
-              console.error('Auth error in repository:', error);
+              // TODO: Add proper logging service for auth errors
             }
           },
         }

@@ -31,9 +31,8 @@ export default function ConstructionPage() {
     setActiveTab(tab);
   };
 
-  const handleElementClick = (id: string) => {
+  const handleElementClick = (_id: string) => {
     sound.playUIClick();
-    console.log('Element clicked:', id);
   };
 
   const handleWelcomeDismiss = () => {

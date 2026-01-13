@@ -51,18 +51,15 @@ export class StudySessionRepository extends BaseRepository<StudySession> {
     const { data: created, error } = await this.create(session);
 
     if (error) {
-      console.error('Error creating study session:', error);
       return null;
     }
 
     if (!created) {
-      console.error('Failed to create study session record');
       return null;
     }
 
     const validated = StudySessionSchema.safeParse(created);
     if (!validated.success) {
-      console.error('Invalid study session data returned from database:', validated.error);
       return null;
     }
 
@@ -82,32 +79,42 @@ export class StudySessionRepository extends BaseRepository<StudySession> {
     lessonsCompleted?: number;
     cardsReviewed?: number;
   }): Promise<StudySession | null> {
+    // Mapeo de campos de actualización a nombres de BD
+    const fieldMapping: Record<keyof NonNullable<typeof updates>, keyof StudySession> = {
+      duration: 'duration',
+      xpEarned: 'xp_earned',
+      coinsEarned: 'coins_earned',
+      gemsEarned: 'gems_earned',
+      exercisesCompleted: 'exercises_completed',
+      accuracy: 'accuracy',
+      lessonsCompleted: 'lessons_completed',
+      cardsReviewed: 'cards_reviewed',
+    };
+
     const updateData: Partial<StudySession> = {
       ended_at: new Date().toISOString(),
     };
 
-    // Aplicar actualizaciones si se proporcionan
+    // Aplicar actualizaciones usando mapeo
     if (updates) {
-      if (updates.duration !== undefined) updateData.duration = updates.duration;
-      if (updates.xpEarned !== undefined) updateData.xp_earned = updates.xpEarned;
-      if (updates.coinsEarned !== undefined) updateData.coins_earned = updates.coinsEarned;
-      if (updates.gemsEarned !== undefined) updateData.gems_earned = updates.gemsEarned;
-      if (updates.exercisesCompleted !== undefined) updateData.exercises_completed = updates.exercisesCompleted;
-      if (updates.accuracy !== undefined) updateData.accuracy = updates.accuracy;
-      if (updates.lessonsCompleted !== undefined) updateData.lessons_completed = updates.lessonsCompleted;
-      if (updates.cardsReviewed !== undefined) updateData.cards_reviewed = updates.cardsReviewed;
+      Object.entries(updates).forEach(([key, value]) => {
+        if (value !== undefined) {
+          const dbField = fieldMapping[key as keyof typeof updates];
+          if (dbField) {
+            (updateData as Record<string, unknown>)[dbField] = value;
+          }
+        }
+      });
     }
 
     const { data: updated, error } = await this.update(sessionId, updateData);
 
     if (error) {
-      console.error(`Error ending study session ${sessionId}:`, error);
       return null;
     }
 
     const validated = StudySessionSchema.safeParse(updated);
     if (!validated.success) {
-      console.error('Invalid study session data returned from database:', validated.error);
       return null;
     }
 
@@ -126,7 +133,6 @@ export class StudySessionRepository extends BaseRepository<StudySession> {
       .limit(limit);
 
     if (error) {
-      console.error(`Error fetching recent sessions for user ${userId}:`, error);
       return [];
     }
 
@@ -150,7 +156,6 @@ export class StudySessionRepository extends BaseRepository<StudySession> {
       .order('started_at', { ascending: false });
 
     if (error) {
-      console.error(`Error fetching sessions of type ${sessionType} for user ${userId}:`, error);
       return [];
     }
 
@@ -243,8 +248,7 @@ export class StudySessionRepository extends BaseRepository<StudySession> {
         sessionsByType,
         weeklyStats,
       };
-    } catch (error) {
-      console.error('Error fetching user session stats:', error);
+    } catch {
       return {
         totalSessions: 0,
         totalTimeSpent: 0,
@@ -281,7 +285,6 @@ export class StudySessionRepository extends BaseRepository<StudySession> {
       .order('started_at', { ascending: false });
 
     if (error) {
-      console.error(`Error fetching sessions between ${startDate} and ${endDate}:`, error);
       return [];
     }
 
@@ -308,7 +311,6 @@ export class StudySessionRepository extends BaseRepository<StudySession> {
         .order('started_at', { ascending: false });
 
       if (error) {
-        console.error('Error fetching top study time users:', error);
         return [];
       }
 
@@ -336,8 +338,7 @@ export class StudySessionRepository extends BaseRepository<StudySession> {
         }));
 
       return sorted;
-    } catch (error) {
-      console.error('Error fetching top study time users:', error);
+    } catch {
       return [];
     }
   }

@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import type { BrainZoneId } from '@/components/visualization/BrainZoneActivation';
 
 interface StatOrbProps {
   value: string | number;
@@ -88,7 +87,7 @@ export function OrbitalHUD({ level, xp, currentLevel, rank, synapsesCount }: Orb
       {/* Outer decorative rings */}
       {[0, 1, 2, 3, 4].map((i) => (
         <motion.div
-          key={i}
+          key={`orbital-ring-${i}`}
           className="absolute rounded-full border"
           style={{
             width: `${250 + i * 50}px`,
@@ -144,7 +143,7 @@ export function OrbitalHUD({ level, xp, currentLevel, rank, synapsesCount }: Orb
         {/* Animated inner rings */}
         {[0, 1].map((i) => (
           <motion.div
-            key={i}
+            key={`inner-ring-${i}`}
             className="absolute rounded-full border-2 border-white/20"
             style={{
               width: `${60 + i * 15}px`,
@@ -199,7 +198,7 @@ export function OrbitalHUD({ level, xp, currentLevel, rank, synapsesCount }: Orb
       {/* Floating particles */}
       {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => (
         <motion.div
-          key={i}
+          key={`orbital-particle-${i}`}
           className="absolute w-1.5 h-1.5 rounded-full bg-lf-accent opacity-70"
           style={{
             left: `${25 + (i * 9) % 50}%`,

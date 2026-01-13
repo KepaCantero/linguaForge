@@ -26,7 +26,7 @@ export function TextInputOrbitalHUD({
       {/* Outer decorative rings */}
       {[0, 1, 2, 3].map((i) => (
         <motion.div
-          key={i}
+          key={`text-ring-${i}`}
           className="absolute rounded-full border"
           style={{
             width: `${200 + i * 40}px`,
@@ -121,7 +121,7 @@ export function TextInputOrbitalHUD({
       {/* Floating particles */}
       {[0, 1, 2, 3, 4, 5].map((i) => (
         <motion.div
-          key={i}
+          key={`text-particle-${i}`}
           className="absolute w-2 h-2 rounded-full opacity-70"
           style={{
             background: i % 2 === 0 ? '#06B6D4' : '#22D3EE',

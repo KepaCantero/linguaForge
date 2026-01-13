@@ -1,7 +1,5 @@
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { trackEvent } from '@/lib/analytics';
-import { AnalyticsEvent } from '@/types/analytics';
 import type { FAQCategory } from '../data/faq-data';
 
 interface FAQListProps {

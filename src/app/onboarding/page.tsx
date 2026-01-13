@@ -63,8 +63,6 @@ export default function OnboardingPage() {
   };
 
   const handleModeSelect = (mode: LearningMode) => {
-    console.log('[Onboarding] Completando onboarding con modo:', mode);
-
     // Guardar todas las preferencias antes de completar onboarding
     setMode(mode);
     // Asegurar que el idioma y nivel estén guardados
@@ -73,14 +71,7 @@ export default function OnboardingPage() {
     // Completar onboarding y redirigir
     completeOnboarding();
 
-    // Verificar que se guardó
     setTimeout(() => {
-      const stored = localStorage.getItem('linguaforge-user');
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        console.log('[Onboarding] Estado después de completeOnboarding:', parsed.state);
-      }
-
       router.push('/learn');
     }, 200);
   };
@@ -227,9 +218,9 @@ export default function OnboardingPage() {
                   {t.onboarding.autonomousMode.detail}
                 </p>
                 <div className="mt-4 pl-12 flex gap-2">
-                  {['🎙️', '📰', '▶️'].map((emoji, i) => (
+                  {['🎙️', '📰', '▶️'].map((emoji) => (
                     <span
-                      key={i}
+                      key={emoji}
                       className="w-8 h-8 flex items-center justify-center bg-gray-100 dark:bg-gray-700 rounded-full text-sm"
                     >
                       {emoji}

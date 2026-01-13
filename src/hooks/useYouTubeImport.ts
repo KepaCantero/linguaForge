@@ -81,7 +81,6 @@ export function useYouTubeImport(): YouTubeImportState & YouTubeImportActions {
         }
       }
     } catch (error) {
-      console.error('Error fetching transcript:', error);
     } finally {
       setState((prev) => ({ ...prev, isLoadingTranscript: false }));
     }
@@ -113,18 +112,14 @@ export function useYouTubeImport(): YouTubeImportState & YouTubeImportActions {
           setTopicTitle(videoInfo.title);
         }
       } else {
-        console.warn('No transcript found for video:', extractedId);
         setContent('');
       }
     } catch (error) {
-      console.error('Error fetching transcript:', error);
       const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
 
       if (errorMessage.includes('No transcript found') || errorMessage.includes('No transcript available')) {
-        console.warn('Video has no public captions:', youtubeUrl);
         setContent('');
       } else {
-        console.error('Error fetching transcript:', errorMessage);
         alert(`No se pudo obtener la transcripción automáticamente.\n\nPor favor, pega la transcripción manualmente en el campo de texto.`);
       }
     } finally {

@@ -84,9 +84,7 @@ export function RiveAnimation({
       // rive.setNumberStateAtPath('inputName', 42, 'StateMachineName');
       //
       // Por ahora, solo loggear sin actualizar (feature pendiente)
-      console.log('[Rive] Inputs to update:', inputs);
     } catch (error) {
-      console.error('[Rive] Error updating inputs:', error);
       onError?.(error instanceof Error ? error : new Error(String(error)));
     }
   }, [inputs, isLoaded, rive, onError]);

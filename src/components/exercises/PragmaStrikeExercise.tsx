@@ -60,32 +60,25 @@ export function PragmaStrikeExercise({ exercise, onComplete, mode = 'desafio' }:
 
     startTimeRef.current = Date.now();
 
-    const startChallengeTimer = () => {
-      timerRef.current = setInterval(() => {
-        setTimeRemaining((prev) => {
-          if (prev <= 0.1) {
-            if (!selectedOption) {
-              handleOptionSelect(exercise.options[0]);
-            }
-            return 0;
-          }
-          return prev - 0.1;
-        });
-        setTimeSpent((Date.now() - startTimeRef.current) / 1000);
-      }, 100);
+    // Maneja el tick del timer en modo desafío
+    const tickChallengeTimer = () => {
+      setTimeRemaining((prev) => {
+        const shouldAutoSelect = prev <= 0.1 && !selectedOption;
+        if (shouldAutoSelect) {
+          handleOptionSelect(exercise.options[0]);
+        }
+        return prev <= 0.1 ? 0 : prev - 0.1;
+      });
+      setTimeSpent((Date.now() - startTimeRef.current) / 1000);
     };
 
-    const startAcademiaTimer = () => {
-      timerRef.current = setInterval(() => {
-        setTimeSpent((Date.now() - startTimeRef.current) / 1000);
-      }, 100);
+    // Maneja el tick del timer en modo academia
+    const tickAcademiaTimer = () => {
+      setTimeSpent((Date.now() - startTimeRef.current) / 1000);
     };
 
-    if (timerEnabled) {
-      startChallengeTimer();
-    } else {
-      startAcademiaTimer();
-    }
+    const startTimer = timerEnabled ? tickChallengeTimer : tickAcademiaTimer;
+    timerRef.current = setInterval(startTimer, 100);
 
     return stopTimer;
   }, [showResult, exercise.options, selectedOption, handleOptionSelect, timerEnabled, stopTimer]);
@@ -295,7 +288,7 @@ function OptionButton({ option, index, isSelected, showCorrect, showIncorrect, s
   );
 }
 
-function getOptionButtonClass(showCorrect: boolean, showIncorrect: boolean, isSelected: boolean, showResult: boolean): string {
+function getOptionButtonClass(showCorrect: boolean, showIncorrect: boolean, isSelected: boolean, _showResult: boolean): string {
   if (showCorrect) {
     return 'p-4 rounded-aaa-xl font-medium text-left transition-all bg-emerald-500 text-white ring-4 ring-emerald-300 cursor-default border border-gray-200 dark:border-gray-700';
   }

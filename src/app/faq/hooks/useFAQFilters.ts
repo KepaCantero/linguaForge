@@ -2,7 +2,6 @@ import { useMemo, useState } from 'react';
 import { trackEvent } from '@/lib/analytics';
 import { AnalyticsEvent } from '@/types/analytics';
 import { FAQ_CATEGORIES } from '../data/faq-data';
-import type { FAQCategory } from '../data/faq-data';
 
 export function useFAQFilters(initialQuery: string = '') {
   const [searchQuery, setSearchQuery] = useState(initialQuery);

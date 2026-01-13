@@ -76,7 +76,7 @@ export async function saveExerciseCompletion(
 
     return { error: null };
   } catch (error) {
-    console.error('Error saving exercise completion:', error);
+    // TODO: Add proper logging service for exercise completion errors
     return { error: error instanceof Error ? error : new Error('Unknown error') };
   }
 }
@@ -148,7 +148,7 @@ export async function getLessonProgress(
 
     return { data: data || null, error: null };
   } catch (error) {
-    console.error('Error getting lesson progress:', error);
+    // TODO: Add proper logging service for lesson progress errors
     return {
       data: null,
       error: error instanceof Error ? error : new Error('Unknown error'),
@@ -178,7 +178,7 @@ export async function getUserProgress(
 
     return { data: data || [], error: null };
   } catch (error) {
-    console.error('Error getting user progress:', error);
+    // TODO: Add proper logging service for user progress errors
     return {
       data: [],
       error: error instanceof Error ? error : new Error('Unknown error'),
@@ -219,7 +219,7 @@ export async function completeLesson(
 
     return { error: null };
   } catch (error) {
-    console.error('Error completing lesson:', error);
+    // TODO: Add proper logging service for lesson completion errors
     return { error: error instanceof Error ? error : new Error('Unknown error') };
   }
 }
@@ -260,7 +260,7 @@ export async function addXP(userId: string, amount: number): Promise<{ error: Er
 
     return { error: null };
   } catch (error) {
-    console.error('Error adding XP:', error);
+    // TODO: Add proper logging service for XP errors
     return { error: error instanceof Error ? error : new Error('Unknown error') };
   }
 }
@@ -324,7 +324,7 @@ export async function updateStreak(userId: string): Promise<{ error: Error | nul
 
     return { error: null };
   } catch (error) {
-    console.error('Error updating streak:', error);
+    // TODO: Add proper logging service for streak errors
     return { error: error instanceof Error ? error : new Error('Unknown error') };
   }
 }
@@ -359,7 +359,7 @@ export async function incrementLessonsCompleted(userId: string): Promise<{ error
 
     return { error: null };
   } catch (error) {
-    console.error('Error incrementing lessons completed:', error);
+    // TODO: Add proper logging service for lessons completed errors
     return { error: error instanceof Error ? error : new Error('Unknown error') };
   }
 }
@@ -388,7 +388,7 @@ export async function getUserStats(
 
     return { data: data || null, error: null };
   } catch (error) {
-    console.error('Error getting user stats:', error);
+    // TODO: Add proper logging service for user stats errors
     return {
       data: null,
       error: error instanceof Error ? error : new Error('Unknown error'),
@@ -442,7 +442,7 @@ export async function syncProgressToSupabase(
 
     return { error: null };
   } catch (error) {
-    console.error('Error syncing progress:', error);
+    // TODO: Add proper logging service for sync errors
     return { error: error instanceof Error ? error : new Error('Unknown error') };
   }
 }

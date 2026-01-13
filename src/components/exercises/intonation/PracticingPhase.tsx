@@ -19,7 +19,7 @@ export function PracticingPhase({
   exercise,
   currentTurnIndex,
   currentUserTurn,
-  currentTurnWords,
+  currentTurnWords: _currentTurnWords,
   isPlaying,
   onPlayContext,
   onPlayExample,
@@ -89,7 +89,7 @@ interface TurnProgressProps {
   currentUserTurn: DialogueIntonation['dialogue'][number] | null;
 }
 
-function TurnProgress({ currentTurnIndex, totalUserTurns, currentUserTurn }: TurnProgressProps) {
+function TurnProgress({ currentTurnIndex, totalUserTurns, currentUserTurn: _currentUserTurn }: TurnProgressProps) {
   return (
     <div className="text-center">
       <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">

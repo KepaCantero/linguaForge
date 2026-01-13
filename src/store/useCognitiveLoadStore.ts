@@ -142,10 +142,6 @@ export const useCognitiveLoadStore = create<CognitiveLoadStore>()(
           const newLoad = { ...state.currentLoad, intrinsic: clamped };
           const total = get().calculateTotalLoad();
 
-          if (reason) {
-            console.log(`[CLT] Intrinsic load: ${clamped} (${reason})`);
-          }
-
           return { currentLoad: { ...newLoad, total } };
         });
       },
@@ -162,10 +158,6 @@ export const useCognitiveLoadStore = create<CognitiveLoadStore>()(
           const newLoad = { ...state.currentLoad, extraneous: adjustedValue };
           const total = get().calculateTotalLoad();
 
-          if (reason) {
-            console.log(`[CLT] Extraneous load: ${adjustedValue.toFixed(1)} (${reason})`);
-          }
-
           return { currentLoad: { ...newLoad, total } };
         });
       },
@@ -175,10 +167,6 @@ export const useCognitiveLoadStore = create<CognitiveLoadStore>()(
         set((state) => {
           const newLoad = { ...state.currentLoad, germane: clamped };
           const total = get().calculateTotalLoad();
-
-          if (reason) {
-            console.log(`[CLT] Germane load: ${clamped} (${reason})`);
-          }
 
           return { currentLoad: { ...newLoad, total } };
         });
@@ -226,8 +214,6 @@ export const useCognitiveLoadStore = create<CognitiveLoadStore>()(
             extraneous: currentLoad.extraneous * modifier,
           },
         }));
-
-        console.log(`[CLT] Entering focus mode: ${level}`);
       },
 
       exitFocusMode: () => {
@@ -239,8 +225,6 @@ export const useCognitiveLoadStore = create<CognitiveLoadStore>()(
           focusLevel: 'normal',
           focusStartTime: null,
         });
-
-        console.log(`[CLT] Exiting focus mode after ${duration.toFixed(0)}s`);
       },
 
       toggleFocusMode: () => {
@@ -272,8 +256,6 @@ export const useCognitiveLoadStore = create<CognitiveLoadStore>()(
             loadHistory: [],
           },
         });
-
-        console.log('[CLT] Session started');
       },
 
       endSession: () => {
@@ -284,13 +266,6 @@ export const useCognitiveLoadStore = create<CognitiveLoadStore>()(
         const accuracy = session.totalAttempts > 0
           ? (session.correctAnswers / session.totalAttempts) * 100
           : 0;
-
-        console.log(`[CLT] Session ended:`, {
-          duration: `${duration.toFixed(0)}s`,
-          exercises: session.exercisesCompleted,
-          accuracy: `${accuracy.toFixed(1)}%`,
-          peakLoad: session.peakLoad,
-        });
 
         const finalSession = { ...session };
         set({ session: null });
@@ -387,10 +362,7 @@ export function useCognitiveLoad() {
   // Calculate status outside of selector to avoid infinite loops
   const total = load.intrinsic * 0.4 + load.extraneous * 0.35 - (load.germane * 0.25 * 0.5);
   const clampedTotal = Math.max(0, Math.min(100, total));
-  const status: 'low' | 'optimal' | 'high' | 'overload' =
-    clampedTotal <= 40 ? 'low' :
-    clampedTotal <= 70 ? 'optimal' :
-    clampedTotal <= 85 ? 'high' : 'overload';
+  const status = getLoadStatus(clampedTotal);
 
   return { load, status, focusMode, focusLevel };
 }
@@ -411,6 +383,38 @@ export function useFocusMode() {
 }
 
 /**
+ * Determina el estado de carga cognitiva
+ */
+function getLoadStatus(totalLoad: number): 'low' | 'optimal' | 'high' | 'overload' {
+  if (totalLoad <= LOAD_THRESHOLDS.low) return 'low';
+  if (totalLoad <= LOAD_THRESHOLDS.optimal) return 'optimal';
+  if (totalLoad <= LOAD_THRESHOLDS.high) return 'high';
+  return 'overload';
+}
+
+/**
+ * Calcula tiempo de descanso recomendado
+ */
+function calculateRecommendedBreak(duration: number, status: ReturnType<typeof getLoadStatus>): number {
+  const OVERLOAD_THRESHOLD_MIN = 30;
+  const HIGH_THRESHOLD_MIN = 25;
+  const LONG_SESSION_THRESHOLD_MIN = 45;
+  const OVERLOAD_BREAK_MIN = 10;
+  const STANDARD_BREAK_MIN = 5;
+
+  if (duration > OVERLOAD_THRESHOLD_MIN && status === 'overload') {
+    return OVERLOAD_BREAK_MIN;
+  }
+  if (duration > HIGH_THRESHOLD_MIN && status === 'high') {
+    return STANDARD_BREAK_MIN;
+  }
+  if (duration > LONG_SESSION_THRESHOLD_MIN) {
+    return STANDARD_BREAK_MIN;
+  }
+  return 0;
+}
+
+/**
  * Hook para métricas de sesión
  */
 export function useSessionMetrics() {
@@ -419,17 +423,13 @@ export function useSessionMetrics() {
   const end = useCognitiveLoadStore((state) => state.endSession);
   const recordCompletion = useCognitiveLoadStore((state) => state.recordExerciseCompletion);
 
-  // Calculate recommendedBreak outside of selector
-  let recommendedBreak = 0;
-  if (session) {
-    const duration = (Date.now() - session.startTime) / 1000 / 60; // minutos
-    const total = session.peakLoad;
-    const status = total <= 40 ? 'low' : total <= 70 ? 'optimal' : total <= 85 ? 'high' : 'overload';
-
-    if (duration > 30 && status === 'overload') recommendedBreak = 10;
-    else if (duration > 25 && status === 'high') recommendedBreak = 5;
-    else if (duration > 45) recommendedBreak = 5;
-  }
+  // Calcular descanso recomendado
+  const recommendedBreak = session
+    ? calculateRecommendedBreak(
+        (Date.now() - session.startTime) / 1000 / 60,
+        getLoadStatus(session.peakLoad)
+      )
+    : 0;
 
   return { session, start, end, recordCompletion, recommendedBreak };
 }

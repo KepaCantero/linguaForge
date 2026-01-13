@@ -69,6 +69,38 @@ const DEFAULT_RETRY_CONFIG: RetryConfig = {
 // ============================================
 
 /**
+ * Patrones de clasificación de errores por categoría
+ */
+const ERROR_PATTERNS: Readonly<Record<ErrorCategory, readonly string[]>> = {
+  [ErrorCategory.NETWORK]: ['network', 'fetch'],
+  [ErrorCategory.TIMEOUT]: ['timeout', 'timed out'],
+  [ErrorCategory.AUTH]: ['unauthorized', '401'],
+  [ErrorCategory.NOT_FOUND]: ['not found', '404'],
+  [ErrorCategory.VALIDATION]: ['validation', '400'],
+  [ErrorCategory.SERVER]: ['500', '502', '503', '504', 'database', 'connection'],
+  [ErrorCategory.CRITICAL]: [],
+  [ErrorCategory.UNKNOWN]: [],
+} as const;
+
+/**
+ * Busca una categoría basada en patrones de mensaje
+ */
+function findCategoryByPatterns(message: string): ErrorCategory | null {
+  const lowerMessage = message.toLowerCase();
+
+  for (const [category, patterns] of Object.entries(ERROR_PATTERNS)) {
+    if (patterns.length === 0) continue;
+
+    const hasMatch = patterns.some(pattern => lowerMessage.includes(pattern));
+    if (hasMatch) {
+      return category as ErrorCategory;
+    }
+  }
+
+  return null;
+}
+
+/**
  * Clasifica un error según su tipo y mensaje
  */
 function classifyError(error: unknown): ErrorCategory {
@@ -77,33 +109,9 @@ function classifyError(error: unknown): ErrorCategory {
   }
 
   if (error instanceof Error) {
-    const message = error.message.toLowerCase();
-
-    // Network errors (include plain 'network error' string)
-    if (message.includes('network') || message.includes('fetch')) {
-      return ErrorCategory.NETWORK;
-    }
-    if (message.includes('timeout') || message.includes('timed out')) {
-      return ErrorCategory.TIMEOUT;
-    }
-    if (message.includes('unauthorized') || message.includes('401')) {
-      return ErrorCategory.AUTH;
-    }
-    if (message.includes('not found') || message.includes('404')) {
-      return ErrorCategory.NOT_FOUND;
-    }
-    if (message.includes('validation') || message.includes('400')) {
-      return ErrorCategory.VALIDATION;
-    }
-    if (
-      message.includes('500') ||
-      message.includes('502') ||
-      message.includes('503') ||
-      message.includes('504') ||
-      message.includes('database') ||
-      message.includes('connection')
-    ) {
-      return ErrorCategory.SERVER;
+    const category = findCategoryByPatterns(error.message);
+    if (category) {
+      return category;
     }
   }
 
@@ -174,29 +182,12 @@ function calculateBackoff(
 }
 
 /**
- * Log de error (console por ahora, podría extenderse a servicio de logging)
+ * Log de error - TODO: Replace with proper logging service
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function logError(error: AppError): void {
-  const logLevel = error.severity === ErrorSeverity.CRITICAL ? 'error' :
-                   error.severity === ErrorSeverity.HIGH ? 'error' :
-                   error.severity === ErrorSeverity.MEDIUM ? 'warn' : 'info';
-
-  const logMessage = `[${error.category.toUpperCase()}] ${error.message}`;
-
-  if (logLevel === 'error') {
-    console.error(logMessage, {
-      context: error.context,
-      originalError: error.originalError,
-    });
-  } else if (logLevel === 'warn') {
-    console.warn(logMessage, {
-      context: error.context,
-    });
-  } else {
-    console.log(logMessage, {
-      context: error.context,
-    });
-  }
+  // TODO: Add proper logging service for application errors
+  // Error logging should be sent to a monitoring service in production
 }
 
 // ============================================

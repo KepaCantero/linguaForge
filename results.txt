@@ -8,40 +8,40 @@
 ║                                                                      ║
 ╚══════════════════════════════════════════════════════════════════════╝
 [0m
-2026-01-12 16:26:33
+2026-01-13 07:19:58
 
 [0;34m🔍 Ejecutando análisis estático...[0m
        → TypeScript strict check...
 [0;32m✅ TypeScript: OK (strict mode)[0m
        → ESLint analysis...
 [0;31m❌ ESLint falló con errores críticos[0m
-  276:9   warning  Unexpected console statement                                     no-console
-  288:9   warning  Unexpected console statement                                     no-console
 
-/Users/kepa.cantero/Projects/lingua-forge/src/store/useConstructionStore.ts
-  305:5  warning  Arrow function has too many lines (170). Maximum allowed is 120  max-lines-per-function
+/Users/kepa.cantero/Projects/lingua-forge/src/lib/validators.ts
+  451:5  warning  'context' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
 
-/Users/kepa.cantero/Projects/lingua-forge/src/store/useGamificationStore.ts
-  54:5  warning  Arrow function has too many lines (170). Maximum allowed is 120  max-lines-per-function
+/Users/kepa.cantero/Projects/lingua-forge/src/services/postCognitiveRewards.ts
+  324:1  warning  Function 'generateSessionFeedback' has a complexity of 16. Maximum allowed is 15  complexity
 
-/Users/kepa.cantero/Projects/lingua-forge/src/store/useImportedNodesStore.ts
-   89:9   warning  Unexpected console statement  no-console
-  106:13  warning  Unexpected console statement  no-console
-  175:9   warning  Unexpected console statement  no-console
-  176:9   warning  Unexpected console statement  no-console
-  179:13  warning  Unexpected console statement  no-console
+/Users/kepa.cantero/Projects/lingua-forge/src/services/repository/baseRepository.ts
+  156:17  warning  Async method 'findMany' has a complexity of 21. Maximum allowed is 15  complexity
 
-/Users/kepa.cantero/Projects/lingua-forge/src/store/useInputStore.ts
-  47:5  warning  Arrow function has too many lines (189). Maximum allowed is 120  max-lines-per-function
+/Users/kepa.cantero/Projects/lingua-forge/src/services/speechService.ts
+  119:1  warning  Function 'handleSpeechSegment' has too many parameters (6). Maximum allowed is 5  max-params
 
-/Users/kepa.cantero/Projects/lingua-forge/src/store/useMissionStore.ts
-  215:5  warning  Arrow function has too many lines (168). Maximum allowed is 120  max-lines-per-function
+/Users/kepa.cantero/Projects/lingua-forge/src/services/syncService.ts
+  111:8  warning  Async function 'syncGamification' has a complexity of 19. Maximum allowed is 15  complexity
 
-/Users/kepa.cantero/Projects/lingua-forge/src/store/useNodeProgressStore.ts
-  80:5  warning  Arrow function has too many lines (143). Maximum allowed is 120  max-lines-per-function
+/Users/kepa.cantero/Projects/lingua-forge/src/services/wordExtractor.ts
+  30:8  warning  Function 'detectWordType' has a complexity of 39. Maximum allowed is 15  complexity
 
-/Users/kepa.cantero/Projects/lingua-forge/src/store/useSRSStore.ts
-  91:5  warning  Arrow function has too many lines (266). Maximum allowed is 120  max-lines-per-function
+/Users/kepa.cantero/Projects/lingua-forge/src/store/useCognitiveLoadStore.ts
+  132:5   warning  Arrow function has too many lines (207). Maximum allowed is 120           max-lines-per-function
+  139:36  warning  'reason' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  149:37  warning  'reason' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  165:34  warning  'reason' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+  221:15  warning  'duration' is assigned a value but never used                             @typescript-eslint/no-unused-vars
+  265:15  warning  'duration' is assigned a value but never used                             @typescript-eslint/no-unused-vars
+  266:15  warning  'accuracy' is assigned a value but never used                             @typescript-eslint/no-unused-vars
 
-✖ 273 problems (2 errors, 271 warnings)
+✖ 161 problems (1 error, 160 warnings)
 

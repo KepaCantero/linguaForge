@@ -112,7 +112,6 @@ export function useJanusKeyboardNavigation({
       phase,
       currentFocus: keyboardFocus,
       columns,
-      selections,
       canSubmit: !!generatedPhrase,
       canPreview: false,
     });

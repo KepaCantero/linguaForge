@@ -65,10 +65,11 @@ const colorClasses: Record<string, { bg: string; border: string; ring: string; g
 };
 
 // Helper functions for complexity reduction
+const LOCKED_NODE_STYLES = 'opacity-40 cursor-not-allowed border-white/10 bg-lf-dark/30';
+const UNLOCKED_NODE_STYLES = 'bg-glass-surface backdrop-blur-aaa border-white/20 shadow-glass-xl hover:border-white/30';
+
 function getNodeCardStyles(isLocked: boolean): string {
-  return isLocked
-    ? 'opacity-40 cursor-not-allowed border-white/10 bg-lf-dark/30'
-    : 'bg-glass-surface backdrop-blur-aaa border-white/20 shadow-glass-xl hover:border-white/30';
+  return isLocked ? LOCKED_NODE_STYLES : UNLOCKED_NODE_STYLES;
 }
 
 function getNodeIconStyles(isLocked: boolean, isCompleted: boolean, colors: typeof colorClasses[string]): string {
@@ -108,9 +109,7 @@ interface NodeIconProps {
   colors: typeof colorClasses[string];
 }
 
-function NodeIcon({ isLocked, isCompleted, isActive, icon, colors }: NodeIconProps) {
-  const iconStyles = getNodeIconStyles(isLocked, isCompleted, colors);
-
+function NodeIcon({ isLocked, isCompleted, icon, colors }: NodeIconProps) {
   if (isLocked) {
     return <span className="text-lf-muted">🔒</span>;
   }

@@ -71,8 +71,7 @@ export function ExerciseRenderer({
         return (
           <ClozeExercise
             phrase={currentExercise as Phrase}
-            onComplete={(correct) => {
-              console.log('[ClozeExercise] Completed with correct:', correct);
+            onComplete={(_correct) => {
               onComplete();
             }}
           />

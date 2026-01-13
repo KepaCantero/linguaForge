@@ -25,7 +25,7 @@ const defaultDifficulty: Difficulty = 'low';
  */
 export function useWarmupHandler(
   exerciseData: { cloze?: unknown[]; variations?: unknown[] } | null,
-  subtopicTitle: string
+  _subtopicTitle: string
 ): WarmupHandlerState & WarmupHandlerActions {
   const [showWarmupGate, setShowWarmupGate] = useState(false);
   const [warmupCompleted, setWarmupCompleted] = useState(false);
@@ -46,13 +46,11 @@ export function useWarmupHandler(
     setShowWarmupGate(true);
   }, []);
 
-  const handleWarmupComplete = useCallback((score: number) => {
-    console.log(`[Warmup] Completado con puntuación: ${score}`);
+  const handleWarmupComplete = useCallback((_score: number) => {
     setWarmupCompleted(true);
   }, []);
 
   const handleWarmupSkip = useCallback(() => {
-    console.log('[Warmup] Saltado por usuario');
   }, []);
 
   const handleWarmupDone = useCallback(() => {

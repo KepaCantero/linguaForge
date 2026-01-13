@@ -261,7 +261,7 @@ export class EntityValidator {
     const result = ZodValidator.validate(schema, data);
 
     if (!result.success) {
-      console.error(`Validation failed for ${entityName} creation:`, result.formattedError);
+      // TODO: Add proper logging service for validation errors
     }
 
     return result;
@@ -276,7 +276,7 @@ export class EntityValidator {
     const result = ZodValidator.validate(partialSchema, data);
 
     if (!result.success) {
-      console.error(`Validation failed for ${entityName} update:`, result.formattedError);
+      // TODO: Add proper logging service for validation errors
     }
 
     return result;
@@ -297,7 +297,7 @@ export class EntityValidator {
     const result = DataSanitizer.sanitizeAndValidate(schema, data, sanitizeOptions);
 
     if (!result.success) {
-      console.error(`Sanitization/Validation failed for ${entityName}:`, result.formattedError);
+      // TODO: Add proper logging service for validation errors
     }
 
     return result;

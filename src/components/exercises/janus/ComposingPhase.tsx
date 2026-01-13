@@ -101,7 +101,7 @@ export function ComposingPhase({
               keyboardFocus={keyboardFocus}
               hoveredTranslation={hoveredTranslation}
               columnRef={(el) => { columnRefs.current[column.id] = el; }}
-              optionRef={(el) => { optionRefs.current[`${column.id}-${keyboardFocus.optionId}`] = el; }}
+              optionRef={(_el) => { /* optionRefs set by parent */ }}
               onSelectOption={onSelectOption}
               onClearSelection={onClearSelection}
               onHoverTranslation={onHoverTranslation}

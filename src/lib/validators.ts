@@ -455,13 +455,8 @@ export class ValidationDebugger {
     const result = ZodValidator.validate(schema, data);
 
     if (!result.success) {
-      console.group('🔍 Validation Errors');
-      console.log('Context:', context);
-      console.log('Data:', data);
-      console.log('Schema:', schema);
-      console.log('Errors:', result.errors);
-      console.log('Formatted:', result.formattedError);
-      console.groupEnd();
+      // TODO: Add proper logging service for validation errors
+      // Validation errors should be logged in production
     }
   }
 

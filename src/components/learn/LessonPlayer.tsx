@@ -40,6 +40,24 @@ interface LessonResults {
   xpEarned: number;
 }
 
+// Helper functions for completion message
+const ACCURACY_THRESHOLDS = {
+  excellent: 80,
+  good: 50,
+} as const;
+
+function getCompletionEmoji(accuracy: number): string {
+  if (accuracy >= ACCURACY_THRESHOLDS.excellent) return '🎉';
+  if (accuracy >= ACCURACY_THRESHOLDS.good) return '👍';
+  return '💪';
+}
+
+function getCompletionMessage(accuracy: number): string {
+  if (accuracy >= ACCURACY_THRESHOLDS.excellent) return '¡Excelente!';
+  if (accuracy >= ACCURACY_THRESHOLDS.good) return '¡Buen trabajo!';
+  return '¡Sigue practicando!';
+}
+
 export function LessonPlayer({ lesson, onComplete }: LessonPlayerProps) {
   const router = useRouter();
   const { startLesson, completeExercise, completeLesson } = useNodeProgressStore();
@@ -163,7 +181,7 @@ export function LessonPlayer({ lesson, onComplete }: LessonPlayerProps) {
           animate={{ scale: 1, rotate: 0 }}
           transition={{ type: 'spring', duration: 0.8 }}
         >
-          {accuracy >= 80 ? '🎉' : accuracy >= 50 ? '👍' : '💪'}
+          {getCompletionEmoji(accuracy)}
         </motion.div>
 
         <motion.h2
@@ -172,7 +190,7 @@ export function LessonPlayer({ lesson, onComplete }: LessonPlayerProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
         >
-          {accuracy >= 80 ? '¡Excelente!' : accuracy >= 50 ? '¡Buen trabajo!' : '¡Sigue practicando!'}
+          {getCompletionMessage(accuracy)}
         </motion.h2>
 
         <motion.p

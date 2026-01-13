@@ -82,7 +82,7 @@ export async function getVideoInfo(originalVideoId: string): Promise<{ title: st
     }
   ).then(async (result) => {
     if (!result.success) {
-      console.error('Error fetching video info:', result.error);
+      // TODO: Add proper logging service for video info errors
       return {
         title: `Video ${originalVideoId}`,
         duration: 300,
@@ -129,7 +129,6 @@ export async function getYouTubeTranscript(videoId: string): Promise<YouTubeTran
           : 'http://localhost:3000');
 
       const apiUrl = `${baseUrl}/api/youtube/transcript?videoId=${videoId}`;
-      console.log(`[YouTube Transcript Service] Fetching from: ${apiUrl}`);
 
       const response = await fetch(apiUrl, {
         method: 'GET',
@@ -157,11 +156,7 @@ export async function getYouTubeTranscript(videoId: string): Promise<YouTubeTran
       }
 
       const errorMessage = errorData.message || errorData.error || `Failed to fetch transcript: ${response.status} ${response.statusText}`;
-      console.error('[YouTube Transcript] API Error:', {
-        status: response.status,
-        statusText: response.statusText,
-        errorData,
-      });
+      // TODO: Add proper logging service for transcript API errors
       throw new Error(errorMessage);
     }
 
