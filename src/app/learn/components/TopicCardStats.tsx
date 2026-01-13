@@ -19,7 +19,7 @@ export function TopicCardStats({ topic, index, cardData }: TopicCardStatsProps) 
   if (isComingSoon) {
     return (
       <div className="flex items-center justify-center py-2">
-        <span className="text-sm text-lf-muted/60">Próximamente</span>
+        <span className="text-sm text-calm-text-muted/60">Próximamente</span>
       </div>
     );
   }
@@ -27,7 +27,7 @@ export function TopicCardStats({ topic, index, cardData }: TopicCardStatsProps) 
   return (
     <div className="space-y-2">
       {/* Progress bar */}
-      <div className="relative h-2 bg-lf-muted/30 rounded-full overflow-hidden">
+      <div className="relative h-2 bg-calm-bg-tertiary/30 rounded-full overflow-hidden">
         <motion.div
           className={progressBarClass}
           initial={{ width: 0 }}
@@ -38,11 +38,11 @@ export function TopicCardStats({ topic, index, cardData }: TopicCardStatsProps) 
 
       {/* Progress text and action */}
       <div className="flex items-center justify-between text-xs">
-        <span className={`font-semibold ${topic.isCompleted ? 'text-lf-success' : 'text-lf-primary'}`}>
+        <span className={`font-semibold ${topic.isCompleted ? 'text-accent-500' : 'text-calm-text-primary'}`}>
           {progressText}
         </span>
         {showActionButton && (
-          <span className="text-lf-muted/60">
+          <span className="text-calm-text-muted/60">
             {actionText} →
           </span>
         )}

@@ -49,15 +49,46 @@ export const metadata: Metadata = {
   },
 };
 
-// Dark mode calm theme color
+// Theme color for both light and dark modes
 export const viewport: Viewport = {
-  themeColor: '#1C2127',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#F8FAFC' },
+    { media: '(prefers-color-scheme: dark)', color: '#1C2127' },
+  ],
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
   userScalable: true,
   viewportFit: 'cover',
 };
+
+// Script inline para prevenir FOUC (Flash of Unstyled Content)
+// Solo se ejecuta en el cliente, no durante SSR
+const themeScript = `
+(function() {
+  try {
+    const THEME_KEY = 'linguaforge-theme';
+    const theme = localStorage.getItem(THEME_KEY) || 'system';
+    const isDark =
+      theme === 'dark' ||
+      (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.add('light');
+    }
+  } catch (e) {
+    // Fallback durante SSR o si localStorage no está disponible
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (prefersDark) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.add('light');
+    }
+  }
+})();
+`;
 
 export default function RootLayout({
   children,
@@ -68,8 +99,11 @@ export default function RootLayout({
     <html
       lang="es"
       className={`${rajdhani.variable} ${quicksand.variable} ${inter.variable} ${atkinson.variable}`}
+      suppressHydrationWarning
     >
       <head>
+        {/* Script para prevenir FOUC - se ejecuta inmediatamente en el cliente */}
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="icon" href="/icons/icon-192x192.svg" type="image/svg+xml" />
@@ -78,11 +112,11 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="LinguaForge" />
       </head>
-      <body className="font-atkinson antialiased text-white">
+      <body className="font-atkinson antialiased">
         {/* Skip link */}
         <a
           href="#main-content"
-          className="sr-only rounded-lg bg-lf-accent px-4 py-2 text-lf-dark focus:fixed focus:left-4 focus:top-4 focus:z-[100]"
+          className="sr-only rounded-lg bg-accent-500 px-4 py-2 text-calm-text-primary focus:fixed focus:left-4 focus:top-4 focus:z-[100] hover:bg-accent-600"
         >
           Saltar al contenido principal
         </a>
@@ -90,7 +124,6 @@ export default function RootLayout({
         <Providers>
           <TutorialProvider>
             <AAAErrorBoundary>
-              {/* Calm dark background */}
               <div className="min-h-screen">
                 <Header />
 

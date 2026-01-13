@@ -22,7 +22,7 @@ export function TopicRowProgress({ topic, cardData }: TopicRowProgressProps) {
   return (
     <div className="flex items-center gap-4">
       <div className="w-32">
-        <div className="relative h-1.5 bg-lf-muted/20 rounded-full overflow-hidden">
+        <div className="relative h-1.5 bg-calm-bg-tertiary/20 rounded-full overflow-hidden">
           <motion.div
             className={progressBarClass}
             initial={{ width: 0 }}
@@ -32,12 +32,12 @@ export function TopicRowProgress({ topic, cardData }: TopicRowProgressProps) {
         </div>
       </div>
       <span className={`text-sm font-semibold whitespace-nowrap ${
-        topic.isCompleted ? 'text-lf-success' : 'text-lf-primary'
+        topic.isCompleted ? 'text-accent-500' : 'text-calm-text-primary'
       }`}>
         {progressText}
       </span>
       {!topic.isLocked && (
-        <span className="text-lf-primary">→</span>
+        <span className="text-calm-text-primary">→</span>
       )}
     </div>
   );

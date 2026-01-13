@@ -35,7 +35,7 @@ export function RespondingPhase({
       className="space-y-4"
     >
       <div className="text-center">
-        <p className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+        <p className="text-lg font-medium text-calm-text-primary dark:text-white mb-2">
           💬 ¿Cómo responderías?
         </p>
 
@@ -72,7 +72,7 @@ function HintsSection({ exercise, showHint, onToggle }: HintsSectionProps) {
       {!showHint ? (
         <button
           onClick={onToggle}
-          className="w-full text-sm text-indigo-600 dark:text-indigo-400 hover:underline"
+          className="w-full text-sm text-accent-600 dark:text-accent-400 hover:underline"
         >
           💡 Mostrar pistas
         </button>
@@ -80,9 +80,9 @@ function HintsSection({ exercise, showHint, onToggle }: HintsSectionProps) {
         <motion.div
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
-          className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-4"
+          className="bg-calm-bg-primary dark:bg-calm-bg-elevated/50 rounded-lg p-4"
         >
-          <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+          <p className="text-sm text-calm-text-muted dark:text-calm-text-muted mb-2">
             Respuestas posibles:
           </p>
           <ul className="space-y-1">
@@ -91,8 +91,8 @@ function HintsSection({ exercise, showHint, onToggle }: HintsSectionProps) {
                 key={`expected-response-${i}-${resp.text.slice(0, 10)}`}
                 className={`text-sm ${
                   resp.isOptimal
-                    ? 'text-indigo-600 dark:text-indigo-400 font-medium'
-                    : 'text-gray-700 dark:text-gray-300'
+                    ? 'text-accent-600 dark:text-accent-400 font-medium'
+                    : 'text-calm-text-secondary dark:text-calm-text-tertiary'
                 }`}
               >
                 • {resp.text}

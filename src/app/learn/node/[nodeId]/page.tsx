@@ -102,15 +102,15 @@ export default function NodePage() {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center p-6">
         <div className="text-6xl mb-4">🔒</div>
-        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+        <h2 className="text-xl font-bold text-calm-text-primary mb-2">
           Nodo bloqueado
         </h2>
-        <p className="text-gray-600 dark:text-gray-400 text-center mb-6">
+        <p className="text-calm-text-secondary text-center mb-6">
           Completa el nodo anterior para desbloquear este.
         </p>
         <a
           href="/learn"
-          className="px-6 py-3 bg-indigo-600 text-white font-medium rounded-xl hover:bg-indigo-700 transition-colors"
+          className="px-6 py-3 bg-accent-500 text-calm-text-primary font-medium rounded-xl hover:bg-accent-600 transition-colors"
         >
           ← {t.common.back}
         </a>
@@ -122,8 +122,8 @@ export default function NodePage() {
   return (
     <div className="min-h-screen flex items-center justify-center">
       <div className="text-center">
-        <div className="w-16 h-16 rounded-full border-4 border-indigo-600 border-t-transparent animate-spin mx-auto mb-4" />
-        <p className="text-gray-600 dark:text-gray-400">Cargando lección...</p>
+        <div className="w-16 h-16 rounded-full border-4 border-accent-500 border-t-transparent animate-spin mx-auto mb-4" />
+        <p className="text-calm-text-secondary">Cargando lección...</p>
       </div>
     </div>
   );

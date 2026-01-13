@@ -25,14 +25,14 @@ function getStepClasses(
   const baseClasses = 'w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold border-2';
 
   if (isActive) {
-    return `${baseClasses} bg-gradient-to-r from-lf-primary to-lf-secondary border-lf-primary text-white shadow-glow-accent`;
+    return `${baseClasses} bg-gradient-to-r to-accent-500 to-sky-500 border-accent-500 text-white shadow-calm-md`;
   }
 
   if (isCompleted) {
-    return `${baseClasses} bg-gradient-to-r from-green-500 to-emerald-500 border-green-500 text-white`;
+    return `${baseClasses} bg-gradient-to-r from-accent-500 to-accent-500 border-accent-500 text-white`;
   }
 
-  return `${baseClasses} bg-lf-dark/30 border-white/20 text-lf-muted`;
+  return `${baseClasses} bg-calm-bg-tertiary/30 border-calm-warm-100/30 text-calm-text-muted`;
 }
 
 /**
@@ -47,10 +47,10 @@ export function ImportStepIndicator({ currentStep }: ImportStepIndicatorProps) {
     <motion.div
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="relative overflow-hidden rounded-xl bg-glass-surface backdrop-blur-md border border-white/20 p-4"
+      className="relative overflow-hidden rounded-xl bg-calm-bg-secondary backdrop-blur-md border border-calm-warm-100/30 p-4"
     >
       <motion.div
-        className="absolute inset-0 bg-gradient-to-br from-lf-primary/10 to-lf-secondary/10"
+        className="absolute inset-0 bg-gradient-to-br to-accent-500/10 to-sky-500/10"
         animate={{ opacity: [0.2, 0.4, 0.2] }}
         transition={{ duration: 4, repeat: Infinity }}
       />
@@ -68,8 +68,8 @@ export function ImportStepIndicator({ currentStep }: ImportStepIndicatorProps) {
               <motion.div
                 className={`flex-1 h-1 mx-2 rounded-full ${
                   i < currentStepIndex
-                    ? 'bg-gradient-to-r from-green-500 to-emerald-500'
-                    : 'bg-lf-dark/30'
+                    ? 'bg-gradient-to-r from-accent-500 to-accent-500'
+                    : 'bg-calm-bg-tertiary/30'
                 }`}
                 initial={{ width: 0 }}
                 animate={{ width: '100%' }}

@@ -72,7 +72,7 @@ export function TextStatOrb({ value, label, icon, color, angle, distance, delay 
         {/* Value */}
         <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-center">
           <div className="text-sm font-bold text-white">{value}</div>
-          <div className="text-xs text-lf-muted">{label}</div>
+          <div className="text-xs text-calm-text-muted">{label}</div>
         </div>
       </motion.div>
     </motion.div>

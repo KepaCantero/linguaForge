@@ -39,13 +39,13 @@ export function ComparingPhase({
       <div className="flex gap-3">
         <button
           onClick={onRetry}
-          className="flex-1 px-4 py-3 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-aaa-xl font-medium transition-colors"
+          className="flex-1 px-4 py-3 bg-calm-bg-secondary dark:bg-calm-bg-elevated hover:bg-calm-bg-tertiary dark:hover:bg-calm-bg-tertiary text-calm-text-secondary dark:text-calm-text-tertiary rounded-2xl font-medium transition-colors"
         >
           🔁 Reintentar
         </button>
         <button
           onClick={onContinue}
-          className="flex-1 px-4 py-3 bg-indigo-500 hover:bg-indigo-600 text-white rounded-aaa-xl font-medium transition-colors"
+          className="flex-1 px-4 py-3 bg-accent-500 hover:bg-accent-600 text-white rounded-2xl font-medium transition-colors"
         >
           {hasNextTurn ? 'Siguiente →' : 'Finalizar'}
         </button>
@@ -72,15 +72,15 @@ function ResultHeader({ result }: ResultHeaderProps) {
   };
 
   return (
-    <div className={`rounded-aaa-xl p-6 text-center ${
+    <div className={`rounded-2xl p-6 text-center ${
       result.rhythmAnalysis.overallSimilarity >= 0.7
-        ? 'bg-emerald-50 dark:bg-emerald-900/20'
+        ? 'bg-accent-50 dark:bg-accent-900/20'
         : 'bg-amber-50 dark:bg-amber-900/20'
     }`}>
       <span className="text-4xl">{getIcon()}</span>
       <p className={`text-lg font-semibold mt-2 ${
         result.rhythmAnalysis.overallSimilarity >= 0.7
-          ? 'text-emerald-800 dark:text-emerald-200'
+          ? 'text-accent-800 dark:text-accent-200'
           : 'text-amber-800 dark:text-amber-200'
       }`}>
         {getTitle()}

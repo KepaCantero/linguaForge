@@ -55,7 +55,7 @@ export function PostCognitiveRewards({
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.9, opacity: 0 }}
-        className="w-full max-w-md mx-4 bg-gray-900 rounded-2xl overflow-hidden shadow-2xl"
+        className="w-full max-w-md mx-4 bg-calm-bg-primary rounded-2xl overflow-hidden shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         <RewardsModalHeader feedback={feedback} />
@@ -83,7 +83,7 @@ interface RewardsModalHeaderProps {
 
 function RewardsModalHeader({ feedback }: RewardsModalHeaderProps) {
   return (
-    <div className="relative p-6 bg-gradient-to-br from-indigo-900/50 to-purple-900/50">
+    <div className="relative p-6 bg-gradient-to-br from-accent-900/50 to-sky-900/50">
       <div className="text-center">
         <motion.div
           initial={{ scale: 0 }}
@@ -96,7 +96,7 @@ function RewardsModalHeader({ feedback }: RewardsModalHeaderProps) {
         <h2 className={`text-2xl font-bold ${getRatingColor(feedback.rating)}`}>
           {getRatingTitle(feedback.rating)}
         </h2>
-        <p className="text-gray-400 mt-1">{feedback.message}</p>
+        <p className="text-calm-text-muted mt-1">{feedback.message}</p>
       </div>
     </div>
   );
@@ -176,7 +176,7 @@ function RewardsStage({ rewards, showDetails, onAnimationComplete }: RewardsStag
 function XPRewardDisplay({ totalXP, bonusXP }: { totalXP: number; bonusXP: number }) {
   return (
     <div className="flex items-center justify-between mb-4">
-      <span className="text-gray-400">XP Ganado</span>
+      <span className="text-calm-text-muted">XP Ganado</span>
       <div className="flex items-center gap-2">
         <motion.span
           initial={{ opacity: 0, x: -20 }}
@@ -186,7 +186,7 @@ function XPRewardDisplay({ totalXP, bonusXP }: { totalXP: number; bonusXP: numbe
           +{totalXP}
         </motion.span>
         {bonusXP > 0 && (
-          <span className="text-sm text-green-400">
+          <span className="text-sm text-accent-400">
             (+{bonusXP} bonus)
           </span>
         )}
@@ -198,13 +198,13 @@ function XPRewardDisplay({ totalXP, bonusXP }: { totalXP: number; bonusXP: numbe
 function CoinsRewardDisplay({ totalCoins }: { totalCoins: number }) {
   return (
     <div className="flex items-center justify-between mb-4">
-      <span className="text-gray-400">Monedas</span>
+      <span className="text-calm-text-muted">Monedas</span>
       <div className="flex items-center gap-2">
         <motion.span
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.1 }}
-          className="text-2xl font-bold text-yellow-400"
+          className="text-2xl font-bold text-amber-400"
         >
           +{totalCoins} 🪙
         </motion.span>
@@ -216,12 +216,12 @@ function CoinsRewardDisplay({ totalCoins }: { totalCoins: number }) {
 function GemsRewardDisplay({ gems }: { gems: number }) {
   return (
     <div className="flex items-center justify-between mb-4">
-      <span className="text-gray-400">Gemas</span>
+      <span className="text-calm-text-muted">Gemas</span>
       <motion.span
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.2 }}
-        className="text-2xl font-bold text-purple-400"
+        className="text-2xl font-bold text-sky-400"
       >
         +{gems} 💎
       </motion.span>
@@ -231,8 +231,8 @@ function GemsRewardDisplay({ gems }: { gems: number }) {
 
 function MultipliersDisplay({ multipliers }: { multipliers: RewardCalculation['multipliers'] }) {
   return (
-    <div className="mt-4 pt-4 border-t border-gray-800">
-      <p className="text-sm text-gray-500 mb-2">Multiplicadores</p>
+    <div className="mt-4 pt-4 border-t border-calm-warm-300">
+      <p className="text-sm text-calm-text-muted mb-2">Multiplicadores</p>
       <div className="flex flex-wrap gap-2">
         {multipliers.map((mult, i) => (
           <motion.div
@@ -240,11 +240,11 @@ function MultipliersDisplay({ multipliers }: { multipliers: RewardCalculation['m
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.3 + i * 0.1 }}
-            className="px-3 py-1 bg-indigo-900/30 border border-indigo-500/30 rounded-full text-sm"
+            className="px-3 py-1 bg-accent-900/30 border border-accent-500/30 rounded-full text-sm"
           >
             <span className="mr-1">{mult.icon}</span>
-            <span className="text-indigo-300">{mult.name}</span>
-            <span className="text-indigo-400 ml-1">x{mult.value}</span>
+            <span className="text-accent-300">{mult.name}</span>
+            <span className="text-accent-400 ml-1">x{mult.value}</span>
           </motion.div>
         ))}
       </div>
@@ -274,7 +274,7 @@ function AchievementsStage({ achievements, onContinue }: AchievementsStageProps)
       ))}
       <button
         onClick={onContinue}
-        className="w-full mt-4 py-2 text-indigo-400 hover:text-indigo-300"
+        className="w-full mt-4 py-2 text-accent-400 hover:text-accent-300"
       >
         Continuar →
       </button>
@@ -299,7 +299,7 @@ function AchievementCard({ achievement, index }: AchievementCardProps) {
         <span className="text-3xl">{achievement.icon}</span>
         <div>
           <p className="font-medium text-white">{achievement.name}</p>
-          <p className="text-sm text-gray-400">{achievement.description}</p>
+          <p className="text-sm text-calm-text-muted">{achievement.description}</p>
           <p className="text-sm text-amber-400 mt-1">
             +{achievement.xpBonus} XP
           </p>
@@ -312,9 +312,9 @@ function AchievementCard({ achievement, index }: AchievementCardProps) {
 function getAchievementRarityClass(rarity: string): string {
   const rarityClasses: Record<string, string> = {
     legendary: 'bg-amber-900/20 border-amber-500/50',
-    epic: 'bg-purple-900/20 border-purple-500/50',
-    rare: 'bg-blue-900/20 border-blue-500/50',
-    common: 'bg-gray-800/50 border-gray-700/50',
+    epic: 'bg-sky-900/20 border-sky-500/50',
+    rare: 'bg-sky-900/20 border-sky-500/50',
+    common: 'bg-calm-bg-elevated/50 border-calm-warm-200/50',
   };
   return rarityClasses[rarity] || rarityClasses.common;
 }
@@ -340,8 +340,8 @@ function FeedbackStage({ feedback }: FeedbackStageProps) {
 
 function CognitiveInsight({ insight }: { insight: string }) {
   return (
-    <div className="p-4 bg-indigo-900/20 border border-indigo-500/30 rounded-xl mb-4">
-      <p className="text-sm text-indigo-300">
+    <div className="p-4 bg-accent-900/20 border border-accent-500/30 rounded-xl mb-4">
+      <p className="text-sm text-accent-300">
         🧠 {insight}
       </p>
     </div>
@@ -351,10 +351,10 @@ function CognitiveInsight({ insight }: { insight: string }) {
 function TipsSection({ tips }: { tips: string[] }) {
   return (
     <div className="mb-4">
-      <p className="text-sm text-gray-500 mb-2">Consejos</p>
+      <p className="text-sm text-calm-text-muted mb-2">Consejos</p>
       <ul className="space-y-1">
         {tips.map((tip, i) => (
-          <li key={`tip-${i}-${tip.slice(0, 10)}`} className="text-sm text-gray-400 flex items-start gap-2">
+          <li key={`tip-${i}-${tip.slice(0, 10)}`} className="text-sm text-calm-text-muted flex items-start gap-2">
             <span className="text-amber-400">•</span>
             {tip}
           </li>
@@ -367,11 +367,11 @@ function TipsSection({ tips }: { tips: string[] }) {
 function NextStepsSection({ steps }: { steps: string[] }) {
   return (
     <div className="mb-4">
-      <p className="text-sm text-gray-500 mb-2">Próximos Pasos</p>
+      <p className="text-sm text-calm-text-muted mb-2">Próximos Pasos</p>
       <ul className="space-y-1">
         {steps.map((step, i) => (
-          <li key={`next-step-${i}-${step.slice(0, 10)}`} className="text-sm text-gray-400 flex items-start gap-2">
-            <span className="text-green-400">→</span>
+          <li key={`next-step-${i}-${step.slice(0, 10)}`} className="text-sm text-calm-text-muted flex items-start gap-2">
+            <span className="text-accent-400">→</span>
             {step}
           </li>
         ))}
@@ -387,17 +387,17 @@ interface RewardsModalFooterProps {
 
 function RewardsModalFooter({ onClose, onContinue }: RewardsModalFooterProps) {
   return (
-    <div className="p-4 border-t border-gray-800 flex gap-3">
+    <div className="p-4 border-t border-calm-warm-300 flex gap-3">
       <button
         onClick={onClose}
-        className="flex-1 py-3 px-4 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-xl font-medium transition-colors"
+        className="flex-1 py-3 px-4 bg-calm-bg-elevated hover:bg-calm-bg-tertiary text-calm-text-tertiary rounded-xl font-medium transition-colors"
       >
         Cerrar
       </button>
       {onContinue && (
         <button
           onClick={onContinue}
-          className="flex-1 py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-medium transition-colors"
+          className="flex-1 py-3 px-4 bg-accent-600 hover:bg-accent-700 text-white rounded-xl font-medium transition-colors"
         >
           Continuar
         </button>
@@ -413,9 +413,9 @@ function RewardsModalFooter({ onClose, onContinue }: RewardsModalFooterProps) {
 function getRatingColor(rating: SessionFeedback['rating']): string {
   const colors: Record<SessionFeedback['rating'], string> = {
     excellent: 'text-amber-400',
-    good: 'text-green-400',
-    fair: 'text-blue-400',
-    needs_improvement: 'text-gray-400',
+    good: 'text-accent-400',
+    fair: 'text-sky-400',
+    needs_improvement: 'text-calm-text-muted',
   };
   return colors[rating];
 }

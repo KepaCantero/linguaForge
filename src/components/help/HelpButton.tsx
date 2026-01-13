@@ -102,16 +102,16 @@ export function HelpButton() {
       <motion.button
         onClick={toggleMenu}
         className="fixed bottom-24 right-4 z-40 w-12 h-12 rounded-full
-                   bg-gradient-to-br from-lf-primary to-lf-secondary
-                   shadow-lg shadow-lf-primary/30
+                   bg-gradient-to-br to-accent-500 to-sky-500
+                   shadow-lg shadow-accent-500/30
                    flex items-center justify-center text-white text-xl font-bold
-                   focus:outline-none focus:ring-4 focus:ring-lf-primary/50"
+                   focus:outline-none focus:ring-4 focus:ring-accent-500/50"
         whileHover={prefersReduced ? {} : { scale: 1.1 }}
         whileTap={prefersReduced ? {} : { scale: 0.95 }}
         animate={prefersReduced ? {} : {
           boxShadow: isMenuOpen
-            ? '0 0 20px rgba(99, 102, 241, 0.5)'
-            : '0 4px 12px rgba(99, 102, 241, 0.3)',
+            ? '0 0 20px var(--sky-500)/50'
+            : '0 4px 12px var(--sky-500)/30',
         }}
         aria-label="Abrir menú de ayuda"
         aria-expanded={isMenuOpen}
@@ -150,7 +150,7 @@ export function HelpButton() {
             exit={prefersReduced ? { opacity: 0 } : { opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
             className="fixed bottom-40 right-4 z-40
-                       bg-lf-soft rounded-xl border border-lf-primary/20
+                       bg-calm-bg-secondary rounded-xl border border-accent-500/20
                        overflow-hidden shadow-2xl min-w-[220px]"
           >
             {helpOptions.map((option, index) => (
@@ -159,8 +159,8 @@ export function HelpButton() {
                 role="menuitem"
                 onClick={option.action}
                 className="w-full px-4 py-3 flex items-center gap-3 text-left
-                           hover:bg-lf-primary/10 transition-colors
-                           focus:outline-none focus:bg-lf-primary/20"
+                           hover:bg-accent-500/10 transition-colors
+                           focus:outline-none focus:bg-accent-500/20"
                 initial={prefersReduced ? {} : { opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.05 }}
@@ -172,7 +172,7 @@ export function HelpButton() {
                   <span className="text-white font-medium block">
                     {option.label}
                   </span>
-                  <span className="text-xs text-lf-muted">
+                  <span className="text-xs text-calm-text-muted">
                     {option.description}
                   </span>
                 </div>

@@ -58,14 +58,14 @@ export const COLOR_PALETTES: Record<ColorPalette, ColorTheme> = {
     name: 'Learning',
     description: 'Colores que facilitan el aprendizaje y la retención',
     colors: {
-      primary: '#6366F1',     // Indigo 500 - Estimula cognición
+      primary: 'var(--sky-500)',     // Indigo 500 - Estimula cognición
       secondary: '#8B5CF6',   // Purple 500 - Creatividad
       accent: '#FDE047',       // Yellow 300 - Atención y foco
       background: '#0F172A',   // Slate 900
       surface: '#1E293B',      // Slate 800
       text: '#F8FAFC',         // Slate 50
       textSecondary: '#94A3B8', // Slate 400
-      success: '#22C55E',      // Green 500
+      success: 'var(--accent-500)',      // Green 500
       warning: '#F59E0B',      // Amber 500
       error: '#EF4444',        // Red 500
     },
@@ -79,13 +79,13 @@ export const COLOR_PALETTES: Record<ColorPalette, ColorTheme> = {
     description: 'Colores para máxima concentración',
     colors: {
       primary: '#3B82F6',      // Blue 500 - Enfoque mental
-      secondary: '#0EA5E9',    // Sky 500 - Claridad
-      accent: '#22C55E',       // Green 500 - Productividad
+      secondary: 'var(--sky-500)',    // Sky 500 - Claridad
+      accent: 'var(--accent-500)',       // Green 500 - Productividad
       background: '#0C1929',   // Azul muy oscuro
       surface: '#1A3A52',      // Azul oscuro
       text: '#F0F9FF',         // Sky 50
       textSecondary: '#7DD3FC', // Sky 300
-      success: '#22C55E',      // Green 500
+      success: 'var(--accent-500)',      // Green 500
       warning: '#F59E0B',      // Amber 500
       error: '#EF4444',        // Red 500
     },
@@ -99,13 +99,13 @@ export const COLOR_PALETTES: Record<ColorPalette, ColorTheme> = {
     description: 'Colores para relajación y reducción de ansiedad',
     colors: {
       primary: '#14B8A6',      // Teal 500 - Calma
-      secondary: '#22C55E',    // Green 500 - Relajación
+      secondary: 'var(--accent-500)',    // Green 500 - Relajación
       accent: '#A78BFA',       // Purple 400 - Serenidad
       background: '#0F172A',   // Slate 900
       surface: '#1E293B',      // Slate 800
       text: '#F0FDFA',         // Teal 50
       textSecondary: '#99F6E4', // Teal 200
-      success: '#22C55E',      // Green 500
+      success: 'var(--accent-500)',      // Green 500
       warning: '#F59E0B',      // Amber 500
       error: '#EF4444',        // Red 500
     },
@@ -125,7 +125,7 @@ export const COLOR_PALETTES: Record<ColorPalette, ColorTheme> = {
       surface: '#292524',      // Stone 800
       text: '#FEF3C7',         // Amber 50
       textSecondary: '#FDBA74', // Orange 300
-      success: '#22C55E',      // Green 500
+      success: 'var(--accent-500)',      // Green 500
       warning: '#F59E0B',      // Amber 500
       error: '#EF4444',        // Red 500
     },
@@ -145,7 +145,7 @@ export const COLOR_PALETTES: Record<ColorPalette, ColorTheme> = {
       surface: '#2A1B4E',      // Púrpura medio
       text: '#FAF5FF',         // Purple 50
       textSecondary: '#D8B4FE', // Purple 300
-      success: '#22C55E',      // Green 500
+      success: 'var(--accent-500)',      // Green 500
       warning: '#F59E0B',      // Amber 500
       error: '#EF4444',        // Red 500
     },
@@ -410,13 +410,13 @@ export function ContrastChecker({
       <div
         className="px-2 py-1 rounded text-xs font-semibold"
         style={{
-          backgroundColor: compliance.pass ? '#22C55E' : '#EF4444',
+          backgroundColor: compliance.pass ? 'var(--accent-500)' : '#EF4444',
           color: 'white',
         }}
       >
         {compliance.level}
       </div>
-      <span className="font-inter text-sm text-gray-400">
+      <span className="font-inter text-sm text-calm-text-muted">
         Ratio: {ratio.toFixed(2)}:1
       </span>
     </div>

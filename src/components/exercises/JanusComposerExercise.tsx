@@ -292,7 +292,7 @@ export function JanusComposerExercise({
         <div className="mt-6 text-center">
           <button
             onClick={onSkip}
-            className="text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+            className="text-sm text-calm-text-muted hover:text-calm-text-secondary dark:text-calm-text-muted dark:hover:text-calm-text-tertiary"
           >
             Saltar ejercicio
           </button>

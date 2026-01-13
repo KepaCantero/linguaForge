@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { COLORS, radialGlow, borderAlpha } from '@/constants/colors';
 
 interface StatOrbProps {
   value: string | number;
@@ -74,7 +75,7 @@ function StatOrb({ value, label, icon, color, angle, distance, delay }: StatOrbP
         {/* Value */}
         <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-center">
           <div className="text-sm font-bold text-white">{value}</div>
-          <div className="text-xs text-lf-muted">{label}</div>
+          <div className="text-xs text-calm-text-muted">{label}</div>
         </div>
       </motion.div>
     </motion.div>
@@ -92,7 +93,7 @@ export function OrbitalHUD({ level, xp, currentLevel, rank, synapsesCount }: Orb
           style={{
             width: `${250 + i * 50}px`,
             height: `${250 + i * 50}px`,
-            borderColor: `rgba(99, 102, 241, ${0.15 - i * 0.02})`,
+            borderColor: borderAlpha('sky', 0.15 - i * 0.02),
             borderStyle: i % 2 === 0 ? 'solid' : 'dashed',
           }}
           animate={{
@@ -109,8 +110,8 @@ export function OrbitalHUD({ level, xp, currentLevel, rank, synapsesCount }: Orb
 
       {/* Main stats in orbital arrangement */}
       <StatOrb value={level} label="Nivel" icon="⭐" color="#FDE047" angle={-90} distance={140} delay={0} />
-      <StatOrb value={xp.toLocaleString()} label="XP" icon="✨" color="#6366F1" angle={-18} distance={140} delay={0.1} />
-      <StatOrb value={synapsesCount.toLocaleString()} label="Sinapsis" icon="🔗" color="#22C55E" angle={54} distance={140} delay={0.2} />
+      <StatOrb value={xp.toLocaleString()} label="XP" icon="✨" color="var(--sky-500)" angle={-18} distance={140} delay={0.1} />
+      <StatOrb value={synapsesCount.toLocaleString()} label="Sinapsis" icon="🔗" color="var(--accent-500)" angle={54} distance={140} delay={0.2} />
       <StatOrb value={rank} label="Rango" icon="🏅" color="#C026D3" angle={126} distance={140} delay={0.3} />
       <StatOrb value={`${currentLevel}%`} label="Progreso" icon="📈" color="#F59E0B" angle={198} distance={140} delay={0.4} />
 
@@ -118,7 +119,7 @@ export function OrbitalHUD({ level, xp, currentLevel, rank, synapsesCount }: Orb
       <motion.div
         className="relative w-40 h-40 rounded-full cursor-pointer z-10"
         style={{
-          background: 'radial-gradient(circle at 30% 30%, #6366F1, #4F46E5, #4338CA)',
+          background: 'radial-gradient(circle at 30% 30%, var(--sky-500), var(--sky-600), #0369A1)',
         }}
         animate={{
           scale: [1, 1.08, 1],
@@ -131,7 +132,7 @@ export function OrbitalHUD({ level, xp, currentLevel, rank, synapsesCount }: Orb
         <motion.div
           className="absolute inset-0 rounded-full blur-2xl"
           style={{
-            background: 'radial-gradient(circle, rgba(99, 102, 241, 0.8), transparent)',
+            background: radialGlow('sky', 0.8),
           }}
           animate={{
             scale: [1, 1.5, 1],
@@ -144,7 +145,7 @@ export function OrbitalHUD({ level, xp, currentLevel, rank, synapsesCount }: Orb
         {[0, 1].map((i) => (
           <motion.div
             key={`inner-ring-${i}`}
-            className="absolute rounded-full border-2 border-white/20"
+            className="absolute rounded-full border-2 border-calm-warm-100/30"
             style={{
               width: `${60 + i * 15}px`,
               height: `${60 + i * 15}px`,
@@ -180,16 +181,16 @@ export function OrbitalHUD({ level, xp, currentLevel, rank, synapsesCount }: Orb
             className="text-2xl font-bold text-white"
             animate={{
               textShadow: [
-                '0 0 10px rgba(255,255,255,0.5)',
-                '0 0 20px rgba(255,255,255,0.8)',
-                '0 0 10px rgba(255,255,255,0.5)',
+                COLORS.effects.whiteGlowSm,
+                COLORS.effects.whiteGlowMd,
+                COLORS.effects.whiteGlowSm,
               ],
             }}
             transition={{ duration: 2, repeat: Infinity }}
           >
             {level}
           </motion.div>
-          <div className="text-xs text-lf-muted">
+          <div className="text-xs text-calm-text-muted">
             Nivel
           </div>
         </div>
@@ -199,7 +200,7 @@ export function OrbitalHUD({ level, xp, currentLevel, rank, synapsesCount }: Orb
       {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => (
         <motion.div
           key={`orbital-particle-${i}`}
-          className="absolute w-1.5 h-1.5 rounded-full bg-lf-accent opacity-70"
+          className="absolute w-1.5 h-1.5 rounded-full bg-amber-500 opacity-70"
           style={{
             left: `${25 + (i * 9) % 50}%`,
             top: `${20 + (i * 7) % 60}%`,

@@ -89,7 +89,7 @@ export function LottieAnimation({
         className={`lottie-container ${className}`}
         style={{ width, height, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
       >
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-500" />
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-accent-500" />
       </div>
     );
   }

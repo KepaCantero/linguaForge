@@ -205,13 +205,13 @@ export function WelcomeModal({ isOpen, onClose, onComplete }: WelcomeModalProps)
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={prefersReduced ? { opacity: 0 } : { opacity: 0, scale: 0.95, y: 20 }}
             transition={{ duration: 0.3 }}
-            className="relative w-full max-w-lg bg-gradient-to-b from-lf-soft to-lf-dark
-                       rounded-2xl border border-lf-primary/30 shadow-2xl overflow-hidden"
+            className="relative w-full max-w-lg bg-gradient-to-b to-calm-bg-secondary to-calm-bg-tertiary
+                       rounded-2xl border border-accent-500/30 shadow-2xl overflow-hidden"
           >
             {/* Progress bar */}
-            <div className="absolute top-0 left-0 right-0 h-1 bg-lf-primary/20">
+            <div className="absolute top-0 left-0 right-0 h-1 bg-accent-500/20">
               <motion.div
-                className="h-full bg-gradient-to-r from-lf-primary to-lf-secondary"
+                className="h-full bg-gradient-to-r to-accent-500 to-sky-500"
                 initial={{ width: 0 }}
                 animate={{ width: `${((currentStep + 1) / WELCOME_STEPS.length) * 100}%` }}
                 transition={{ duration: 0.3 }}
@@ -221,8 +221,8 @@ export function WelcomeModal({ isOpen, onClose, onComplete }: WelcomeModalProps)
             {/* Skip button */}
             <button
               onClick={handleSkip}
-              className="absolute top-4 right-4 text-lf-muted hover:text-white transition-colors
-                         text-sm focus:outline-none focus:ring-2 focus:ring-lf-primary rounded px-2 py-1"
+              className="absolute top-4 right-4 text-calm-text-muted hover:text-white transition-colors
+                         text-sm focus:outline-none focus:ring-2 focus:ring-accent-500 rounded px-2 py-1"
               aria-label="Saltar introducción"
             >
               Saltar
@@ -257,7 +257,7 @@ export function WelcomeModal({ isOpen, onClose, onComplete }: WelcomeModalProps)
                   </h2>
 
                   {/* Description */}
-                  <p className="text-lf-muted mb-6">{step.description}</p>
+                  <p className="text-calm-text-muted mb-6">{step.description}</p>
 
                   {/* Features */}
                   <ul className="text-left space-y-3 mb-8">
@@ -269,7 +269,7 @@ export function WelcomeModal({ isOpen, onClose, onComplete }: WelcomeModalProps)
                         transition={{ delay: 0.1 + idx * 0.1 }}
                         className="flex items-center gap-3 text-white/90"
                       >
-                        <span className="w-6 h-6 rounded-full bg-lf-primary/20 flex items-center justify-center text-lf-accent text-sm">
+                        <span className="w-6 h-6 rounded-full bg-accent-500/20 flex items-center justify-center text-amber-500 text-sm">
                           ✓
                         </span>
                         {feature}
@@ -285,10 +285,10 @@ export function WelcomeModal({ isOpen, onClose, onComplete }: WelcomeModalProps)
                   <button
                     key={idx}
                     onClick={() => setCurrentStep(idx)}
-                    className={`w-2 h-2 rounded-full transition-all focus:outline-none focus:ring-2 focus:ring-lf-primary
+                    className={`w-2 h-2 rounded-full transition-all focus:outline-none focus:ring-2 focus:ring-accent-500
                                ${idx === currentStep
-                                 ? 'w-6 bg-lf-primary'
-                                 : 'bg-lf-primary/30 hover:bg-lf-primary/50'}`}
+                                 ? 'w-6 bg-accent-500'
+                                 : 'bg-accent-500/30 hover:bg-accent-500/50'}`}
                     aria-label={`Ir al paso ${idx + 1}`}
                     aria-current={idx === currentStep ? 'step' : undefined}
                   />
@@ -300,9 +300,9 @@ export function WelcomeModal({ isOpen, onClose, onComplete }: WelcomeModalProps)
                 {currentStep > 0 && (
                   <button
                     onClick={handlePrev}
-                    className="flex-1 py-3 px-4 bg-lf-primary/20 hover:bg-lf-primary/30
+                    className="flex-1 py-3 px-4 bg-accent-500/20 hover:bg-accent-500/30
                                text-white font-medium rounded-xl transition-colors
-                               focus:outline-none focus:ring-2 focus:ring-lf-primary"
+                               focus:outline-none focus:ring-2 focus:ring-accent-500"
                   >
                     Anterior
                   </button>
@@ -310,17 +310,17 @@ export function WelcomeModal({ isOpen, onClose, onComplete }: WelcomeModalProps)
                 <button
                   onClick={handleNext}
                   className={`flex-1 py-3 px-4 font-medium rounded-xl transition-colors
-                             focus:outline-none focus:ring-2 focus:ring-lf-primary
+                             focus:outline-none focus:ring-2 focus:ring-accent-500
                              ${isLastStep
-                               ? 'bg-gradient-to-r from-lf-primary to-lf-secondary text-white'
-                               : 'bg-lf-primary hover:bg-lf-primary/80 text-white'}`}
+                               ? 'bg-gradient-to-r to-accent-500 to-sky-500 text-white'
+                               : 'bg-accent-500 hover:bg-accent-500/80 text-white'}`}
                 >
                   {isLastStep ? '¡Empezar!' : 'Siguiente'}
                 </button>
               </div>
 
               {/* Keyboard hint */}
-              <p className="text-center text-xs text-lf-muted mt-4">
+              <p className="text-center text-xs text-calm-text-muted mt-4">
                 Usa ← → para navegar, Enter para continuar
               </p>
             </div>

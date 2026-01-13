@@ -41,7 +41,7 @@ export default function ConstructionPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-slate-900 to-zinc-900 pb-24">
+    <div className="min-h-screen bg-gradient-to-br from-calm-bg-tertiary via-calm-bg-tertiary to-calm-bg-tertiary pb-24">
       <ConstructionHeader
         activeTab={activeTab}
         totalBuilds={data.totalBuilds}

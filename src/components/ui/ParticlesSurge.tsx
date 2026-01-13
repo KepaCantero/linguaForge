@@ -37,7 +37,7 @@ export function ParticlesSurge({
             type === "surge"
               ? "#F59E0B"
               : type === "level-up"
-              ? "#10B981"
+              ? "var(--accent-500)"
               : "#8B5CF6",
         },
         shape: {

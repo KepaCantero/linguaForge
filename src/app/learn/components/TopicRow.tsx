@@ -20,12 +20,12 @@ interface TopicRowProps {
 
 function getBorderClasses(topic: UnifiedTopic, isComingSoon: boolean): string {
   if (topic.isCompleted) {
-    return 'border-lf-success/50 shadow-glow-success';
+    return 'border-accent-500/50 shadow-calm-md';
   }
   if (topic.isLocked || isComingSoon) {
-    return 'border-lf-muted/30';
+    return 'border-calm-warm-100/30';
   }
-  return 'border-lf-primary/30 hover:border-lf-primary/50';
+  return 'border-accent-500/30 hover:border-accent-500/50';
 }
 
 export function TopicRow({ topic, index, onDelete }: TopicRowProps) {

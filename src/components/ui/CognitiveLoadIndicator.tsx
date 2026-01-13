@@ -28,18 +28,18 @@ export function CognitiveLoadIndicator({
     switch (status) {
       case 'low':
         return {
-          bg: 'bg-green-500',
-          text: 'text-green-400',
-          bgLight: 'bg-green-500/10',
-          border: 'border-green-500/20',
+          bg: 'bg-accent-500',
+          text: 'text-accent-400',
+          bgLight: 'bg-accent-500/10',
+          border: 'border-accent-500/20',
           label: 'Baja',
         };
       case 'optimal':
         return {
-          bg: 'bg-blue-500',
-          text: 'text-blue-400',
-          bgLight: 'bg-blue-500/10',
-          border: 'border-blue-500/20',
+          bg: 'bg-sky-500',
+          text: 'text-sky-400',
+          bgLight: 'bg-sky-500/10',
+          border: 'border-sky-500/20',
           label: 'Óptima',
         };
       case 'high':
@@ -52,10 +52,10 @@ export function CognitiveLoadIndicator({
         };
       case 'overload':
         return {
-          bg: 'bg-red-500',
-          text: 'text-red-400',
-          bgLight: 'bg-red-500/10',
-          border: 'border-red-500/20',
+          bg: 'bg-semantic-error',
+          text: 'text-semantic-error',
+          bgLight: 'bg-semantic-error/10',
+          border: 'border-semantic-error/20',
           label: 'Sobrecarga',
         };
     }

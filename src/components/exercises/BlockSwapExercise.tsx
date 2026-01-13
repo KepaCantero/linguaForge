@@ -54,10 +54,10 @@ export function BlockSwapExercise({ exercise, onComplete }: BlockSwapExercisePro
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
+        <h3 className="text-lg font-bold text-calm-text-primary dark:text-white mb-2">
           🔄 Cambia el Componente
         </h3>
-        <p className="text-sm text-gray-500 dark:text-gray-400">
+        <p className="text-sm text-calm-text-muted dark:text-calm-text-muted">
           Cambia el componente <strong>{componentTypeLabels[exercise.componentToSwap]}</strong> para crear una nueva situación
         </p>
       </div>
@@ -79,28 +79,28 @@ export function BlockSwapExercise({ exercise, onComplete }: BlockSwapExercisePro
                 w-full text-left p-4 rounded-lg border-2 transition-all
                 ${showResult
                   ? isValid
-                    ? 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-300 dark:border-emerald-700'
-                    : 'bg-red-50 dark:bg-red-900/20 border-red-300 dark:border-red-700'
+                    ? 'bg-accent-50 dark:bg-accent-900/20 border-accent-300 dark:border-accent-700'
+                    : 'bg-semantic-error-bg dark:bg-semantic-error-bg/20 border-semantic-error dark:border-semantic-error'
                   : isSelected
-                    ? 'bg-indigo-50 dark:bg-indigo-900/20 border-indigo-400 dark:border-indigo-600'
-                    : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:border-indigo-400 dark:hover:border-indigo-600'
+                    ? 'bg-sky-50 dark:bg-accent-900/20 border-accent-400 dark:border-accent-600'
+                    : 'bg-white dark:bg-calm-bg-elevated border-calm-warm-100 dark:border-calm-warm-200 hover:border-accent-400 dark:hover:border-accent-600'
                 }
                 ${showResult ? 'cursor-default' : 'cursor-pointer'}
               `}
             >
               <div className="flex items-start justify-between">
                 <div className="flex-1">
-                  <p className="text-sm font-medium text-gray-900 dark:text-white mb-1">
+                  <p className="text-sm font-medium text-calm-text-primary dark:text-white mb-1">
                     {option.text}
                   </p>
-                  <p className="text-xs text-gray-600 dark:text-gray-400 mb-2">
+                  <p className="text-xs text-calm-text-secondary dark:text-calm-text-muted mb-2">
                     {option.translation}
                   </p>
                   {showResult && option.newContext && (
                     <p className={`text-xs font-medium ${
                       isValid
-                        ? 'text-emerald-700 dark:text-emerald-300'
-                        : 'text-red-700 dark:text-red-300'
+                        ? 'text-accent-700 dark:text-accent-300'
+                        : 'text-semantic-error-text dark:text-semantic-error-text'
                     }`}>
                       {option.newContext}
                     </p>
@@ -123,10 +123,10 @@ export function BlockSwapExercise({ exercise, onComplete }: BlockSwapExercisePro
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           className={`
-            rounded-aaa-xl p-6 text-center
+            rounded-2xl p-6 text-center
             ${exercise.swapOptions.find((opt) => opt.id === selectedOption)?.createsValidBlock
-              ? 'bg-gradient-to-br from-emerald-400 to-teal-500'
-              : 'bg-gradient-to-br from-orange-400 to-red-500'
+              ? 'bg-gradient-to-br from-accent-400 to-sky-500'
+              : 'bg-gradient-to-br from-amber-400 to-semantic-error'
             }
           `}
         >

@@ -30,9 +30,9 @@ export function TopicCardIcon({ topic, index, cardData }: TopicCardIconProps) {
         transition={{ type: 'spring', stiffness: 300 }}
       >
         {iconContent === '✓' ? (
-          <span className="text-white text-2xl">✓</span>
+          <span className="text-calm-text-primary text-2xl">✓</span>
         ) : (
-          <span className={topic.isLocked || topic.type === 'coming-soon' ? 'text-lf-muted' : ''}>
+          <span className={topic.isLocked || topic.type === 'coming-soon' ? 'text-calm-text-muted' : ''}>
             {iconContent}
           </span>
         )}
@@ -46,7 +46,7 @@ export function TopicCardIcon({ topic, index, cardData }: TopicCardIconProps) {
             cy="50%"
             r="45%"
             fill="none"
-            stroke="rgba(99, 102, 241, 0.2)"
+            stroke="var(--sky-500)/20"
             strokeWidth="3"
           />
           <motion.circle
@@ -54,7 +54,7 @@ export function TopicCardIcon({ topic, index, cardData }: TopicCardIconProps) {
             cy="50%"
             r="45%"
             fill="none"
-            stroke="#6366F1"
+            stroke="var(--sky-500)"
             strokeWidth="3"
             strokeLinecap="round"
             initial={{ pathLength: 0 }}

@@ -10,7 +10,7 @@ export const GUIDED_NODES = [
   { id: 'node-2', icon: '🍽️', category: 'food', color: 'orange' },
   { id: 'node-3', icon: '🚇', category: 'transport', color: 'green' },
   { id: 'node-4', icon: '🏥', category: 'health', color: 'red' },
-  { id: 'node-5', icon: '🆘', category: 'recovery', color: 'purple' },
+  { id: 'node-5', icon: '🆘', category: 'recovery', color: 'sky' },
 ] as const;
 
 type NodeCategory = typeof GUIDED_NODES[number]['category'];
@@ -28,54 +28,54 @@ interface CourseMapProps {
 
 const colorClasses: Record<string, { bg: string; border: string; ring: string; gradient: string; glow: string }> = {
   blue: {
-    bg: 'bg-blue-100 dark:bg-blue-900/30',
-    border: 'border-blue-300 dark:border-blue-700',
-    ring: 'ring-blue-500',
-    gradient: 'from-blue-500 to-cyan-500',
+    bg: 'bg-sky-100 dark:bg-sky-900/30',
+    border: 'border-sky-300 dark:border-sky-700',
+    ring: 'ring-sky-500',
+    gradient: 'from-sky-500 to-sky-500',
     glow: 'shadow-blue-500/50',
   },
   orange: {
-    bg: 'bg-orange-100 dark:bg-orange-900/30',
-    border: 'border-orange-300 dark:border-orange-700',
+    bg: 'bg-amber-100 dark:bg-amber-900/30',
+    border: 'border-amber-300 dark:border-amber-800',
     ring: 'ring-orange-500',
-    gradient: 'from-orange-500 to-yellow-500',
+    gradient: 'from-amber-500 to-amber-500',
     glow: 'shadow-orange-500/50',
   },
   green: {
-    bg: 'bg-green-100 dark:bg-green-900/30',
-    border: 'border-green-300 dark:border-green-700',
-    ring: 'ring-green-500',
-    gradient: 'from-green-500 to-emerald-500',
+    bg: 'bg-accent-100 dark:bg-accent-900/30',
+    border: 'border-accent-300 dark:border-accent-700',
+    ring: 'ring-accent-500',
+    gradient: 'from-accent-500 to-accent-500',
     glow: 'shadow-green-500/50',
   },
   red: {
-    bg: 'bg-red-100 dark:bg-red-900/30',
-    border: 'border-red-300 dark:border-red-700',
-    ring: 'ring-red-500',
-    gradient: 'from-red-500 to-pink-500',
+    bg: 'bg-semantic-error-bg dark:bg-semantic-error-bg',
+    border: 'border-semantic-error dark:border-semantic-error',
+    ring: 'ring-semantic-error',
+    gradient: 'from-semantic-error to-sky-500',
     glow: 'shadow-red-500/50',
   },
-  purple: {
-    bg: 'bg-purple-100 dark:bg-purple-900/30',
-    border: 'border-purple-300 dark:border-purple-700',
-    ring: 'ring-purple-500',
-    gradient: 'from-purple-500 to-violet-500',
-    glow: 'shadow-purple-500/50',
+  sky: {
+    bg: 'bg-sky-100 dark:bg-sky-900/30',
+    border: 'border-sky-300 dark:border-sky-700',
+    ring: 'ring-sky-500',
+    gradient: 'from-sky-500 to-sky-500',
+    glow: 'shadow-sky-500/50',
   },
 };
 
 // Helper functions for complexity reduction
-const LOCKED_NODE_STYLES = 'opacity-40 cursor-not-allowed border-white/10 bg-lf-dark/30';
-const UNLOCKED_NODE_STYLES = 'bg-glass-surface backdrop-blur-aaa border-white/20 shadow-glass-xl hover:border-white/30';
+const LOCKED_NODE_STYLES = 'opacity-40 cursor-not-allowed border-calm-warm-100/20 bg-calm-bg-tertiary/30';
+const UNLOCKED_NODE_STYLES = 'bg-calm-bg-secondary backdrop-blur-md border-calm-warm-100/30 shadow-calm-lg hover:border-calm-warm-100/40';
 
 function getNodeCardStyles(isLocked: boolean): string {
   return isLocked ? LOCKED_NODE_STYLES : UNLOCKED_NODE_STYLES;
 }
 
 function getNodeIconStyles(isLocked: boolean, isCompleted: boolean, colors: typeof colorClasses[string]): string {
-  if (isLocked) return 'bg-lf-dark/50 border-white/10';
-  if (isCompleted) return 'bg-gradient-to-br from-lf-success to-lf-success-dark border-lf-success/30 shadow-glow-success';
-  return `${colors.bg} ${colors.border} shadow-depth-lg`;
+  if (isLocked) return 'bg-calm-bg-tertiary/50 border-calm-warm-100/20';
+  if (isCompleted) return 'bg-gradient-to-br from-accent-500 to-accent-500-dark border-accent-500/30 shadow-calm-md';
+  return `${colors.bg} ${colors.border} shadow-calm-lg`;
 }
 
 interface NodeRenderData {
@@ -111,7 +111,7 @@ interface NodeIconProps {
 
 function NodeIcon({ isLocked, isCompleted, icon, colors }: NodeIconProps) {
   if (isLocked) {
-    return <span className="text-lf-muted">🔒</span>;
+    return <span className="text-calm-text-muted">🔒</span>;
   }
   if (isCompleted) {
     return <span className="text-white text-2xl">✓</span>;
@@ -119,7 +119,7 @@ function NodeIcon({ isLocked, isCompleted, icon, colors }: NodeIconProps) {
   return (
     <>
       <motion.div
-        className={`absolute inset-0 rounded-aaa-xl bg-gradient-to-br ${colors.gradient} opacity-30 blur-md`}
+        className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${colors.gradient} opacity-30 blur-md`}
         animate={{
           scale: [1, 1.1, 1],
           opacity: [0.3, 0.6, 0.3],
@@ -148,7 +148,7 @@ function NodeStatusBadge({ isActive, isCompleted, completed, startLabel, continu
   if (isActive) {
     return (
       <motion.span
-        className="px-3 py-1.5 text-xs font-bold bg-gradient-to-r from-lf-primary to-lf-secondary text-white rounded-lg shadow-glow-accent"
+        className="px-3 py-1.5 text-xs font-bold bg-gradient-to-r to-accent-500 to-sky-500 text-white rounded-lg shadow-calm-md"
         animate={{
           scale: [1, 1.05, 1],
           opacity: [0.8, 1, 0.8],
@@ -188,7 +188,7 @@ function NodeProgressBar({ isLocked, completed, colors, index }: NodeProgressBar
   if (isLocked) return null;
 
   return (
-    <div className="relative h-2 bg-lf-dark/50 rounded-full overflow-hidden shadow-inner">
+    <div className="relative h-2 bg-calm-bg-tertiary/50 rounded-full overflow-hidden shadow-inner">
       <motion.div
         className={`absolute inset-y-0 left-0 bg-gradient-to-r ${colors.gradient} rounded-full`}
         style={{ backgroundSize: '200% 100%' }}
@@ -231,7 +231,7 @@ function CourseMapNode({ node, index, data, startLabel, continueLabel }: CourseM
         onClick={(e) => nodeProgress.isLocked && e.preventDefault()}
         className="block relative"
       >
-        <div className={`relative overflow-hidden rounded-aaa-xl border-2 transition-all duration-500 ${cardStyles}`}>
+        <div className={`relative overflow-hidden rounded-2xl border-2 transition-all duration-500 ${cardStyles}`}>
           {/* Animated gradient background */}
           {!nodeProgress.isLocked && (
             <motion.div
@@ -252,7 +252,7 @@ function CourseMapNode({ node, index, data, startLabel, continueLabel }: CourseM
           {/* Inner glow on hover */}
           {isActive && (
             <motion.div
-              className={`absolute inset-0 rounded-aaa-xl shadow-${colors.glow} opacity-0 hover:opacity-30 transition-opacity duration-500`}
+              className={`absolute inset-0 rounded-2xl shadow-${colors.glow} opacity-0 hover:opacity-30 transition-opacity duration-500`}
             />
           )}
 
@@ -260,7 +260,7 @@ function CourseMapNode({ node, index, data, startLabel, continueLabel }: CourseM
           <div className="relative p-5 pl-24">
             {/* Icono del nodo */}
             <motion.div
-              className={`absolute left-4 top-1/2 -translate-y-1/2 w-16 h-16 rounded-aaa-xl flex items-center justify-center text-3xl border-2 ${getNodeIconStyles(nodeProgress.isLocked, isCompleted, colors)}`}
+              className={`absolute left-4 top-1/2 -translate-y-1/2 w-16 h-16 rounded-2xl flex items-center justify-center text-3xl border-2 ${getNodeIconStyles(nodeProgress.isLocked, isCompleted, colors)}`}
               whileHover={isActive ? { scale: 1.05, rotate: 5 } : {}}
               transition={{ type: 'spring', stiffness: 300 }}
             >
@@ -281,7 +281,7 @@ function CourseMapNode({ node, index, data, startLabel, continueLabel }: CourseM
                 </h3>
                 {!nodeProgress.isLocked && (
                   <motion.span
-                    className="text-2xl font-bold bg-gradient-to-r from-lf-accent to-lf-secondary bg-clip-text text-transparent"
+                    className="text-2xl font-bold bg-gradient-to-r from-amber-500 to-sky-500 bg-clip-text text-transparent"
                     animate={isActive ? {
                       scale: [1, 1.05, 1],
                     } : {}}
@@ -291,7 +291,7 @@ function CourseMapNode({ node, index, data, startLabel, continueLabel }: CourseM
                   </motion.span>
                 )}
               </div>
-              <p className="text-sm text-lf-muted mb-3">
+              <p className="text-sm text-calm-text-muted mb-3">
                 {nodeTranslations.description}
               </p>
 
@@ -346,7 +346,7 @@ export function CourseMap({ progress, translations }: CourseMapProps) {
         <h2 className="text-4xl font-bold text-white mb-2">
           {t.learn.title}
         </h2>
-        <p className="text-sm text-lf-muted">
+        <p className="text-sm text-calm-text-muted">
           Tu camino guiado hacia el francés
         </p>
       </motion.div>
@@ -354,9 +354,9 @@ export function CourseMap({ progress, translations }: CourseMapProps) {
       {/* Nodos */}
       <div className="relative">
         {/* Línea conectora animada */}
-        <div className="absolute left-8 top-16 bottom-16 w-1 bg-gradient-to-b from-lf-primary/50 via-lf-secondary/50 to-lf-accent/50 rounded-full">
+        <div className="absolute left-8 top-16 bottom-16 w-1 bg-gradient-to-b to-accent-500/50 to-sky-500/50 to-amber-500/50 rounded-full">
           <motion.div
-            className="absolute inset-0 bg-gradient-to-b from-lf-primary via-lf-secondary to-lf-accent rounded-full"
+            className="absolute inset-0 bg-gradient-to-b to-accent-500 to-sky-500 to-amber-500 rounded-full"
             animate={{ opacity: [0.3, 0.6, 0.3] }}
             transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
           />

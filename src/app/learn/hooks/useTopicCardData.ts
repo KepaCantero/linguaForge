@@ -34,12 +34,12 @@ export function useTopicCardData(topic: UnifiedTopic): TopicCardDataReturn {
 
   const backgroundClass = useMemo(() => {
     if (topic.isCompleted) {
-      return 'bg-lf-success/15';
+      return 'bg-accent-500/15';
     }
     if (topic.isLocked || isComingSoon) {
-      return 'bg-lf-muted/20';
+      return 'bg-calm-bg-tertiary/20';
     }
-    return 'bg-lf-soft/60';
+    return 'bg-calm-bg-secondary/60';
   }, [topic.isCompleted, topic.isLocked, isComingSoon]);
 
   const showCompletedBorder = topic.isCompleted;
@@ -48,12 +48,12 @@ export function useTopicCardData(topic: UnifiedTopic): TopicCardDataReturn {
 
   const iconBackgroundClass = useMemo(() => {
     if (topic.isCompleted) {
-      return 'bg-gradient-to-br from-lf-success to-lf-success-dark shadow-glow-success';
+      return 'bg-gradient-to-br from-accent-500 to-accent-500-dark shadow-calm-md';
     }
     if (topic.isLocked || isComingSoon) {
-      return 'bg-lf-muted/40';
+      return 'bg-calm-bg-tertiary/40';
     }
-    return 'shadow-depth-lg';
+    return 'shadow-calm-lg';
   }, [topic.isCompleted, topic.isLocked, isComingSoon]);
 
   const iconStyle = useMemo(() => {
@@ -81,12 +81,12 @@ export function useTopicCardData(topic: UnifiedTopic): TopicCardDataReturn {
   const typeBadgeClass = useMemo(() => {
     const baseClass = 'px-2 py-0.5 rounded-md text-xs font-semibold whitespace-nowrap';
     if (topic.type === 'a0-course') {
-      return `${baseClass} bg-lf-primary/25 text-lf-primary`;
+      return `${baseClass} bg-accent-500/25 text-calm-text-primary`;
     }
     if (topic.type === 'imported') {
-      return `${baseClass} bg-lf-secondary/25 text-lf-secondary`;
+      return `${baseClass} bg-sky-500/25 text-calm-text-secondary`;
     }
-    return `${baseClass} bg-lf-muted/20 text-lf-muted/70`;
+    return `${baseClass} bg-calm-bg-tertiary/20 text-calm-text-muted/70`;
   }, [topic.type]);
 
   const typeBadgeContent = useMemo(() => {
@@ -102,9 +102,9 @@ export function useTopicCardData(topic: UnifiedTopic): TopicCardDataReturn {
   const progressBarClass = useMemo(() => {
     const baseClass = 'h-full rounded-full';
     if (topic.isCompleted) {
-      return `${baseClass} bg-lf-success`;
+      return `${baseClass} bg-accent-500`;
     }
-    return `${baseClass} bg-gradient-to-r from-lf-primary to-lf-secondary`;
+    return `${baseClass} bg-gradient-to-r to-accent-500 to-sky-500`;
   }, [topic.isCompleted]);
 
   const progressText = useMemo(() => {

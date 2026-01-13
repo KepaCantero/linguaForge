@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { COLORS } from '@/constants/colors';
 import Link from 'next/link';
 
 interface NotFoundStateProps {
@@ -14,16 +15,16 @@ interface NotFoundStateProps {
  */
 export function NotFoundState({ nodeId, shouldAnimate }: NotFoundStateProps) {
   return (
-    <div className="relative min-h-screen bg-lf-dark flex items-center justify-center">
+    <div className="relative min-h-screen bg-calm-bg-tertiary flex items-center justify-center">
       {/* Animated background */}
       {shouldAnimate && (
         <motion.div
           className="absolute inset-0 opacity-20"
           animate={{
             background: [
-              'radial-gradient(circle at 20% 30%, #6366F1 0%, transparent 50%)',
-              'radial-gradient(circle at 80% 70%, #C026D3 0%, transparent 50%)',
-              'radial-gradient(circle at 20% 30%, #6366F1 0%, transparent 50%)',
+              'radial-gradient(circle at 20% 30%, var(--sky-500) 0%, transparent 50%)',
+              'radial-gradient(circle at 80% 70%, #F59E0B 0%, transparent 50%)',
+              'radial-gradient(circle at 20% 30%, var(--sky-500) 0%, transparent 50%)',
             ],
           }}
           transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
@@ -44,15 +45,15 @@ export function NotFoundState({ nodeId, shouldAnimate }: NotFoundStateProps) {
         </motion.div>
         <p
           className="text-lg mb-4"
-          style={{ textShadow: '0 2px 8px rgba(0,0,0,0.6)' }}
+          style={{ textShadow: COLORS.effects.textShadowLg }}
         >
           Subtema no encontrado
         </p>
         <Link
           href={`/learn/imported/${nodeId}`}
-          className="inline-block px-6 py-3 rounded-aaa-xl font-bold text-white focus:outline-none focus:ring-4 focus:ring-lf-accent focus:ring-offset-2 focus:ring-offset-lf-dark"
+          className="inline-block px-6 py-3 rounded-2xl font-bold text-calm-text-primary focus:outline-none focus:ring-4 focus:ring-amber-500 focus:ring-offset-2 focus:ring-offset-calm-bg-tertiary"
           style={{
-            background: 'radial-gradient(circle at 30% 30%, #6366F1, #4F46E5)',
+            background: 'radial-gradient(circle at 30% 30%, var(--sky-500), var(--sky-600))',
             minWidth: '44px',
             minHeight: '44px',
           }}

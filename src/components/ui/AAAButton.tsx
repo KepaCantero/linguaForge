@@ -3,6 +3,7 @@
 import { forwardRef } from 'react';
 import { motion } from 'framer-motion';
 import { CALM_EASING } from '@/lib/animations';
+import { COLORS } from '@/constants/colors';
 
 interface AAAButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'outline';
@@ -86,11 +87,11 @@ export const AAAButton = forwardRef<HTMLButtonElement, AAAButtonProps>(
 
     // Calm hover shadow based on variant
     const hoverShadow = {
-      primary: '0 4px 12px rgba(114, 168, 125, 0.15)',
-      secondary: '0 4px 12px rgba(130, 154, 177, 0.15)',
-      accent: '0 4px 12px rgba(232, 144, 124, 0.15)',
-      ghost: '0 2px 8px rgba(45, 55, 72, 0.06)',
-      outline: '0 4px 12px rgba(45, 55, 72, 0.08)',
+      primary: `0 4px 12px ${COLORS.sage[15]}`,
+      secondary: `0 4px 12px ${COLORS.blueGray[15]}`,
+      accent: `0 4px 12px ${COLORS.coral[15]}`,
+      ghost: `0 2px 8px ${COLORS.slate[6]}`,
+      outline: `0 4px 12px ${COLORS.slate[8]}`,
     };
 
     return (

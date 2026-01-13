@@ -33,12 +33,12 @@ export function DecksFilters({
         value={searchQuery}
         onChange={(e) => onSearchChange(e.target.value)}
         placeholder="Buscar palabras..."
-        className="flex-1 min-w-[200px] px-4 py-2.5 rounded-xl bg-glass-surface backdrop-blur-md border border-white/20 text-white placeholder:text-lf-muted focus:ring-2 focus:ring-lf-accent focus:border-transparent"
+        className="flex-1 min-w-[200px] px-4 py-2.5 rounded-xl bg-calm-bg-secondary backdrop-blur-md border border-calm-warm-100/30 text-white placeholder:text-calm-text-muted focus:ring-2 focus:ring-amber-500 focus:border-transparent"
       />
       <select
         value={sourceFilter}
         onChange={(e) => onSourceFilterChange(e.target.value as SourceType)}
-        className="px-4 py-2.5 rounded-xl bg-glass-surface backdrop-blur-md border border-white/20 text-white focus:ring-2 focus:ring-lf-accent focus:border-transparent"
+        className="px-4 py-2.5 rounded-xl bg-calm-bg-secondary backdrop-blur-md border border-calm-warm-100/30 text-white focus:ring-2 focus:ring-amber-500 focus:border-transparent"
       >
         <option value="all">Todas las fuentes</option>
         <option value="video">Videos</option>
@@ -48,7 +48,7 @@ export function DecksFilters({
       <select
         value={filter}
         onChange={(e) => onFilterChange(e.target.value as FilterType)}
-        className="px-4 py-2.5 rounded-xl bg-glass-surface backdrop-blur-md border border-white/20 text-white focus:ring-2 focus:ring-lf-accent focus:border-transparent"
+        className="px-4 py-2.5 rounded-xl bg-calm-bg-secondary backdrop-blur-md border border-calm-warm-100/30 text-white focus:ring-2 focus:ring-amber-500 focus:border-transparent"
       >
         <option value="all">Todas</option>
         <option value="new">Nuevas</option>

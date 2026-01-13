@@ -156,14 +156,14 @@ export function SessionSummary({
   const getLoadColor = (value: number, isGermane: boolean = false) => {
     if (isGermane) {
       // Para germane, alto es bueno
-      if (value >= 60) return 'text-green-400';
-      if (value >= 40) return 'text-blue-400';
-      return 'text-gray-400';
+      if (value >= 60) return 'text-accent-400';
+      if (value >= 40) return 'text-sky-400';
+      return 'text-calm-text-muted';
     }
     // Para otros, bajo es mejor
-    if (value <= 40) return 'text-green-400';
+    if (value <= 40) return 'text-accent-400';
     if (value <= 70) return 'text-amber-400';
-    return 'text-red-400';
+    return 'text-semantic-error';
   };
 
   return (
@@ -177,10 +177,10 @@ export function SessionSummary({
         initial={{ scale: 0.9, opacity: 0, y: 20 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.9, opacity: 0, y: 20 }}
-        className="w-full max-w-lg bg-gray-900 rounded-2xl overflow-hidden shadow-2xl max-h-[90vh] overflow-y-auto"
+        className="w-full max-w-lg bg-calm-bg-primary rounded-2xl overflow-hidden shadow-2xl max-h-[90vh] overflow-y-auto"
       >
         {/* Header */}
-        <div className="p-6 bg-gradient-to-br from-indigo-900/60 to-purple-900/60 text-center">
+        <div className="p-6 bg-gradient-to-br from-accent-900/60 to-sky-900/60 text-center">
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
@@ -192,61 +192,61 @@ export function SessionSummary({
           <h2 className="text-2xl font-bold text-white">
             Resumen de Sesión
           </h2>
-          <p className="text-gray-400 mt-1">
+          <p className="text-calm-text-muted mt-1">
             {sessionRating.label} - {metrics.durationMinutes} min de estudio
           </p>
         </div>
 
         {/* Estadísticas principales */}
-        <div className="p-6 border-b border-gray-800">
+        <div className="p-6 border-b border-calm-warm-300">
           <div className="grid grid-cols-3 gap-4 text-center">
             <div>
               <p className="text-3xl font-bold text-white">
                 {session.exercisesCompleted}
               </p>
-              <p className="text-sm text-gray-500">Ejercicios</p>
+              <p className="text-sm text-calm-text-muted">Ejercicios</p>
             </div>
             <div>
               <p className={`text-3xl font-bold ${
-                metrics.accuracy >= 80 ? 'text-green-400' :
-                metrics.accuracy >= 60 ? 'text-amber-400' : 'text-red-400'
+                metrics.accuracy >= 80 ? 'text-accent-400' :
+                metrics.accuracy >= 60 ? 'text-amber-400' : 'text-semantic-error'
               }`}>
                 {metrics.accuracy.toFixed(0)}%
               </p>
-              <p className="text-sm text-gray-500">Precisión</p>
+              <p className="text-sm text-calm-text-muted">Precisión</p>
             </div>
             <div>
               <p className="text-3xl font-bold text-amber-400">
                 {session.peakLoad}
               </p>
-              <p className="text-sm text-gray-500">Carga Pico</p>
+              <p className="text-sm text-calm-text-muted">Carga Pico</p>
             </div>
           </div>
         </div>
 
         {/* Métricas de Carga Cognitiva */}
-        <div className="p-6 border-b border-gray-800">
-          <h3 className="text-sm font-medium text-gray-400 mb-4">
+        <div className="p-6 border-b border-calm-warm-300">
+          <h3 className="text-sm font-medium text-calm-text-muted mb-4">
             Carga Cognitiva
           </h3>
           <div className="space-y-3">
             {/* Intrinsic */}
             <div>
               <div className="flex justify-between text-sm mb-1">
-                <span className="text-gray-400">Intrínseca</span>
+                <span className="text-calm-text-muted">Intrínseca</span>
                 <span className={getLoadColor(cognitiveLoad.intrinsic)}>
                   {cognitiveLoad.intrinsic.toFixed(0)}%
                 </span>
               </div>
-              <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
+              <div className="h-2 bg-calm-bg-elevated rounded-full overflow-hidden">
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: `${cognitiveLoad.intrinsic}%` }}
                   transition={{ duration: 0.5, delay: 0.1 }}
-                  className="h-full bg-blue-500 rounded-full"
+                  className="h-full bg-sky-500 rounded-full"
                 />
               </div>
-              <p className="text-xs text-gray-600 mt-1">
+              <p className="text-xs text-calm-text-secondary mt-1">
                 Complejidad del contenido
               </p>
             </div>
@@ -254,12 +254,12 @@ export function SessionSummary({
             {/* Extraneous */}
             <div>
               <div className="flex justify-between text-sm mb-1">
-                <span className="text-gray-400">Extraña</span>
+                <span className="text-calm-text-muted">Extraña</span>
                 <span className={getLoadColor(cognitiveLoad.extraneous)}>
                   {cognitiveLoad.extraneous.toFixed(0)}%
                 </span>
               </div>
-              <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
+              <div className="h-2 bg-calm-bg-elevated rounded-full overflow-hidden">
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: `${cognitiveLoad.extraneous}%` }}
@@ -267,7 +267,7 @@ export function SessionSummary({
                   className="h-full bg-amber-500 rounded-full"
                 />
               </div>
-              <p className="text-xs text-gray-600 mt-1">
+              <p className="text-xs text-calm-text-secondary mt-1">
                 Distracciones y ruido
               </p>
             </div>
@@ -275,20 +275,20 @@ export function SessionSummary({
             {/* Germane */}
             <div>
               <div className="flex justify-between text-sm mb-1">
-                <span className="text-gray-400">Germana</span>
+                <span className="text-calm-text-muted">Germana</span>
                 <span className={getLoadColor(cognitiveLoad.germane, true)}>
                   {cognitiveLoad.germane.toFixed(0)}%
                 </span>
               </div>
-              <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
+              <div className="h-2 bg-calm-bg-elevated rounded-full overflow-hidden">
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: `${cognitiveLoad.germane}%` }}
                   transition={{ duration: 0.5, delay: 0.3 }}
-                  className="h-full bg-green-500 rounded-full"
+                  className="h-full bg-accent-500 rounded-full"
                 />
               </div>
-              <p className="text-xs text-gray-600 mt-1">
+              <p className="text-xs text-calm-text-secondary mt-1">
                 Aprendizaje profundo (mayor es mejor)
               </p>
             </div>
@@ -297,8 +297,8 @@ export function SessionSummary({
 
         {/* Historial de carga */}
         {session.loadHistory.length > 0 && (
-          <div className="p-6 border-b border-gray-800">
-            <h3 className="text-sm font-medium text-gray-400 mb-4">
+          <div className="p-6 border-b border-calm-warm-300">
+            <h3 className="text-sm font-medium text-calm-text-muted mb-4">
               Evolución de Carga
             </h3>
             <div className="h-16 flex items-end gap-1">
@@ -309,16 +309,16 @@ export function SessionSummary({
                   animate={{ height: `${load}%` }}
                   transition={{ delay: i * 0.05 }}
                   className={`flex-1 rounded-t ${
-                    load > 80 ? 'bg-red-500' :
+                    load > 80 ? 'bg-semantic-error' :
                     load > 60 ? 'bg-amber-500' :
-                    'bg-indigo-500'
+                    'bg-accent-500'
                   }`}
                   style={{ maxHeight: '100%' }}
                   title={`${load.toFixed(0)}%`}
                 />
               ))}
             </div>
-            <p className="text-xs text-gray-600 mt-2 text-center">
+            <p className="text-xs text-calm-text-secondary mt-2 text-center">
               Últimos {Math.min(20, session.loadHistory.length)} puntos de medición
             </p>
           </div>
@@ -326,8 +326,8 @@ export function SessionSummary({
 
         {/* Insights */}
         {insights.length > 0 && (
-          <div className="p-6 border-b border-gray-800">
-            <h3 className="text-sm font-medium text-gray-400 mb-3">
+          <div className="p-6 border-b border-calm-warm-300">
+            <h3 className="text-sm font-medium text-calm-text-muted mb-3">
               Insights
             </h3>
             <div className="space-y-2">
@@ -338,16 +338,16 @@ export function SessionSummary({
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.1 * i }}
                   className={`flex items-center gap-3 p-3 rounded-lg ${
-                    insight.type === 'positive' ? 'bg-green-900/20 border border-green-500/20' :
+                    insight.type === 'positive' ? 'bg-accent-900/20 border border-accent-500/20' :
                     insight.type === 'suggestion' ? 'bg-amber-900/20 border border-amber-500/20' :
-                    'bg-gray-800/50'
+                    'bg-calm-bg-elevated/50'
                   }`}
                 >
                   <span className="text-xl">{insight.icon}</span>
                   <span className={`text-sm ${
-                    insight.type === 'positive' ? 'text-green-300' :
+                    insight.type === 'positive' ? 'text-accent-300' :
                     insight.type === 'suggestion' ? 'text-amber-300' :
-                    'text-gray-300'
+                    'text-calm-text-tertiary'
                   }`}>
                     {insight.text}
                   </span>
@@ -358,29 +358,29 @@ export function SessionSummary({
         )}
 
         {/* Detalles adicionales */}
-        <div className="p-6 border-b border-gray-800">
+        <div className="p-6 border-b border-calm-warm-300">
           <div className="grid grid-cols-2 gap-4 text-sm">
             <div className="flex justify-between">
-              <span className="text-gray-500">Tiempo promedio</span>
-              <span className="text-gray-300">
+              <span className="text-calm-text-muted">Tiempo promedio</span>
+              <span className="text-calm-text-tertiary">
                 {metrics.avgTimePerExercise.toFixed(1)}s
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-500">Ritmo</span>
-              <span className="text-gray-300">
+              <span className="text-calm-text-muted">Ritmo</span>
+              <span className="text-calm-text-tertiary">
                 {metrics.exercisesPerMinute.toFixed(1)}/min
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-500">Correctas</span>
-              <span className="text-green-400">
+              <span className="text-calm-text-muted">Correctas</span>
+              <span className="text-accent-400">
                 {session.correctAnswers}
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-500">Intentos</span>
-              <span className="text-gray-300">
+              <span className="text-calm-text-muted">Intentos</span>
+              <span className="text-calm-text-tertiary">
                 {session.totalAttempts}
               </span>
             </div>
@@ -392,7 +392,7 @@ export function SessionSummary({
           {onShareProgress && (
             <button
               onClick={onShareProgress}
-              className="flex-1 py-3 px-4 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-xl font-medium transition-colors flex items-center justify-center gap-2"
+              className="flex-1 py-3 px-4 bg-calm-bg-elevated hover:bg-calm-bg-tertiary text-calm-text-tertiary rounded-xl font-medium transition-colors flex items-center justify-center gap-2"
             >
               📤 Compartir
             </button>
@@ -400,14 +400,14 @@ export function SessionSummary({
           {onViewDetails && (
             <button
               onClick={onViewDetails}
-              className="flex-1 py-3 px-4 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-xl font-medium transition-colors"
+              className="flex-1 py-3 px-4 bg-calm-bg-elevated hover:bg-calm-bg-tertiary text-calm-text-tertiary rounded-xl font-medium transition-colors"
             >
               Ver Detalles
             </button>
           )}
           <button
             onClick={onClose}
-            className="flex-1 py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-medium transition-colors"
+            className="flex-1 py-3 px-4 bg-accent-600 hover:bg-accent-700 text-white rounded-xl font-medium transition-colors"
           >
             Cerrar
           </button>

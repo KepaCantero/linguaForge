@@ -59,22 +59,22 @@ export function AAAAnimatedBackground({
       midnight: [
         'bg-midnight-aurora',
         'bg-ocean-depth',
-        'bg-gradient-to-b from-slate-900 via-purple-900/20 to-slate-900',
+        'bg-gradient-to-b from-calm-bg-tertiary via-calm-bg-tertiary/20 to-calm-bg-tertiary',
       ],
       sunset: [
         'bg-sunset-blaze',
-        'bg-gradient-to-br from-orange-500 via-pink-500 to-purple-600',
+        'bg-gradient-to-br from-amber-500 via-sky-500 to-sky-600',
       ],
       ocean: [
         'bg-ocean-depth',
-        'bg-gradient-to-b from-blue-900 via-indigo-900 to-slate-900',
+        'bg-gradient-to-b from-sky-900 via-calm-bg-tertiary to-calm-bg-tertiary',
       ],
     };
     return variants[variant];
   }, [variant]);
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-lf-dark">
+    <div className="relative min-h-screen overflow-hidden bg-calm-bg-tertiary">
       {/* Primary gradient layer - slow, majestic movement */}
       <motion.div
         className={`absolute inset-0 ${gradientLayers[0]}`}
@@ -135,7 +135,7 @@ export function AAAAnimatedBackground({
       ))}
 
       {/* Glassmorphism overlay for depth and texture */}
-      <div className="absolute inset-0 bg-glass-surface backdrop-blur-aaa" />
+      <div className="absolute inset-0 bg-calm-bg-secondary backdrop-blur-md" />
 
       {/* Animated vignette for cinematic framing */}
       <motion.div
@@ -188,7 +188,7 @@ export function AAAAnimatedSection({
   };
 
   return (
-    <div className="relative overflow-hidden rounded-aaa-xl">
+    <div className="relative overflow-hidden rounded-2xl">
       {/* Animated gradient background */}
       <motion.div
         className={`absolute inset-0 ${gradientClasses[variant]}`}
@@ -204,7 +204,7 @@ export function AAAAnimatedSection({
       />
 
       {/* Glass overlay */}
-      <div className="absolute inset-0 bg-glass-surface backdrop-blur-aaa" />
+      <div className="absolute inset-0 bg-calm-bg-secondary backdrop-blur-md" />
 
       {/* Content */}
       <div className="relative z-10">{children}</div>

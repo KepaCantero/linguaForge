@@ -36,11 +36,11 @@ function getTypeLabel(type: string): string {
 // Helper function to get type colors
 function getTypeColor(type: string): string {
   const colors: Record<string, string> = {
-    verb: 'bg-blue-100 dark:bg-blue-900/30 border-blue-300 dark:border-blue-700',
-    noun: 'bg-green-100 dark:bg-green-900/30 border-green-300 dark:border-green-700',
-    adverb: 'bg-purple-100 dark:bg-purple-900/30 border-purple-300 dark:border-purple-700',
-    adjective: 'bg-orange-100 dark:bg-orange-900/30 border-orange-300 dark:border-orange-700',
-    other: 'bg-gray-100 dark:bg-gray-700/50 border-gray-300 dark:border-gray-600',
+    verb: 'bg-sky-100 dark:bg-sky-900/30 border-sky-300 dark:border-sky-700',
+    noun: 'bg-accent-100 dark:bg-accent-900/30 border-accent-300 dark:border-accent-700',
+    adverb: 'bg-sky-100 dark:bg-sky-900/30 border-sky-300 dark:border-sky-700',
+    adjective: 'bg-amber-100 dark:bg-amber-900/30 border-amber-300 dark:border-amber-800',
+    other: 'bg-calm-bg-secondary dark:bg-calm-bg-tertiary/50 border-calm-warm-200 dark:border-calm-warm-200',
   };
   return colors[type] || colors.other;
 }
@@ -67,34 +67,34 @@ function WordItem({ word, selectedPhrases, translations, isTranslating, isWordSt
       animate={{ opacity: 1, x: 0 }}
       className={`p-2 rounded border ${
         isStudied
-          ? 'bg-gray-50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700 opacity-60'
-          : 'bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600'
+          ? 'bg-calm-bg-primary dark:bg-calm-bg-elevated/50 border-calm-warm-100 dark:border-calm-warm-200 opacity-60'
+          : 'bg-white dark:bg-calm-bg-elevated border-calm-warm-200 dark:border-calm-warm-200'
       }`}
     >
       <div className="flex items-start justify-between gap-2 mb-1">
         <div className="flex-1">
-          <p className={`text-sm font-medium ${isStudied ? 'text-gray-500 dark:text-gray-400' : 'text-gray-900 dark:text-white'}`}>
+          <p className={`text-sm font-medium ${isStudied ? 'text-calm-text-muted dark:text-calm-text-muted' : 'text-calm-text-primary dark:text-white'}`}>
             {word.word}
           </p>
           {originalPhrase && (
-            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 italic">
+            <p className="text-xs text-calm-text-muted dark:text-calm-text-muted mt-1 italic">
               &ldquo;{originalPhrase.text.substring(0, 60)}...&rdquo;
             </p>
           )}
         </div>
         {isStudied && (
-          <span className="text-xs text-green-600 dark:text-green-400">✓ Estudiada</span>
+          <span className="text-xs text-accent-600 dark:text-accent-400">✓ Estudiada</span>
         )}
       </div>
 
       {!isStudied && (
         <div className="mt-1">
           {isTranslating && !translations[word.normalized] ? (
-            <div className="px-2 py-1.5 text-xs text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-700/50 rounded border border-gray-200 dark:border-gray-600">
+            <div className="px-2 py-1.5 text-xs text-calm-text-muted dark:text-calm-text-muted bg-calm-bg-primary dark:bg-calm-bg-tertiary/50 rounded border border-calm-warm-100 dark:border-calm-warm-200">
               Traduciendo...
             </div>
           ) : (
-            <div className="px-2 py-1.5 text-sm text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-700/50 rounded border border-gray-200 dark:border-gray-600">
+            <div className="px-2 py-1.5 text-sm text-calm-text-secondary dark:text-calm-text-tertiary bg-calm-bg-primary dark:bg-calm-bg-tertiary/50 rounded border border-calm-warm-100 dark:border-calm-warm-200">
               {translations[word.normalized] || word.word}
             </div>
           )}
@@ -122,7 +122,7 @@ function WordTypeGroup({ type, words, selectedPhrases, translations, isTranslati
 
   return (
     <div className={`p-3 rounded-lg border ${typeColor}`}>
-      <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-2">
+      <h4 className="text-sm font-semibold text-calm-text-primary dark:text-white mb-2">
         {typeLabel} ({words.length})
       </h4>
       <div className="space-y-2">
@@ -332,22 +332,22 @@ export function PhraseSelectionPanel({
       initial={{ x: 100, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       exit={{ x: 100, opacity: 0 }}
-      className="fixed right-4 top-20 bottom-24 w-[400px] max-w-[calc(100vw-2rem)] bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700 shadow-xl z-40 flex flex-col overflow-hidden"
+      className="fixed right-4 top-20 bottom-24 w-[400px] max-w-[calc(100vw-2rem)] bg-white dark:bg-calm-bg-elevated rounded-xl p-4 border border-calm-warm-100 dark:border-calm-warm-200 shadow-xl z-40 flex flex-col overflow-hidden"
     >
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+          <h3 className="text-lg font-semibold text-calm-text-primary dark:text-white">
             Palabras clave extraídas
           </h3>
-          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+          <p className="text-xs text-calm-text-muted dark:text-calm-text-muted mt-1">
             {newWords.length} nuevas • {totalStudiedWords} ya estudiadas • {extractedWords.length} total
           </p>
         </div>
         {onClose && (
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400"
+            className="p-1.5 rounded-lg hover:bg-calm-bg-secondary dark:hover:bg-calm-bg-tertiary text-calm-text-muted dark:text-calm-text-muted"
           >
             <IconX />
           </button>
@@ -358,7 +358,7 @@ export function PhraseSelectionPanel({
       <div className="mb-4 flex items-center gap-2">
         <button
           onClick={() => setShowWordExtraction(!showWordExtraction)}
-          className="text-sm text-indigo-600 dark:text-indigo-400 hover:underline"
+          className="text-sm text-accent-600 dark:text-accent-400 hover:underline"
         >
           {showWordExtraction ? 'Ocultar' : 'Mostrar'} extracción de palabras
         </button>
@@ -381,8 +381,8 @@ export function PhraseSelectionPanel({
           ))}
 
           {newWords.length === 0 && (
-            <div className="p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg text-center">
-              <p className="text-sm text-green-800 dark:text-green-200">
+            <div className="p-4 bg-accent-50 dark:bg-accent-900/20 border border-accent-200 dark:border-accent-800 rounded-lg text-center">
+              <p className="text-sm text-accent-800 dark:text-accent-200">
                 ✓ Todas las palabras clave ya están estudiadas
               </p>
             </div>
@@ -391,8 +391,8 @@ export function PhraseSelectionPanel({
       )}
 
       {/* Footer con acciones */}
-      <div className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700">
-        <div className="text-sm text-gray-600 dark:text-gray-400">
+      <div className="flex items-center justify-between pt-4 border-t border-calm-warm-100 dark:border-calm-warm-200">
+        <div className="text-sm text-calm-text-secondary dark:text-calm-text-muted">
           {isTranslating ? (
             <span>Traduciendo {pluralize('palabra', newWords.length)}...</span>
           ) : (
@@ -405,8 +405,8 @@ export function PhraseSelectionPanel({
           className={`
             px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2
             ${canCreateCards && !isCreating
-              ? 'bg-indigo-600 hover:bg-indigo-700 text-white'
-              : 'bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed'
+              ? 'bg-accent-600 hover:bg-accent-700 text-white'
+              : 'bg-calm-warm-100 dark:bg-calm-bg-tertiary text-calm-text-muted dark:text-calm-text-muted cursor-not-allowed'
             }
           `}
         >

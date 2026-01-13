@@ -100,7 +100,7 @@ export function NeuralDashboard({
   // Vista compacta (solo métricas clave)
   if (variant === 'compact') {
     return (
-      <div className={`bg-lf-soft rounded-xl p-4 ${className}`}>
+      <div className={`bg-calm-bg-secondary rounded-xl p-4 ${className}`}>
         <div className="flex items-center justify-between mb-4">
           <h3 className="font-quicksand font-semibold text-white">Neural Score</h3>
           <motion.span
@@ -114,8 +114,8 @@ export function NeuralDashboard({
         </div>
 
         <div className="grid grid-cols-2 gap-2">
-          <MiniMetric label="Nivel" value={currentLevel} color="#6366F1" />
-          <MiniMetric label="Sinapsis" value={synapsesCount} color="#22C55E" />
+          <MiniMetric label="Nivel" value={currentLevel} color="var(--sky-500)" />
+          <MiniMetric label="Sinapsis" value={synapsesCount} color="var(--accent-500)" />
           <MiniMetric label="Fortaleza" value={Math.round(synapticStrength * 100)} color="#F59E0B" suffix="%" />
           <MiniMetric label="Riego" value={neuronalIrrigation?.effectiveMinutes || 0} color="#3B82F6" suffix="min" />
         </div>
@@ -125,9 +125,9 @@ export function NeuralDashboard({
 
   // Vista estándar
   return (
-    <div className={`bg-lf-dark rounded-xl overflow-hidden ${className}`}>
+    <div className={`bg-calm-bg-tertiary rounded-xl overflow-hidden ${className}`}>
       {/* Header */}
-      <div className="bg-gradient-to-r from-indigo-600 to-purple-600 px-6 py-4">
+      <div className="bg-gradient-to-r from-accent-600 to-sky-600 px-6 py-4">
         <div className="flex items-center justify-between">
           <div>
             <h2 className="font-quicksand font-bold text-xl text-white">Dashboard Neural</h2>
@@ -145,7 +145,7 @@ export function NeuralDashboard({
       </div>
 
       {/* Tabs de navegación */}
-      <div className="flex border-b border-gray-700">
+      <div className="flex border-b border-calm-warm-200">
         <TabButton
           label="Resumen"
           active={activeTab === 'overview'}
@@ -243,14 +243,14 @@ function OverviewTab({
           title="Comprensión"
           value={neuralScore.breakdown.comprehension}
           max={100}
-          color="#6366F1"
+          color="var(--sky-500)"
           icon="🧠"
         />
         <MetricCard
           title="Producción"
           value={neuralScore.breakdown.production}
           max={100}
-          color="#22C55E"
+          color="var(--accent-500)"
           icon="🎤"
         />
         <MetricCard
@@ -271,7 +271,7 @@ function OverviewTab({
 
       {/* Riego Neuronal */}
       {neuronalIrrigation && (
-        <div className="bg-lf-soft rounded-lg p-4">
+        <div className="bg-calm-bg-secondary rounded-lg p-4">
           <h3 className="font-quicksand font-semibold text-white mb-3">Riego Neuronal</h3>
           <div className="space-y-2">
             <NeuronalMetric
@@ -352,7 +352,7 @@ function ZonesTab({
               <div className="font-quicksand font-semibold text-sm mb-1" style={{ color: zone.color }}>
                 {zone.name}
               </div>
-              <div className="font-inter text-xs text-gray-400">
+              <div className="font-inter text-xs text-calm-text-muted">
                 {isActive ? 'Activo' : 'Inactivo'}
               </div>
             </div>
@@ -376,7 +376,7 @@ function ConnectionsTab({
   activePathways: string[];
 }) {
   const pathwaysData = useMemo(() => {
-    const colors = ['#6366F1', '#22C55E', '#F59E0B', '#EC4899'];
+    const colors = ['var(--sky-500)', 'var(--accent-500)', '#F59E0B', '#EC4899'];
     return activePathways.map((pathway, index) => ({
       name: pathway,
       activity: 0.5 + Math.random() * 0.5,
@@ -444,14 +444,14 @@ function TabButton({
       className={`flex-1 px-4 py-3 font-quicksand font-medium text-sm transition-colors relative ${
         active
           ? 'text-white'
-          : 'text-gray-400 hover:text-gray-300'
+          : 'text-calm-text-muted hover:text-calm-text-tertiary'
       }`}
     >
       {label}
       {active && (
         <motion.div
           layoutId="activeTab"
-          className="absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-500"
+          className="absolute bottom-0 left-0 right-0 h-0.5 bg-accent-500"
         />
       )}
     </button>
@@ -473,8 +473,8 @@ function MiniMetric({
   suffix?: string;
 }) {
   return (
-    <div className="bg-lf-dark/50 rounded p-2 text-center">
-      <div className="font-inter text-xs text-gray-400">{label}</div>
+    <div className="bg-calm-bg-tertiary/50 rounded p-2 text-center">
+      <div className="font-inter text-xs text-calm-text-muted">{label}</div>
       <div className="font-inter font-semibold text-sm" style={{ color }}>
         {value}
         {suffix}
@@ -502,7 +502,7 @@ function MetricCard({
   const percentage = Math.min((value / max) * 100, 100);
 
   return (
-    <div className="bg-lf-soft rounded-lg p-4">
+    <div className="bg-calm-bg-secondary rounded-lg p-4">
       <div className="flex items-center justify-between mb-2">
         <span className="text-2xl">{icon}</span>
         <span className="font-inter font-bold text-xl" style={{ color }}>
@@ -510,7 +510,7 @@ function MetricCard({
         </span>
       </div>
       <div className="font-quicksand font-medium text-sm text-white mb-2">{title}</div>
-      <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
+      <div className="h-2 bg-calm-bg-elevated rounded-full overflow-hidden">
         <motion.div
           className="h-full rounded-full"
           style={{ backgroundColor: color }}
@@ -537,9 +537,9 @@ function NeuronalMetric({
 }) {
   return (
     <div className="flex items-center justify-between">
-      <span className="font-inter text-sm text-gray-400">{label}</span>
+      <span className="font-inter text-sm text-calm-text-muted">{label}</span>
       <span className="font-inter font-semibold text-white">
-        {value} <span className="text-xs text-gray-500">{unit}</span>
+        {value} <span className="text-xs text-calm-text-muted">{unit}</span>
       </span>
     </div>
   );
@@ -553,8 +553,8 @@ function NeuronalMetric({
  * getScoreColor - Obtiene el color según el score
  */
 function getScoreColor(score: number): string {
-  if (score >= 80) return '#22C55E'; // Green
-  if (score >= 60) return '#6366F1'; // Indigo
+  if (score >= 80) return 'var(--accent-500)'; // Green
+  if (score >= 60) return 'var(--sky-500)'; // Indigo
   if (score >= 40) return '#F59E0B'; // Amber
   return '#EF4444'; // Red
 }

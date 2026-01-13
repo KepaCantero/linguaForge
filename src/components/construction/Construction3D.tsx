@@ -329,10 +329,10 @@ function Scene({ elements, onElementClick, onElementHover, showGrid, autoRotate 
 
 function LoadingFallback() {
   return (
-    <div className="absolute inset-0 flex items-center justify-center bg-gray-900/80">
+    <div className="absolute inset-0 flex items-center justify-center bg-calm-bg-primary/80">
       <div className="text-center">
-        <div className="w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-        <p className="text-gray-400">Cargando escena 3D...</p>
+        <div className="w-12 h-12 border-4 border-accent-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+        <p className="text-calm-text-muted">Cargando escena 3D...</p>
       </div>
     </div>
   );
@@ -354,7 +354,7 @@ export function Construction3D({
   const [isLoaded, setIsLoaded] = useState(false);
 
   return (
-    <div className={`relative w-full h-full min-h-[400px] bg-gray-900 rounded-xl overflow-hidden ${className}`}>
+    <div className={`relative w-full h-full min-h-[400px] bg-calm-bg-primary rounded-xl overflow-hidden ${className}`}>
       <Canvas
         shadows
         dpr={[1, 2]}
@@ -383,13 +383,13 @@ export function Construction3D({
       {!isLoaded && <LoadingFallback />}
 
       {/* UI Overlay */}
-      <div className="absolute bottom-4 left-4 text-xs text-gray-500">
+      <div className="absolute bottom-4 left-4 text-xs text-calm-text-muted">
         <p>Arrastra para rotar | Scroll para zoom</p>
       </div>
 
       {/* Contador de elementos */}
-      <div className="absolute top-4 right-4 bg-gray-800/80 px-3 py-1.5 rounded-lg">
-        <span className="text-gray-400 text-sm">{elements.length} elementos</span>
+      <div className="absolute top-4 right-4 bg-calm-bg-elevated/80 px-3 py-1.5 rounded-lg">
+        <span className="text-calm-text-muted text-sm">{elements.length} elementos</span>
       </div>
     </div>
   );
@@ -412,7 +412,7 @@ export function Construction3DPreview({
 }: Construction3DPreviewProps) {
   return (
     <div
-      className={`bg-gray-900 rounded-lg overflow-hidden ${className}`}
+      className={`bg-calm-bg-primary rounded-lg overflow-hidden ${className}`}
       style={{ width: size, height: size }}
     >
       <Canvas

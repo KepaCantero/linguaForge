@@ -185,21 +185,21 @@ export function TranscriptSelector({
                 className={`
                   w-full text-left p-3 rounded-lg transition-all
                   ${isSelected
-                    ? 'bg-indigo-100 dark:bg-indigo-900/50 border-2 border-indigo-500'
-                    : 'bg-gray-50 dark:bg-gray-800/50 border-2 border-transparent hover:bg-gray-100 dark:hover:bg-gray-800'
+                    ? 'bg-accent-100 dark:bg-accent-900/50 border-2 border-accent-500'
+                    : 'bg-calm-bg-primary dark:bg-calm-bg-elevated/50 border-2 border-transparent hover:bg-calm-bg-secondary dark:hover:bg-calm-bg-elevated'
                   }
                 `}
               >
                 <div className="flex items-start justify-between gap-2">
-                  <span className={`text-sm ${isSelected ? 'font-medium text-indigo-900 dark:text-indigo-100' : 'text-gray-700 dark:text-gray-300'}`}>
+                  <span className={`text-sm ${isSelected ? 'font-medium text-accent-900 dark:text-accent-100' : 'text-calm-text-secondary dark:text-calm-text-tertiary'}`}>
                     {phrase.text}
                   </span>
                   {isSelected && (
-                    <span className="text-indigo-600 dark:text-indigo-400 text-xs">✓</span>
+                    <span className="text-accent-600 dark:text-accent-400 text-xs">✓</span>
                   )}
                 </div>
                 {phrase.start !== undefined && (
-                  <span className="text-xs text-gray-500 dark:text-gray-400 mt-1 block">
+                  <span className="text-xs text-calm-text-muted dark:text-calm-text-muted mt-1 block">
                     {Math.floor(phrase.start / 60)}:{(Math.floor(phrase.start % 60)).toString().padStart(2, '0')}
                   </span>
                 )}
@@ -231,16 +231,16 @@ export function TranscriptSelector({
         }}
         tabIndex={0}
       >
-        <p className="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap leading-relaxed">
+        <p className="text-sm text-calm-text-secondary dark:text-calm-text-tertiary whitespace-pre-wrap leading-relaxed">
           {transcript}
         </p>
         {isSelecting && (
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mt-2 p-2 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg border border-indigo-200 dark:border-indigo-800"
+            className="mt-2 p-2 bg-sky-50 dark:bg-accent-900/20 rounded-lg border border-accent-200 dark:border-accent-800"
           >
-            <p className="text-xs font-medium text-indigo-800 dark:text-indigo-200 mb-2">
+            <p className="text-xs font-medium text-accent-800 dark:text-accent-200 mb-2">
               ✓ Texto seleccionado: &ldquo;{globalThis.getSelection()?.toString().trim().substring(0, 50)}...&rdquo;
             </p>
             <div className="flex items-center gap-2">
@@ -250,7 +250,7 @@ export function TranscriptSelector({
                   e.stopPropagation();
                   confirmTextSelection(e);
                 }}
-                className="text-xs bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded font-medium transition-colors"
+                className="text-xs bg-accent-600 hover:bg-accent-700 text-white px-3 py-1.5 rounded font-medium transition-colors"
               >
                 Añadir frase
               </button>
@@ -261,12 +261,12 @@ export function TranscriptSelector({
                   globalThis.getSelection()?.removeAllRanges();
                   setIsSelecting(false);
                 }}
-                className="text-xs bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded font-medium transition-colors"
+                className="text-xs bg-calm-bg-tertiary dark:bg-calm-bg-tertiary hover:bg-calm-warm-100 dark:hover:bg-calm-bg-tertiary text-calm-text-secondary dark:text-calm-text-tertiary px-3 py-1.5 rounded font-medium transition-colors"
               >
                 Cancelar
               </button>
             </div>
-            <p className="text-xs text-indigo-600 dark:text-indigo-400 mt-2">
+            <p className="text-xs text-accent-600 dark:text-accent-400 mt-2">
               También puedes hacer doble clic en el texto seleccionado
             </p>
           </motion.div>
@@ -284,8 +284,8 @@ export function TranscriptSelector({
           className={`
             px-3 py-1.5 rounded-lg text-sm font-medium transition-colors
             ${selectionMode === 'text'
-              ? 'bg-indigo-600 text-white'
-              : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+              ? 'bg-accent-600 text-white'
+              : 'bg-calm-bg-tertiary dark:bg-calm-bg-tertiary text-calm-text-secondary dark:text-calm-text-tertiary'
             }
           `}
         >
@@ -297,8 +297,8 @@ export function TranscriptSelector({
             className={`
               px-3 py-1.5 rounded-lg text-sm font-medium transition-colors
               ${selectionMode === 'phrase'
-                ? 'bg-indigo-600 text-white'
-                : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+                ? 'bg-accent-600 text-white'
+                : 'bg-calm-bg-tertiary dark:bg-calm-bg-tertiary text-calm-text-secondary dark:text-calm-text-tertiary'
               }
             `}
           >
@@ -306,14 +306,14 @@ export function TranscriptSelector({
           </button>
         )}
         {selectedPhrases.length > 0 && (
-          <span className="ml-auto text-sm text-gray-600 dark:text-gray-400">
+          <span className="ml-auto text-sm text-calm-text-secondary dark:text-calm-text-muted">
             {selectedPhrases.length} {selectedPhrases.length === 1 ? 'seleccionada' : 'seleccionadas'}
           </span>
         )}
       </div>
 
       {/* Transcripción */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700 max-h-96 overflow-y-auto">
+      <div className="bg-white dark:bg-calm-bg-elevated rounded-lg p-4 border border-calm-warm-100 dark:border-calm-warm-200 max-h-96 overflow-y-auto">
         {renderTranscript()}
       </div>
     </div>

@@ -42,7 +42,7 @@ export function EmptyState({
       className={`
         text-center
         ${isCompact ? 'py-8' : 'py-12'}
-        ${isCard ? 'bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-6' : ''}
+        ${isCard ? 'bg-white dark:bg-calm-bg-elevated rounded-2xl border border-calm-warm-100 dark:border-calm-warm-200 p-6' : ''}
         ${className}
       `}
     >
@@ -50,13 +50,13 @@ export function EmptyState({
         {icon}
       </div>
       <h3 className={`
-        font-bold text-gray-900 dark:text-white
+        font-bold text-calm-text-primary dark:text-white
         ${isCompact ? 'text-lg mb-2' : 'text-xl mb-3'}
       `}>
         {title}
       </h3>
       <p className={`
-        text-gray-500 dark:text-gray-400 max-w-md mx-auto
+        text-calm-text-muted dark:text-calm-text-muted max-w-md mx-auto
         ${isCompact ? 'text-sm mb-4' : 'mb-6'}
       `}>
         {description}
@@ -66,8 +66,8 @@ export function EmptyState({
           {actions.map((action, index) => {
             const isPrimary = action.variant === 'primary' || index === 0;
             const buttonClass = isPrimary
-              ? 'px-4 py-2 bg-lf-primary hover:bg-lf-primary/90 text-white font-medium rounded-lg transition-colors'
-              : 'px-4 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium rounded-lg transition-colors';
+              ? 'px-4 py-2 bg-accent-500 hover:bg-accent-500/90 text-white font-medium rounded-lg transition-colors'
+              : 'px-4 py-2 bg-calm-bg-secondary dark:bg-calm-bg-tertiary hover:bg-calm-bg-tertiary dark:hover:bg-calm-bg-tertiary text-calm-text-secondary dark:text-calm-text-tertiary font-medium rounded-lg transition-colors';
 
             if (action.href) {
               return (

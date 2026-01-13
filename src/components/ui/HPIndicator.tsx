@@ -21,22 +21,22 @@ export function HPIndicator({ hp, showLabel = true, size = 'md' }: HPIndicatorPr
   const isCritical = hp < 30;
 
   const getHPColor = () => {
-    if (isCritical) return 'bg-red-500';
-    if (isLow) return 'bg-orange-500';
-    return 'bg-emerald-500';
+    if (isCritical) return 'bg-semantic-error';
+    if (isLow) return 'bg-amber-500';
+    return 'bg-accent-500';
   };
 
   return (
     <div className="space-y-1">
       {showLabel && (
         <div className="flex items-center justify-between text-xs">
-          <span className="text-gray-600 dark:text-gray-400">Salud</span>
-          <span className={`font-medium ${isCritical ? 'text-red-500' : isLow ? 'text-orange-500' : 'text-emerald-500'}`}>
+          <span className="text-calm-text-secondary dark:text-calm-text-muted">Salud</span>
+          <span className={`font-medium ${isCritical ? 'text-semantic-error' : isLow ? 'text-amber-500' : 'text-accent-500'}`}>
             {hp}/{HP_CONFIG.maxHP}
           </span>
         </div>
       )}
-      <div className={`w-full ${sizeClasses[size]} bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden`}>
+      <div className={`w-full ${sizeClasses[size]} bg-calm-bg-tertiary dark:bg-calm-bg-tertiary rounded-full overflow-hidden`}>
         <motion.div
           className={`h-full ${getHPColor()} rounded-full transition-colors`}
           initial={{ width: 0 }}
@@ -46,7 +46,7 @@ export function HPIndicator({ hp, showLabel = true, size = 'md' }: HPIndicatorPr
       </div>
       {isLow && (
         <motion.p
-          className="text-xs text-orange-600 dark:text-orange-400"
+          className="text-xs text-amber-600 dark:text-amber-400"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
         >

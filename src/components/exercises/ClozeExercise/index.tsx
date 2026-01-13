@@ -76,7 +76,7 @@ export function ClozeExercise({ phrase, block, onComplete }: ClozeExerciseProps)
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <span className="text-sm text-gray-500 dark:text-gray-400">
+        <span className="text-sm text-calm-text-muted dark:text-calm-text-muted">
           {block ? 'Completa la palabra faltante en el contexto' : 'Completa la frase'}
         </span>
       </div>

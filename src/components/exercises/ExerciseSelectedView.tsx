@@ -41,7 +41,7 @@ export function ExerciseSelectedView({
   return (
     <div className={focusModeActive ? 'fixed inset-0 focus-mode-active' : ''}>
       {focusModeActive && (
-        <div className="fixed inset-0 bg-gradient-to-br from-indigo-950/90 via-purple-950/85 to-slate-950/90 backdrop-blur-sm z-40" />
+        <div className="fixed inset-0 bg-gradient-to-br from-calm-bg-tertiary/90 via-calm-bg-tertiary/85 to-calm-bg-tertiary/90 backdrop-blur-sm z-40" />
       )}
 
       <div className={focusModeActive ? 'relative z-50' : ''}>

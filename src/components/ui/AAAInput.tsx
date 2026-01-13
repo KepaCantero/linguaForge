@@ -2,6 +2,7 @@
 
 import { InputHTMLAttributes, forwardRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { COLORS } from '@/constants/colors';
 
 interface AAAInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -13,11 +14,11 @@ interface AAAInputProps extends InputHTMLAttributes<HTMLInputElement> {
 // Variant style configurations
 const VARIANT_STYLES = {
   glass: {
-    input: 'bg-glass-surface backdrop-blur-aaa border border-white/20 focus:border-lf-primary-light/60 focus:shadow-glow-accent',
-    underline: 'bg-transparent border-0 border-b-2 border-white/20 rounded-none focus:border-lf-primary focus:shadow-inner-glow',
+    input: 'bg-calm-bg-secondary backdrop-blur-md border border-calm-warm-100/30 focus:border-accent-500-light/60 focus:shadow-calm-md',
+    underline: 'bg-transparent border-0 border-b-2 border-calm-warm-100/30 rounded-none focus:border-accent-500 focus:shadow-inner-glow',
   },
-  solid: 'bg-white/10 backdrop-blur-md border border-white/10 focus:border-lf-primary/50',
-  underline: 'bg-transparent border-0 border-b-2 border-white/20 rounded-none focus:border-lf-primary focus:shadow-inner-glow',
+  solid: 'bg-white/10 backdrop-blur-md border border-calm-warm-100/20 focus:border-accent-500/50',
+  underline: 'bg-transparent border-0 border-b-2 border-calm-warm-100/30 rounded-none focus:border-accent-500 focus:shadow-inner-glow',
 };
 
 // Helper function to get variant styles
@@ -35,8 +36,8 @@ function getVariantStyles(variant: AAAInputProps['variant']): string {
 
 // Helper function to get label color
 function getLabelColor(isFocused: boolean, hasError: boolean): string {
-  if (hasError) return 'text-lf-error';
-  if (isFocused) return 'text-lf-primary-light';
+  if (hasError) return 'text-semantic-error';
+  if (isFocused) return 'text-calm-text-primary-light';
   return 'text-white/60';
 }
 
@@ -78,7 +79,7 @@ function InputIcon({ icon, isFocused }: InputIconProps) {
     <motion.div
       className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40"
       animate={{
-        color: isFocused ? 'rgba(99, 102, 241, 0.8)' : 'rgba(255, 255, 255, 0.4)',
+        color: isFocused ? COLORS.sky[80] : COLORS.white[40],
       }}
       transition={{ duration: 0.3 }}
     >
@@ -92,7 +93,7 @@ function FocusGlow() {
   return (
     <motion.div
       className="absolute inset-0 rounded-xl pointer-events-none"
-      style={{ boxShadow: '0 0 20px rgba(99, 102, 241, 0.3)' }}
+      style={{ boxShadow: `0 0 20px ${COLORS.sky[30]}` }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -109,7 +110,7 @@ interface ErrorMessageProps {
 function ErrorMessage({ error }: ErrorMessageProps) {
   return (
     <motion.div
-      className="mt-1 text-sm text-lf-error flex items-center gap-1"
+      className="mt-1 text-sm text-semantic-error flex items-center gap-1"
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
@@ -135,7 +136,7 @@ export const AAAInput = forwardRef<HTMLInputElement, AAAInputProps>(
     const hasValue = value !== undefined && value !== '';
 
     const variantStyles = getVariantStyles(variant);
-    const baseStyles = `w-full px-4 py-3 rounded-xl text-white placeholder-white/40 outline-none transition-all duration-300 ${variantStyles} ${error ? 'border-lf-error focus:border-lf-error-dark' : ''} ${className}`;
+    const baseStyles = `w-full px-4 py-3 rounded-xl text-white placeholder-white/40 outline-none transition-all duration-300 ${variantStyles} ${error ? 'border-semantic-error focus:border-semantic-error-dark' : ''} ${className}`;
     const wrapperStyles = variant === 'underline' ? '' : 'relative';
     const paddingTop = label && (isFocused || hasValue) ? '1.5rem' : '0.75rem';
 
@@ -203,7 +204,7 @@ export const AAATextarea = forwardRef<HTMLTextAreaElement, AAATextareaProps>(
     const hasValue = props.value !== undefined && props.value !== '';
 
     const variantStyles = getVariantStyles(variant);
-    const baseStyles = `w-full px-4 py-3 rounded-xl text-white placeholder-white/40 outline-none transition-all duration-300 resize-none ${variantStyles} ${error ? 'border-lf-error' : ''} ${className}`;
+    const baseStyles = `w-full px-4 py-3 rounded-xl text-white placeholder-white/40 outline-none transition-all duration-300 resize-none ${variantStyles} ${error ? 'border-semantic-error' : ''} ${className}`;
     const paddingTop = label && (isFocused || hasValue) ? '1.5rem' : '0.75rem';
 
     const handleFocus = (e: React.FocusEvent<HTMLTextAreaElement>) => {

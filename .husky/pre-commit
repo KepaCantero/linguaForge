@@ -9,7 +9,7 @@ if [ $EXIT_CODE -ne 0 ]; then
   echo ""
   echo "❌ QUALITY GATE FAILED"
   echo "   Please fix the issues above before committing."
-  echo "   Run: bash scripts/quality/quality-ultimate.sh"
+  #echo "   Run: bash scripts/quality/quality-ultimate.sh"
   echo ""
   exit 1
 fi

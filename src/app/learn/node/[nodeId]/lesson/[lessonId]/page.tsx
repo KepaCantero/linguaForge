@@ -71,9 +71,9 @@ function renderExerciseByType(
       return <ShadowingExercise phrase={data as Phrase} onComplete={() => onComplete(true)} />;
     default:
       return (
-        <div className="text-center p-8 bg-lf-soft/30 rounded-aaa-xl border border-lf-muted/30">
-          <p className="text-lf-muted">Tipo no soportado: {exerciseType}</p>
-          <button onClick={() => onComplete(true)} className="mt-4 px-6 py-2 bg-lf-primary text-white rounded-xl">
+        <div className="text-center p-8 bg-calm-bg-secondary/50 rounded-2xl border border-calm-warm-100/30">
+          <p className="text-calm-text-muted">Tipo no soportado: {exerciseType}</p>
+          <button onClick={() => onComplete(true)} className="mt-4 px-6 py-2 bg-accent-500 text-calm-text-primary rounded-xl">
             Continuar
           </button>
         </div>
@@ -336,10 +336,10 @@ export default function LessonPage() {
   // Loading state
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-lf-dark">
+      <div className="min-h-screen flex items-center justify-center bg-calm-bg-tertiary">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-4 border-lf-primary border-t-transparent mx-auto mb-4" />
-          <p className="text-lf-muted">Cargando lección...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-4 border-accent-500 border-t-transparent mx-auto mb-4" />
+          <p className="text-calm-text-muted">Cargando lección...</p>
         </div>
       </div>
     );
@@ -348,16 +348,16 @@ export default function LessonPage() {
   // Error state
   if (error || !lessonContent) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-lf-dark">
+      <div className="min-h-screen flex items-center justify-center bg-calm-bg-tertiary">
         <div className="text-center p-6">
           <div className="text-6xl mb-4">😕</div>
-          <h2 className="text-xl font-bold text-white mb-2">
+          <h2 className="text-xl font-bold text-calm-text-primary mb-2">
             No se pudo cargar la lección
           </h2>
-          <p className="text-lf-muted mb-4">{error}</p>
+          <p className="text-calm-text-muted mb-4">{error}</p>
           <button
             onClick={handleBack}
-            className="px-6 py-3 bg-lf-primary text-white rounded-aaa-xl hover:bg-lf-primary/90"
+            className="px-6 py-3 bg-accent-500 text-calm-text-primary rounded-2xl hover:bg-accent-500/90"
           >
             Volver
           </button>
@@ -389,23 +389,23 @@ export default function LessonPage() {
           )}
         </AnimatePresence>
 
-        <div className="min-h-screen bg-lf-dark pb-20">
+        <div className="min-h-screen bg-calm-bg-tertiary pb-20">
         {/* Header */}
-        <header className="bg-lf-soft/80 border-b border-lf-muted/40 backdrop-blur-aaa sticky top-0 z-10">
+        <header className="bg-calm-bg-elevated border-b border-calm-warm-100/40 backdrop-blur-md sticky top-0 z-10">
           <div className="max-w-lg mx-auto px-4 py-3">
             {/* Top row: Back button + Title */}
             <div className="flex items-center gap-3 mb-3">
               <button
                 onClick={handleBack}
-                className="flex items-center justify-center w-9 h-9 rounded-full text-lf-muted hover:text-white transition-colors"
+                className="flex items-center justify-center w-9 h-9 rounded-full text-calm-text-muted hover:text-calm-text-primary transition-colors"
               >
                 <span className="text-lg">←</span>
               </button>
               <div className="flex-1">
-                <h1 className="font-semibold text-white line-clamp-1">
+                <h1 className="font-semibold text-calm-text-primary line-clamp-1">
                   {leaf?.title || lessonContent.title}
                 </h1>
-                <p className="text-xs text-lf-muted/70">
+                <p className="text-xs text-calm-text-muted/70">
                   {totalExercises} ejercicios disponibles
                 </p>
               </div>
@@ -419,7 +419,7 @@ export default function LessonPage() {
                 className={`
                   flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl border text-sm font-semibold transition-all
                   ${warmupCompleted
-                    ? 'bg-green-500/30 border-green-500/50 text-green-400'
+                    ? 'bg-accent-500/30 border-accent-500/50 text-accent-400'
                     : 'bg-amber-500/20 border-amber-500/30 text-amber-400 hover:bg-amber-500/30'
                   }
                 `}
@@ -433,7 +433,7 @@ export default function LessonPage() {
               {/* Academia button */}
               <motion.button
                 onClick={() => {/* Scroll to exercises */}}
-                className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-green-500/20 border border-green-500/30 text-green-400 text-sm font-semibold hover:bg-green-500/30 transition-all"
+                className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-accent-500/20 border border-accent-500/30 text-accent-400 text-sm font-semibold hover:bg-accent-500/30 transition-all"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -444,7 +444,7 @@ export default function LessonPage() {
               {/* Ejercicios button */}
               <motion.button
                 onClick={() => {/* Scroll to exercises */}}
-                className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-lf-primary/30 border border-lf-primary/50 text-lf-primary text-sm font-semibold hover:bg-lf-primary/40 transition-all"
+                className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-accent-500/30 border border-accent-500/50 text-calm-text-primary text-sm font-semibold hover:bg-accent-500/40 transition-all"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -458,18 +458,18 @@ export default function LessonPage() {
         {/* Exercise Menu - AAA Design without cards */}
         <main className="max-w-lg mx-auto px-4 pt-8">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-white mb-2">
+            <h2 className="text-3xl font-bold text-calm-text-primary mb-2">
               Ejercicios
             </h2>
-            <p className="text-lf-muted">
+            <p className="text-calm-text-muted">
               Elige el tipo de ejercicio que quieres practicar
             </p>
           </div>
 
           {categories.length === 0 ? (
-            <div className="text-center p-8 bg-lf-soft/30 rounded-aaa-xl border border-lf-muted/30">
+            <div className="text-center p-8 bg-calm-bg-secondary/50 rounded-2xl border border-calm-warm-100/30">
               <div className="text-4xl mb-4">📭</div>
-              <p className="text-lf-muted">
+              <p className="text-calm-text-muted">
                 No hay ejercicios disponibles en esta lección
               </p>
             </div>
@@ -477,9 +477,9 @@ export default function LessonPage() {
             <div className="space-y-4">
               {/* Separator */}
               <div className="flex items-center gap-3 py-2">
-                <div className="flex-1 h-px bg-lf-muted/20" />
-                <span className="text-xs text-lf-muted/60 uppercase tracking-wider">Ejercicios</span>
-                <div className="flex-1 h-px bg-lf-muted/20" />
+                <div className="flex-1 h-px bg-calm-bg-tertiary/20" />
+                <span className="text-xs text-calm-text-muted/60 uppercase tracking-wider">Ejercicios</span>
+                <div className="flex-1 h-px bg-calm-bg-tertiary/20" />
               </div>
 
               {/* Exercise items - AAA list design (no cards) */}
@@ -495,17 +495,17 @@ export default function LessonPage() {
                 >
                   {/* Hover glow effect */}
                   <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-lf-primary/20 via-lf-secondary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="absolute inset-0 bg-gradient-to-r from-accent-500/20 via-sky-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
                     initial={false}
                   />
 
                   {/* Content */}
-                  <div className="relative flex items-center justify-between p-4 border-b border-lf-muted/20 hover:border-lf-primary/30 transition-all">
+                  <div className="relative flex items-center justify-between p-4 border-b border-calm-warm-100/20 hover:border-accent-500/30 transition-all">
                     <div className="flex items-center gap-4">
                       {/* Icon with animated background */}
                       <div className="relative">
                         <motion.div
-                          className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl bg-lf-primary/20"
+                          className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl bg-accent-500/20"
                           animate={{
                             scale: [1, 1.05, 1],
                           }}
@@ -521,14 +521,14 @@ export default function LessonPage() {
 
                       {/* Title and info */}
                       <div className="text-left">
-                        <h3 className="font-semibold text-white">
+                        <h3 className="font-semibold text-calm-text-primary">
                           {category.title}
                         </h3>
-                        <p className="text-sm text-lf-muted/70">
+                        <p className="text-sm text-calm-text-muted/70">
                           {category.description}
                         </p>
                         <div className="flex items-center gap-2 mt-1">
-                          <span className="text-xs text-lf-primary bg-lf-primary/10 px-2 py-0.5 rounded-md">
+                          <span className="text-xs text-calm-text-primary bg-accent-500/10 px-2 py-0.5 rounded-md">
                             {category.items.length} ejercicio{category.items.length !== 1 ? 's' : ''}
                           </span>
                         </div>
@@ -537,7 +537,7 @@ export default function LessonPage() {
 
                     {/* Arrow */}
                     <motion.span
-                      className="text-lf-muted/50 text-xl group-hover:text-lf-primary group-hover:translate-x-1 transition-all"
+                      className="text-calm-text-muted/50 text-xl group-hover:text-calm-text-primary group-hover:translate-x-1 transition-all"
                       animate={{
                         x: [0, 4, 0],
                       }}
@@ -567,22 +567,22 @@ export default function LessonPage() {
   };
 
   return (
-    <div className="min-h-screen bg-lf-dark flex flex-col">
+    <div className="min-h-screen bg-calm-bg-tertiary flex flex-col">
       {/* Header */}
-      <header className="bg-glass-surface dark:bg-lf-soft/50 border-b border-lf-muted/20 backdrop-blur-aaa sticky top-0 z-10">
+      <header className="bg-calm-bg-secondary dark:bg-calm-bg-elevated/70 border-b border-calm-warm-100/20 backdrop-blur-md sticky top-0 z-10">
         <div className="max-w-lg mx-auto px-4 py-3">
           <div className="flex items-center justify-between mb-2">
             <button
               onClick={handleBack}
-              className="text-lf-muted hover:text-white transition-colors"
+              className="text-calm-text-muted hover:text-calm-text-primary transition-colors"
             >
               ←
             </button>
             <div className="text-center">
-              <span className="text-sm font-medium text-white">
+              <span className="text-sm font-medium text-calm-text-primary">
                 {currentCategory?.icon} {currentCategory?.title}
               </span>
-              <span className="text-xs text-lf-muted/70 block">
+              <span className="text-xs text-calm-text-muted/70 block">
                 {currentIndex + 1} / {totalInCategory}
               </span>
             </div>
@@ -590,9 +590,9 @@ export default function LessonPage() {
           </div>
 
           {/* Progress bar */}
-          <div className="h-2 bg-lf-muted/20 rounded-full overflow-hidden">
+          <div className="h-2 bg-calm-bg-tertiary/20 rounded-full overflow-hidden">
             <motion.div
-              className="h-full bg-gradient-to-r from-lf-primary to-lf-secondary rounded-full"
+              className="h-full bg-gradient-to-r to-accent-500 to-sky-500 rounded-full"
               initial={{ width: 0 }}
               animate={{ width: `${((currentIndex + 1) / totalInCategory) * 100}%` }}
               transition={{ duration: 0.3 }}

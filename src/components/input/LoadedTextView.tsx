@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { WordSelector } from '@/components/transcript/WordSelector';
 import type { ContentSource } from '@/types/srs';
+import { radialGlow } from '@/constants/colors';
 
 interface LoadedTextViewProps {
   textId: string;
@@ -47,7 +48,7 @@ export function LoadedTextView({
           <motion.div
             className="absolute inset-0 rounded-full blur-xl"
             style={{
-              background: 'radial-gradient(circle, rgba(6, 182, 212, 0.7), transparent)',
+              background: radialGlow('sky', 0.7),
             }}
             animate={{
               scale: [1, 1.4, 1],
@@ -89,7 +90,7 @@ export function LoadedTextView({
         <motion.button
           onClick={onPlayAudio}
           disabled={isSpeaking || !textContent.trim()}
-          className="w-full py-4 rounded-aaa-xl font-bold text-white flex items-center justify-center gap-3"
+          className="w-full py-4 rounded-2xl font-bold text-white flex items-center justify-center gap-3"
           style={{
             background: isSpeaking || !textContent.trim()
               ? 'radial-gradient(circle at 30% 30%, #4B5563, #374151)'
@@ -106,9 +107,9 @@ export function LoadedTextView({
       {/* Mark as Read Button */}
       <motion.button
         onClick={onMarkAsRead}
-        className="w-full py-4 rounded-aaa-xl font-bold text-white flex items-center justify-center gap-3"
+        className="w-full py-4 rounded-2xl font-bold text-white flex items-center justify-center gap-3"
         style={{
-          background: 'radial-gradient(circle at 30% 30%, #22C55E, #16A34A)',
+          background: 'radial-gradient(circle at 30% 30%, var(--accent-500), #16A34A)',
         }}
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}

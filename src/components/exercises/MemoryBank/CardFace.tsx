@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { COLORS } from '@/constants/colors';
 
 interface CardFaceProps {
   text: string;
@@ -24,8 +25,8 @@ export function CardFace({ text, subtext, difficulty, rotateY, zIndex, showFlipH
         justifyContent: 'center',
         padding: 24,
         background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
-        border: '2px solid rgba(99, 102, 241, 0.5)',
-        boxShadow: '0 10px 40px rgba(0, 0, 0, 0.3)',
+        border: '2px solid var(--sky-500)/50',
+        boxShadow: `0 10px 40px ${COLORS.black[30]}`,
         rotateY,
         zIndex,
       }}
@@ -62,9 +63,9 @@ interface DifficultyIndicatorProps {
 
 function DifficultyIndicator({ difficulty }: DifficultyIndicatorProps) {
   const colors = {
-    easy: 'bg-green-400 shadow-green-400/50',
-    medium: 'bg-yellow-400 shadow-yellow-400/50',
-    hard: 'bg-red-400 shadow-red-400/50',
+    easy: 'bg-accent-400 shadow-green-400/50',
+    medium: 'bg-amber-400 shadow-yellow-400/50',
+    hard: 'bg-semantic-error shadow-red-400/50',
   };
 
   const dots = {

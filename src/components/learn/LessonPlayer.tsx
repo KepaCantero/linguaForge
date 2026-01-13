@@ -157,7 +157,7 @@ export function LessonPlayer({ lesson, onComplete }: LessonPlayerProps) {
         );
       default:
         return (
-          <div className="text-center text-gray-500">
+          <div className="text-center text-calm-text-muted">
             Tipo de ejercicio no soportado: {currentExercise.type}
           </div>
         );
@@ -185,7 +185,7 @@ export function LessonPlayer({ lesson, onComplete }: LessonPlayerProps) {
         </motion.div>
 
         <motion.h2
-          className="text-3xl font-bold text-gray-900 dark:text-white mb-2"
+          className="text-3xl font-bold text-calm-text-primary dark:text-white mb-2"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
@@ -194,7 +194,7 @@ export function LessonPlayer({ lesson, onComplete }: LessonPlayerProps) {
         </motion.h2>
 
         <motion.p
-          className="text-gray-600 dark:text-gray-400 mb-8"
+          className="text-calm-text-secondary dark:text-calm-text-muted mb-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
@@ -209,23 +209,23 @@ export function LessonPlayer({ lesson, onComplete }: LessonPlayerProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
         >
-          <div className="bg-white dark:bg-gray-800 rounded-xl p-4 text-center">
-            <div className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
+          <div className="bg-white dark:bg-calm-bg-elevated rounded-xl p-4 text-center">
+            <div className="text-2xl font-bold text-accent-600 dark:text-accent-400">
               {accuracy}%
             </div>
-            <div className="text-xs text-gray-500 dark:text-gray-400">Precisión</div>
+            <div className="text-xs text-calm-text-muted dark:text-calm-text-muted">Precisión</div>
           </div>
-          <div className="bg-white dark:bg-gray-800 rounded-xl p-4 text-center">
-            <div className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">
+          <div className="bg-white dark:bg-calm-bg-elevated rounded-xl p-4 text-center">
+            <div className="text-2xl font-bold text-accent-600 dark:text-accent-400">
               {correctCount}/{totalExercises}
             </div>
-            <div className="text-xs text-gray-500 dark:text-gray-400">Correctas</div>
+            <div className="text-xs text-calm-text-muted dark:text-calm-text-muted">Correctas</div>
           </div>
-          <div className="bg-white dark:bg-gray-800 rounded-xl p-4 text-center">
+          <div className="bg-white dark:bg-calm-bg-elevated rounded-xl p-4 text-center">
             <div className="text-2xl font-bold text-amber-600 dark:text-amber-400">
               +{xpEarned}
             </div>
-            <div className="text-xs text-gray-500 dark:text-gray-400">XP</div>
+            <div className="text-xs text-calm-text-muted dark:text-calm-text-muted">XP</div>
           </div>
         </motion.div>
 
@@ -238,13 +238,13 @@ export function LessonPlayer({ lesson, onComplete }: LessonPlayerProps) {
         >
           <button
             onClick={handleLessonComplete}
-            className="w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-xl transition-colors"
+            className="w-full py-4 bg-accent-600 hover:bg-accent-700 text-white font-medium rounded-xl transition-colors"
           >
             Continuar →
           </button>
           <button
             onClick={handleExit}
-            className="w-full py-3 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-medium rounded-xl transition-colors hover:bg-gray-200 dark:hover:bg-gray-700"
+            className="w-full py-3 bg-calm-bg-secondary dark:bg-calm-bg-elevated text-calm-text-secondary dark:text-calm-text-tertiary font-medium rounded-xl transition-colors hover:bg-calm-bg-tertiary dark:hover:bg-calm-bg-tertiary"
           >
             Volver al nodo
           </button>
@@ -254,27 +254,27 @@ export function LessonPlayer({ lesson, onComplete }: LessonPlayerProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col">
+    <div className="min-h-screen bg-calm-bg-primary dark:bg-calm-bg-primary flex flex-col">
       {/* Header con progreso */}
-      <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
+      <header className="bg-white dark:bg-calm-bg-elevated border-b border-calm-warm-100 dark:border-calm-warm-200 sticky top-0 z-10">
         <div className="max-w-lg mx-auto px-4 py-3">
           <div className="flex items-center justify-between mb-2">
             <button
               onClick={handleExit}
-              className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+              className="text-calm-text-muted hover:text-calm-text-secondary dark:text-calm-text-muted dark:hover:text-calm-text-tertiary"
             >
               ✕
             </button>
-            <span className="text-sm text-gray-600 dark:text-gray-400">
+            <span className="text-sm text-calm-text-secondary dark:text-calm-text-muted">
               {currentIndex + 1} / {totalExercises}
             </span>
             <div className="w-6" /> {/* Spacer */}
           </div>
 
           {/* Barra de progreso */}
-          <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+          <div className="h-2 bg-calm-bg-tertiary dark:bg-calm-bg-tertiary rounded-full overflow-hidden">
             <motion.div
-              className="h-full bg-indigo-500 rounded-full"
+              className="h-full bg-accent-500 rounded-full"
               initial={{ width: 0 }}
               animate={{ width: `${progress}%` }}
               transition={{ duration: 0.3 }}

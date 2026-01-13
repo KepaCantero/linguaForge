@@ -215,7 +215,7 @@ export const microInteractionVariants = {
     scale: [1, 1.1, 1],
     filter: [
       'brightness(1)',
-      'brightness(1.2) drop-shadow(0 0 10px rgba(34, 197, 94, 0.5))',
+      'brightness(1.2) drop-shadow(0 0 10px rgba(16, 185, 129, 0.5))',
       'brightness(1)',
     ],
     transition: { duration: 0.4, ease: 'easeOut' },
@@ -248,7 +248,7 @@ export const microInteractionVariants = {
     scale: [1, 1.15, 1],
     filter: [
       'brightness(1)',
-      'brightness(1.2) drop-shadow(0 0 20px rgba(99, 102, 241, 0.6))',
+      'brightness(1.2) drop-shadow(0 0 20px rgba(14, 165, 233, 0.6))',
       'brightness(1)',
     ],
     transition: { duration: 0.5, ease: 'easeOut' },

@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { COLORS } from '@/constants/colors';
 import { ImportedNode } from '@/store/useImportedNodesStore';
 import { SubtopicCard } from './SubtopicCard';
 
@@ -21,8 +22,8 @@ export function SubtopicList({ node, onSubtopicClick }: SubtopicListProps) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2 }}
-        className="text-xl font-bold text-white mb-4"
-        style={{ textShadow: '0 2px 4px rgba(0,0,0,0.6)' }}
+        className="text-xl font-bold text-calm-text-primary mb-4"
+        style={{ textShadow: `0 2px 4px ${COLORS.black[60]}` }}
       >
         Subtemas ({node.completedSubtopics.length}/{node.subtopics.length})
       </motion.h2>
@@ -65,7 +66,7 @@ function EmptyState() {
         <motion.div
           className="absolute inset-0 rounded-full blur-xl opacity-50"
           style={{
-            background: 'radial-gradient(circle, rgba(99, 102, 241, 0.4), transparent)',
+            background: 'radial-gradient(circle, var(--sky-500)/40, transparent)',
           }}
           animate={{
             scale: [1, 1.3, 1],
@@ -76,8 +77,8 @@ function EmptyState() {
         <span className="relative text-4xl">📭</span>
       </div>
       <p
-        className="text-lf-muted"
-        style={{ textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}
+        className="text-calm-text-muted"
+        style={{ textShadow: COLORS.effects.textShadowMd }}
       >
         No hay subtemas en este nodo
       </p>

@@ -13,6 +13,7 @@
  */
 
 'use client';
+import { COLORS, borderAlpha } from '@/constants/colors';
 
 import { motion } from 'framer-motion';
 import { useMemo, useState, useRef, useCallback } from 'react';
@@ -63,10 +64,10 @@ export interface SynapticCluster {
 // CONSTANTES
 // ============================================================
 
-const COLORS = {
+const SYNAPSE_COLORS = {
   weak: '#94A3B8',      // Slate 400 - Sinapsis débules
-  medium: '#6366F1',    // Indigo 500 - Sinapsis medias
-  strong: '#22C55E',    // Green 500 - Sinapsis fuertes
+  medium: 'var(--sky-500)',    // Indigo 500 - Sinapsis medias
+  strong: 'var(--accent-500)',    // Green 500 - Sinapsis fuertes
   active: '#FDE047',    // Yellow 300 - Sinapsis activas
   background: '#0F172A', // Slate 900 - Fondo
 };
@@ -208,7 +209,7 @@ export function SynapticDensity({
   return (
     <div
       ref={canvasRef}
-      className={`relative bg-lf-dark rounded-xl overflow-hidden ${className}`}
+      className={`relative bg-calm-bg-tertiary rounded-xl overflow-hidden ${className}`}
       style={{ width: size, height: size }}
     >
       <svg width={size} height={size} className="absolute inset-0">
@@ -257,9 +258,9 @@ export function SynapticDensity({
       {/* Métricas superpuestas */}
       {variant === 'detailed' && (
         <div className="absolute bottom-2 left-2 bg-black/50 backdrop-blur-sm rounded-lg p-2 text-xs">
-          <div className="text-gray-300">Sinapsis: {connectionCount}</div>
-          <div className="text-gray-300">Fortaleza: {Math.round(strength)}%</div>
-          <div className="text-gray-300">Vías activas: {activePathways.length}</div>
+          <div className="text-calm-text-tertiary">Sinapsis: {connectionCount}</div>
+          <div className="text-calm-text-tertiary">Fortaleza: {Math.round(strength)}%</div>
+          <div className="text-calm-text-tertiary">Vías activas: {activePathways.length}</div>
         </div>
       )}
     </div>
@@ -295,7 +296,7 @@ function SynapseLine({
   onHoverEnd: () => void;
 }) {
   // Color basado en fortaleza
-  const color = isStrong ? COLORS.strong : strength > 0.5 ? COLORS.medium : COLORS.weak;
+  const color = isStrong ? SYNAPSE_COLORS.strong : strength > 0.5 ? SYNAPSE_COLORS.medium : SYNAPSE_COLORS.weak;
   const strokeWidth = isHovered ? 3 : strength * 2 + 0.5;
   const opacity = isHovered ? 1 : strength * 0.7 + 0.3;
 
@@ -317,7 +318,7 @@ function SynapseLine({
       {showAnimation && (isActive || isStrong) && (
         <motion.circle
           r={3}
-          fill={COLORS.active}
+          fill={SYNAPSE_COLORS.active}
           initial={{ cx: x1, cy: y1, opacity: 1 }}
           animate={{
             cx: [x1, x2],
@@ -365,7 +366,7 @@ function NeuronCircle({
   onHover: () => void;
   onHoverEnd: () => void;
 }) {
-  const baseColor = neuron.type === 'input' ? '#3B82F6' : neuron.type === 'output' ? '#22C55E' : '#6366F1';
+  const baseColor = neuron.type === 'input' ? '#3B82F6' : neuron.type === 'output' ? 'var(--accent-500)' : 'var(--sky-500)';
 
   return (
     <g onMouseEnter={onHover} onMouseLeave={onHoverEnd} className="cursor-pointer">
@@ -426,7 +427,7 @@ export function SynapticHeatmap({
 }) {
   return (
     <div
-      className="grid gap-0.5 bg-gray-900 rounded-lg p-1"
+      className="grid gap-0.5 bg-calm-bg-primary rounded-lg p-1"
       style={{ width: size, height: size, gridTemplateColumns: `repeat(${data.length}, 1fr)` }}
     >
       {data.flat().map((value, index) => (
@@ -434,7 +435,7 @@ export function SynapticHeatmap({
           key={`heatmap-cell-${index}-${value.toFixed(2)}`}
           className="rounded-sm"
           style={{
-            backgroundColor: `rgba(99, 102, 241, ${value})`,
+            backgroundColor: borderAlpha('sky', value),
           }}
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
@@ -461,13 +462,13 @@ export function SynapticGrowth({
   const percentage = Math.round(growth * 100);
 
   return (
-    <div className={`relative w-full h-4 bg-gray-800 rounded-full overflow-hidden ${className}`}>
+    <div className={`relative w-full h-4 bg-calm-bg-elevated rounded-full overflow-hidden ${className}`}>
       {/* Fondo con gradiente */}
-      <div className="absolute inset-0 bg-gradient-to-r from-indigo-900 to-purple-900" />
+      <div className="absolute inset-0 bg-gradient-to-r from-accent-900 to-sky-900" />
 
       {/* Barra de crecimiento */}
       <motion.div
-        className="absolute top-0 bottom-0 left-0 bg-gradient-to-r from-indigo-500 to-purple-500"
+        className="absolute top-0 bottom-0 left-0 bg-gradient-to-r from-accent-500 to-sky-500"
         initial={{ width: 0 }}
         animate={{ width: `${percentage}%` }}
         transition={{ duration: 0.5, ease: 'easeOut' }}
@@ -523,14 +524,14 @@ export function PathwayVisualization({
           />
           <div className="flex-1">
             <div className="flex items-center justify-between mb-1">
-              <span className="font-quicksand font-medium text-sm text-gray-300">
+              <span className="font-quicksand font-medium text-sm text-calm-text-tertiary">
                 {pathway.name}
               </span>
-              <span className="font-inter text-xs text-gray-400">
+              <span className="font-inter text-xs text-calm-text-muted">
                 {Math.round(pathway.activity * 100)}%
               </span>
             </div>
-            <div className="h-1.5 bg-gray-800 rounded-full overflow-hidden">
+            <div className="h-1.5 bg-calm-bg-elevated rounded-full overflow-hidden">
               <motion.div
                 className="h-full rounded-full"
                 style={{ backgroundColor: pathway.color }}

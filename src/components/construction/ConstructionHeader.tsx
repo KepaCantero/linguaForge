@@ -30,7 +30,7 @@ export function ConstructionHeader({
   onTabChange,
 }: ConstructionHeaderProps) {
   return (
-    <header className="sticky top-0 z-20 bg-gray-900/90 backdrop-blur-md border-b border-amber-500/20">
+    <header className="sticky top-0 z-20 bg-calm-bg-primary/90 backdrop-blur-md border-b border-amber-500/20">
       <div className="max-w-6xl mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <div>
@@ -38,7 +38,7 @@ export function ConstructionHeader({
               <span className="text-3xl">🏰</span>
               Tu Palacio del Conocimiento
             </h1>
-            <p className="text-sm text-gray-400 mt-1">
+            <p className="text-sm text-calm-text-muted mt-1">
               Construye mientras aprendes francés
             </p>
           </div>
@@ -47,15 +47,15 @@ export function ConstructionHeader({
           <div className="hidden md:flex items-center gap-4">
             <div className="text-center px-3 py-1 bg-amber-500/10 rounded-lg border border-amber-500/20">
               <div className="text-amber-400 font-bold">{totalBuilds}</div>
-              <div className="text-xs text-gray-400">Construido</div>
+              <div className="text-xs text-calm-text-muted">Construido</div>
             </div>
-            <div className="text-center px-3 py-1 bg-purple-500/10 rounded-lg border border-purple-500/20">
-              <div className="text-purple-400 font-bold">{masteryLevel}</div>
-              <div className="text-xs text-gray-400">Maestría</div>
+            <div className="text-center px-3 py-1 bg-sky-500/10 rounded-lg border border-sky-500/20">
+              <div className="text-sky-400 font-bold">{masteryLevel}</div>
+              <div className="text-xs text-calm-text-muted">Maestría</div>
             </div>
-            <div className="text-center px-3 py-1 bg-orange-500/10 rounded-lg border border-orange-500/20">
-              <div className="text-orange-400 font-bold">{constructionStreak}🔥</div>
-              <div className="text-xs text-gray-400">Racha</div>
+            <div className="text-center px-3 py-1 bg-amber-500/10 rounded-lg border border-amber-500/20">
+              <div className="text-amber-400 font-bold">{constructionStreak}🔥</div>
+              <div className="text-xs text-calm-text-muted">Racha</div>
             </div>
           </div>
         </div>
@@ -70,8 +70,8 @@ export function ConstructionHeader({
                 flex items-center gap-2 px-4 py-2 rounded-xl font-medium text-sm
                 transition-all duration-200 whitespace-nowrap
                 ${activeTab === tab.id
-                  ? 'bg-amber-500 text-gray-900'
-                  : 'bg-gray-800/50 text-gray-300 hover:bg-gray-700/50'
+                  ? 'bg-amber-500 text-calm-text-primary'
+                  : 'bg-calm-bg-elevated/50 text-calm-text-tertiary hover:bg-calm-bg-tertiary/50'
                 }
               `}
             >

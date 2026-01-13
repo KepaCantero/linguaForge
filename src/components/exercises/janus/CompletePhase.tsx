@@ -14,12 +14,12 @@ export function CompletePhase({ generatedPhrase, totalXP }: CompletePhaseProps) 
       className="text-center py-8"
     >
       <div className="text-6xl mb-4">✅</div>
-      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+      <h3 className="text-xl font-bold text-calm-text-primary dark:text-white mb-2">
         ¡Ejercicio completado!
       </h3>
 
       {generatedPhrase && (
-        <div className="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-aaa-xl p-4 text-white mt-6 inline-block">
+        <div className="bg-gradient-to-r from-accent-500 to-sky-600 rounded-2xl p-4 text-white mt-6 inline-block">
           <p className="text-lg font-medium">&quot;{generatedPhrase}&quot;</p>
         </div>
       )}

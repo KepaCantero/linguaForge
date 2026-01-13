@@ -17,7 +17,7 @@ export function TopicRowContent({ topic, cardData }: TopicRowContentProps) {
   return (
     <div className="flex-1 min-w-0">
       <div className="flex items-center gap-2 mb-1">
-        <h3 className="font-bold text-white truncate">
+        <h3 className="font-bold text-calm-text-primary truncate">
           {topic.title}
         </h3>
         <span className={typeBadgeClass}>
@@ -26,7 +26,7 @@ export function TopicRowContent({ topic, cardData }: TopicRowContentProps) {
       </div>
 
       {topic.description && (
-        <p className="text-sm text-lf-muted/70 truncate">
+        <p className="text-sm text-calm-text-muted/70 truncate">
           {topic.description}
         </p>
       )}

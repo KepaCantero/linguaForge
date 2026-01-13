@@ -1,9 +1,9 @@
 import { motion } from 'framer-motion';
 
 const COLUMN_COLORS: Record<string, string> = {
-  subject: 'bg-rose-50 border-rose-200 dark:bg-rose-900/20 dark:border-rose-800',
+  subject: 'bg-sky-50 border-sky-200 dark:bg-sky-900/20 dark:border-sky-800',
   verb: 'bg-amber-50 border-amber-200 dark:bg-amber-900/20 dark:border-amber-800',
-  complement: 'bg-emerald-50 border-emerald-200 dark:bg-emerald-900/20 dark:border-emerald-800',
+  complement: 'bg-accent-50 border-accent-200 dark:bg-accent-900/20 dark:border-emerald-800',
   time: 'bg-sky-50 border-sky-200 dark:bg-sky-900/20 dark:border-sky-800',
 };
 
@@ -65,14 +65,14 @@ export function PreviewPhase({
     >
       <div className="text-center">
         <div className="text-4xl mb-3">✨</div>
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+        <h3 className="text-lg font-semibold text-calm-text-primary dark:text-white">
           ¡Frase creada!
         </h3>
       </div>
 
       {/* Frase destacada */}
       {generatedPhrase && (
-        <div className="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-aaa-xl p-6 text-white text-center">
+        <div className="bg-gradient-to-r from-accent-500 to-sky-600 rounded-2xl p-6 text-white text-center">
           <p className="text-xl font-medium">&quot;{generatedPhrase}&quot;</p>
           {generatedTranslation && (
             <p className="text-white/80 mt-2">{generatedTranslation}</p>
@@ -92,13 +92,13 @@ export function PreviewPhase({
       <div className="flex gap-3">
         <button
           onClick={onNewCombination}
-          className="flex-1 px-4 py-3 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-aaa-xl font-medium transition-colors"
+          className="flex-1 px-4 py-3 bg-calm-bg-secondary dark:bg-calm-bg-elevated hover:bg-calm-bg-tertiary dark:hover:bg-calm-bg-tertiary text-calm-text-secondary dark:text-calm-text-tertiary rounded-2xl font-medium transition-colors"
         >
           ← Nueva combinación
         </button>
         <button
           onClick={onStartPractice}
-          className="flex-1 px-4 py-3 bg-indigo-500 hover:bg-indigo-600 text-white rounded-aaa-xl font-medium transition-colors"
+          className="flex-1 px-4 py-3 bg-accent-500 hover:bg-accent-600 text-white rounded-2xl font-medium transition-colors"
         >
           Practicar 🎤
         </button>
@@ -114,8 +114,8 @@ interface PhraseBreakdownProps {
 
 function PhraseBreakdown({ selections, columns }: PhraseBreakdownProps) {
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-aaa-xl p-4">
-      <p className="text-xs text-gray-500 dark:text-gray-400 uppercase font-medium mb-3">
+    <div className="bg-white dark:bg-calm-bg-elevated rounded-2xl p-4">
+      <p className="text-xs text-calm-text-muted dark:text-calm-text-muted uppercase font-medium mb-3">
         Componentes:
       </p>
       <div className="flex flex-wrap gap-2">
@@ -123,16 +123,16 @@ function PhraseBreakdown({ selections, columns }: PhraseBreakdownProps) {
           const sel = selections[col.id];
           if (!sel) return null;
 
-          const bgColor = COLUMN_COLORS[col.type]?.replace('border-', 'bg-').replace('-200', '-100') || 'bg-gray-100';
+          const bgColor = COLUMN_COLORS[col.type]?.replace('border-', 'bg-').replace('-200', '-100') || 'bg-calm-bg-secondary';
           return (
             <div
               key={col.id}
               className={`px-3 py-1.5 rounded-lg text-sm ${bgColor}`}
             >
-              <span className="font-medium text-gray-900 dark:text-white">
+              <span className="font-medium text-calm-text-primary dark:text-white">
                 {sel.value}
               </span>
-              <span className="text-xs text-gray-500 dark:text-gray-400 ml-1">
+              <span className="text-xs text-calm-text-muted dark:text-calm-text-muted ml-1">
                 ({COLUMN_LABELS[col.type]})
               </span>
             </div>
@@ -153,11 +153,11 @@ interface ConjugationRuleProps {
 
 function ConjugationRule({ rule }: ConjugationRuleProps) {
   return (
-    <div className="bg-blue-50 dark:bg-blue-900/20 rounded-aaa-xl p-4 border border-blue-200 dark:border-blue-800">
-      <p className="text-sm font-medium text-blue-800 dark:text-blue-300 mb-1">
+    <div className="bg-sky-50 dark:bg-sky-900/20 rounded-2xl p-4 border border-sky-200 dark:border-sky-800">
+      <p className="text-sm font-medium text-sky-800 dark:text-sky-300 mb-1">
         📚 Regla aplicada:
       </p>
-      <p className="text-sm text-blue-700 dark:text-blue-200">
+      <p className="text-sm text-sky-700 dark:text-sky-200">
         {rule.subject} + {rule.verb} → {rule.conjugated}
       </p>
     </div>

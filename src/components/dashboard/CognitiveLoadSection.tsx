@@ -20,7 +20,7 @@ export function CognitiveLoadSection({ intrinsic, germane, extraneous }: Cogniti
       {/* Three circular meters */}
       <div className="flex justify-center items-center gap-8">
         <CircularMeter value={intrinsic} label="Intrínseca" color="#3B82F6" delay={0} />
-        <CircularMeter value={germane} label="Germana" color="#22C55E" delay={0.1} isMain />
+        <CircularMeter value={germane} label="Germana" color="var(--accent-500)" delay={0.1} isMain />
         <CircularMeter value={extraneous} label="Extraña" color="#F59E0B" delay={0.2} />
       </div>
     </motion.div>

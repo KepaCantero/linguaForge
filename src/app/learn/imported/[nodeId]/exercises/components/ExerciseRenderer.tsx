@@ -48,15 +48,15 @@ export function ExerciseRenderer({
 
   if (!currentExercise) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen bg-calm-bg-primary flex items-center justify-center">
         <div className="text-center">
           <div className="text-6xl mb-4">⚠️</div>
-          <p className="text-gray-600 dark:text-gray-400 mb-4">
+          <p className="text-calm-text-secondary mb-4">
             No hay ejercicios disponibles para este tipo.
           </p>
           <button
             onClick={onSkip}
-            className="text-indigo-600 hover:text-indigo-700"
+            className="text-accent-500 hover:text-accent-600"
           >
             Volver al menú
           </button>

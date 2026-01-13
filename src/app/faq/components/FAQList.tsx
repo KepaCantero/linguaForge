@@ -19,18 +19,18 @@ export function FAQList({ categories, openCategories, openQuestions, onToggleCat
         return (
           <div
             key={category.id}
-            className="bg-slate-800 rounded-xl border border-slate-700 overflow-hidden"
+            className="bg-calm-bg-elevated rounded-xl border border-calm-warm-100 overflow-hidden"
           >
             <button
               onClick={() => onToggleCategory(category.id)}
-              className="w-full px-4 py-3 flex items-center justify-between text-left hover:bg-slate-700 transition-colors"
+              className="w-full px-4 py-3 flex items-center justify-between text-left hover:bg-calm-bg-tertiary transition-colors"
             >
               <div className="flex items-center gap-3">
                 <span className="text-2xl">{category.icon}</span>
-                <span className="font-semibold text-white">{category.title}</span>
-                <span className="text-sm text-gray-500">({category.questions.length})</span>
+                <span className="font-semibold text-calm-text-primary">{category.title}</span>
+                <span className="text-sm text-calm-text-muted">({category.questions.length})</span>
               </div>
-              {isCategoryOpen ? <ChevronUp className="text-gray-400 w-5 h-5" /> : <ChevronDown className="text-gray-400 w-5 h-5" />}
+              {isCategoryOpen ? <ChevronUp className="text-calm-text-muted w-5 h-5" /> : <ChevronDown className="text-calm-text-muted w-5 h-5" />}
             </button>
 
             <AnimatePresence>
@@ -47,14 +47,14 @@ export function FAQList({ categories, openCategories, openQuestions, onToggleCat
                       const isQuestionOpen = openQuestions.has(question.id);
 
                       return (
-                        <div key={question.id} className="border-b border-slate-700 last:border-0 pb-3 last:pb-0">
+                        <div key={question.id} className="border-b border-calm-warm-100 last:border-0 pb-3 last:pb-0">
                           <button onClick={() => onToggleQuestion(question.id)} className="w-full text-left">
                             <div className="flex items-start justify-between gap-2">
-                              <span className="text-white font-medium">{question.q}</span>
+                              <span className="text-calm-text-primary font-medium">{question.q}</span>
                               {isQuestionOpen ? (
-                                <ChevronUp className="text-lf-accent w-4 h-4 flex-shrink-0 mt-1" />
+                                <ChevronUp className="text-amber-500 w-4 h-4 flex-shrink-0 mt-1" />
                               ) : (
-                                <ChevronDown className="text-gray-500 w-4 h-4 flex-shrink-0 mt-1" />
+                                <ChevronDown className="text-calm-text-muted w-4 h-4 flex-shrink-0 mt-1" />
                               )}
                             </div>
                           </button>
@@ -68,7 +68,7 @@ export function FAQList({ categories, openCategories, openQuestions, onToggleCat
                                 transition={{ duration: 0.2 }}
                                 className="overflow-hidden"
                               >
-                                <p className="text-gray-400 text-sm leading-relaxed whitespace-pre-line mt-2">
+                                <p className="text-calm-text-muted text-sm leading-relaxed whitespace-pre-line mt-2">
                                   {question.a}
                                 </p>
                               </motion.div>

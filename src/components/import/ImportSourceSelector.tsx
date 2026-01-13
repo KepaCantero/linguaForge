@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { COLORS } from '@/constants/colors';
 
 export interface ImportSourceOption {
   id: 'podcast' | 'article' | 'youtube';
@@ -47,11 +48,11 @@ export function ImportSourceSelector({
             transition={{ delay: index * 0.1 }}
             whileHover={{ y: -4, scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="relative group overflow-hidden rounded-aaa-xl bg-glass-surface backdrop-blur-aaa border border-white/20 shadow-glass-xl p-5 text-left"
+            className="relative group overflow-hidden rounded-2xl bg-calm-bg-secondary backdrop-blur-md border border-calm-warm-100/30 shadow-calm-lg p-5 text-left"
           >
             {/* Animated gradient background */}
             <motion.div
-              className="absolute inset-0 bg-gradient-to-br from-lf-primary/20 via-lf-secondary/20 to-lf-accent/20"
+              className="absolute inset-0 bg-gradient-to-br to-accent-500/20 to-sky-500/20 to-amber-500/20"
               animate={{
                 opacity: [0.3, 0.5, 0.3],
                 scale: [1, 1.05, 1],
@@ -68,7 +69,7 @@ export function ImportSourceSelector({
             <motion.div
               className="absolute inset-0 opacity-0 group-hover:opacity-30 pointer-events-none"
               style={{
-                background: 'linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.2) 45%, transparent 50%)',
+                background: `linear-gradient(105deg, transparent 40%, ${COLORS.effects.whiteShine} 45%, transparent 50%)`,
                 backgroundSize: '200% 100%',
               }}
               animate={{ backgroundPosition: ['200% 0%', '-200% 0%'] }}
@@ -88,14 +89,14 @@ export function ImportSourceSelector({
                 <div className="font-bold text-lg text-white mb-1">
                   {source.label}
                 </div>
-                <div className="text-sm text-lf-muted">
+                <div className="text-sm text-calm-text-muted">
                   {source.id === 'article' && 'Pega el texto de un artículo'}
                   {source.id === 'podcast' && 'Pega la transcripción del podcast'}
                   {source.id === 'youtube' && 'Pega los subtítulos del video'}
                 </div>
               </div>
               <motion.span
-                className="text-lf-accent text-2xl"
+                className="text-amber-500 text-2xl"
                 whileHover={{ x: 5 }}
               >
                 →

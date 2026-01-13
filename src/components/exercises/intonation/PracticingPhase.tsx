@@ -47,25 +47,25 @@ export function PracticingPhase({
         <button
           onClick={onPlayContext}
           disabled={isPlaying}
-          className="flex-1 px-4 py-3 bg-indigo-100 dark:bg-indigo-900/30 hover:bg-indigo-200 dark:hover:bg-indigo-900/50 disabled:bg-gray-100 dark:disabled:bg-gray-800 text-indigo-700 dark:text-indigo-300 rounded-aaa-xl font-medium transition-colors"
+          className="flex-1 px-4 py-3 bg-accent-100 dark:bg-accent-900/30 hover:bg-accent-200 dark:hover:bg-accent-900/50 disabled:bg-calm-bg-secondary dark:disabled:bg-calm-bg-elevated text-accent-700 dark:text-accent-300 rounded-2xl font-medium transition-colors"
         >
           🔊 Contexto
         </button>
         <button
           onClick={onPlayExample}
           disabled={isPlaying}
-          className="flex-1 px-4 py-3 bg-emerald-100 dark:bg-emerald-900/30 hover:bg-emerald-200 dark:hover:bg-emerald-900/50 disabled:bg-gray-100 dark:disabled:bg-gray-800 text-emerald-700 dark:text-emerald-300 rounded-aaa-xl font-medium transition-colors"
+          className="flex-1 px-4 py-3 bg-accent-100 dark:bg-accent-900/30 hover:bg-accent-200 dark:hover:bg-accent-900/50 disabled:bg-calm-bg-secondary dark:disabled:bg-calm-bg-elevated text-accent-700 dark:text-accent-300 rounded-2xl font-medium transition-colors"
         >
           👂 Ejemplo
         </button>
       </div>
 
-      <div className="bg-white dark:bg-gray-800 rounded-aaa-xl p-6 border border-gray-100 dark:border-gray-700">
+      <div className="bg-white dark:bg-calm-bg-elevated rounded-2xl p-6 border border-calm-warm-100 dark:border-calm-warm-200">
         <div className="text-center mb-4">
-          <p className="text-lg font-medium text-gray-900 dark:text-white">
+          <p className="text-lg font-medium text-calm-text-primary dark:text-white">
             {currentUserTurn?.text}
           </p>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+          <p className="text-sm text-calm-text-muted dark:text-calm-text-muted mt-2">
             {currentUserTurn?.translation}
           </p>
         </div>
@@ -92,12 +92,12 @@ interface TurnProgressProps {
 function TurnProgress({ currentTurnIndex, totalUserTurns, currentUserTurn: _currentUserTurn }: TurnProgressProps) {
   return (
     <div className="text-center">
-      <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+      <p className="text-sm text-calm-text-muted dark:text-calm-text-muted mb-2">
         Turno {currentTurnIndex + 1} de {totalUserTurns}
       </p>
-      <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 overflow-hidden">
+      <div className="w-full bg-calm-bg-tertiary dark:bg-calm-bg-tertiary rounded-full h-2 overflow-hidden">
         <motion.div
-          className="bg-indigo-500 h-full rounded-full"
+          className="bg-accent-500 h-full rounded-full"
           initial={{ width: 0 }}
           animate={{ width: `${((currentTurnIndex + 1) / totalUserTurns) * 100}%` }}
           transition={{ duration: 0.3 }}

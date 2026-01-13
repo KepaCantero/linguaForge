@@ -120,21 +120,21 @@ export function KeyboardShortcutsModal({ isOpen, onClose }: KeyboardShortcutsMod
           >
             <div
               className="pointer-events-auto w-full max-w-2xl max-h-[80vh] overflow-hidden
-                         bg-lf-soft rounded-2xl border border-lf-primary/20 shadow-2xl"
+                         bg-calm-bg-secondary rounded-2xl border border-accent-500/20 shadow-2xl"
               onClick={(e) => e.stopPropagation()}
               onKeyDown={(e) => e.stopPropagation()}
             >
               {/* Header */}
-              <div className="flex items-center justify-between p-6 border-b border-lf-primary/10">
+              <div className="flex items-center justify-between p-6 border-b border-accent-500/10">
                 <h2 id="shortcuts-title" className="text-2xl font-bold text-white flex items-center gap-2">
-                  <span className="text-lf-accent">⌨️</span>
+                  <span className="text-amber-500">⌨️</span>
                   Atajos de Teclado
                 </h2>
                 <button
                   onClick={onClose}
                   className="w-10 h-10 flex items-center justify-center rounded-full
-                             text-lf-muted hover:text-white hover:bg-lf-primary/20
-                             transition-colors focus:outline-none focus:ring-2 focus:ring-lf-primary"
+                             text-calm-text-muted hover:text-white hover:bg-accent-500/20
+                             transition-colors focus:outline-none focus:ring-2 focus:ring-accent-500"
                   aria-label="Cerrar"
                 >
                   ✕
@@ -146,7 +146,7 @@ export function KeyboardShortcutsModal({ isOpen, onClose }: KeyboardShortcutsMod
                 <div className="space-y-6">
                   {SHORTCUTS.map((category) => (
                     <div key={category.category}>
-                      <h3 className="text-lg font-semibold text-lf-primary mb-3">
+                      <h3 className="text-lg font-semibold text-calm-text-primary mb-3">
                         {category.category}
                       </h3>
                       <div className="space-y-2">
@@ -154,16 +154,16 @@ export function KeyboardShortcutsModal({ isOpen, onClose }: KeyboardShortcutsMod
                           <div
                             key={idx}
                             className="flex items-center justify-between py-2 px-3
-                                       bg-lf-dark/50 rounded-lg"
+                                       bg-calm-bg-tertiary/50 rounded-lg"
                           >
                             <span className="text-white/80">{shortcut.description}</span>
                             <div className="flex items-center gap-1">
                               {shortcut.keys.map((key, kidx) => (
                                 <span key={kidx} className="flex items-center">
                                   {key === '+' || key === 'luego' ? (
-                                    <span className="text-lf-muted mx-1 text-xs">{key}</span>
+                                    <span className="text-calm-text-muted mx-1 text-xs">{key}</span>
                                   ) : (
-                                    <kbd className="px-2 py-1 bg-lf-muted/50 rounded text-sm font-mono text-white min-w-[28px] text-center">
+                                    <kbd className="px-2 py-1 bg-calm-bg-tertiary/50 rounded text-sm font-mono text-white min-w-[28px] text-center">
                                       {key}
                                     </kbd>
                                   )}
@@ -179,10 +179,10 @@ export function KeyboardShortcutsModal({ isOpen, onClose }: KeyboardShortcutsMod
               </div>
 
               {/* Footer */}
-              <div className="p-4 border-t border-lf-primary/10 bg-lf-dark/30">
-                <p className="text-sm text-lf-muted text-center">
+              <div className="p-4 border-t border-accent-500/10 bg-calm-bg-tertiary/30">
+                <p className="text-sm text-calm-text-muted text-center">
                   Presiona{' '}
-                  <kbd className="px-2 py-0.5 bg-lf-muted/50 rounded text-xs font-mono">?</kbd>
+                  <kbd className="px-2 py-0.5 bg-calm-bg-tertiary/50 rounded text-xs font-mono">?</kbd>
                   {' '}en cualquier momento para ver esta guía
                 </p>
               </div>

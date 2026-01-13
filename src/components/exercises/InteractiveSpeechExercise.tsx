@@ -117,7 +117,7 @@ export function InteractiveSpeechExercise({
         <div className="mt-6 text-center">
           <button
             onClick={onSkip}
-            className="text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+            className="text-sm text-calm-text-muted hover:text-calm-text-secondary dark:text-calm-text-muted dark:hover:text-calm-text-tertiary"
           >
             Saltar ejercicio
           </button>
@@ -136,13 +136,13 @@ interface ProgressBarProps {
 function ProgressBar({ currentStepIndex, totalSteps, progress }: ProgressBarProps) {
   return (
     <div className="mb-6">
-      <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 mb-1">
+      <div className="flex items-center justify-between text-xs text-calm-text-muted dark:text-calm-text-muted mb-1">
         <span>Paso {currentStepIndex + 1} de {totalSteps}</span>
         <span>{Math.round(progress)}%</span>
       </div>
-      <div className="h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+      <div className="h-1.5 bg-calm-bg-tertiary dark:bg-calm-bg-tertiary rounded-full overflow-hidden">
         <motion.div
-          className="h-full bg-emerald-500 rounded-full"
+          className="h-full bg-accent-500 rounded-full"
           animate={{ width: `${progress}%` }}
           transition={{ duration: 0.3 }}
         />

@@ -28,13 +28,13 @@ export function ExercisesHeader({
   onModeChange,
 }: ExercisesHeaderProps) {
   return (
-    <header className="bg-lf-soft/80 border-b border-lf-muted/40 backdrop-blur-aaa sticky top-0 z-10">
+    <header className="bg-calm-bg-secondary/80 border-b border-calm-warm-100/40 backdrop-blur-md sticky top-0 z-10">
       <div className="max-w-lg mx-auto px-4 py-3">
         {/* Top row: Back button + Title */}
         <div className="flex items-center gap-3 mb-3">
           <button
             onClick={onBack}
-            className="flex items-center justify-center w-9 h-9 rounded-full text-lf-muted hover:text-white transition-colors"
+            className="flex items-center justify-center w-9 h-9 rounded-full text-calm-text-muted hover:text-white transition-colors"
           >
             <span className="text-lg">←</span>
           </button>
@@ -53,7 +53,7 @@ export function ExercisesHeader({
             className={`
               flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl border text-sm font-semibold transition-all
               ${warmupCompleted
-                ? 'bg-green-500/30 border-green-500/50 text-green-400'
+                ? 'bg-accent-500/30 border-accent-500/50 text-accent-400'
                 : 'bg-amber-500/20 border-amber-500/30 text-amber-400 hover:bg-amber-500/30'
               }
             `}
@@ -70,8 +70,8 @@ export function ExercisesHeader({
             onClick={() => onModeChange('academia')}
             className={`flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl border text-sm font-semibold transition-all ${
               currentMode === 'academia'
-                ? 'bg-green-500/30 border-green-500/50 text-green-400'
-                : 'bg-lf-dark/40 border-lf-muted/40 text-lf-muted hover:bg-lf-dark/60 hover:text-white'
+                ? 'bg-accent-500/30 border-accent-500/50 text-accent-400'
+                : 'bg-calm-bg-tertiary/40 border-calm-warm-100/40 text-calm-text-muted hover:bg-calm-bg-tertiary/60 hover:text-white'
             }`}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -83,7 +83,7 @@ export function ExercisesHeader({
           {/* Ejercicios button */}
           <motion.button
             onClick={() => {/* Scroll to exercises or show menu */}}
-            className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-lf-primary/30 border border-lf-primary/50 text-lf-primary text-sm font-semibold hover:bg-lf-primary/40 transition-all"
+            className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-accent-500/30 border border-accent-500/50 text-calm-text-primary text-sm font-semibold hover:bg-accent-500/40 transition-all"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >

@@ -26,7 +26,7 @@ export function RankBadge({ rank, showLabel = false, size = 'md', animated = fal
         className={`
           ${sizeClasses[size]}
           rounded-lg flex items-center justify-center font-bold text-white
-          shadow-lg border-2 border-white/20
+          shadow-lg border-2 border-calm-warm-100/30
         `}
         style={{ backgroundColor: rankInfo.color }}
         animate={animated ? {
@@ -41,7 +41,7 @@ export function RankBadge({ rank, showLabel = false, size = 'md', animated = fal
         {rank}
       </motion.div>
       {showLabel && (
-        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+        <span className="text-sm font-medium text-calm-text-secondary dark:text-calm-text-tertiary">
           {rankInfo.name}
         </span>
       )}
@@ -70,13 +70,13 @@ export function RankBadgeWithTooltip({ rank, tooltip = true, ...props }: RankBad
       <AnimatePresence>
         {showTooltip && tooltip && (
           <motion.div
-            className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 dark:bg-gray-800 text-white text-xs rounded-lg shadow-xl z-50 whitespace-nowrap"
+            className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-calm-bg-primary dark:bg-calm-bg-elevated text-white text-xs rounded-lg shadow-xl z-50 whitespace-nowrap"
             initial={{ opacity: 0, y: 5 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 5 }}
           >
             <div className="font-semibold">{rankInfo.name}</div>
-            <div className="text-gray-400 text-[10px] mt-1">
+            <div className="text-calm-text-muted text-[10px] mt-1">
               Rango {rank}
             </div>
             <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900 dark:border-t-gray-800" />

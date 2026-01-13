@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { COLORS } from '@/constants/colors';
 import Link from 'next/link';
 import type { InputOption } from '../hooks/useInputOptions';
 
@@ -16,9 +17,9 @@ export function InputHubOrbital({ inputOptions, shouldAnimate }: InputHubOrbital
     <section className="relative w-full h-[70vh] flex items-center justify-center" aria-label="Selector de tipo de contenido">
       {/* Central core - Input Hub */}
       <motion.div
-        className="absolute w-36 h-36 rounded-full z-10 focus:outline-none focus:ring-4 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-lf-dark"
+        className="absolute w-36 h-36 rounded-full z-10 focus:outline-none focus:ring-4 focus:ring-accent-500 focus:ring-offset-2 focus:ring-offset-calm-bg-elevated"
         style={{
-          background: 'radial-gradient(circle at 30% 30%, #8B5CF6, #7C3AED)',
+          background: 'radial-gradient(circle at 30% 30%, var(--accent-500), var(--sky-500))',
           willChange: shouldAnimate ? 'transform, opacity' : 'auto',
         }}
         animate={shouldAnimate ? {
@@ -33,7 +34,7 @@ export function InputHubOrbital({ inputOptions, shouldAnimate }: InputHubOrbital
         <motion.div
           className="absolute inset-0 rounded-full blur-2xl"
           style={{
-            background: 'radial-gradient(circle, rgba(139, 92, 246, 0.8), transparent)',
+            background: 'radial-gradient(circle, var(--accent-500)/80, transparent)',
             willChange: shouldAnimate ? 'transform, opacity' : 'auto',
           }}
           animate={shouldAnimate ? {
@@ -47,7 +48,7 @@ export function InputHubOrbital({ inputOptions, shouldAnimate }: InputHubOrbital
         {[0, 1, 2].map((i) => (
           <motion.div
             key={`input-orbital-ring-${i}`}
-            className="absolute rounded-full border-2 border-purple-500/30"
+            className="absolute rounded-full border-2 border-accent-500/30"
             style={{
               width: `${100 + i * 30}px`,
               height: `${100 + i * 30}px`,
@@ -73,7 +74,7 @@ export function InputHubOrbital({ inputOptions, shouldAnimate }: InputHubOrbital
           <motion.div
             className="text-5xl"
             style={{
-              textShadow: '0 2px 8px rgba(0,0,0,0.5), 0 0 16px rgba(139, 92, 246, 0.4)',
+              textShadow: `0 2px 8px ${COLORS.black[50]}, 0 0 16px ${COLORS.sky[40]}`,
               willChange: shouldAnimate ? 'transform' : 'auto',
             }}
             animate={shouldAnimate ? {
@@ -120,7 +121,7 @@ export function InputHubOrbital({ inputOptions, shouldAnimate }: InputHubOrbital
           >
             <Link
               href={option.href}
-              className="block focus:outline-none focus:ring-4 focus:ring-offset-2 focus:ring-offset-lf-dark"
+              className="block focus:outline-none focus:ring-4 focus:ring-offset-2 focus:ring-offset-calm-bg-tertiary"
               style={{
                 display: 'block',
                 width: 'max(128px, 44px)',
@@ -163,7 +164,7 @@ export function InputHubOrbital({ inputOptions, shouldAnimate }: InputHubOrbital
                 />
 
                 <motion.div
-                  className="absolute inset-0 rounded-full border-2 border-white/30"
+                  className="absolute inset-0 rounded-full border-2 border-calm-warm-100/30"
                   animate={shouldAnimate ? { rotate: 360 } : {}}
                   transition={{ duration: 12, repeat: shouldAnimate ? Infinity : 0, ease: 'linear' }}
                   aria-hidden="true"
@@ -172,7 +173,7 @@ export function InputHubOrbital({ inputOptions, shouldAnimate }: InputHubOrbital
                 <div
                   className="absolute inset-0 flex items-center justify-center text-5xl"
                   style={{
-                    textShadow: '0 2px 8px rgba(0,0,0,0.6), 0 0 16px rgba(0,0,0,0.4)',
+                    textShadow: `0 2px 8px ${COLORS.black[60]}, 0 0 16px ${COLORS.black[40]}`,
                   }}
                   aria-hidden="true"
                 >
@@ -181,21 +182,21 @@ export function InputHubOrbital({ inputOptions, shouldAnimate }: InputHubOrbital
               </motion.div>
 
               <motion.div
-                className="absolute top-full left-1/2 transform -translate-x-1/2 mt-4 px-4 py-2 rounded-xl bg-lf-dark/90 backdrop-blur-md border border-white/20 opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50"
+                className="absolute top-full left-1/2 transform -translate-x-1/2 mt-4 px-4 py-2 rounded-xl bg-calm-bg-tertiary/90 backdrop-blur-md border border-calm-warm-100/20 opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50"
                 initial={{ y: 10 }}
                 whileHover={{ y: 0, opacity: 1 }}
                 role="tooltip"
                 aria-hidden="true"
               >
                 <p
-                  className="text-sm font-semibold text-white"
+                  className="text-sm font-semibold text-calm-text-primary"
                   style={{
-                    textShadow: '0 1px 4px rgba(0,0,0,0.8), 0 0 8px rgba(0,0,0,0.6)',
+                    textShadow: `0 1px 4px ${COLORS.black[80]}, 0 0 8px ${COLORS.black[60]}`,
                   }}
                 >
                   {option.title}
                 </p>
-                <div className="flex items-center gap-3 mt-1 text-xs text-lf-muted">
+                <div className="flex items-center gap-3 mt-1 text-xs text-calm-text-muted">
                   {option.stats.map((stat) => (
                     <span key={`${stat.label}-${stat.value}`}>{stat.label}: {stat.value}</span>
                   ))}
@@ -232,8 +233,8 @@ export function InputHubOrbital({ inputOptions, shouldAnimate }: InputHubOrbital
         })}
         <defs>
           <linearGradient id="gradient-line-input" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#8B5CF6" />
-            <stop offset="100%" stopColor="#EC4899" />
+            <stop offset="0%" stopColor="var(--sky-500)" />
+            <stop offset="100%" stopColor="var(--accent-500)" />
           </linearGradient>
         </defs>
       </svg>
@@ -242,7 +243,7 @@ export function InputHubOrbital({ inputOptions, shouldAnimate }: InputHubOrbital
       {shouldAnimate && [0, 1, 2, 3, 4, 5, 6].map((i) => (
         <motion.div
           key={`input-particle-${i}`}
-          className="absolute w-2 h-2 rounded-full bg-lf-accent opacity-70"
+          className="absolute w-2 h-2 rounded-full bg-amber-500 opacity-70"
           style={{
             left: `${20 + (i * 10) % 60}%`,
             top: `${15 + (i * 12) % 70}%`,

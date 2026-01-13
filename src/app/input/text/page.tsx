@@ -8,6 +8,7 @@ import { useProgressStore } from '@/store/useProgressStore';
 import { useTTS } from '@/services/ttsService';
 import { QuickReviewButton } from '@/components/transcript/QuickReviewButton';
 import { TextInputOrbitalHUD } from '@/components/input/TextInputOrbitalHUD';
+import { radialGlow } from '@/constants/colors';
 import { TextInputSection } from '@/components/input/TextInputSection';
 import { LoadedTextView } from '@/components/input/LoadedTextView';
 import { useTextStats } from '@/hooks/useTextStats';
@@ -106,7 +107,7 @@ export default function TextInputPage() {
           <motion.div
             className="absolute inset-0 rounded-full blur-lg"
             style={{
-              background: 'radial-gradient(circle, rgba(6, 182, 212, 0.6), transparent)',
+              background: radialGlow('sky', 0.6),
             }}
             animate={{
               scale: [1, 1.3, 1],

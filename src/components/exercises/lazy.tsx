@@ -10,7 +10,7 @@ import dynamic from 'next/dynamic';
 // Loading placeholder component
 const ExerciseLoading = () => (
   <div className="flex items-center justify-center p-8">
-    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-500"></div>
+    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-accent-500"></div>
   </div>
 );
 

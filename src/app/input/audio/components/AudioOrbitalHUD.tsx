@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { AudioStatOrb } from "./AudioStatOrb";
 import type { AudioStats } from "../hooks/useAudioStats";
+import { borderAlpha } from "@/constants/colors";
 
 interface AudioOrbitalHUDProps {
   audioStats: AudioStats;
@@ -17,7 +18,7 @@ export function AudioOrbitalHUD({ audioStats }: AudioOrbitalHUDProps) {
           style={{
             width: `${200 + i * 40}px`,
             height: `${200 + i * 40}px`,
-            borderColor: `rgba(16, 185, 129, ${0.15 - i * 0.03})`,
+            borderColor: borderAlpha('accent', 0.15 - i * 0.03),
             borderStyle: i % 2 === 0 ? "solid" : "dashed",
           }}
           animate={{
@@ -36,7 +37,7 @@ export function AudioOrbitalHUD({ audioStats }: AudioOrbitalHUDProps) {
       <motion.div
         className="relative w-32 h-32 rounded-full z-10"
         style={{
-          background: "radial-gradient(circle at 30% 30%, #10B981, #059669)",
+          background: "radial-gradient(circle at 30% 30%, var(--accent-500), var(--accent-600))",
         }}
         animate={{
           scale: [1, 1.06, 1],
@@ -48,7 +49,7 @@ export function AudioOrbitalHUD({ audioStats }: AudioOrbitalHUDProps) {
         <motion.div
           className="absolute inset-0 rounded-full blur-2xl"
           style={{
-            background: "radial-gradient(circle, rgba(16, 185, 129, 0.8), transparent)",
+            background: "radial-gradient(circle, var(--accent-500)/80, transparent)",
           }}
           animate={{
             scale: [1, 1.5, 1],
@@ -76,7 +77,7 @@ export function AudioOrbitalHUD({ audioStats }: AudioOrbitalHUDProps) {
         value={audioStats.audioCount}
         label="Audios"
         icon="📼"
-        color="#10B981"
+        color="var(--accent-500)"
         angle={-90}
         distance={120}
         delay={0}
@@ -108,7 +109,7 @@ export function AudioOrbitalHUD({ audioStats }: AudioOrbitalHUDProps) {
           key={`audio-particle-${i}`}
           className="absolute w-2 h-2 rounded-full opacity-70"
           style={{
-            background: i % 2 === 0 ? "#10B981" : "#34D399",
+            background: i % 2 === 0 ? "var(--accent-500)" : "#34D399",
             left: `${25 + (i * 8) % 50}%`,
             top: `${15 + (i * 10) % 70}%`,
           }}

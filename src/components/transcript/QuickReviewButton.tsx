@@ -50,7 +50,7 @@ export function QuickReviewButton({ source, className = '' }: QuickReviewButtonP
     >
       <button
         onClick={handleStartReview}
-        className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-full p-4 shadow-lg flex items-center gap-3 transition-colors"
+        className="bg-accent-600 hover:bg-accent-700 text-white rounded-full p-4 shadow-lg flex items-center gap-3 transition-colors"
       >
         <span className="text-2xl">📚</span>
         <AnimatePresence>
@@ -68,7 +68,7 @@ export function QuickReviewButton({ source, className = '' }: QuickReviewButtonP
           )}
         </AnimatePresence>
         {!isHovered && (
-          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
+          <span className="absolute -top-1 -right-1 bg-semantic-error text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
             {pendingCards.length > 9 ? '9+' : pendingCards.length}
           </span>
         )}

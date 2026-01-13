@@ -30,16 +30,16 @@ export default function ImportedNodePage() {
   }
 
   return (
-    <div className="relative min-h-screen bg-lf-dark pb-20">
+    <div className="relative min-h-screen bg-calm-bg-tertiary pb-20">
       {/* Animated background */}
       {shouldAnimate && (
         <motion.div
           className="absolute inset-0 opacity-30"
           animate={{
             background: [
-              'radial-gradient(circle at 20% 30%, #6366F1 0%, transparent 50%)',
-              'radial-gradient(circle at 80% 70%, #C026D3 0%, transparent 50%)',
-              'radial-gradient(circle at 20% 30%, #6366F1 0%, transparent 50%)',
+              'radial-gradient(circle at 20% 30%, var(--sky-500) 0%, transparent 50%)',
+              'radial-gradient(circle at 80% 70%, #F59E0B 0%, transparent 50%)',
+              'radial-gradient(circle at 20% 30%, var(--sky-500) 0%, transparent 50%)',
             ],
           }}
           transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}

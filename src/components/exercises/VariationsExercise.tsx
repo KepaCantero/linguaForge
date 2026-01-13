@@ -128,7 +128,7 @@ function VariationsHeader({
 }: VariationsHeaderProps) {
   return (
     <div className="text-center">
-      <span className="text-sm text-lf-muted dark:text-lf-muted/70">
+      <span className="text-sm text-calm-text-muted dark:text-calm-text-muted/70">
         {hasBlock ? "Explora las variaciones en contexto" : "Explora las variaciones"}
       </span>
       <VariationDots
@@ -170,12 +170,12 @@ function VariationDots({ allVariations, currentIndex, readVariations, onGoToVari
 
 function getVariationDotClass(index: number, currentIndex: number, isRead: boolean): string {
   if (index === currentIndex) {
-    return 'w-3 h-3 rounded-full transition-all bg-lf-primary scale-125 shadow-resonance';
+    return 'w-3 h-3 rounded-full transition-all bg-accent-500 scale-125 shadow-resonance';
   }
   if (isRead) {
-    return 'w-3 h-3 rounded-full transition-all bg-lf-success';
+    return 'w-3 h-3 rounded-full transition-all bg-accent-500';
   }
-  return 'w-3 h-3 rounded-full transition-all bg-lf-muted/30 dark:bg-lf-muted/50';
+  return 'w-3 h-3 rounded-full transition-all bg-calm-bg-tertiary/30 dark:bg-calm-bg-tertiary/50';
 }
 
 interface BlockContextProps {
@@ -185,14 +185,14 @@ interface BlockContextProps {
 function BlockContext({ block }: BlockContextProps) {
   return (
     <motion.div
-      className="bg-lf-info/10 dark:bg-lf-info/20 rounded-aaa-xl p-4 border border-lf-info/30 dark:border-lf-info/40 shadow-glass-xl backdrop-blur-aaa"
+      className="bg-sky-100/dark:bg-sky-900/20 dark:bg-sky-100/dark:bg-sky-900/30 rounded-2xl p-4 border border-sky-300 dark:border-sky-400 shadow-calm-lg backdrop-blur-md"
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
     >
-      <div className="text-xs font-semibold text-lf-info dark:text-lf-info/80 mb-2">
+      <div className="text-xs font-semibold text-sky-500 dark:text-sky-500/80 mb-2">
         {block.title}
       </div>
-      <div className="text-xs text-lf-info/70 dark:text-lf-info/60">
+      <div className="text-xs text-sky-500/70 dark:text-sky-500/60">
         {block.context}
       </div>
     </motion.div>
@@ -207,11 +207,11 @@ interface BlockPhrasesProps {
 function BlockPhrases({ phrases, currentPhraseId }: BlockPhrasesProps) {
   return (
     <motion.div
-      className="bg-lf-soft/30 dark:bg-lf-soft/50 rounded-aaa-xl p-4 border border-lf-muted/30 shadow-glass-xl backdrop-blur-aaa"
+      className="bg-calm-bg-secondary/30 dark:bg-calm-bg-secondary/50 rounded-2xl p-4 border border-calm-warm-100/30 shadow-calm-lg backdrop-blur-md"
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
     >
-      <div className="text-xs font-semibold text-lf-muted dark:text-lf-muted/80 mb-2">
+      <div className="text-xs font-semibold text-calm-text-muted dark:text-calm-text-muted/80 mb-2">
         Contexto completo:
       </div>
       <div className="space-y-2">
@@ -236,7 +236,7 @@ function BlockPhraseItem({ text, isCurrent }: BlockPhraseItemProps) {
   if (!isCurrent) {
     return (
       <div>
-        <p className="text-sm text-lf-dark dark:text-lf-muted opacity-60">
+        <p className="text-sm text-calm-text-primary dark:text-calm-text-muted opacity-60">
           {text}
         </p>
       </div>
@@ -244,8 +244,8 @@ function BlockPhraseItem({ text, isCurrent }: BlockPhraseItemProps) {
   }
 
   return (
-    <div className="bg-lf-primary/10 dark:bg-lf-primary/20 rounded-lg p-2 border border-lf-primary/30 dark:border-lf-primary/40">
-      <p className="text-sm text-lf-dark dark:text-lf-muted font-medium">
+    <div className="bg-accent-500/10 dark:bg-accent-500/20 rounded-lg p-2 border border-accent-500/30 dark:border-accent-500/40">
+      <p className="text-sm text-calm-text-primary dark:text-calm-text-muted font-medium">
         {text}
       </p>
     </div>
@@ -279,7 +279,7 @@ function VariationCard({
     <AnimatePresence mode="wait">
       <motion.div
         key={currentVariation.id}
-        className="bg-glass-surface dark:bg-lf-soft/50 rounded-aaa-xl p-6 shadow-glass-xl backdrop-blur-aaa border border-lf-muted/20"
+        className="bg-calm-bg-secondary dark:bg-calm-bg-secondary/50 rounded-2xl p-6 shadow-calm-lg backdrop-blur-md border border-calm-warm-100/20"
         initial={{ opacity: 0, x: 100, rotateY: 15 }}
         animate={{ opacity: 1, x: 0, rotateY: 0 }}
         exit={{ opacity: 0, x: -100, rotateY: -15 }}
@@ -315,8 +315,8 @@ interface VariationCardHeaderProps {
 
 function VariationCardHeader({ currentIndex, currentVariationId, readVariations }: VariationCardHeaderProps) {
   const labelClass = currentIndex === 0
-    ? 'bg-lf-primary/20 dark:bg-lf-primary/30 text-lf-primary dark:text-lf-primary'
-    : 'bg-lf-secondary/20 dark:bg-lf-secondary/30 text-lf-secondary dark:text-lf-secondary';
+    ? 'bg-accent-500/20 dark:bg-accent-500/30 text-calm-text-primary dark:text-calm-text-primary'
+    : 'bg-sky-500/20 dark:bg-sky-500/30 text-calm-text-secondary dark:text-calm-text-secondary';
 
   const labelText = currentIndex === 0 ? 'Original' : `Variación ${currentIndex}`;
 
@@ -326,7 +326,7 @@ function VariationCardHeader({ currentIndex, currentVariationId, readVariations 
         {labelText}
       </span>
       {readVariations.has(currentVariationId) && (
-        <span className="text-lf-success">✓ Leída</span>
+        <span className="text-accent-500">✓ Leída</span>
       )}
     </div>
   );
@@ -334,7 +334,7 @@ function VariationCardHeader({ currentIndex, currentVariationId, readVariations 
 
 function VariationText({ text }: { text: string }) {
   return (
-    <p className="text-xl font-medium text-lf-dark dark:text-white mb-3 leading-relaxed">
+    <p className="text-xl font-medium text-calm-text-primary dark:text-white mb-3 leading-relaxed">
       {text}
     </p>
   );
@@ -352,7 +352,7 @@ function VariationTranslationToggle({ showTranslation, translation, onToggle }: 
       <div className="mb-3 flex items-center justify-center">
         <button
           onClick={onToggle}
-          className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all bg-lf-soft/50 dark:bg-lf-muted/30 text-lf-muted dark:text-lf-muted/80 hover:bg-lf-muted/20 dark:hover:bg-lf-muted/40 border border-lf-muted/30"
+          className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all bg-calm-bg-secondary/50 dark:bg-calm-bg-tertiary/30 text-calm-text-muted dark:text-calm-text-muted/80 hover:bg-calm-bg-tertiary/20 dark:hover:bg-calm-bg-tertiary/40 border border-calm-warm-100/30"
         >
           <span>{showTranslation ? "👁️" : "👁️‍🗨️"}</span>
           <span>{showTranslation ? "Ocultar traducción" : "Mostrar traducción"}</span>
@@ -362,7 +362,7 @@ function VariationTranslationToggle({ showTranslation, translation, onToggle }: 
         <motion.p
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-lf-muted dark:text-lf-muted/70 mb-6"
+          className="text-calm-text-muted dark:text-calm-text-muted/70 mb-6"
         >
           {translation}
         </motion.p>
@@ -415,13 +415,13 @@ function getVariationAudioButtonClass(isSpeaking: boolean, isBlockButton: boolea
 
   if (isSpeaking) {
     return isBlockButton
-      ? `${baseClass} bg-lf-info/20 dark:bg-lf-info/30 text-lf-info dark:text-lf-info`
-      : `${baseClass} bg-lf-primary/20 dark:bg-lf-primary/30 text-lf-primary dark:text-lf-primary`;
+      ? `${baseClass} bg-sky-100/dark:bg-sky-900/30 dark:bg-sky-100/dark:bg-sky-900/40 text-sky-500 dark:text-sky-500`
+      : `${baseClass} bg-accent-500/20 dark:bg-accent-500/30 text-calm-text-primary dark:text-calm-text-primary`;
   }
 
   return isBlockButton
-    ? `${baseClass} bg-lf-info/10 dark:bg-lf-info/20 text-lf-info dark:text-lf-info/80 hover:bg-lf-info/20 dark:hover:bg-lf-info/30 border border-lf-info/30`
-    : `${baseClass} bg-lf-soft/50 dark:bg-lf-muted/30 text-lf-dark dark:text-lf-muted hover:bg-lf-muted/20 dark:hover:bg-lf-muted/40 border border-lf-muted/30`;
+    ? `${baseClass} bg-sky-100/dark:bg-sky-900/20 dark:bg-sky-100/dark:bg-sky-900/30 text-sky-500 dark:text-sky-500/80 hover:bg-sky-100/dark:bg-sky-900/30 dark:hover:bg-sky-100/dark:bg-sky-900/40 border border-sky-300`
+    : `${baseClass} bg-calm-bg-secondary/50 dark:bg-calm-bg-tertiary/30 text-calm-text-primary dark:text-calm-text-muted hover:bg-calm-bg-tertiary/20 dark:hover:bg-calm-bg-tertiary/40 border border-calm-warm-100/30`;
 }
 
 interface NavigationButtonsProps {
@@ -462,7 +462,7 @@ function NavigationButtons({
       {showMarkAsRead && (
         <motion.button
           onClick={onMarkAsRead}
-          className="flex-1 py-3 rounded-aaa-xl font-bold bg-forge-gradient text-white shadow-glass-xl relative overflow-hidden"
+          className="flex-1 py-3 rounded-2xl font-bold bg-forge-gradient text-white shadow-calm-lg relative overflow-hidden"
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
         >
@@ -480,14 +480,14 @@ function NavigationButtons({
       {showNextButton && (
         <button
           onClick={onNext}
-          className="flex-1 py-3 rounded-aaa-xl font-bold bg-forge-gradient text-white shadow-glass-xl hover:shadow-xl transition-all"
+          className="flex-1 py-3 rounded-2xl font-bold bg-forge-gradient text-white shadow-calm-lg hover:shadow-xl transition-all"
         >
           Siguiente →
         </button>
       )}
 
       {showCompleteState && (
-        <div className="flex-1 py-3 rounded-aaa-xl bg-lf-success/20 dark:bg-lf-success/30 text-lf-success dark:text-lf-success text-center font-medium border border-lf-success/40 shadow-glow-success">
+        <div className="flex-1 py-3 rounded-2xl bg-accent-500/20 dark:bg-accent-500/30 text-accent-500 dark:text-accent-500 text-center font-medium border border-accent-500/40 shadow-calm-md">
           ✓ Todas leídas
         </div>
       )}
@@ -497,8 +497,8 @@ function NavigationButtons({
 
 function getPreviousButtonClass(currentIndex: number): string {
   return currentIndex === 0
-    ? 'flex-1 py-3 rounded-aaa-xl font-medium transition-all bg-lf-muted/20 dark:bg-lf-soft/30 text-lf-muted/50 cursor-not-allowed'
-    : 'flex-1 py-3 rounded-aaa-xl font-medium transition-all bg-glass-surface dark:bg-lf-soft/50 text-lf-dark dark:text-lf-muted hover:bg-lf-muted/20 dark:hover:bg-lf-muted/30 border border-lf-muted/30';
+    ? 'flex-1 py-3 rounded-2xl font-medium transition-all bg-calm-bg-tertiary/20 dark:bg-calm-bg-secondary/30 text-calm-text-muted/50 cursor-not-allowed'
+    : 'flex-1 py-3 rounded-2xl font-medium transition-all bg-calm-bg-secondary dark:bg-calm-bg-secondary/50 text-calm-text-primary dark:text-calm-text-muted hover:bg-calm-bg-tertiary/20 dark:hover:bg-calm-bg-tertiary/30 border border-calm-warm-100/30';
 }
 
 interface ProgressTrackerProps {
@@ -511,22 +511,22 @@ function ProgressTracker({ readCount, totalCount }: ProgressTrackerProps) {
   const isComplete = readCount === totalCount;
 
   return (
-    <div className="bg-glass-surface dark:bg-lf-soft/50 rounded-lg p-4 shadow-glass-xl backdrop-blur-aaa border border-lf-muted/20">
+    <div className="bg-calm-bg-secondary dark:bg-calm-bg-secondary/50 rounded-lg p-4 shadow-calm-lg backdrop-blur-md border border-calm-warm-100/20">
       <div className="flex justify-between items-center mb-2">
-        <span className="text-sm text-lf-muted dark:text-lf-muted/80">
+        <span className="text-sm text-calm-text-muted dark:text-calm-text-muted/80">
           Variaciones leídas
         </span>
-        <span className="font-bold text-lf-primary dark:text-lf-primary">
+        <span className="font-bold text-calm-text-primary dark:text-calm-text-primary">
           {readCount}/{totalCount}
         </span>
       </div>
-      <div className="w-full h-2 bg-lf-muted/20 dark:bg-lf-muted/40 rounded-full overflow-hidden">
+      <div className="w-full h-2 bg-calm-bg-tertiary/20 dark:bg-calm-bg-tertiary/40 rounded-full overflow-hidden">
         <motion.div
           className="h-full bg-forge-gradient rounded-full"
           initial={{ width: 0 }}
           animate={{
             width: `${progress}%`,
-            boxShadow: isComplete ? "0 0 20px rgba(99, 102, 241, 0.6)" : "none",
+            boxShadow: isComplete ? "0 0 20px COLORS.sky[60]" : "none",
           }}
         />
       </div>

@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { ImportedNode } from '@/store/useImportedNodesStore';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { COLORS } from '@/constants/colors';
 
 interface NodeHeaderProps {
   node: ImportedNode;
@@ -28,11 +29,11 @@ export function NodeHeader({ node }: NodeHeaderProps) {
   return (
     <>
       {/* Header */}
-      <header className="relative border-b border-white/10 backdrop-blur-md">
+      <header className="relative border-b border-calm-warm-100/10 backdrop-blur-md">
         <div className="max-w-lg mx-auto px-4 py-4 flex items-center gap-4">
           <Link
             href="/learn"
-            className="flex items-center justify-center w-12 h-12 rounded-full focus:outline-none focus:ring-4 focus:ring-lf-accent focus:ring-offset-2 focus:ring-offset-lf-dark"
+            className="flex items-center justify-center w-12 h-12 rounded-full focus:outline-none focus:ring-4 focus:ring-amber-500 focus:ring-offset-2 focus:ring-offset-calm-bg-tertiary"
             style={{
               minWidth: '48px',
               minHeight: '48px',
@@ -41,7 +42,7 @@ export function NodeHeader({ node }: NodeHeaderProps) {
           >
             <motion.span
               className="text-2xl"
-              style={{ textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}
+              style={{ textShadow: COLORS.effects.textShadowMd }}
               whileHover={shouldAnimate ? { x: -4 } : {}}
               transition={{ type: 'spring', stiffness: 300 }}
             >
@@ -53,8 +54,8 @@ export function NodeHeader({ node }: NodeHeaderProps) {
               className="w-14 h-14 rounded-full flex items-center justify-center text-3xl"
               style={{
                 background: node.percentage === 100
-                  ? 'radial-gradient(circle at 30% 30%, #22C55E, #16A34A)'
-                  : 'radial-gradient(circle at 30% 30%, #6366F1, #4F46E5)',
+                  ? 'radial-gradient(circle at 30% 30%, var(--accent-500), var(--accent-600))'
+                  : 'radial-gradient(circle at 30% 30%, var(--sky-500), var(--sky-600))',
                 willChange: shouldAnimate ? 'transform' : 'auto',
               }}
               animate={shouldAnimate ? {
@@ -67,12 +68,12 @@ export function NodeHeader({ node }: NodeHeaderProps) {
             </motion.div>
             <div>
               <h1
-                className="font-bold text-white line-clamp-1"
-                style={{ textShadow: '0 2px 4px rgba(0,0,0,0.6)' }}
+                className="font-bold text-calm-text-primary line-clamp-1"
+                style={{ textShadow: `0 2px 4px ${COLORS.black[60]}` }}
               >
                 {node.title}
               </h1>
-              <p className="text-xs text-lf-muted">
+              <p className="text-xs text-calm-text-muted">
                 {node.percentage}% completado
               </p>
             </div>
@@ -81,12 +82,12 @@ export function NodeHeader({ node }: NodeHeaderProps) {
       </header>
 
       {/* Progress bar */}
-      <div className="relative border-b border-white/10 backdrop-blur-md">
-        <div className="h-2 bg-white/10">
+      <div className="relative border-b border-calm-warm-100/10 backdrop-blur-md">
+        <div className="h-2 bg-calm-bg-elevated/10">
           <motion.div
             className="h-full"
             style={{
-              background: 'linear-gradient(to right, #6366F1, #C026D3)',
+              background: 'linear-gradient(to right, var(--sky-500), #F59E0B)',
               willChange: shouldAnimate ? 'width' : 'auto',
             }}
             initial={{ width: 0 }}
@@ -101,20 +102,20 @@ export function NodeHeader({ node }: NodeHeaderProps) {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="relative backdrop-blur-md rounded-2xl p-4 mb-6 border border-white/20"
+        className="relative backdrop-blur-md rounded-2xl p-4 mb-6 border border-calm-warm-100/20"
         style={{
-          background: 'rgba(255, 255, 255, 0.05)',
+          background: COLORS.white[5],
         }}
       >
-        <div className="flex items-center gap-2 text-sm text-lf-muted mb-2">
+        <div className="flex items-center gap-2 text-sm text-calm-text-muted mb-2">
           <span>{sourceIcon}</span>
           <span>{sourceLabel}</span>
           <span>•</span>
           <span>{totalPhrases} frases</span>
         </div>
         <p
-          className="text-sm text-gray-300 line-clamp-3"
-          style={{ textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}
+          className="text-sm text-calm-text-tertiary line-clamp-3"
+          style={{ textShadow: COLORS.effects.textShadowSm }}
         >
           {node.sourceText.substring(0, 200)}...
         </p>

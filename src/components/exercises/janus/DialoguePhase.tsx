@@ -33,7 +33,7 @@ export function DialoguePhase({
       className="space-y-6"
     >
       <div className="text-center">
-        <span className="inline-flex items-center gap-1 px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 rounded-full text-sm text-emerald-700 dark:text-emerald-300">
+        <span className="inline-flex items-center gap-1 px-3 py-1 bg-accent-100 dark:bg-accent-900/30 rounded-full text-sm text-accent-700 dark:text-accent-300">
           💬 Mini-diálogo {currentDialogueIndex + 1}/{totalDialogues}
         </span>
       </div>
@@ -68,7 +68,7 @@ export function DialoguePhase({
 
       <button
         onClick={onCompleteDialogue}
-        className="w-full px-4 py-3 bg-indigo-500 hover:bg-indigo-600 text-white rounded-aaa-xl font-medium transition-colors"
+        className="w-full px-4 py-3 bg-accent-500 hover:bg-accent-600 text-white rounded-2xl font-medium transition-colors"
       >
         {isLastDialogue ? 'Completar →' : 'Siguiente diálogo →'}
       </button>
@@ -94,15 +94,15 @@ function DialogueBubble({ speaker, text, subtext, delay, isUserPhrase }: Dialogu
       transition={{ delay }}
       className={`flex gap-3 ${isSystem ? '' : 'flex-row-reverse'}`}
     >
-      <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm flex-shrink-0 ${isSystem ? 'bg-indigo-100 dark:bg-indigo-900/50' : 'bg-emerald-100 dark:bg-emerald-900/50'}`}>
+      <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm flex-shrink-0 ${isSystem ? 'bg-accent-100 dark:bg-accent-900/50' : 'bg-accent-100 dark:bg-accent-900/50'}`}>
         {isSystem ? '🎭' : '👤'}
       </div>
-      <div className={`flex-1 p-3 rounded-aaa-xl max-w-[80%] ${isUserPhrase ? 'bg-emerald-100 dark:bg-emerald-900/30' : 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700'}`}>
-        <p className="text-gray-900 dark:text-white">
+      <div className={`flex-1 p-3 rounded-2xl max-w-[80%] ${isUserPhrase ? 'bg-accent-100 dark:bg-accent-900/30' : 'bg-white dark:bg-calm-bg-elevated border border-calm-warm-100 dark:border-calm-warm-200'}`}>
+        <p className="text-calm-text-primary dark:text-white">
           &quot;{text || ''}&quot;
         </p>
         {subtext && (
-          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+          <p className="text-xs text-calm-text-muted dark:text-calm-text-muted mt-1">
             {subtext}
           </p>
         )}

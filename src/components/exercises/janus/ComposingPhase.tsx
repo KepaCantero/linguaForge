@@ -2,16 +2,16 @@ import { motion } from 'framer-motion';
 
 // Constants from main component
 const COLUMN_COLORS: Record<string, string> = {
-  subject: 'bg-rose-50 border-rose-200 dark:bg-rose-900/20 dark:border-rose-800',
+  subject: 'bg-sky-50 border-sky-200 dark:bg-sky-900/20 dark:border-sky-800',
   verb: 'bg-amber-50 border-amber-200 dark:bg-amber-900/20 dark:border-amber-800',
-  complement: 'bg-emerald-50 border-emerald-200 dark:bg-emerald-900/20 dark:border-emerald-800',
+  complement: 'bg-accent-50 border-accent-200 dark:bg-accent-900/20 dark:border-emerald-800',
   time: 'bg-sky-50 border-sky-200 dark:bg-sky-900/20 dark:border-sky-800',
 };
 
 const COLUMN_HEADER_COLORS: Record<string, string> = {
-  subject: 'text-rose-700 dark:text-rose-400',
+  subject: 'text-sky-700 dark:text-sky-400',
   verb: 'text-amber-700 dark:text-amber-400',
-  complement: 'text-emerald-700 dark:text-emerald-400',
+  complement: 'text-accent-700 dark:text-accent-400',
   time: 'text-sky-700 dark:text-sky-400',
 };
 
@@ -87,8 +87,8 @@ export function ComposingPhase({
       {/* Columnas */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {columns.map((column) => {
-          const colorClass = COLUMN_COLORS[column.type] || 'bg-gray-50';
-          const headerColor = COLUMN_HEADER_COLORS[column.type] || 'text-gray-700';
+          const colorClass = COLUMN_COLORS[column.type] || 'bg-calm-bg-primary';
+          const headerColor = COLUMN_HEADER_COLORS[column.type] || 'text-calm-text-secondary';
           const selection = selections[column.id];
 
           return (
@@ -123,7 +123,7 @@ export function ComposingPhase({
       <button
         onClick={onConfirmComposition}
         disabled={!allRequiredSelected || !generatedPhrase}
-        className="w-full px-4 py-3 bg-indigo-500 hover:bg-indigo-600 disabled:bg-gray-300 dark:disabled:bg-gray-700 text-white disabled:text-gray-500 dark:disabled:text-gray-400 rounded-aaa-xl font-medium transition-colors"
+        className="w-full px-4 py-3 bg-accent-500 hover:bg-accent-600 disabled:bg-calm-warm-100 dark:disabled:bg-calm-bg-tertiary text-white disabled:text-calm-text-muted dark:disabled:text-calm-text-muted rounded-2xl font-medium transition-colors"
       >
         {allRequiredSelected && generatedPhrase
           ? 'Confirmar frase →'
@@ -167,12 +167,12 @@ function ColumnSelector({
       <div className="flex items-center justify-between">
         <span className={`text-xs font-semibold uppercase ${headerColor}`}>
           {column.title || COLUMN_LABELS[column.type]}
-          {['subject', 'verb'].includes(column.type) && <span className="text-red-500 ml-0.5">*</span>}
+          {['subject', 'verb'].includes(column.type) && <span className="text-semantic-error ml-0.5">*</span>}
         </span>
         {selection && (
           <button
             onClick={() => onClearSelection(column.id)}
-            className="text-xs text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+            className="text-xs text-calm-text-muted hover:text-calm-text-secondary dark:hover:text-calm-text-tertiary"
           >
             ✕
           </button>
@@ -182,7 +182,7 @@ function ColumnSelector({
       {/* Opciones */}
       <div
         ref={columnRef}
-        className={`rounded-aaa-xl border-2 p-2 transition-all ${keyboardFocus.columnId === column.id ? 'ring-2 ring-indigo-400 ring-offset-2' : ''} ${colorClass}`}
+        className={`rounded-2xl border-2 p-2 transition-all ${keyboardFocus.columnId === column.id ? 'ring-2 ring-accent-400 ring-offset-2' : ''} ${colorClass}`}
       >
         <div className="space-y-1.5 max-h-48 overflow-y-auto">
           {column.options.map((option) => {
@@ -233,16 +233,16 @@ function OptionButton({ option, isSelected, isFocused, showTranslation, onClick,
       className={`
         w-full px-3 py-2 rounded-lg text-sm text-left transition-all relative
         ${isSelected
-          ? 'bg-white dark:bg-gray-900 shadow-md ring-2 ring-indigo-500 font-medium'
+          ? 'bg-white dark:bg-calm-bg-primary shadow-md ring-2 ring-accent-500 font-medium'
           : isFocused
-          ? 'bg-white dark:bg-gray-900 shadow-sm ring-2 ring-indigo-300'
-          : 'bg-white/60 dark:bg-gray-900/60 hover:bg-white dark:hover:bg-gray-900'
+          ? 'bg-white dark:bg-calm-bg-primary shadow-sm ring-2 ring-accent-300'
+          : 'bg-white/60 dark:bg-calm-bg-primary/60 hover:bg-white dark:hover:bg-calm-bg-primary'
         }
       `}
       animate={isFocused ? { scale: 1.02 } : { scale: 1 }}
       transition={{ duration: 0.15 }}
     >
-      <span className="block text-gray-900 dark:text-white">
+      <span className="block text-calm-text-primary dark:text-white">
         {option.text}
       </span>
 
@@ -255,7 +255,7 @@ function OptionButton({ option, isSelected, isFocused, showTranslation, onClick,
             height: showTranslation ? 'auto' : 0,
           }}
           transition={{ duration: 0.2 }}
-          className="block text-xs text-gray-500 dark:text-gray-400 overflow-hidden"
+          className="block text-xs text-calm-text-muted dark:text-calm-text-muted overflow-hidden"
         >
           {option.translation}
         </motion.span>
@@ -266,7 +266,7 @@ function OptionButton({ option, isSelected, isFocused, showTranslation, onClick,
         <motion.span
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="absolute right-2 top-1/2 -translate-y-1/2 text-indigo-400 text-xs"
+          className="absolute right-2 top-1/2 -translate-y-1/2 text-accent-400 text-xs"
         >
           ⌨
         </motion.span>
@@ -290,15 +290,15 @@ function GeneratedPhraseCard({
   onReset,
 }: GeneratedPhraseCardProps) {
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-aaa-xl p-4 border border-gray-200 dark:border-gray-700">
+    <div className="bg-white dark:bg-calm-bg-elevated rounded-2xl p-4 border border-calm-warm-100 dark:border-calm-warm-200">
       <div className="flex items-center justify-between mb-2">
-        <span className="text-xs text-gray-500 dark:text-gray-400 uppercase font-medium">
+        <span className="text-xs text-calm-text-muted dark:text-calm-text-muted uppercase font-medium">
           Frase resultante:
         </span>
         {Object.keys(selections).length > 0 && (
           <button
             onClick={onReset}
-            className="text-xs text-indigo-600 dark:text-indigo-400 hover:underline"
+            className="text-xs text-accent-600 dark:text-accent-400 hover:underline"
           >
             Limpiar todo
           </button>
@@ -307,23 +307,23 @@ function GeneratedPhraseCard({
 
       {generatedPhrase ? (
         <div>
-          <p className="text-lg font-medium text-gray-900 dark:text-white">
+          <p className="text-lg font-medium text-calm-text-primary dark:text-white">
             &quot;{generatedPhrase}&quot;
           </p>
           {generatedTranslation && (
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+            <p className="text-sm text-calm-text-muted dark:text-calm-text-muted mt-1">
               {generatedTranslation}
             </p>
           )}
 
           {/* Indicador de conjugación automática */}
-          <div className="flex items-center gap-1 mt-2 text-xs text-green-600 dark:text-green-400">
+          <div className="flex items-center gap-1 mt-2 text-xs text-accent-600 dark:text-accent-400">
             <span>✓</span>
             <span>Conjugación automática aplicada</span>
           </div>
         </div>
       ) : (
-        <p className="text-gray-400 dark:text-gray-500 italic">
+        <p className="text-calm-text-muted dark:text-calm-text-muted italic">
           Selecciona opciones de cada columna para crear tu frase...
         </p>
       )}

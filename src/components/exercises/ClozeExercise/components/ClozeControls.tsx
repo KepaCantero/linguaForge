@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { ClozeOption } from '@/types';
+import { COLORS } from '@/constants/colors';
 
 interface ClozeControlsProps {
   options: ClozeOption[];
@@ -24,21 +25,21 @@ export function ClozeControls({
     showCorrect: boolean,
     showIncorrect: boolean
   ): string => {
-    const baseClasses = 'p-4 rounded-aaa-xl font-medium text-center transition-all';
+    const baseClasses = 'p-4 rounded-2xl font-medium text-center transition-all';
 
     if (showCorrect) {
-      return `${baseClasses} bg-lf-success text-white shadow-glow-success ring-4 ring-lf-success/50`;
+      return `${baseClasses} bg-accent-500 text-white shadow-calm-md ring-4 ring-accent-500/50`;
     }
 
     if (showIncorrect) {
-      return `${baseClasses} bg-lf-error text-white shadow-glow-accent ring-4 ring-lf-error/50`;
+      return `${baseClasses} bg-semantic-error text-white shadow-calm-md ring-4 ring-semantic-error/50`;
     }
 
     if (isSelected) {
-      return `${baseClasses} bg-lf-primary text-white shadow-resonance`;
+      return `${baseClasses} bg-accent-500 text-white shadow-resonance`;
     }
 
-    return `${baseClasses} bg-glass-surface dark:bg-lf-soft/50 text-lf-dark dark:text-white hover:bg-lf-primary/10 dark:hover:bg-lf-primary/20 border border-lf-muted/30`;
+    return `${baseClasses} bg-calm-bg-secondary dark:bg-calm-bg-secondary/50 text-calm-text-primary dark:text-white hover:bg-accent-500/10 dark:hover:bg-accent-500/20 border border-calm-warm-100/30`;
   };
 
   const getCursorClassName = (showResult: boolean): string => {
@@ -55,9 +56,9 @@ export function ClozeControls({
         animate: {
           scale: [1, 1.15, 1],
           boxShadow: [
-            '0 0 0px rgba(34, 197, 94, 0)',
-            '0 0 25px rgba(34, 197, 94, 0.6)',
-            '0 0 15px rgba(34, 197, 94, 0.4)',
+            COLORS.transparent.accent,
+            '0 0 25px COLORS.accent[60]',
+            '0 0 15px var(--accent-500)/40',
           ],
         },
         transition: { duration: 0.5 },

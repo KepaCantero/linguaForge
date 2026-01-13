@@ -442,9 +442,9 @@ export function ProgressBar({
   className?: string;
 }) {
   return (
-    <div className={`bg-gray-200 dark:bg-gray-700 rounded-full h-2 ${className}`}>
+    <div className={`bg-calm-bg-tertiary dark:bg-calm-bg-tertiary rounded-full h-2 ${className}`}>
       <motion.div
-        className="bg-gradient-to-r from-indigo-500 to-purple-600 h-full rounded-full"
+        className="bg-gradient-to-r from-accent-500 to-sky-600 h-full rounded-full"
         initial={{ width: 0 }}
         animate={{ width: `${progress}%` }}
         transition={{ duration: 0.5, ease: EASING.EASE_OUT }}

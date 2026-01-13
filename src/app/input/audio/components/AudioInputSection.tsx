@@ -52,14 +52,14 @@ export function AudioInputSection({
                 value={audioUrl}
                 onChange={(e) => setAudioUrl(e.target.value)}
                 placeholder="URL del audio o nombre del podcast..."
-                className="w-full px-6 py-4 rounded-aaa-xl bg-glass-surface backdrop-blur-aaa border border-white/20 text-white placeholder:text-white/50 focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                className="w-full px-6 py-4 rounded-2xl bg-calm-bg-secondary backdrop-blur-md border border-calm-warm-100/20 text-calm-text-primary placeholder:text-calm-text-primary/50 focus:ring-2 focus:ring-accent-500 focus:border-transparent"
                 onKeyDown={(e) => e.key === "Enter" && onLoadAudio()}
               />
             </div>
           </motion.div>
 
           <div className="flex items-center gap-3 px-4">
-            <label htmlFor="audio-duration" className="text-sm text-white/70 whitespace-nowrap">
+            <label htmlFor="audio-duration" className="text-sm text-calm-text-primary/70 whitespace-nowrap">
               Duración (seg):
             </label>
             <input
@@ -68,7 +68,7 @@ export function AudioInputSection({
               value={duration}
               onChange={(e) => setDuration(Number.parseInt(e.target.value, 10) || 0)}
               min="0"
-              className="flex-1 px-4 py-3 rounded-aaa-xl bg-glass-surface backdrop-blur-aaa border border-white/20 text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+              className="flex-1 px-4 py-3 rounded-2xl bg-calm-bg-secondary backdrop-blur-md border border-calm-warm-100/20 text-calm-text-primary focus:ring-2 focus:ring-accent-500 focus:border-transparent"
               placeholder="300"
             />
           </div>
@@ -85,7 +85,7 @@ export function AudioInputSection({
               style={{
                 background: !audioUrl.trim()
                   ? "radial-gradient(circle at 30% 30%, #4B5563, #374151)"
-                  : "radial-gradient(circle at 30% 30%, #10B981, #059669)",
+                  : "radial-gradient(circle at 30% 30%, var(--accent-500), var(--accent-600))",
               }}
             >
               <motion.div
@@ -93,7 +93,7 @@ export function AudioInputSection({
                 style={{
                   background: !audioUrl.trim()
                     ? "transparent"
-                    : "radial-gradient(circle, rgba(16, 185, 129, 0.6), transparent)",
+                    : "radialGlow('accent', 0.6)",
                 }}
                 animate={{
                   scale: [1, 1.3, 1],
@@ -116,7 +116,7 @@ export function AudioInputSection({
             >
               🎵
             </motion.div>
-            <p className="text-sm text-white/60">
+            <p className="text-sm text-calm-text-primary/60">
               No hay audios disponibles. Haz clic en &quot;Importar&quot; para agregar podcasts o audios.
             </p>
           </div>
@@ -131,13 +131,13 @@ export function AudioInputSection({
           >
             <div className="relative w-28 h-28 rounded-full"
               style={{
-                background: "radial-gradient(circle at 30% 30%, #10B981, #059669)",
+                background: "radial-gradient(circle at 30% 30%, var(--accent-500), var(--accent-600))",
               }}
             >
               <motion.div
                 className="absolute inset-0 rounded-full blur-xl"
                 style={{
-                  background: "radial-gradient(circle, rgba(16, 185, 129, 0.7), transparent)",
+                  background: "radialGlow('accent', 0.7)",
                 }}
                 animate={{
                   scale: [1, 1.4, 1],
@@ -152,8 +152,8 @@ export function AudioInputSection({
           </motion.div>
 
           <div className="text-center">
-            <p className="text-lg font-bold text-white mb-2">{audioTitle}</p>
-            <div className="flex items-center justify-center gap-6 text-sm text-white/60">
+            <p className="text-lg font-bold text-calm-text-primary mb-2">{audioTitle}</p>
+            <div className="flex items-center justify-center gap-6 text-sm text-calm-text-primary/60">
               <span>
                 Duración: {duration > 0
                   ? `${Math.floor(duration / 60)}:${Math.floor(duration % 60).toString().padStart(2, "0")}`
@@ -166,7 +166,7 @@ export function AudioInputSection({
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="audio-transcript" className="block text-sm font-medium text-white/90">
+            <label htmlFor="audio-transcript" className="block text-sm font-medium text-calm-text-primary/90">
               Transcripción
             </label>
             {transcriptText ? (
@@ -185,7 +185,7 @@ export function AudioInputSection({
                 value={transcriptText}
                 onChange={(e) => setTranscriptText(e.target.value)}
                 placeholder="Pega aquí la transcripción del audio..."
-                className="w-full h-32 px-4 py-3 rounded-aaa-xl bg-glass-surface backdrop-blur-aaa border border-white/20 text-white placeholder:text-white/50 resize-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-sm"
+                className="w-full h-32 px-4 py-3 rounded-2xl bg-calm-bg-secondary backdrop-blur-md border border-calm-warm-100/20 text-calm-text-primary placeholder:text-calm-text-primary/50 resize-none focus:ring-2 focus:ring-accent-500 focus:border-transparent text-sm"
               />
             )}
           </div>
@@ -193,11 +193,11 @@ export function AudioInputSection({
           <motion.button
             onClick={onMarkAsListened}
             disabled={duration === 0}
-            className="w-full py-4 rounded-aaa-xl font-bold text-white flex items-center justify-center gap-3"
+            className="w-full py-4 rounded-2xl font-bold text-calm-text-primary flex items-center justify-center gap-3"
             style={{
               background: duration === 0
                 ? "radial-gradient(circle at 30% 30%, #4B5563, #374151)"
-                : "radial-gradient(circle at 30% 30%, #22C55E, #16A34A)",
+                : "radial-gradient(circle at 30% 30%, var(--accent-500), var(--accent-600))",
             }}
             whileHover={{ scale: duration === 0 ? 1 : 1.02 }}
             whileTap={{ scale: 0.98 }}

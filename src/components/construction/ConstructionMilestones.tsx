@@ -66,28 +66,28 @@ interface PrestigeDisplayProps {
 
 const RARITY_COLORS: Record<string, { bg: string; border: string; text: string; glow: string }> = {
   common: {
-    bg: 'bg-gray-100 dark:bg-gray-800',
-    border: 'border-gray-300 dark:border-gray-600',
-    text: 'text-gray-700 dark:text-gray-300',
+    bg: 'bg-calm-bg-secondary dark:bg-calm-bg-elevated',
+    border: 'border-calm-warm-200 dark:border-calm-warm-200',
+    text: 'text-calm-text-secondary dark:text-calm-text-tertiary',
     glow: '',
   },
   uncommon: {
-    bg: 'bg-green-50 dark:bg-green-900/20',
-    border: 'border-green-400 dark:border-green-600',
-    text: 'text-green-700 dark:text-green-400',
+    bg: 'bg-accent-50 dark:bg-accent-900/20',
+    border: 'border-accent-400 dark:border-accent-600',
+    text: 'text-accent-700 dark:text-accent-400',
     glow: '',
   },
   rare: {
-    bg: 'bg-blue-50 dark:bg-blue-900/20',
-    border: 'border-blue-400 dark:border-blue-500',
-    text: 'text-blue-700 dark:text-blue-400',
+    bg: 'bg-sky-50 dark:bg-sky-900/20',
+    border: 'border-sky-400 dark:border-sky-500',
+    text: 'text-sky-700 dark:text-sky-400',
     glow: 'shadow-blue-500/20',
   },
   epic: {
-    bg: 'bg-purple-50 dark:bg-purple-900/20',
-    border: 'border-purple-400 dark:border-purple-500',
-    text: 'text-purple-700 dark:text-purple-400',
-    glow: 'shadow-purple-500/30',
+    bg: 'bg-sky-50 dark:bg-sky-900/20',
+    border: 'border-sky-400 dark:border-sky-500',
+    text: 'text-sky-700 dark:text-sky-400',
+    glow: 'shadow-sky-500/30',
   },
   legendary: {
     bg: 'bg-amber-50 dark:bg-amber-900/20',
@@ -145,7 +145,7 @@ function MilestoneCard({ milestone, isCompleted, progress, onClick }: MilestoneC
     >
       {/* Badge de completado */}
       {isCompleted && (
-        <div className="absolute -top-2 -right-2 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center shadow-md">
+        <div className="absolute -top-2 -right-2 w-6 h-6 bg-accent-500 rounded-full flex items-center justify-center shadow-md">
           <span className="text-white text-sm">✓</span>
         </div>
       )}
@@ -155,7 +155,7 @@ function MilestoneCard({ milestone, isCompleted, progress, onClick }: MilestoneC
         <span className="text-2xl">{milestone.icon}</span>
         <div className="flex-1">
           <h4 className={`font-semibold ${colors.text}`}>{milestone.name}</h4>
-          <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-2">
+          <p className="text-xs text-calm-text-muted dark:text-calm-text-muted line-clamp-2">
             {milestone.description}
           </p>
         </div>
@@ -164,20 +164,20 @@ function MilestoneCard({ milestone, isCompleted, progress, onClick }: MilestoneC
       {/* Barra de progreso */}
       {!isCompleted && (
         <div className="mt-3">
-          <div className="flex justify-between text-xs text-gray-500 mb-1">
+          <div className="flex justify-between text-xs text-calm-text-muted mb-1">
             <span>Progreso</span>
             <span>{progressPercent}%</span>
           </div>
-          <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+          <div className="h-2 bg-calm-bg-tertiary dark:bg-calm-bg-tertiary rounded-full overflow-hidden">
             <motion.div
               className={`h-full rounded-full ${
                 milestone.rarity === 'legendary'
-                  ? 'bg-gradient-to-r from-amber-400 to-yellow-500'
+                  ? 'bg-gradient-to-r from-amber-400 to-amber-500'
                   : milestone.rarity === 'epic'
-                  ? 'bg-gradient-to-r from-purple-400 to-pink-500'
+                  ? 'bg-gradient-to-r from-sky-400 to-sky-500'
                   : milestone.rarity === 'rare'
-                  ? 'bg-gradient-to-r from-blue-400 to-cyan-500'
-                  : 'bg-green-500'
+                  ? 'bg-gradient-to-r from-sky-400 to-sky-500'
+                  : 'bg-accent-500'
               }`}
               initial={{ width: 0 }}
               animate={{ width: `${progressPercent}%` }}
@@ -190,17 +190,17 @@ function MilestoneCard({ milestone, isCompleted, progress, onClick }: MilestoneC
       {/* Recompensas */}
       <div className="mt-3 flex items-center gap-2 flex-wrap">
         {milestone.rewards.xp > 0 && (
-          <span className="text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 px-2 py-0.5 rounded-full">
+          <span className="text-xs bg-sky-100 dark:bg-sky-900/30 text-sky-700 dark:text-sky-400 px-2 py-0.5 rounded-full">
             +{milestone.rewards.xp} XP
           </span>
         )}
         {milestone.rewards.coins > 0 && (
-          <span className="text-xs bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 px-2 py-0.5 rounded-full">
+          <span className="text-xs bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 px-2 py-0.5 rounded-full">
             +{milestone.rewards.coins} coins
           </span>
         )}
         {milestone.rewards.gems > 0 && (
-          <span className="text-xs bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 px-2 py-0.5 rounded-full">
+          <span className="text-xs bg-sky-100 dark:bg-sky-900/30 text-sky-700 dark:text-sky-400 px-2 py-0.5 rounded-full">
             +{milestone.rewards.gems} gems
           </span>
         )}
@@ -228,8 +228,8 @@ function ThemeCard({ theme, isCompleted, progress, onClick }: ThemeCardProps) {
         relative p-4 rounded-xl border-2 cursor-pointer
         transition-all duration-200
         ${isCompleted
-          ? 'bg-gradient-to-br from-amber-50 to-yellow-50 dark:from-amber-900/30 dark:to-yellow-900/30 border-amber-400'
-          : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700'
+          ? 'bg-gradient-to-br from-amber-50 to-amber-50 dark:from-amber-900/30 dark:to-amber-900/30 border-amber-400'
+          : 'bg-white dark:bg-calm-bg-elevated border-calm-warm-100 dark:border-calm-warm-200'
         }
         hover:scale-[1.02] hover:shadow-md
       `}
@@ -246,20 +246,20 @@ function ThemeCard({ theme, isCompleted, progress, onClick }: ThemeCardProps) {
       <div className="flex items-center gap-3 mb-2">
         <span className="text-3xl">{theme.icon}</span>
         <div>
-          <h4 className="font-semibold text-gray-800 dark:text-gray-200">{theme.name}</h4>
-          <p className="text-xs text-gray-500 dark:text-gray-400">{theme.description}</p>
+          <h4 className="font-semibold text-calm-text-primary dark:text-calm-text-tertiary">{theme.name}</h4>
+          <p className="text-xs text-calm-text-muted dark:text-calm-text-muted">{theme.description}</p>
         </div>
       </div>
 
       {!isCompleted && (
         <div className="mt-3">
-          <div className="flex justify-between text-xs text-gray-500 mb-1">
+          <div className="flex justify-between text-xs text-calm-text-muted mb-1">
             <span>{theme.requiredElements.length} elementos requeridos</span>
             <span>{progressPercent}%</span>
           </div>
-          <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+          <div className="h-2 bg-calm-bg-tertiary dark:bg-calm-bg-tertiary rounded-full overflow-hidden">
             <motion.div
-              className="h-full bg-gradient-to-r from-amber-400 to-yellow-500 rounded-full"
+              className="h-full bg-gradient-to-r from-amber-400 to-amber-500 rounded-full"
               initial={{ width: 0 }}
               animate={{ width: `${progressPercent}%` }}
               transition={{ duration: 0.5 }}
@@ -269,14 +269,14 @@ function ThemeCard({ theme, isCompleted, progress, onClick }: ThemeCardProps) {
       )}
 
       <div className="mt-3 flex items-center gap-2">
-        <span className="text-xs bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-2 py-0.5 rounded-full">
+        <span className="text-xs bg-accent-100 dark:bg-accent-900/30 text-accent-700 dark:text-accent-400 px-2 py-0.5 rounded-full">
           x{theme.bonusMultiplier} bonus
         </span>
-        <span className="text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 px-2 py-0.5 rounded-full">
+        <span className="text-xs bg-sky-100 dark:bg-sky-900/30 text-sky-700 dark:text-sky-400 px-2 py-0.5 rounded-full">
           +{theme.xpBonus} XP
         </span>
         {theme.exclusiveReward && (
-          <span className="text-xs bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 px-2 py-0.5 rounded-full">
+          <span className="text-xs bg-sky-100 dark:bg-sky-900/30 text-sky-700 dark:text-sky-400 px-2 py-0.5 rounded-full">
             Exclusivo
           </span>
         )}
@@ -290,20 +290,20 @@ function StreakDisplay({ currentStreak, longestStreak }: StreakDisplayProps) {
   const nextBonus = STREAK_BONUSES.find((b) => b.days > currentStreak);
 
   return (
-    <div className="bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 rounded-xl p-4 border border-orange-200 dark:border-orange-800">
+    <div className="bg-gradient-to-br from-amber-50 to-amber-50 dark:from-amber-900/20 dark:to-amber-900/20 rounded-xl p-4 border border-amber-200 dark:border-amber-800">
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <span className="text-3xl">🔥</span>
           <div>
-            <h4 className="font-bold text-orange-700 dark:text-orange-400">Racha Actual</h4>
-            <p className="text-2xl font-bold text-orange-600 dark:text-orange-300">
+            <h4 className="font-bold text-amber-700 dark:text-amber-400">Racha Actual</h4>
+            <p className="text-2xl font-bold text-amber-600 dark:text-amber-300">
               {currentStreak} días
             </p>
           </div>
         </div>
         <div className="text-right">
-          <p className="text-xs text-gray-500 dark:text-gray-400">Mejor racha</p>
-          <p className="text-lg font-semibold text-gray-700 dark:text-gray-300">
+          <p className="text-xs text-calm-text-muted dark:text-calm-text-muted">Mejor racha</p>
+          <p className="text-lg font-semibold text-calm-text-secondary dark:text-calm-text-tertiary">
             {longestStreak} días
           </p>
         </div>
@@ -311,12 +311,12 @@ function StreakDisplay({ currentStreak, longestStreak }: StreakDisplayProps) {
 
       {/* Bonus actual */}
       <div className="flex items-center gap-2 mb-2">
-        <span className="text-sm text-gray-600 dark:text-gray-400">Bonus actual:</span>
-        <span className="font-bold text-green-600 dark:text-green-400">
+        <span className="text-sm text-calm-text-secondary dark:text-calm-text-muted">Bonus actual:</span>
+        <span className="font-bold text-accent-600 dark:text-accent-400">
           x{bonus.multiplier} XP
         </span>
         {bonus.xpBonus > 0 && (
-          <span className="text-sm text-blue-600 dark:text-blue-400">
+          <span className="text-sm text-sky-600 dark:text-sky-400">
             (+{bonus.xpBonus} bonus)
           </span>
         )}
@@ -324,13 +324,13 @@ function StreakDisplay({ currentStreak, longestStreak }: StreakDisplayProps) {
 
       {/* Próximo bonus */}
       {nextBonus && (
-        <div className="mt-2 pt-2 border-t border-orange-200 dark:border-orange-800">
-          <p className="text-xs text-gray-500 dark:text-gray-400">
+        <div className="mt-2 pt-2 border-t border-amber-200 dark:border-amber-800">
+          <p className="text-xs text-calm-text-muted dark:text-calm-text-muted">
             Próximo bonus en {nextBonus.days - currentStreak} días: x{nextBonus.multiplier} XP
           </p>
-          <div className="h-1.5 bg-orange-200 dark:bg-orange-800 rounded-full mt-1 overflow-hidden">
+          <div className="h-1.5 bg-amber-200 dark:bg-amber-800 rounded-full mt-1 overflow-hidden">
             <motion.div
-              className="h-full bg-gradient-to-r from-orange-400 to-red-500 rounded-full"
+              className="h-full bg-gradient-to-r from-amber-400 to-semantic-error rounded-full"
               initial={{ width: 0 }}
               animate={{ width: `${(currentStreak / nextBonus.days) * 100}%` }}
               transition={{ duration: 0.5 }}
@@ -346,28 +346,28 @@ function PrestigeDisplay({ level, title, progress, nextLevelXP, currentXP }: Pre
   const progressPercent = Math.min(100, Math.round(progress));
 
   return (
-    <div className="bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-xl p-4 border border-indigo-200 dark:border-indigo-800">
+    <div className="bg-gradient-to-br from-sky-50 to-sky-50 dark:from-accent-900/20 dark:to-sky-900/20 rounded-xl p-4 border border-accent-200 dark:border-accent-800">
       <div className="flex items-center gap-3 mb-3">
-        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center text-white font-bold text-xl shadow-lg">
+        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-accent-400 to-sky-500 flex items-center justify-center text-white font-bold text-xl shadow-lg">
           {level}
         </div>
         <div>
-          <h4 className="font-bold text-indigo-700 dark:text-indigo-400">{title}</h4>
-          <p className="text-sm text-gray-500 dark:text-gray-400">
+          <h4 className="font-bold text-accent-700 dark:text-accent-400">{title}</h4>
+          <p className="text-sm text-calm-text-muted dark:text-calm-text-muted">
             {currentXP.toLocaleString()} / {nextLevelXP.toLocaleString()} XP
           </p>
         </div>
       </div>
 
-      <div className="h-2 bg-indigo-200 dark:bg-indigo-800 rounded-full overflow-hidden">
+      <div className="h-2 bg-accent-200 dark:bg-accent-800 rounded-full overflow-hidden">
         <motion.div
-          className="h-full bg-gradient-to-r from-indigo-400 to-purple-500 rounded-full"
+          className="h-full bg-gradient-to-r from-accent-400 to-sky-500 rounded-full"
           initial={{ width: 0 }}
           animate={{ width: `${progressPercent}%` }}
           transition={{ duration: 0.5 }}
         />
       </div>
-      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 text-right">
+      <p className="text-xs text-calm-text-muted dark:text-calm-text-muted mt-1 text-right">
         {progressPercent}% hasta el siguiente nivel
       </p>
     </div>
@@ -508,27 +508,27 @@ export function ConstructionMilestones({
       <div className="space-y-4">
         {/* Resumen compacto */}
         <div className="grid grid-cols-2 gap-3">
-          <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-3 text-center">
-            <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+          <div className="bg-sky-50 dark:bg-sky-900/20 rounded-lg p-3 text-center">
+            <p className="text-2xl font-bold text-sky-600 dark:text-sky-400">
               {stats.completedMilestones}
             </p>
-            <p className="text-xs text-gray-500">Hitos completados</p>
+            <p className="text-xs text-calm-text-muted">Hitos completados</p>
           </div>
-          <div className="bg-orange-50 dark:bg-orange-900/20 rounded-lg p-3 text-center">
-            <p className="text-2xl font-bold text-orange-600 dark:text-orange-400">
+          <div className="bg-amber-50 dark:bg-amber-900/20 rounded-lg p-3 text-center">
+            <p className="text-2xl font-bold text-amber-600 dark:text-amber-400">
               {stats.currentStreak}
             </p>
-            <p className="text-xs text-gray-500">Días de racha</p>
+            <p className="text-xs text-calm-text-muted">Días de racha</p>
           </div>
         </div>
 
         {/* Próximo hito */}
         {nextMilestone && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-3 border border-gray-200 dark:border-gray-700">
-            <p className="text-xs text-gray-500 mb-1">Próximo hito</p>
+          <div className="bg-white dark:bg-calm-bg-elevated rounded-lg p-3 border border-calm-warm-100 dark:border-calm-warm-200">
+            <p className="text-xs text-calm-text-muted mb-1">Próximo hito</p>
             <div className="flex items-center gap-2">
               <span className="text-xl">{nextMilestone.icon}</span>
-              <span className="font-medium text-gray-800 dark:text-gray-200">
+              <span className="font-medium text-calm-text-primary dark:text-calm-text-tertiary">
                 {nextMilestone.name}
               </span>
             </div>
@@ -557,15 +557,15 @@ export function ConstructionMilestones({
 
       {/* Eventos activos */}
       {activeEvents.length > 0 && (
-        <div className="bg-gradient-to-r from-pink-50 to-purple-50 dark:from-pink-900/20 dark:to-purple-900/20 rounded-xl p-4 border border-pink-200 dark:border-pink-800">
-          <h3 className="font-bold text-pink-700 dark:text-pink-400 flex items-center gap-2 mb-2">
+        <div className="bg-gradient-to-r from-sky-50 to-sky-50 dark:from-sky-900/20 dark:to-sky-900/20 rounded-xl p-4 border border-sky-200 dark:border-sky-800">
+          <h3 className="font-bold text-sky-700 dark:text-sky-400 flex items-center gap-2 mb-2">
             <span>🎪</span>Eventos Activos
           </h3>
           <div className="space-y-2">
             {activeEvents.map((event) => (
               <div key={event.id} className="flex items-center justify-between">
-                <span className="text-gray-700 dark:text-gray-300">{event.name}</span>
-                <span className="text-sm text-pink-600 dark:text-pink-400">
+                <span className="text-calm-text-secondary dark:text-calm-text-tertiary">{event.name}</span>
+                <span className="text-sm text-sky-600 dark:text-sky-400">
                   x{event.bonusMultiplier} bonus
                 </span>
               </div>
@@ -583,8 +583,8 @@ export function ConstructionMilestones({
             className={`
               px-3 py-1.5 rounded-full text-sm font-medium transition-all
               ${activeCategory === cat
-                ? 'bg-blue-500 text-white shadow-md'
-                : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
+                ? 'bg-sky-500 text-white shadow-md'
+                : 'bg-calm-bg-secondary dark:bg-calm-bg-elevated text-calm-text-secondary dark:text-calm-text-muted hover:bg-calm-bg-tertiary dark:hover:bg-calm-bg-tertiary'
               }
             `}
           >
@@ -597,8 +597,8 @@ export function ConstructionMilestones({
           className={`
             px-3 py-1.5 rounded-full text-sm font-medium transition-all ml-auto
             ${showCompleted
-              ? 'bg-green-500 text-white'
-              : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400'
+              ? 'bg-accent-500 text-white'
+              : 'bg-calm-bg-secondary dark:bg-calm-bg-elevated text-calm-text-secondary dark:text-calm-text-muted'
             }
           `}
         >
@@ -609,7 +609,7 @@ export function ConstructionMilestones({
       {/* Temas temáticos */}
       {(activeCategory === 'all' || activeCategory === 'theme') && (
         <div>
-          <h3 className="font-bold text-lg text-gray-800 dark:text-gray-200 mb-3 flex items-center gap-2">
+          <h3 className="font-bold text-lg text-calm-text-primary dark:text-calm-text-tertiary mb-3 flex items-center gap-2">
             <span>🎨</span>Temas Especiales
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -629,10 +629,10 @@ export function ConstructionMilestones({
       {/* Lista de hitos */}
       <div>
         <div className="flex items-center justify-between mb-3">
-          <h3 className="font-bold text-lg text-gray-800 dark:text-gray-200">
+          <h3 className="font-bold text-lg text-calm-text-primary dark:text-calm-text-tertiary">
             Hitos ({filteredMilestones.length})
           </h3>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-calm-text-muted">
             {stats.completedMilestones} / {CONSTRUCTION_MILESTONES.filter((m) => !m.hidden).length} completados
           </p>
         </div>
@@ -663,7 +663,7 @@ export function ConstructionMilestones({
         </AnimatePresence>
 
         {filteredMilestones.length === 0 && (
-          <div className="text-center py-12 text-gray-500 dark:text-gray-400">
+          <div className="text-center py-12 text-calm-text-muted dark:text-calm-text-muted">
             <span className="text-4xl mb-2 block">🏆</span>
             <p>No hay hitos en esta categoría</p>
           </div>

@@ -167,11 +167,11 @@ export function useThemeClasses() {
 
   return {
     root: isDark ? 'dark' : 'light',
-    background: isDark ? 'bg-slate-900' : 'bg-gray-50',
-    foreground: isDark ? 'text-white' : 'text-gray-900',
-    card: isDark ? 'bg-slate-800' : 'bg-white',
-    cardBorder: isDark ? 'border-slate-700' : 'border-gray-200',
-    input: isDark ? 'bg-slate-700 border-slate-600 text-white' : 'bg-white border-gray-300 text-gray-900',
-    muted: isDark ? 'text-slate-400' : 'text-gray-600',
+    background: isDark ? 'bg-calm-bg-primary' : 'bg-calm-bg-primary',
+    foreground: isDark ? 'text-white' : 'text-calm-text-primary',
+    card: isDark ? 'bg-calm-bg-elevated' : 'bg-white',
+    cardBorder: isDark ? 'border-calm-warm-200' : 'border-calm-warm-100',
+    input: isDark ? 'bg-calm-bg-tertiary border-calm-warm-200 text-white' : 'bg-white border-calm-warm-200 text-calm-text-primary',
+    muted: isDark ? 'text-calm-text-muted' : 'text-calm-text-secondary',
   };
 }

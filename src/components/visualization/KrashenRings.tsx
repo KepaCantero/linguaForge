@@ -47,7 +47,7 @@ export const KRASHEN_ZONES: Record<string, KrashenZone> = {
     id: 'comfort',
     name: 'Zona de Confort (i)',
     description: 'Material que ya dominas',
-    color: '#22C55E', // Green 500
+    color: 'var(--accent-500)', // Green 500
     minLevel: 0,
     maxLevel: 60,
     recommendation: 'Repaso y mantenimiento',
@@ -56,7 +56,7 @@ export const KRASHEN_ZONES: Record<string, KrashenZone> = {
     id: 'learning',
     name: 'Zona de Aprendizaje (i+1)',
     description: 'Input comprensible óptimo',
-    color: '#6366F1', // Indigo 500
+    color: 'var(--sky-500)', // Indigo 500
     minLevel: 40,
     maxLevel: 80,
     recommendation: '¡Ideal para aprender!',
@@ -93,10 +93,10 @@ function getInputAppropriateness(currentLevel: number, inputLevel?: number): 'op
 
 function getInputBadgeColor(appropriateness: 'optimal' | 'good' | 'too-hard' | 'too-easy'): string {
   const colors = {
-    optimal: 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300',
-    good: 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300',
-    'too-hard': 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300',
-    'too-easy': 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300',
+    optimal: 'bg-accent-100 dark:bg-accent-900/30 text-accent-700 dark:text-accent-300',
+    good: 'bg-sky-100 dark:bg-sky-900/30 text-sky-700 dark:text-sky-300',
+    'too-hard': 'bg-semantic-error-bg dark:bg-semantic-error-bg text-semantic-error-text dark:text-semantic-error-text',
+    'too-easy': 'bg-calm-bg-secondary dark:bg-calm-bg-elevated text-calm-text-secondary dark:text-calm-text-tertiary',
   };
   return colors[appropriateness];
 }
@@ -120,12 +120,12 @@ function SvgDefinitions() {
   return (
     <defs>
       <linearGradient id="gradient-comfort" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#22C55E" stopOpacity="0.8" />
+        <stop offset="0%" stopColor="var(--accent-500)" stopOpacity="0.8" />
         <stop offset="100%" stopColor="#16A34A" stopOpacity="0.9" />
       </linearGradient>
       <linearGradient id="gradient-learning" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#6366F1" stopOpacity="0.8" />
-        <stop offset="100%" stopColor="#4F46E5" stopOpacity="0.9" />
+        <stop offset="0%" stopColor="var(--sky-500)" stopOpacity="0.8" />
+        <stop offset="100%" stopColor="var(--sky-600)" stopOpacity="0.9" />
       </linearGradient>
       <linearGradient id="gradient-challenge" x1="0%" y1="0%" x2="100%" y2="100%">
         <stop offset="0%" stopColor="#F59E0B" stopOpacity="0.8" />
@@ -232,7 +232,7 @@ interface InputLevelIndicatorProps {
 }
 
 function InputLevelIndicator({ inputLevel, appropriateness }: InputLevelIndicatorProps) {
-  const color = appropriateness === 'optimal' ? '#22C55E' : appropriateness === 'good' ? '#6366F1' : '#EF4444';
+  const color = appropriateness === 'optimal' ? 'var(--accent-500)' : appropriateness === 'good' ? 'var(--sky-500)' : '#EF4444';
 
   return (
     <g>
@@ -443,11 +443,11 @@ export function KrashenProgress({
   const currentZone = currentLevel < 50 ? 'comfort' : currentLevel < 80 ? 'learning' : 'challenge';
 
   return (
-    <div className={`relative h-4 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden ${className}`}>
+    <div className={`relative h-4 bg-calm-bg-tertiary dark:bg-calm-bg-tertiary rounded-full overflow-hidden ${className}`}>
       {/* Fondo con zonas marcadas */}
       <div className="absolute inset-0 flex">
-        <div className="w-1/2 bg-green-200 dark:bg-green-900/30" title="Zona de confort" />
-        <div className="w-1/3 bg-indigo-200 dark:bg-indigo-900/30" title="Zona de aprendizaje" />
+        <div className="w-1/2 bg-accent-200 dark:bg-accent-900/30" title="Zona de confort" />
+        <div className="w-1/3 bg-accent-200 dark:bg-accent-900/30" title="Zona de aprendizaje" />
         <div className="flex-1 bg-amber-200 dark:bg-amber-900/30" title="Zona de desafío" />
       </div>
 
@@ -466,8 +466,8 @@ export function KrashenProgress({
 
       {/* Marcadores de zona */}
       <div className="absolute inset-0 flex items-center">
-        <div className="w-1/2 border-r border-gray-400 dark:border-gray-600 h-full" />
-        <div className="w-1/3 border-r border-gray-400 dark:border-gray-600 h-full" />
+        <div className="w-1/2 border-r border-calm-warm-200 dark:border-calm-warm-200 h-full" />
+        <div className="w-1/3 border-r border-calm-warm-200 dark:border-calm-warm-200 h-full" />
       </div>
     </div>
   );

@@ -37,7 +37,7 @@ export function LinguaShard({
       <div className={`relative ${config.width} ${config.height}`}>
         {/* Outer Glow */}
         <motion.div
-          className="absolute inset-0 rounded-sm blur-xl bg-lf-primary/30"
+          className="absolute inset-0 rounded-sm blur-xl bg-accent-500/30"
           animate={{
             opacity: [0.3, 0.6, 0.3],
             scale: [1, 1.1, 1],
@@ -57,7 +57,7 @@ export function LinguaShard({
           transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
         >
           {/* Background gradient */}
-          <div className="absolute inset-0 bg-lf-dark" />
+          <div className="absolute inset-0 bg-calm-bg-tertiary" />
 
           {/* Fill based on resonance */}
           <motion.div
@@ -75,7 +75,7 @@ export function LinguaShard({
 
           {/* Inner glow */}
           <motion.div
-            className="absolute inset-0 bg-lf-accent/10"
+            className="absolute inset-0 bg-amber-500/10"
             animate={{ opacity: [0.1, 0.3, 0.1] }}
             transition={{ duration: 2, repeat: Infinity }}
           />
@@ -83,22 +83,22 @@ export function LinguaShard({
 
         {/* Border frame */}
         <div
-          className="absolute inset-0 border-2 border-lf-primary/60"
+          className="absolute inset-0 border-2 border-accent-500/60"
           style={{
             clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
           }}
         />
 
         {/* Corner accents */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2 h-2 bg-lf-accent rounded-full shadow-glow-accent" />
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2 h-2 bg-lf-accent rounded-full shadow-glow-accent" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2 h-2 bg-amber-500 rounded-full shadow-calm-md" />
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2 h-2 bg-amber-500 rounded-full shadow-calm-md" />
       </div>
 
       {/* Labels */}
       {showLabel && (
         <div className="mt-3 text-center">
           <motion.span
-            className="block font-rajdhani text-lf-accent text-xs tracking-[0.2em] uppercase"
+            className="block font-rajdhani text-amber-500 text-xs tracking-[0.2em] uppercase"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
@@ -114,7 +114,7 @@ export function LinguaShard({
             {clampedResonance}%
           </motion.span>
           <motion.p
-            className="font-atkinson text-lf-secondary/80 text-xs mt-1 uppercase tracking-wide"
+            className="font-atkinson text-calm-text-secondary/80 text-xs mt-1 uppercase tracking-wide"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}

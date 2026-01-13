@@ -37,7 +37,7 @@ export function ExerciseMenu({
         <h2 className="text-3xl font-bold text-white mb-2">
           Ejercicios
         </h2>
-        <p className="text-lf-muted">
+        <p className="text-calm-text-muted">
           Elige el tipo de ejercicio que quieres practicar
         </p>
       </motion.div>
@@ -55,17 +55,17 @@ export function ExerciseMenu({
           >
             {/* Hover glow effect */}
             <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-lf-primary/20 via-lf-secondary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
+              className="absolute inset-0 bg-gradient-to-r to-accent-500/20 via-sky-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
               initial={false}
             />
 
             {/* Content */}
-            <div className="relative flex items-center justify-between p-4 border-b border-lf-muted/20 hover:border-lf-primary/30 transition-all">
+            <div className="relative flex items-center justify-between p-4 border-b border-calm-warm-100/20 hover:border-accent-500/30 transition-all">
               <div className="flex items-center gap-4">
                 {/* Icon with animated background */}
                 <div className="relative">
                   <motion.div
-                    className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl bg-lf-primary/20"
+                    className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl bg-accent-500/20"
                     animate={{
                       scale: [1, 1.05, 1],
                     }}
@@ -84,11 +84,11 @@ export function ExerciseMenu({
                   <h3 className="font-semibold text-white">
                     {exercise.title}
                   </h3>
-                  <p className="text-sm text-lf-muted/70">
+                  <p className="text-sm text-calm-text-muted/70">
                     {exercise.description}
                   </p>
                   <div className="flex items-center gap-2 mt-1">
-                    <span className="text-xs text-lf-primary bg-lf-primary/10 px-2 py-0.5 rounded-md">
+                    <span className="text-xs text-calm-text-primary bg-accent-500/10 px-2 py-0.5 rounded-md">
                       {exercise.count} ejercicio{exercise.count !== 1 ? 's' : ''}
                     </span>
                   </div>
@@ -97,7 +97,7 @@ export function ExerciseMenu({
 
               {/* Arrow */}
               <motion.span
-                className="text-lf-muted/50 text-xl group-hover:text-lf-primary group-hover:translate-x-1 transition-all"
+                className="text-calm-text-muted/50 text-xl group-hover:text-calm-text-primary group-hover:translate-x-1 transition-all"
                 animate={{
                   x: [0, 4, 0],
                 }}

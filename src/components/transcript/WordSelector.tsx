@@ -28,14 +28,14 @@ function getWordButtonClassName(isSelected: boolean, isStudied: boolean): string
   const baseClasses = 'inline-block px-1 py-0.5 mx-0.5 rounded transition-all';
 
   if (isSelected) {
-    return `${baseClasses} bg-indigo-500 text-white font-medium`;
+    return `${baseClasses} bg-accent-500 text-white font-medium`;
   }
 
   if (isStudied) {
-    return `${baseClasses} text-gray-400 dark:text-gray-600 cursor-not-allowed`;
+    return `${baseClasses} text-calm-text-muted dark:text-calm-text-secondary cursor-not-allowed`;
   }
 
-  return `${baseClasses} hover:bg-indigo-100 dark:hover:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 cursor-pointer`;
+  return `${baseClasses} hover:bg-accent-100 dark:hover:bg-accent-900/30 text-accent-700 dark:text-accent-300 cursor-pointer`;
 }
 
 function getWordButtonTitle(isStudied: boolean, isSelected: boolean): string {
@@ -221,8 +221,8 @@ export function WordSelector({
   return (
     <div className="space-y-4">
       {/* Texto con palabras clickeables */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
-        <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+      <div className="bg-white dark:bg-calm-bg-elevated rounded-lg p-4 border border-calm-warm-100 dark:border-calm-warm-200">
+        <p className="text-sm text-calm-text-secondary dark:text-calm-text-tertiary leading-relaxed">
           {wordsWithContext.map((wordData, index) => {
             const normalized = wordData.normalized;
             const isSelected = selectedWords.has(normalized);
@@ -255,10 +255,10 @@ export function WordSelector({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 20 }}
-          className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700"
+          className="bg-white dark:bg-calm-bg-elevated rounded-lg p-4 border border-calm-warm-100 dark:border-calm-warm-200"
         >
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-sm font-semibold text-gray-900 dark:text-white">
+            <h3 className="text-sm font-semibold text-calm-text-primary dark:text-white">
               Palabras seleccionadas ({selectedWords.size})
             </h3>
             <button
@@ -266,7 +266,7 @@ export function WordSelector({
                 setSelectedWords(new Map());
                 setTranslations({});
               }}
-              className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
+              className="text-xs text-calm-text-muted dark:text-calm-text-muted hover:text-calm-text-secondary dark:hover:text-calm-text-tertiary"
             >
               Limpiar
             </button>
@@ -278,13 +278,13 @@ export function WordSelector({
                 key={word.normalized}
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
-                className="flex items-center gap-1 px-2 py-1 bg-indigo-50 dark:bg-indigo-900/30 rounded border border-indigo-200 dark:border-indigo-700"
+                className="flex items-center gap-1 px-2 py-1 bg-sky-50 dark:bg-accent-900/30 rounded border border-accent-200 dark:border-accent-700"
               >
-                <span className="text-xs font-medium text-indigo-900 dark:text-indigo-100">
+                <span className="text-xs font-medium text-accent-900 dark:text-accent-100">
                   {word.word}
                 </span>
                 {translations[word.normalized] && (
-                  <span className="text-xs text-indigo-600 dark:text-indigo-400">
+                  <span className="text-xs text-accent-600 dark:text-accent-400">
                     → {translations[word.normalized]}
                   </span>
                 )}
@@ -294,7 +294,7 @@ export function WordSelector({
                     newMap.delete(word.normalized);
                     setSelectedWords(newMap);
                   }}
-                  className="ml-1 text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-200"
+                  className="ml-1 text-accent-600 dark:text-accent-400 hover:text-accent-800 dark:hover:text-accent-200"
                 >
                   ×
                 </button>
@@ -305,7 +305,7 @@ export function WordSelector({
           <button
             onClick={handleCreateCards}
             disabled={isCreating}
-            className="w-full py-2 bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-300 dark:disabled:bg-gray-700 text-white disabled:text-gray-500 font-medium rounded-lg transition-colors"
+            className="w-full py-2 bg-accent-600 hover:bg-accent-700 disabled:bg-calm-warm-100 dark:disabled:bg-calm-bg-tertiary text-white disabled:text-calm-text-muted font-medium rounded-lg transition-colors"
           >
             {isCreating ? 'Creando...' : `Crear ${selectedWords.size} ${pluralizeCards(selectedWords.size)}`}
           </button>

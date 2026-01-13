@@ -42,8 +42,8 @@ export function ResponsePhase({
       className="space-y-4"
     >
       {previousStep?.type === 'system_speak' && (
-        <div className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-3 text-sm">
-          <span className="text-gray-500 dark:text-gray-400">
+        <div className="bg-calm-bg-primary dark:bg-calm-bg-elevated/50 rounded-lg p-3 text-sm">
+          <span className="text-calm-text-muted dark:text-calm-text-muted">
             👤 {previousStep.text}
           </span>
         </div>
@@ -64,7 +64,7 @@ export function ResponsePhase({
           <button
             onClick={onReplay}
             disabled={isPlaying}
-            className="text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+            className="text-sm text-calm-text-muted hover:text-calm-text-secondary dark:text-calm-text-muted dark:hover:text-calm-text-tertiary"
           >
             🔁 Escuchar de nuevo
           </button>
@@ -100,9 +100,9 @@ function ResponseCard({
   onRecordingStart,
 }: ResponseCardProps) {
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-aaa-xl p-5 shadow-md border-2 border-emerald-200 dark:border-emerald-800">
+    <div className="bg-white dark:bg-calm-bg-elevated rounded-2xl p-5 shadow-md border-2 border-accent-200 dark:border-emerald-800">
       <div className="text-center mb-4">
-        <span className="inline-flex items-center gap-1 px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 rounded-full text-sm text-emerald-700 dark:text-emerald-300 font-medium">
+        <span className="inline-flex items-center gap-1 px-3 py-1 bg-accent-100 dark:bg-accent-900/30 rounded-full text-sm text-accent-700 dark:text-accent-300 font-medium">
           🎤 {currentStep.type === 'closing' ? 'Cierra la conversación' : 'Tu respuesta'}
         </span>
       </div>
@@ -138,12 +138,12 @@ function HintSection({ getExpectedResponses }: HintSectionProps) {
     <motion.div
       initial={{ opacity: 0, height: 0 }}
       animate={{ opacity: 1, height: 'auto' }}
-      className="mb-4 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg"
+      className="mb-4 p-3 bg-sky-50 dark:bg-sky-900/20 rounded-lg"
     >
-      <p className="text-sm font-medium text-blue-800 dark:text-blue-300 mb-2">
+      <p className="text-sm font-medium text-sky-800 dark:text-sky-300 mb-2">
         💡 ¿Necesitas ayuda? Puedes decir:
       </p>
-      <ul className="text-sm text-blue-700 dark:text-blue-200 space-y-1">
+      <ul className="text-sm text-sky-700 dark:text-sky-200 space-y-1">
         {getExpectedResponses().slice(0, 2).map((resp, i) => (
           <li key={`hint-response-${i}`}>• {resp}</li>
         ))}

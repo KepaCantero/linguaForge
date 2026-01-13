@@ -118,23 +118,23 @@ export function SwipeableSRSCard({
         {/* Indicador de swipe derecho (Good/Easy) */}
         <motion.div
           style={{ opacity: rightArrowOpacity }}
-          className="absolute right-4 top-1/2 -translate-y-1/2 bg-green-500/20 backdrop-blur-sm rounded-full p-4 border-2 border-green-500/50"
+          className="absolute right-4 top-1/2 -translate-y-1/2 bg-accent-500/20 backdrop-blur-sm rounded-full p-4 border-2 border-accent-500/50"
         >
-          <svg className="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-8 h-8 text-accent-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
-          <span className="text-xs text-green-300 mt-1">Good</span>
+          <span className="text-xs text-accent-300 mt-1">Good</span>
         </motion.div>
 
         {/* Indicador de swipe izquierdo (Again/Hard) */}
         <motion.div
           style={{ opacity: leftArrowOpacity }}
-          className="absolute left-4 top-1/2 -translate-y-1/2 bg-red-500/20 backdrop-blur-sm rounded-full p-4 border-2 border-red-500/50"
+          className="absolute left-4 top-1/2 -translate-y-1/2 bg-semantic-error/20 backdrop-blur-sm rounded-full p-4 border-2 border-semantic-error/50"
         >
-          <svg className="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-8 h-8 text-semantic-error" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
-          <span className="text-xs text-red-300 mt-1">Again</span>
+          <span className="text-xs text-semantic-error-text mt-1">Again</span>
         </motion.div>
 
         {/* Overlay de dirección durante swipe */}
@@ -143,7 +143,7 @@ export function SwipeableSRSCard({
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.2 }}
             className={`absolute inset-0 ${
-              direction === 'right' ? 'bg-green-500' : 'bg-red-500'
+              direction === 'right' ? 'bg-accent-500' : 'bg-semantic-error'
             } -z-10`}
           />
         )}
@@ -267,9 +267,9 @@ export function TrinarySwipeCard({
         {/* Indicador de skip (swipe up) */}
         <motion.div
           style={{ opacity: useTransform(y, [-50, 0], [1, 0]) }}
-          className="absolute top-4 left-1/2 -translate-x-1/2 bg-blue-500/20 backdrop-blur-sm rounded-full px-4 py-2 border-2 border-blue-500/50"
+          className="absolute top-4 left-1/2 -translate-x-1/2 bg-sky-500/20 backdrop-blur-sm rounded-full px-4 py-2 border-2 border-sky-500/50"
         >
-          <span className="text-xs text-blue-300">↑ Skip</span>
+          <span className="text-xs text-sky-300">↑ Skip</span>
         </motion.div>
       </motion.div>
     </div>

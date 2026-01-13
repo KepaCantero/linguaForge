@@ -11,8 +11,8 @@ interface TopicCardMetadataProps {
 
 export function TopicCardMetadata({ topic }: TopicCardMetadataProps) {
   return (
-    <div className="flex items-center gap-3 text-xs text-lf-muted/60">
-      <span className="px-2 py-0.5 rounded-md bg-lf-muted/30">
+    <div className="flex items-center gap-3 text-xs text-calm-text-muted/60">
+      <span className="px-2 py-0.5 rounded-md bg-calm-bg-tertiary/30">
         {topic.level}
       </span>
       {topic.metadata?.phrases && (

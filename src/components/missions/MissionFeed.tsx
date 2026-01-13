@@ -130,10 +130,10 @@ export function MissionFeed({
 
   // Obtener color de carga cognitiva
   const getLoadColor = (load: number) => {
-    if (load <= 30) return 'bg-green-500';
-    if (load <= 50) return 'bg-blue-500';
+    if (load <= 30) return 'bg-accent-500';
+    if (load <= 50) return 'bg-sky-500';
     if (load <= 70) return 'bg-amber-500';
-    return 'bg-red-500';
+    return 'bg-semantic-error';
   };
 
   // Obtener icono de tipo de misión
@@ -152,19 +152,19 @@ export function MissionFeed({
   const getDifficultyColor = (difficulty?: 'low' | 'medium' | 'high') => {
     switch (difficulty) {
       case 'low':
-        return 'text-green-400';
+        return 'text-accent-400';
       case 'medium':
         return 'text-amber-400';
       case 'high':
-        return 'text-red-400';
+        return 'text-semantic-error';
       default:
-        return 'text-gray-400';
+        return 'text-calm-text-muted';
     }
   };
 
   if (dailyMissions.length === 0) {
     return (
-      <div className="p-6 text-center text-gray-500">
+      <div className="p-6 text-center text-calm-text-muted">
         <p>No hay misiones disponibles.</p>
         <p className="text-sm mt-2">Las misiones se generan cada día.</p>
       </div>
@@ -191,10 +191,10 @@ export function MissionFeed({
 
       <div className={`space-y-4 ${compact ? 'space-y-2' : ''}`}>
       {/* Header con estadísticas */}
-      <div className="flex items-center justify-between px-4 py-3 bg-gray-900/50 rounded-xl">
+      <div className="flex items-center justify-between px-4 py-3 bg-calm-bg-primary/50 rounded-xl">
         <div>
           <h3 className="text-lg font-semibold text-white">Misiones del Día</h3>
-          <p className="text-sm text-gray-400">
+          <p className="text-sm text-calm-text-muted">
             {stats.completed}/{stats.total} completadas
           </p>
         </div>
@@ -203,7 +203,7 @@ export function MissionFeed({
             {stats.earnedXP}/{stats.totalXP} XP
           </p>
           {stats.estimatedMinutes > 0 && (
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-calm-text-muted">
               ~{stats.estimatedMinutes} min restantes
             </p>
           )}
@@ -217,12 +217,12 @@ export function MissionFeed({
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="p-4 bg-indigo-900/30 border border-indigo-500/30 rounded-xl"
+            className="p-4 bg-accent-900/30 border border-accent-500/30 rounded-xl"
           >
-            <p className="text-indigo-300 text-sm">
+            <p className="text-accent-300 text-sm">
               💡 {breakSuggestion.reason}
             </p>
-            <p className="text-indigo-400 text-xs mt-1">
+            <p className="text-accent-400 text-xs mt-1">
               Recomendación: {breakSuggestion.recommendedMinutes} min de descanso
             </p>
           </motion.div>
@@ -306,10 +306,10 @@ function MissionCard({
   const getCardStyles = (): string => {
     const baseStyles = 'relative overflow-hidden rounded-xl transition-all duration-300 ';
     const stateStyles = isComplete
-      ? 'bg-green-900/20 border border-green-500/30'
+      ? 'bg-accent-900/20 border border-accent-500/30'
       : isExpanded
-      ? 'bg-gray-800/80 border border-indigo-500/50 shadow-lg shadow-indigo-500/10'
-      : 'bg-gray-800/50 border border-gray-700/50 hover:border-gray-600';
+      ? 'bg-calm-bg-elevated/80 border border-accent-500/50 shadow-lg shadow-accent-500/10'
+      : 'bg-calm-bg-elevated/50 border border-calm-warm-200/50 hover:border-calm-warm-200';
     const padding = compact ? 'p-3' : 'p-4';
     return `${baseStyles}${stateStyles} ${padding}`;
   };
@@ -324,7 +324,7 @@ function MissionCard({
     >
       {/* Barra de progreso de fondo */}
       <div
-        className={`absolute inset-0 ${isComplete ? 'bg-green-500/10' : 'bg-indigo-500/5'}`}
+        className={`absolute inset-0 ${isComplete ? 'bg-accent-500/10' : 'bg-accent-500/5'}`}
         style={{ width: `${progress}%` }}
       />
 
@@ -336,12 +336,12 @@ function MissionCard({
             <div>
               <h4
                 className={`font-medium ${
-                  isComplete ? 'text-green-400 line-through' : 'text-white'
+                  isComplete ? 'text-accent-400 line-through' : 'text-white'
                 }`}
               >
                 {mission.title}
               </h4>
-              <p className="text-sm text-gray-400">{mission.description}</p>
+              <p className="text-sm text-calm-text-muted">{mission.description}</p>
             </div>
           </div>
 
@@ -350,7 +350,7 @@ function MissionCard({
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
-              className="flex-shrink-0 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center"
+              className="flex-shrink-0 w-8 h-8 bg-accent-500 rounded-full flex items-center justify-center"
             >
               <span className="text-white text-lg">✓</span>
             </motion.div>
@@ -388,15 +388,15 @@ interface MissionProgressBarProps {
 function MissionProgressBar({ progress, isComplete, mission }: MissionProgressBarProps) {
   return (
     <div className="mt-3 flex items-center gap-3">
-      <div className="flex-1 h-2 bg-gray-700 rounded-full overflow-hidden">
+      <div className="flex-1 h-2 bg-calm-bg-tertiary rounded-full overflow-hidden">
         <motion.div
-          className={`h-full ${isComplete ? 'bg-green-500' : 'bg-indigo-500'}`}
+          className={`h-full ${isComplete ? 'bg-accent-500' : 'bg-accent-500'}`}
           initial={{ width: 0 }}
           animate={{ width: `${progress}%` }}
           transition={{ duration: 0.5, ease: 'easeOut' }}
         />
       </div>
-      <span className="text-sm text-gray-400 min-w-[60px] text-right">
+      <span className="text-sm text-calm-text-muted min-w-[60px] text-right">
         {mission.current}/{mission.target}
       </span>
     </div>
@@ -426,7 +426,7 @@ function MissionExpandedDetails({
       initial={{ opacity: 0, height: 0 }}
       animate={{ opacity: 1, height: 'auto' }}
       exit={{ opacity: 0, height: 0 }}
-      className="mt-4 pt-4 border-t border-gray-700/50"
+      className="mt-4 pt-4 border-t border-calm-warm-200/50"
     >
       <div className="flex flex-wrap gap-4 text-sm">
         {/* Recompensa */}
@@ -437,7 +437,7 @@ function MissionExpandedDetails({
 
         {/* Tiempo estimado */}
         {mission.estimatedMinutes && (
-          <div className="text-gray-400">⏱️ ~{mission.estimatedMinutes} min</div>
+          <div className="text-calm-text-muted">⏱️ ~{mission.estimatedMinutes} min</div>
         )}
       </div>
 
@@ -465,8 +465,8 @@ function MissionRewards({ reward }: MissionRewardsProps) {
   return (
     <div className="flex items-center gap-2">
       <span className="text-amber-400">+{reward.xp} XP</span>
-      <span className="text-yellow-400">+{reward.coins} 🪙</span>
-      {reward.gems && <span className="text-purple-400">+{reward.gems} 💎</span>}
+      <span className="text-amber-400">+{reward.coins} 🪙</span>
+      {reward.gems && <span className="text-sky-400">+{reward.gems} 💎</span>}
     </div>
   );
 }
@@ -496,11 +496,11 @@ interface MissionCognitiveLoadProps {
 function MissionCognitiveLoad({ cognitiveLoadTarget, getLoadColor }: MissionCognitiveLoadProps) {
   return (
     <div className="mt-3">
-      <div className="flex items-center justify-between text-xs text-gray-500 mb-1">
+      <div className="flex items-center justify-between text-xs text-calm-text-muted mb-1">
         <span>Carga Cognitiva</span>
         <span>{cognitiveLoadTarget}%</span>
       </div>
-      <div className="h-1.5 bg-gray-700 rounded-full overflow-hidden">
+      <div className="h-1.5 bg-calm-bg-tertiary rounded-full overflow-hidden">
         <div
           className={`h-full ${getLoadColor(cognitiveLoadTarget)}`}
           style={{ width: `${cognitiveLoadTarget}%` }}
@@ -533,14 +533,14 @@ function MissionActionButtons({ hasWarmup, onWarmup, onStartDirect }: MissionAct
       {hasWarmup && (
         <button
           onClick={handleWarmupClick}
-          className="flex-1 py-2 px-4 bg-indigo-600/30 hover:bg-indigo-600/50 text-indigo-300 rounded-lg text-sm font-medium transition-colors"
+          className="flex-1 py-2 px-4 bg-accent-600/30 hover:bg-accent-600/50 text-accent-300 rounded-lg text-sm font-medium transition-colors"
         >
           🧠 Con Calentamiento
         </button>
       )}
       <button
         onClick={handleStartDirectClick}
-        className="flex-1 py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-medium transition-colors"
+        className="flex-1 py-2 px-4 bg-accent-600 hover:bg-accent-700 text-white rounded-lg text-sm font-medium transition-colors"
       >
         ▶️ Comenzar Directo
       </button>

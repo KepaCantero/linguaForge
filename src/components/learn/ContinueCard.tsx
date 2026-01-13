@@ -88,24 +88,24 @@ export function ContinueCard({ className = '' }: ContinueCardProps) {
         exit={prefersReduced ? { opacity: 0 } : { opacity: 0, y: -20 }}
         transition={{ duration: 0.3 }}
         className={`
-          bg-gradient-to-r from-lf-primary/20 via-lf-secondary/10 to-lf-primary/20
-          rounded-2xl p-4 border border-lf-primary/30
+          bg-gradient-to-r to-accent-500/20 via-sky-500/10 to-accent-500/20
+          rounded-2xl p-4 border border-accent-500/30
           ${className}
         `}
       >
         <div className="flex items-start gap-4">
           {/* Icon */}
-          <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-lf-primary/20 flex items-center justify-center text-2xl">
+          <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-accent-500/20 flex items-center justify-center text-2xl">
             {icon}
           </div>
 
           {/* Content */}
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-1">
-              <span className="text-xs text-lf-accent font-medium uppercase tracking-wide">
+              <span className="text-xs text-amber-500 font-medium uppercase tracking-wide">
                 Continuar
               </span>
-              <span className="text-xs text-lf-muted">
+              <span className="text-xs text-calm-text-muted">
                 {timeAgo}
               </span>
             </div>
@@ -116,7 +116,7 @@ export function ContinueCard({ className = '' }: ContinueCardProps) {
 
             {/* Progress info */}
             {lastSession.totalExercises && (
-              <p className="text-sm text-lf-muted">
+              <p className="text-sm text-calm-text-muted">
                 {lastSession.exerciseIndex} de {lastSession.totalExercises} completados
               </p>
             )}
@@ -126,8 +126,8 @@ export function ContinueCard({ className = '' }: ContinueCardProps) {
           <div className="flex-shrink-0 flex items-center gap-2">
             <button
               onClick={handleDismiss}
-              className="p-2 text-lf-muted hover:text-white transition-colors rounded-lg
-                         hover:bg-white/5 focus:outline-none focus:ring-2 focus:ring-lf-primary/50"
+              className="p-2 text-calm-text-muted hover:text-white transition-colors rounded-lg
+                         hover:bg-white/5 focus:outline-none focus:ring-2 focus:ring-accent-500/50"
               aria-label="Descartar sesión"
             >
               <svg
@@ -147,9 +147,9 @@ export function ContinueCard({ className = '' }: ContinueCardProps) {
 
             <motion.button
               onClick={handleContinue}
-              className="px-4 py-2 bg-lf-primary hover:bg-lf-primary/80
+              className="px-4 py-2 bg-accent-500 hover:bg-accent-500/80
                          text-white font-medium rounded-xl transition-colors
-                         focus:outline-none focus:ring-2 focus:ring-lf-primary/50
+                         focus:outline-none focus:ring-2 focus:ring-accent-500/50
                          flex items-center gap-2"
               whileHover={prefersReduced ? {} : { scale: 1.02 }}
               whileTap={prefersReduced ? {} : { scale: 0.98 }}
@@ -174,17 +174,17 @@ export function ContinueCard({ className = '' }: ContinueCardProps) {
 
         {/* Progress bar */}
         <div className="mt-3">
-          <div className="h-1.5 bg-lf-dark/50 rounded-full overflow-hidden">
+          <div className="h-1.5 bg-calm-bg-tertiary/50 rounded-full overflow-hidden">
             <motion.div
-              className="h-full bg-gradient-to-r from-lf-primary to-lf-accent"
+              className="h-full bg-gradient-to-r to-accent-500 to-amber-500"
               initial={{ width: 0 }}
               animate={{ width: `${lastSession.progress}%` }}
               transition={{ duration: 0.5, delay: 0.2 }}
             />
           </div>
           <div className="flex justify-between mt-1">
-            <span className="text-xs text-lf-muted">Progreso</span>
-            <span className="text-xs text-lf-accent font-medium">
+            <span className="text-xs text-calm-text-muted">Progreso</span>
+            <span className="text-xs text-amber-500 font-medium">
               {lastSession.progress}%
             </span>
           </div>
@@ -219,10 +219,10 @@ export function ContinueCardCompact({ className = '' }: ContinueCardProps) {
       initial={prefersReduced ? { opacity: 0 } : { opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       className={`
-        w-full p-3 bg-lf-primary/10 hover:bg-lf-primary/20
-        rounded-xl border border-lf-primary/20
+        w-full p-3 bg-accent-500/10 hover:bg-accent-500/20
+        rounded-xl border border-accent-500/20
         flex items-center gap-3 text-left transition-colors
-        focus:outline-none focus:ring-2 focus:ring-lf-primary/50
+        focus:outline-none focus:ring-2 focus:ring-accent-500/50
         ${className}
       `}
     >
@@ -232,17 +232,17 @@ export function ContinueCardCompact({ className = '' }: ContinueCardProps) {
           Continuar: {lastSession.title || SESSION_LABELS[lastSession.type]}
         </p>
         <div className="flex items-center gap-2">
-          <div className="flex-1 h-1 bg-lf-dark/50 rounded-full overflow-hidden">
+          <div className="flex-1 h-1 bg-calm-bg-tertiary/50 rounded-full overflow-hidden">
             <div
-              className="h-full bg-lf-primary"
+              className="h-full bg-accent-500"
               style={{ width: `${lastSession.progress}%` }}
             />
           </div>
-          <span className="text-xs text-lf-muted">{lastSession.progress}%</span>
+          <span className="text-xs text-calm-text-muted">{lastSession.progress}%</span>
         </div>
       </div>
       <svg
-        className="w-5 h-5 text-lf-primary"
+        className="w-5 h-5 text-calm-text-primary"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"

@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { GRADIENTS, COLORS } from '@/constants/colors';
 
 type LessonMode = 'academia' | 'desafio';
 
@@ -29,9 +30,9 @@ const PRACTICE_MODES: Record<LessonMode, PracticeMode> = {
     subtitle: 'Modo de entrenamiento',
     icon: '📚',
     badge: 'Recomendado',
-    badgeColor: 'radial-gradient(circle at 30% 30%, #22C55E, #16A34A)',
-    gradient: 'radial-gradient(circle at 30% 30%, #22C55E, #16A34A)',
-    glowColor: 'rgba(34, 197, 94, 0.4)',
+    badgeColor: GRADIENTS.accent.primary,
+    gradient: GRADIENTS.accent.primary,
+    glowColor: COLORS.accent[40],
     features: [
       { icon: '✓', text: 'Sin límite de tiempo' },
       { icon: '✓', text: 'Con pistas y explicaciones' },
@@ -47,9 +48,9 @@ const PRACTICE_MODES: Record<LessonMode, PracticeMode> = {
     subtitle: 'Modo competitivo',
     icon: '⚡',
     badge: 'Difícil',
-    badgeColor: 'radial-gradient(circle at 30% 30%, #A855F7, #9333EA)',
-    gradient: 'radial-gradient(circle at 30% 30%, #A855F7, #9333EA)',
-    glowColor: 'rgba(168, 85, 247, 0.4)',
+    badgeColor: GRADIENTS.sky.primary,
+    gradient: GRADIENTS.sky.primary,
+    glowColor: COLORS.sky[40],
     features: [
       { icon: '⏱️', text: 'Límite de tiempo: 15 minutos' },
       { icon: '🚫', text: 'Sin pistas ni explicaciones' },
@@ -80,16 +81,16 @@ export function ModeCard({ mode, onSelect, shouldAnimate }: ModeCardProps) {
   const delay = isAcademia ? 0.2 : 0.4;
   const glowDelay = isAcademia ? 0 : 1.5;
   const iconDelay = isAcademia ? 0 : 2;
-  const focusColor = isAcademia ? 'focus:ring-green-500' : 'focus:ring-purple-500';
-  const borderColor = isAcademia ? 'rgba(34, 197, 94, 0.3)' : 'rgba(168, 85, 247, 0.3)';
-  const backgroundColor = isAcademia ? 'rgba(34, 197, 94, 0.1)' : 'rgba(168, 85, 247, 0.1)';
-  const titleColor = isAcademia ? 'text-green-400' : 'text-purple-400';
-  const featureColor = isAcademia ? 'text-green-400' : 'text-purple-400';
+  const focusColor = isAcademia ? 'focus:ring-accent-500' : 'focus:ring-sky-500';
+  const borderColor = isAcademia ? COLORS.accent[30] : COLORS.sky[30];
+  const backgroundColor = isAcademia ? COLORS.accent[10] : COLORS.sky[10];
+  const titleColor = isAcademia ? 'text-accent-400' : 'text-sky-400';
+  const featureColor = isAcademia ? 'text-accent-400' : 'text-sky-400';
 
   return (
     <motion.button
       onClick={() => onSelect(id)}
-      className={`relative w-full focus:outline-none focus:ring-4 ${focusColor} focus:ring-offset-2 focus:ring-offset-lf-dark rounded-2xl`}
+      className={`relative w-full focus:outline-none focus:ring-4 ${focusColor} focus:ring-offset-2 focus:ring-offset-calm-bg-tertiary rounded-2xl`}
       style={{ willChange: shouldAnimate ? 'transform' : 'auto' }}
       whileHover={shouldAnimate ? { scale: 1.02 } : {}}
       whileTap={shouldAnimate ? { scale: 0.98 } : {}}
@@ -143,11 +144,11 @@ export function ModeCard({ mode, onSelect, shouldAnimate }: ModeCardProps) {
             <div>
               <h3
                 className={`text-xl font-bold ${titleColor}`}
-                style={{ textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}
+                style={{ textShadow: COLORS.effects.textShadowMd }}
               >
                 {title}
               </h3>
-              <p className="text-sm text-lf-muted">{subtitle}</p>
+              <p className="text-sm text-calm-text-muted">{subtitle}</p>
             </div>
           </div>
           <span
@@ -155,7 +156,7 @@ export function ModeCard({ mode, onSelect, shouldAnimate }: ModeCardProps) {
             style={{
               background: badgeColor,
               color: 'white',
-              textShadow: '0 1px 2px rgba(0,0,0,0.3)',
+              textShadow: `0 1px 2px ${COLORS.black[30]}`,
             }}
           >
             {badge}
@@ -166,8 +167,8 @@ export function ModeCard({ mode, onSelect, shouldAnimate }: ModeCardProps) {
           {features.map((feature, index) => (
             <motion.div
               key={`${feature.icon}-${feature.text}`}
-              className="flex items-center gap-3 text-sm text-gray-300"
-              style={{ textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}
+              className="flex items-center gap-3 text-sm text-calm-text-tertiary"
+              style={{ textShadow: COLORS.effects.textShadowSm }}
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: delay + index * 0.05 }}

@@ -85,7 +85,7 @@ export function GamificationFeedback() {
       case "xp":
         return {
           emoji: "⭐",
-          color: "from-amber-500 to-yellow-500",
+          color: "from-amber-500 to-amber-500",
           bgColor: "bg-amber-500/10",
           borderColor: "border-amber-500/30",
           textColor: "text-amber-400",
@@ -93,42 +93,42 @@ export function GamificationFeedback() {
       case "coins":
         return {
           emoji: "◈",
-          color: "from-yellow-600 to-yellow-400",
-          bgColor: "bg-yellow-500/10",
-          borderColor: "border-yellow-500/30",
-          textColor: "text-yellow-400",
+          color: "from-amber-600 to-amber-400",
+          bgColor: "bg-amber-500/10",
+          borderColor: "border-amber-500/30",
+          textColor: "text-amber-400",
         };
       case "gems":
         return {
           emoji: "⬡",
-          color: "from-purple-500 to-pink-500",
-          bgColor: "bg-purple-500/10",
-          borderColor: "border-purple-500/30",
-          textColor: "text-purple-400",
+          color: "from-sky-500 to-sky-500",
+          bgColor: "bg-sky-500/10",
+          borderColor: "border-sky-500/30",
+          textColor: "text-sky-400",
         };
       case "level":
         return {
           emoji: "🎉",
-          color: "from-green-500 to-emerald-500",
-          bgColor: "bg-green-500/10",
-          borderColor: "border-green-500/30",
-          textColor: "text-green-400",
+          color: "from-accent-500 to-accent-500",
+          bgColor: "bg-accent-500/10",
+          borderColor: "border-accent-500/30",
+          textColor: "text-accent-400",
         };
       case "material":
         return {
           emoji: "🧱",
-          color: "from-blue-500 to-cyan-500",
-          bgColor: "bg-blue-500/10",
-          borderColor: "border-blue-500/30",
-          textColor: "text-blue-400",
+          color: "from-sky-500 to-sky-500",
+          bgColor: "bg-sky-500/10",
+          borderColor: "border-sky-500/30",
+          textColor: "text-sky-400",
         };
       default:
         return {
           emoji: "✨",
-          color: "from-gray-500 to-gray-400",
-          bgColor: "bg-gray-500/10",
-          borderColor: "border-gray-500/30",
-          textColor: "text-gray-400",
+          color: "from-calm-text-tertiary to-calm-warm-400",
+          bgColor: "bg-calm-bg-primary0/10",
+          borderColor: "border-calm-warm-300/30",
+          textColor: "text-calm-text-muted",
         };
     }
   };
@@ -174,7 +174,7 @@ export function GamificationFeedback() {
                       : `+${feedback.amount}`}
                   </div>
                   {feedback.subtitle && (
-                    <div className="text-xs text-gray-400">{feedback.subtitle}</div>
+                    <div className="text-xs text-calm-text-muted">{feedback.subtitle}</div>
                   )}
                 </div>
 

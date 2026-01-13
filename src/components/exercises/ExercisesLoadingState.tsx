@@ -4,8 +4,8 @@
  */
 export function ExercisesLoadingState() {
   return (
-    <div className="min-h-screen bg-lf-dark flex items-center justify-center">
-      <div className="animate-spin rounded-full h-12 w-12 border-4 border-lf-primary border-t-transparent" />
+    <div className="min-h-screen bg-calm-bg-tertiary flex items-center justify-center">
+      <div className="animate-spin rounded-full h-12 w-12 border-4 border-accent-500 border-t-transparent" />
     </div>
   );
 }

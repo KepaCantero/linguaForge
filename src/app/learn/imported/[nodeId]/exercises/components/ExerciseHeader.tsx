@@ -49,10 +49,10 @@ interface ExerciseHeaderProps {
  */
 function getLoadStatusColors(status: 'low' | 'optimal' | 'high' | 'overload') {
   const colorMap = {
-    overload: { bg: 'bg-red-500', text: 'text-red-500', barBg: 'bg-red-500' },
-    high: { bg: 'bg-yellow-500', text: 'text-yellow-500', barBg: 'bg-yellow-500' },
-    optimal: { bg: 'bg-green-500', text: 'text-green-500', barBg: 'bg-green-500' },
-    low: { bg: 'bg-blue-500', text: 'text-blue-500', barBg: 'bg-blue-500' },
+    overload: { bg: 'bg-semantic-error', text: 'text-semantic-error', barBg: 'bg-semantic-error' },
+    high: { bg: 'bg-amber-500', text: 'text-amber-500', barBg: 'bg-amber-500' },
+    optimal: { bg: 'bg-accent-500', text: 'text-accent-500', barBg: 'bg-accent-500' },
+    low: { bg: 'bg-sky-500', text: 'text-sky-500', barBg: 'bg-sky-500' },
   };
   return colorMap[status];
 }
@@ -85,10 +85,10 @@ export function ExerciseHeader({
     <>
       {/* Exercise controls bar - sin header duplicado */}
       <div className="relative z-10 mb-4">
-        <div className="relative overflow-hidden rounded-aaa-xl bg-glass-surface backdrop-blur-aaa border border-white/20 shadow-glass-xl">
+        <div className="relative overflow-hidden rounded-2xl bg-calm-bg-secondary backdrop-blur-md border border-calm-warm-100/20 shadow-calm-lg">
           {/* Animated gradient background */}
           <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-lf-primary/10 via-lf-secondary/10 to-lf-accent/10"
+            className="absolute inset-0 bg-gradient-to-r from-accent-500/10 via-sky-500/10 to-amber-500/10"
             animate={{
               opacity: [0.2, 0.4, 0.2],
             }}
@@ -105,7 +105,7 @@ export function ExerciseHeader({
               <div className="flex items-center gap-3">
                 <motion.button
                   onClick={onBack}
-                  className="p-2 rounded-lg bg-lf-dark/30 border border-white/10 text-lf-muted hover:text-white hover:bg-lf-dark/50 transition-all"
+                  className="p-2 rounded-lg bg-calm-bg-tertiary/30 border border-calm-warm-100/10 text-calm-text-muted hover:text-calm-text-primary hover:bg-calm-bg-tertiary/50 transition-all"
                   whileHover={{ scale: 1.05, x: -2 }}
                   whileTap={{ scale: 0.95 }}
                   title="Volver"
@@ -115,17 +115,17 @@ export function ExerciseHeader({
 
                 <div>
                   <div className="flex items-center gap-2">
-                    <h2 className="font-bold text-white text-sm">Ejercicio</h2>
+                    <h2 className="font-bold text-calm-text-primary text-sm">Ejercicio</h2>
                     <span className={`text-xs px-2 py-0.5 rounded-full font-semibold ${
                       mode === 'academia'
-                        ? 'bg-lf-success/20 border-lf-success/30 text-lf-success'
-                        : 'bg-lf-secondary/20 border-lf-secondary/30 text-lf-secondary'
+                        ? 'bg-accent-500/20 border-accent-500/30 text-accent-500'
+                        : 'bg-sky-500/20 border-sky-500/30 text-calm-text-secondary'
                     }`}>
                       {mode === 'academia' ? '📚 Academia' : '⚡ Desafío'}
                     </span>
                   </div>
                   {selectedExerciseType && exerciseData && (
-                    <div className="text-xs text-lf-muted mt-0.5">
+                    <div className="text-xs text-calm-text-muted mt-0.5">
                       Ejercicio {exerciseIndices[selectedExerciseType] + 1} de {exerciseData[selectedExerciseType]?.length || 0}
                     </div>
                   )}
@@ -138,7 +138,7 @@ export function ExerciseHeader({
                 {onStartWarmup && (
                   <motion.button
                     onClick={onStartWarmup}
-                    className="p-2.5 rounded-aaa-xl bg-amber-500/20 border border-amber-500/30 text-amber-400 transition-all"
+                    className="p-2.5 rounded-2xl bg-amber-500/20 border border-amber-500/30 text-amber-400 transition-all"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     title="Calentamiento Mental"
@@ -150,10 +150,10 @@ export function ExerciseHeader({
                 {/* Mode Toggle button */}
                 <motion.button
                   onClick={handleModeToggle}
-                  className={`p-2.5 rounded-aaa-xl border transition-all ${
+                  className={`p-2.5 rounded-2xl border transition-all ${
                     mode === 'academia'
-                      ? 'bg-green-500/20 border-green-500/30 text-green-400'
-                      : 'bg-purple-500/20 border-purple-500/30 text-purple-400'
+                      ? 'bg-accent-500/20 border-accent-500/30 text-accent-400'
+                      : 'bg-sky-500/20 border-sky-500/30 text-sky-400'
                   }`}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -165,10 +165,10 @@ export function ExerciseHeader({
                 {/* Focus Mode button */}
                 <motion.button
                   onClick={() => setFocusModeActive(!focusModeActive)}
-                  className={`p-2.5 rounded-aaa-xl border transition-all ${
+                  className={`p-2.5 rounded-2xl border transition-all ${
                     focusModeActive
-                      ? 'bg-lf-primary border-lf-primary text-white shadow-glow-accent'
-                      : 'bg-lf-dark/30 border-white/10 text-lf-muted hover:text-white hover:bg-lf-dark/50'
+                      ? 'bg-accent-500 border-accent-500 text-calm-text-primary shadow-calm-md'
+                      : 'bg-calm-bg-tertiary/30 border-calm-warm-100/10 text-calm-text-muted hover:text-calm-text-primary hover:bg-calm-bg-tertiary/50'
                   }`}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -180,7 +180,7 @@ export function ExerciseHeader({
                 {/* Session Summary button */}
                 <motion.button
                   onClick={() => setShowSessionSummary(true)}
-                  className="p-2.5 rounded-aaa-xl bg-lf-dark/30 border border-white/10 text-lf-muted hover:text-white hover:bg-lf-dark/50 transition-all"
+                  className="p-2.5 rounded-2xl bg-calm-bg-tertiary/30 border border-calm-warm-100/10 text-calm-text-muted hover:text-calm-text-primary hover:bg-calm-bg-tertiary/50 transition-all"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   title="Ver resumen de sesión"
@@ -192,8 +192,8 @@ export function ExerciseHeader({
 
             {/* Cognitive load indicator */}
             <div className="flex items-center gap-2 text-xs">
-              <span className="text-lf-muted font-medium">Carga cognitiva:</span>
-              <div className="flex-1 h-2 bg-lf-dark/50 rounded-full overflow-hidden shadow-inner">
+              <span className="text-calm-text-muted font-medium">Carga cognitiva:</span>
+              <div className="flex-1 h-2 bg-calm-bg-tertiary/50 rounded-full overflow-hidden shadow-inner">
                 <motion.div
                   className={`h-full rounded-full ${loadColors.barBg}`}
                   initial={{ width: 0 }}

@@ -65,7 +65,7 @@ export const BRAIN_ZONES: Record<BrainZoneId, BrainZone> = {
     id: 'prefrontal',
     name: 'Corteza Prefrontal',
     description: 'Planificación y memoria de trabajo',
-    color: '#6366F1', // Indigo 500
+    color: 'var(--sky-500)', // Indigo 500
     defaultPosition: { x: 50, y: 25 },
     functions: ['Planificación', 'Toma de decisiones', 'Memoria de trabajo', 'Atención ejecutiva'],
     relatedSkills: ['gramática', 'construcción de frases', 'estrategia'],
@@ -74,7 +74,7 @@ export const BRAIN_ZONES: Record<BrainZoneId, BrainZone> = {
     id: 'temporal',
     name: 'Lóbulo Temporal',
     description: 'Procesamiento auditivo y memoria',
-    color: '#22C55E', // Green 500
+    color: 'var(--accent-500)', // Green 500
     defaultPosition: { x: 75, y: 50 },
     functions: ['Procesamiento auditivo', 'Comprensión verbal', 'Memoria declarativa'],
     relatedSkills: ['escucha', 'vocabulario', 'pronunciación'],
@@ -134,7 +134,7 @@ export const UNLOCK_ZONES = [
     description: 'Activación temporal y occipital',
     zones: ['temporal', 'occipital'],
     unlockThreshold: 30, // 30% de progreso
-    color: '#22C55E',
+    color: 'var(--accent-500)',
   },
   {
     id: 'zone2',
@@ -142,7 +142,7 @@ export const UNLOCK_ZONES = [
     description: 'Activación de Broca y Wernicke',
     zones: ['broca', 'wernicke'],
     unlockThreshold: 50,
-    color: '#6366F1',
+    color: 'var(--sky-500)',
   },
   {
     id: 'zone3',
@@ -258,7 +258,7 @@ export function BrainZoneActivation({
             y1="50"
             x2="150"
             y2="80"
-            stroke="#6366F1"
+            stroke="var(--sky-500)"
             strokeWidth="1"
             strokeDasharray="4 4"
           />
@@ -288,7 +288,7 @@ export function BrainZoneActivation({
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="absolute top-0 right-0 w-64 bg-gray-900/95 backdrop-blur-sm rounded-lg p-4 border border-gray-700"
+          className="absolute top-0 right-0 w-64 bg-calm-bg-primary/95 backdrop-blur-sm rounded-lg p-4 border border-calm-warm-200"
         >
           {hoveredZone && <ZoneInfo zoneId={hoveredZone} level={zoneLevels[hoveredZone]} />}
           {selectedZone && !hoveredZone && <ZoneInfo zoneId={selectedZone} level={zoneLevels[selectedZone]} />}
@@ -410,16 +410,16 @@ function ZoneInfo({ zoneId, level }: { zoneId: BrainZoneId; level: number }) {
       <h3 className="font-quicksand font-semibold text-base mb-2" style={{ color: zone.color }}>
         {zone.name}
       </h3>
-      <p className="font-inter text-sm text-gray-400 mb-3">{zone.description}</p>
+      <p className="font-inter text-sm text-calm-text-muted mb-3">{zone.description}</p>
 
       <div className="mb-3">
         <div className="flex items-center justify-between mb-1">
-          <span className="text-xs text-gray-400">Activación</span>
+          <span className="text-xs text-calm-text-muted">Activación</span>
           <span className="font-inter text-sm font-semibold" style={{ color: zone.color }}>
             {levelPercent}%
           </span>
         </div>
-        <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
+        <div className="h-2 bg-calm-bg-elevated rounded-full overflow-hidden">
           <motion.div
             className="h-full rounded-full"
             style={{ backgroundColor: zone.color }}
@@ -431,12 +431,12 @@ function ZoneInfo({ zoneId, level }: { zoneId: BrainZoneId; level: number }) {
       </div>
 
       <div className="mb-3">
-        <span className="text-xs text-gray-400 block mb-1">Funciones:</span>
+        <span className="text-xs text-calm-text-muted block mb-1">Funciones:</span>
         <div className="flex flex-wrap gap-1">
           {zone.functions.map((func) => (
             <span
               key={func}
-              className="px-2 py-0.5 bg-gray-800 rounded text-xs text-gray-300"
+              className="px-2 py-0.5 bg-calm-bg-elevated rounded text-xs text-calm-text-tertiary"
             >
               {func}
             </span>
@@ -445,7 +445,7 @@ function ZoneInfo({ zoneId, level }: { zoneId: BrainZoneId; level: number }) {
       </div>
 
       <div>
-        <span className="text-xs text-gray-400 block mb-1">Skills relacionados:</span>
+        <span className="text-xs text-calm-text-muted block mb-1">Skills relacionados:</span>
         <div className="flex flex-wrap gap-1">
           {zone.relatedSkills.map((skill) => (
             <span
@@ -496,7 +496,7 @@ export function UnlockProgress({
             transition={{ delay: index * 0.1 }}
           >
             {/* Barra de progreso */}
-            <div className="h-12 bg-gray-800 rounded-lg overflow-hidden relative">
+            <div className="h-12 bg-calm-bg-elevated rounded-lg overflow-hidden relative">
               {/* Fondo */}
               <div
                 className="absolute inset-0"
@@ -535,14 +535,14 @@ export function UnlockProgress({
                     {Math.round(currentProgress)}%
                   </span>
                 ) : (
-                  <span className="font-inter text-gray-500 text-xs">🔒</span>
+                  <span className="font-inter text-calm-text-muted text-xs">🔒</span>
                 )}
               </div>
             </div>
 
             {/* Label */}
             <div className="mt-1 text-center">
-              <span className="font-quicksand font-medium text-xs text-gray-400">
+              <span className="font-quicksand font-medium text-xs text-calm-text-muted">
                 Zona {index + 1}
               </span>
             </div>

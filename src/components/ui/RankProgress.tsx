@@ -22,16 +22,16 @@ export function RankProgress({ xp, currentRank, showNextRank = true }: RankProgr
   return (
     <div className="flex flex-col gap-1">
       <div className="flex items-center justify-between text-xs">
-        <span className="text-gray-600 dark:text-gray-400">
+        <span className="text-calm-text-secondary dark:text-calm-text-muted">
           {xpInCurrentRank} / {xpNeededForNext || 'MAX'} XP
         </span>
         {showNextRank && nextRank && (
-          <span className="text-gray-500 dark:text-gray-500">
+          <span className="text-calm-text-muted dark:text-calm-text-muted">
             Próximo: {nextRank.rank}
           </span>
         )}
       </div>
-      <div className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+      <div className="w-full h-2 bg-calm-bg-tertiary dark:bg-calm-bg-tertiary rounded-full overflow-hidden">
         <div
           className="h-full rounded-full transition-all duration-500"
           style={{

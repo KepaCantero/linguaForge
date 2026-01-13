@@ -28,13 +28,13 @@ export function ClassicReviewContent({
   return (
     <div className="max-w-2xl mx-auto px-4 pt-6">
       <div className="mb-6">
-        <div className="flex items-center justify-between text-sm text-gray-600 dark:text-gray-400 mb-2">
+        <div className="flex items-center justify-between text-sm text-calm-text-secondary dark:text-calm-text-muted mb-2">
           <span>Progreso</span>
           <span>{Math.round(progress)}%</span>
         </div>
-        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+        <div className="w-full bg-calm-bg-tertiary rounded-full h-2">
           <motion.div
-            className="bg-indigo-600 h-2 rounded-full"
+            className="bg-accent-500 h-2 rounded-full"
             initial={{ width: 0 }}
             animate={{ width: `${progress}%` }}
             transition={{ duration: 0.3 }}
@@ -42,15 +42,15 @@ export function ClassicReviewContent({
         </div>
       </div>
 
-      <div className="mb-6 p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+      <div className="mb-6 p-4 bg-calm-bg-elevated rounded-lg border border-calm-warm-100">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-sm font-medium text-gray-900 dark:text-white">
+          <span className="text-sm font-medium text-calm-text-primary dark:text-calm-text-primary">
             {currentCard.phrase}
           </span>
           {children}
         </div>
         {currentCard.source.context && (
-          <p className="text-xs text-gray-500 dark:text-gray-400 italic">
+          <p className="text-xs text-calm-text-muted dark:text-calm-text-muted italic">
             {currentCard.source.context}
           </p>
         )}

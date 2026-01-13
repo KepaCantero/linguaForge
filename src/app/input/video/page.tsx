@@ -8,6 +8,7 @@ import { YouTubePlayer } from '@/components/input/YouTubePlayer';
 import { convertTranscriptToPhrases, extractVideoId, getYouTubeTranscript, type YouTubeTranscript } from '@/services/youtubeTranscriptService';
 import { WordSelector } from '@/components/transcript/WordSelector';
 import { QuickReviewButton } from '@/components/transcript/QuickReviewButton';
+import { radialGlow } from '@/constants/colors';
 import { ContentSource } from '@/types/srs';
 
 // ============================================
@@ -116,7 +117,7 @@ function VideoPlayerSection({
   };
 
   return (
-    <div className="rounded-aaa-xl p-6 bg-glass-surface backdrop-blur-aaa border border-white/20 mb-6">
+    <div className="rounded-2xl p-6 bg-calm-bg-secondary backdrop-blur-md border border-calm-warm-100/20 mb-6">
       <YouTubePlayer
         videoId={videoId}
         onTimeUpdate={onTimeUpdate}
@@ -125,10 +126,10 @@ function VideoPlayerSection({
         onEnd={onEnd}
       />
       {videoTitle && (
-        <p className="text-sm text-white/70 mt-4">{videoTitle}</p>
+        <p className="text-sm text-calm-text-primary/70 mt-4">{videoTitle}</p>
       )}
       {duration > 0 && (
-        <div className="mt-4 flex items-center justify-between text-sm text-white/60 mb-4">
+        <div className="mt-4 flex items-center justify-between text-sm text-calm-text-primary/60 mb-4">
           <span>{formatTime(currentTime)}</span>
           <span>{formatTime(duration)}</span>
         </div>
@@ -136,11 +137,11 @@ function VideoPlayerSection({
       <motion.button
         onClick={onMarkAsWatched}
         disabled={duration === 0}
-        className="w-full py-4 rounded-aaa-xl font-bold text-white flex items-center justify-center gap-3"
+        className="w-full py-4 rounded-2xl font-bold text-calm-text-primary flex items-center justify-center gap-3"
         style={{
           background: duration === 0
             ? 'radial-gradient(circle at 30% 30%, #4B5563, #374151)'
-            : 'radial-gradient(circle at 30% 30%, #22C55E, #16A34A)',
+            : 'radial-gradient(circle at 30% 30%, var(--accent-500), var(--accent-600))',
         }}
         whileHover={{ scale: duration === 0 ? 1 : 1.02 }}
         whileTap={{ scale: 0.98 }}
@@ -180,17 +181,17 @@ function TranscriptSection({
   return (
     <>
       {isLoadingTranscript && (
-        <div className="mt-4 p-4 rounded-aaa-xl bg-glass-surface backdrop-blur-aaa border border-white/20">
-          <p className="text-sm text-white/60 text-center">Cargando transcripción...</p>
+        <div className="mt-4 p-4 rounded-2xl bg-calm-bg-secondary backdrop-blur-md border border-calm-warm-100/20">
+          <p className="text-sm text-calm-text-primary/60 text-center">Cargando transcripción...</p>
         </div>
       )}
 
       {transcriptError && !isLoadingTranscript && (
-        <div className="mt-4 p-4 rounded-aaa-xl bg-glass-surface backdrop-blur-aaa border border-yellow-500/30">
-          <p className="text-sm text-yellow-200 mb-2">⚠️ {transcriptError}</p>
+        <div className="mt-4 p-4 rounded-2xl bg-calm-bg-secondary backdrop-blur-md border border-amber-500/30">
+          <p className="text-sm text-amber-200 mb-2">⚠️ {transcriptError}</p>
           <button
             onClick={onToggleManual}
-            className="text-sm text-yellow-300 hover:underline"
+            className="text-sm text-amber-300 hover:underline"
           >
             {showManualTranscript ? 'Ocultar' : 'Pegar transcripción manualmente'}
           </button>
@@ -198,8 +199,8 @@ function TranscriptSection({
       )}
 
       {showManualTranscript && !transcript && (
-        <div className="mt-4 p-4 rounded-aaa-xl bg-glass-surface backdrop-blur-aaa border border-white/20">
-          <label htmlFor="manual-transcript" className="block text-sm font-medium text-white/90 mb-2">
+        <div className="mt-4 p-4 rounded-2xl bg-calm-bg-secondary backdrop-blur-md border border-calm-warm-100/20">
+          <label htmlFor="manual-transcript" className="block text-sm font-medium text-calm-text-primary/90 mb-2">
             Transcripción manual
           </label>
           <textarea
@@ -207,7 +208,7 @@ function TranscriptSection({
             value={transcriptText}
             onChange={(e) => onTranscriptChange(e.target.value)}
             placeholder="Pega aquí la transcripción del video..."
-            className="w-full h-48 px-4 py-3 rounded-aaa-xl bg-glass-surface backdrop-blur-aaa border border-white/20 text-white placeholder:text-white/50 resize-none focus:ring-2 focus:ring-pink-500 focus:border-transparent text-sm"
+            className="w-full h-48 px-4 py-3 rounded-2xl bg-calm-bg-secondary backdrop-blur-md border border-calm-warm-100/20 text-calm-text-primary placeholder:text-calm-text-primary/50 resize-none focus:ring-2 focus:ring-pink-500 focus:border-transparent text-sm"
           />
         </div>
       )}
@@ -331,8 +332,8 @@ export default function VideoInputPage() {
         animate={{ opacity: 1, y: 0 }}
         className="px-4"
       >
-        <h1 className="text-3xl font-bold text-white text-center mb-2">Video Input</h1>
-        <p className="text-sm text-lf-muted text-center mb-6">Aprende francés con videos de YouTube</p>
+        <h1 className="text-3xl font-bold text-calm-text-primary text-center mb-2">Video Input</h1>
+        <p className="text-sm text-calm-text-muted text-center mb-6">Aprende francés con videos de YouTube</p>
 
         {/* Stats Cards */}
         <div className="grid grid-cols-2 gap-4 max-w-md mx-auto">
@@ -341,12 +342,12 @@ export default function VideoInputPage() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.1 }}
-            className="relative overflow-hidden rounded-2xl border-2 bg-glass-surface backdrop-blur-aaa border-pink-500/30 p-5"
+            className="relative overflow-hidden rounded-2xl border-2 bg-calm-bg-secondary border-amber-500/30 p-5"
             whileHover={{ scale: 1.05, y: -4 }}
           >
             {/* Animated gradient background */}
             <motion.div
-              className="absolute inset-0 bg-gradient-to-br from-pink-500/10 to-purple-500/10"
+              className="absolute inset-0 bg-gradient-to-br from-amber-500/10 to-sky-500/10"
               animate={{
                 opacity: [0.3, 0.5, 0.3],
               }}
@@ -356,13 +357,13 @@ export default function VideoInputPage() {
             {/* Content */}
             <div className="relative">
               <div className="flex items-center gap-2 mb-3">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-sky-500 flex items-center justify-center">
                   <span className="text-xl">📺</span>
                 </div>
-                <span className="text-sm text-lf-muted font-medium">Videos</span>
+                <span className="text-sm text-calm-text-muted font-medium">Videos</span>
               </div>
-              <div className="text-3xl font-bold text-white">{videoStats.viewCount}</div>
-              <div className="text-xs text-lf-muted mt-1">Vistos</div>
+              <div className="text-3xl font-bold text-calm-text-primary">{videoStats.viewCount}</div>
+              <div className="text-xs text-calm-text-muted mt-1">Vistos</div>
             </div>
           </motion.div>
 
@@ -371,12 +372,12 @@ export default function VideoInputPage() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2 }}
-            className="relative overflow-hidden rounded-2xl border-2 bg-glass-surface backdrop-blur-aaa border-purple-500/30 p-5"
+            className="relative overflow-hidden rounded-2xl border-2 bg-calm-bg-secondary border-sky-500/30 p-5"
             whileHover={{ scale: 1.05, y: -4 }}
           >
             {/* Animated gradient background */}
             <motion.div
-              className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-pink-500/10"
+              className="absolute inset-0 bg-gradient-to-br from-sky-500/10 to-accent-500/10"
               animate={{
                 opacity: [0.3, 0.5, 0.3],
               }}
@@ -386,13 +387,13 @@ export default function VideoInputPage() {
             {/* Content */}
             <div className="relative">
               <div className="flex items-center gap-2 mb-3">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500 to-accent-500 flex items-center justify-center">
                   <span className="text-xl">⏱️</span>
                 </div>
-                <span className="text-sm text-lf-muted font-medium">Horas</span>
+                <span className="text-sm text-calm-text-muted font-medium">Horas</span>
               </div>
-              <div className="text-3xl font-bold text-white">{videoStats.totalHours}</div>
-              <div className="text-xs text-lf-muted mt-1">Tiempo total</div>
+              <div className="text-3xl font-bold text-calm-text-primary">{videoStats.totalHours}</div>
+              <div className="text-xs text-calm-text-muted mt-1">Tiempo total</div>
             </div>
           </motion.div>
         </div>
@@ -420,7 +421,7 @@ export default function VideoInputPage() {
                   value={youtubeUrl}
                   onChange={(e) => setYoutubeUrl(e.target.value)}
                   placeholder="https://www.youtube.com/watch?v=..."
-                  className="w-full px-6 py-4 rounded-aaa-xl bg-glass-surface backdrop-blur-aaa border border-white/20 text-white placeholder:text-white/50 focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                  className="w-full px-6 py-4 rounded-2xl bg-calm-bg-secondary backdrop-blur-md border border-calm-warm-100/20 text-calm-text-primary placeholder:text-calm-text-primary/50 focus:ring-2 focus:ring-pink-500 focus:border-transparent"
                   onKeyDown={(e) => e.key === 'Enter' && handleLoadVideo()}
                 />
               </div>
@@ -447,7 +448,7 @@ export default function VideoInputPage() {
                   style={{
                     background: !youtubeUrl.trim()
                       ? 'transparent'
-                      : 'radial-gradient(circle, rgba(236, 72, 153, 0.6), transparent)',
+                      : radialGlow('sky', 0.6),
                   }}
                   animate={{
                     scale: [1, 1.3, 1],
@@ -471,7 +472,7 @@ export default function VideoInputPage() {
               >
                 🎥
               </motion.div>
-              <p className="text-sm text-white/60">
+              <p className="text-sm text-calm-text-primary/60">
                 Pega una URL de YouTube para cargar un video con transcripción
               </p>
             </div>
@@ -493,7 +494,7 @@ export default function VideoInputPage() {
                 <motion.div
                   className="absolute inset-0 rounded-full blur-xl"
                   style={{
-                    background: 'radial-gradient(circle, rgba(236, 72, 153, 0.7), transparent)',
+                    background: radialGlow('sky', 0.7),
                   }}
                   animate={{
                     scale: [1, 1.4, 1],
@@ -558,7 +559,7 @@ export default function VideoInputPage() {
             <motion.div
               className="absolute inset-0 rounded-full blur-lg"
               style={{
-                background: 'radial-gradient(circle, rgba(236, 72, 153, 0.6), transparent)',
+                background: radialGlow('sky', 0.6),
               }}
               animate={{
                 scale: [1, 1.3, 1],

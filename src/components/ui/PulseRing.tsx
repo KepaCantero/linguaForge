@@ -1,4 +1,5 @@
 'use client';
+import { COLORS } from '@/constants/colors';
 
 import { motion } from 'framer-motion';
 
@@ -10,7 +11,7 @@ interface PulseRingProps {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function PulseRing({ active = true, color = 'rgba(99, 102, 241, 0.5)', children }: PulseRingProps) {
+export function PulseRing({ active = true, color = COLORS.sky[50], children }: PulseRingProps) {
   return (
     <div className="relative inline-flex items-center justify-center">
       {active && (

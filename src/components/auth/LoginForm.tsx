@@ -62,16 +62,16 @@ export function LoginForm() {
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-lg"
+          className="p-8 bg-white dark:bg-calm-bg-elevated rounded-2xl shadow-lg"
         >
           <div className="text-5xl mb-4">📧</div>
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+          <h2 className="text-xl font-bold text-calm-text-primary dark:text-white mb-2">
             ¡Revisa tu email!
           </h2>
-          <p className="text-gray-600 dark:text-gray-400 mb-4">
+          <p className="text-calm-text-secondary dark:text-calm-text-muted mb-4">
             Hemos enviado un enlace mágico a <strong>{email}</strong>
           </p>
-          <p className="text-sm text-gray-500 dark:text-gray-500 mb-6">
+          <p className="text-sm text-calm-text-muted dark:text-calm-text-muted mb-6">
             Haz clic en el enlace del email para iniciar sesión automáticamente.
           </p>
           <button
@@ -79,7 +79,7 @@ export function LoginForm() {
               setMagicLinkSent(false);
               setEmail('');
             }}
-            className="text-lf-primary hover:text-lf-primary/80 font-medium"
+            className="text-calm-text-primary hover:text-calm-text-primary/80 font-medium"
           >
             Usar otro email
           </button>
@@ -100,24 +100,24 @@ export function LoginForm() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="p-4 rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800"
+          className="p-4 rounded-lg bg-sky-50 dark:bg-sky-900/20 border border-sky-200 dark:border-sky-800"
         >
-          <p className="text-sm text-blue-800 dark:text-blue-200">
+          <p className="text-sm text-sky-800 dark:text-sky-200">
             <strong>🔧 Credenciales de Demo:</strong><br />
-            Usuario: <code className="bg-blue-100 dark:bg-blue-800 px-1 rounded">admin</code><br />
-            Contraseña: <code className="bg-blue-100 dark:bg-blue-800 px-1 rounded">admin</code>
+            Usuario: <code className="bg-sky-100 dark:bg-sky-800 px-1 rounded">admin</code><br />
+            Contraseña: <code className="bg-sky-100 dark:bg-sky-800 px-1 rounded">admin</code>
           </p>
         </motion.div>
 
         {/* Selector de modo */}
-        <div className="flex rounded-lg bg-gray-100 dark:bg-gray-800 p-1">
+        <div className="flex rounded-lg bg-calm-bg-secondary dark:bg-calm-bg-elevated p-1">
           <button
             type="button"
             onClick={() => setAuthMode('password')}
             className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
               authMode === 'password'
-                ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm'
-                : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                ? 'bg-white dark:bg-calm-bg-tertiary text-calm-text-primary dark:text-white shadow-sm'
+                : 'text-calm-text-secondary dark:text-calm-text-muted hover:text-calm-text-primary dark:hover:text-white'
             }`}
           >
             Contraseña
@@ -127,8 +127,8 @@ export function LoginForm() {
             onClick={() => setAuthMode('magic-link')}
             className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
               authMode === 'magic-link'
-                ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm'
-                : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                ? 'bg-white dark:bg-calm-bg-tertiary text-calm-text-primary dark:text-white shadow-sm'
+                : 'text-calm-text-secondary dark:text-calm-text-muted hover:text-calm-text-primary dark:hover:text-white'
             }`}
           >
             Magic Link
@@ -136,7 +136,7 @@ export function LoginForm() {
         </div>
 
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          <label htmlFor="email" className="block text-sm font-medium text-calm-text-secondary dark:text-calm-text-tertiary mb-2">
             Email o Usuario
           </label>
           <input
@@ -145,14 +145,14 @@ export function LoginForm() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-lf-primary focus:border-transparent"
+            className="w-full px-4 py-3 rounded-lg border border-calm-warm-200 dark:border-calm-warm-200 bg-white dark:bg-calm-bg-elevated text-calm-text-primary dark:text-white focus:ring-2 focus:ring-accent-500 focus:border-transparent"
             placeholder="admin o tu@email.com"
           />
         </div>
 
         {authMode === 'password' && (
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label htmlFor="password" className="block text-sm font-medium text-calm-text-secondary dark:text-calm-text-tertiary mb-2">
               Contraseña
             </label>
             <input
@@ -161,14 +161,14 @@ export function LoginForm() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-lf-primary focus:border-transparent"
+              className="w-full px-4 py-3 rounded-lg border border-calm-warm-200 dark:border-calm-warm-200 bg-white dark:bg-calm-bg-elevated text-calm-text-primary dark:text-white focus:ring-2 focus:ring-accent-500 focus:border-transparent"
               placeholder="••••••••"
             />
           </div>
         )}
 
         {authMode === 'magic-link' && (
-          <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
+          <p className="text-sm text-calm-text-muted dark:text-calm-text-muted text-center">
             Te enviaremos un enlace mágico a tu email para iniciar sesión sin contraseña.
           </p>
         )}
@@ -177,33 +177,33 @@ export function LoginForm() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="p-3 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800"
+            className="p-3 rounded-lg bg-semantic-error-bg dark:bg-semantic-error-bg/20 border border-semantic-error dark:border-semantic-error"
           >
-            <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+            <p className="text-sm text-semantic-error dark:text-semantic-error">{error}</p>
           </motion.div>
         )}
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-3 px-4 bg-lf-primary text-white rounded-lg font-medium hover:bg-lf-primary/90 focus:outline-none focus:ring-2 focus:ring-lf-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="w-full py-3 px-4 bg-accent-500 text-white rounded-lg font-medium hover:bg-accent-500/90 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           {getSubmitButtonText(loading, authMode)}
         </button>
 
         <div className="relative">
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-300 dark:border-gray-600"></div>
+            <div className="w-full border-t border-calm-warm-200 dark:border-calm-warm-200"></div>
           </div>
           <div className="relative flex justify-center text-sm">
-            <span className="px-2 bg-white dark:bg-gray-900 text-gray-500">O continúa con</span>
+            <span className="px-2 bg-white dark:bg-calm-bg-primary text-calm-text-muted">O continúa con</span>
           </div>
         </div>
 
         <button
           type="button"
           onClick={handleGoogleSignIn}
-          className="w-full py-3 px-4 border border-gray-300 dark:border-gray-600 rounded-lg font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-lf-primary focus:ring-offset-2 transition-colors flex items-center justify-center gap-2"
+          className="w-full py-3 px-4 border border-calm-warm-200 dark:border-calm-warm-200 rounded-lg font-medium text-calm-text-secondary dark:text-calm-text-tertiary bg-white dark:bg-calm-bg-elevated hover:bg-calm-bg-primary dark:hover:bg-calm-bg-tertiary focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2 transition-colors flex items-center justify-center gap-2"
         >
           <svg className="w-5 h-5" viewBox="0 0 24 24">
             <path
@@ -229,7 +229,7 @@ export function LoginForm() {
         <div className="text-center text-sm">
           <a
             href="/auth/forgot-password"
-            className="text-lf-primary hover:text-lf-primary/80 font-medium"
+            className="text-calm-text-primary hover:text-calm-text-primary/80 font-medium"
           >
             ¿Olvidaste tu contraseña?
           </a>

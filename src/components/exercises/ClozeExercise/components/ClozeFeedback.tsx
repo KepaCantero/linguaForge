@@ -16,13 +16,13 @@ export function ClozeFeedback({
   correctOption,
 }: ClozeFeedbackProps) {
   const getContainerClassName = (): string => {
-    const baseClasses = 'p-4 rounded-xl text-center shadow-glass-xl backdrop-blur-aaa';
+    const baseClasses = 'p-4 rounded-xl text-center shadow-calm-lg backdrop-blur-md';
 
     if (isCorrect) {
-      return `${baseClasses} bg-lf-success/20 dark:bg-lf-success/30 text-lf-success dark:text-lf-success border border-lf-success/40`;
+      return `${baseClasses} bg-semantic-success-bg text-semantic-success-text border border-semantic-success`;
     }
 
-    return `${baseClasses} bg-lf-error/20 dark:bg-lf-error/30 text-lf-error dark:text-lf-error border border-lf-error/40`;
+    return `${baseClasses} bg-semantic-error-bg text-semantic-error-text border border-semantic-error`;
   };
 
   const getEmoji = (): string => {

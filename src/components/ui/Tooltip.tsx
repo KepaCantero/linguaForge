@@ -93,8 +93,8 @@ export function Tooltip({
             transition={{ duration: 0.15 }}
             className={`
               absolute z-50 px-3 py-2 text-sm text-white
-              bg-lf-dark/95 backdrop-blur-md rounded-lg
-              border border-lf-primary/20 shadow-xl
+              bg-calm-bg-tertiary/95 backdrop-blur-md rounded-lg
+              border border-accent-500/20 shadow-xl
               pointer-events-none
               ${POSITION_CLASSES[position]}
             `}
@@ -104,8 +104,8 @@ export function Tooltip({
             {/* Arrow */}
             <div
               className={`
-                absolute w-2.5 h-2.5 bg-lf-dark/95 rotate-45
-                border-lf-primary/20
+                absolute w-2.5 h-2.5 bg-calm-bg-tertiary/95 rotate-45
+                border-accent-500/20
                 ${ARROW_CLASSES[position]}
               `}
             />
@@ -124,7 +124,7 @@ export const STAT_TOOLTIPS = {
   xp: (
     <div>
       <p className="font-semibold mb-1">⚡ Puntos de Experiencia</p>
-      <p className="text-xs text-gray-300">
+      <p className="text-xs text-calm-text-tertiary">
         Ganas XP completando ejercicios, manteniendo tu racha y subiendo de nivel.
       </p>
     </div>
@@ -132,7 +132,7 @@ export const STAT_TOOLTIPS = {
   coins: (
     <div>
       <p className="font-semibold mb-1">🪙 Monedas</p>
-      <p className="text-xs text-gray-300">
+      <p className="text-xs text-calm-text-tertiary">
         Usa monedas para desbloquear materiales de construcción y contenido especial.
       </p>
     </div>
@@ -140,7 +140,7 @@ export const STAT_TOOLTIPS = {
   gems: (
     <div>
       <p className="font-semibold mb-1">💎 Gemas</p>
-      <p className="text-xs text-gray-300">
+      <p className="text-xs text-calm-text-tertiary">
         Gemas premium para congelar racha, skip cooldowns y contenido exclusivo.
       </p>
     </div>
@@ -148,7 +148,7 @@ export const STAT_TOOLTIPS = {
   streak: (
     <div>
       <p className="font-semibold mb-1">🔥 Racha</p>
-      <p className="text-xs text-gray-300">
+      <p className="text-xs text-calm-text-tertiary">
         Días consecutivos practicando. ¡Mantén tu racha para bonificaciones!
       </p>
     </div>
@@ -156,7 +156,7 @@ export const STAT_TOOLTIPS = {
   hp: (
     <div>
       <p className="font-semibold mb-1">❤️ Salud</p>
-      <p className="text-xs text-gray-300">
+      <p className="text-xs text-calm-text-tertiary">
         Necesitas HP para practicar. Se recupera con el tiempo o completando ejercicios fáciles.
       </p>
     </div>
@@ -164,7 +164,7 @@ export const STAT_TOOLTIPS = {
   level: (
     <div>
       <p className="font-semibold mb-1">📊 Nivel</p>
-      <p className="text-xs text-gray-300">
+      <p className="text-xs text-calm-text-tertiary">
         Tu nivel de maestría general. Sube de nivel ganando XP.
       </p>
     </div>
@@ -172,7 +172,7 @@ export const STAT_TOOLTIPS = {
   synapses: (
     <div>
       <p className="font-semibold mb-1">🧠 Sinapsis</p>
-      <p className="text-xs text-gray-300">
+      <p className="text-xs text-calm-text-tertiary">
         Conexiones neuronales formadas. Representan conceptos que has aprendido y reforzado.
       </p>
     </div>
@@ -180,7 +180,7 @@ export const STAT_TOOLTIPS = {
   rank: (
     <div>
       <p className="font-semibold mb-1">🏆 Rango</p>
-      <p className="text-xs text-gray-300">
+      <p className="text-xs text-calm-text-tertiary">
         Tu clasificación de cazador: E → D → C → B → A → S. Desbloquea rangos con XP.
       </p>
     </div>
@@ -188,10 +188,10 @@ export const STAT_TOOLTIPS = {
   cognitiveLoad: (
     <div>
       <p className="font-semibold mb-1">🧪 Carga Cognitiva</p>
-      <p className="text-xs text-gray-300 mb-1">
+      <p className="text-xs text-calm-text-tertiary mb-1">
         Basado en la Teoría de Carga Cognitiva (CLT):
       </p>
-      <ul className="text-xs text-gray-400 space-y-0.5">
+      <ul className="text-xs text-calm-text-muted space-y-0.5">
         <li>• <strong>Intrínseca:</strong> Dificultad del material</li>
         <li>• <strong>Germane:</strong> Esfuerzo de aprendizaje útil</li>
         <li>• <strong>Extrínseca:</strong> Distracciones (minimizar)</li>

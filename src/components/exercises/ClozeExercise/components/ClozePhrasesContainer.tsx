@@ -45,7 +45,7 @@ export function ClozePhrasesContainer({
 
   return (
     <motion.div
-      className="bg-glass-surface dark:bg-lf-soft/50 rounded-aaa-xl p-6 shadow-glass-xl backdrop-blur-aaa border border-lf-muted/20"
+      className="bg-calm-bg-secondary dark:bg-calm-bg-secondary/50 rounded-2xl p-6 shadow-calm-lg backdrop-blur-md border border-calm-warm-100/20"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
     >

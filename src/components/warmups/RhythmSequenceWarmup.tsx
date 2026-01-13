@@ -165,9 +165,9 @@ export function RhythmSequenceWarmup({
   const getActionColor = (action: TouchAction) => {
     switch (action) {
       case 'tap':
-        return 'bg-blue-500';
+        return 'bg-sky-500';
       case 'hold':
-        return 'bg-purple-500';
+        return 'bg-sky-500';
       case 'swipe':
         return 'bg-amber-500';
     }
@@ -186,18 +186,18 @@ export function RhythmSequenceWarmup({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-gray-900 flex flex-col items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 bg-calm-bg-primary flex flex-col items-center justify-center p-4">
       {/* Header */}
       <div className="absolute top-4 left-4 right-4 flex justify-between items-center">
         <div>
           <h2 className="text-lg font-semibold text-white">Secuencia Rítmica</h2>
-          <p className="text-sm text-gray-400">
+          <p className="text-sm text-calm-text-muted">
             Secuencia {currentSequence + 1} de {totalSequences}
           </p>
         </div>
         <button
           onClick={onSkip}
-          className="px-4 py-2 text-gray-400 hover:text-white transition-colors"
+          className="px-4 py-2 text-calm-text-muted hover:text-white transition-colors"
         >
           Saltar
         </button>
@@ -229,8 +229,8 @@ export function RhythmSequenceWarmup({
                   i === currentStep && isPlaying
                     ? `${getActionColor(step.action)} scale-110 ring-4 ring-white/50`
                     : i < currentStep || !isPlaying
-                    ? 'bg-gray-700'
-                    : 'bg-gray-800'
+                    ? 'bg-calm-bg-tertiary'
+                    : 'bg-calm-bg-elevated'
                 }`}
                 animate={
                   i === currentStep && isPlaying
@@ -249,7 +249,7 @@ export function RhythmSequenceWarmup({
             <motion.button
               whileTap={{ scale: 0.9 }}
               onClick={() => handleAction('tap')}
-              className="w-24 h-24 bg-blue-600 hover:bg-blue-500 rounded-2xl flex flex-col items-center justify-center text-white shadow-lg"
+              className="w-24 h-24 bg-sky-600 hover:bg-sky-500 rounded-2xl flex flex-col items-center justify-center text-white shadow-lg"
             >
               <span className="text-3xl">👆</span>
               <span className="text-xs mt-1">TAP</span>
@@ -258,7 +258,7 @@ export function RhythmSequenceWarmup({
             <motion.button
               whileTap={{ scale: 0.9 }}
               onMouseDown={() => handleAction('hold')}
-              className="w-24 h-24 bg-purple-600 hover:bg-purple-500 rounded-2xl flex flex-col items-center justify-center text-white shadow-lg"
+              className="w-24 h-24 bg-sky-600 hover:bg-sky-500 rounded-2xl flex flex-col items-center justify-center text-white shadow-lg"
             >
               <span className="text-3xl">✊</span>
               <span className="text-xs mt-1">HOLD</span>
@@ -282,7 +282,7 @@ export function RhythmSequenceWarmup({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 className={`text-2xl font-bold ${
-                  feedback === 'correct' ? 'text-green-400' : 'text-red-400'
+                  feedback === 'correct' ? 'text-accent-400' : 'text-semantic-error'
                 }`}
               >
                 {feedback === 'correct' ? '¡Bien!' : 'Intenta de nuevo'}
@@ -294,9 +294,9 @@ export function RhythmSequenceWarmup({
 
       {/* Barra de progreso */}
       <div className="absolute bottom-8 left-4 right-4">
-        <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
+        <div className="h-2 bg-calm-bg-elevated rounded-full overflow-hidden">
           <motion.div
-            className="h-full bg-indigo-500"
+            className="h-full bg-accent-500"
             initial={{ width: 0 }}
             animate={{
               width: `${((currentSequence + (isPlaying ? 0.5 : 0)) / totalSequences) * 100}%`,

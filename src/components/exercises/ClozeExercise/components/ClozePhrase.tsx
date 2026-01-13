@@ -30,12 +30,12 @@ export function ClozePhrase({
   const getContainerClassName = (): string => {
     if (!isCurrentPhrase) return '';
 
-    return 'bg-lf-primary/10 dark:bg-lf-primary/20 rounded-lg p-3 border-2 border-lf-primary/30 dark:border-lf-primary/40';
+    return 'bg-accent-500/10 dark:bg-accent-500/20 rounded-lg p-3 border-2 border-accent-500/30 dark:border-accent-500/40';
   };
 
   const getTextClassName = (): string => {
     const baseClasses = 'text-lg font-medium leading-relaxed';
-    const colorClasses = 'text-lf-dark dark:text-white';
+    const colorClasses = 'text-calm-text-primary dark:text-white';
     const opacityClasses = isCurrentPhrase ? '' : 'opacity-60';
 
     return `${baseClasses} ${colorClasses} ${opacityClasses}`;
@@ -61,7 +61,7 @@ export function ClozePhrase({
         ))}
       </p>
       {!isCurrentPhrase && showTranslation && (
-        <p className="text-xs text-lf-muted dark:text-lf-muted/70 mt-1">
+        <p className="text-xs text-calm-text-muted dark:text-calm-text-muted/70 mt-1">
           {phrase.translation}
         </p>
       )}

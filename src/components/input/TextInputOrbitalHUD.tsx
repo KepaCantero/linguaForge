@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { TextStatOrb } from './TextStatsOrb';
 import type { TextStats } from '@/hooks/useTextStats';
+import { borderAlpha, radialGlow } from '@/constants/colors';
 
 interface TextInputOrbitalHUDProps {
   textStats: TextStats;
@@ -31,7 +32,7 @@ export function TextInputOrbitalHUD({
           style={{
             width: `${200 + i * 40}px`,
             height: `${200 + i * 40}px`,
-            borderColor: `rgba(6, 182, 212, ${0.15 - i * 0.03})`,
+            borderColor: borderAlpha('sky', 0.15 - i * 0.03),
             borderStyle: i % 2 === 0 ? 'solid' : 'dashed',
           }}
           animate={{
@@ -63,7 +64,7 @@ export function TextInputOrbitalHUD({
         <motion.div
           className="absolute inset-0 rounded-full blur-2xl"
           style={{
-            background: `radial-gradient(circle, rgba(6, 182, 212, 0.8), transparent)`,
+            background: `radial-gradient(circle, COLORS.sky[80], transparent)`,
           }}
           animate={{
             scale: [1, 1.5, 1],

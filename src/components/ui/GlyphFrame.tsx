@@ -1,4 +1,5 @@
 'use client';
+import { COLORS } from '@/constants/colors';
 
 import { motion } from 'framer-motion';
 import { ReactNode } from 'react';
@@ -15,28 +16,28 @@ interface GlyphFrameProps {
 
 const variantStyles = {
   default: {
-    border: 'border-lf-primary/40',
-    corner: 'border-lf-accent',
-    title: 'text-lf-secondary',
-    bg: 'bg-lf-dark/95',
+    border: 'border-accent-500/40',
+    corner: 'border-amber-500',
+    title: 'text-calm-text-secondary',
+    bg: 'bg-calm-bg-tertiary/95',
   },
   accent: {
-    border: 'border-lf-accent/40',
-    corner: 'border-lf-secondary',
-    title: 'text-lf-accent',
-    bg: 'bg-lf-dark/95',
+    border: 'border-amber-500/40',
+    corner: 'border-sky-500',
+    title: 'text-amber-500',
+    bg: 'bg-calm-bg-tertiary/95',
   },
   success: {
-    border: 'border-emerald-500/40',
-    corner: 'border-emerald-400',
-    title: 'text-emerald-400',
-    bg: 'bg-lf-dark/95',
+    border: 'border-accent-500/40',
+    corner: 'border-accent-400',
+    title: 'text-accent-400',
+    bg: 'bg-calm-bg-tertiary/95',
   },
   muted: {
-    border: 'border-lf-muted/40',
-    corner: 'border-lf-muted',
-    title: 'text-gray-400',
-    bg: 'bg-lf-soft/90',
+    border: 'border-calm-warm-100/40',
+    corner: 'border-calm-warm-100',
+    title: 'text-calm-text-muted',
+    bg: 'bg-calm-bg-secondary/90',
   },
   warning: {
     border: 'border-amber-500/40',
@@ -45,16 +46,16 @@ const variantStyles = {
     bg: 'bg-amber-900/10',
   },
   error: {
-    border: 'border-red-500/40',
-    corner: 'border-red-400',
-    title: 'text-red-400',
-    bg: 'bg-red-900/10',
+    border: 'border-semantic-error/40',
+    corner: 'border-semantic-error',
+    title: 'text-semantic-error',
+    bg: 'bg-semantic-error-bg',
   },
   gradient: {
     border: 'border-transparent',
     corner: 'border-transparent',
     title: 'text-white',
-    bg: 'bg-gradient-to-br from-indigo-500/20 to-purple-500/20',
+    bg: 'bg-gradient-to-br from-accent-500/20 to-sky-500/20',
   },
 };
 
@@ -81,14 +82,14 @@ export function GlyphFrame({
   return (
     <FrameWrapper
       className={`relative p-[1px] rounded-glyph ${className} ${glow ? 'shadow-lg' : ''}`}
-      style={glow ? { boxShadow: `0 0 20px ${glowColor || 'rgba(99, 102, 241, 0.3)'}` } : {}}
+      style={glow ? { boxShadow: `0 0 20px ${glowColor || COLORS.sky[30]}` } : {}}
       {...animationProps}
     >
       {/* Main border */}
       <div className={`absolute inset-0 border ${styles.border} rounded-glyph pointer-events-none`}>
         {/* Title badge */}
         {title && (
-          <div className="absolute top-0 left-4 px-2 bg-lf-dark -translate-y-1/2">
+          <div className="absolute top-0 left-4 px-2 bg-calm-bg-tertiary -translate-y-1/2">
             <span className={`font-rajdhani ${styles.title} text-xs uppercase tracking-[0.15em]`}>
               {title}
             </span>

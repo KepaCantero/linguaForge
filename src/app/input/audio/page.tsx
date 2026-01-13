@@ -83,7 +83,7 @@ export default function AudioInputPage() {
           onClick={handleImport}
           className="relative w-16 h-16 rounded-full"
           style={{
-            background: "radial-gradient(circle at 30% 30%, #10B981, #059669)",
+            background: "radial-gradient(circle at 30% 30%, var(--accent-500), var(--accent-600))",
           }}
           whileHover={{ scale: 1.1, rotate: 90 }}
           whileTap={{ scale: 0.95 }}
@@ -91,7 +91,7 @@ export default function AudioInputPage() {
           <motion.div
             className="absolute inset-0 rounded-full blur-lg"
             style={{
-              background: "radial-gradient(circle, rgba(16, 185, 129, 0.6), transparent)",
+              background: "radialGlow('accent', 0.6)",
             }}
             animate={{
               scale: [1, 1.3, 1],

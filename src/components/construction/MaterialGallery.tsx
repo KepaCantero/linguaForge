@@ -26,6 +26,7 @@ import { type MaterialRarity, type MaterialTexture } from '@/schemas/constructio
 import { PBR_MATERIALS, createPBRMaterial } from '@/lib/materials/pbr';
 import { useHaptic } from '@/lib/haptic';
 import { useSoundEngine } from '@/lib/soundEngine';
+import { COLORS } from '@/constants/colors';
 
 // ============================================
 // TIPOS
@@ -59,36 +60,36 @@ const RARITY_CONFIG: Record<MaterialRarity, {
   common: {
     label: 'Común',
     color: '#9CA3AF',
-    bgGradient: 'from-gray-800 to-gray-900',
-    borderColor: 'border-gray-600',
+    bgGradient: 'from-calm-bg-tertiary to-calm-bg-tertiary',
+    borderColor: 'border-calm-warm-200',
     glowColor: '',
   },
   uncommon: {
     label: 'Poco Común',
     color: '#34D399',
-    bgGradient: 'from-green-900/50 to-gray-900',
-    borderColor: 'border-green-500/50',
+    bgGradient: 'from-accent-900/50 to-calm-bg-tertiary',
+    borderColor: 'border-accent-500/50',
     glowColor: 'shadow-green-500/20',
   },
   rare: {
     label: 'Raro',
     color: '#60A5FA',
-    bgGradient: 'from-blue-900/50 to-gray-900',
-    borderColor: 'border-blue-500/50',
+    bgGradient: 'from-sky-900/50 to-calm-bg-tertiary',
+    borderColor: 'border-sky-500/50',
     glowColor: 'shadow-blue-500/30',
   },
   epic: {
     label: 'Épico',
     color: '#A78BFA',
-    bgGradient: 'from-purple-900/50 to-gray-900',
-    borderColor: 'border-purple-500/50',
-    glowColor: 'shadow-purple-500/40',
+    bgGradient: 'from-sky-900/50 to-calm-bg-tertiary',
+    borderColor: 'border-sky-500/50',
+    glowColor: 'shadow-sky-500/40',
   },
   legendary: {
     label: 'Legendario',
     color: '#FBBF24',
-    bgGradient: 'from-yellow-900/50 to-gray-900',
-    borderColor: 'border-yellow-500/50',
+    bgGradient: 'from-amber-900/50 to-calm-bg-tertiary',
+    borderColor: 'border-amber-500/50',
     glowColor: 'shadow-yellow-500/50',
   },
 };
@@ -138,7 +139,7 @@ function Material3DMesh({ materialId }: { materialId: string }) {
 export function Material3DPreview({ materialId, size = 120 }: Material3DPreviewProps) {
   return (
     <div
-      className="bg-gray-900 rounded-lg overflow-hidden"
+      className="bg-calm-bg-primary rounded-lg overflow-hidden"
       style={{ width: size, height: size }}
     >
       <Canvas shadows dpr={[1, 2]}>
@@ -251,15 +252,15 @@ function GalleryCard({ material, amount, isSelected, compact, onClick }: Gallery
           <h3 className="font-semibold text-white truncate">{material.name}</h3>
         </div>
 
-        <p className="text-xs text-gray-400 mb-2">{textureConfig.label}</p>
+        <p className="text-xs text-calm-text-muted mb-2">{textureConfig.label}</p>
 
         {/* Valores */}
         <div className="flex justify-between text-xs">
-          <span className="text-indigo-400">
-            <span className="text-gray-500">XP:</span>{material.xpCost}
+          <span className="text-accent-400">
+            <span className="text-calm-text-muted">XP:</span>{material.xpCost}
           </span>
-          <span className="text-yellow-400">
-            <span className="text-gray-500">Coins:</span>{material.coinCost}
+          <span className="text-amber-400">
+            <span className="text-calm-text-muted">Coins:</span>{material.coinCost}
           </span>
         </div>
       </div>
@@ -270,9 +271,9 @@ function GalleryCard({ material, amount, isSelected, compact, onClick }: Gallery
           className="absolute inset-0 pointer-events-none"
           animate={{
             background: [
-              'linear-gradient(45deg, transparent 40%, rgba(251,191,36,0.1) 50%, transparent 60%)',
-              'linear-gradient(45deg, transparent 60%, rgba(251,191,36,0.1) 70%, transparent 80%)',
-              'linear-gradient(45deg, transparent 40%, rgba(251,191,36,0.1) 50%, transparent 60%)',
+              `linear-gradient(45deg, transparent 40%, ${COLORS.effects.amberShine} 50%, transparent 60%)`,
+              `linear-gradient(45deg, transparent 60%, ${COLORS.effects.amberShine} 70%, transparent 80%)`,
+              `linear-gradient(45deg, transparent 40%, ${COLORS.effects.amberShine} 50%, transparent 60%)`,
             ],
           }}
           transition={{ duration: 3, repeat: Infinity }}
@@ -287,7 +288,7 @@ function GalleryCard({ material, amount, isSelected, compact, onClick }: Gallery
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
             className="absolute -bottom-2 left-1/2 -translate-x-1/2 translate-y-full z-10
-                       bg-gray-800 border border-gray-700 rounded-lg p-2 text-xs text-gray-300
+                       bg-calm-bg-elevated border border-calm-warm-200 rounded-lg p-2 text-xs text-calm-text-tertiary
                        shadow-xl min-w-[150px]"
           >
             {textureConfig.description}
@@ -324,8 +325,8 @@ function FilterTabs({ activeTexture, onTextureChange }: FilterTabsProps) {
               flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium
               whitespace-nowrap transition-colors
               ${isActive
-                ? 'bg-indigo-600 text-white'
-                : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
+                ? 'bg-accent-600 text-white'
+                : 'bg-calm-bg-elevated text-calm-text-muted hover:bg-calm-bg-tertiary'
               }
             `}
           >
@@ -375,18 +376,18 @@ function CollectionProgress() {
   const percentage = Math.round((stats.owned / stats.total) * 100);
 
   return (
-    <div className="bg-gray-800/50 rounded-xl p-4 mb-4">
+    <div className="bg-calm-bg-elevated/50 rounded-xl p-4 mb-4">
       <div className="flex items-center justify-between mb-3">
         <h3 className="font-semibold text-white">Progreso de Colección</h3>
-        <span className="text-sm text-gray-400">
+        <span className="text-sm text-calm-text-muted">
           {stats.owned}/{stats.total} ({percentage}%)
         </span>
       </div>
 
       {/* Barra de progreso general */}
-      <div className="h-2 bg-gray-700 rounded-full overflow-hidden mb-4">
+      <div className="h-2 bg-calm-bg-tertiary rounded-full overflow-hidden mb-4">
         <motion.div
-          className="h-full bg-gradient-to-r from-indigo-500 to-purple-500"
+          className="h-full bg-gradient-to-r from-accent-500 to-sky-500"
           initial={{ width: 0 }}
           animate={{ width: `${percentage}%` }}
           transition={{ duration: 1, ease: 'easeOut' }}
@@ -407,7 +408,7 @@ function CollectionProgress() {
                 >
                   {data.owned}
                 </div>
-                <p className="text-[10px] text-gray-500 truncate">{config.label}</p>
+                <p className="text-[10px] text-calm-text-muted truncate">{config.label}</p>
               </div>
             );
           }
@@ -506,7 +507,7 @@ export function MaterialGallery({
 
       {/* Mensaje si no hay materiales */}
       {filteredMaterials.length === 0 && (
-        <div className="text-center py-12 text-gray-500">
+        <div className="text-center py-12 text-calm-text-muted">
           <p className="text-4xl mb-2">📦</p>
           <p>No hay materiales que mostrar</p>
           {showOnlyOwned && (
@@ -522,7 +523,7 @@ export function MaterialGallery({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
-            className="mt-6 bg-gray-800 rounded-xl p-4 border border-gray-700"
+            className="mt-6 bg-calm-bg-elevated rounded-xl p-4 border border-calm-warm-200"
           >
             <MaterialDetailPanel materialId={selectedMaterial} />
           </motion.div>
@@ -568,57 +569,57 @@ function MaterialDetailPanel({ materialId }: { materialId: string }) {
               >
                 {config.label}
               </span>
-              <span className="text-sm text-gray-400">{textureConfig.label}</span>
+              <span className="text-sm text-calm-text-muted">{textureConfig.label}</span>
             </div>
           </div>
           <div className="text-right">
             <p className="text-3xl font-bold text-white">{amount}</p>
-            <p className="text-xs text-gray-500">en inventario</p>
+            <p className="text-xs text-calm-text-muted">en inventario</p>
           </div>
         </div>
 
-        <p className="text-gray-400 text-sm mb-4">{textureConfig.description}</p>
+        <p className="text-calm-text-muted text-sm mb-4">{textureConfig.description}</p>
 
         {/* Valores */}
         <div className="grid grid-cols-2 gap-4 mb-4">
-          <div className="bg-gray-900/50 rounded-lg p-3">
-            <p className="text-xs text-gray-500 mb-1">Valor XP</p>
-            <p className="text-lg font-bold text-indigo-400">{material.xpCost}</p>
+          <div className="bg-calm-bg-primary/50 rounded-lg p-3">
+            <p className="text-xs text-calm-text-muted mb-1">Valor XP</p>
+            <p className="text-lg font-bold text-accent-400">{material.xpCost}</p>
           </div>
-          <div className="bg-gray-900/50 rounded-lg p-3">
-            <p className="text-xs text-gray-500 mb-1">Valor Coins</p>
-            <p className="text-lg font-bold text-yellow-400">{material.coinCost}</p>
+          <div className="bg-calm-bg-primary/50 rounded-lg p-3">
+            <p className="text-xs text-calm-text-muted mb-1">Valor Coins</p>
+            <p className="text-lg font-bold text-amber-400">{material.coinCost}</p>
           </div>
         </div>
 
         {/* Propiedades PBR */}
         {pbrConfig && (
-          <div className="border-t border-gray-700 pt-4">
-            <h4 className="text-sm font-medium text-gray-300 mb-2">Propiedades PBR</h4>
+          <div className="border-t border-calm-warm-200 pt-4">
+            <h4 className="text-sm font-medium text-calm-text-tertiary mb-2">Propiedades PBR</h4>
             <div className="grid grid-cols-3 gap-2 text-xs">
               <div>
-                <p className="text-gray-500">Rugosidad</p>
-                <div className="h-1 bg-gray-700 rounded-full mt-1">
+                <p className="text-calm-text-muted">Rugosidad</p>
+                <div className="h-1 bg-calm-bg-tertiary rounded-full mt-1">
                   <div
-                    className="h-full bg-blue-500 rounded-full"
+                    className="h-full bg-sky-500 rounded-full"
                     style={{ width: `${pbrConfig.properties.roughness * 100}%` }}
                   />
                 </div>
               </div>
               <div>
-                <p className="text-gray-500">Metalizado</p>
-                <div className="h-1 bg-gray-700 rounded-full mt-1">
+                <p className="text-calm-text-muted">Metalizado</p>
+                <div className="h-1 bg-calm-bg-tertiary rounded-full mt-1">
                   <div
-                    className="h-full bg-purple-500 rounded-full"
+                    className="h-full bg-sky-500 rounded-full"
                     style={{ width: `${pbrConfig.properties.metalness * 100}%` }}
                   />
                 </div>
               </div>
               <div>
-                <p className="text-gray-500">Transmisión</p>
-                <div className="h-1 bg-gray-700 rounded-full mt-1">
+                <p className="text-calm-text-muted">Transmisión</p>
+                <div className="h-1 bg-calm-bg-tertiary rounded-full mt-1">
                   <div
-                    className="h-full bg-cyan-500 rounded-full"
+                    className="h-full bg-sky-500 rounded-full"
                     style={{ width: `${pbrConfig.properties.transmission * 100}%` }}
                   />
                 </div>
@@ -629,13 +630,13 @@ function MaterialDetailPanel({ materialId }: { materialId: string }) {
 
         {/* Variantes disponibles */}
         {pbrConfig && pbrConfig.variants.length > 0 && (
-          <div className="border-t border-gray-700 pt-4 mt-4">
-            <h4 className="text-sm font-medium text-gray-300 mb-2">Variantes</h4>
+          <div className="border-t border-calm-warm-200 pt-4 mt-4">
+            <h4 className="text-sm font-medium text-calm-text-tertiary mb-2">Variantes</h4>
             <div className="flex gap-2">
               {pbrConfig.variants.map((variant) => (
                 <div
                   key={variant.id}
-                  className="w-8 h-8 rounded-full border-2 border-gray-600"
+                  className="w-8 h-8 rounded-full border-2 border-calm-warm-200"
                   style={{ backgroundColor: variant.colorModifier }}
                   title={variant.name}
                 />

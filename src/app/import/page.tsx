@@ -106,7 +106,7 @@ export default function ImportPage() {
       fallback={
         <div className="flex items-center justify-center py-20">
           <motion.div
-            className="w-16 h-16 rounded-full border-4 border-lf-primary border-t-transparent"
+            className="w-16 h-16 rounded-full border-4 border-accent-500 border-t-transparent"
             animate={{ rotate: 360 }}
             transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
           />

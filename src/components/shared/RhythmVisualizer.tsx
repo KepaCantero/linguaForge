@@ -57,12 +57,12 @@ interface RhythmFeedbackProps {
 
 export function RhythmFeedback({ similarity, className = "" }: RhythmFeedbackProps) {
   const getFeedback = () => {
-    if (similarity >= 90) return { emoji: "🌟", text: "¡Perfecto!", color: "text-green-600" };
-    if (similarity >= 80) return { emoji: "✨", text: "¡Excelente!", color: "text-green-500" };
-    if (similarity >= 70) return { emoji: "👍", text: "¡Muy bien!", color: "text-blue-500" };
-    if (similarity >= 60) return { emoji: "💪", text: "¡Bien!", color: "text-yellow-500" };
-    if (similarity >= 50) return { emoji: "🎯", text: "Casi...", color: "text-orange-500" };
-    return { emoji: "🔄", text: "Intenta de nuevo", color: "text-red-500" };
+    if (similarity >= 90) return { emoji: "🌟", text: "¡Perfecto!", color: "text-accent-600" };
+    if (similarity >= 80) return { emoji: "✨", text: "¡Excelente!", color: "text-accent-500" };
+    if (similarity >= 70) return { emoji: "👍", text: "¡Muy bien!", color: "text-sky-500" };
+    if (similarity >= 60) return { emoji: "💪", text: "¡Bien!", color: "text-amber-500" };
+    if (similarity >= 50) return { emoji: "🎯", text: "Casi...", color: "text-amber-500" };
+    return { emoji: "🔄", text: "Intenta de nuevo", color: "text-semantic-error" };
   };
 
   const feedback = getFeedback();
@@ -127,7 +127,7 @@ export function RhythmVisualizer({
       {/* Patrón nativo */}
       <div className="space-y-2">
         <div className="flex items-center gap-2">
-          <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+          <span className="text-sm font-semibold text-calm-text-secondary dark:text-calm-text-tertiary">
             🎯 Nativo:
           </span>
         </div>
@@ -135,7 +135,7 @@ export function RhythmVisualizer({
           {nativeSegments.map((duration, idx) => (
             <div key={idx} className="flex flex-col items-center gap-1">
               <motion.div
-                className="bg-indigo-500 rounded"
+                className="bg-accent-500 rounded"
                 initial={{ width: 0, height: 0 }}
                 animate={{
                   width: `${Math.max(normalizeDuration(duration), 8)}px`,
@@ -144,7 +144,7 @@ export function RhythmVisualizer({
                 transition={{ delay: idx * 0.1, duration: 0.3 }}
               />
               {words && words[idx] && (
-                <span className="text-xs text-gray-500 dark:text-gray-400">
+                <span className="text-xs text-calm-text-muted dark:text-calm-text-muted">
                   {words[idx]}
                 </span>
               )}
@@ -166,11 +166,11 @@ export function RhythmVisualizer({
       {showComparison && userSegments && (
         <div className="space-y-2">
           <div className="flex items-center gap-2">
-            <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+            <span className="text-sm font-semibold text-calm-text-secondary dark:text-calm-text-tertiary">
               🎤 Tú:
             </span>
             {similarity !== undefined && (
-              <span className="text-sm text-gray-600 dark:text-gray-400">
+              <span className="text-sm text-calm-text-secondary dark:text-calm-text-muted">
                 Similitud: {Math.round(similarity)}%
               </span>
             )}
@@ -185,7 +185,7 @@ export function RhythmVisualizer({
                 <div key={idx} className="flex items-center gap-1">
                   <motion.div
                     className={`rounded ${
-                      isSimilar ? "bg-green-500" : "bg-orange-500"
+                      isSimilar ? "bg-accent-500" : "bg-amber-500"
                     }`}
                     initial={{ width: 0, height: 0 }}
                     animate={{
@@ -213,18 +213,18 @@ export function RhythmVisualizer({
       {/* Barra de similitud */}
       {similarity !== undefined && showComparison && (
         <div className="space-y-1">
-          <div className="flex items-center justify-between text-xs text-gray-600 dark:text-gray-400">
+          <div className="flex items-center justify-between text-xs text-calm-text-secondary dark:text-calm-text-muted">
             <span>Similitud de ritmo</span>
             <span>{Math.round(similarity)}%</span>
           </div>
-          <div className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+          <div className="w-full h-2 bg-calm-bg-tertiary dark:bg-calm-bg-tertiary rounded-full overflow-hidden">
             <motion.div
               className={`h-full ${
                 similarity >= 80
-                  ? "bg-green-500"
+                  ? "bg-accent-500"
                   : similarity >= 60
-                  ? "bg-yellow-500"
-                  : "bg-red-500"
+                  ? "bg-amber-500"
+                  : "bg-semantic-error"
               }`}
               initial={{ width: 0 }}
               animate={{ width: `${similarity}%` }}

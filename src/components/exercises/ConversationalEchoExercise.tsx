@@ -141,13 +141,13 @@ export function ConversationalEchoExercise({
     <div className={`max-w-lg mx-auto ${className}`}>
       <div className="mb-6">
         <div className="flex items-center justify-center gap-2 mb-2">
-          <span className="px-3 py-1 bg-indigo-100 dark:bg-indigo-900/30 rounded-full text-sm text-indigo-700 dark:text-indigo-300">
+          <span className="px-3 py-1 bg-accent-100 dark:bg-accent-900/30 rounded-full text-sm text-accent-700 dark:text-accent-300">
             📍 {exercise.context.scene}
           </span>
           <span className={`px-2 py-1 rounded-full text-xs ${
             exercise.context.formality === 'formal'
-              ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300'
-              : 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300'
+              ? 'bg-sky-100 dark:bg-sky-900/30 text-sky-700 dark:text-sky-300'
+              : 'bg-accent-100 dark:bg-accent-900/30 text-accent-700 dark:text-accent-300'
           }`}>
             {exercise.context.formality === 'formal' ? 'Formal' : 'Informal'}
           </span>
@@ -195,7 +195,7 @@ export function ConversationalEchoExercise({
               <div className="text-center">
                 <button
                   onClick={playSystemAudio}
-                  className="px-6 py-3 bg-indigo-500 hover:bg-indigo-600 text-white rounded-aaa-xl font-medium transition-colors"
+                  className="px-6 py-3 bg-accent-500 hover:bg-accent-600 text-white rounded-2xl font-medium transition-colors"
                 >
                   🔊 Escuchar
                 </button>
@@ -219,7 +219,7 @@ export function ConversationalEchoExercise({
         <div className="mt-6 text-center">
           <button
             onClick={onSkip}
-            className="text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+            className="text-sm text-calm-text-muted hover:text-calm-text-secondary dark:text-calm-text-muted dark:hover:text-calm-text-tertiary"
           >
             Saltar ejercicio
           </button>

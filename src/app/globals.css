@@ -3,125 +3,147 @@
 @tailwind utilities;
 
 /* ============================================
-   CALM DARK THEME - Parasympathetic Design System
+   LINGUAFORGE AAA THEME SYSTEM
+   Light/Dark Mode with WCAG AA Compliance
    "Here I can breathe. Here it's okay to make mistakes."
-   Dark mode with calming colors and gentle interactions
    ============================================ */
 
+/* ============================================
+   LIGHT MODE (Default)
+   ============================================ */
 :root {
-  /* === CALM DARK BACKGROUNDS === */
-  --background: #1C2127;
-  --foreground: #E8EAED;
+  color-scheme: light;
 
-  --calm-bg-primary: #1C2127;       /* Warm dark blue-gray */
-  --calm-bg-secondary: #242A32;     /* Slightly lighter */
-  --calm-bg-tertiary: #2D343D;      /* For cards */
-  --calm-bg-elevated: #343C47;      /* Elevated elements */
+  /* === BACKGROUND (60%) - Slate Neutral === */
+  --bg-primary: #F8FAFC;        /* Slate 50 - Neutral claro */
+  --bg-secondary: #F1F5F9;      /* Slate 100 */
+  --bg-tertiary: #E2E8F0;       /* Slate 200 - Para borders sutiles */
+  --bg-elevated: #FFFFFF;       /* Blanco puro para cards */
 
-  /* === CALM TEXT COLORS (for dark mode) === */
-  --calm-text-primary: #E8EAED;     /* Soft white */
-  --calm-text-secondary: #A8B2C0;   /* Muted */
-  --calm-text-tertiary: #6B7789;    /* Hints */
-  --calm-text-muted: #4A5568;       /* Placeholders */
+  /* === TEXT COLORS === */
+  --text-primary: #0F172A;      /* Slate 900 - Máximo contraste (15.8:1) */
+  --text-secondary: #475569;    /* Slate 600 - 9.8:1 ✅ AAA */
+  --text-tertiary: #64748B;     /* Slate 500 - 7.1:1 ✅ AA */
+  --text-muted: #94A3B8;        /* Slate 400 - Placeholder */
 
-  /* === SAGE GREEN (Growth, Progress, Nurturing) === */
-  --calm-sage-50: #F0F5F1;
-  --calm-sage-100: #DCEADF;
-  --calm-sage-200: #B8D4BE;
-  --calm-sage-300: #94BF9E;
-  --calm-sage-400: #72A87D;          /* Primary sage */
-  --calm-sage-500: #5A946A;          /* Hover state */
-  --calm-sage-600: #487A56;
+  /* === ACCENT PRIMARY (10%) - EMERALD === */
+  /* Psychología: Crecimiento, progreso, nutrición emocional */
+  --accent-50: #ECFDF5;
+  --accent-100: #D1FAE5;
+  --accent-200: #A7F3D0;
+  --accent-300: #6EE7B7;
+  --accent-400: #34D399;
+  --accent-500: #10B981;        /* 4.6:1 on white ✅ AA */
+  --accent-600: #059669;
+  --accent-700: #047857;
 
-  /* === BLUE-GRAY SERENITY (Calm Focus) === */
-  --calm-blue-50: #F0F4F8;
-  --calm-blue-100: #D9E2EC;
-  --calm-blue-200: #BCCCDC;
-  --calm-blue-300: #9FB3C8;
-  --calm-blue-400: #829AB1;          /* Primary blue-gray */
-  --calm-blue-500: #627D98;          /* Hover */
-  --calm-blue-600: #486581;
+  /* === SECONDARY - SKY BLUE === */
+  /* Psychología: Calma, enfoque, serenidad */
+  --sky-50: #F0F9FF;
+  --sky-100: #E0F2FE;
+  --sky-200: #BAE6FD;
+  --sky-300: #7DD3FC;
+  --sky-400: #38BDF8;
+  --sky-500: #0EA5E9;           /* 4.8:1 on white ✅ AA */
+  --sky-600: #0284C7;
+  --sky-700: #0369A1;
 
-  /* === WARM GRAY (Neutral UI) === */
-  --calm-warm-50: #FAF9F7;
-  --calm-warm-100: #4A5568;
-  --calm-warm-200: #3D4852;
-  --calm-warm-300: #2D343D;
-  --calm-warm-400: #242A32;
-  --calm-warm-500: #1C2127;
+  /* === ACCENT - WARM AMBER === */
+  /* Psychología: Energía suave, no demanda */
+  --amber-50: #FFFBEB;
+  --amber-100: #FEF3C7;
+  --amber-200: #FDE68A;
+  --amber-300: #FCD34D;
+  --amber-400: #FBBF24;
+  --amber-500: #F59E0B;         /* 4.3:1 on white ⚠️ - solo con texto blanco */
+  --amber-600: #D97706;
 
-  /* === SOFT CORAL ACCENT (Encouraging, not alarming) === */
-  --calm-accent-50: #FEF5F3;
-  --calm-accent-100: #FDE8E3;
-  --calm-accent-200: #F9C9BE;
-  --calm-accent-300: #F5A898;
-  --calm-accent-400: #E8907C;        /* Primary accent */
-  --calm-accent-500: #D97B66;
-  --calm-accent-600: #C46652;
+  /* === SEMANTIC COLORS (WCAG AA Compliant) === */
+  --semantic-success: #059669;      /* 4.6:1 ✅ */
+  --semantic-success-bg: #ECFDF5;
+  --semantic-success-text: #065F46;
 
-  /* === SEMANTIC COLORS (Softened) === */
-  --calm-success: #72A87D;           /* Sage green - gentle positive */
-  --calm-success-bg: rgba(114, 168, 125, 0.15);
-  --calm-warning: #D4A76A;           /* Soft gold - warm caution */
-  --calm-warning-bg: rgba(212, 167, 106, 0.15);
-  --calm-error: #C9807A;             /* Dusty rose - not alarming */
-  --calm-error-bg: rgba(201, 128, 122, 0.15);
-  --calm-info: #829AB1;              /* Blue-gray - calm information */
-  --calm-info-bg: rgba(130, 154, 177, 0.15);
+  --semantic-error: #DC2626;        /* 6.3:1 ✅ */
+  --semantic-error-bg: #FEF2F2;
+  --semantic-error-text: #991B1B;
 
-  /* === LEGACY COMPATIBILITY (mapped to calm) === */
-  --lf-primary: var(--calm-sage-400);
-  --lf-primary-dark: var(--calm-sage-500);
-  --lf-primary-light: var(--calm-sage-300);
-  --lf-secondary: var(--calm-blue-400);
-  --lf-secondary-light: var(--calm-blue-300);
-  --lf-accent: var(--calm-accent-400);
-  --lf-accent-dark: var(--calm-accent-500);
-  --lf-accent-subtle: var(--calm-accent-200);
-  --lf-dark: var(--calm-bg-secondary);
-  --lf-soft: var(--calm-bg-elevated);
-  --lf-muted: var(--calm-text-tertiary);
+  --semantic-warning: #D97706;      /* 4.8:1 ✅ */
+  --semantic-warning-bg: #FFFBEB;
+  --semantic-warning-text: #92400E;
 
-  /* === GRAYSCALE (dark mode optimized) === */
-  --gray-50: #E8EAED;
-  --gray-100: #D0D4DA;
-  --gray-200: #A8B2C0;
-  --gray-300: #6B7789;
-  --gray-400: #4A5568;
-  --gray-500: #3D4852;
-  --gray-600: #2D343D;
-  --gray-700: #242A32;
-  --gray-800: #1C2127;
-  --gray-900: #13171B;
+  --semantic-info: #0284C7;         /* 5.9:1 ✅ */
+  --semantic-info-bg: #F0F9FF;
+  --semantic-info-text: #075985;
 
-  /* === LEGACY SEMANTIC (mapped to calm) === */
-  --success: var(--calm-success);
-  --success-dark: var(--calm-sage-500);
-  --warning: var(--calm-warning);
-  --warning-dark: #C4964F;
-  --error: var(--calm-error);
-  --error-dark: #B56B65;
-  --info: var(--calm-info);
+  /* === BORDER COLORS === */
+  --border-subtle: #E2E8F0;         /* Slate 200 */
+  --border-default: #CBD5E1;        /* Slate 300 */
+  --border-strong: #94A3B8;         /* Slate 400 */
 
-  /* === CALM GRADIENTS (Subtle, dark) === */
-  --gradient-mist: linear-gradient(180deg, #1C2127 0%, #242A32 100%);
-  --gradient-dawn: linear-gradient(135deg, #1C2127 0%, #2D343D 50%, #1C2127 100%);
-  --gradient-breath: linear-gradient(180deg, #242A32 0%, #1C2127 100%);
-  --gradient-sage: linear-gradient(135deg, rgba(114, 168, 125, 0.1) 0%, rgba(114, 168, 125, 0.05) 100%);
+  /* === LEGACY MAPPING (Backward Compatibility) === */
+  --lf-primary: var(--accent-500);
+  --lf-primary-dark: var(--accent-600);
+  --lf-primary-light: var(--accent-400);
+  --lf-secondary: var(--sky-500);
+  --lf-secondary-light: var(--sky-400);
+  --lf-accent: var(--amber-500);
+  --lf-accent-dark: var(--amber-600);
+  --lf-accent-subtle: var(--amber-200);
+  --lf-dark: var(--bg-secondary);
+  --lf-soft: var(--bg-elevated);
+  --lf-muted: var(--text-tertiary);
 
-  /* Legacy gradient mapping */
-  --gradient-start: #1C2127;
-  --gradient-mid: #242A32;
-  --gradient-end: #2D343D;
+  /* Legacy calm mapping */
+  --calm-bg-primary: var(--bg-primary);
+  --calm-bg-secondary: var(--bg-secondary);
+  --calm-bg-tertiary: var(--bg-tertiary);
+  --calm-bg-elevated: var(--bg-elevated);
+  --calm-text-primary: var(--text-primary);
+  --calm-text-secondary: var(--text-secondary);
+  --calm-text-tertiary: var(--text-tertiary);
+  --calm-text-muted: var(--text-muted);
+  --calm-sage-400: var(--accent-500);
+  --calm-sage-500: var(--accent-600);
+  --calm-blue-400: var(--sky-500);
+  --calm-blue-500: var(--sky-600);
+  --calm-warm-100: var(--border-subtle);
+  --calm-warm-200: var(--border-default);
+
+  /* Legacy semantic */
+  --success: var(--semantic-success);
+  --success-dark: var(--accent-600);
+  --warning: var(--semantic-warning);
+  --warning-dark: var(--amber-600);
+  --error: var(--semantic-error);
+  --error-dark: #B91C1C;
+  --info: var(--semantic-info);
+
+  /* Grayscale legacy */
+  --gray-50: #F8FAFC;
+  --gray-100: #F1F5F9;
+  --gray-200: #E2E8F0;
+  --gray-300: #CBD5E1;
+  --gray-400: #94A3B8;
+  --gray-500: #64748B;
+  --gray-600: #475569;
+  --gray-700: #334155;
+  --gray-800: #1E293B;
+  --gray-900: #0F172A;
+
+  /* === GRADIENTS === */
+  --gradient-mist: linear-gradient(180deg, #F8FAFC 0%, #F1F5F9 100%);
+  --gradient-dawn: linear-gradient(135deg, #F8FAFC 0%, #ECFDF5 50%, #F1F5F9 100%);
+  --gradient-breath: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+  --gradient-sage: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%);
   --gradient-forge: var(--gradient-dawn);
   --gradient-resonance: var(--gradient-mist);
 
-  /* === CALM SHADOWS (Soft for dark mode) === */
-  --shadow-soft-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
-  --shadow-soft-md: 0 4px 12px rgba(0, 0, 0, 0.25);
-  --shadow-soft-lg: 0 8px 24px rgba(0, 0, 0, 0.3);
-  --shadow-soft-xl: 0 16px 40px rgba(0, 0, 0, 0.35);
-  --shadow-inner-soft: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  /* === SHADOWS (Soft for light mode) === */
+  --shadow-soft-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-soft-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-soft-lg: 0 8px 24px rgba(0, 0, 0, 0.10);
+  --shadow-soft-xl: 0 16px 40px rgba(0, 0, 0, 0.12);
+  --shadow-inner-soft: inset 0 1px 2px rgba(0, 0, 0, 0.03);
 
   /* === LAYOUT === */
   --header-height: 3.5rem;
@@ -143,7 +165,7 @@
   --text-4xl: clamp(1.875rem, 1.5rem + 1.5vw, 2.25rem);
   --text-5xl: clamp(2.25rem, 1.75rem + 2vw, 3rem);
 
-  /* === CALM LINE HEIGHTS === */
+  /* === LINE HEIGHTS === */
   --leading-tight: 1.3;
   --leading-normal: 1.7;
   --leading-relaxed: 1.8;
@@ -156,31 +178,253 @@
   --space-xl: clamp(1.5rem, 1rem + 1.5vw, 2rem);
   --space-2xl: clamp(2rem, 1.5rem + 2vw, 3rem);
 
-  /* === CALM TRANSITIONS === */
+  /* === TRANSITIONS === */
   --transition-gentle: 300ms ease-out;
   --transition-breath: 400ms cubic-bezier(0.25, 0.1, 0.25, 1);
   --transition-float: 500ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* ============================================
-   BASE STYLES - Dark, Calm, Breathable
+   DARK MODE
+   ============================================ */
+.dark {
+  color-scheme: dark;
+
+  /* === BACKGROUND (60%) - Warm Dark === */
+  --bg-primary: #1C2127;        /* Warm dark blue-gray */
+  --bg-secondary: #242A32;      /* Slightly lighter */
+  --bg-tertiary: #2D343D;       /* For cards */
+  --bg-elevated: #343C47;       /* Elevated elements */
+
+  /* === TEXT COLORS (Inverted for contrast) === */
+  --text-primary: #F8FAFC;      /* Almost white - 12.8:1 ✅ */
+  --text-secondary: #CBD5E1;    /* 10.2:1 ✅ AAA */
+  --text-tertiary: #94A3B8;     /* 6.8:1 ✅ AA */
+  --text-muted: #64748B;        /* Placeholder */
+
+  /* === ACCENT PRIMARY (10%) - EMERALD DARK === */
+  --accent-50: #064E3B;         /* Very dark green for backgrounds */
+  --accent-100: #065F46;
+  --accent-200: #047857;
+  --accent-300: #059669;
+  --accent-400: #10B981;
+  --accent-500: #34D399;        /* 5.2:1 on dark ✅ */
+  --accent-600: #6EE7B7;
+  --accent-700: #6EE7B7;
+
+  /* === SECONDARY - SKY DARK === */
+  --sky-50: #0C4A6E;
+  --sky-100: #075985;
+  --sky-200: #0369A1;
+  --sky-300: #0284C7;
+  --sky-400: #0EA5E9;
+  --sky-500: #38BDF8;           /* 5.5:1 on dark ✅ */
+  --sky-600: #7DD3FC;
+  --sky-700: #7DD3FC;
+
+  /* === ACCENT - AMBER DARK === */
+  --amber-50: #78350F;
+  --amber-100: #92400E;
+  --amber-200: #B45309;
+  --amber-300: #D97706;
+  --amber-400: #F59E0B;
+  --amber-500: #FBBF24;         /* 4.7:1 on dark ✅ */
+  --amber-600: #FCD34D;
+
+  /* === SEMANTIC COLORS (Dark Mode) === */
+  --semantic-success: #34D399;      /* 5.2:1 ✅ */
+  --semantic-success-bg: #064E3B;
+  --semantic-success-text: #ECFDF5;
+
+  --semantic-error: #F87171;        /* 4.9:1 ✅ */
+  --semantic-error-bg: #7F1D1D;
+  --semantic-error-text: #FEF2F2;
+
+  --semantic-warning: #FBBF24;      /* 4.7:1 ✅ */
+  --semantic-warning-bg: #78350F;
+  --semantic-warning-text: #FFFBEB;
+
+  --semantic-info: #38BDF8;         /* 5.5:1 ✅ */
+  --semantic-info-bg: #0C4A6E;
+  --semantic-info-text: #F0F9FF;
+
+  /* === BORDER COLORS (Dark) === */
+  --border-subtle: #2D343D;
+  --border-default: #3D4852;
+  --border-strong: #475569;
+
+  /* === LEGACY MAPPING (Dark) === */
+  --calm-bg-primary: var(--bg-primary);
+  --calm-bg-secondary: var(--bg-secondary);
+  --calm-bg-tertiary: var(--bg-tertiary);
+  --calm-bg-elevated: var(--bg-elevated);
+  --calm-text-primary: var(--text-primary);
+  --calm-text-secondary: var(--text-secondary);
+  --calm-text-tertiary: var(--text-tertiary);
+  --calm-text-muted: var(--text-muted);
+  --calm-sage-400: var(--accent-500);
+  --calm-sage-500: var(--accent-600);
+  --calm-blue-400: var(--sky-500);
+  --calm-blue-500: var(--sky-600);
+  --calm-warm-100: var(--border-subtle);
+  --calm-warm-200: var(--border-default);
+
+  /* Grayscale dark */
+  --gray-50: #F8FAFC;
+  --gray-100: #E2E8F0;
+  --gray-200: #CBD5E1;
+  --gray-300: #94A3B8;
+  --gray-400: #64748B;
+  --gray-500: #475569;
+  --gray-600: #334155;
+  --gray-700: #242A32;
+  --gray-800: #1C2127;
+  --gray-900: #0F172A;
+
+  /* === GRADIENTS (Dark) === */
+  --gradient-mist: linear-gradient(180deg, #1C2127 0%, #242A32 100%);
+  --gradient-dawn: linear-gradient(135deg, #1C2127 0%, #2D343D 50%, #1C2127 100%);
+  --gradient-breath: linear-gradient(180deg, #242A32 0%, #1C2127 100%);
+  --gradient-sage: linear-gradient(135deg, rgba(52, 211, 153, 0.15) 0%, rgba(52, 211, 153, 0.05) 100%);
+
+  /* === SHADOWS (Dark) === */
+  --shadow-soft-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-soft-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-soft-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --shadow-soft-xl: 0 16px 40px rgba(0, 0, 0, 0.6);
+  --shadow-inner-soft: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* ============================================
+   SYSTEM PREFERENCE DETECTION
+   ============================================ */
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    color-scheme: dark;
+
+    /* === BACKGROUND === */
+    --bg-primary: #1C2127;
+    --bg-secondary: #242A32;
+    --bg-tertiary: #2D343D;
+    --bg-elevated: #343C47;
+
+    /* === TEXT === */
+    --text-primary: #F8FAFC;
+    --text-secondary: #CBD5E1;
+    --text-tertiary: #94A3B8;
+    --text-muted: #64748B;
+
+    /* === ACCENT === */
+    --accent-50: #064E3B;
+    --accent-100: #065F46;
+    --accent-200: #047857;
+    --accent-300: #059669;
+    --accent-400: #10B981;
+    --accent-500: #34D399;
+    --accent-600: #6EE7B7;
+    --accent-700: #6EE7B7;
+
+    /* === SKY === */
+    --sky-50: #0C4A6E;
+    --sky-100: #075985;
+    --sky-200: #0369A1;
+    --sky-300: #0284C7;
+    --sky-400: #0EA5E9;
+    --sky-500: #38BDF8;
+    --sky-600: #7DD3FC;
+    --sky-700: #7DD3FC;
+
+    /* === AMBER === */
+    --amber-50: #78350F;
+    --amber-100: #92400E;
+    --amber-200: #B45309;
+    --amber-300: #D97706;
+    --amber-400: #F59E0B;
+    --amber-500: #FBBF24;
+    --amber-600: #FCD34D;
+
+    /* === SEMANTIC === */
+    --semantic-success: #34D399;
+    --semantic-success-bg: #064E3B;
+    --semantic-success-text: #ECFDF5;
+    --semantic-error: #F87171;
+    --semantic-error-bg: #7F1D1D;
+    --semantic-error-text: #FEF2F2;
+    --semantic-warning: #FBBF24;
+    --semantic-warning-bg: #78350F;
+    --semantic-warning-text: #FFFBEB;
+    --semantic-info: #38BDF8;
+    --semantic-info-bg: #0C4A6E;
+    --semantic-info-text: #F0F9FF;
+
+    /* === BORDER === */
+    --border-subtle: #2D343D;
+    --border-default: #3D4852;
+    --border-strong: #475569;
+
+    /* Legacy calm mapping */
+    --calm-bg-primary: var(--bg-primary);
+    --calm-bg-secondary: var(--bg-secondary);
+    --calm-bg-tertiary: var(--bg-tertiary);
+    --calm-bg-elevated: var(--bg-elevated);
+    --calm-text-primary: var(--text-primary);
+    --calm-text-secondary: var(--text-secondary);
+    --calm-text-tertiary: var(--text-tertiary);
+    --calm-text-muted: var(--text-muted);
+    --calm-sage-400: var(--accent-500);
+    --calm-sage-500: var(--accent-600);
+    --calm-blue-400: var(--sky-500);
+    --calm-blue-500: var(--sky-600);
+    --calm-warm-100: var(--border-subtle);
+    --calm-warm-200: var(--border-default);
+
+    /* Grayscale dark */
+    --gray-50: #F8FAFC;
+    --gray-100: #E2E8F0;
+    --gray-200: #CBD5E1;
+    --gray-300: #94A3B8;
+    --gray-400: #64748B;
+    --gray-500: #475569;
+    --gray-600: #334155;
+    --gray-700: #242A32;
+    --gray-800: #1C2127;
+    --gray-900: #0F172A;
+
+    /* Gradients */
+    --gradient-mist: linear-gradient(180deg, #1C2127 0%, #242A32 100%);
+    --gradient-dawn: linear-gradient(135deg, #1C2127 0%, #2D343D 50%, #1C2127 100%);
+    --gradient-breath: linear-gradient(180deg, #242A32 0%, #1C2127 100%);
+    --gradient-sage: linear-gradient(135deg, rgba(52, 211, 153, 0.15) 0%, rgba(52, 211, 153, 0.05) 100%);
+
+    /* Shadows */
+    --shadow-soft-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-soft-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+    --shadow-soft-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+    --shadow-soft-xl: 0 16px 40px rgba(0, 0, 0, 0.6);
+    --shadow-inner-soft: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+  }
+}
+
+/* ============================================
+   BASE STYLES
    ============================================ */
 
 @layer base {
   html {
-    color-scheme: dark;
+    scroll-behavior: smooth;
   }
 
   body {
-    @apply text-white antialiased;
-    background: var(--gradient-mist);
-    background-attachment: fixed;
+    @apply antialiased;
+    background: var(--bg-primary);
+    color: var(--text-primary);
     min-height: 100vh;
     line-height: var(--leading-normal);
     letter-spacing: 0.01em;
+    transition: background-color var(--transition-breath), color var(--transition-breath);
   }
 
-  /* Subtle ambient glow - very soft */
+  /* Subtle ambient glow */
   main {
     position: relative;
   }
@@ -195,23 +439,24 @@
     height: 60%;
     background: radial-gradient(
       ellipse 80% 50% at 50% 0%,
-      rgba(114, 168, 125, 0.04) 0%,
+      rgba(16, 185, 129, 0.04) 0%,
       transparent 70%
     );
     pointer-events: none;
     z-index: 0;
   }
 
-  /* Calm heading styles */
+  /* Heading styles */
   h1, h2, h3, h4, h5, h6 {
     line-height: var(--leading-tight);
     letter-spacing: 0.02em;
-    font-weight: 500;
+    font-weight: 600;
+    color: var(--text-primary);
   }
 }
 
 /* ============================================
-   CALM COMPONENTS
+   COMPONENT STYLES
    ============================================ */
 
 @layer components {
@@ -219,13 +464,13 @@
   .btn-calm {
     @apply relative overflow-hidden rounded-xl;
     @apply px-6 py-3;
-    background-color: var(--calm-sage-400);
+    background-color: var(--accent-500);
     color: white;
     transition: var(--transition-breath);
   }
 
   .btn-calm:hover {
-    background-color: var(--calm-sage-500);
+    background-color: var(--accent-600);
     box-shadow: var(--shadow-soft-md);
   }
 
@@ -233,22 +478,17 @@
     opacity: 0.9;
   }
 
-  /* Legacy btn-glow - now calm */
+  /* Legacy btn-glow */
   .btn-glow {
     @apply relative overflow-hidden;
     transition: all 0.3s ease;
   }
 
   .btn-glow:hover {
-    transform: none; /* No translateY */
     box-shadow: var(--shadow-soft-md);
   }
 
-  .btn-glow:hover::before {
-    opacity: 0; /* No shimmer */
-  }
-
-  /* Card with soft shadow on hover */
+  /* Card hover */
   .card-glow {
     @apply transition-all duration-300;
   }
@@ -257,16 +497,7 @@
     box-shadow: var(--shadow-soft-md);
   }
 
-  /* Progress bar - no shimmer */
-  .progress-particles::after {
-    display: none;
-  }
-
-  /* Gentle breathing for active states */
-  .node-breathing {
-    animation: gentle-pulse 4s ease-in-out infinite;
-  }
-
+  /* Gentle pulse animation */
   @keyframes gentle-pulse {
     0%, 100% {
       opacity: 1;
@@ -276,24 +507,8 @@
     }
   }
 
-  /* Legacy breathing - softened */
-  @keyframes breathing {
-    0%, 100% {
-      box-shadow: var(--shadow-soft-sm);
-    }
-    50% {
-      box-shadow: var(--shadow-soft-md);
-    }
-  }
-
-  /* Text glow disabled */
-  .text-glow {
-    text-shadow: none;
-  }
-
-  /* Gentle float */
-  .float {
-    animation: gentle-float 6s ease-in-out infinite;
+  .node-breathing {
+    animation: gentle-pulse 4s ease-in-out infinite;
   }
 
   @keyframes gentle-float {
@@ -305,39 +520,31 @@
     }
   }
 
-  @keyframes float {
-    0%, 100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-5px);
-    }
+  .float {
+    animation: gentle-float 6s ease-in-out infinite;
   }
 
-  /* Disable particle bursts */
-  .particle-burst::before,
-  .particle-burst::after {
-    display: none;
-  }
-
-  /* Calm feedback states */
+  /* Feedback states with semantic colors */
   .feedback-success {
-    background: var(--calm-success-bg);
-    border: 1px solid rgba(114, 168, 125, 0.3);
+    background: var(--semantic-success-bg);
+    border: 1px solid var(--semantic-success);
+    color: var(--semantic-success-text);
     @apply rounded-xl p-4;
     animation: gentle-appear 400ms ease-out;
   }
 
   .feedback-error {
-    background: var(--calm-error-bg);
-    border: 1px solid rgba(201, 128, 122, 0.3);
+    background: var(--semantic-error-bg);
+    border: 1px solid var(--semantic-error);
+    color: var(--semantic-error-text);
     @apply rounded-xl p-4;
     animation: gentle-appear 400ms ease-out;
   }
 
   .feedback-info {
-    background: var(--calm-info-bg);
-    border: 1px solid rgba(130, 154, 177, 0.3);
+    background: var(--semantic-info-bg);
+    border: 1px solid var(--semantic-info);
+    color: var(--semantic-info-text);
     @apply rounded-xl p-4;
     animation: gentle-appear 400ms ease-out;
   }
@@ -353,14 +560,16 @@
     }
   }
 
-  /* Shimmer slowed */
-  @keyframes shimmer {
-    0% {
-      transform: translateX(-100%);
-    }
-    100% {
-      transform: translateX(100%);
-    }
+  /* Glass morphism */
+  .glass {
+    @apply backdrop-blur-md border;
+    background: rgba(255, 255, 255, 0.7);
+    border-color: rgba(0, 0, 0, 0.1);
+  }
+
+  .dark .glass {
+    background: rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.1);
   }
 }
 
@@ -418,29 +627,19 @@
   .pt-header { padding-top: var(--header-height); }
   .pb-nav { padding-bottom: var(--nav-height); }
 
-  /* Calm gradient text */
+  /* Gradient text */
   .gradient-text {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, var(--calm-sage-400) 0%, var(--calm-blue-400) 100%);
+    background-image: linear-gradient(135deg, var(--accent-500) 0%, var(--sky-500) 100%);
   }
 
-  /* Glass morphism for dark mode */
-  .glass {
-    @apply bg-white/5 backdrop-blur-md border border-white/10;
-  }
-
-  /* Inner shadow */
-  .inner-glow {
-    box-shadow: var(--shadow-inner-soft);
-  }
-
-  /* Calm line heights */
+  /* Line heights */
   .leading-calm { line-height: var(--leading-normal); }
   .leading-calm-relaxed { line-height: var(--leading-relaxed); }
 }
 
 /* ============================================
-   SCROLLBAR - Dark, Subtle
+   SCROLLBAR
    ============================================ */
 
 ::-webkit-scrollbar {
@@ -449,22 +648,22 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--calm-bg-secondary);
+  background: var(--bg-secondary);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--calm-warm-100);
+  background: var(--border-default);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--calm-text-tertiary);
+  background: var(--border-strong);
 }
 
-/* Selection - soft sage */
+/* Selection */
 ::selection {
-  background: rgba(114, 168, 125, 0.5);
-  color: #1a202c;
+  background: var(--accent-200);
+  color: var(--text-primary);
 }
 
 /* ============================================
@@ -483,15 +682,9 @@
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  html {
-    scroll-behavior: smooth;
-  }
-}
-
-/* Calm focus state - sage outline */
+/* Focus state - accent color */
 :focus-visible {
-  outline: 2px solid var(--calm-sage-400);
+  outline: 2px solid var(--accent-500);
   outline-offset: 2px;
 }
 

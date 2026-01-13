@@ -37,7 +37,7 @@ const TOURS: Record<string, TutorialStep[]> = {
         <div class="text-center">
           <div class="text-4xl mb-2">🧠</div>
           <h3 class="text-lg font-bold mb-2">¡Bienvenido a tu Centro de Mando!</h3>
-          <p class="text-sm text-gray-300">
+          <p class="text-sm text-calm-text-tertiary">
             Aquí verás tu progreso neuronal y estadísticas de aprendizaje.
           </p>
         </div>
@@ -48,10 +48,10 @@ const TOURS: Record<string, TutorialStep[]> = {
       text: `
         <div>
           <h3 class="font-bold mb-2">📊 Tus Estadísticas</h3>
-          <p class="text-sm text-gray-300 mb-2">
+          <p class="text-sm text-calm-text-tertiary mb-2">
             En la barra superior verás:
           </p>
-          <ul class="text-sm text-gray-300 space-y-1">
+          <ul class="text-sm text-calm-text-tertiary space-y-1">
             <li>⚡ <strong>XP</strong> - Puntos de experiencia</li>
             <li>🪙 <strong>Coins</strong> - Monedas para desbloquear</li>
             <li>💎 <strong>Gems</strong> - Gemas premium</li>
@@ -67,10 +67,10 @@ const TOURS: Record<string, TutorialStep[]> = {
       text: `
         <div>
           <h3 class="font-bold mb-2">🧭 Navegación</h3>
-          <p class="text-sm text-gray-300 mb-2">
+          <p class="text-sm text-calm-text-tertiary mb-2">
             Usa la barra inferior para moverte:
           </p>
-          <ul class="text-sm text-gray-300 space-y-1">
+          <ul class="text-sm text-calm-text-tertiary space-y-1">
             <li>📊 <strong>Dashboard</strong> - Estadísticas generales</li>
             <li>🗺️ <strong>Mapa</strong> - Tu camino de aprendizaje</li>
             <li>🎯 <strong>Misiones</strong> - Objetivos diarios</li>
@@ -86,11 +86,11 @@ const TOURS: Record<string, TutorialStep[]> = {
         <div class="text-center">
           <div class="text-4xl mb-2">⌨️</div>
           <h3 class="font-bold mb-2">Consejo Pro</h3>
-          <p class="text-sm text-gray-300 mb-2">
-            Presiona <kbd class="px-2 py-0.5 bg-gray-700 rounded text-xs">?</kbd>
+          <p class="text-sm text-calm-text-tertiary mb-2">
+            Presiona <kbd class="px-2 py-0.5 bg-calm-bg-tertiary rounded text-xs">?</kbd>
             en cualquier momento para ver los atajos de teclado.
           </p>
-          <p class="text-xs text-gray-400">
+          <p class="text-xs text-calm-text-muted">
             ¡Usa 1-4 para responder ejercicios más rápido!
           </p>
         </div>
@@ -104,7 +104,7 @@ const TOURS: Record<string, TutorialStep[]> = {
       text: `
         <div>
           <h3 class="font-bold mb-2">🎯 Tu Primer Ejercicio</h3>
-          <p class="text-sm text-gray-300">
+          <p class="text-sm text-calm-text-tertiary">
             Completa el hueco con la palabra correcta.
             Lee la frase completa para entender el contexto.
           </p>
@@ -117,14 +117,14 @@ const TOURS: Record<string, TutorialStep[]> = {
       text: `
         <div>
           <h3 class="font-bold mb-2">🔢 Opciones Rápidas</h3>
-          <p class="text-sm text-gray-300 mb-2">
+          <p class="text-sm text-calm-text-tertiary mb-2">
             Puedes hacer clic o usar atajos de teclado:
           </p>
           <div class="grid grid-cols-4 gap-2 text-center text-xs">
-            <kbd class="px-2 py-1 bg-gray-700 rounded">1</kbd>
-            <kbd class="px-2 py-1 bg-gray-700 rounded">2</kbd>
-            <kbd class="px-2 py-1 bg-gray-700 rounded">3</kbd>
-            <kbd class="px-2 py-1 bg-gray-700 rounded">4</kbd>
+            <kbd class="px-2 py-1 bg-calm-bg-tertiary rounded">1</kbd>
+            <kbd class="px-2 py-1 bg-calm-bg-tertiary rounded">2</kbd>
+            <kbd class="px-2 py-1 bg-calm-bg-tertiary rounded">3</kbd>
+            <kbd class="px-2 py-1 bg-calm-bg-tertiary rounded">4</kbd>
           </div>
         </div>
       `,
@@ -135,8 +135,8 @@ const TOURS: Record<string, TutorialStep[]> = {
       text: `
         <div>
           <h3 class="font-bold mb-2">🔊 Escucha la Pronunciación</h3>
-          <p class="text-sm text-gray-300">
-            Presiona <kbd class="px-2 py-0.5 bg-gray-700 rounded text-xs">Espacio</kbd>
+          <p class="text-sm text-calm-text-tertiary">
+            Presiona <kbd class="px-2 py-0.5 bg-calm-bg-tertiary rounded text-xs">Espacio</kbd>
             para escuchar la frase completa.
           </p>
         </div>
@@ -150,7 +150,7 @@ const TOURS: Record<string, TutorialStep[]> = {
       text: `
         <div>
           <h3 class="font-bold mb-2">🔄 Repaso Espaciado</h3>
-          <p class="text-sm text-gray-300">
+          <p class="text-sm text-calm-text-tertiary">
             Las tarjetas aparecen en el momento óptimo para recordarlas.
             Este sistema científico maximiza tu retención con mínimo esfuerzo.
           </p>
@@ -162,10 +162,10 @@ const TOURS: Record<string, TutorialStep[]> = {
       text: `
         <div>
           <h3 class="font-bold mb-2">👀 Ver Respuesta</h3>
-          <p class="text-sm text-gray-300">
+          <p class="text-sm text-calm-text-tertiary">
             Primero intenta recordar la traducción.
             Cuando estés listo, haz clic para ver la respuesta o presiona
-            <kbd class="px-2 py-0.5 bg-gray-700 rounded text-xs">Espacio</kbd>.
+            <kbd class="px-2 py-0.5 bg-calm-bg-tertiary rounded text-xs">Espacio</kbd>.
           </p>
         </div>
       `,
@@ -176,14 +176,14 @@ const TOURS: Record<string, TutorialStep[]> = {
       text: `
         <div>
           <h3 class="font-bold mb-2">📝 Evalúa tu Memoria</h3>
-          <p class="text-sm text-gray-300 mb-2">
+          <p class="text-sm text-calm-text-tertiary mb-2">
             Sé honesto con tu evaluación:
           </p>
-          <ul class="text-sm text-gray-300 space-y-1">
-            <li><kbd class="px-1 bg-gray-700 rounded text-xs">1</kbd> <strong>Otra vez</strong> - Olvidé completamente</li>
-            <li><kbd class="px-1 bg-gray-700 rounded text-xs">2</kbd> <strong>Difícil</strong> - Me costó recordar</li>
-            <li><kbd class="px-1 bg-gray-700 rounded text-xs">3</kbd> <strong>Bien</strong> - Recordé correctamente</li>
-            <li><kbd class="px-1 bg-gray-700 rounded text-xs">4</kbd> <strong>Fácil</strong> - Fue instantáneo</li>
+          <ul class="text-sm text-calm-text-tertiary space-y-1">
+            <li><kbd class="px-1 bg-calm-bg-tertiary rounded text-xs">1</kbd> <strong>Otra vez</strong> - Olvidé completamente</li>
+            <li><kbd class="px-1 bg-calm-bg-tertiary rounded text-xs">2</kbd> <strong>Difícil</strong> - Me costó recordar</li>
+            <li><kbd class="px-1 bg-calm-bg-tertiary rounded text-xs">3</kbd> <strong>Bien</strong> - Recordé correctamente</li>
+            <li><kbd class="px-1 bg-calm-bg-tertiary rounded text-xs">4</kbd> <strong>Fácil</strong> - Fue instantáneo</li>
           </ul>
         </div>
       `,
@@ -198,7 +198,7 @@ const TOURS: Record<string, TutorialStep[]> = {
         <div class="text-center">
           <div class="text-4xl mb-2">📥</div>
           <h3 class="font-bold mb-2">Centro de Input</h3>
-          <p class="text-sm text-gray-300">
+          <p class="text-sm text-calm-text-tertiary">
             Aquí puedes importar contenido real en francés:
             videos de YouTube, podcasts o textos.
           </p>
@@ -210,7 +210,7 @@ const TOURS: Record<string, TutorialStep[]> = {
       text: `
         <div>
           <h3 class="font-bold mb-2">🎬 Videos de YouTube</h3>
-          <p class="text-sm text-gray-300">
+          <p class="text-sm text-calm-text-tertiary">
             Pega cualquier URL de YouTube con subtítulos en francés.
             Extraeremos las frases para que practiques.
           </p>
@@ -223,7 +223,7 @@ const TOURS: Record<string, TutorialStep[]> = {
         <div class="text-center">
           <div class="text-4xl mb-2">💡</div>
           <h3 class="font-bold mb-2">Consejo</h3>
-          <p class="text-sm text-gray-300">
+          <p class="text-sm text-calm-text-tertiary">
             Elige contenido que te interese.
             Aprenderás más rápido con temas que te apasionan.
           </p>
@@ -240,7 +240,7 @@ const TOURS: Record<string, TutorialStep[]> = {
 const SHEPHERD_STYLES = `
   .shepherd-element {
     background: rgba(15, 23, 42, 0.95) !important;
-    border: 1px solid rgba(99, 102, 241, 0.3) !important;
+    border: 1px solid var(--sky-500)/30 !important;
     border-radius: 16px !important;
     backdrop-filter: blur(12px) !important;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
@@ -258,13 +258,13 @@ const SHEPHERD_STYLES = `
 
   .shepherd-footer {
     padding: 12px 20px 20px !important;
-    border-top: 1px solid rgba(99, 102, 241, 0.1) !important;
+    border-top: 1px solid var(--sky-500)/10 !important;
   }
 
   .shepherd-button {
-    background: rgba(99, 102, 241, 0.2) !important;
+    background: var(--sky-500)/20 !important;
     color: white !important;
-    border: 1px solid rgba(99, 102, 241, 0.3) !important;
+    border: 1px solid var(--sky-500)/30 !important;
     border-radius: 8px !important;
     padding: 8px 16px !important;
     font-weight: 500 !important;
@@ -272,21 +272,21 @@ const SHEPHERD_STYLES = `
   }
 
   .shepherd-button:hover {
-    background: rgba(99, 102, 241, 0.4) !important;
+    background: var(--sky-500)/40 !important;
   }
 
   .shepherd-button-primary {
-    background: #6366F1 !important;
-    border-color: #6366F1 !important;
+    background: var(--sky-500) !important;
+    border-color: var(--sky-500) !important;
   }
 
   .shepherd-button-primary:hover {
-    background: #4F46E5 !important;
+    background: var(--sky-600) !important;
   }
 
   .shepherd-arrow:before {
     background: rgba(15, 23, 42, 0.95) !important;
-    border: 1px solid rgba(99, 102, 241, 0.3) !important;
+    border: 1px solid var(--sky-500)/30 !important;
   }
 
   .shepherd-modal-overlay-container {

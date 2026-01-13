@@ -17,10 +17,10 @@ export function ClozeAudioButton({
     const baseClasses = 'mt-4 px-4 py-2 rounded-lg flex items-center justify-center gap-2 transition-all mx-auto';
 
     if (isSpeaking) {
-      return `${baseClasses} bg-lf-primary/20 dark:bg-lf-primary/30 text-lf-primary dark:text-lf-primary`;
+      return `${baseClasses} bg-accent-500/20 dark:bg-accent-500/30 text-calm-text-primary dark:text-calm-text-primary`;
     }
 
-    return `${baseClasses} bg-lf-soft/50 dark:bg-lf-muted/30 text-lf-dark dark:text-lf-muted hover:bg-lf-muted/20 dark:hover:bg-lf-muted/40 border border-lf-muted/30`;
+    return `${baseClasses} bg-calm-bg-secondary/50 dark:bg-calm-bg-tertiary/30 text-calm-text-primary dark:text-calm-text-muted hover:bg-calm-bg-tertiary/20 dark:hover:bg-calm-bg-tertiary/40 border border-calm-warm-100/30`;
   };
 
   const getLabel = (): string => {

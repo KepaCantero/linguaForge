@@ -41,11 +41,11 @@ export function RegisterForm() {
         animate={{ opacity: 1, scale: 1 }}
         className="w-full max-w-md mx-auto text-center space-y-4"
       >
-        <div className="p-6 rounded-lg bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800">
-          <h3 className="text-lg font-semibold text-green-800 dark:text-green-200 mb-2">
+        <div className="p-6 rounded-lg bg-accent-50 dark:bg-accent-900/20 border border-accent-200 dark:border-accent-800">
+          <h3 className="text-lg font-semibold text-accent-800 dark:text-accent-200 mb-2">
             ¡Registro exitoso!
           </h3>
-          <p className="text-sm text-green-600 dark:text-green-400">
+          <p className="text-sm text-accent-600 dark:text-accent-400">
             Te hemos enviado un email de confirmación. Por favor, revisa tu bandeja de entrada y haz clic en el enlace para verificar tu cuenta.
           </p>
         </div>
@@ -62,7 +62,7 @@ export function RegisterForm() {
         animate={{ opacity: 1, y: 0 }}
       >
         <div>
-          <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          <label htmlFor="fullName" className="block text-sm font-medium text-calm-text-secondary dark:text-calm-text-tertiary mb-2">
             Nombre completo
           </label>
           <input
@@ -70,13 +70,13 @@ export function RegisterForm() {
             type="text"
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
-            className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-lf-primary focus:border-transparent"
+            className="w-full px-4 py-3 rounded-lg border border-calm-warm-200 dark:border-calm-warm-200 bg-white dark:bg-calm-bg-elevated text-calm-text-primary dark:text-white focus:ring-2 focus:ring-accent-500 focus:border-transparent"
             placeholder="Juan Pérez"
           />
         </div>
 
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          <label htmlFor="email" className="block text-sm font-medium text-calm-text-secondary dark:text-calm-text-tertiary mb-2">
             Email
           </label>
           <input
@@ -85,13 +85,13 @@ export function RegisterForm() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-lf-primary focus:border-transparent"
+            className="w-full px-4 py-3 rounded-lg border border-calm-warm-200 dark:border-calm-warm-200 bg-white dark:bg-calm-bg-elevated text-calm-text-primary dark:text-white focus:ring-2 focus:ring-accent-500 focus:border-transparent"
             placeholder="tu@email.com"
           />
         </div>
 
         <div>
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          <label htmlFor="password" className="block text-sm font-medium text-calm-text-secondary dark:text-calm-text-tertiary mb-2">
             Contraseña
           </label>
           <input
@@ -101,10 +101,10 @@ export function RegisterForm() {
             onChange={(e) => setPassword(e.target.value)}
             required
             minLength={6}
-            className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-lf-primary focus:border-transparent"
+            className="w-full px-4 py-3 rounded-lg border border-calm-warm-200 dark:border-calm-warm-200 bg-white dark:bg-calm-bg-elevated text-calm-text-primary dark:text-white focus:ring-2 focus:ring-accent-500 focus:border-transparent"
             placeholder="Mínimo 6 caracteres"
           />
-          <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+          <p className="mt-1 text-xs text-calm-text-muted dark:text-calm-text-muted">
             Mínimo 6 caracteres
           </p>
         </div>
@@ -113,33 +113,33 @@ export function RegisterForm() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="p-3 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800"
+            className="p-3 rounded-lg bg-semantic-error-bg dark:bg-semantic-error-bg/20 border border-semantic-error dark:border-semantic-error"
           >
-            <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+            <p className="text-sm text-semantic-error dark:text-semantic-error">{error}</p>
           </motion.div>
         )}
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-3 px-4 bg-lf-primary text-white rounded-lg font-medium hover:bg-lf-primary/90 focus:outline-none focus:ring-2 focus:ring-lf-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="w-full py-3 px-4 bg-accent-500 text-white rounded-lg font-medium hover:bg-accent-500/90 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           {loading ? 'Creando cuenta...' : 'Crear cuenta'}
         </button>
 
         <div className="relative">
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-300 dark:border-gray-600"></div>
+            <div className="w-full border-t border-calm-warm-200 dark:border-calm-warm-200"></div>
           </div>
           <div className="relative flex justify-center text-sm">
-            <span className="px-2 bg-white dark:bg-gray-900 text-gray-500">O continúa con</span>
+            <span className="px-2 bg-white dark:bg-calm-bg-primary text-calm-text-muted">O continúa con</span>
           </div>
         </div>
 
         <button
           type="button"
           onClick={handleGoogleSignIn}
-          className="w-full py-3 px-4 border border-gray-300 dark:border-gray-600 rounded-lg font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-lf-primary focus:ring-offset-2 transition-colors flex items-center justify-center gap-2"
+          className="w-full py-3 px-4 border border-calm-warm-200 dark:border-calm-warm-200 rounded-lg font-medium text-calm-text-secondary dark:text-calm-text-tertiary bg-white dark:bg-calm-bg-elevated hover:bg-calm-bg-primary dark:hover:bg-calm-bg-tertiary focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2 transition-colors flex items-center justify-center gap-2"
         >
           <svg className="w-5 h-5" viewBox="0 0 24 24">
             <path

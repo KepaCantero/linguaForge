@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { isDueForReview } from '@/lib/sm2';
 import type { ContentSource, SRSCard } from '@/types/srs';
+import { COLORS } from '@/constants/colors';
 
 interface CardGroup {
   source: ContentSource;
@@ -22,12 +23,12 @@ export function DeckCard({ group, index }: DeckCardProps) {
 
   const getCardStatusStyle = (status: string) => {
     if (status === 'new') {
-      return 'bg-blue-500/20 border-blue-500/30 text-blue-400';
+      return 'bg-sky-500/20 border-sky-500/30 text-sky-400';
     }
     if (status === 'graduated') {
-      return 'bg-green-500/20 border-green-500/30 text-green-400';
+      return 'bg-accent-500/20 border-accent-500/30 text-accent-400';
     }
-    return 'bg-lf-dark/30 border-white/10 text-lf-muted';
+    return 'bg-calm-bg-tertiary/30 border-calm-warm-100/20 text-calm-text-muted';
   };
 
   return (
@@ -36,11 +37,11 @@ export function DeckCard({ group, index }: DeckCardProps) {
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.08 }}
-      className="relative group overflow-hidden rounded-aaa-xl bg-glass-surface backdrop-blur-aaa border border-white/20 shadow-glass-xl"
+      className="relative group overflow-hidden rounded-2xl bg-calm-bg-secondary backdrop-blur-md border border-calm-warm-100/30 shadow-calm-lg"
     >
       {/* Animated gradient background */}
       <motion.div
-        className="absolute inset-0 bg-gradient-to-br from-lf-primary/20 via-lf-secondary/20 to-lf-accent/20"
+        className="absolute inset-0 bg-gradient-to-br to-accent-500/20 to-sky-500/20 to-amber-500/20"
         animate={{
           opacity: [0.3, 0.5, 0.3],
           scale: [1, 1.02, 1],
@@ -55,14 +56,14 @@ export function DeckCard({ group, index }: DeckCardProps) {
 
       {/* Inner glow on hover */}
       <motion.div
-        className="absolute inset-0 rounded-aaa-xl shadow-inner-glow opacity-0 group-hover:opacity-60 transition-opacity duration-500"
+        className="absolute inset-0 rounded-2xl shadow-inner-glow opacity-0 group-hover:opacity-60 transition-opacity duration-500"
       />
 
       {/* Shimmer effect */}
       <motion.div
         className="absolute inset-0 opacity-0 group-hover:opacity-30 pointer-events-none"
         style={{
-          background: 'linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.2) 45%, transparent 50%)',
+          background: `linear-gradient(105deg, transparent 40%, ${COLORS.effects.whiteShine} 45%, transparent 50%)`,
           backgroundSize: '200% 100%',
         }}
         animate={{ backgroundPosition: ['200% 0%', '-200% 0%'] }}
@@ -90,7 +91,7 @@ export function DeckCard({ group, index }: DeckCardProps) {
                 href={group.source.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm text-lf-accent hover:text-lf-secondary transition-colors"
+                className="text-sm text-amber-500 hover:text-calm-text-secondary transition-colors"
               >
                 Ver fuente original
               </a>
@@ -100,7 +101,7 @@ export function DeckCard({ group, index }: DeckCardProps) {
             {dueCount > 0 && (
               <Link
                 href={`/decks/review?sourceType=${group.source.type}&sourceId=${group.source.id}`}
-                className="px-3 py-1.5 rounded-lg bg-gradient-to-r from-orange-500 to-red-500 text-white text-sm font-medium shadow-depth-lg hover:shadow-glow-accent transition-all"
+                className="px-3 py-1.5 rounded-lg bg-gradient-to-r from-amber-500 to-semantic-error text-white text-sm font-medium shadow-calm-lg hover:shadow-calm-md transition-all"
               >
                 Repasar {dueCount}
               </Link>
@@ -108,13 +109,13 @@ export function DeckCard({ group, index }: DeckCardProps) {
             {newCount > 0 && (
               <Link
                 href={`/decks/review?sourceType=${group.source.type}&sourceId=${group.source.id}&filter=new`}
-                className="px-3 py-1.5 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 text-white text-sm font-medium shadow-depth-lg hover:shadow-glow-accent transition-all"
+                className="px-3 py-1.5 rounded-lg bg-gradient-to-r from-sky-500 to-sky-500 text-white text-sm font-medium shadow-calm-lg hover:shadow-calm-md transition-all"
               >
                 Estudiar {newCount}
               </Link>
             )}
             {dueCount === 0 && newCount === 0 && (
-              <span className="px-3 py-1.5 rounded-lg bg-lf-dark/30 border border-white/10 text-lf-muted text-sm font-medium">
+              <span className="px-3 py-1.5 rounded-lg bg-calm-bg-tertiary/30 border border-calm-warm-100/20 text-calm-text-muted text-sm font-medium">
                 Sin pendientes
               </span>
             )}
@@ -122,22 +123,22 @@ export function DeckCard({ group, index }: DeckCardProps) {
         </div>
 
         {/* Estadísticas del deck */}
-        <div className="grid grid-cols-3 gap-4 mb-4 p-4 rounded-xl bg-lf-dark/20 border border-white/10">
+        <div className="grid grid-cols-3 gap-4 mb-4 p-4 rounded-xl bg-calm-bg-tertiary/20 border border-calm-warm-100/20">
           <div>
-            <p className="text-xs text-lf-muted">Total</p>
+            <p className="text-xs text-calm-text-muted">Total</p>
             <p className="text-lg font-bold text-white">
               {group.cards.length}
             </p>
           </div>
           <div>
-            <p className="text-xs text-lf-muted">Nuevas</p>
-            <p className="text-lg font-bold text-blue-400">
+            <p className="text-xs text-calm-text-muted">Nuevas</p>
+            <p className="text-lg font-bold text-sky-400">
               {newCount}
             </p>
           </div>
           <div>
-            <p className="text-xs text-lf-muted">Pendientes</p>
-            <p className="text-lg font-bold text-orange-400">
+            <p className="text-xs text-calm-text-muted">Pendientes</p>
+            <p className="text-lg font-bold text-amber-400">
               {dueCount}
             </p>
           </div>
@@ -145,7 +146,7 @@ export function DeckCard({ group, index }: DeckCardProps) {
 
         {/* Lista de palabras */}
         <div className="space-y-2">
-          <p className="text-sm font-medium text-lf-muted mb-2">
+          <p className="text-sm font-medium text-calm-text-muted mb-2">
             Palabras ({group.cards.length}):
           </p>
           <div className="flex flex-wrap gap-2">
@@ -160,7 +161,7 @@ export function DeckCard({ group, index }: DeckCardProps) {
               </span>
             ))}
             {group.cards.length > 20 && (
-              <span className="px-2 py-1 rounded-lg text-sm bg-lf-dark/30 border border-white/10 text-lf-muted">
+              <span className="px-2 py-1 rounded-lg text-sm bg-calm-bg-tertiary/30 border border-calm-warm-100/20 text-calm-text-muted">
                 +{group.cards.length - 20} más
               </span>
             )}

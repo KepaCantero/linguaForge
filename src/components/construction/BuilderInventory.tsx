@@ -39,11 +39,11 @@ type SortType = 'name' | 'rarity' | 'amount';
 // ============================================
 
 const RARITY_COLORS: Record<MaterialRarity, { bg: string; border: string; text: string; glow: string }> = {
-  common: { bg: 'bg-gray-700', border: 'border-gray-500', text: 'text-gray-300', glow: '' },
-  uncommon: { bg: 'bg-green-900/50', border: 'border-green-500', text: 'text-green-400', glow: 'shadow-green-500/20' },
-  rare: { bg: 'bg-blue-900/50', border: 'border-blue-500', text: 'text-blue-400', glow: 'shadow-blue-500/30' },
-  epic: { bg: 'bg-purple-900/50', border: 'border-purple-500', text: 'text-purple-400', glow: 'shadow-purple-500/40' },
-  legendary: { bg: 'bg-yellow-900/50', border: 'border-yellow-500', text: 'text-yellow-400', glow: 'shadow-yellow-500/50' },
+  common: { bg: 'bg-calm-bg-tertiary', border: 'border-calm-warm-300', text: 'text-calm-text-tertiary', glow: '' },
+  uncommon: { bg: 'bg-accent-900/50', border: 'border-accent-500', text: 'text-accent-400', glow: 'shadow-green-500/20' },
+  rare: { bg: 'bg-sky-900/50', border: 'border-sky-500', text: 'text-sky-400', glow: 'shadow-blue-500/30' },
+  epic: { bg: 'bg-sky-900/50', border: 'border-sky-500', text: 'text-sky-400', glow: 'shadow-sky-500/40' },
+  legendary: { bg: 'bg-amber-900/50', border: 'border-amber-500', text: 'text-amber-400', glow: 'shadow-yellow-500/50' },
 };
 
 const RARITY_LABELS: Record<MaterialRarity, string> = {
@@ -123,7 +123,7 @@ function MaterialCard({ material, amount, isSelected, onClick }: MaterialCardPro
       </p>
 
       {/* Cantidad */}
-      <div className="absolute top-1 right-1 bg-gray-900/80 px-1.5 py-0.5 rounded text-xs font-bold">
+      <div className="absolute top-1 right-1 bg-calm-bg-primary/80 px-1.5 py-0.5 rounded text-xs font-bold">
         {amount}
       </div>
 
@@ -173,8 +173,8 @@ function ElementCard({ element, isUnlocked, progress, canBuild, onClick }: Eleme
       className={`
         relative p-4 rounded-xl border-2 transition-all duration-200 text-left
         ${isUnlocked
-          ? 'bg-gray-800/50 border-gray-600 hover:border-indigo-500'
-          : 'bg-gray-900/50 border-gray-700 opacity-60 cursor-not-allowed'
+          ? 'bg-calm-bg-elevated/50 border-calm-warm-200 hover:border-accent-500'
+          : 'bg-calm-bg-primary/50 border-calm-warm-200 opacity-60 cursor-not-allowed'
         }
       `}
     >
@@ -189,15 +189,15 @@ function ElementCard({ element, isUnlocked, progress, canBuild, onClick }: Eleme
       </p>
 
       {/* Tipo */}
-      <p className="text-xs text-gray-400 capitalize">
+      <p className="text-xs text-calm-text-muted capitalize">
         {element.type}
       </p>
 
       {/* Barra de progreso */}
       {isUnlocked && progress > 0 && progress < 100 && (
-        <div className="mt-2 h-1 bg-gray-700 rounded-full overflow-hidden">
+        <div className="mt-2 h-1 bg-calm-bg-tertiary rounded-full overflow-hidden">
           <motion.div
-            className="h-full bg-indigo-500"
+            className="h-full bg-accent-500"
             initial={{ width: 0 }}
             animate={{ width: `${progress}%` }}
           />
@@ -212,13 +212,13 @@ function ElementCard({ element, isUnlocked, progress, canBuild, onClick }: Eleme
         <div className="absolute top-2 right-2 text-lg">✅</div>
       )}
       {isUnlocked && canBuild && progress < 100 && (
-        <div className="absolute top-2 right-2 bg-green-500 text-xs px-1.5 py-0.5 rounded font-medium">
+        <div className="absolute top-2 right-2 bg-accent-500 text-xs px-1.5 py-0.5 rounded font-medium">
           Construir
         </div>
       )}
 
       {/* Nivel requerido */}
-      <div className="absolute bottom-2 right-2 text-xs text-gray-500">
+      <div className="absolute bottom-2 right-2 text-xs text-calm-text-muted">
         Nv. {element.unlockLevel}
       </div>
     </motion.button>
@@ -250,8 +250,8 @@ function FilterBar({ activeRarity, onRarityChange, sortBy, onSortChange }: Filte
             className={`
               px-2 py-1 text-xs rounded-md transition-colors
               ${activeRarity === rarity
-                ? 'bg-indigo-600 text-white'
-                : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                ? 'bg-accent-600 text-white'
+                : 'bg-calm-bg-tertiary text-calm-text-tertiary hover:bg-calm-warm-200'
               }
             `}
           >
@@ -264,7 +264,7 @@ function FilterBar({ activeRarity, onRarityChange, sortBy, onSortChange }: Filte
       <select
         value={sortBy}
         onChange={(e) => onSortChange(e.target.value as SortType)}
-        className="bg-gray-700 text-gray-300 text-xs px-2 py-1 rounded-md ml-auto"
+        className="bg-calm-bg-tertiary text-calm-text-tertiary text-xs px-2 py-1 rounded-md ml-auto"
       >
         <option value="name">Nombre</option>
         <option value="rarity">Rareza</option>
@@ -291,21 +291,21 @@ interface StatsProps {
 function Stats({ stats }: StatsProps) {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
-      <div className="bg-gray-800/50 rounded-lg p-3 text-center">
-        <p className="text-2xl font-bold text-indigo-400">{stats.totalBuilds}</p>
-        <p className="text-xs text-gray-400">Construcciones</p>
+      <div className="bg-calm-bg-elevated/50 rounded-lg p-3 text-center">
+        <p className="text-2xl font-bold text-accent-400">{stats.totalBuilds}</p>
+        <p className="text-xs text-calm-text-muted">Construcciones</p>
       </div>
-      <div className="bg-gray-800/50 rounded-lg p-3 text-center">
-        <p className="text-2xl font-bold text-green-400">{stats.uniqueElementsUnlocked}</p>
-        <p className="text-xs text-gray-400">Elementos</p>
+      <div className="bg-calm-bg-elevated/50 rounded-lg p-3 text-center">
+        <p className="text-2xl font-bold text-accent-400">{stats.uniqueElementsUnlocked}</p>
+        <p className="text-xs text-calm-text-muted">Elementos</p>
       </div>
-      <div className="bg-gray-800/50 rounded-lg p-3 text-center">
-        <p className="text-2xl font-bold text-yellow-400">{stats.totalMaterialsCollected}</p>
-        <p className="text-xs text-gray-400">Materiales</p>
+      <div className="bg-calm-bg-elevated/50 rounded-lg p-3 text-center">
+        <p className="text-2xl font-bold text-amber-400">{stats.totalMaterialsCollected}</p>
+        <p className="text-xs text-calm-text-muted">Materiales</p>
       </div>
-      <div className="bg-gray-800/50 rounded-lg p-3 text-center">
-        <p className="text-2xl font-bold text-purple-400">{stats.milestonesReached}</p>
-        <p className="text-xs text-gray-400">Hitos</p>
+      <div className="bg-calm-bg-elevated/50 rounded-lg p-3 text-center">
+        <p className="text-2xl font-bold text-sky-400">{stats.milestonesReached}</p>
+        <p className="text-xs text-calm-text-muted">Hitos</p>
       </div>
     </div>
   );
@@ -399,7 +399,7 @@ export function BuilderInventory({
   };
 
   return (
-    <div className={`bg-gray-900 rounded-xl p-4 ${className}`}>
+    <div className={`bg-calm-bg-primary rounded-xl p-4 ${className}`}>
       {/* Header con estadísticas */}
       <Stats stats={stats} />
 
@@ -410,8 +410,8 @@ export function BuilderInventory({
           className={`
             flex-1 py-2 px-4 rounded-lg font-medium transition-colors
             ${activeTab === 'materials'
-              ? 'bg-indigo-600 text-white'
-              : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
+              ? 'bg-accent-600 text-white'
+              : 'bg-calm-bg-elevated text-calm-text-muted hover:bg-calm-bg-tertiary'
             }
           `}
         >
@@ -423,8 +423,8 @@ export function BuilderInventory({
             className={`
               flex-1 py-2 px-4 rounded-lg font-medium transition-colors
               ${activeTab === 'elements'
-                ? 'bg-indigo-600 text-white'
-                : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
+                ? 'bg-accent-600 text-white'
+                : 'bg-calm-bg-elevated text-calm-text-muted hover:bg-calm-bg-tertiary'
               }
             `}
           >
@@ -462,7 +462,7 @@ export function BuilderInventory({
             </div>
 
             {filteredMaterials.length === 0 && (
-              <div className="text-center py-8 text-gray-500">
+              <div className="text-center py-8 text-calm-text-muted">
                 No hay materiales con este filtro
               </div>
             )}
@@ -505,7 +505,7 @@ export function BuilderInventory({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
-            className="mt-4 p-4 bg-gray-800 rounded-lg border border-gray-700"
+            className="mt-4 p-4 bg-calm-bg-elevated rounded-lg border border-calm-warm-200"
           >
             <MaterialDetail materialId={selectedMaterial} />
           </motion.div>
@@ -515,7 +515,7 @@ export function BuilderInventory({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
-            className="mt-4 p-4 bg-gray-800 rounded-lg border border-gray-700"
+            className="mt-4 p-4 bg-calm-bg-elevated rounded-lg border border-calm-warm-200"
           >
             <ElementDetail elementId={selectedElement} />
           </motion.div>
@@ -544,11 +544,11 @@ function MaterialDetail({ materialId }: { materialId: string }) {
       </div>
       <div className="flex-1">
         <h3 className={`text-lg font-bold ${colors.text}`}>{material.name}</h3>
-        <p className="text-sm text-gray-400 capitalize">{RARITY_LABELS[material.rarity]} • {material.texture}</p>
+        <p className="text-sm text-calm-text-muted capitalize">{RARITY_LABELS[material.rarity]} • {material.texture}</p>
         <div className="flex gap-4 mt-2 text-sm">
-          <span className="text-gray-300">Cantidad: <span className="font-bold text-white">{amount}</span></span>
-          <span className="text-gray-300">Valor XP: <span className="font-bold text-indigo-400">{material.xpCost}</span></span>
-          <span className="text-gray-300">Valor Coins: <span className="font-bold text-yellow-400">{material.coinCost}</span></span>
+          <span className="text-calm-text-tertiary">Cantidad: <span className="font-bold text-white">{amount}</span></span>
+          <span className="text-calm-text-tertiary">Valor XP: <span className="font-bold text-accent-400">{material.xpCost}</span></span>
+          <span className="text-calm-text-tertiary">Valor Coins: <span className="font-bold text-amber-400">{material.coinCost}</span></span>
         </div>
       </div>
     </div>
@@ -570,19 +570,19 @@ function ElementDetail({ elementId }: { elementId: string }) {
   return (
     <div>
       <div className="flex gap-4 mb-3">
-        <div className="w-16 h-16 bg-gray-700 rounded-lg flex items-center justify-center text-3xl">
+        <div className="w-16 h-16 bg-calm-bg-tertiary rounded-lg flex items-center justify-center text-3xl">
           {ELEMENT_TYPE_ICONS[element.type]}
         </div>
         <div className="flex-1">
           <h3 className="text-lg font-bold text-white">{element.name}</h3>
-          <p className="text-sm text-gray-400 capitalize">{element.type} • Nivel {element.unlockLevel}</p>
-          <p className="text-sm text-indigo-400 mt-1">+{element.xpReward} XP al construir</p>
+          <p className="text-sm text-calm-text-muted capitalize">{element.type} • Nivel {element.unlockLevel}</p>
+          <p className="text-sm text-accent-400 mt-1">+{element.xpReward} XP al construir</p>
         </div>
       </div>
 
       {/* Materiales requeridos */}
-      <div className="border-t border-gray-700 pt-3">
-        <p className="text-sm font-medium text-gray-300 mb-2">Materiales requeridos:</p>
+      <div className="border-t border-calm-warm-200 pt-3">
+        <p className="text-sm font-medium text-calm-text-tertiary mb-2">Materiales requeridos:</p>
         <div className="flex flex-wrap gap-2">
           {element.requiredMaterials.map((req) => {
             const mat = MATERIALS[req.materialId];
@@ -594,7 +594,7 @@ function ElementDetail({ elementId }: { elementId: string }) {
                 key={req.materialId}
                 className={`
                   flex items-center gap-2 px-2 py-1 rounded-md text-sm
-                  ${hasEnough ? 'bg-green-900/30 text-green-400' : 'bg-red-900/30 text-red-400'}
+                  ${hasEnough ? 'bg-accent-900/30 text-accent-400' : 'bg-semantic-error-bg text-semantic-error'}
                 `}
               >
                 <span>{TEXTURE_ICONS[mat?.texture || 'wood']}</span>
@@ -609,13 +609,13 @@ function ElementDetail({ elementId }: { elementId: string }) {
       {/* Estado */}
       <div className="mt-3 flex items-center gap-2">
         {!isUnlocked && (
-          <span className="text-sm text-gray-500">🔒 Elemento bloqueado</span>
+          <span className="text-sm text-calm-text-muted">🔒 Elemento bloqueado</span>
         )}
         {isUnlocked && progress < 100 && (
-          <span className="text-sm text-yellow-400">🔧 En progreso ({progress}%)</span>
+          <span className="text-sm text-amber-400">🔧 En progreso ({progress}%)</span>
         )}
         {isUnlocked && progress === 100 && (
-          <span className="text-sm text-green-400">✅ Completado</span>
+          <span className="text-sm text-accent-400">✅ Completado</span>
         )}
       </div>
     </div>

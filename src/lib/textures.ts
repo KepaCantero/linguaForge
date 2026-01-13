@@ -65,7 +65,7 @@ export const TEXTURES: Record<TextureType, TextureProperties> = {
     baseColor: '#FEFCF3',
     accentColor: '#E8E4D9',
     gradient: 'linear-gradient(135deg, #FEFCF3 0%, #F5F1E6 50%, #E8E4D9 100%)',
-    shadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
+    shadow: 'var(--shadow-soft-md)',
     border: '1px solid rgba(0, 0, 0, 0.06)',
     learningContexts: ['vocabulary'],
     weight: 0.3,

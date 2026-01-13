@@ -156,8 +156,8 @@ export default function LearnPage() {
   // Avoid hydration mismatch
   if (!isMounted) {
     return (
-      <div className="min-h-screen bg-lf-soft flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-lf-primary" />
+      <div className="min-h-screen bg-calm-bg-secondary flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-accent-500" />
       </div>
     );
   }
@@ -172,7 +172,7 @@ export default function LearnPage() {
           whileTap={{ scale: 0.95 }}
         >
           <motion.div
-            className="absolute inset-0 rounded-full bg-gradient-to-r from-lf-primary to-lf-secondary"
+            className="absolute inset-0 rounded-full bg-gradient-to-r to-accent-500 to-sky-500"
             animate={{ scale: [1, 1.15, 1], opacity: [0.5, 0.8, 0.5] }}
             transition={{ duration: 2, repeat: Infinity }}
           />
@@ -186,26 +186,26 @@ export default function LearnPage() {
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-lf-soft/80 rounded-aaa-xl p-6 shadow-glass-xl backdrop-blur-aaa border border-lf-muted/40"
+        className="bg-calm-bg-elevated rounded-2xl p-6 shadow-calm-lg backdrop-blur-md border border-calm-warm-100/40"
       >
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
           <div>
-            <h1 className="text-3xl font-bold text-white mb-1">
+            <h1 className="text-3xl font-bold text-calm-text-primary mb-1">
               Tu Camino de Aprendizaje
             </h1>
-            <p className="text-sm text-lf-muted/80">
+            <p className="text-sm text-calm-text-muted/80">
               {stats.total} temas • {stats.completed} completados • {stats.inProgress} en progreso
             </p>
           </div>
 
           {/* View Toggle */}
-          <div className="flex items-center gap-2 bg-lf-dark/40 rounded-xl p-1">
+          <div className="flex items-center gap-2 bg-calm-bg-tertiary/40 rounded-xl p-1">
             <button
               onClick={() => setViewMode('grid')}
               className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
                 viewMode === 'grid'
-                  ? 'bg-lf-primary text-white shadow-resonance'
-                  : 'text-lf-muted/70 hover:bg-lf-muted/20'
+                  ? 'bg-accent-500 text-calm-text-primary shadow-resonance'
+                  : 'text-calm-text-muted/70 hover:bg-calm-bg-tertiary/20'
               }`}
             >
               📊
@@ -214,8 +214,8 @@ export default function LearnPage() {
               onClick={() => setViewMode('list')}
               className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
                 viewMode === 'list'
-                  ? 'bg-lf-primary text-white shadow-resonance'
-                  : 'text-lf-muted/70 hover:bg-lf-muted/20'
+                  ? 'bg-accent-500 text-calm-text-primary shadow-resonance'
+                  : 'text-calm-text-muted/70 hover:bg-calm-bg-tertiary/20'
               }`}
             >
               📋
@@ -224,7 +224,7 @@ export default function LearnPage() {
         </div>
 
         {/* Progress Overview */}
-        <div className="w-full h-2 bg-lf-muted/30 rounded-full overflow-hidden">
+        <div className="w-full h-2 bg-calm-bg-tertiary/30 rounded-full overflow-hidden">
           <motion.div
             className="h-full bg-forge-gradient rounded-full"
             initial={{ width: 0 }}
@@ -237,27 +237,27 @@ export default function LearnPage() {
         <div className="flex items-center justify-between mt-4 text-xs">
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-1.5">
-              <div className="w-2 h-2 rounded-full bg-lf-success" />
-              <span className="text-lf-muted/80">
+              <div className="w-2 h-2 rounded-full bg-accent-500" />
+              <span className="text-calm-text-muted/80">
                 Completados: {stats.completed}
               </span>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className="w-2 h-2 rounded-full bg-lf-primary" />
-              <span className="text-lf-muted/80">
+              <div className="w-2 h-2 rounded-full bg-accent-500" />
+              <span className="text-calm-text-muted/80">
                 En progreso: {stats.inProgress}
               </span>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className="w-2 h-2 rounded-full bg-lf-muted/40" />
-              <span className="text-lf-muted/80">
+              <div className="w-2 h-2 rounded-full bg-calm-bg-tertiary/40" />
+              <span className="text-calm-text-muted/80">
                 Disponibles: {stats.available}
               </span>
             </div>
           </div>
           <div className="flex items-center gap-1.5">
-            <div className="w-2 h-2 rounded-full bg-lf-muted" />
-            <span className="text-lf-muted/80">
+            <div className="w-2 h-2 rounded-full bg-calm-bg-tertiary" />
+            <span className="text-calm-text-muted/80">
               Bloqueados: {stats.locked}
             </span>
           </div>
@@ -278,13 +278,13 @@ export default function LearnPage() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Buscar temas, lecciones o contenido..."
-            className="w-full px-6 py-4 pl-14 rounded-aaa-xl bg-lf-soft/60 backdrop-blur-aaa border border-lf-muted/30 text-white placeholder:text-lf-muted/70 focus:ring-2 focus:ring-lf-primary/50 focus:border-lf-primary transition-all shadow-glass-xl"
+            className="w-full px-6 py-4 pl-14 rounded-2xl bg-calm-bg-elevated/80 backdrop-blur-md border border-calm-warm-100/30 text-calm-text-primary placeholder:text-calm-text-muted/70 focus:ring-2 focus:ring-accent-500/50 focus:border-accent-500 transition-all shadow-calm-lg"
           />
           <span className="absolute left-6 top-1/2 -translate-y-1/2 text-xl">🔍</span>
           {searchQuery && (
             <button
               onClick={() => setSearchQuery('')}
-              className="absolute right-6 top-1/2 -translate-y-1/2 text-lf-muted hover:text-white transition-colors"
+              className="absolute right-6 top-1/2 -translate-y-1/2 text-calm-text-muted hover:text-calm-text-primary transition-colors"
             >
               ✕
             </button>
@@ -297,8 +297,8 @@ export default function LearnPage() {
             onClick={() => setSelectedCategory(null)}
             className={`px-4 py-2 rounded-full whitespace-nowrap text-sm font-semibold transition-all flex items-center gap-2 ${
               !selectedCategory
-                ? 'bg-lf-primary text-white shadow-resonance'
-                : 'bg-lf-soft/60 text-white border border-lf-muted/30 hover:border-lf-primary/50'
+                ? 'bg-accent-500 text-calm-text-primary shadow-resonance'
+                : 'bg-calm-bg-elevated/80 text-calm-text-primary border border-calm-warm-100/30 hover:border-accent-500/50'
             }`}
           >
             <span>📚</span>
@@ -312,8 +312,8 @@ export default function LearnPage() {
                 onClick={() => setSelectedCategory(cat.id)}
                 className={`px-4 py-2 rounded-full whitespace-nowrap text-sm font-semibold transition-all flex items-center gap-2 ${
                   selectedCategory === cat.id
-                    ? 'bg-lf-primary text-white shadow-resonance'
-                    : 'bg-lf-soft/60 text-white border border-lf-muted/30 hover:border-lf-primary/50'
+                    ? 'bg-accent-500 text-calm-text-primary shadow-resonance'
+                    : 'bg-calm-bg-elevated/80 text-calm-text-primary border border-calm-warm-100/30 hover:border-accent-500/50'
                 }`}
               >
                 <span>{cat.icon}</span>
@@ -324,8 +324,8 @@ export default function LearnPage() {
         </div>
 
         {/* Additional Options */}
-        <div className="flex items-center justify-between px-4 py-3 rounded-xl bg-lf-soft/60 border border-lf-muted/30">
-          <span className="text-sm text-white font-medium">
+        <div className="flex items-center justify-between px-4 py-3 rounded-xl bg-calm-bg-elevated/80 border border-calm-warm-100/30">
+          <span className="text-sm text-calm-text-primary font-medium">
             Mostrar solo disponibles
           </span>
           <motion.button
@@ -333,11 +333,11 @@ export default function LearnPage() {
             whileTap={{ scale: 0.95 }}
             onClick={() => setShowOnlyAvailable(!showOnlyAvailable)}
             className={`relative w-14 h-8 rounded-full transition-colors duration-300 ${
-              showOnlyAvailable ? 'bg-lf-primary' : 'bg-lf-muted/40'
+              showOnlyAvailable ? 'bg-accent-500' : 'bg-calm-bg-tertiary/40'
             }`}
           >
             <motion.div
-              className="absolute top-1 w-6 h-6 rounded-full bg-white shadow-md"
+              className="absolute top-1 w-6 h-6 rounded-full bg-calm-bg-elevated shadow-md"
               animate={{ left: showOnlyAvailable ? 'calc(100% - 28px)' : '4px' }}
               transition={{ type: 'spring', stiffness: 500, damping: 30 }}
             />
@@ -349,7 +349,7 @@ export default function LearnPage() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="text-sm text-lf-muted/70 text-center"
+        className="text-sm text-calm-text-muted/70 text-center"
       >
         {searchQuery || selectedCategory
           ? `Mostrando ${filteredTopics.length} de ${unifiedTopics.length} temas`
@@ -368,10 +368,10 @@ export default function LearnPage() {
             className="text-center py-20"
           >
             <p className="text-6xl mb-4">🔍</p>
-            <p className="text-xl text-lf-muted/70 mb-2">
+            <p className="text-xl text-calm-text-muted/70 mb-2">
               No se encontraron resultados
             </p>
-            <p className="text-sm text-lf-muted/70 mb-6">
+            <p className="text-sm text-calm-text-muted/70 mb-6">
               Intenta con otros filtros o busca algo diferente
             </p>
             <button
@@ -379,7 +379,7 @@ export default function LearnPage() {
                 setSearchQuery('');
                 setSelectedCategory(null);
               }}
-              className="px-6 py-3 rounded-aaa-xl bg-lf-primary text-white font-bold hover:bg-lf-primary/90 transition-all shadow-glass-xl"
+              className="px-6 py-3 rounded-2xl bg-accent-500 text-calm-text-primary font-bold hover:bg-accent-500/90 transition-all shadow-calm-lg"
             >
               Limpiar filtros
             </button>

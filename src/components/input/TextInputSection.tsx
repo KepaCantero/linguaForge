@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { radialGlow } from '@/constants/colors';
 
 interface TextInputSectionProps {
   textContent: string;
@@ -34,7 +35,7 @@ export function TextInputSection({
           value={textContent}
           onChange={(e) => onTextChange(e.target.value)}
           placeholder="Pega aquí el texto en francés que quieres leer..."
-          className="w-full h-48 px-6 py-4 rounded-aaa-xl bg-glass-surface backdrop-blur-aaa border border-white/20 text-white placeholder:text-white/50 resize-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent text-sm"
+          className="w-full h-48 px-6 py-4 rounded-2xl bg-calm-bg-secondary backdrop-blur-md border border-calm-warm-100/30 text-white placeholder:text-calm-text-muted/70 resize-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent text-sm"
         />
       </motion.div>
 
@@ -69,7 +70,7 @@ export function TextInputSection({
             className="absolute inset-0 rounded-full blur-lg"
             style={{
               background: hasText
-                ? 'radial-gradient(circle, rgba(6, 182, 212, 0.6), transparent)'
+                ? radialGlow('sky', 0.6)
                 : 'transparent',
             }}
             animate={{

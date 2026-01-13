@@ -4,7 +4,7 @@ interface JanusHeaderProps {
 
 export function JanusHeader({ phrasesCreated }: JanusHeaderProps) {
   return (
-    <div className="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-aaa-xl p-4 mb-4 text-white">
+    <div className="bg-gradient-to-r from-accent-500 to-sky-600 rounded-2xl p-4 mb-4 text-white">
       <div className="flex items-center justify-between">
         <div>
           <h3 className="font-semibold">🧩 Janus Composer</h3>

@@ -74,7 +74,7 @@ function FocusTimer({ startTime, isRunning }: FocusTimerProps) {
 
   return (
     <div className="flex items-center gap-2 px-4 py-2 bg-black/30 backdrop-blur-sm rounded-full">
-      <Timer className="w-4 h-4 text-green-400" />
+      <Timer className="w-4 h-4 text-accent-400" />
       <span className="text-white font-mono text-sm">{formatDuration(elapsed)}</span>
     </div>
   );
@@ -171,7 +171,7 @@ export function FocusMode({
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
             onClick={() => onToggle(true)}
-            className="fixed bottom-6 right-6 z-50 p-4 bg-gradient-to-br from-purple-600 to-blue-600 text-white rounded-full shadow-lg hover:shadow-xl transition-all"
+            className="fixed bottom-6 right-6 z-50 p-4 bg-gradient-to-br from-sky-600 to-sky-600 text-white rounded-full shadow-lg hover:shadow-xl transition-all"
             title="Entrar en Modo Focus"
           >
             <Maximize2 className="w-6 h-6" />
@@ -207,11 +207,11 @@ export function FocusMode({
                 isMinimized ? 'top-4 right-4 bottom-auto left-auto w-auto h-auto' : 'inset-4'
               }`}
             >
-              <div className="h-full flex flex-col bg-gray-900 rounded-2xl overflow-hidden shadow-2xl">
+              <div className="h-full flex flex-col bg-calm-bg-primary rounded-2xl overflow-hidden shadow-2xl">
                 {/* Header */}
-                <div className="flex items-center justify-between px-6 py-4 bg-gray-800 border-b border-gray-700">
+                <div className="flex items-center justify-between px-6 py-4 bg-calm-bg-elevated border-b border-calm-warm-200">
                   <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                    <div className="w-2 h-2 bg-accent-500 rounded-full animate-pulse" />
                     <h2 className="text-white font-semibold">Modo Focus</h2>
                   </div>
 
@@ -224,7 +224,7 @@ export function FocusMode({
                     {/* Minimizar */}
                     <button
                       onClick={() => setIsMinimized(!isMinimized)}
-                      className="p-2 text-gray-400 hover:text-white transition-colors"
+                      className="p-2 text-calm-text-muted hover:text-white transition-colors"
                       title={isMinimized ? 'Maximizar' : 'Minimizar'}
                     >
                       {isMinimized ? <Maximize2 className="w-5 h-5" /> : <Minimize2 className="w-5 h-5" />}
@@ -233,7 +233,7 @@ export function FocusMode({
                     {/* Salir */}
                     <button
                       onClick={handleExit}
-                      className="p-2 text-gray-400 hover:text-red-400 transition-colors"
+                      className="p-2 text-calm-text-muted hover:text-semantic-error transition-colors"
                       title="Salir (ESC)"
                     >
                       <X className="w-5 h-5" />
@@ -244,7 +244,7 @@ export function FocusMode({
                 {/* Contenido minimizado */}
                 {isMinimized ? (
                   <div className="px-6 py-4">
-                    <p className="text-gray-400 text-sm">Modo Focus activo...</p>
+                    <p className="text-calm-text-muted text-sm">Modo Focus activo...</p>
                   </div>
                 ) : (
                   <div className="flex-1 overflow-auto p-6">
@@ -258,9 +258,9 @@ export function FocusMode({
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 10 }}
-                    className="px-6 py-3 bg-yellow-500/10 border-t border-yellow-500/20"
+                    className="px-6 py-3 bg-amber-500/10 border-t border-amber-500/20"
                   >
-                    <p className="text-yellow-200 text-sm text-center">
+                    <p className="text-amber-200 text-sm text-center">
                       Modo Focus activo - Las pausas están deshabilitadas para mantener la concentración
                     </p>
                   </motion.div>

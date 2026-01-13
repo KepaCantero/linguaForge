@@ -3,6 +3,7 @@
 import { ReactNode } from 'react';
 import { motion } from 'framer-motion';
 import { CALM_EASING } from '@/lib/animations';
+import { COLORS, SHADOWS } from '@/constants/colors';
 
 interface AAACardProps {
   children: ReactNode;
@@ -45,9 +46,9 @@ export function AAACard({
 
   // Calm hover shadows per variant
   const hoverShadows = {
-    elevated: '0 8px 24px rgba(45, 55, 72, 0.08)',
-    flat: '0 4px 12px rgba(45, 55, 72, 0.06)',
-    outlined: '0 4px 12px rgba(45, 55, 72, 0.06)',
+    elevated: 'var(--shadow-soft-lg)',
+    flat: 'var(--shadow-soft-md)',
+    outlined: 'var(--shadow-soft-md)',
   };
 
   return (
@@ -121,7 +122,7 @@ export function AAACardSimple({
       onClick={onClick}
       // Calm hover - subtle shadow only
       whileHover={{
-        boxShadow: '0 4px 12px rgba(45, 55, 72, 0.06)',
+        boxShadow: SHADOWS.calm.slateSm,
       }}
       transition={{
         duration: 0.3,
@@ -162,8 +163,8 @@ export function AAACardInteractive({
       onClick={disabled ? undefined : onClick}
       // Calm hover
       whileHover={disabled ? {} : {
-        boxShadow: '0 8px 24px rgba(45, 55, 72, 0.08)',
-        borderColor: 'rgba(114, 168, 125, 0.3)', // Soft sage hint
+        boxShadow: `0 8px 24px ${COLORS.slate[8]}`,
+        borderColor: COLORS.sage[30], // Soft sage hint
       }}
       // Calm tap
       whileTap={disabled ? {} : {

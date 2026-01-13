@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { COLORS } from '@/constants/colors';
 
 interface CircularMeterProps {
   value: number;
@@ -29,7 +30,7 @@ export function CircularMeter({ value, label, color, delay, isMain = false }: Ci
           cy={size / 2}
           r={radius}
           fill="none"
-          stroke="rgba(255,255,255,0.1)"
+          stroke={COLORS.white[10]}
           strokeWidth={strokeWidth}
         />
 
@@ -63,7 +64,7 @@ export function CircularMeter({ value, label, color, delay, isMain = false }: Ci
         >
           {Math.round(value)}%
         </motion.div>
-        <div className="text-xs text-lf-muted mt-1">{label}</div>
+        <div className="text-xs text-calm-text-muted mt-1">{label}</div>
       </div>
 
       {/* Glow effect */}

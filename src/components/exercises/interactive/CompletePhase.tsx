@@ -28,11 +28,11 @@ export function CompletePhase({ turnResults, exercise }: CompletePhaseProps) {
       className="text-center py-8"
     >
       <div className="text-6xl mb-4">✅</div>
-      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+      <h3 className="text-xl font-bold text-calm-text-primary dark:text-white mb-2">
         ¡Conversación completada!
       </h3>
 
-      <div className="bg-gray-50 dark:bg-gray-800 rounded-aaa-xl p-4 mt-6 inline-block">
+      <div className="bg-calm-bg-primary dark:bg-calm-bg-elevated rounded-2xl p-4 mt-6 inline-block">
         <StatsGrid
           turnResults={turnResults}
           userTurnsCount={userTurnsCount}
@@ -56,24 +56,24 @@ function StatsGrid({ turnResults, userTurnsCount, avgResponseTime, avgFluency }:
     <>
       <div className="grid grid-cols-2 gap-6">
         <div>
-          <p className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">
+          <p className="text-2xl font-bold text-accent-600 dark:text-accent-400">
             {turnResults.length}/{userTurnsCount}
           </p>
-          <p className="text-xs text-gray-500 dark:text-gray-400">
+          <p className="text-xs text-calm-text-muted dark:text-calm-text-muted">
             Turnos completados
           </p>
         </div>
         <div>
-          <p className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
+          <p className="text-2xl font-bold text-accent-600 dark:text-accent-400">
             {avgResponseTime}s
           </p>
-          <p className="text-xs text-gray-500 dark:text-gray-400">
+          <p className="text-xs text-calm-text-muted dark:text-calm-text-muted">
             Tiempo promedio
           </p>
         </div>
       </div>
 
-      <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+      <div className="mt-4 pt-4 border-t border-calm-warm-100 dark:border-calm-warm-200">
         <FluencyDisplay avgFluency={avgFluency} />
       </div>
     </>
@@ -87,14 +87,14 @@ interface FluencyDisplayProps {
 function FluencyDisplay({ avgFluency }: FluencyDisplayProps) {
   return (
     <div className="flex items-center justify-center gap-2">
-      <span className="text-sm text-gray-600 dark:text-gray-400">Fluidez:</span>
-      <div className="w-24 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+      <span className="text-sm text-calm-text-secondary dark:text-calm-text-muted">Fluidez:</span>
+      <div className="w-24 h-2 bg-calm-bg-tertiary dark:bg-calm-bg-tertiary rounded-full overflow-hidden">
         <div
-          className="h-full bg-emerald-500 rounded-full"
+          className="h-full bg-accent-500 rounded-full"
           style={{ width: `${avgFluency}%` }}
         />
       </div>
-      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+      <span className="text-sm font-medium text-calm-text-secondary dark:text-calm-text-tertiary">
         {avgFluency}%
       </span>
     </div>

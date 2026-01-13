@@ -24,10 +24,10 @@ export function ResetForm({
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-8"
         >
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+          <h1 className="text-3xl font-bold text-calm-text-primary dark:text-calm-text-primary mb-2">
             Recuperar Contraseña
           </h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-calm-text-secondary dark:text-calm-text-muted">
             Te enviaremos un enlace para restablecer tu contraseña
           </p>
         </motion.div>
@@ -39,7 +39,7 @@ export function ResetForm({
           animate={{ opacity: 1, y: 0 }}
         >
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label htmlFor="email" className="block text-sm font-medium text-calm-text-secondary mb-2">
               Email
             </label>
             <input
@@ -48,7 +48,7 @@ export function ResetForm({
               value={email}
               onChange={(e) => onEmailChange(e.target.value)}
               required
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-lf-primary focus:border-transparent"
+              className="w-full px-4 py-3 rounded-lg border border-calm-warm-200 bg-calm-bg-elevated text-calm-text-primary focus:ring-2 focus:ring-accent-500 focus:border-transparent"
               placeholder="tu@email.com"
             />
           </div>
@@ -57,16 +57,16 @@ export function ResetForm({
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="p-3 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800"
+              className="p-3 rounded-lg bg-semantic-error-bg dark:bg-semantic-error-bg border border-semantic-error dark:border-semantic-error"
             >
-              <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+              <p className="text-sm text-semantic-error dark:text-semantic-error">{error}</p>
             </motion.div>
           )}
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 px-4 bg-lf-primary text-white rounded-lg font-medium hover:bg-lf-primary/90 focus:outline-none focus:ring-2 focus:ring-lf-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="w-full py-3 px-4 bg-accent-500 text-calm-text-primary rounded-lg font-medium hover:bg-accent-500/90 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             {loading ? 'Enviando...' : 'Enviar enlace de recuperación'}
           </button>
@@ -74,7 +74,7 @@ export function ResetForm({
           <div className="text-center">
             <Link
               href="/auth/login"
-              className="text-sm text-lf-primary hover:text-lf-primary/80 font-medium"
+              className="text-sm text-calm-text-primary hover:text-calm-text-primary/80 font-medium"
             >
               Volver al inicio de sesión
             </Link>

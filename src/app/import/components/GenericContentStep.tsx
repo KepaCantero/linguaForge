@@ -32,28 +32,28 @@ export function GenericContentStep({
           onClick={onBack}
           whileHover={{ x: -2 }}
           whileTap={{ scale: 0.95 }}
-          className="p-2 rounded-xl bg-glass-surface backdrop-blur-md border border-white/20 text-lf-muted hover:text-white transition-all"
+          className="p-2 rounded-xl bg-calm-bg-secondary backdrop-blur-md border border-calm-warm-100/20 text-calm-text-muted hover:text-calm-text-primary transition-all"
         >
           ←
         </motion.button>
-        <h2 className="text-2xl font-bold text-white">
+        <h2 className="text-2xl font-bold text-calm-text-primary">
           Pega tu contenido
         </h2>
       </div>
 
-      <div className="flex items-center gap-2 text-sm text-lf-muted px-2">
+      <div className="flex items-center gap-2 text-sm text-calm-text-muted px-2">
         <span className="text-2xl">
           {sources.find((s) => s.id === selectedSource)?.icon}
         </span>
         <span>{sources.find((s) => s.id === selectedSource)?.label}</span>
       </div>
 
-      <div className="relative overflow-hidden rounded-xl bg-glass-surface backdrop-blur-md border border-white/20 p-4">
+      <div className="relative overflow-hidden rounded-xl bg-calm-bg-secondary backdrop-blur-md border border-calm-warm-100/20 p-4">
         <textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
           placeholder="Pega aquí el texto en francés que quieres aprender..."
-          className="w-full h-48 px-4 py-3 rounded-xl bg-lf-dark/30 border border-white/20 text-white placeholder:text-lf-muted resize-none focus:ring-2 focus:ring-lf-accent focus:border-transparent"
+          className="w-full h-48 px-4 py-3 rounded-xl bg-calm-bg-tertiary/30 border border-calm-warm-100/20 text-calm-text-primary placeholder:text-calm-text-muted resize-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
           autoFocus
         />
       </div>
@@ -62,7 +62,7 @@ export function GenericContentStep({
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-sm text-lf-muted px-2"
+          className="text-sm text-calm-text-muted px-2"
         >
           <span>
             {calculateWordCount(content)} palabras •{' '}
@@ -76,7 +76,7 @@ export function GenericContentStep({
         disabled={!isValidContent(content)}
         whileHover={{ scale: 1.02, y: -2 }}
         whileTap={{ scale: 0.98 }}
-        className="w-full py-4 rounded-xl bg-gradient-to-r from-lf-primary to-lf-secondary text-white font-bold shadow-glass-xl hover:shadow-glow-accent disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+        className="w-full py-4 rounded-xl bg-gradient-to-r to-accent-500 to-sky-500 text-calm-text-primary font-bold shadow-calm-lg hover:shadow-calm-md disabled:opacity-50 disabled:cursor-not-allowed transition-all"
       >
         Continuar →
       </motion.button>

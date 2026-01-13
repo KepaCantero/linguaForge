@@ -119,7 +119,7 @@ function ExercisesPageContent() {
         onStartMission={handleWarmupDone}
       />
 
-      <div className="min-h-screen bg-lf-dark pb-20">
+      <div className="min-h-screen bg-calm-bg-tertiary pb-20">
       {/* Header */}
       <ExercisesHeader
         subtopicTitle={subtopic.title}

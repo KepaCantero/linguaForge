@@ -6,6 +6,7 @@ import { Vocabulary, VocabularyOption } from "@/types";
 import { useGamificationStore } from "@/store/useGamificationStore";
 import { XP_RULES } from "@/lib/constants";
 import Image from "next/image";
+import { COLORS } from "@/constants/colors";
 
 interface VocabularyExerciseProps {
   exercise: Vocabulary;
@@ -59,14 +60,14 @@ export function VocabularyExercise({
     <div className="space-y-6">
       {/* Instrucción */}
       <div className="text-center">
-        <span className="text-sm text-gray-500 dark:text-gray-400">
+        <span className="text-sm text-calm-text-muted dark:text-calm-text-muted">
           Selecciona la palabra que corresponde a la imagen
         </span>
       </div>
 
       {/* Imagen */}
       <motion.div
-        className="relative w-full h-64 rounded-aaa-xl overflow-hidden bg-gray-100 dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700"
+        className="relative w-full h-64 rounded-2xl overflow-hidden bg-calm-bg-secondary dark:bg-calm-bg-elevated border-2 border-calm-warm-100 dark:border-calm-warm-200"
         initial={{ opacity: 0, y: -30, rotateX: 15 }}
         animate={{ opacity: 1, y: 0, rotateX: 0 }}
         transition={{ type: "spring", stiffness: 100, damping: 15 }}
@@ -93,18 +94,18 @@ export function VocabularyExercise({
               onClick={() => handleOptionSelect(option)}
               disabled={showResult}
               className={`
-                p-4 rounded-aaa-xl font-medium text-center transition-all
+                p-4 rounded-2xl font-medium text-center transition-all
                 ${
                   showCorrect
-                    ? "bg-emerald-500 text-white ring-4 ring-emerald-300"
+                    ? "bg-accent-500 text-white ring-4 ring-emerald-300"
                     : showIncorrect
-                    ? "bg-red-500 text-white ring-4 ring-red-300"
+                    ? "bg-semantic-error text-white ring-4 ring-red-300"
                     : isSelected
-                    ? "bg-indigo-500 text-white"
-                    : "bg-white dark:bg-gray-800 text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700"
+                    ? "bg-accent-500 text-white"
+                    : "bg-white dark:bg-calm-bg-elevated text-calm-text-primary dark:text-white hover:bg-calm-bg-primary dark:hover:bg-calm-bg-tertiary"
                 }
                 ${showResult ? "cursor-default opacity-50" : "cursor-pointer"}
-                border border-gray-200 dark:border-gray-700
+                border border-calm-warm-100 dark:border-calm-warm-200
               `}
               initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
               animate={
@@ -112,9 +113,9 @@ export function VocabularyExercise({
                   ? {
                       scale: [1, 1.08, 1.03],
                       boxShadow: [
-                        "0 0 0 rgba(16, 185, 129, 0)",
-                        "0 0 30px rgba(16, 185, 129, 0.6)",
-                        "0 0 20px rgba(16, 185, 129, 0.4)",
+                        COLORS.transparent.accent,
+                        "0 0 30px COLORS.accent[60]",
+                        "0 0 20px var(--accent-500)/40",
                       ],
                     }
                   : { opacity: 1, x: 0 }
@@ -140,11 +141,11 @@ export function VocabularyExercise({
         {showResult && (
           <motion.div
             className={`
-              p-4 rounded-aaa-xl text-center
+              p-4 rounded-2xl text-center
               ${
                 isCorrect
-                  ? "bg-emerald-100 dark:bg-emerald-900 text-emerald-700 dark:text-emerald-300"
-                  : "bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-300"
+                  ? "bg-accent-100 dark:bg-accent-900 text-accent-700 dark:text-accent-300"
+                  : "bg-semantic-error-bg dark:bg-semantic-error-bg text-semantic-error-text dark:text-semantic-error-text"
               }
             `}
             initial={{ opacity: 0, y: 20 }}

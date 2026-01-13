@@ -18,10 +18,10 @@ export function PreviewPhase({ exercise, isPlaying, onPlayFullDialogue, onStartP
       className="space-y-6"
     >
       <div className="text-center mb-4">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+        <h3 className="text-lg font-semibold text-calm-text-primary dark:text-white">
           🎧 Escucha el diálogo completo
         </h3>
-        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+        <p className="text-sm text-calm-text-muted dark:text-calm-text-muted mt-1">
           Después practicarás tus líneas
         </p>
       </div>
@@ -29,9 +29,9 @@ export function PreviewPhase({ exercise, isPlaying, onPlayFullDialogue, onStartP
       <DialogueList dialogue={exercise.dialogue} />
 
       {isPlaying && (
-        <div className="text-center text-sm text-indigo-600 dark:text-indigo-400">
+        <div className="text-center text-sm text-accent-600 dark:text-accent-400">
           <span className="inline-flex items-center gap-2">
-            <span className="w-2 h-2 bg-indigo-500 rounded-full animate-pulse" />
+            <span className="w-2 h-2 bg-accent-500 rounded-full animate-pulse" />
             Reproduciendo...
           </span>
         </div>
@@ -41,14 +41,14 @@ export function PreviewPhase({ exercise, isPlaying, onPlayFullDialogue, onStartP
         <button
           onClick={onPlayFullDialogue}
           disabled={isPlaying}
-          className="flex-1 px-4 py-3 bg-indigo-500 hover:bg-indigo-600 disabled:bg-gray-300 dark:disabled:bg-gray-700 text-white rounded-aaa-xl font-medium transition-colors"
+          className="flex-1 px-4 py-3 bg-accent-500 hover:bg-accent-600 disabled:bg-calm-warm-100 dark:disabled:bg-calm-bg-tertiary text-white rounded-2xl font-medium transition-colors"
         >
           🔊 Escuchar Todo
         </button>
         <button
           onClick={onStartPractice}
           disabled={isPlaying}
-          className="flex-1 px-4 py-3 bg-emerald-500 hover:bg-emerald-600 disabled:bg-gray-300 dark:disabled:bg-gray-700 text-white rounded-aaa-xl font-medium transition-colors"
+          className="flex-1 px-4 py-3 bg-accent-500 hover:bg-accent-600 disabled:bg-calm-warm-100 dark:disabled:bg-calm-bg-tertiary text-white rounded-2xl font-medium transition-colors"
         >
           🎤 Practicar
         </button>
@@ -63,7 +63,7 @@ interface DialogueListProps {
 
 function DialogueList({ dialogue }: DialogueListProps) {
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-aaa-xl p-4 space-y-3 border border-gray-100 dark:border-gray-700">
+    <div className="bg-white dark:bg-calm-bg-elevated rounded-2xl p-4 space-y-3 border border-calm-warm-100 dark:border-calm-warm-200">
       {dialogue.map((turn) => {
         const isUserTurn = turn.speaker === 'user';
         return (
@@ -74,8 +74,8 @@ function DialogueList({ dialogue }: DialogueListProps) {
             <div className={`
               w-8 h-8 rounded-full flex items-center justify-center text-sm flex-shrink-0
               ${isUserTurn
-                ? 'bg-emerald-100 dark:bg-emerald-900/50'
-                : 'bg-indigo-100 dark:bg-indigo-900/50'
+                ? 'bg-accent-100 dark:bg-accent-900/50'
+                : 'bg-accent-100 dark:bg-accent-900/50'
               }
             `}>
               {isUserTurn ? '👤' : '🎭'}
@@ -83,18 +83,18 @@ function DialogueList({ dialogue }: DialogueListProps) {
             <div className={`
               flex-1 p-3 rounded-lg
               ${isUserTurn
-                ? 'bg-emerald-50 dark:bg-emerald-900/20 text-right'
-                : 'bg-gray-50 dark:bg-gray-700/50'
+                ? 'bg-accent-50 dark:bg-accent-900/20 text-right'
+                : 'bg-calm-bg-primary dark:bg-calm-bg-tertiary/50'
               }
             `}>
-              <p className="text-gray-900 dark:text-white text-sm">
+              <p className="text-calm-text-primary dark:text-white text-sm">
                 {turn.text}
               </p>
-              <p className="text-gray-500 dark:text-gray-400 text-xs mt-1">
+              <p className="text-calm-text-muted dark:text-calm-text-muted text-xs mt-1">
                 {turn.translation}
               </p>
               {isUserTurn && (
-                <span className="inline-block mt-1 text-xs text-emerald-600 dark:text-emerald-400">
+                <span className="inline-block mt-1 text-xs text-accent-600 dark:text-accent-400">
                   🎤 Tu turno
                 </span>
               )}

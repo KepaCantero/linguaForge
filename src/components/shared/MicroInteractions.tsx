@@ -107,14 +107,14 @@ const MAX_DURATION = 300; // ms - Duración máxima de animación
 const SHAKE_DURATION = 400; // ms - Duración de vibración visual
 
 const INTERACTION_COLORS: Record<InteractionType, string> = {
-  success: 'bg-green-500/20 border-green-500/50 text-green-300',
-  error: 'bg-red-500/20 border-red-500/50 text-red-300',
+  success: 'bg-accent-500/20 border-accent-500/50 text-accent-300',
+  error: 'bg-semantic-error/20 border-semantic-error/50 text-semantic-error-text',
   warning: 'bg-amber-500/20 border-amber-500/50 text-amber-300',
-  info: 'bg-blue-500/20 border-blue-500/50 text-blue-300',
-  loading: 'bg-indigo-500/20 border-indigo-500/50 text-indigo-300',
-  shake: 'bg-red-500/10 border-red-500/30',
-  pulse: 'bg-purple-500/20 border-purple-500/50 text-purple-300',
-  bounce: 'bg-teal-500/20 border-teal-500/50 text-teal-300',
+  info: 'bg-sky-500/20 border-sky-500/50 text-sky-300',
+  loading: 'bg-accent-500/20 border-accent-500/50 text-accent-300',
+  shake: 'bg-semantic-error/10 border-semantic-error/30',
+  pulse: 'bg-sky-500/20 border-sky-500/50 text-sky-300',
+  bounce: 'bg-sky-500/20 border-sky-500/50 text-sky-300',
 };
 
 const INTERACTION_ICONS: Record<InteractionType, string> = {
@@ -363,7 +363,7 @@ export function SmartAutocomplete({
       {/* Input */}
       <div className="relative">
         {icon && (
-          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-calm-text-muted">
             {icon}
           </span>
         )}
@@ -376,13 +376,13 @@ export function SmartAutocomplete({
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
           disabled={disabled}
-          className={`w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 ${icon ? 'pl-10' : ''}`}
+          className={`w-full px-3 py-2 bg-calm-bg-elevated border border-calm-warm-200 rounded-lg text-white placeholder-calm-text-muted focus:outline-none focus:border-accent-500 focus:ring-1 focus:ring-accent-500 ${icon ? 'pl-10' : ''}`}
         />
         {/* Indicador de dropdown */}
         <motion.button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-calm-text-muted hover:text-white transition-colors"
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ duration: 0.2 }}
         >
@@ -398,7 +398,7 @@ export function SmartAutocomplete({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.15 }}
-            className="absolute z-10 w-full mt-1 bg-gray-800 border border-gray-700 rounded-lg shadow-lg max-h-60 overflow-auto"
+            className="absolute z-10 w-full mt-1 bg-calm-bg-elevated border border-calm-warm-200 rounded-lg shadow-lg max-h-60 overflow-auto"
           >
             {filteredOptions.map((option, index) => (
               <motion.button
@@ -407,8 +407,8 @@ export function SmartAutocomplete({
                 onClick={() => handleSelect(option)}
                 className={`w-full text-left px-3 py-2 text-sm transition-colors ${
                   index === highlightedIndex
-                    ? 'bg-indigo-600 text-white'
-                    : 'text-gray-300 hover:bg-gray-700'
+                    ? 'bg-accent-600 text-white'
+                    : 'text-calm-text-tertiary hover:bg-calm-bg-tertiary'
                 }`}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
@@ -624,8 +624,8 @@ export function DictationButton({ onTranscript, className = '' }: DictationButto
       onClick={isListening ? stopListening : startListening}
       className={`p-2 rounded-lg transition-colors ${
         isListening
-          ? 'bg-red-600 hover:bg-red-700 text-white'
-          : 'bg-indigo-600 hover:bg-indigo-700 text-white'
+          ? 'bg-semantic-error hover:bg-semantic-error text-white'
+          : 'bg-accent-600 hover:bg-accent-700 text-white'
       } ${className}`}
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}

@@ -4,6 +4,7 @@ import { useState, useMemo, useCallback, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import type { TranslationKeys } from '@/i18n';
+import { radialGlow, COLORS } from '@/constants/colors';
 
 // Expanded node system with hundreds of topics
 interface TopicNode {
@@ -23,15 +24,15 @@ interface TopicNode {
 
 // Topic categories for organization
 const TOPIC_CATEGORIES = [
-  { id: 'basics', name: 'Bases', icon: '🎯', color: '#6366F1', gradient: 'radial-gradient(circle at 30% 30%, #6366F1, #4F46E5)' },
+  { id: 'basics', name: 'Bases', icon: '🎯', color: 'var(--sky-500)', gradient: 'radial-gradient(circle at 30% 30%, var(--sky-500), var(--sky-600))' },
   { id: 'food', name: 'Comida', icon: '🍽️', color: '#F59E0B', gradient: 'radial-gradient(circle at 30% 30%, #F59E0B, #D97706)' },
-  { id: 'travel', name: 'Viajes', icon: '✈️', color: '#10B981', gradient: 'radial-gradient(circle at 30% 30%, #10B981, #059669)' },
+  { id: 'travel', name: 'Viajes', icon: '✈️', color: 'var(--accent-500)', gradient: 'radial-gradient(circle at 30% 30%, var(--accent-500), var(--accent-600))' },
   { id: 'business', name: 'Negocios', icon: '💼', color: '#3B82F6', gradient: 'radial-gradient(circle at 30% 30%, #3B82F6, #2563EB)' },
   { id: 'health', name: 'Salud', icon: '🏥', color: '#EF4444', gradient: 'radial-gradient(circle at 30% 30%, #EF4444, #DC2626)' },
   { id: 'culture', name: 'Cultura', icon: '🎨', color: '#8B5CF6', gradient: 'radial-gradient(circle at 30% 30%, #8B5CF6, #7C3AED)' },
   { id: 'sports', name: 'Deportes', icon: '⚽', color: '#EC4899', gradient: 'radial-gradient(circle at 30% 30%, #EC4899, #DB2777)' },
   { id: 'technology', name: 'Tecnología', icon: '💻', color: '#06B6D4', gradient: 'radial-gradient(circle at 30% 30%, #06B6D4, #0891B2)' },
-  { id: 'nature', name: 'Naturaleza', icon: '🌿', color: '#22C55E', gradient: 'radial-gradient(circle at 30% 30%, #22C55E, #16A34A)' },
+  { id: 'nature', name: 'Naturaleza', icon: '🌿', color: 'var(--accent-500)', gradient: 'radial-gradient(circle at 30% 30%, var(--accent-500), #16A34A)' },
   { id: 'relationships', name: 'Relaciones', icon: '❤️', color: '#F43F5E', gradient: 'radial-gradient(circle at 30% 30%, #F43F5E, #E11D48)' },
 ];
 
@@ -166,19 +167,19 @@ export function InfiniteCourseMap({ translations, userProgress: _userProgress }:
         <h2 className="text-4xl font-bold text-white mb-2">
           {translations.learn?.title || 'Aprende Francés'}
         </h2>
-        <p className="text-sm text-lf-muted mb-4">
+        <p className="text-sm text-calm-text-muted mb-4">
           {stats.total} temas disponibles • {stats.completed} completados • {stats.totalXP} XP ganado
         </p>
 
         {/* Quick Stats */}
         <div className="flex items-center justify-center gap-4 text-xs">
-          <div className="px-3 py-1 rounded-full bg-green-500/20 border border-green-500/30 text-green-300">
+          <div className="px-3 py-1 rounded-full bg-accent-500/20 border border-accent-500/30 text-accent-300">
             {stats.completed} ✓
           </div>
-          <div className="px-3 py-1 rounded-full bg-blue-500/20 border border-blue-500/30 text-blue-300">
+          <div className="px-3 py-1 rounded-full bg-sky-500/20 border border-sky-500/30 text-sky-300">
             {stats.inProgress} 📚
           </div>
-          <div className="px-3 py-1 rounded-full bg-gray-500/20 border border-gray-500/30 text-gray-300">
+          <div className="px-3 py-1 rounded-full bg-calm-bg-primary0/20 border border-calm-warm-300/30 text-calm-text-tertiary">
             {stats.locked} 🔒
           </div>
         </div>
@@ -198,7 +199,7 @@ export function InfiniteCourseMap({ translations, userProgress: _userProgress }:
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Buscar temas (ej. restaurantes, viajes, salud...)"
-            className="w-full px-6 py-4 pl-14 rounded-aaa-xl bg-glass-surface backdrop-blur-aaa border border-white/20 text-white placeholder:text-white/50 focus:ring-2 focus:ring-lf-accent focus:border-transparent"
+            className="w-full px-6 py-4 pl-14 rounded-2xl bg-calm-bg-secondary backdrop-blur-md border border-calm-warm-100/30 text-white placeholder:text-calm-text-muted/70 focus:ring-2 focus:ring-amber-500 focus:border-transparent"
           />
           <span className="absolute left-6 top-1/2 transform -translate-y-1/2 text-xl">🔍</span>
         </div>
@@ -209,8 +210,8 @@ export function InfiniteCourseMap({ translations, userProgress: _userProgress }:
             onClick={() => setSelectedCategory(null)}
             className={`px-4 py-2 rounded-full whitespace-nowrap text-sm font-semibold transition-all ${
               !selectedCategory
-                ? 'bg-lf-accent text-lf-dark'
-                : 'bg-glass-surface backdrop-blur-aaa border border-white/20 text-white hover:bg-white/10'
+                ? 'bg-amber-500 text-calm-text-primary'
+                : 'bg-calm-bg-secondary backdrop-blur-md border border-calm-warm-100/30 text-white hover:bg-white/10'
             }`}
           >
             Todos ({stats.total})
@@ -221,8 +222,8 @@ export function InfiniteCourseMap({ translations, userProgress: _userProgress }:
               onClick={() => setSelectedCategory(cat.id)}
               className={`px-4 py-2 rounded-full whitespace-nowrap text-sm font-semibold transition-all flex items-center gap-2 ${
                 selectedCategory === cat.id
-                  ? 'bg-lf-accent text-lf-dark'
-                  : 'bg-glass-surface backdrop-blur-aaa border border-white/20 text-white hover:bg-white/10'
+                  ? 'bg-amber-500 text-calm-text-primary'
+                  : 'bg-calm-bg-secondary backdrop-blur-md border border-calm-warm-100/30 text-white hover:bg-white/10'
               }`}
             >
               <span>{cat.icon}</span>
@@ -239,8 +240,8 @@ export function InfiniteCourseMap({ translations, userProgress: _userProgress }:
               onClick={() => setSelectedLevel(selectedLevel === level ? null : level)}
               className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${
                 selectedLevel === level
-                  ? 'bg-lf-primary text-white'
-                  : 'bg-glass-surface backdrop-blur-aaa border border-white/20 text-white/60 hover:text-white hover:bg-white/10'
+                  ? 'bg-accent-500 text-white'
+                  : 'bg-calm-bg-secondary backdrop-blur-md border border-calm-warm-100/30 text-white/60 hover:text-white hover:bg-white/10'
               }`}
             >
               {level}
@@ -249,14 +250,14 @@ export function InfiniteCourseMap({ translations, userProgress: _userProgress }:
         </div>
 
         {/* Show Only Unlocked Toggle */}
-        <div className="flex items-center justify-between px-4 py-3 rounded-xl bg-glass-surface backdrop-blur-aaa border border-white/20">
+        <div className="flex items-center justify-between px-4 py-3 rounded-xl bg-calm-bg-secondary backdrop-blur-md border border-calm-warm-100/30">
           <span className="text-sm text-white font-semibold">Mostrar solo disponibles</span>
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => setShowOnlyUnlocked(!showOnlyUnlocked)}
             className={`relative w-14 h-8 rounded-full transition-colors duration-300 ${
-              showOnlyUnlocked ? 'bg-lf-primary' : 'bg-white/20'
+              showOnlyUnlocked ? 'bg-accent-500' : 'bg-white/20'
             }`}
             aria-label={showOnlyUnlocked ? 'Mostrar todos' : 'Mostrar solo disponibles'}
           >
@@ -273,7 +274,7 @@ export function InfiniteCourseMap({ translations, userProgress: _userProgress }:
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="text-center text-sm text-lf-muted"
+        className="text-center text-sm text-calm-text-muted"
       >
         {searchQuery || selectedCategory || selectedLevel
           ? `Mostrando ${displayedNodes.length} de ${filteredNodes.length} temas`
@@ -286,7 +287,7 @@ export function InfiniteCourseMap({ translations, userProgress: _userProgress }:
         ref={containerRef}
         className="relative max-h-[60vh] overflow-y-auto pr-2"
         style={{
-          scrollbarColor: 'rgba(99, 102, 241, 0.3) rgba(99, 102, 241, 0.1)',
+          scrollbarColor: 'var(--sky-500)/30 var(--sky-500)/10',
         }}
       >
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 pb-8">
@@ -304,7 +305,7 @@ export function InfiniteCourseMap({ translations, userProgress: _userProgress }:
         {isLoading && (
           <div className="flex justify-center py-8">
             <motion.div
-              className="w-12 h-12 rounded-full border-4 border-lf-accent border-t-transparent"
+              className="w-12 h-12 rounded-full border-4 border-amber-500 border-t-transparent"
               animate={{ rotate: 360 }}
               transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
             />
@@ -313,7 +314,7 @@ export function InfiniteCourseMap({ translations, userProgress: _userProgress }:
 
         {/* End of results */}
         {!isLoading && displayedNodes.length >= filteredNodes.length && filteredNodes.length > 0 && (
-          <div className="text-center py-8 text-lf-muted">
+          <div className="text-center py-8 text-calm-text-muted">
             <p className="text-4xl mb-2">🎉</p>
             <p>¡Has visto todos los {filteredNodes.length} temas!</p>
           </div>
@@ -330,7 +331,7 @@ export function InfiniteCourseMap({ translations, userProgress: _userProgress }:
                 setSelectedCategory(null);
                 setSelectedLevel(null);
               }}
-              className="mt-4 px-6 py-3 rounded-aaa-xl bg-lf-accent text-lf-dark font-bold"
+              className="mt-4 px-6 py-3 rounded-2xl bg-amber-500 text-calm-text-primary font-bold"
             >
               Limpiar filtros
             </button>
@@ -344,28 +345,28 @@ export function InfiniteCourseMap({ translations, userProgress: _userProgress }:
 // Helper functions for TopicOrb
 function getCardStyles(isLocked: boolean, isCompleted: boolean, isInProgress: boolean): string {
   const baseStyles = 'rounded-xl p-3 border transition-all duration-300 ';
-  if (isLocked) return baseStyles + 'bg-lf-dark/50 border-white/10';
-  if (isCompleted) return baseStyles + 'bg-green-500/10 border-green-500/30';
-  if (isInProgress) return baseStyles + 'bg-orange-500/10 border-orange-500/30';
-  return baseStyles + 'bg-glass-surface backdrop-blur-aaa border-white/20';
+  if (isLocked) return baseStyles + 'bg-calm-bg-tertiary/50 border-calm-warm-100/20';
+  if (isCompleted) return baseStyles + 'bg-accent-500/10 border-accent-500/30';
+  if (isInProgress) return baseStyles + 'bg-amber-500/10 border-amber-500/30';
+  return baseStyles + 'bg-calm-bg-secondary backdrop-blur-md border-calm-warm-100/30';
 }
 
 function getHoverColor(isCompleted: boolean, isInProgress: boolean, nodeColor: string): string {
-  if (isCompleted) return '#22C55E';
+  if (isCompleted) return 'var(--accent-500)';
   if (isInProgress) return '#F59E0B';
   return nodeColor;
 }
 
 function getIconBackground(isLocked: boolean, isCompleted: boolean, isInProgress: boolean, nodeGradient: string): string {
   if (isLocked) return 'radial-gradient(circle at 30% 30%, #334155, #1E293B)';
-  if (isCompleted) return 'radial-gradient(circle at 30% 30%, #22C55E, #16A34A)';
+  if (isCompleted) return 'radial-gradient(circle at 30% 30%, var(--accent-500), #16A34A)';
   if (isInProgress) return 'radial-gradient(circle at 30% 30%, #F59E0B, #D97706)';
   return nodeGradient;
 }
 
 function getGlowBackground(isCompleted: boolean, isInProgress: boolean, nodeColor: string): string {
-  if (isInProgress) return `radial-gradient(circle, rgba(245, 158, 11, 0.6), transparent)`;
-  if (isCompleted) return `radial-gradient(circle, rgba(34, 197, 94, 0.6), transparent)`;
+  if (isInProgress) return radialGlow('amber', 0.6);
+  if (isCompleted) return radialGlow('accent', 0.6);
   return `radial-gradient(circle, ${nodeColor}66, transparent)`;
 }
 
@@ -395,7 +396,7 @@ function ProgressRing({ isLocked, isCompleted, progress, delay }: ProgressRingPr
         cy="50%"
         r="45%"
         fill="none"
-        stroke="rgba(255,255,255,0.15)"
+        stroke={COLORS.white[15]}
         strokeWidth="2"
       />
       <motion.circle
@@ -403,7 +404,7 @@ function ProgressRing({ isLocked, isCompleted, progress, delay }: ProgressRingPr
         cy="50%"
         r="45%"
         fill="none"
-        stroke={isCompleted ? '#22C55E' : '#FDE047'}
+        stroke={isCompleted ? 'var(--accent-500)' : '#FDE047'}
         strokeWidth="2"
         strokeLinecap="round"
         initial={{ pathLength: 0 }}
@@ -468,7 +469,7 @@ function TopicOrbContent({ node, isLocked, isCompleted, isInProgress, delay }: T
 
         {/* Title and level */}
         <div className="flex-1 min-w-0">
-          <h3 className="text-sm font-semibold text-white truncate" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}>
+          <h3 className="text-sm font-semibold text-white truncate" style={{ textShadow: COLORS.effects.textShadowSm }}>
             {node.title}
           </h3>
           <div className="flex items-center gap-2 mt-1">
@@ -487,7 +488,7 @@ function TopicOrbContent({ node, isLocked, isCompleted, isInProgress, delay }: T
       {/* XP Reward for completed nodes */}
       {isCompleted && (
         <motion.div
-          className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-lf-accent text-lf-dark text-xs font-bold flex items-center justify-center shadow-lg"
+          className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-amber-500 text-calm-text-primary text-xs font-bold flex items-center justify-center shadow-lg"
           animate={{ scale: [1, 1.1, 1] }}
           transition={{ duration: 1, repeat: Infinity, delay: delay * 0.1 }}
         >

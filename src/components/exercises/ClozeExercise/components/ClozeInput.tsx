@@ -30,11 +30,11 @@ export function ClozeInput({
 
     if (showResult) {
       return isCorrect
-        ? `${baseClasses} bg-lf-success/20 dark:bg-lf-success/30 text-lf-success dark:text-lf-success`
-        : `${baseClasses} bg-lf-error/20 dark:bg-lf-error/30 text-lf-error dark:text-lf-error`;
+        ? `${baseClasses} bg-accent-500/20 dark:bg-accent-500/30 text-accent-500 dark:text-accent-500`
+        : `${baseClasses} bg-semantic-error/20 dark:bg-semantic-error/30 text-semantic-error dark:text-semantic-error`;
     }
 
-    return `${baseClasses} bg-lf-primary/20 dark:bg-lf-primary/30 text-lf-primary dark:text-lf-primary`;
+    return `${baseClasses} bg-accent-500/20 dark:bg-accent-500/30 text-calm-text-primary dark:text-calm-text-primary`;
   };
 
   const getAnimationConfig = () => {

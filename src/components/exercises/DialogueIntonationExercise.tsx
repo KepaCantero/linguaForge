@@ -224,7 +224,7 @@ export function DialogueIntonationExercise({
         <div className="mt-6 text-center">
           <button
             onClick={onSkip}
-            className="text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+            className="text-sm text-calm-text-muted hover:text-calm-text-secondary dark:text-calm-text-muted dark:hover:text-calm-text-tertiary"
           >
             Saltar ejercicio
           </button>
@@ -256,20 +256,20 @@ function CompletePhase({ turnResults }: CompletePhaseProps) {
       className="text-center py-8"
     >
       <div className="text-6xl mb-4">🎉</div>
-      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+      <h3 className="text-xl font-bold text-calm-text-primary dark:text-white mb-2">
         ¡Diálogo completado!
       </h3>
-      <p className="text-gray-500 dark:text-gray-400 mb-6">
+      <p className="text-calm-text-muted dark:text-calm-text-muted mb-6">
         Practicaste {turnResults.length} turnos de conversación
       </p>
 
-      <div className="bg-gray-50 dark:bg-gray-800 rounded-aaa-xl p-4 inline-block">
+      <div className="bg-calm-bg-primary dark:bg-calm-bg-elevated rounded-2xl p-4 inline-block">
         <div className="grid grid-cols-2 gap-6">
           <div>
-            <p className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
+            <p className="text-2xl font-bold text-accent-600 dark:text-accent-400">
               {averageSimilarity}%
             </p>
-            <p className="text-xs text-gray-500 dark:text-gray-400">
+            <p className="text-xs text-calm-text-muted dark:text-calm-text-muted">
               Similitud promedio
             </p>
           </div>
@@ -277,7 +277,7 @@ function CompletePhase({ turnResults }: CompletePhaseProps) {
             <p className="text-2xl font-bold text-amber-600 dark:text-amber-400">
               +{totalXP}
             </p>
-            <p className="text-xs text-gray-500 dark:text-gray-400">
+            <p className="text-xs text-calm-text-muted dark:text-calm-text-muted">
               XP ganado
             </p>
           </div>

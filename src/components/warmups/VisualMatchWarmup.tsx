@@ -131,18 +131,18 @@ export function VisualMatchWarmup({
   );
 
   return (
-    <div className="fixed inset-0 z-50 bg-gray-900 flex flex-col items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 bg-calm-bg-primary flex flex-col items-center justify-center p-4">
       {/* Header */}
       <div className="absolute top-4 left-4 right-4 flex justify-between items-center">
         <div>
           <h2 className="text-lg font-semibold text-white">Reconocimiento Visual</h2>
-          <p className="text-sm text-gray-400">
+          <p className="text-sm text-calm-text-muted">
             Imagen {currentImage + 1} de {totalImages}
           </p>
         </div>
         <button
           onClick={onSkip}
-          className="px-4 py-2 text-gray-400 hover:text-white transition-colors"
+          className="px-4 py-2 text-calm-text-muted hover:text-white transition-colors"
         >
           Saltar
         </button>
@@ -167,7 +167,7 @@ export function VisualMatchWarmup({
         <div className="flex flex-col items-center gap-8">
           {/* Imagen con blur */}
           <motion.div
-            className="relative w-48 h-48 bg-gray-800 rounded-2xl flex items-center justify-center overflow-hidden"
+            className="relative w-48 h-48 bg-calm-bg-elevated rounded-2xl flex items-center justify-center overflow-hidden"
             style={{
               filter: `blur(${blurLevel}px)`,
             }}
@@ -178,10 +178,10 @@ export function VisualMatchWarmup({
           {/* Indicador de enfoque */}
           {!showOptions && (
             <div className="text-center">
-              <p className="text-gray-400 text-sm">Enfocando...</p>
-              <div className="w-48 h-2 bg-gray-800 rounded-full mt-2 overflow-hidden">
+              <p className="text-calm-text-muted text-sm">Enfocando...</p>
+              <div className="w-48 h-2 bg-calm-bg-elevated rounded-full mt-2 overflow-hidden">
                 <motion.div
-                  className="h-full bg-indigo-500"
+                  className="h-full bg-accent-500"
                   initial={{ width: '100%' }}
                   animate={{ width: `${blurLevel * 10}%` }}
                 />
@@ -208,11 +208,11 @@ export function VisualMatchWarmup({
                     className={`px-6 py-4 rounded-xl text-lg font-medium transition-all ${
                       selectedAnswer === option.word
                         ? isCorrect
-                          ? 'bg-green-600 text-white'
-                          : 'bg-red-600 text-white'
+                          ? 'bg-accent-600 text-white'
+                          : 'bg-semantic-error text-white'
                         : selectedAnswer && option.word === currentItem.word
-                        ? 'bg-green-600 text-white'
-                        : 'bg-gray-800 text-white hover:bg-gray-700'
+                        ? 'bg-accent-600 text-white'
+                        : 'bg-calm-bg-elevated text-white hover:bg-calm-bg-tertiary'
                     }`}
                   >
                     {option.word}
@@ -230,7 +230,7 @@ export function VisualMatchWarmup({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
                 className={`text-2xl font-bold ${
-                  isCorrect ? 'text-green-400' : 'text-red-400'
+                  isCorrect ? 'text-accent-400' : 'text-semantic-error'
                 }`}
               >
                 {isCorrect ? '¡Correcto!' : `Era: ${currentItem.word}`}
@@ -242,13 +242,13 @@ export function VisualMatchWarmup({
 
       {/* Barra de progreso */}
       <div className="absolute bottom-8 left-4 right-4">
-        <div className="flex justify-between text-sm text-gray-500 mb-2">
+        <div className="flex justify-between text-sm text-calm-text-muted mb-2">
           <span>Puntuación: {Math.round(score)}</span>
           <span>{currentImage + 1}/{totalImages}</span>
         </div>
-        <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
+        <div className="h-2 bg-calm-bg-elevated rounded-full overflow-hidden">
           <motion.div
-            className="h-full bg-indigo-500"
+            className="h-full bg-accent-500"
             initial={{ width: 0 }}
             animate={{
               width: `${((currentImage + (selectedAnswer ? 1 : 0)) / totalImages) * 100}%`,

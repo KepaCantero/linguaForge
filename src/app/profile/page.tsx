@@ -6,11 +6,12 @@ import { useInputStore } from '@/store/useInputStore';
 import { useGamificationStore } from '@/store/useGamificationStore';
 import { useUserStore } from '@/store/useUserStore';
 import { getLevelByXP, SUPPORTED_LANGUAGES, SUPPORTED_LEVELS } from '@/lib/constants';
-import { User, Settings, Info, AlertTriangle, Bell, Volume2, Moon } from 'lucide-react';
+import { User, Settings, Info, AlertTriangle, Bell, Volume2 } from 'lucide-react';
+import { ThemeToggleWithLabel } from '@/components/ui/ThemeToggle';
 
 const LANGUAGE_INFO: Record<string, { flag: string; name: string; gradient: string }> = {
-  fr: { flag: '🇫🇷', name: 'Francés', gradient: 'from-blue-500 to-indigo-500' },
-  de: { flag: '🇩🇪', name: 'Alemán', gradient: 'from-yellow-500 to-red-500' },
+  fr: { flag: '🇫🇷', name: 'Francés', gradient: 'from-sky-500 to-accent-500' },
+  de: { flag: '🇩🇪', name: 'Alemán', gradient: 'from-amber-400 to-amber-500' },
 };
 
 export default function ProfilePage() {
@@ -48,8 +49,8 @@ export default function ProfilePage() {
         className="relative"
       >
         {/* Gradient Border Card */}
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-lf-primary via-lf-secondary to-lf-accent p-[2px]">
-          <div className="relative rounded-2xl bg-lf-dark p-6">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-accent-500 via-sky-500 to-amber-500 p-[2px]">
+          <div className="relative rounded-2xl bg-calm-bg-elevated p-6">
             {/* Avatar Section */}
             <div className="flex items-center gap-4 mb-6">
               {/* Animated Avatar */}
@@ -60,12 +61,12 @@ export default function ProfilePage() {
                 }}
                 transition={{ duration: 4, repeat: Infinity }}
               >
-                <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-lf-primary via-lf-secondary to-lf-accent flex items-center justify-center shadow-glow-accent">
-                  <User className="w-10 h-10 text-white" />
+                <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-accent-500 via-sky-500 to-amber-500 flex items-center justify-center shadow-calm-md">
+                  <User className="w-10 h-10 text-calm-text-primary" />
                 </div>
                 {/* Pulsing ring */}
                 <motion.div
-                  className="absolute inset-0 rounded-2xl border-2 border-lf-accent"
+                  className="absolute inset-0 rounded-2xl border-2 border-amber-400"
                   animate={{
                     scale: [1, 1.1, 1],
                     opacity: [0.5, 0, 0.5],
@@ -76,12 +77,12 @@ export default function ProfilePage() {
 
               {/* User Info */}
               <div className="flex-1">
-                <h1 className="text-2xl font-bold text-white mb-1">Mi Perfil</h1>
+                <h1 className="text-2xl font-bold text-calm-text-primary mb-1">Mi Perfil</h1>
                 <div className="flex items-center gap-2">
-                  <span className="px-3 py-1 rounded-full bg-lf-accent/20 border border-lf-accent/30 text-lf-accent text-sm font-bold">
+                  <span className="px-3 py-1 rounded-full bg-amber-100 dark:bg-amber-900/30 border border-amber-300 dark:border-amber-700 text-amber-600 dark:text-amber-400 text-sm font-bold">
                     {userLevel.title}
                   </span>
-                  <span className="text-lf-muted text-sm">Nivel {level}</span>
+                  <span className="text-calm-text-muted text-sm">Nivel {level}</span>
                 </div>
               </div>
 
@@ -94,8 +95,8 @@ export default function ProfilePage() {
                   }}
                   transition={{ duration: 2, repeat: Infinity }}
                 >
-                  <div className="text-2xl font-bold text-lf-accent">{xp}</div>
-                  <div className="text-xs text-lf-muted">XP</div>
+                  <div className="text-2xl font-bold text-accent-500">{xp}</div>
+                  <div className="text-xs text-calm-text-muted">XP</div>
                 </motion.div>
                 <motion.div
                   className="text-center"
@@ -104,26 +105,26 @@ export default function ProfilePage() {
                   }}
                   transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
                 >
-                  <div className="text-2xl font-bold text-lf-secondary">{streak}</div>
-                  <div className="text-xs text-lf-muted">🔥</div>
+                  <div className="text-2xl font-bold text-sky-500">{streak}</div>
+                  <div className="text-xs text-calm-text-muted">🔥</div>
                 </motion.div>
               </div>
             </div>
 
             {/* Rank & Progress Display */}
-            <div className="flex items-center justify-between p-4 rounded-xl bg-glass-surface backdrop-blur-aaa border border-white/10">
+            <div className="flex items-center justify-between p-4 rounded-xl bg-calm-bg-secondary border border-calm-warm-100">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-lf-primary to-lf-secondary flex items-center justify-center text-white font-bold text-lg">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-accent-500 to-sky-500 flex items-center justify-center text-calm-text-primary font-bold text-lg">
                   {rank}
                 </div>
                 <div>
-                  <div className="text-sm text-lf-muted">Rango Actual</div>
-                  <div className="font-bold text-white">{userLevel.title}</div>
+                  <div className="text-sm text-calm-text-muted">Rango Actual</div>
+                  <div className="font-bold text-calm-text-primary">{userLevel.title}</div>
                 </div>
               </div>
               <div className="text-right">
-                <div className="text-sm text-lf-muted">Próximo nivel</div>
-                <div className="font-bold text-white">{userLevel.xpRequired - xp} XP</div>
+                <div className="text-sm text-calm-text-muted">Próximo nivel</div>
+                <div className="font-bold text-calm-text-primary">{userLevel.xpRequired - xp} XP</div>
               </div>
             </div>
           </div>
@@ -136,7 +137,7 @@ export default function ProfilePage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
       >
-        <h3 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
+        <h3 className="text-lg font-bold text-calm-text-primary mb-3 flex items-center gap-2">
           <span className="text-xl">🌍</span>
           Idioma de Estudio
         </h3>
@@ -154,8 +155,8 @@ export default function ProfilePage() {
                 className={`
                   relative overflow-hidden rounded-xl p-4 border-2 transition-all
                   ${isActive
-                    ? 'border-lf-primary bg-lf-primary/10'
-                    : 'border-white/10 bg-glass-surface backdrop-blur-aaa hover:border-white/20'
+                    ? 'border-accent-500 bg-accent-50 dark:bg-accent-900/20'
+                    : 'border-calm-warm-100 bg-calm-bg-secondary hover:border-calm-warm-200'
                   }
                 `}
               >
@@ -179,10 +180,10 @@ export default function ProfilePage() {
                     {info?.flag}
                   </motion.span>
                   <div className="text-left">
-                    <p className={`font-bold ${isActive ? 'text-white' : 'text-white/80'}`}>
+                    <p className={`font-bold ${isActive ? 'text-calm-text-primary' : 'text-calm-text-secondary'}`}>
                       {info?.name}
                     </p>
-                    <p className={`text-xs font-bold ${isActive ? 'text-lf-accent' : 'text-lf-muted'}`}>
+                    <p className={`text-xs font-bold ${isActive ? 'text-accent-500' : 'text-calm-text-muted'}`}>
                       {lang.toUpperCase()}
                     </p>
                   </div>
@@ -193,9 +194,9 @@ export default function ProfilePage() {
                   <motion.div
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
-                    className="absolute top-2 right-2 w-5 h-5 rounded-full bg-lf-accent flex items-center justify-center"
+                    className="absolute top-2 right-2 w-5 h-5 rounded-full bg-accent-500 flex items-center justify-center"
                   >
-                    <span className="text-lf-dark text-xs">✓</span>
+                    <span className="text-calm-text-primary text-xs">✓</span>
                   </motion.div>
                 )}
               </motion.button>
@@ -210,11 +211,11 @@ export default function ProfilePage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.15 }}
       >
-        <h3 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
+        <h3 className="text-lg font-bold text-calm-text-primary mb-3 flex items-center gap-2">
           <span className="text-xl">📊</span>
           Nivel CEFR
         </h3>
-        <div className="p-4 rounded-xl bg-glass-surface backdrop-blur-aaa border border-white/10">
+        <div className="p-4 rounded-xl bg-calm-bg-secondary border border-calm-warm-100">
           <div className="grid grid-cols-3 gap-2 mb-3">
             {(SUPPORTED_LEVELS as readonly string[]).map((lvl) => {
               const isActive = lvl === activeLevel;
@@ -230,10 +231,10 @@ export default function ProfilePage() {
                   className={`
                     relative overflow-hidden py-3 rounded-xl font-bold transition-all
                     ${isActive
-                      ? 'bg-gradient-to-r from-lf-primary to-lf-secondary text-white shadow-glow-accent'
+                      ? 'bg-gradient-to-r from-accent-500 to-sky-500 text-calm-text-primary shadow-calm-md'
                       : isDisabled
-                        ? 'bg-white/5 text-white/30 cursor-not-allowed'
-                        : 'bg-white/10 text-white/70 hover:bg-white/15'
+                        ? 'bg-calm-bg-tertiary text-calm-text-muted cursor-not-allowed'
+                        : 'bg-calm-bg-tertiary text-calm-text-secondary hover:bg-calm-warm-100'
                     }
                   `}
                 >
@@ -253,7 +254,7 @@ export default function ProfilePage() {
               );
             })}
           </div>
-          <p className="text-xs text-lf-muted text-center">
+          <p className="text-xs text-calm-text-muted text-center">
             ✨ Disponibles: A1 (Principiante) y A2 (Básico)
           </p>
         </div>
@@ -265,7 +266,7 @@ export default function ProfilePage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.17 }}
       >
-        <h3 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
+        <h3 className="text-lg font-bold text-calm-text-primary mb-3 flex items-center gap-2">
           <span className="text-xl">🎯</span>
           Modo de Aprendizaje
         </h3>
@@ -278,14 +279,14 @@ export default function ProfilePage() {
             className={`
               relative overflow-hidden rounded-xl p-4 border-2 text-left transition-all
               ${mode === 'guided'
-                ? 'border-lf-primary bg-lf-primary/10'
-                : 'border-white/10 bg-glass-surface backdrop-blur-aaa hover:border-white/20'
+                ? 'border-accent-500 bg-accent-50 dark:bg-accent-900/20'
+                : 'border-calm-warm-100 bg-calm-bg-secondary hover:border-calm-warm-200'
               }
             `}
           >
             {mode === 'guided' && (
               <motion.div
-                className="absolute inset-0 bg-gradient-to-br from-lf-primary/20 to-lf-secondary/20"
+                className="absolute inset-0 bg-gradient-to-br from-accent-500/20 to-sky-500/20"
                 animate={{
                   opacity: [0.1, 0.2, 0.1],
                 }}
@@ -295,25 +296,25 @@ export default function ProfilePage() {
 
             <div className="relative">
               <div className="flex items-center gap-3 mb-2">
-                <div className={`p-2 rounded-lg ${mode === 'guided' ? 'bg-lf-primary/20' : 'bg-white/10'}`}>
+                <div className={`p-2 rounded-lg ${mode === 'guided' ? 'bg-accent-100 dark:bg-accent-900/30' : 'bg-calm-bg-tertiary'}`}>
                   <span className="text-2xl">🎯</span>
                 </div>
                 <div>
-                  <p className={`font-bold ${mode === 'guided' ? 'text-white' : 'text-white/80'}`}>
+                  <p className={`font-bold ${mode === 'guided' ? 'text-calm-text-primary' : 'text-calm-text-secondary'}`}>
                     Modo Guiado
                   </p>
                   {mode === 'guided' && (
                     <motion.span
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
-                      className="text-xs text-lf-accent font-medium"
+                      className="text-xs text-accent-500 font-medium"
                     >
                       ✓ Activo
                     </motion.span>
                   )}
                 </div>
               </div>
-              <p className={`text-sm ${mode === 'guided' ? 'text-white/70' : 'text-white/50'}`}>
+              <p className={`text-sm ${mode === 'guided' ? 'text-calm-text-tertiary' : 'text-calm-text-muted'}`}>
                 Lecciones estructuradas paso a paso. Ideal para principiantes.
               </p>
             </div>
@@ -327,14 +328,14 @@ export default function ProfilePage() {
             className={`
               relative overflow-hidden rounded-xl p-4 border-2 text-left transition-all
               ${mode === 'autonomous'
-                ? 'border-lf-secondary bg-lf-secondary/10'
-                : 'border-white/10 bg-glass-surface backdrop-blur-aaa hover:border-white/20'
+                ? 'border-sky-500 bg-sky-50 dark:bg-sky-900/20'
+                : 'border-calm-warm-100 bg-calm-bg-secondary hover:border-calm-warm-200'
               }
             `}
           >
             {mode === 'autonomous' && (
               <motion.div
-                className="absolute inset-0 bg-gradient-to-br from-lf-secondary/20 to-lf-accent/20"
+                className="absolute inset-0 bg-gradient-to-br from-sky-500/20 to-amber-500/20"
                 animate={{
                   opacity: [0.1, 0.2, 0.1],
                 }}
@@ -344,25 +345,25 @@ export default function ProfilePage() {
 
             <div className="relative">
               <div className="flex items-center gap-3 mb-2">
-                <div className={`p-2 rounded-lg ${mode === 'autonomous' ? 'bg-lf-secondary/20' : 'bg-white/10'}`}>
+                <div className={`p-2 rounded-lg ${mode === 'autonomous' ? 'bg-sky-100 dark:bg-sky-900/30' : 'bg-calm-bg-tertiary'}`}>
                   <span className="text-2xl">🚀</span>
                 </div>
                 <div>
-                  <p className={`font-bold ${mode === 'autonomous' ? 'text-white' : 'text-white/80'}`}>
+                  <p className={`font-bold ${mode === 'autonomous' ? 'text-calm-text-primary' : 'text-calm-text-secondary'}`}>
                     Modo Autónomo
                   </p>
                   {mode === 'autonomous' && (
                     <motion.span
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
-                      className="text-xs text-lf-accent font-medium"
+                      className="text-xs text-sky-500 font-medium"
                     >
                       ✓ Activo
                     </motion.span>
                   )}
                 </div>
               </div>
-              <p className={`text-sm ${mode === 'autonomous' ? 'text-white/70' : 'text-white/50'}`}>
+              <p className={`text-sm ${mode === 'autonomous' ? 'text-calm-text-tertiary' : 'text-calm-text-muted'}`}>
                 Aprende desde contenido real que importes. Para usuarios con base.
               </p>
             </div>
@@ -376,30 +377,30 @@ export default function ProfilePage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
       >
-        <h3 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
+        <h3 className="text-lg font-bold text-calm-text-primary mb-3 flex items-center gap-2">
           <span className="text-xl">💎</span>
           Recursos
         </h3>
         <div className="grid grid-cols-3 gap-3">
           {/* HP */}
-          <div className="relative overflow-hidden rounded-xl p-3 bg-glass-surface backdrop-blur-aaa border border-white/10 text-center">
+          <div className="relative overflow-hidden rounded-xl p-3 bg-calm-bg-secondary border border-calm-warm-100 text-center">
             <div className="text-2xl mb-1">❤️</div>
-            <div className="text-xl font-bold text-red-400">{hp}/100</div>
-            <div className="text-xs text-lf-muted">HP</div>
+            <div className="text-xl font-bold text-semantic-error">{hp}/100</div>
+            <div className="text-xs text-calm-text-muted">HP</div>
           </div>
 
           {/* Coins */}
-          <div className="relative overflow-hidden rounded-xl p-3 bg-glass-surface backdrop-blur-aaa border border-white/10 text-center">
+          <div className="relative overflow-hidden rounded-xl p-3 bg-calm-bg-secondary border border-calm-warm-100 text-center">
             <div className="text-2xl mb-1">◈</div>
-            <div className="text-xl font-bold text-lf-secondary">{coins}</div>
-            <div className="text-xs text-lf-muted">Monedas</div>
+            <div className="text-xl font-bold text-sky-500">{coins}</div>
+            <div className="text-xs text-calm-text-muted">Monedas</div>
           </div>
 
           {/* Gems */}
-          <div className="relative overflow-hidden rounded-xl p-3 bg-glass-surface backdrop-blur-aaa border border-white/10 text-center">
+          <div className="relative overflow-hidden rounded-xl p-3 bg-calm-bg-secondary border border-calm-warm-100 text-center">
             <div className="text-2xl mb-1">⬡</div>
-            <div className="text-xl font-bold text-lf-primary">{gems}</div>
-            <div className="text-xs text-lf-muted">Gemas</div>
+            <div className="text-xl font-bold text-accent-500">{gems}</div>
+            <div className="text-xs text-calm-text-muted">Gemas</div>
           </div>
         </div>
       </motion.div>
@@ -410,43 +411,37 @@ export default function ProfilePage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.22 }}
       >
-        <h3 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
+        <h3 className="text-lg font-bold text-calm-text-primary mb-3 flex items-center gap-2">
           <Settings className="w-5 h-5" />
           Configuración
         </h3>
-        <div className="p-4 rounded-xl bg-glass-surface backdrop-blur-aaa border border-white/10 space-y-3">
+        <div className="p-4 rounded-xl bg-calm-bg-secondary border border-calm-warm-100 space-y-3">
           {/* Notifications */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-white/10">
-                <Bell className="w-5 h-5 text-lf-muted" />
+              <div className="p-2 rounded-lg bg-calm-bg-tertiary">
+                <Bell className="w-5 h-5 text-calm-text-muted" />
               </div>
-              <span className="text-white">Notificaciones</span>
+              <span className="text-calm-text-primary">Notificaciones</span>
             </div>
-            <span className="text-xs text-lf-muted">Próximamente</span>
+            <span className="text-xs text-calm-text-muted">Próximamente</span>
           </div>
 
           {/* Sound */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-white/10">
-                <Volume2 className="w-5 h-5 text-lf-muted" />
+              <div className="p-2 rounded-lg bg-calm-bg-tertiary">
+                <Volume2 className="w-5 h-5 text-calm-text-muted" />
               </div>
-              <span className="text-white">Sonidos</span>
+              <span className="text-calm-text-primary">Sonidos</span>
             </div>
-            <span className="text-xs text-lf-muted">Activados</span>
+            <span className="text-xs text-calm-text-muted">Activados</span>
           </div>
+        </div>
 
-          {/* Theme */}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-white/10">
-                <Moon className="w-5 h-5 text-lf-muted" />
-              </div>
-              <span className="text-white">Tema oscuro</span>
-            </div>
-            <span className="text-xs text-lf-muted">Sistema</span>
-          </div>
+        {/* Theme Toggle - Functional! */}
+        <div className="mt-3">
+          <ThemeToggleWithLabel />
         </div>
       </motion.div>
 
@@ -456,18 +451,18 @@ export default function ProfilePage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.25 }}
       >
-        <h3 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
+        <h3 className="text-lg font-bold text-calm-text-primary mb-3 flex items-center gap-2">
           <Info className="w-5 h-5" />
           Acerca de
         </h3>
-        <div className="p-4 rounded-xl bg-glass-surface backdrop-blur-aaa border border-white/10 space-y-2">
+        <div className="p-4 rounded-xl bg-calm-bg-secondary border border-calm-warm-100 space-y-2">
           <div className="flex items-center justify-between">
-            <span className="text-lf-muted">Versión</span>
-            <span className="text-white font-medium">1.0.0</span>
+            <span className="text-calm-text-muted">Versión</span>
+            <span className="text-calm-text-primary font-medium">1.0.0</span>
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-lf-muted">Metodología</span>
-            <span className="text-white font-medium">Krashen + Janulus</span>
+            <span className="text-calm-text-muted">Metodología</span>
+            <span className="text-calm-text-primary font-medium">Krashen + Janulus</span>
           </div>
         </div>
       </motion.div>
@@ -478,14 +473,14 @@ export default function ProfilePage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
       >
-        <h3 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
-          <AlertTriangle className="w-5 h-5 text-red-400" />
+        <h3 className="text-lg font-bold text-calm-text-primary mb-3 flex items-center gap-2">
+          <AlertTriangle className="w-5 h-5 text-semantic-error" />
           Zona de Peligro
         </h3>
         <div className="relative overflow-hidden rounded-xl p-[2px]">
-          <div className="relative rounded-xl bg-red-500/10 border border-red-500/30 p-4">
+          <div className="relative rounded-xl bg-semantic-error-bg border border-semantic-error p-4">
             <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-red-500/10 to-orange-500/10"
+              className="absolute inset-0 bg-gradient-to-r from-semantic-error/10 to-amber-500/10"
               animate={{
                 opacity: [0.1, 0.3, 0.1],
               }}
@@ -493,12 +488,12 @@ export default function ProfilePage() {
             />
 
             <div className="relative">
-              <p className="text-sm text-red-300 mb-3">
+              <p className="text-sm text-semantic-error-text mb-3">
                 Esta acción eliminará permanentemente todo tu progreso.
               </p>
               <button
                 onClick={handleResetAll}
-                className="w-full py-3 rounded-xl font-bold text-white bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 transition-all shadow-lg"
+                className="w-full py-3 rounded-xl font-bold text-calm-text-primary bg-gradient-to-r from-semantic-error to-amber-500 hover:from-semantic-error hover:to-amber-600 transition-all shadow-calm-md"
               >
                 Resetear Todo el Progreso
               </button>

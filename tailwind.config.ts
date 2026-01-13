@@ -6,6 +6,7 @@ const config: Config = {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  darkMode: 'class',
   theme: {
     extend: {
       screens: {
@@ -49,11 +50,96 @@ const config: Config = {
         'content': 'var(--content-height)',
       },
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        // ============================================
+        // LINGUAFORGE AAA THEME SYSTEM
+        // Light/Dark Mode with WCAG AA Compliance
+        // ============================================
+
+        // === BACKGROUND (60%) ===
+        bg: {
+          primary: 'var(--bg-primary)',
+          secondary: 'var(--bg-secondary)',
+          tertiary: 'var(--bg-tertiary)',
+          elevated: 'var(--bg-elevated)',
+        },
+
+        // === TEXT COLORS ===
+        text: {
+          primary: 'var(--text-primary)',
+          secondary: 'var(--text-secondary)',
+          tertiary: 'var(--text-tertiary)',
+          muted: 'var(--text-muted)',
+        },
+
+        // === ACCENT PRIMARY (10%) - EMERALD ===
+        accent: {
+          50: 'var(--accent-50)',
+          100: 'var(--accent-100)',
+          200: 'var(--accent-200)',
+          300: 'var(--accent-300)',
+          400: 'var(--accent-400)',
+          500: 'var(--accent-500)',
+          600: 'var(--accent-600)',
+          700: 'var(--accent-700)',
+        },
+
+        // === SECONDARY - SKY BLUE ===
+        sky: {
+          50: 'var(--sky-50)',
+          100: 'var(--sky-100)',
+          200: 'var(--sky-200)',
+          300: 'var(--sky-300)',
+          400: 'var(--sky-400)',
+          500: 'var(--sky-500)',
+          600: 'var(--sky-600)',
+          700: 'var(--sky-700)',
+        },
+
+        // === ACCENT - WARM AMBER ===
+        amber: {
+          50: 'var(--amber-50)',
+          100: 'var(--amber-100)',
+          200: 'var(--amber-200)',
+          300: 'var(--amber-300)',
+          400: 'var(--amber-400)',
+          500: 'var(--amber-500)',
+          600: 'var(--amber-600)',
+        },
+
+        // === SEMANTIC COLORS (WCAG AA Compliant) ===
+        semantic: {
+          success: {
+            DEFAULT: 'var(--semantic-success)',
+            bg: 'var(--semantic-success-bg)',
+            text: 'var(--semantic-success-text)',
+          },
+          error: {
+            DEFAULT: 'var(--semantic-error)',
+            bg: 'var(--semantic-error-bg)',
+            text: 'var(--semantic-error-text)',
+          },
+          warning: {
+            DEFAULT: 'var(--semantic-warning)',
+            bg: 'var(--semantic-warning-bg)',
+            text: 'var(--semantic-warning-text)',
+          },
+          info: {
+            DEFAULT: 'var(--semantic-info)',
+            bg: 'var(--semantic-info-bg)',
+            text: 'var(--semantic-info-text)',
+          },
+        },
+
+        // === BORDER COLORS ===
+        border: {
+          subtle: 'var(--border-subtle)',
+          DEFAULT: 'var(--border-default)',
+          strong: 'var(--border-strong)',
+        },
 
         // ============================================
-        // CALM THEME - Parasympathetic Design System
+        // LEGACY CALM THEME (Backward Compatibility)
+        // Mapped to new AAA system
         // ============================================
 
         calm: {
@@ -71,57 +157,54 @@ const config: Config = {
             tertiary: 'var(--calm-text-tertiary)',
             muted: 'var(--calm-text-muted)',
           },
-          // Sage Green - Growth, Progress
+          // Sage Green - Growth, Progress (Mapped to accent)
           sage: {
-            50: '#F0F5F1',
-            100: '#DCEADF',
-            200: '#B8D4BE',
-            300: '#94BF9E',
-            400: '#72A87D',
-            500: '#5A946A',
-            600: '#487A56',
+            50: 'var(--accent-50)',
+            100: 'var(--accent-100)',
+            200: 'var(--accent-200)',
+            300: 'var(--accent-300)',
+            400: 'var(--accent-400)',
+            500: 'var(--accent-500)',
+            600: 'var(--accent-600)',
           },
-          // Blue-Gray - Calm Focus
+          // Blue-Gray - Calm Focus (Mapped to sky)
           blue: {
-            50: '#F0F4F8',
-            100: '#D9E2EC',
-            200: '#BCCCDC',
-            300: '#9FB3C8',
-            400: '#829AB1',
-            500: '#627D98',
-            600: '#486581',
+            50: 'var(--sky-50)',
+            100: 'var(--sky-100)',
+            200: 'var(--sky-200)',
+            300: 'var(--sky-300)',
+            400: 'var(--sky-400)',
+            500: 'var(--sky-500)',
+            600: 'var(--sky-600)',
           },
-          // Warm Gray - Neutral UI
+          // Warm Gray - Neutral UI (Mapped to borders)
           warm: {
-            50: '#FAF9F7',
-            100: '#F1EDE8',
-            200: '#E4DDD4',
-            300: '#D1C7BC',
-            400: '#B5A898',
-            500: '#998A7A',
+            50: 'var(--bg-elevated)',
+            100: 'var(--border-subtle)',
+            200: 'var(--border-default)',
           },
-          // Soft Coral - Encouraging Accent
+          // Soft Coral - Encouraging Accent (Mapped to amber)
           accent: {
-            50: '#FEF5F3',
-            100: '#FDE8E3',
-            200: '#F9C9BE',
-            300: '#F5A898',
-            400: '#E8907C',
-            500: '#D97B66',
-            600: '#C46652',
+            50: 'var(--amber-50)',
+            100: 'var(--amber-100)',
+            200: 'var(--amber-200)',
+            300: 'var(--amber-300)',
+            400: 'var(--amber-400)',
+            500: 'var(--amber-500)',
+            600: 'var(--amber-600)',
           },
-          // Semantic (Softened)
-          success: '#72A87D',
-          'success-bg': '#F0F5F1',
-          warning: '#D4A76A',
-          'warning-bg': '#FAF5F0',
-          error: '#C9807A',
-          'error-bg': '#FDF5F4',
-          info: '#829AB1',
-          'info-bg': '#F0F4F8',
+          // Semantic (Mapped to new system)
+          success: 'var(--semantic-success)',
+          'success-bg': 'var(--semantic-success-bg)',
+          warning: 'var(--semantic-warning)',
+          'warning-bg': 'var(--semantic-warning-bg)',
+          error: 'var(--semantic-error)',
+          'error-bg': 'var(--semantic-error-bg)',
+          info: 'var(--semantic-info)',
+          'info-bg': 'var(--semantic-info-bg)',
         },
 
-        // Legacy lf namespace - mapped to calm for backwards compatibility
+        // Legacy lf namespace - mapped to new system
         lf: {
           primary: 'var(--lf-primary)',
           'primary-dark': 'var(--lf-primary-dark)',
@@ -156,13 +239,9 @@ const config: Config = {
         }
       },
       fontFamily: {
-        // Quicksand for headings - softer, rounder
         quicksand: ['var(--font-quicksand)', 'Quicksand', 'sans-serif'],
-        // Inter for body - clean, readable
         inter: ['var(--font-inter)', 'Inter', 'sans-serif'],
-        // Atkinson for accessibility
         atkinson: ['var(--font-atkinson)', 'Atkinson Hyperlegible', 'sans-serif'],
-        // Legacy - still available but secondary
         rajdhani: ['var(--font-rajdhani)', 'Rajdhani', 'sans-serif'],
       },
       lineHeight: {
@@ -175,87 +254,73 @@ const config: Config = {
         'calm-heading': '0.02em',
       },
       backgroundImage: {
-        // ============================================
-        // CALM GRADIENTS - Subtle, Breathing
-        // ============================================
+        // Primary gradients using CSS variables
+        'calm-mist': 'var(--gradient-mist)',
+        'calm-dawn': 'var(--gradient-dawn)',
+        'calm-breath': 'var(--gradient-breath)',
+        'calm-sage': 'var(--gradient-sage)',
+        'calm-serenity': 'var(--gradient-mist)',
 
-        // Primary calm gradients
-        'calm-mist': 'linear-gradient(180deg, #FAFBFC 0%, #F0F4F8 100%)',
-        'calm-dawn': 'linear-gradient(135deg, #FAF9F7 0%, #F0F5F1 50%, #F0F4F8 100%)',
-        'calm-breath': 'linear-gradient(180deg, #FFFFFF 0%, #F5F7F9 100%)',
-        'calm-sage': 'linear-gradient(135deg, #F0F5F1 0%, #DCEADF 100%)',
-        'calm-serenity': 'linear-gradient(180deg, #F0F4F8 0%, #D9E2EC 100%)',
+        // Legacy gradients
+        'resonance-gradient': 'var(--gradient-mist)',
+        'forge-gradient': 'var(--gradient-dawn)',
+        'aurora-borealis': 'var(--gradient-sage)',
+        'sunset-blaze': 'linear-gradient(135deg, var(--amber-50) 0%, var(--amber-100) 100%)',
+        'ocean-depth': 'linear-gradient(180deg, var(--sky-50) 0%, var(--sky-100) 50%, var(--sky-50) 100%)',
+        'midnight-aurora': 'radial-gradient(ellipse at top, var(--bg-elevated) 0%, var(--bg-primary) 50%, var(--bg-secondary) 100%)',
 
-        // Legacy gradients - mapped to calm versions
-        'resonance-gradient': 'linear-gradient(180deg, #FAFBFC 0%, #F0F4F8 100%)',
-        'forge-gradient': 'linear-gradient(135deg, #FAF9F7 0%, #F0F5F1 50%, #F0F4F8 100%)',
-        'aurora-borealis': 'linear-gradient(135deg, #F0F5F1 0%, #D9E2EC 100%)',
-        'sunset-blaze': 'linear-gradient(135deg, #FEF5F3 0%, #FDE8E3 100%)',
-        'ocean-depth': 'linear-gradient(180deg, #F0F4F8 0%, #D9E2EC 50%, #F0F4F8 100%)',
-        'midnight-aurora': 'radial-gradient(ellipse at top, #F5F7F9 0%, #FAFBFC 50%, #FFFFFF 100%)',
-
-        // Soft glass
         'glass-surface': 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 100%)',
-        'neural-network': 'radial-gradient(circle at 50% 50%, rgba(114, 168, 125, 0.05) 0%, transparent 50%)',
+        'neural-network': 'radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.05) 0%, transparent 50%)',
       },
       boxShadow: {
-        // ============================================
-        // CALM SHADOWS - Soft, Diffuse
-        // ============================================
-
-        // Primary calm shadows
-        'calm-sm': '0 1px 2px rgba(45, 55, 72, 0.04)',
-        'calm-md': '0 4px 12px rgba(45, 55, 72, 0.06)',
-        'calm-lg': '0 8px 24px rgba(45, 55, 72, 0.08)',
-        'calm-xl': '0 16px 40px rgba(45, 55, 72, 0.10)',
-        'calm-inner': 'inset 0 1px 2px rgba(45, 55, 72, 0.04)',
+        // Primary calm shadows using CSS variables
+        'calm-sm': 'var(--shadow-soft-sm)',
+        'calm-md': 'var(--shadow-soft-md)',
+        'calm-lg': 'var(--shadow-soft-lg)',
+        'calm-xl': 'var(--shadow-soft-xl)',
+        'calm-inner': 'var(--shadow-inner-soft)',
 
         // Soft elevation
-        'soft-sm': '0 1px 3px rgba(45, 55, 72, 0.05)',
-        'soft-md': '0 4px 8px rgba(45, 55, 72, 0.06)',
-        'soft-lg': '0 8px 16px rgba(45, 55, 72, 0.08)',
+        'soft-sm': 'var(--shadow-soft-sm)',
+        'soft-md': 'var(--shadow-soft-md)',
+        'soft-lg': 'var(--shadow-soft-lg)',
 
-        // Focus ring - sage colored
-        'focus-calm': '0 0 0 3px rgba(114, 168, 125, 0.15)',
+        // Focus ring
+        'focus-calm': '0 0 0 3px var(--accent-200)',
 
-        // Legacy shadows - remapped to calm (no glows)
-        'resonance': '0 4px 12px rgba(45, 55, 72, 0.06)',
-        'resonance-lg': '0 8px 24px rgba(45, 55, 72, 0.08)',
-        'glow-accent': '0 4px 12px rgba(45, 55, 72, 0.06)',
-        'glow-secondary': '0 4px 12px rgba(45, 55, 72, 0.06)',
-        'glow-success': '0 4px 12px rgba(114, 168, 125, 0.1)',
-        'glow-info': '0 4px 12px rgba(130, 154, 177, 0.1)',
+        // Legacy shadows
+        'resonance': 'var(--shadow-soft-md)',
+        'resonance-lg': 'var(--shadow-soft-lg)',
+        'glow-accent': 'var(--shadow-soft-md)',
+        'glow-secondary': 'var(--shadow-soft-md)',
+        'glow-success': '0 4px 12px rgba(16, 185, 129, 0.15)',
+        'glow-info': '0 4px 12px rgba(14, 165, 233, 0.15)',
 
-        // Glass - softened
-        'glass': '0 4px 16px rgba(45, 55, 72, 0.06)',
-        'glass-lg': '0 8px 24px rgba(45, 55, 72, 0.08)',
-        'glass-xl': '0 12px 32px rgba(45, 55, 72, 0.10)',
-        'glass-dark': '0 4px 16px rgba(0, 0, 0, 0.1)',
+        // Glass
+        'glass': '0 4px 16px rgba(0, 0, 0, 0.05)',
+        'glass-lg': '0 8px 24px rgba(0, 0, 0, 0.08)',
+        'glass-xl': '0 12px 32px rgba(0, 0, 0, 0.10)',
+        'glass-dark': '0 4px 16px rgba(0, 0, 0, 0.2)',
         'glass-inner': 'inset 0 1px 2px rgba(255, 255, 255, 0.1)',
 
-        // Depth - softened
-        'depth-sm': '0 2px 4px rgba(45, 55, 72, 0.04)',
-        'depth-md': '0 4px 8px rgba(45, 55, 72, 0.06)',
-        'depth-lg': '0 8px 16px rgba(45, 55, 72, 0.08)',
-        'depth-xl': '0 12px 24px rgba(45, 55, 72, 0.10)',
+        // Depth
+        'depth-sm': '0 2px 4px rgba(0, 0, 0, 0.05)',
+        'depth-md': '0 4px 8px rgba(0, 0, 0, 0.08)',
+        'depth-lg': '0 8px 16px rgba(0, 0, 0, 0.10)',
+        'depth-xl': '0 12px 24px rgba(0, 0, 0, 0.12)',
 
-        // Inner - softened
-        'inner-glow': 'inset 0 1px 2px rgba(45, 55, 72, 0.04)',
-        'inner-glow-accent': 'inset 0 1px 2px rgba(45, 55, 72, 0.04)',
+        // Inner
+        'inner-glow': 'var(--shadow-inner-soft)',
+        'inner-glow-accent': 'var(--shadow-inner-soft)',
       },
       animation: {
-        // ============================================
-        // CALM ANIMATIONS - Slow, Breathing
-        // ============================================
-
-        // Primary calm animations
         'calm-appear': 'calmAppear 400ms ease-out',
         'calm-fade': 'calmFade 300ms ease-out',
         'calm-float': 'calmFloat 8s ease-in-out infinite',
         'calm-pulse': 'calmPulse 4s ease-in-out infinite',
         'calm-breath': 'calmBreath 6s ease-in-out infinite',
 
-        // Legacy - remapped to calm (slower, gentler)
+        // Legacy
         'resonance-pulse': 'calmPulse 4s ease-in-out infinite',
         'wordweave-surge': 'calmAppear 400ms ease-out',
         'glyph-shimmer': 'calmFade 3s ease-in-out infinite',
@@ -264,16 +329,12 @@ const config: Config = {
         'float': 'calmFloat 8s ease-in-out infinite',
         'float-delayed': 'calmFloat 8s ease-in-out 4s infinite',
         'breath': 'calmBreath 6s ease-in-out infinite',
-        'shimmer-aaa': 'none', // Disabled
+        'shimmer-aaa': 'none',
         'glow-pulse': 'calmPulse 4s ease-in-out infinite',
-        'gradient-shift': 'none', // Disabled
+        'gradient-shift': 'none',
         'subtle-drift': 'calmFloat 20s ease-in-out infinite',
       },
       keyframes: {
-        // ============================================
-        // CALM KEYFRAMES
-        // ============================================
-
         calmAppear: {
           '0%': { opacity: '0', transform: 'translateY(4px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
@@ -293,15 +354,15 @@ const config: Config = {
         calmBreath: {
           '0%, 100%': {
             opacity: '1',
-            boxShadow: '0 1px 2px rgba(45, 55, 72, 0.04)'
+            boxShadow: 'var(--shadow-soft-sm)'
           },
           '50%': {
             opacity: '0.95',
-            boxShadow: '0 4px 12px rgba(45, 55, 72, 0.06)'
+            boxShadow: 'var(--shadow-soft-md)'
           },
         },
 
-        // Legacy keyframes - gentler versions
+        // Legacy keyframes
         resonance: {
           '0%, 100%': { opacity: '0.9' },
           '50%': { opacity: '1' },
@@ -315,8 +376,8 @@ const config: Config = {
           '50%': { opacity: '1' },
         },
         crystalGlow: {
-          '0%, 100%': { boxShadow: '0 1px 2px rgba(45, 55, 72, 0.04)' },
-          '50%': { boxShadow: '0 4px 12px rgba(45, 55, 72, 0.06)' },
+          '0%, 100%': { boxShadow: 'var(--shadow-soft-sm)' },
+          '50%': { boxShadow: 'var(--shadow-soft-md)' },
         },
         echoFade: {
           '0%': { opacity: '1' },

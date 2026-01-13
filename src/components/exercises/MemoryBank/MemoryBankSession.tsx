@@ -8,6 +8,8 @@
  * TAREA 2.8.5: MemoryBankSession Component
  */
 
+import { COLORS } from '@/constants/colors';
+
 import { useState, useCallback, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { EpisodicCard, type EpisodicCardContent } from './EpisodicCard';
@@ -205,7 +207,7 @@ export function MemoryBankSession({
   // ============================================
 
   return (
-    <div className="relative min-h-screen bg-lf-dark">
+    <div className="relative min-h-screen bg-calm-bg-tertiary">
       {/* Focus Mode Overlay */}
       <AnimatePresence>
         {isFocusMode && (
@@ -283,7 +285,7 @@ interface NormalModeViewProps {
 interface MetricCardProps {
   label: string;
   value: string;
-  color: 'green' | 'yellow' | 'red' | 'blue' | 'purple';
+  color: 'green' | 'yellow' | 'red' | 'blue' | 'sky';
 }
 
 // ============================================
@@ -318,8 +320,8 @@ function CompletionState({ metrics, onComplete }: CompletionStateProps) {
         className="rounded-2xl p-8 text-center"
         style={{
           background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
-          border: '2px solid rgba(99, 102, 241, 0.5)',
-          boxShadow: '0 25px 50px -12px rgba(99, 102, 241, 0.3)',
+          border: '2px solid var(--sky-500)/50',
+          boxShadow: '0 25px 50px -12px var(--sky-500)/30',
         }}
       >
         <motion.div
@@ -354,7 +356,7 @@ function CompletionState({ metrics, onComplete }: CompletionStateProps) {
           <MetricCard
             label="Tiempo Promedio"
             value={`${(metrics.averageResponseTime / 1000).toFixed(1)}s`}
-            color="purple"
+            color="sky"
           />
         </div>
 
@@ -362,7 +364,7 @@ function CompletionState({ metrics, onComplete }: CompletionStateProps) {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={onComplete}
-          className="w-full py-4 px-6 rounded-xl font-bold text-white bg-gradient-to-r from-lf-primary to-lf-secondary shadow-lg"
+          className="w-full py-4 px-6 rounded-xl font-bold text-white bg-gradient-to-r to-accent-500 to-sky-500 shadow-lg"
         >
           Continuar
         </motion.button>
@@ -400,7 +402,7 @@ function FocusModeView({
       className="fixed inset-0 z-50 bg-black flex flex-col"
     >
       {/* Premium gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-indigo-900/50 via-purple-900/50 to-pink-900/50" />
+      <div className="absolute inset-0 bg-gradient-to-br from-accent-900/50 via-sky-900/50 to-sky-900/50" />
       <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
 
       {/* Animated particles */}
@@ -461,7 +463,7 @@ function FocusModeParticles() {
 function FocusModeHeader() {
   return (
     <div className="flex items-center gap-3">
-      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-lf-primary to-lf-secondary flex items-center justify-center">
+      <div className="w-10 h-10 rounded-full bg-gradient-to-br to-accent-500 to-sky-500 flex items-center justify-center">
         <span className="text-lg">🎯</span>
       </div>
       <div>
@@ -478,7 +480,7 @@ function FocusModeExitButton({ onExit }: { onExit: () => void }) {
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.9 }}
       onClick={onExit}
-      className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20 transition-all"
+      className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 backdrop-blur-md border border-calm-warm-100/30 text-white hover:bg-white/20 transition-all"
     >
       <X className="w-5 h-5" />
       <span className="font-medium">Salir</span>
@@ -494,7 +496,7 @@ function FocusModeCardArea({
   return (
     <div className="relative z-10 flex-1 flex items-center justify-center px-4">
       <motion.div
-        className="absolute inset-0 rounded-3xl bg-gradient-to-br from-lf-primary/30 via-lf-secondary/30 to-lf-accent/30 blur-3xl"
+        className="absolute inset-0 rounded-3xl bg-gradient-to-br to-accent-500/30 to-sky-500/30 to-amber-500/30 blur-3xl"
         animate={{
           opacity: [0.4, 0.6, 0.4],
           scale: [0.95, 1.05, 0.95],
@@ -528,7 +530,7 @@ function FocusModeProgressBar({ currentIndex, totalCards, progress }: Pick<Focus
     <div className="relative z-10 px-6 py-4">
       <div className="relative h-2 bg-white/10 rounded-full overflow-hidden mb-3">
         <motion.div
-          className="absolute inset-y-0 left-0 h-full bg-gradient-to-r from-lf-primary via-lf-secondary to-lf-accent rounded-full"
+          className="absolute inset-y-0 left-0 h-full bg-gradient-to-r to-accent-500 to-sky-500 to-amber-500 rounded-full"
           style={{ backgroundSize: '200% 100%' }}
           initial={{ width: 0 }}
           animate={{
@@ -618,7 +620,7 @@ function NormalModeHeader({
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={onToggleFocus}
-          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-lf-primary/20 to-lf-secondary/20 border border-lf-primary/30 text-white hover:border-lf-primary/50 transition-all"
+          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r to-accent-500/20 to-sky-500/20 border border-accent-500/30 text-white hover:border-accent-500/50 transition-all"
         >
           <span className="text-lg">🎯</span>
           <span className="font-semibold text-sm">Focus</span>
@@ -627,9 +629,9 @@ function NormalModeHeader({
 
       {/* Progress Bar */}
       {showProgress && (
-        <div className="relative h-3 bg-lf-dark/50 rounded-full overflow-hidden shadow-inner border border-white/10">
+        <div className="relative h-3 bg-calm-bg-tertiary/50 rounded-full overflow-hidden shadow-inner border border-calm-warm-100/20">
           <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-lf-primary via-lf-secondary to-lf-accent opacity-20"
+            className="absolute inset-0 bg-gradient-to-r to-accent-500 to-sky-500 to-amber-500 opacity-20"
             animate={{
               x: ['-100%', '100%'],
             }}
@@ -640,7 +642,7 @@ function NormalModeHeader({
             }}
           />
           <motion.div
-            className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-lf-primary via-lf-secondary to-lf-accent shadow-glow-accent"
+            className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r to-accent-500 to-sky-500 to-amber-500 shadow-calm-md"
             style={{ backgroundSize: '200% 100%' }}
             initial={{ width: 0 }}
             animate={{
@@ -656,8 +658,8 @@ function NormalModeHeader({
       )}
 
       {/* Counter */}
-      <div className="text-center text-sm text-lf-muted mt-2 font-rajdhani">
-        <span className="text-lf-accent font-bold text-lg">{currentIndex + 1}</span>
+      <div className="text-center text-sm text-calm-text-muted mt-2 font-rajdhani">
+        <span className="text-amber-500 font-bold text-lg">{currentIndex + 1}</span>
         <span className="mx-1">/</span>
         <span className="text-lg">{totalCards}</span>
       </div>
@@ -675,7 +677,7 @@ function NormalModeCardArea({ currentCard, onSwipeLeft, onSwipeRight }: NormalMo
   return (
     <div className="relative h-[340px] flex items-center justify-center">
       <motion.div
-        className="absolute inset-0 rounded-3xl bg-gradient-to-br from-lf-primary/20 via-lf-secondary/20 to-lf-accent/20 blur-3xl"
+        className="absolute inset-0 rounded-3xl bg-gradient-to-br to-accent-500/20 to-sky-500/20 to-amber-500/20 blur-3xl"
         animate={{
           opacity: [0.3, 0.5, 0.3],
           scale: [0.95, 1.05, 0.95],
@@ -711,7 +713,7 @@ function NormalModeInstructions() {
   return (
     <div className="mt-8 flex justify-between items-center px-4">
       <motion.div
-        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400"
+        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-semantic-error/10 border border-semantic-error/20 text-semantic-error"
         whileHover={{ scale: 1.05 }}
         transition={{ type: 'spring', stiffness: 400 }}
       >
@@ -720,11 +722,11 @@ function NormalModeInstructions() {
       </motion.div>
 
       <div className="text-center">
-        <p className="text-xs text-lf-muted">Desliza para responder • Doble click para voltear</p>
+        <p className="text-xs text-calm-text-muted">Desliza para responder • Doble click para voltear</p>
       </div>
 
       <motion.div
-        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-green-500/10 border border-green-500/20 text-green-400"
+        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-accent-500/10 border border-accent-500/20 text-accent-400"
         whileHover={{ scale: 1.05 }}
         transition={{ type: 'spring', stiffness: 400 }}
       >
@@ -743,28 +745,28 @@ function NormalModeStats({ metrics }: NormalModeStatsProps) {
   return (
     <div className="mt-6 flex justify-center gap-6">
       <motion.div
-        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-green-500/10 border border-green-500/20"
+        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-accent-500/10 border border-accent-500/20"
         animate={{
           boxShadow: metrics.correctAnswers > 0
-            ? ['0 0 0px rgba(34, 197, 94, 0)', '0 0 20px rgba(34, 197, 94, 0.3)', '0 0 0px rgba(34, 197, 94, 0)']
-            : '0 0 0px rgba(34, 197, 94, 0)',
+            ? [COLORS.transparent.accent, '0 0 20px var(--accent-500)/30', COLORS.transparent.accent]
+            : COLORS.transparent.accent,
         }}
         transition={{ duration: 2, repeat: Infinity }}
       >
-        <span className="text-green-400 text-lg">✓</span>
+        <span className="text-accent-400 text-lg">✓</span>
         <span className="text-white font-bold font-rajdhani">{metrics.correctAnswers}</span>
       </motion.div>
 
       <motion.div
-        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-red-500/10 border border-red-500/20"
+        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-semantic-error/10 border border-semantic-error/20"
         animate={{
           boxShadow: metrics.incorrectAnswers > 0
-            ? ['0 0 0px rgba(239, 68, 68, 0)', '0 0 20px rgba(239, 68, 68, 0.3)', '0 0 0px rgba(239, 68, 68, 0)']
-            : '0 0 0px rgba(239, 68, 68, 0)',
+            ? [COLORS.transparent.error, '0 0 20px COLORS.error[30]', COLORS.transparent.error]
+            : COLORS.transparent.error,
         }}
         transition={{ duration: 2, repeat: Infinity }}
       >
-        <span className="text-red-400 text-lg">✗</span>
+        <span className="text-semantic-error text-lg">✗</span>
         <span className="text-white font-bold font-rajdhani">{metrics.incorrectAnswers}</span>
       </motion.div>
     </div>
@@ -777,11 +779,11 @@ function NormalModeStats({ metrics }: NormalModeStatsProps) {
 
 function MetricCard({ label, value, color }: MetricCardProps) {
   const colors = {
-    green: 'bg-green-500/20 border-green-500/30 text-green-400',
-    yellow: 'bg-yellow-500/20 border-yellow-500/30 text-yellow-400',
-    red: 'bg-red-500/20 border-red-500/30 text-red-400',
-    blue: 'bg-blue-500/20 border-blue-500/30 text-blue-400',
-    purple: 'bg-purple-500/20 border-purple-500/30 text-purple-400',
+    green: 'bg-accent-500/20 border-accent-500/30 text-accent-400',
+    yellow: 'bg-amber-500/20 border-amber-500/30 text-amber-400',
+    red: 'bg-semantic-error/20 border-semantic-error/30 text-semantic-error',
+    blue: 'bg-sky-500/20 border-sky-500/30 text-sky-400',
+    sky: 'bg-sky-500/20 border-sky-500/30 text-sky-400',
   };
 
   return (

@@ -157,13 +157,13 @@ export const pressDown = {
 
 /** Success pulse - use for correct answers */
 export const successPulse: Variants = {
-  initial: { scale: 1, boxShadow: '0 0 0 0 rgba(34, 197, 94, 0)' },  // Green 500
+  initial: { scale: 1, boxShadow: '0 0 0 0 rgba(16, 185, 129, 0)' },  // accent-500
   animate: {
     scale: [1, 1.05, 1],
     boxShadow: [
-      '0 0 0 0 rgba(34, 197, 94, 0.4)',  // Green 500
-      '0 0 0 15px rgba(34, 197, 94, 0)',
-      '0 0 0 0 rgba(34, 197, 94, 0)',
+      '0 0 0 0 rgba(16, 185, 129, 0.4)',  // accent-500
+      '0 0 0 15px rgba(16, 185, 129, 0)',
+      '0 0 0 0 rgba(16, 185, 129, 0)',
     ],
     transition: { duration: 0.6 },
   },
@@ -213,9 +213,9 @@ export const progressFill = {
 export const glowPulse: Variants = {
   animate: {
     boxShadow: [
-      '0 0 5px rgba(99, 102, 241, 0.3)',  // Indigo 500
-      '0 0 20px rgba(99, 102, 241, 0.5)',
-      '0 0 5px rgba(99, 102, 241, 0.3)',
+      '0 0 5px rgba(14, 165, 233, 0.3)',  // sky-500
+      '0 0 20px rgba(14, 165, 233, 0.5)',
+      '0 0 5px rgba(14, 165, 233, 0.3)',
     ],
     transition: { duration: 2, repeat: Infinity, ease: 'easeInOut' },
   },
@@ -225,9 +225,9 @@ export const glowPulse: Variants = {
 export const resonanceGlow: Variants = {
   animate: {
     filter: [
-      'drop-shadow(0 0 5px #6366F1)',  // Indigo 500
-      'drop-shadow(0 0 15px #C026D3)', // Fuchsia 600
-      'drop-shadow(0 0 5px #6366F1)',
+      'drop-shadow(0 0 5px #0EA5E9)',  // sky-500
+      'drop-shadow(0 0 15px #10B981)', // accent-500
+      'drop-shadow(0 0 5px #0EA5E9)',
     ],
     transition: { duration: 3, repeat: Infinity, ease: 'easeInOut' },
   },

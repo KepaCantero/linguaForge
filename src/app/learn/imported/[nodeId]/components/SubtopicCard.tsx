@@ -1,3 +1,4 @@
+import { COLORS } from '@/constants/colors';
 import { motion } from 'framer-motion';
 import { ImportedSubtopic } from '@/store/useImportedNodesStore';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
@@ -28,7 +29,7 @@ export function SubtopicCard({
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: index * 0.05 }}
       onClick={onClick}
-      className="relative cursor-pointer group focus:outline-none focus:ring-4 focus:ring-lf-accent focus:ring-offset-2 focus:ring-offset-lf-dark rounded-2xl"
+      className="relative cursor-pointer group focus:outline-none focus:ring-4 focus:ring-amber-500 focus:ring-offset-2 focus:ring-offset-calm-bg-tertiary rounded-2xl"
       style={{ willChange: shouldAnimate ? 'transform' : 'auto' }}
       whileHover={shouldAnimate ? { scale: 1.02 } : {}}
       whileTap={shouldAnimate ? { scale: 0.98 } : {}}
@@ -41,8 +42,8 @@ export function SubtopicCard({
         className="absolute inset-0 rounded-2xl opacity-50 blur-xl"
         style={{
           background: isCompleted
-            ? 'radial-gradient(circle, rgba(34, 197, 94, 0.4), transparent)'
-            : 'radial-gradient(circle, rgba(99, 102, 241, 0.4), transparent)',
+            ? 'radial-gradient(circle, var(--accent-500)/40, transparent)'
+            : 'radial-gradient(circle, var(--sky-500)/40, transparent)',
         }}
       />
 
@@ -50,10 +51,10 @@ export function SubtopicCard({
       <div
         className="relative backdrop-blur-md rounded-2xl p-4 border-2 transition-all"
         style={{
-          background: 'rgba(255, 255, 255, 0.05)',
+          background: COLORS.white[5],
           borderColor: isCompleted
-            ? 'rgba(34, 197, 94, 0.3)'
-            : 'rgba(255, 255, 255, 0.1)',
+            ? COLORS.accent[30]
+            : COLORS.white[10],
         }}
       >
         <div className="flex items-center gap-4">
@@ -62,8 +63,8 @@ export function SubtopicCard({
             className="relative w-12 h-12 rounded-full flex items-center justify-center text-lg font-bold flex-shrink-0"
             style={{
               background: isCompleted
-                ? 'radial-gradient(circle at 30% 30%, #22C55E, #16A34A)'
-                : 'radial-gradient(circle at 30% 30%, #6366F1, #4F46E5)',
+                ? 'radial-gradient(circle at 30% 30%, var(--accent-500), var(--accent-600))'
+                : 'radial-gradient(circle at 30% 30%, var(--sky-500), var(--sky-600))',
               willChange: shouldAnimate ? 'transform' : 'auto',
             }}
             animate={shouldAnimate ? {
@@ -82,21 +83,21 @@ export function SubtopicCard({
             <h3
               className={`font-bold truncate ${
                 isCompleted
-                  ? 'text-green-400'
-                  : 'text-white'
+                  ? 'text-accent-400'
+                  : 'text-calm-text-primary'
               }`}
-              style={{ textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}
+              style={{ textShadow: COLORS.effects.textShadowMd }}
             >
               {subtopic.title}
             </h3>
-            <p className="text-sm text-lf-muted">
+            <p className="text-sm text-calm-text-muted">
               {subtopic.phrases.length} frases
             </p>
           </div>
 
           <motion.span
             className="text-2xl flex-shrink-0"
-            style={{ textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}
+            style={{ textShadow: COLORS.effects.textShadowMd }}
             animate={shouldAnimate ? {
               x: [0, 4, 0],
             } : {}}

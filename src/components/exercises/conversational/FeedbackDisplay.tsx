@@ -15,9 +15,9 @@ export function FeedbackDisplay({ evaluationResult, onRetry, onContinue }: Feedb
       animate={{ opacity: 1, y: 0 }}
       className="space-y-6"
     >
-      <div className={`rounded-aaa-xl p-6 ${
+      <div className={`rounded-2xl p-6 ${
         evaluationResult.isValid
-          ? 'bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800'
+          ? 'bg-accent-50 dark:bg-accent-900/20 border border-accent-200 dark:border-emerald-800'
           : 'bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800'
       }`}>
         <div className="flex items-start gap-4">
@@ -30,20 +30,20 @@ export function FeedbackDisplay({ evaluationResult, onRetry, onContinue }: Feedb
           <div className="flex-1">
             <p className={`font-medium text-lg ${
               evaluationResult.isValid
-                ? 'text-emerald-800 dark:text-emerald-200'
+                ? 'text-accent-800 dark:text-accent-200'
                 : 'text-amber-800 dark:text-amber-200'
             }`}>
               {evaluationResult.feedback.message}
             </p>
 
             {evaluationResult.matchedResponse && (
-              <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+              <p className="text-sm text-calm-text-secondary dark:text-calm-text-muted mt-1">
                 Detectamos: &quot;{evaluationResult.matchedResponse}&quot;
               </p>
             )}
 
             {evaluationResult.feedback.tip && (
-              <p className="text-sm mt-2 text-gray-600 dark:text-gray-400">
+              <p className="text-sm mt-2 text-calm-text-secondary dark:text-calm-text-muted">
                 💡 {evaluationResult.feedback.tip}
               </p>
             )}
@@ -65,14 +65,14 @@ export function FeedbackDisplay({ evaluationResult, onRetry, onContinue }: Feedb
         {!evaluationResult.isValid && (
           <button
             onClick={onRetry}
-            className="flex-1 px-4 py-3 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-aaa-xl font-medium transition-colors"
+            className="flex-1 px-4 py-3 bg-calm-bg-secondary dark:bg-calm-bg-elevated hover:bg-calm-bg-tertiary dark:hover:bg-calm-bg-tertiary text-calm-text-secondary dark:text-calm-text-tertiary rounded-2xl font-medium transition-colors"
           >
             🔁 Reintentar
           </button>
         )}
         <button
           onClick={onContinue}
-          className="flex-1 px-4 py-3 bg-indigo-500 hover:bg-indigo-600 text-white rounded-aaa-xl font-medium transition-colors"
+          className="flex-1 px-4 py-3 bg-accent-500 hover:bg-accent-600 text-white rounded-2xl font-medium transition-colors"
         >
           Continuar →
         </button>
@@ -88,30 +88,30 @@ interface ScoreDisplayProps {
 function ScoreDisplay({ evaluationResult }: ScoreDisplayProps) {
   return (
     <div className="mt-4 grid grid-cols-2 gap-3">
-      <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-3">
-        <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">INTENCIÓN</p>
+      <div className="bg-white/50 dark:bg-calm-bg-elevated/50 rounded-lg p-3">
+        <p className="text-xs text-calm-text-muted dark:text-calm-text-muted mb-1">INTENCIÓN</p>
         <div className="flex items-center gap-2">
-          <div className="flex-1 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+          <div className="flex-1 h-2 bg-calm-bg-tertiary dark:bg-calm-bg-tertiary rounded-full overflow-hidden">
             <div
-              className="h-full bg-indigo-500 rounded-full transition-all"
+              className="h-full bg-accent-500 rounded-full transition-all"
               style={{ width: `${evaluationResult.scores.intention}%` }}
             />
           </div>
-          <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+          <span className="text-sm font-medium text-calm-text-secondary dark:text-calm-text-tertiary">
             {Math.round(evaluationResult.scores.intention)}%
           </span>
         </div>
       </div>
-      <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-3">
-        <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">RITMO</p>
+      <div className="bg-white/50 dark:bg-calm-bg-elevated/50 rounded-lg p-3">
+        <p className="text-xs text-calm-text-muted dark:text-calm-text-muted mb-1">RITMO</p>
         <div className="flex items-center gap-2">
-          <div className="flex-1 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+          <div className="flex-1 h-2 bg-calm-bg-tertiary dark:bg-calm-bg-tertiary rounded-full overflow-hidden">
             <div
-              className="h-full bg-emerald-500 rounded-full transition-all"
+              className="h-full bg-accent-500 rounded-full transition-all"
               style={{ width: `${evaluationResult.scores.rhythm}%` }}
             />
           </div>
-          <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+          <span className="text-sm font-medium text-calm-text-secondary dark:text-calm-text-tertiary">
             {Math.round(evaluationResult.scores.rhythm)}%
           </span>
         </div>

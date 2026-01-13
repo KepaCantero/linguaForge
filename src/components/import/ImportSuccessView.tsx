@@ -38,7 +38,7 @@ export function ImportSuccessView({
         ¡Nodo creado!
       </h2>
 
-      <p className="text-lf-muted mb-8">
+      <p className="text-calm-text-muted mb-8">
         Tu contenido &quot;{topicTitle}&quot; está listo para practicar.
       </p>
 
@@ -47,7 +47,7 @@ export function ImportSuccessView({
           onClick={onGoToLearn}
           whileHover={{ scale: 1.02, y: -2 }}
           whileTap={{ scale: 0.98 }}
-          className="w-full py-4 rounded-xl bg-gradient-to-r from-lf-primary to-lf-secondary text-white font-bold shadow-glass-xl hover:shadow-glow-accent transition-all"
+          className="w-full py-4 rounded-xl bg-gradient-to-r to-accent-500 to-sky-500 text-white font-bold shadow-calm-lg hover:shadow-calm-md transition-all"
         >
           Ir al mapa →
         </motion.button>
@@ -56,7 +56,7 @@ export function ImportSuccessView({
           onClick={onCreateAnother}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          className="w-full py-4 rounded-xl bg-glass-surface backdrop-blur-md border border-white/20 text-white font-medium hover:bg-lf-dark/30 transition-all"
+          className="w-full py-4 rounded-xl bg-calm-bg-secondary backdrop-blur-md border border-calm-warm-100/30 text-white font-medium hover:bg-calm-bg-tertiary/30 transition-all"
         >
           Importar otro contenido
         </motion.button>

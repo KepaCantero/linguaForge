@@ -21,7 +21,7 @@ export function ClozeTranslation({
       <div className="mt-4 flex items-center justify-center">
         <button
           onClick={onToggle}
-          className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all bg-lf-soft/50 dark:bg-lf-muted/30 text-lf-muted dark:text-lf-muted/80 hover:bg-lf-muted/20 dark:hover:bg-lf-muted/40 border border-lf-muted/30"
+          className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all bg-calm-bg-secondary/50 dark:bg-calm-bg-tertiary/30 text-calm-text-muted dark:text-calm-text-muted/80 hover:bg-calm-bg-tertiary/20 dark:hover:bg-calm-bg-tertiary/40 border border-calm-warm-100/30"
         >
           <span>{showTranslation ? '👁️' : '👁️‍🗨️'}</span>
           <span>{showTranslation ? 'Ocultar traducción' : 'Mostrar traducción'}</span>
@@ -37,13 +37,13 @@ export function ClozeTranslation({
           {block ? (
             <div className="space-y-1">
               {block.phrases.map((p) => (
-                <p key={p.id} className="text-sm text-lf-muted dark:text-lf-muted/70">
+                <p key={p.id} className="text-sm text-calm-text-muted dark:text-calm-text-muted/70">
                   <span className="font-medium">{p.text}:</span> {p.translation}
                 </p>
               ))}
             </div>
           ) : (
-            <p className="text-sm text-lf-muted dark:text-lf-muted/70 text-center">
+            <p className="text-sm text-calm-text-muted dark:text-calm-text-muted/70 text-center">
               {phrase.translation}
             </p>
           )}

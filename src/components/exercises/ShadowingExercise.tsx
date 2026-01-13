@@ -110,21 +110,21 @@ function IntroPhase({ onStart }: IntroPhaseProps) {
   return (
     <motion.div
       key="intro"
-      className="bg-white dark:bg-gray-800 rounded-aaa-xl p-6 text-center"
+      className="bg-white dark:bg-calm-bg-elevated rounded-2xl p-6 text-center"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
     >
       <span className="text-5xl mb-4 block">🎧</span>
-      <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
+      <h3 className="text-lg font-bold text-calm-text-primary dark:text-white mb-2">
         Ejercicio de Shadowing
       </h3>
-      <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
+      <p className="text-sm text-calm-text-muted dark:text-calm-text-muted mb-6">
         Escucha la frase y repítela en voz alta al mismo tiempo
       </p>
       <button
         onClick={onStart}
-        className="px-8 py-3 bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-bold rounded-aaa-xl shadow-lg hover:shadow-xl transition-all"
+        className="px-8 py-3 bg-gradient-to-r from-accent-500 to-sky-500 text-white font-bold rounded-2xl shadow-lg hover:shadow-xl transition-all"
       >
         Comenzar
       </button>
@@ -186,7 +186,7 @@ interface AudioPlaybackCardProps {
 function AudioPlaybackCard({ phrase, isSpeaking, showTranslation, onToggleTranslation }: AudioPlaybackCardProps) {
   return (
     <motion.div
-      className="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-aaa-xl p-8 text-center"
+      className="bg-gradient-to-br from-accent-500 to-sky-600 rounded-2xl p-8 text-center"
       animate={isSpeaking ? { scale: [1, 1.02, 1] } : {}}
       transition={{ repeat: Infinity, duration: 0.8 }}
     >
@@ -218,7 +218,7 @@ interface TranslationToggleProps {
   buttonClass?: string;
 }
 
-function TranslationToggle({ showTranslation, onToggle, translation, buttonClass = "flex items-center gap-2 px-3 py-1 rounded-lg text-xs font-medium transition-all bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600" }: TranslationToggleProps) {
+function TranslationToggle({ showTranslation, onToggle, translation, buttonClass = "flex items-center gap-2 px-3 py-1 rounded-lg text-xs font-medium transition-all bg-calm-bg-secondary dark:bg-calm-bg-tertiary text-calm-text-secondary dark:text-calm-text-muted hover:bg-calm-bg-tertiary dark:hover:bg-calm-bg-tertiary" }: TranslationToggleProps) {
   return (
     <>
       <button
@@ -247,12 +247,12 @@ interface ListenCounterProps {
 
 function ListenCounter({ listenCount }: ListenCounterProps) {
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg p-4">
+    <div className="bg-white dark:bg-calm-bg-elevated rounded-lg p-4">
       <div className="flex justify-between items-center mb-2">
-        <span className="text-sm text-gray-600 dark:text-gray-400">
+        <span className="text-sm text-calm-text-secondary dark:text-calm-text-muted">
           Escuchas requeridas
         </span>
-        <span className="font-bold text-indigo-600 dark:text-indigo-400">
+        <span className="font-bold text-accent-600 dark:text-accent-400">
           {listenCount}/{SHADOWING_CONFIG.requiredListens}
         </span>
       </div>
@@ -262,7 +262,7 @@ function ListenCounter({ listenCount }: ListenCounterProps) {
             key={`shadowing-progress-${i}`}
             className={`
               flex-1 h-2 rounded-full
-              ${i < listenCount ? 'bg-indigo-500' : 'bg-gray-200 dark:bg-gray-700'}
+              ${i < listenCount ? 'bg-accent-500' : 'bg-calm-bg-tertiary dark:bg-calm-bg-tertiary'}
             `}
           />
         ))}
@@ -301,14 +301,14 @@ function ListeningControls({ isSpeaking, listenCount, onPlayAudio, onStartShadow
 
 function getReplayButtonClass(isSpeaking: boolean): string {
   return isSpeaking
-    ? 'flex-1 py-3 rounded-aaa-xl font-medium transition-all bg-gray-200 dark:bg-gray-700 text-gray-500 cursor-not-allowed'
-    : 'flex-1 py-3 rounded-aaa-xl font-medium transition-all bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-200 dark:hover:bg-indigo-800';
+    ? 'flex-1 py-3 rounded-2xl font-medium transition-all bg-calm-bg-tertiary dark:bg-calm-bg-tertiary text-calm-text-muted cursor-not-allowed'
+    : 'flex-1 py-3 rounded-2xl font-medium transition-all bg-accent-100 dark:bg-accent-900 text-accent-700 dark:text-accent-300 hover:bg-accent-200 dark:hover:bg-accent-800';
 }
 
 function getShadowingButtonClass(listenCount: number): string {
   return listenCount >= SHADOWING_CONFIG.requiredListens
-    ? 'flex-1 py-3 rounded-aaa-xl font-bold transition-all bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-lg hover:shadow-xl'
-    : 'flex-1 py-3 rounded-aaa-xl font-bold transition-all bg-gray-200 dark:bg-gray-700 text-gray-500 cursor-not-allowed';
+    ? 'flex-1 py-3 rounded-2xl font-bold transition-all bg-gradient-to-r from-accent-500 to-sky-500 text-white shadow-lg hover:shadow-xl'
+    : 'flex-1 py-3 rounded-2xl font-bold transition-all bg-calm-bg-tertiary dark:bg-calm-bg-tertiary text-calm-text-muted cursor-not-allowed';
 }
 
 interface ShadowingPhaseProps {
@@ -327,19 +327,19 @@ function ShadowingPhase({ phrase, showTranslation, onToggleTranslation, onComple
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
     >
-      <div className="bg-white dark:bg-gray-800 rounded-aaa-xl p-8 text-center">
+      <div className="bg-white dark:bg-calm-bg-elevated rounded-2xl p-8 text-center">
         <motion.div
-          className="w-24 h-24 mx-auto mb-4 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full flex items-center justify-center"
+          className="w-24 h-24 mx-auto mb-4 bg-gradient-to-br from-accent-400 to-sky-500 rounded-full flex items-center justify-center"
           animate={{ scale: [1, 1.1, 1] }}
           transition={{ repeat: Infinity, duration: 1.5 }}
         >
           <span className="text-5xl">🎤</span>
         </motion.div>
 
-        <p className="text-gray-500 dark:text-gray-400 text-sm mb-2">
+        <p className="text-calm-text-muted dark:text-calm-text-muted text-sm mb-2">
           Repite en voz alta:
         </p>
-        <p className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+        <p className="text-2xl font-bold text-calm-text-primary dark:text-white mb-2">
           {phrase.text}
         </p>
         <div className="mb-4 flex items-center justify-center">
@@ -352,7 +352,7 @@ function ShadowingPhase({ phrase, showTranslation, onToggleTranslation, onComple
 
         <button
           onClick={onComplete}
-          className="px-8 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold rounded-aaa-xl shadow-lg hover:shadow-xl transition-all"
+          className="px-8 py-3 bg-gradient-to-r from-accent-500 to-sky-500 text-white font-bold rounded-2xl shadow-lg hover:shadow-xl transition-all"
         >
           ✓ He repetido la frase
         </button>
@@ -365,7 +365,7 @@ function CompletePhase() {
   return (
     <motion.div
       key="complete"
-      className="bg-gradient-to-br from-emerald-400 to-teal-500 rounded-aaa-xl p-8 text-center"
+      className="bg-gradient-to-br from-accent-400 to-sky-500 rounded-2xl p-8 text-center"
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0 }}

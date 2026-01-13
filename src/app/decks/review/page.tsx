@@ -33,14 +33,14 @@ function ReviewPageContent() {
 
   if (!currentExercise || !currentCard) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
-        <p className="text-gray-500 dark:text-gray-400">Cargando ejercicio...</p>
+      <div className="min-h-screen bg-calm-bg-primary dark:bg-calm-bg-primary flex items-center justify-center">
+        <p className="text-calm-text-muted dark:text-calm-text-muted">Cargando ejercicio...</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-20">
+    <div className="min-h-screen bg-calm-bg-primary dark:bg-calm-bg-primary pb-20">
       <ReviewHeader
         sourceType={sourceType}
         sourceId={sourceId}
@@ -84,8 +84,8 @@ function ReviewPageContent() {
 export default function ReviewPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
-        <p className="text-gray-500 dark:text-gray-400">Cargando...</p>
+      <div className="min-h-screen bg-calm-bg-primary dark:bg-calm-bg-primary flex items-center justify-center">
+        <p className="text-calm-text-muted dark:text-calm-text-muted">Cargando...</p>
       </div>
     }>
       <ReviewPageContent />

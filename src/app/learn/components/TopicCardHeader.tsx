@@ -25,7 +25,7 @@ export function TopicCardHeader({ topic, index, cardData }: TopicCardHeaderProps
       {/* Title and info */}
       <div className="flex-1 min-w-0">
         <div className="flex items-start justify-between gap-2 mb-1">
-          <h3 className="font-bold text-lg text-white truncate">
+          <h3 className="font-bold text-lg text-calm-text-primary truncate">
             {topic.title}
           </h3>
           {/* Type badge */}
@@ -35,7 +35,7 @@ export function TopicCardHeader({ topic, index, cardData }: TopicCardHeaderProps
         </div>
 
         {topic.description && (
-          <p className="text-sm text-lf-muted/70 line-clamp-1 mb-2">
+          <p className="text-sm text-calm-text-muted/70 line-clamp-1 mb-2">
             {topic.description}
           </p>
         )}

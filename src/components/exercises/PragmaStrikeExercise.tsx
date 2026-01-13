@@ -6,6 +6,7 @@ import { PragmaStrike, PragmaStrikeOption } from '@/types';
 import { useGamificationStore } from '@/store/useGamificationStore';
 import { XP_RULES } from '@/lib/constants';
 import Image from 'next/image';
+import { COLORS } from '@/constants/colors';
 
 interface PragmaStrikeExerciseProps {
   exercise: PragmaStrike;
@@ -92,7 +93,7 @@ export function PragmaStrikeExercise({ exercise, onComplete, mode = 'desafio' }:
   return (
     <motion.div
       className="space-y-6"
-      animate={isUrgent ? { borderColor: ["rgba(239, 68, 68, 0)", "rgba(239, 68, 68, 0.5)", "rgba(239, 68, 68, 0)"] } : {}}
+      animate={isUrgent ? { borderColor: [COLORS.transparent.error, COLORS.error[50], COLORS.transparent.error] } : {}}
       style={{ borderWidth: isUrgent ? 2 : 0, borderRadius: 16, padding: isUrgent ? 8 : 0 }}
       transition={{ duration: 0.5, repeat: Infinity }}
     >
@@ -138,7 +139,7 @@ export function PragmaStrikeExercise({ exercise, onComplete, mode = 'desafio' }:
 function ExerciseInstruction() {
   return (
     <div className="text-center">
-      <span className="text-sm text-gray-500 dark:text-gray-400">
+      <span className="text-sm text-calm-text-muted dark:text-calm-text-muted">
         Selecciona la frase más cortés para esta situación
       </span>
     </div>
@@ -157,10 +158,10 @@ function TimerDisplay({ timeRemaining, timerPressure, showResult, timeSpent }: T
 
   return (
     <div className="flex flex-col items-center gap-2">
-      <div className="w-full max-w-xs h-3 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+      <div className="w-full max-w-xs h-3 bg-calm-bg-tertiary dark:bg-calm-bg-tertiary rounded-full overflow-hidden">
         <motion.div
           className={`h-full rounded-full ${
-            isUrgent ? "bg-red-500" : "bg-indigo-500"
+            isUrgent ? "bg-semantic-error" : "bg-accent-500"
           }`}
           initial={{ width: "100%" }}
           animate={isUrgent ? {
@@ -172,7 +173,7 @@ function TimerDisplay({ timeRemaining, timerPressure, showResult, timeSpent }: T
       </div>
       <motion.div
         className={`text-2xl font-bold ${
-          isUrgent ? "text-red-500" : "text-gray-700 dark:text-gray-300"
+          isUrgent ? "text-semantic-error" : "text-calm-text-secondary dark:text-calm-text-tertiary"
         }`}
         animate={isUrgent ? { scale: [1, 1.1, 1] } : {}}
         transition={isUrgent ? { duration: 0.3, repeat: Infinity } : {}}
@@ -199,7 +200,7 @@ interface SituationImageProps {
 
 function SituationImage({ exercise }: SituationImageProps) {
   return (
-    <div className="relative w-full h-48 rounded-aaa-xl overflow-hidden bg-gray-100 dark:bg-gray-800">
+    <div className="relative w-full h-48 rounded-2xl overflow-hidden bg-calm-bg-secondary dark:bg-calm-bg-elevated">
       <Image
         src={exercise.situationImage}
         alt={exercise.situationDescription}
@@ -217,8 +218,8 @@ interface SituationDescriptionProps {
 
 function SituationDescription({ exercise }: SituationDescriptionProps) {
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-aaa-xl p-4">
-      <p className="text-sm text-gray-600 dark:text-gray-400 text-center">
+    <div className="bg-white dark:bg-calm-bg-elevated rounded-2xl p-4">
+      <p className="text-sm text-calm-text-secondary dark:text-calm-text-muted text-center">
         {exercise.situationDescription}
       </p>
     </div>
@@ -290,15 +291,15 @@ function OptionButton({ option, index, isSelected, showCorrect, showIncorrect, s
 
 function getOptionButtonClass(showCorrect: boolean, showIncorrect: boolean, isSelected: boolean, _showResult: boolean): string {
   if (showCorrect) {
-    return 'p-4 rounded-aaa-xl font-medium text-left transition-all bg-emerald-500 text-white ring-4 ring-emerald-300 cursor-default border border-gray-200 dark:border-gray-700';
+    return 'p-4 rounded-2xl font-medium text-left transition-all bg-accent-500 text-white ring-4 ring-emerald-300 cursor-default border border-calm-warm-100 dark:border-calm-warm-200';
   }
   if (showIncorrect) {
-    return 'p-4 rounded-aaa-xl font-medium text-left transition-all bg-red-500 text-white ring-4 ring-red-300 cursor-default border border-gray-200 dark:border-gray-700';
+    return 'p-4 rounded-2xl font-medium text-left transition-all bg-semantic-error text-white ring-4 ring-red-300 cursor-default border border-calm-warm-100 dark:border-calm-warm-200';
   }
   if (isSelected) {
-    return 'p-4 rounded-aaa-xl font-medium text-left transition-all bg-indigo-500 text-white cursor-pointer border border-gray-200 dark:border-gray-700';
+    return 'p-4 rounded-2xl font-medium text-left transition-all bg-accent-500 text-white cursor-pointer border border-calm-warm-100 dark:border-calm-warm-200';
   }
-  return 'p-4 rounded-aaa-xl font-medium text-left transition-all bg-white dark:bg-gray-800 text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer border border-gray-200 dark:border-gray-700';
+  return 'p-4 rounded-2xl font-medium text-left transition-all bg-white dark:bg-calm-bg-elevated text-calm-text-primary dark:text-white hover:bg-calm-bg-primary dark:hover:bg-calm-bg-tertiary cursor-pointer border border-calm-warm-100 dark:border-calm-warm-200';
 }
 
 interface ExplanationPanelProps {
@@ -309,12 +310,12 @@ interface ExplanationPanelProps {
 
 function ExplanationPanel({ isCorrect, selectedOption, correctOption }: ExplanationPanelProps) {
   const panelClass = isCorrect
-    ? 'bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800'
-    : 'bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800';
+    ? 'bg-accent-50 dark:bg-accent-900/20 border border-accent-200 dark:border-emerald-800'
+    : 'bg-sky-50 dark:bg-sky-900/20 border border-sky-200 dark:border-sky-800';
 
   return (
     <motion.div
-      className={`p-4 rounded-aaa-xl ${panelClass}`}
+      className={`p-4 rounded-2xl ${panelClass}`}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
@@ -324,14 +325,14 @@ function ExplanationPanel({ isCorrect, selectedOption, correctOption }: Explanat
           {isCorrect ? '✅' : '💡'}
         </span>
         <div className="flex-1">
-          <p className="font-semibold text-gray-900 dark:text-white mb-2">
+          <p className="font-semibold text-calm-text-primary dark:text-white mb-2">
             {isCorrect ? '¡Correcto!' : 'Explicación'}
           </p>
-          <p className="text-sm text-gray-700 dark:text-gray-300">
+          <p className="text-sm text-calm-text-secondary dark:text-calm-text-tertiary">
             {selectedOption.explanation}
           </p>
           {!isCorrect && correctOption && (
-            <p className="text-sm text-emerald-700 dark:text-emerald-300 mt-2 font-medium">
+            <p className="text-sm text-accent-700 dark:text-accent-300 mt-2 font-medium">
               La respuesta más cortés es: &ldquo;{correctOption.text}&rdquo;
             </p>
           )}
@@ -348,8 +349,8 @@ interface ResultBannerProps {
 
 function ResultBanner({ isCorrect, timeSpent }: ResultBannerProps) {
   const bannerClass = isCorrect
-    ? 'bg-emerald-100 dark:bg-emerald-900 text-emerald-700 dark:text-emerald-300'
-    : 'bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-300';
+    ? 'bg-accent-100 dark:bg-accent-900 text-accent-700 dark:text-accent-300'
+    : 'bg-semantic-error-bg dark:bg-semantic-error-bg text-semantic-error-text dark:text-semantic-error-text';
 
   const xpEarned = isCorrect
     ? (timeSpent < 3 ? XP_RULES.pragmaStrikeFast : XP_RULES.pragmaStrikeNormal)
@@ -363,7 +364,7 @@ function ResultBanner({ isCorrect, timeSpent }: ResultBannerProps) {
 
   return (
     <motion.div
-      className={`p-4 rounded-aaa-xl text-center ${bannerClass}`}
+      className={`p-4 rounded-2xl text-center ${bannerClass}`}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}

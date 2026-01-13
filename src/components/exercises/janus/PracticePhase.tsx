@@ -22,12 +22,12 @@ export function PracticePhase({
       className="space-y-6"
     >
       <div className="text-center">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+        <h3 className="text-lg font-semibold text-calm-text-primary dark:text-white">
           🎤 Repite la frase
         </h3>
       </div>
 
-      <div className="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-aaa-xl p-6 text-white text-center">
+      <div className="bg-gradient-to-r from-accent-500 to-sky-600 rounded-2xl p-6 text-white text-center">
         <p className="text-xl font-medium">&quot;{generatedPhrase || ''}&quot;</p>
         {generatedTranslation && (
           <p className="text-white/80 mt-2">{generatedTranslation}</p>

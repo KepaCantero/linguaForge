@@ -84,28 +84,28 @@ export function BlockEchoExercise({
             className="space-y-6"
           >
             <div className="text-center">
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
+              <h3 className="text-lg font-bold text-calm-text-primary dark:text-white mb-2">
                 🎤 Escucha el Bloque Completo
               </h3>
-              <p className="text-sm text-gray-500 dark:text-gray-400">
+              <p className="text-sm text-calm-text-muted dark:text-calm-text-muted">
                 Escucha toda la conversación completa
               </p>
             </div>
 
             {/* Bloque completo visualizado */}
-            <div className="bg-white dark:bg-gray-800 rounded-aaa-xl p-6 space-y-4">
+            <div className="bg-white dark:bg-calm-bg-elevated rounded-2xl p-6 space-y-4">
               {/* Mostrar todas las frases del bloque */}
               {block.phrases.map((phrase, idx) => {
                 const borderColors = [
-                  "border-indigo-500",
-                  "border-purple-500",
-                  "border-emerald-500",
+                  "border-accent-500",
+                  "border-sky-500",
+                  "border-accent-500",
                   "border-amber-500",
                 ];
                 const textColors = [
-                  "text-indigo-600 dark:text-indigo-400",
-                  "text-purple-600 dark:text-purple-400",
-                  "text-emerald-600 dark:text-emerald-400",
+                  "text-accent-600 dark:text-accent-400",
+                  "text-sky-600 dark:text-sky-400",
+                  "text-accent-600 dark:text-accent-400",
                   "text-amber-600 dark:text-amber-400",
                 ];
                 const labels = ["Inicio", "Desarrollo", "Resolución", "Cierre"];
@@ -122,11 +122,11 @@ export function BlockEchoExercise({
                     <div className={`text-xs font-semibold ${textColor} mb-1`}>
                       {label}
                     </div>
-                    <p className="text-sm font-medium text-gray-900 dark:text-white">
+                    <p className="text-sm font-medium text-calm-text-primary dark:text-white">
                       {phrase.text}
                     </p>
                     {showTranslation && (
-                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                      <p className="text-xs text-calm-text-muted dark:text-calm-text-muted mt-1">
                         {phrase.translation}
                       </p>
                     )}
@@ -139,7 +139,7 @@ export function BlockEchoExercise({
             <div className="flex items-center justify-center gap-4">
               <button
                 onClick={() => setShowTranslation(!showTranslation)}
-                className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-300 dark:hover:bg-gray-600 transition-all"
+                className="px-4 py-2 bg-calm-bg-tertiary dark:bg-calm-bg-tertiary text-calm-text-secondary dark:text-calm-text-tertiary rounded-lg text-sm font-medium hover:bg-calm-warm-100 dark:hover:bg-calm-bg-tertiary transition-all"
               >
                 {showTranslation ? "Ocultar" : "Mostrar"} traducción
               </button>
@@ -150,8 +150,8 @@ export function BlockEchoExercise({
                   px-6 py-2 rounded-lg font-medium transition-all
                   ${
                     isPlaying
-                      ? "bg-gray-200 dark:bg-gray-700 text-gray-500 cursor-not-allowed"
-                      : "bg-indigo-500 text-white hover:bg-indigo-600"
+                      ? "bg-calm-bg-tertiary dark:bg-calm-bg-tertiary text-calm-text-muted cursor-not-allowed"
+                      : "bg-accent-500 text-white hover:bg-accent-600"
                   }
                 `}
               >
@@ -171,20 +171,20 @@ export function BlockEchoExercise({
             className="space-y-6"
           >
             <div className="text-center">
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
+              <h3 className="text-lg font-bold text-calm-text-primary dark:text-white mb-2">
                 🎤 Repite el Bloque Completo
               </h3>
-              <p className="text-sm text-gray-500 dark:text-gray-400">
+              <p className="text-sm text-calm-text-muted dark:text-calm-text-muted">
                 Repite toda la conversación con la misma entonación
               </p>
             </div>
 
             {/* Bloque para repetir */}
-            <div className="bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-aaa-xl p-6 space-y-3">
+            <div className="bg-gradient-to-br from-sky-50 to-sky-50 dark:from-accent-900/20 dark:to-sky-900/20 rounded-2xl p-6 space-y-3">
               {block.phrases.map((phrase) => (
                 <p
                   key={phrase.id}
-                  className="text-center text-sm font-medium text-gray-700 dark:text-gray-300"
+                  className="text-center text-sm font-medium text-calm-text-secondary dark:text-calm-text-tertiary"
                 >
                   {phrase.text}
                 </p>
@@ -194,7 +194,7 @@ export function BlockEchoExercise({
             <div className="flex justify-center">
               <button
                 onClick={handleComplete}
-                className="px-8 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold rounded-aaa-xl shadow-lg hover:shadow-xl transition-all"
+                className="px-8 py-3 bg-gradient-to-r from-accent-500 to-sky-500 text-white font-bold rounded-2xl shadow-lg hover:shadow-xl transition-all"
               >
                 ✓ Completar
               </button>
@@ -208,7 +208,7 @@ export function BlockEchoExercise({
             key="complete"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-gradient-to-br from-emerald-400 to-teal-500 rounded-aaa-xl p-8 text-center"
+            className="bg-gradient-to-br from-accent-400 to-sky-500 rounded-2xl p-8 text-center"
           >
             <span className="text-6xl mb-4 block">🎉</span>
             <h3 className="text-white text-xl font-bold mb-2">

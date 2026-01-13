@@ -83,16 +83,16 @@ export function ServiceWorkerRegistration() {
   // Mostrar banner de actualización disponible
   if (state.isUpdateAvailable) {
     return (
-      <div className="fixed bottom-20 left-4 right-4 z-50 bg-indigo-600 text-white p-4 rounded-xl shadow-lg flex items-center justify-between">
+      <div className="fixed bottom-20 left-4 right-4 z-50 bg-accent-600 text-white p-4 rounded-xl shadow-lg flex items-center justify-between">
         <div>
           <p className="font-medium">Nueva versión disponible</p>
-          <p className="text-sm text-indigo-200">
+          <p className="text-sm text-accent-200">
             Recarga para actualizar la app
           </p>
         </div>
         <button
           onClick={() => window.location.reload()}
-          className="px-4 py-2 bg-white text-indigo-600 rounded-lg font-medium hover:bg-indigo-50 transition-colors"
+          className="px-4 py-2 bg-white text-accent-600 rounded-lg font-medium hover:bg-sky-50 transition-colors"
         >
           Actualizar
         </button>

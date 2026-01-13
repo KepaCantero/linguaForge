@@ -12,8 +12,8 @@ type Step = 'language' | 'mode';
 function getLanguageButtonClasses(selectedLang: AppLanguage, buttonLang: AppLanguage): string {
   const baseClasses = 'w-full p-4 rounded-xl border-2 transition-all flex items-center gap-4 ';
   return selectedLang === buttonLang
-    ? baseClasses + 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20'
-    : baseClasses + 'border-gray-200 dark:border-gray-700 hover:border-indigo-300';
+    ? baseClasses + 'border-accent-500 bg-accent-50 dark:bg-accent-900/20'
+    : baseClasses + 'border-calm-warm-100 hover:border-accent-300';
 }
 
 export default function OnboardingPage() {
@@ -80,13 +80,13 @@ export default function OnboardingPage() {
   if (!isHydrated) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600" />
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-accent-600" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-indigo-50 to-white dark:from-gray-900 dark:to-gray-800 flex flex-col items-center justify-center p-6">
+    <div className="min-h-screen bg-gradient-to-b from-calm-bg-primary to-calm-bg-elevated flex flex-col items-center justify-center p-6">
       <AnimatePresence mode="wait">
         {step === 'language' && (
           <motion.div
@@ -98,17 +98,17 @@ export default function OnboardingPage() {
           >
             {/* Logo */}
             <div className="text-center mb-8">
-              <h1 className="text-3xl font-bold text-indigo-600 dark:text-indigo-400">
+              <h1 className="text-3xl font-bold text-accent-500">
                 {t.app.name}
               </h1>
-              <p className="text-gray-600 dark:text-gray-400 mt-2">
+              <p className="text-calm-text-secondary mt-2">
                 {t.app.tagline}
               </p>
             </div>
 
             {/* Step content */}
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6">
-              <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6 text-center">
+            <div className="bg-calm-bg-elevated rounded-2xl shadow-xl p-6">
+              <h2 className="text-xl font-semibold text-calm-text-primary mb-6 text-center">
                 {t.onboarding.selectLanguage}
               </h2>
 
@@ -118,7 +118,7 @@ export default function OnboardingPage() {
                   className={getLanguageButtonClasses(selectedLang, 'es')}
                 >
                   <span className="text-3xl">🇪🇸</span>
-                  <span className="text-lg font-medium text-gray-900 dark:text-white">
+                  <span className="text-lg font-medium text-calm-text-primary">
                     Español
                   </span>
                 </button>
@@ -128,7 +128,7 @@ export default function OnboardingPage() {
                   className={getLanguageButtonClasses(selectedLang, 'en')}
                 >
                   <span className="text-3xl">🇬🇧</span>
-                  <span className="text-lg font-medium text-gray-900 dark:text-white">
+                  <span className="text-lg font-medium text-calm-text-primary">
                     English
                   </span>
                 </button>
@@ -136,7 +136,7 @@ export default function OnboardingPage() {
 
               <button
                 onClick={handleContinue}
-                className="w-full mt-6 py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-xl transition-colors"
+                className="w-full mt-6 py-3 px-4 bg-accent-500 hover:bg-accent-600 text-calm-text-primary font-medium rounded-xl transition-colors"
               >
                 {t.onboarding.continue}
               </button>
@@ -155,7 +155,7 @@ export default function OnboardingPage() {
             {/* Header */}
             <div className="text-center mb-8">
               <div className="text-4xl mb-4">🇫🇷</div>
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+              <h2 className="text-2xl font-bold text-calm-text-primary">
                 {t.onboarding.selectMode}
               </h2>
             </div>
@@ -165,32 +165,32 @@ export default function OnboardingPage() {
               {/* Guided Mode */}
               <button
                 onClick={() => handleModeSelect('guided')}
-                className="w-full bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 text-left border-2 border-transparent hover:border-indigo-500 transition-all group"
+                className="w-full bg-calm-bg-elevated rounded-2xl shadow-lg p-6 text-left border-2 border-transparent hover:border-accent-500 transition-all group"
               >
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3">
                     <span className="text-3xl">📚</span>
                     <div>
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                      <h3 className="text-lg font-semibold text-calm-text-primary dark:text-calm-text-primary">
                         {t.onboarding.guidedMode.title}
                       </h3>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                      <p className="text-sm text-calm-text-secondary dark:text-calm-text-muted">
                         {t.onboarding.guidedMode.description}
                       </p>
                     </div>
                   </div>
-                  <span className="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs font-medium rounded-full">
+                  <span className="px-2 py-1 bg-accent-100 dark:bg-accent-900/30 text-accent-700 dark:text-accent-400 text-xs font-medium rounded-full">
                     {t.onboarding.guidedMode.badge}
                   </span>
                 </div>
-                <p className="mt-3 text-sm text-gray-500 dark:text-gray-400 pl-12">
+                <p className="mt-3 text-sm text-calm-text-muted dark:text-calm-text-muted pl-12">
                   {t.onboarding.guidedMode.detail}
                 </p>
                 <div className="mt-4 pl-12 flex gap-2">
                   {['🏠', '🍽️', '🚇', '🏥', '🆘'].map((emoji) => (
                     <span
                       key={emoji}
-                      className="w-8 h-8 flex items-center justify-center bg-gray-100 dark:bg-gray-700 rounded-full text-sm"
+                      className="w-8 h-8 flex items-center justify-center bg-calm-bg-secondary dark:bg-calm-bg-tertiary rounded-full text-sm"
                     >
                       {emoji}
                     </span>
@@ -201,27 +201,27 @@ export default function OnboardingPage() {
               {/* Autonomous Mode */}
               <button
                 onClick={() => handleModeSelect('autonomous')}
-                className="w-full bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 text-left border-2 border-transparent hover:border-purple-500 transition-all group"
+                className="w-full bg-calm-bg-elevated dark:bg-calm-bg-elevated rounded-2xl shadow-lg p-6 text-left border-2 border-transparent hover:border-sky-500 transition-all group"
               >
                 <div className="flex items-start gap-3">
                   <span className="text-3xl">🚀</span>
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                    <h3 className="text-lg font-semibold text-calm-text-primary dark:text-calm-text-primary">
                       {t.onboarding.autonomousMode.title}
                     </h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                    <p className="text-sm text-calm-text-secondary dark:text-calm-text-muted">
                       {t.onboarding.autonomousMode.description}
                     </p>
                   </div>
                 </div>
-                <p className="mt-3 text-sm text-gray-500 dark:text-gray-400 pl-12">
+                <p className="mt-3 text-sm text-calm-text-muted dark:text-calm-text-muted pl-12">
                   {t.onboarding.autonomousMode.detail}
                 </p>
                 <div className="mt-4 pl-12 flex gap-2">
                   {['🎙️', '📰', '▶️'].map((emoji) => (
                     <span
                       key={emoji}
-                      className="w-8 h-8 flex items-center justify-center bg-gray-100 dark:bg-gray-700 rounded-full text-sm"
+                      className="w-8 h-8 flex items-center justify-center bg-calm-bg-secondary dark:bg-calm-bg-tertiary rounded-full text-sm"
                     >
                       {emoji}
                     </span>
@@ -233,7 +233,7 @@ export default function OnboardingPage() {
             {/* Back button */}
             <button
               onClick={() => setStep('language')}
-              className="w-full mt-6 py-3 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white font-medium transition-colors"
+              className="w-full mt-6 py-3 text-calm-text-secondary dark:text-calm-text-muted hover:text-calm-text-primary dark:hover:text-calm-text-primary font-medium transition-colors"
             >
               ← {t.common.back}
             </button>

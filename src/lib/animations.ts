@@ -222,10 +222,10 @@ export const CALM_FADE_VARIANTS = {
  */
 export const CALM_HOVER_VARIANTS = {
   initial: {
-    boxShadow: '0 1px 2px rgba(45, 55, 72, 0.04)',
+    boxShadow: 'var(--shadow-soft-sm)',
   },
   hover: {
-    boxShadow: '0 4px 12px rgba(45, 55, 72, 0.08)',
+    boxShadow: 'var(--shadow-soft-md)',
     transition: { duration: 0.3 },
   },
 };
@@ -247,7 +247,7 @@ export const CALM_CARD_VARIANTS = {
     },
   },
   hover: {
-    boxShadow: '0 8px 24px rgba(45, 55, 72, 0.08)',
+    boxShadow: 'var(--shadow-soft-lg)',
     transition: { duration: 0.3 },
   },
 };
@@ -263,7 +263,7 @@ export const CALM_SUCCESS_VARIANTS = {
   visible: {
     opacity: 1,
     y: 0,
-    backgroundColor: 'rgba(114, 168, 125, 0.1)', // Soft sage
+    backgroundColor: 'var(--semantic-success-bg)',
     transition: TRANSITIONS.success,
   },
   exit: {
@@ -281,7 +281,7 @@ export const CALM_ERROR_VARIANTS = {
   },
   visible: {
     opacity: 1,
-    backgroundColor: 'rgba(201, 128, 122, 0.1)', // Soft dusty rose
+    backgroundColor: 'var(--semantic-error-bg)',
     transition: TRANSITIONS.error,
   },
   exit: {
@@ -346,7 +346,7 @@ export function getOptimizedConfig() {
  */
 export const CALM_BUTTON_MOTION_PROPS = {
   whileHover: {
-    boxShadow: '0 4px 12px rgba(45, 55, 72, 0.08)',
+    boxShadow: 'var(--shadow-soft-md)',
   },
   whileTap: {
     opacity: 0.9,
@@ -364,7 +364,7 @@ export const CALM_BUTTON_MOTION_PROPS = {
  */
 export const CALM_CARD_MOTION_PROPS = {
   whileHover: {
-    boxShadow: '0 8px 24px rgba(45, 55, 72, 0.08)',
+    boxShadow: 'var(--shadow-soft-lg)',
   },
   transition: {
     duration: 0.4,
@@ -379,7 +379,7 @@ export const CALM_CARD_MOTION_PROPS = {
  */
 export const CALM_INPUT_MOTION_PROPS = {
   whileFocus: {
-    boxShadow: '0 0 0 3px rgba(114, 168, 125, 0.15)',
+    boxShadow: '0 0 0 3px var(--accent-200)',
   },
   transition: {
     duration: 0.2,

@@ -39,15 +39,15 @@ export default function PracticePage() {
   return (
     <Suspense
       fallback={
-        <div className="relative min-h-screen bg-lf-dark flex items-center justify-center">
+        <div className="relative min-h-screen bg-calm-bg-tertiary flex items-center justify-center">
           {typeof window !== 'undefined' && (
             <motion.div
               className="absolute inset-0 opacity-20"
               animate={{
                 background: [
-                  'radial-gradient(circle at 20% 30%, #6366F1 0%, transparent 50%)',
-                  'radial-gradient(circle at 80% 70%, #C026D3 0%, transparent 50%)',
-                  'radial-gradient(circle at 20% 30%, #6366F1 0%, transparent 50%)',
+                  'radial-gradient(circle at 20% 30%, var(--sky-500) 0%, transparent 50%)',
+                  'radial-gradient(circle at 80% 70%, #F59E0B 0%, transparent 50%)',
+                  'radial-gradient(circle at 20% 30%, var(--sky-500) 0%, transparent 50%)',
                 ],
               }}
               transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
@@ -56,7 +56,7 @@ export default function PracticePage() {
           <motion.div
             className="relative w-16 h-16 rounded-full"
             style={{
-              background: 'radial-gradient(circle at 30% 30%, #6366F1, #4F46E5)',
+              background: 'radial-gradient(circle at 30% 30%, var(--sky-500), var(--sky-600))',
               border: '4px solid transparent',
               borderTopColor: '#FDE047',
             }}

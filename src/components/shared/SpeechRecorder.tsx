@@ -178,8 +178,8 @@ export function SpeechRecorder({
         onMouseLeave={isRecording ? stopRecording : undefined}
         className={`relative w-24 h-24 rounded-full flex items-center justify-center text-3xl transition-all ${
           isRecording
-            ? "bg-red-500 hover:bg-red-600 shadow-lg shadow-red-500/50"
-            : "bg-indigo-500 hover:bg-indigo-600 shadow-md"
+            ? "bg-semantic-error hover:bg-semantic-error shadow-lg shadow-red-500/50"
+            : "bg-accent-500 hover:bg-accent-600 shadow-md"
         } text-white`}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
@@ -199,7 +199,7 @@ export function SpeechRecorder({
           {[...new Array(12)].map((_, i) => (
             <motion.div
               key={`waveform-bar-${i}`}
-              className="w-1 bg-indigo-500 rounded-full"
+              className="w-1 bg-accent-500 rounded-full"
               animate={{
                 height: [4, 16 + Math.random() * 16, 4],
               }}
@@ -217,12 +217,12 @@ export function SpeechRecorder({
         <div className="text-center">
           {isRecording ? (
             <div className="space-y-1">
-              <div className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+              <div className="text-sm font-semibold text-calm-text-secondary dark:text-calm-text-tertiary">
                 {duration.toFixed(1)}s / {maxDuration}s
               </div>
-              <div className="w-48 h-1 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+              <div className="w-48 h-1 bg-calm-bg-tertiary dark:bg-calm-bg-tertiary rounded-full overflow-hidden">
                 <motion.div
-                  className="h-full bg-indigo-500"
+                  className="h-full bg-accent-500"
                   initial={{ width: 0 }}
                   animate={{
                     width: `${(duration / maxDuration) * 100}%`,
@@ -232,7 +232,7 @@ export function SpeechRecorder({
               </div>
             </div>
           ) : (
-            <div className="text-sm text-gray-500 dark:text-gray-400">
+            <div className="text-sm text-calm-text-muted dark:text-calm-text-muted">
               {label || "Mantén presionado para grabar"}
             </div>
           )}
@@ -240,7 +240,7 @@ export function SpeechRecorder({
       )}
 
       {error && (
-        <div className="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 px-3 py-2 rounded-lg">
+        <div className="text-sm text-semantic-error dark:text-semantic-error bg-semantic-error-bg dark:bg-semantic-error-bg/20 px-3 py-2 rounded-lg">
           {error}
         </div>
       )}

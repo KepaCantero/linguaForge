@@ -81,18 +81,18 @@ export function BlockBuilderExercise({ exercise, onComplete }: BlockBuilderExerc
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
+        <h3 className="text-lg font-bold text-calm-text-primary dark:text-white mb-2">
           🧱 Construye el Bloque Conversacional
         </h3>
-        <p className="text-sm text-gray-500 dark:text-gray-400">
+        <p className="text-sm text-calm-text-muted dark:text-calm-text-muted">
           Arrastra los componentes en el orden correcto: Inicio → Desarrollo → Resolución → Cierre
         </p>
       </div>
 
       {/* Área de construcción */}
-      <div className="bg-white dark:bg-gray-800 rounded-aaa-xl p-4 min-h-[200px] border-2 border-dashed border-gray-300 dark:border-gray-600">
+      <div className="bg-white dark:bg-calm-bg-elevated rounded-2xl p-4 min-h-[200px] border-2 border-dashed border-calm-warm-200 dark:border-calm-warm-200">
         {selectedComponents.length === 0 ? (
-          <div className="text-center text-gray-400 dark:text-gray-500 py-8">
+          <div className="text-center text-calm-text-muted dark:text-calm-text-muted py-8">
             Arrastra los componentes aquí
           </div>
         ) : (
@@ -118,29 +118,29 @@ export function BlockBuilderExercise({ exercise, onComplete }: BlockBuilderExerc
                     p-3 rounded-lg border-2 transition-all
                     ${showResult
                       ? isInCorrectPosition
-                        ? 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-300 dark:border-emerald-700'
-                        : 'bg-red-50 dark:bg-red-900/20 border-red-300 dark:border-red-700'
-                      : 'bg-gray-50 dark:bg-gray-700/50 border-gray-200 dark:border-gray-600'
+                        ? 'bg-accent-50 dark:bg-accent-900/20 border-accent-300 dark:border-accent-700'
+                        : 'bg-semantic-error-bg dark:bg-semantic-error-bg/20 border-semantic-error dark:border-semantic-error'
+                      : 'bg-calm-bg-primary dark:bg-calm-bg-tertiary/50 border-calm-warm-100 dark:border-calm-warm-200'
                     }
                   `}
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
-                      <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">
+                      <div className="text-xs font-semibold text-calm-text-muted dark:text-calm-text-muted mb-1">
                         {componentTypeLabels[component.componentType]} {index + 1}
                       </div>
-                      <p className="text-sm font-medium text-gray-900 dark:text-white">
+                      <p className="text-sm font-medium text-calm-text-primary dark:text-white">
                         {component.text}
                       </p>
                       {showResult && (
-                        <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+                        <p className="text-xs text-calm-text-secondary dark:text-calm-text-muted mt-1">
                           {component.translation}
                         </p>
                       )}
                     </div>
                     <button
                       onClick={() => handleComponentClick(componentId)}
-                      className="ml-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                      className="ml-2 text-calm-text-muted hover:text-calm-text-secondary dark:hover:text-calm-text-tertiary"
                     >
                       ✕
                     </button>
@@ -154,7 +154,7 @@ export function BlockBuilderExercise({ exercise, onComplete }: BlockBuilderExerc
 
       {/* Componentes disponibles */}
       <div>
-        <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
+        <h4 className="text-sm font-semibold text-calm-text-secondary dark:text-calm-text-tertiary mb-3">
           Componentes disponibles:
         </h4>
         <div className="grid grid-cols-1 gap-2">
@@ -174,13 +174,13 @@ export function BlockBuilderExercise({ exercise, onComplete }: BlockBuilderExerc
                   onClick={() => handleComponentClick(component.id)}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="text-left p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-indigo-400 dark:hover:border-indigo-600 transition-all"
+                  className="text-left p-3 bg-white dark:bg-calm-bg-elevated rounded-lg border border-calm-warm-100 dark:border-calm-warm-200 hover:border-accent-400 dark:hover:border-accent-600 transition-all"
                 >
-                  <div className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 mb-1">
+                  <div className="text-xs font-semibold text-accent-600 dark:text-accent-400 mb-1">
                     {componentTypeLabels[component.componentType]}
                   </div>
-                  <p className="text-sm text-gray-900 dark:text-white">{component.text}</p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                  <p className="text-sm text-calm-text-primary dark:text-white">{component.text}</p>
+                  <p className="text-xs text-calm-text-muted dark:text-calm-text-muted mt-1">
                     {component.translation}
                   </p>
                 </motion.button>
@@ -195,7 +195,7 @@ export function BlockBuilderExercise({ exercise, onComplete }: BlockBuilderExerc
           onClick={handleConfirm}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="w-full px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-bold rounded-aaa-xl shadow-lg hover:shadow-xl transition-all"
+          className="w-full px-6 py-3 bg-gradient-to-r from-accent-500 to-sky-500 text-white font-bold rounded-2xl shadow-lg hover:shadow-xl transition-all"
         >
           Confirmar Bloque
         </motion.button>
@@ -207,10 +207,10 @@ export function BlockBuilderExercise({ exercise, onComplete }: BlockBuilderExerc
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           className={`
-            rounded-aaa-xl p-6 text-center
+            rounded-2xl p-6 text-center
             ${isCorrect
-              ? 'bg-gradient-to-br from-emerald-400 to-teal-500'
-              : 'bg-gradient-to-br from-orange-400 to-red-500'
+              ? 'bg-gradient-to-br from-accent-400 to-sky-500'
+              : 'bg-gradient-to-br from-amber-400 to-semantic-error'
             }
           `}
         >

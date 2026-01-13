@@ -181,7 +181,7 @@ function IntroScreen({ warmup, missionTitle, onStart, onSkip }: IntroScreenProps
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 bg-gray-900 flex flex-col items-center justify-center p-6"
+      className="fixed inset-0 z-50 bg-calm-bg-primary flex flex-col items-center justify-center p-6"
     >
       <motion.div
         initial={{ scale: 0.8, opacity: 0 }}
@@ -200,20 +200,20 @@ function IntroScreen({ warmup, missionTitle, onStart, onSkip }: IntroScreenProps
 
         {/* Título */}
         <h2 className="text-2xl font-bold text-white mb-2">{warmup.title}</h2>
-        <p className="text-gray-400 mb-6">{warmup.description}</p>
+        <p className="text-calm-text-muted mb-6">{warmup.description}</p>
 
         {/* Beneficio */}
-        <div className="p-4 bg-indigo-900/30 border border-indigo-500/30 rounded-xl mb-8">
-          <p className="text-sm text-indigo-300">🧠 {getWarmupBenefit()}</p>
+        <div className="p-4 bg-accent-900/30 border border-accent-500/30 rounded-xl mb-8">
+          <p className="text-sm text-accent-300">🧠 {getWarmupBenefit()}</p>
         </div>
 
         {/* Info de misión */}
-        <p className="text-sm text-gray-500 mb-6">
+        <p className="text-sm text-calm-text-muted mb-6">
           Preparándote para: <span className="text-white">{missionTitle}</span>
         </p>
 
         {/* Duración */}
-        <p className="text-sm text-gray-400 mb-8">
+        <p className="text-sm text-calm-text-muted mb-8">
           Duración: ~{warmup.duration} segundos
         </p>
 
@@ -223,13 +223,13 @@ function IntroScreen({ warmup, missionTitle, onStart, onSkip }: IntroScreenProps
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={onStart}
-            className="w-full py-4 px-6 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-semibold text-lg transition-colors"
+            className="w-full py-4 px-6 bg-accent-600 hover:bg-accent-700 text-white rounded-xl font-semibold text-lg transition-colors"
           >
             Comenzar Calentamiento
           </motion.button>
           <button
             onClick={onSkip}
-            className="w-full py-3 px-6 text-gray-400 hover:text-white transition-colors"
+            className="w-full py-3 px-6 text-calm-text-muted hover:text-white transition-colors"
           >
             Saltar por ahora
           </button>
@@ -299,7 +299,7 @@ function TransitionScreen({ score }: TransitionScreenProps) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 bg-gray-900 flex flex-col items-center justify-center"
+      className="fixed inset-0 z-50 bg-calm-bg-primary flex flex-col items-center justify-center"
     >
       <motion.div
         initial={{ scale: 0 }}
@@ -315,7 +315,7 @@ function TransitionScreen({ score }: TransitionScreenProps) {
           ✨
         </motion.div>
         <h2 className="text-3xl font-bold text-white mb-2">{getMessage()}</h2>
-        <p className="text-xl text-indigo-400">Puntuación: {score}%</p>
+        <p className="text-xl text-accent-400">Puntuación: {score}%</p>
       </motion.div>
 
       {/* Partículas de celebración */}
@@ -327,7 +327,7 @@ function TransitionScreen({ score }: TransitionScreenProps) {
         {[...new Array(20)].map((_, i) => (
           <motion.div
             key={`warmup-particle-${i}`}
-            className="absolute w-2 h-2 bg-indigo-400 rounded-full"
+            className="absolute w-2 h-2 bg-accent-400 rounded-full"
             initial={{
               x: '50%',
               y: '50%',
@@ -362,7 +362,7 @@ function ReadyScreen({ missionTitle, warmupScore, onStart, startButtonText = 'Co
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 bg-gray-900 flex flex-col items-center justify-center p-6"
+      className="fixed inset-0 z-50 bg-calm-bg-primary flex flex-col items-center justify-center p-6"
     >
       <motion.div
         initial={{ y: 20, opacity: 0 }}
@@ -379,11 +379,11 @@ function ReadyScreen({ missionTitle, warmupScore, onStart, startButtonText = 'Co
         </motion.div>
 
         <h2 className="text-3xl font-bold text-white mb-2">¡Listo!</h2>
-        <p className="text-xl text-gray-400 mb-6">{missionTitle}</p>
+        <p className="text-xl text-calm-text-muted mb-6">{missionTitle}</p>
 
         {warmupScore !== null && (
-          <div className="p-4 bg-green-900/20 border border-green-500/30 rounded-xl mb-8">
-            <p className="text-sm text-green-300">
+          <div className="p-4 bg-accent-900/20 border border-accent-500/30 rounded-xl mb-8">
+            <p className="text-sm text-accent-300">
               🧠 Cerebro calentado al {warmupScore}%
             </p>
           </div>
@@ -393,7 +393,7 @@ function ReadyScreen({ missionTitle, warmupScore, onStart, startButtonText = 'Co
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           onClick={onStart}
-          className="w-full py-4 px-6 bg-green-600 hover:bg-green-700 text-white rounded-xl font-semibold text-lg transition-colors"
+          className="w-full py-4 px-6 bg-accent-600 hover:bg-accent-700 text-white rounded-xl font-semibold text-lg transition-colors"
         >
           {startButtonText}
         </motion.button>
