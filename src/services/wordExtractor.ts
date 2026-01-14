@@ -23,6 +23,93 @@ export function normalizeWord(word: string): string {
     .replace(/[^\w]/g, ''); // Eliminar puntuación
 }
 
+// ============================================================
+// WORD TYPE DETECTION CONSTANTS
+// ============================================================
+
+const IMPORTANT_WORDS = new Set([
+  // Pronombres importantes para aprendizaje
+  'je', 'tu', 'il', 'elle', 'nous', 'vous', 'ils', 'elles',
+  // Palabras negativas y comunes
+  'pas', 'plus', 'non', 'ne', 'ni', 'aucun', 'aucune', 'rien', 'personne',
+  'oui', 'si',
+]);
+
+const VERB_ENDINGS = ['er', 'ir', 're', 'oir', 'tre'] as const;
+const VERB_EXCEPTIONS = ['mer', 'ter'] as const;
+
+const ADVERB_ENDINGS = ['ment', 'ement'] as const;
+
+const ADJECTIVE_ENDINGS = [
+  'eux', 'euse', 'if', 'ive', 'ant', 'ent', 'ique',
+  'grand', 'petit', 'bon', 'mauvais', 'beau', 'nouveau',
+  'vieux', 'jeune', 'long', 'court', 'haut', 'bas',
+] as const;
+
+const ADJECTIVE_SINGULAR_ENDINGS = [
+  'grand', 'petit', 'beau', 'nouveau', 'vieux', 'jeune',
+] as const;
+
+const MIN_NOUN_LENGTH = 4;
+
+// ============================================================
+// WORD TYPE DETECTION HELPERS
+// ============================================================
+
+/**
+ * Verifica si una palabra termina con alguno de los sufijos dados
+ */
+function hasAnyEnding(word: string, endings: readonly string[]): boolean {
+  return endings.some(ending => word.endsWith(ending));
+}
+
+/**
+ * Verifica si una palabra es una palabra importante
+ */
+function isImportantWord(normalized: string): boolean {
+  return IMPORTANT_WORDS.has(normalized);
+}
+
+/**
+ * Verifica si una palabra es un verbo basado en terminaciones
+ */
+function isVerb(normalized: string): boolean {
+  if (!hasAnyEnding(normalized, VERB_ENDINGS)) {
+    return false;
+  }
+  // Excluir sustantivos comunes que terminan igual
+  return !hasAnyEnding(normalized, VERB_EXCEPTIONS);
+}
+
+/**
+ * Verifica si una palabra es un adverbio
+ */
+function isAdverb(normalized: string): boolean {
+  return hasAnyEnding(normalized, ADVERB_ENDINGS);
+}
+
+/**
+ * Verifica si una palabra es un adjetivo
+ */
+function isAdjective(normalized: string): boolean {
+  if (hasAnyEnding(normalized, ADJECTIVE_ENDINGS)) {
+    return true;
+  }
+  // Verificar adjetivos en plural (terminan en 's')
+  if (normalized.endsWith('s') && normalized.length > MIN_NOUN_LENGTH) {
+    const singular = normalized.slice(0, -1);
+    return hasAnyEnding(singular, ADJECTIVE_SINGULAR_ENDINGS);
+  }
+  return false;
+}
+
+/**
+ * Verifica si una palabra puede ser un sustantivo
+ */
+function isNoun(normalized: string): boolean {
+  return normalized.length > MIN_NOUN_LENGTH;
+}
+
 /**
  * Detecta el tipo de palabra basándose en patrones del francés
  * Nota: Esto es una aproximación simple. En producción, usar un POS tagger real.
@@ -30,81 +117,19 @@ export function normalizeWord(word: string): string {
 export function detectWordType(word: string): WordType {
   const normalized = normalizeWord(word);
 
-  // Palabras negativas y comunes que queremos incluir (tratar como noun)
-  const importantWords = new Set([
-    // Pronombres importantes para aprendizaje
-    'je', 'tu', 'il', 'elle', 'nous', 'vous', 'ils', 'elles',
-    // Palabras negativas y comunes
-    'pas', 'plus', 'non', 'ne', 'ni', 'aucun', 'aucune', 'rien', 'personne',
-    'oui', 'si',
-  ]);
-  if (importantWords.has(normalized)) {
+  if (isImportantWord(normalized)) {
     return 'noun';
   }
-
-  // Patrones comunes en francés
-  // Verbos: terminaciones comunes
-  if (
-    normalized.endsWith('er') ||
-    normalized.endsWith('ir') ||
-    normalized.endsWith('re') ||
-    normalized.endsWith('oir') ||
-    normalized.endsWith('tre')
-  ) {
-    // Verificar que no sea un sustantivo común que termine así
-    if (!normalized.endsWith('mer') && !normalized.endsWith('ter')) {
-      return 'verb';
-    }
+  if (isVerb(normalized)) {
+    return 'verb';
   }
-
-  // Adverbios: terminaciones comunes
-  if (normalized.endsWith('ment') || normalized.endsWith('ement')) {
+  if (isAdverb(normalized)) {
     return 'adverb';
   }
-
-  // Adjetivos: terminaciones comunes
-  if (
-    normalized.endsWith('eux') ||
-    normalized.endsWith('euse') ||
-    normalized.endsWith('if') ||
-    normalized.endsWith('ive') ||
-    normalized.endsWith('ant') ||
-    normalized.endsWith('ent') ||
-    normalized.endsWith('ique') || // magnifique, fantastique
-    normalized.endsWith('grand') || // grands, grande
-    normalized.endsWith('petit') ||
-    normalized.endsWith('bon') ||
-    normalized.endsWith('mauvais') ||
-    normalized.endsWith('beau') ||
-    normalized.endsWith('nouveau') ||
-    normalized.endsWith('vieux') ||
-    normalized.endsWith('jeune') ||
-    normalized.endsWith('long') ||
-    normalized.endsWith('court') ||
-    normalized.endsWith('haut') ||
-    normalized.endsWith('bas')
-  ) {
+  if (isAdjective(normalized)) {
     return 'adjective';
   }
-
-  // Adjetivos que terminan en 's' (plural) - verificar si es adjetivo común
-  if (normalized.endsWith('s') && normalized.length > 4) {
-    const singular = normalized.slice(0, -1);
-    if (
-      singular.endsWith('grand') ||
-      singular.endsWith('petit') ||
-      singular.endsWith('beau') ||
-      singular.endsWith('nouveau') ||
-      singular.endsWith('vieux') ||
-      singular.endsWith('jeune')
-    ) {
-      return 'adjective';
-    }
-  }
-
-  // Por defecto, asumir sustantivo si no coincide con otros patrones
-  // y tiene más de 3 caracteres
-  if (normalized.length > 3) {
+  if (isNoun(normalized)) {
     return 'noun';
   }
 

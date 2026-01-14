@@ -151,39 +151,124 @@ export abstract class BaseRepository<T extends Record<string, unknown>> {
   }
 
   /**
+   * Aplica filtros al builder
+   */
+  private applyFilters(builder: any, where?: string | null): any {
+    if (where) {
+      return applyFilter(builder, where);
+    }
+    return builder;
+  }
+
+  /**
+   * Aplica ordenamiento al builder
+   */
+  private applyOrdering(builder: any, orderBy?: OrderByOptions): any {
+    if (orderBy) {
+      return builder.order(orderBy.column, {
+        ascending: orderBy.ascending ?? true,
+      });
+    }
+    return builder;
+  }
+
+  /**
+   * Aplica paginación al builder
+   */
+  private applyPagination(builder: any, options: FindManyOptions): any {
+    // Paginación por rangos (más eficiente para Supabase)
+    if (options.from !== undefined && options.to !== undefined) {
+      return builder.range(options.from, options.to);
+    }
+    // Paginación por página
+    if (options.page !== undefined && options.pageSize !== undefined) {
+      const from = options.page * options.pageSize;
+      const to = from + options.pageSize - 1;
+      return builder.range(from, to);
+    }
+    return builder;
+  }
+
+  /**
+   * Construye el query con todas las opciones aplicadas
+   */
+  private buildQueryWithOptions(options: FindManyOptions): any {
+    let builder = this.buildQuery().select();
+
+    builder = this.applyFilters(builder, options.where);
+    builder = this.applyOrdering(builder, options.orderBy);
+    builder = this.applyPagination(builder, options);
+
+    return builder;
+  }
+
+  /**
+   * Obtiene el count total de registros
+   */
+  private async fetchCount(where?: string | null): Promise<number> {
+    const countQuery = this.buildQuery();
+    let countBuilder = countQuery.select('*', { count: 'exact', head: true });
+    countBuilder = this.applyFilters(countBuilder, where);
+
+    const countResult = await countBuilder;
+    return countResult.count ?? 0;
+  }
+
+  /**
+   * Calcula si hay más páginas disponibles
+   */
+  private calculateHasMore(
+    count: number,
+    page: number,
+    pageSize: number
+  ): boolean {
+    return (page + 1) * pageSize < count;
+  }
+
+  /**
+   * Construye el resultado exitoso
+   */
+  private buildSuccessResult(
+    data: T[],
+    options: FindManyOptions,
+    count?: number,
+    hasMore?: boolean
+  ): RepositoryListResult<T> {
+    return {
+      data: (data ?? []) as T[],
+      error: null,
+      ...(count !== undefined && { count }),
+      page: options.page ?? 0,
+      ...(options.pageSize !== undefined && { pageSize: options.pageSize }),
+      ...(hasMore !== undefined && { hasMore }),
+    };
+  }
+
+  /**
+   * Construye el resultado de error
+   */
+  private buildErrorResult(
+    error: Error,
+    options: FindManyOptions
+  ): RepositoryListResult<T> {
+    return {
+      data: [],
+      error,
+      count: 0,
+      page: options.page ?? 0,
+      ...(options.pageSize !== undefined && { pageSize: options.pageSize }),
+      hasMore: false,
+    };
+  }
+
+  /**
    * Encuentra múltiples registros
    */
   async findMany(
     options: FindManyOptions = {}
   ): Promise<RepositoryListResult<T>> {
-    const query = this.buildQuery();
-
     try {
-      let builder = query.select();
-
-      // Filtros
-      if (options.where) {
-        builder = applyFilter(builder, options.where);
-      }
-
-      // Ordenamiento
-      if (options.orderBy) {
-        builder = builder.order(options.orderBy.column, {
-          ascending: options.orderBy.ascending ?? true,
-        });
-      }
-
-      // Paginación por rangos (más eficiente para Supabase)
-      if (options.from !== undefined && options.to !== undefined) {
-        builder = builder.range(options.from, options.to);
-      }
-      // Paginación por página
-      else if (options.page !== undefined && options.pageSize !== undefined) {
-        const from = options.page * options.pageSize;
-        const to = from + options.pageSize - 1;
-        builder = builder.range(from, to);
-      }
-
+      const builder = this.buildQueryWithOptions(options);
       const data = await supabaseQueryOptional<T[]>(async () => await builder);
 
       // Obtener count total si es necesario
@@ -191,36 +276,19 @@ export abstract class BaseRepository<T extends Record<string, unknown>> {
       let hasMore: boolean | undefined;
 
       if (options.pageSize) {
-        const countQuery = this.buildQuery();
-        let countBuilder = countQuery.select('*', { count: 'exact', head: true });
-        if (options.where) {
-          countBuilder = applyFilter(countBuilder, options.where);
-        }
-
-        const countResult = await countBuilder;
-
-        count = countResult.count ?? 0;
+        count = await this.fetchCount(options.where);
         const currentPage = options.page ?? 0;
-        hasMore = (currentPage + 1) * options.pageSize < (count ?? 0);
+        hasMore = this.calculateHasMore(count, currentPage, options.pageSize);
       }
 
-      return {
-        data: (data ?? []) as T[],
-        error: null,
-        ...(count !== undefined && { count }),
-        page: options.page ?? 0,
-        ...(options.pageSize !== undefined && { pageSize: options.pageSize }),
-        ...(hasMore !== undefined && { hasMore }),
-      };
+      return this.buildSuccessResult(
+        (data ?? []) as T[],
+        options,
+        count,
+        hasMore
+      );
     } catch (error) {
-      return {
-        data: [],
-        error: error as Error,
-        count: 0,
-        page: options.page ?? 0,
-        ...(options.pageSize !== undefined && { pageSize: options.pageSize }),
-        hasMore: false,
-      };
+      return this.buildErrorResult(error as Error, options);
     }
   }
 

@@ -106,6 +106,118 @@ export function setLastSyncTime(time: string): void {
 // ============================================================
 
 /**
+ * Obtiene el estado remoto de gamificación
+ */
+async function fetchRemoteGamificationState(
+  userId: string
+): Promise<{ data: any; error: any }> {
+  if (!supabase) {
+    return { data: null, error: null };
+  }
+
+  const { data, error } = await supabase
+    .from('user_stats')
+    .select('*')
+    .eq('user_id', userId)
+    .single();
+
+  return { data, error };
+}
+
+/**
+ * Resuelve conflictos entre estado local y remoto
+ */
+function resolveGamificationConflicts(
+  localState: LocalGamificationState,
+  remoteStats: any
+): { resolvedState: Record<string, unknown>; conflicts: SyncConflict[] } {
+  const conflicts: SyncConflict[] = [];
+
+  const resolvedState = {
+    total_xp: Math.max(localState.xp, remoteStats?.total_xp || 0),
+    current_level: Math.max(localState.level, remoteStats?.current_level || 1),
+    coins: Math.max(localState.coins, remoteStats?.coins || 0),
+    gems: Math.max(localState.gems, remoteStats?.gems || 0),
+    current_streak: Math.max(localState.streak, remoteStats?.current_streak || 0),
+    longest_streak: Math.max(
+      localState.longestStreak,
+      remoteStats?.longest_streak || 0
+    ),
+    last_activity_date: localState.lastActiveDate || remoteStats?.last_activity_date,
+  };
+
+  // Detectar conflictos para logging
+  if (remoteStats) {
+    if (localState.xp !== remoteStats.total_xp) {
+      conflicts.push({
+        field: 'xp',
+        localValue: localState.xp,
+        remoteValue: remoteStats.total_xp,
+        resolvedValue: resolvedState.total_xp,
+      });
+    }
+    if (localState.streak !== remoteStats.current_streak) {
+      conflicts.push({
+        field: 'streak',
+        localValue: localState.streak,
+        remoteValue: remoteStats.current_streak,
+        resolvedValue: resolvedState.current_streak,
+      });
+    }
+  }
+
+  return { resolvedState, conflicts };
+}
+
+/**
+ * Guarda el estado resuelto en Supabase
+ */
+async function upsertGamificationState(
+  userId: string,
+  resolvedState: Record<string, unknown>
+): Promise<{ error: any }> {
+  if (!supabase) {
+    return { error: null };
+  }
+
+  const { error } = await supabase
+    .from('user_stats')
+    .upsert({
+      user_id: userId,
+      ...resolvedState,
+      updated_at: new Date().toISOString(),
+    }, {
+      onConflict: 'user_id',
+    });
+
+  return { error };
+}
+
+/**
+ * Construye resultado de sync exitoso
+ */
+function buildSyncSuccessResult(conflicts: SyncConflict[]): SyncResult {
+  const syncedAt = new Date().toISOString();
+  setLastSyncTime(syncedAt);
+
+  return {
+    success: true,
+    syncedAt,
+    ...(conflicts.length > 0 && { conflicts }),
+  };
+}
+
+/**
+ * Construye resultado de sync fallido
+ */
+function buildSyncErrorResult(error: unknown): SyncResult {
+  return {
+    success: false,
+    error: error instanceof Error ? error.message : 'Unknown error',
+  };
+}
+
+/**
  * Sincroniza el estado de gamificación con Supabase
  */
 export async function syncGamification(
@@ -113,7 +225,7 @@ export async function syncGamification(
   localState: LocalGamificationState
 ): Promise<SyncResult> {
   if (!supabase) {
-    return { success: true }; // Skip si Supabase no está configurado
+    return { success: true };
   }
 
   if (!isOnline()) {
@@ -121,80 +233,20 @@ export async function syncGamification(
   }
 
   try {
-    // Obtener estado remoto
-    const { data: remoteStats, error: fetchError } = await supabase
-      .from('user_stats')
-      .select('*')
-      .eq('user_id', userId)
-      .single();
+    const { data: remoteStats, error: fetchError } = await fetchRemoteGamificationState(userId);
 
     if (fetchError && fetchError.code !== 'PGRST116') {
       throw fetchError;
     }
 
-    const conflicts: SyncConflict[] = [];
-
-    // Resolver conflictos (estrategia: el mayor gana para XP, coins, gems, streak)
-    const resolvedState = {
-      total_xp: Math.max(localState.xp, remoteStats?.total_xp || 0),
-      current_level: Math.max(localState.level, remoteStats?.current_level || 1),
-      coins: Math.max(localState.coins, remoteStats?.coins || 0),
-      gems: Math.max(localState.gems, remoteStats?.gems || 0),
-      current_streak: Math.max(localState.streak, remoteStats?.current_streak || 0),
-      longest_streak: Math.max(
-        localState.longestStreak,
-        remoteStats?.longest_streak || 0
-      ),
-      last_activity_date: localState.lastActiveDate || remoteStats?.last_activity_date,
-    };
-
-    // Detectar conflictos para logging
-    if (remoteStats) {
-      if (localState.xp !== remoteStats.total_xp) {
-        conflicts.push({
-          field: 'xp',
-          localValue: localState.xp,
-          remoteValue: remoteStats.total_xp,
-          resolvedValue: resolvedState.total_xp,
-        });
-      }
-      if (localState.streak !== remoteStats.current_streak) {
-        conflicts.push({
-          field: 'streak',
-          localValue: localState.streak,
-          remoteValue: remoteStats.current_streak,
-          resolvedValue: resolvedState.current_streak,
-        });
-      }
-    }
-
-    // Upsert estado resuelto
-    const { error: upsertError } = await supabase
-      .from('user_stats')
-      .upsert({
-        user_id: userId,
-        ...resolvedState,
-        updated_at: new Date().toISOString(),
-      }, {
-        onConflict: 'user_id',
-      });
+    const { resolvedState, conflicts } = resolveGamificationConflicts(localState, remoteStats);
+    const { error: upsertError } = await upsertGamificationState(userId, resolvedState);
 
     if (upsertError) throw upsertError;
 
-    const syncedAt = new Date().toISOString();
-    setLastSyncTime(syncedAt);
-
-    return {
-      success: true,
-      syncedAt,
-      ...(conflicts.length > 0 && { conflicts }),
-    };
+    return buildSyncSuccessResult(conflicts);
   } catch (error) {
-    // TODO: Add proper logging service for sync errors
-    return {
-      success: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
-    };
+    return buildSyncErrorResult(error);
   }
 }
 

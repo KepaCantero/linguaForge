@@ -318,34 +318,41 @@ function detectAchievements(
 }
 
 /**
- * Genera feedback de sesión
- * @param metrics - Métricas de rendimiento de la sesión
+ * Determina el rating y mensaje basado en métricas
  */
-function generateSessionFeedback(
+function determineRatingAndMessage(
   metrics: PerformanceMetrics
-): SessionFeedback {
-  const tips: string[] = [];
-  const nextSteps: string[] = [];
-  let rating: SessionFeedback['rating'];
-  let message: string;
-  let cognitiveInsight: string;
-
-  // Determinar rating
+): { rating: SessionFeedback['rating']; message: string } {
   if (metrics.accuracy >= 0.9 && metrics.exercisesCompleted >= 10) {
-    rating = 'excellent';
-    message = '¡Sesión excepcional! Estás dominando el material.';
-  } else if (metrics.accuracy >= 0.75 || metrics.exercisesCompleted >= 15) {
-    rating = 'good';
-    message = 'Buen trabajo. Estás progresando consistentemente.';
-  } else if (metrics.accuracy >= 0.6 || metrics.exercisesCompleted >= 5) {
-    rating = 'fair';
-    message = 'Sesión completada. Hay espacio para mejorar.';
-  } else {
-    rating = 'needs_improvement';
-    message = 'Cada sesión cuenta. Intenta mantener el ritmo.';
+    return {
+      rating: 'excellent',
+      message: '¡Sesión excepcional! Estás dominando el material.',
+    };
   }
+  if (metrics.accuracy >= 0.75 || metrics.exercisesCompleted >= 15) {
+    return {
+      rating: 'good',
+      message: 'Buen trabajo. Estás progresando consistentemente.',
+    };
+  }
+  if (metrics.accuracy >= 0.6 || metrics.exercisesCompleted >= 5) {
+    return {
+      rating: 'fair',
+      message: 'Sesión completada. Hay espacio para mejorar.',
+    };
+  }
+  return {
+    rating: 'needs_improvement',
+    message: 'Cada sesión cuenta. Intenta mantener el ritmo.',
+  };
+}
 
-  // Tips basados en rendimiento
+/**
+ * Genera tips basados en rendimiento
+ */
+function generatePerformanceTips(metrics: PerformanceMetrics): string[] {
+  const tips: string[] = [];
+
   if (metrics.accuracy < 0.7) {
     tips.push('Intenta ir más despacio y leer bien cada pregunta');
   }
@@ -359,7 +366,15 @@ function generateSessionFeedback(
     tips.push('Tu entorno tiene muchas distracciones. Busca un lugar tranquilo');
   }
 
-  // Próximos pasos
+  return tips;
+}
+
+/**
+ * Genera próximos pasos basados en rendimiento
+ */
+function generateNextSteps(metrics: PerformanceMetrics): string[] {
+  const nextSteps: string[] = [];
+
   if (metrics.exercisesCompleted < 10) {
     nextSteps.push('Completa al menos 10 ejercicios por sesión');
   }
@@ -368,16 +383,36 @@ function generateSessionFeedback(
   }
   nextSteps.push('Revisa las palabras que fallaste en el SRS');
 
-  // Insight cognitivo
-  if (metrics.cognitiveLoad.germane >= 60) {
-    cognitiveInsight = 'Tu cerebro está procesando el contenido profundamente. ¡Excelente retención esperada!';
-  } else if (metrics.cognitiveLoad.intrinsic > 70) {
-    cognitiveInsight = 'El contenido fue desafiante. Considera repasar antes de continuar.';
-  } else if (metrics.cognitiveLoad.extraneous > 50) {
-    cognitiveInsight = 'Hubo muchas distracciones. El modo Focus puede ayudarte.';
-  } else {
-    cognitiveInsight = 'Buen balance cognitivo durante la sesión.';
+  return nextSteps;
+}
+
+/**
+ * Genera insight cognitivo basado en carga cognitiva
+ */
+function generateCognitiveInsight(load: CognitiveLoadMetrics): string {
+  if (load.germane >= 60) {
+    return 'Tu cerebro está procesando el contenido profundamente. ¡Excelente retención esperada!';
   }
+  if (load.intrinsic > 70) {
+    return 'El contenido fue desafiante. Considera repasar antes de continuar.';
+  }
+  if (load.extraneous > 50) {
+    return 'Hubo muchas distracciones. El modo Focus puede ayudarte.';
+  }
+  return 'Buen balance cognitivo durante la sesión.';
+}
+
+/**
+ * Genera feedback de sesión
+ * @param metrics - Métricas de rendimiento de la sesión
+ */
+function generateSessionFeedback(
+  metrics: PerformanceMetrics
+): SessionFeedback {
+  const { rating, message } = determineRatingAndMessage(metrics);
+  const tips = generatePerformanceTips(metrics);
+  const nextSteps = generateNextSteps(metrics);
+  const cognitiveInsight = generateCognitiveInsight(metrics.cognitiveLoad);
 
   return {
     rating,

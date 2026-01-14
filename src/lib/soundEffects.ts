@@ -455,6 +455,25 @@ function playWhooshSound(audioContext: AudioContext, masterGain: GainNode): void
 }
 
 // ============================================
+// SOUND PLAYER STRATEGY
+// ============================================
+
+type SoundPlayer = (audioContext: AudioContext, masterGain: GainNode) => void;
+
+const SOUND_PLAYERS: Record<SoundId, SoundPlayer> = {
+  correct: playCorrectSound,
+  incorrect: playIncorrectSound,
+  levelUp: playLevelUpSound,
+  xpGain: playXPGainSound,
+  streak: playStreakSound,
+  click: playClickSound,
+  flip: playFlipSound,
+  complete: playCompleteSound,
+  notification: playNotificationSound,
+  whoosh: playWhooshSound,
+};
+
+// ============================================
 // SOUND EFFECTS CLASS
 // ============================================
 
@@ -517,45 +536,27 @@ class SoundEffectsManager {
   }
 
   /**
+   * Verifica si el sistema está listo para reproducir sonidos
+   */
+  private isReady(): boolean {
+    return this.enabled &&
+           this.audioContext !== null &&
+           this.masterGain !== null &&
+           this.initialized;
+  }
+
+  /**
    * Reproduce un efecto de sonido
    */
   play(soundId: SoundId): void {
-    if (!this.enabled || !this.audioContext || !this.masterGain || !this.initialized) {
+    if (!this.isReady()) {
       return;
     }
 
     try {
-      switch (soundId) {
-        case 'correct':
-          playCorrectSound(this.audioContext, this.masterGain);
-          break;
-        case 'incorrect':
-          playIncorrectSound(this.audioContext, this.masterGain);
-          break;
-        case 'levelUp':
-          playLevelUpSound(this.audioContext, this.masterGain);
-          break;
-        case 'xpGain':
-          playXPGainSound(this.audioContext, this.masterGain);
-          break;
-        case 'streak':
-          playStreakSound(this.audioContext, this.masterGain);
-          break;
-        case 'click':
-          playClickSound(this.audioContext, this.masterGain);
-          break;
-        case 'flip':
-          playFlipSound(this.audioContext, this.masterGain);
-          break;
-        case 'complete':
-          playCompleteSound(this.audioContext, this.masterGain);
-          break;
-        case 'notification':
-          playNotificationSound(this.audioContext, this.masterGain);
-          break;
-        case 'whoosh':
-          playWhooshSound(this.audioContext, this.masterGain);
-          break;
+      const player = SOUND_PLAYERS[soundId];
+      if (player && this.audioContext && this.masterGain) {
+        player(this.audioContext, this.masterGain);
       }
     } catch {
     }
