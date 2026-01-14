@@ -2,7 +2,7 @@
 
 import { useRef, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import type { InteractiveSpeech, SpeechRecordingResult } from '@/types';
+import type { InteractiveSpeech, SpeechRecordingResult, InteractiveSpeechResult } from '@/types';
 import { useGamificationStore } from '@/store/useGamificationStore';
 import { useInteractiveSpeechFlow } from './hooks/useInteractiveSpeechFlow';
 import { SystemSpeakPhase } from './interactive/SystemSpeakPhase';
@@ -11,7 +11,7 @@ import { CompletePhase } from './interactive/CompletePhase';
 
 interface InteractiveSpeechExerciseProps {
   exercise: InteractiveSpeech;
-  onComplete: (result: any) => void;
+  onComplete: (result: InteractiveSpeechResult) => void;
   onSkip?: () => void;
   className?: string;
 }

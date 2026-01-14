@@ -8,40 +8,290 @@
 ║                                                                      ║
 ╚══════════════════════════════════════════════════════════════════════╝
 [0m
-2026-01-13 07:19:58
+2026-01-14 08:20:15
 
 [0;34m🔍 Ejecutando análisis estático...[0m
        → TypeScript strict check...
 [0;32m✅ TypeScript: OK (strict mode)[0m
        → ESLint analysis...
-[0;31m❌ ESLint falló con errores críticos[0m
+[0;32m✅ ESLint: OK (0
+0 errores, 188 warnings) [0m
+       → Security audit...
+[1;33m⚠️  Vulnerabilidades de seguridad detectadas (revisar .quality-temp/audit.log)[0m
 
-/Users/kepa.cantero/Projects/lingua-forge/src/lib/validators.ts
-  451:5  warning  'context' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+[0;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+[0;35m  👃 DETECCIÓN DE CODE SMELLS[0m
+[0;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
 
-/Users/kepa.cantero/Projects/lingua-forge/src/services/postCognitiveRewards.ts
-  324:1  warning  Function 'generateSessionFeedback' has a complexity of 16. Maximum allowed is 15  complexity
+[0;34m🔍 Buscando uso de 'any' no justificado...[0m
+[0;31m❌ Uso de 'any' detectado:[0m
+src/components/learn/CourseMap.tsx:84:  nodeTranslations: any;
+src/components/learn/CourseMap.tsx:89:function prepareNodeData(node: typeof GUIDED_NODES[number], progress: NodeProgress[], t: any): NodeRenderData {
+src/components/exercises/hooks/useInteractiveSpeechFlow.ts:18:  onComplete: (result: any) => void;
+src/components/exercises/InteractiveSpeechExercise.tsx:14:  onComplete: (result: any) => void;
+src/lib/services/progressService.ts:106:  existingProgress: any,
+src/services/repository/baseRepository.ts:156:  private applyFilters(builder: any, where?: string | null): any {
+src/services/repository/baseRepository.ts:166:  private applyOrdering(builder: any, orderBy?: OrderByOptions): any {
+src/services/repository/baseRepository.ts:178:  private applyPagination(builder: any, options: FindManyOptions): any {
+src/services/repository/baseRepository.ts:195:  private buildQueryWithOptions(options: FindManyOptions): any {
+src/services/syncService.ts:113:): Promise<{ data: any; error: any }> {
+src/services/syncService.ts:132:  remoteStats: any
+src/services/syncService.ts:178:): Promise<{ error: any }> {
 
-/Users/kepa.cantero/Projects/lingua-forge/src/services/repository/baseRepository.ts
-  156:17  warning  Async method 'findMany' has a complexity of 21. Maximum allowed is 15  complexity
+[0;34m🔍 Buscando @ts-ignore/@ts-nocheck...[0m
+[0;32m✅ Sin @ts-ignore/@ts-nocheck[0m
 
-/Users/kepa.cantero/Projects/lingua-forge/src/services/speechService.ts
-  119:1  warning  Function 'handleSpeechSegment' has too many parameters (6). Maximum allowed is 5  max-params
+[0;34m🔍 Buscando console.log en código de producción...[0m
+[0;32m✅ Sin console.log en producción[0m
 
-/Users/kepa.cantero/Projects/lingua-forge/src/services/syncService.ts
-  111:8  warning  Async function 'syncGamification' has a complexity of 19. Maximum allowed is 15  complexity
+[0;34m🔍 Buscando funciones peligrosas (eval, Function)...[0m
+[0;32m✅ Sin funciones peligrosas[0m
 
-/Users/kepa.cantero/Projects/lingua-forge/src/services/wordExtractor.ts
-  30:8  warning  Function 'detectWordType' has a complexity of 39. Maximum allowed is 15  complexity
+[0;34m🔍 Buscando innerHTML (riesgo XSS)...[0m
+[1;33m⚠️  Uso de innerHTML detectado (riesgo XSS):[0m
+src/app/layout.tsx:106:        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
 
-/Users/kepa.cantero/Projects/lingua-forge/src/store/useCognitiveLoadStore.ts
-  132:5   warning  Arrow function has too many lines (207). Maximum allowed is 120           max-lines-per-function
-  139:36  warning  'reason' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
-  149:37  warning  'reason' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
-  165:34  warning  'reason' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
-  221:15  warning  'duration' is assigned a value but never used                             @typescript-eslint/no-unused-vars
-  265:15  warning  'duration' is assigned a value but never used                             @typescript-eslint/no-unused-vars
-  266:15  warning  'accuracy' is assigned a value but never used                             @typescript-eslint/no-unused-vars
+[0;34m🔍 Buscando TODO/FIXME sin referencia...[0m
+[1;33m⚠️  TODO/FIXME sin referencia de issue:[0m
+src/app/api/youtube/transcript/route.ts:73:    // TODO: Add proper logging service for API errors
+src/components/ui/ErrorBoundary.tsx:34:    // TODO: Implementar integración con servicio de error tracking
+src/components/transcript/WordSelector.tsx:214:      // TODO: Add proper logging service for card creation errors
+src/components/transcript/PhraseSelectionPanel.tsx:237:        // TODO: Add proper logging service for translation errors
+src/components/transcript/PhraseSelectionPanel.tsx:318:      // TODO: Add proper logging service for card creation errors
+... (25 más)
 
-✖ 161 problems (1 error, 160 warnings)
+[0;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+[0;35m  📋 DUPLICACIÓN DE CÓDIGO[0m
+[0;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
 
+[0;34m🔍 Buscando componentes potencialmente duplicados...[0m
+[1;33m⚠️  Componentes con nombres duplicados:[0m
+CompletePhase.tsx
+PreviewPhase.tsx
+ThemeToggle.tsx
+WelcomeModal.tsx
+
+[0;34m🔍 Buscando hooks personalizados duplicados...[0m
+[0;32m✅ Sin hooks duplicados[0m
+
+[0;34m🔍 Buscando stores Zustand duplicados...[0m
+[0;32m✅ Sin stores duplicados[0m
+
+[0;34m🔍 Buscando archivos con código muy similar...[0m
+[1;33m⚠️  Código duplicado detectado:[0m
+No .js .jsx files found in the list of paths
+
+[0;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+[0;35m  🧬 COMPLEJIDAD Y DISEÑO[0m
+[0;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+
+[0;34m🔍 Buscando archivos demasiado largos (> 800 líneas)...[0m
+[1;33m⚠️  Archivos largos detectados (considerar dividir):[0m
+src/schemas/content.ts: 852 líneas
+src/lib/progression/construction.ts: 1245 líneas
+src/lib/sound/construction.ts: 1581 líneas
+src/lib/animations/construction.ts: 983 líneas
+src/services/conjugationService.ts: 883 líneas
+total: 74144 líneas
+
+[0;34m🔍 Analizando tamaño de funciones...[0m
+[1;33m⚠️  Funciones largas detectadas:[0m
+/Users/kepa.cantero/Projects/lingua-forge/src/app/import/components/YouTubeContentStep.tsx: line 16, col 8, Error - Function 'YouTubeContentStep' has too many lines (132). Maximum allowed is 80. (max-lines-per-function)
+/Users/kepa.cantero/Projects/lingua-forge/src/app/import/hooks/useImportFlow.ts: line 19, col 8, Error - Function 'useImportFlow' has too many lines (121). Maximum allowed is 80. (max-lines-per-function)
+/Users/kepa.cantero/Projects/lingua-forge/src/app/import/page.tsx: line 13, col 1, Error - Function 'ImportPageContent' has too many lines (83). Maximum allowed is 80. (max-lines-per-function)
+/Users/kepa.cantero/Projects/lingua-forge/src/app/input/audio/components/AudioInputSection.tsx: line 20, col 8, Error - Function 'AudioInputSection' has too many lines (187). Maximum allowed is 80. (max-lines-per-function)
+/Users/kepa.cantero/Projects/lingua-forge/src/app/input/audio/components/AudioOrbitalHUD.tsx: line 10, col 8, Error - Function 'AudioOrbitalHUD' has too many lines (117). Maximum allowed is 80. (max-lines-per-function)
+
+[0;34m🔍 Analizando complejidad ciclomática...[0m
+[0;32m✅ Complejidad dentro del límite[0m
+
+[0;34m🔍 Analizando profundidad de anidamiento...[0m
+[0;32m✅ Profundidad de anidamiento OK[0m
+
+[0;34m🔍 Analizando número de parámetros...[0m
+[0;32m✅ Número de parámetros OK[0m
+
+[0;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+[0;35m  ⚛️  COMPONENTS REACT[0m
+[0;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+
+[0;34m🔍 Analizando componentes con muchos props...[0m
+[0;32m✅ Componentes con número razonable de props[0m
+
+[0;34m🔍 Buscando componentes con demasiados hooks...[0m
+[1;33m⚠️  Componentes con muchos hooks (considerar custom hook):[0m
+src/components/auth/LoginForm.tsx: 12 hooks
+src/components/construction/BuilderInventory.tsx: 25 hooks
+src/components/construction/Construction3D.tsx: 15 hooks
+src/components/construction/ConstructionMilestones.tsx: 11 hooks
+src/components/construction/MaterialGallery.tsx: 16 hooks
+src/components/exercises/BlockBuilderExercise.tsx: 13 hooks
+src/components/exercises/ClozeExercise/index.tsx: 11 hooks
+src/components/exercises/ConversationalEchoExercise.tsx: 19 hooks
+src/components/exercises/DialogueIntonationExercise.tsx: 19 hooks
+src/components/exercises/JanusComposerExercise.tsx: 27 hooks
+src/components/exercises/MemoryBank/EpisodicCard.tsx: 15 hooks
+src/components/exercises/MiniTaskExercise.tsx: 17 hooks
+src/components/exercises/PragmaStrikeExercise.tsx: 14 hooks
+src/components/exercises/ShadowingExercise.tsx: 15 hooks
+src/components/exercises/VariationsExercise.tsx: 15 hooks
+src/components/focus/FocusMode.tsx: 16 hooks
+src/components/help/HelpButton.tsx: 13 hooks
+src/components/help/KeyboardShortcuts.tsx: 11 hooks
+src/components/input/YouTubePlayer.tsx: 11 hooks
+src/components/learn/InfiniteCourseMap.tsx: 13 hooks
+src/components/learn/LessonPlayer.tsx: 16 hooks
+src/components/missions/MissionFeed.tsx: 22 hooks
+src/components/onboarding/WelcomeModal.tsx: 19 hooks
+src/components/shared/MicroInteractions.tsx: 18 hooks
+src/components/shared/SpeechRecorder.tsx: 19 hooks
+src/components/srs/SwipeableSRSCard.tsx: 16 hooks
+src/components/transcript/PhraseSelectionPanel.tsx: 21 hooks
+src/components/transcript/TranscriptSelector.tsx: 11 hooks
+src/components/transcript/WordSelector.tsx: 15 hooks
+src/components/tutorial/TutorialProvider.tsx: 16 hooks
+src/components/visualization/SynapticDensity.tsx: 12 hooks
+src/components/warmups/RhythmSequenceWarmup.tsx: 20 hooks
+src/components/warmups/VisualMatchWarmup.tsx: 14 hooks
+
+[0;34m🔍 Buscando efectos secundarios en render...[0m
+[0;32m✅ Sin efectos secundarios problemáticos detectados[0m
+
+[0;34m🔍 Verificando keys en listas...[0m
+[1;33m⚠️  Posibles lists sin key prop:[0m
+src/components/visualization/ColorPaletteSystem.tsx:176:      {(Object.keys(COLOR_PALETTES) as ColorPalette[]).map((palette) => (
+src/components/visualization/ColorPaletteSystem.tsx-177-        <PaletteButton
+--
+src/components/visualization/ColorPaletteSystem.tsx:311:        {Object.entries(theme.colors).map(([key, value]) => (
+src/components/visualization/ColorPaletteSystem.tsx-313-            <div
+
+[0;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+[0;35m  🏗️  ARQUITECTURA Y PATRONES[0m
+[0;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+
+[0;34m🔍 Verificando aislamiento de capa de datos...[0m
+[0;32m✅ Arquitectura de datos respetada[0m
+
+[0;34m🔍 Verificando separación de concerns...[0m
+[1;33m⚠️  Posible lógica de negocio en componentes:[0m
+src/components/input/YouTubePlayer.tsx:31:    tag.src = 'https://www.youtube.com/iframe_api';
+src/components/input/YouTubePlayer.tsx:115:          enablejsapi: 1,
+src/components/construction/BuilderInventory.tsx:192:      <p className="text-xs text-calm-text-muted capitalize">
+src/components/construction/BuilderInventory.tsx:547:        <p className="text-sm text-calm-text-muted capitalize">{RARITY_LABELS[material.rarity]} • {material.texture}</p>
+src/components/construction/BuilderInventory.tsx:578:          <p className="text-sm text-calm-text-muted capitalize">{element.type} • Nivel {element.unlockLevel}</p>
+
+[0;34m🔍 Buscando archivos potencialmente no usados...[0m
+[1;33m⚠️  ts-prune no instalado - omitiendo detección de archivos muertos[0m
+
+[0;34m🔍 Buscando dependencias circulares...[0m
+[0;31m❌ Dependencias circulares detectadas:[0m
+npm warn Unknown user config "email". This will stop working in the next major version of npm.
+npm warn Unknown user config "always-auth". This will stop working in the next major version of npm.
+- Finding files
+✖ Found 1 circular dependency!
+
+
+[0;34m🔍 Validando reglas arquitectónicas (dependency-cruiser)...[0m
+[0;32m✅ Reglas arquitectónicas respetadas[0m
+
+[0;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+[0;35m  🔒 SEGURIDAD Y SECRETOS[0m
+[0;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+
+[0;34m🔍 Escaneando posibles secretos expuestos...[0m
+[0;32m✅ Sin secretos expuestos[0m
+
+[0;34m🔍 Verificando archivos .env...[0m
+[1;33m⚠️  Archivos .env sensibles detectados (asegurar que están en .gitignore)[0m
+
+[0;34m🔍 Escaneando secretos con gitleaks...[0m
+[1;33m⚠️  Gitleaks no está instalado, omitiendo escaneo de secretos[0m
+
+[0;34m🔍 Buscando archivos sin tests...[0m
+       Archivos testeables: [0;36m     247[0m
+       Archivos de tests: [0;36m       0[0m
+[1;33m⚠️  Baja cobertura de archivos con tests[0m
+
+[0;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+[0;35m  ⚡ PERFORMANCE Y BUNDLE SIZE[0m
+[0;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+
+[0;34m🔍 Ejecutando build de producción...[0m
+[0;32m✅ Build de producción OK[0m
+       Páginas generadas: [0;36m20[0m
+
+[0;34m🔍 Analizando tamaño de páginas...[0m
+[0;32m✅ Análisis de bundle disponible (ejecutar 'ANALYZE=true npm run build' para detalles)[0m
+
+[0;34m🔍 Verificando límites de tamaño del bundle...[0m
+[1;33m⚠️  Bundle excede límites configurados:[0m
+npm warn Unknown user config "email". This will stop working in the next major version of npm.
+npm warn Unknown user config "always-auth". This will stop working in the next major version of npm.
+- Running JS in headless Chrome
+✔ Running JS in headless Chrome
+  
+  Initial JS bundle
+  Package size limit has exceeded by 446.55 kB
+  Size limit:   300 kB
+  Size:         746.54 kB brotlied
+  Loading time: 14.6 s    on slow 3G
+  Running time: 1.2 s     on Snapdragon 410
+  Total time:   15.8 s
+  
+  Main app page
+  Size limit:   100 kB
+  Size:         179 B  brotlied
+  Loading time: 10 ms  on slow 3G
+  Running time: 9 ms   on Snapdragon 410
+  Total time:   19 ms
+  
+  Framework chunks
+  Size limit:   80 kB
+  Size:         39.05 kB brotlied
+  Loading time: 763 ms   on slow 3G
+  Running time: 18 ms    on Snapdragon 410
+  Total time:   781 ms
+  
+  Try to reduce size or increase limit in "size-limit" section of package.json
+
+[0;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+[0;35m  📐 CONSISTENCIA Y ESTILO[0m
+[0;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+
+[0;34m🔍 Verificando convenciones de命名...[0m
+[0;32m✅ Convención de interfaces OK[0m
+
+[0;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+[0;35m  📊 REPORTE FINAL DE CALIDAD[0m
+[0;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+
+[0;36m═══════════════════════════════════════════════════════════════[0m
+[0;36m                      RESUMEN DE AUDITORÍA                        [0m
+[0;36m═══════════════════════════════════════════════════════════════[0m
+
+       [0;31m❌ ESTADO: REQUIERE ATENCIÓN - 2 errores, 15 advertencias[0m
+
+[0;36mMétricas:[0m
+       • Total de problemas: 13
+       • Errores críticos:   [0;31m2[0m
+       • Advertencias:      [1;33m15[0m
+
+[0;36mCategorías auditadas:[0m
+       ✓ Code Smells (any, ts-ignore, console.log)
+       ✓ Duplicación de código
+       ✓ Complejidad y diseño
+       ✓ Componentes React
+       ✓ Arquitectura y patrones
+       ✓ Dependencias circulares (madge)
+       ✓ Reglas arquitectónicas (dependency-cruiser)
+       ✓ Seguridad y secretos
+       ✓ Escaneo avanzado de secretos (gitleaks)
+       ✓ Tests y cobertura
+       ✓ Performance y bundle
+       ✓ Control de tamaño (size-limit)
+       ✓ Consistencia y estilo
+
+[0;36m═══════════════════════════════════════════════════════════════[0m
+
+[0;31m❌ QUALITY GATE FALLADO[0m
+[0;31m   Corrige los 2 errores críticos antes de continuar[0m

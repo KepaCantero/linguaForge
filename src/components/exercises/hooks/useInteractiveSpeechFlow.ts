@@ -4,7 +4,7 @@
  */
 
 import { useState, useCallback, useEffect, useRef, useMemo } from 'react';
-import type { InteractiveSpeech, SpeechTurnResult, SpeechRecordingResult } from '@/types';
+import type { InteractiveSpeech, SpeechTurnResult, SpeechRecordingResult, InteractiveSpeechResult } from '@/types';
 import {
   calculateFluencyScore,
   createSpeechTurnResult,
@@ -15,7 +15,7 @@ type Phase = 'system_speak' | 'waiting_response' | 'recording' | 'feedback' | 'c
 
 interface UseInteractiveSpeechFlowProps {
   exercise: InteractiveSpeech;
-  onComplete: (result: any) => void;
+  onComplete: (result: InteractiveSpeechResult) => void;
 }
 
 export function useInteractiveSpeechFlow({ exercise, onComplete }: UseInteractiveSpeechFlowProps) {

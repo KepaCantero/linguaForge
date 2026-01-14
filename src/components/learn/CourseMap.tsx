@@ -81,12 +81,15 @@ function getNodeIconStyles(isLocked: boolean, isCompleted: boolean, colors: type
 interface NodeRenderData {
   nodeProgress: NodeProgress;
   colors: typeof colorClasses[string];
-  nodeTranslations: any;
+  nodeTranslations: {
+    title: string;
+    description: string;
+  };
   isCompleted: boolean;
   isActive: boolean;
 }
 
-function prepareNodeData(node: typeof GUIDED_NODES[number], progress: NodeProgress[], t: any): NodeRenderData {
+function prepareNodeData(node: typeof GUIDED_NODES[number], progress: NodeProgress[], t: TranslationKeys): NodeRenderData {
   const nodeProgress = progress.find((p) => p.nodeId === node.id) || {
     nodeId: node.id,
     completed: 0,

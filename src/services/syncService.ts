@@ -5,6 +5,7 @@
  */
 
 import { createClient } from '@/lib/supabase/client';
+import type { UserStats, LessonProgress } from '@/schemas/supabase';
 
 const supabase = createClient();
 
@@ -110,7 +111,7 @@ export function setLastSyncTime(time: string): void {
  */
 async function fetchRemoteGamificationState(
   userId: string
-): Promise<{ data: any; error: any }> {
+): Promise<{ data: UserStats | null; error: Error | null }> {
   if (!supabase) {
     return { data: null, error: null };
   }
@@ -129,31 +130,31 @@ async function fetchRemoteGamificationState(
  */
 function resolveGamificationConflicts(
   localState: LocalGamificationState,
-  remoteStats: any
+  remoteStats: UserStats | null
 ): { resolvedState: Record<string, unknown>; conflicts: SyncConflict[] } {
   const conflicts: SyncConflict[] = [];
 
   const resolvedState = {
-    total_xp: Math.max(localState.xp, remoteStats?.total_xp || 0),
-    current_level: Math.max(localState.level, remoteStats?.current_level || 1),
-    coins: Math.max(localState.coins, remoteStats?.coins || 0),
-    gems: Math.max(localState.gems, remoteStats?.gems || 0),
+    total_xp_earned: Math.max(localState.xp, remoteStats?.total_xp_earned || 0),
+    level: Math.max(localState.level, remoteStats?.level || 1),
+    total_coins_earned: Math.max(localState.coins, remoteStats?.total_coins_earned || 0),
+    total_gems_earned: Math.max(localState.gems, remoteStats?.total_gems_earned || 0),
     current_streak: Math.max(localState.streak, remoteStats?.current_streak || 0),
     longest_streak: Math.max(
       localState.longestStreak,
       remoteStats?.longest_streak || 0
     ),
-    last_activity_date: localState.lastActiveDate || remoteStats?.last_activity_date,
+    updated_at: localState.lastActiveDate || new Date().toISOString(),
   };
 
   // Detectar conflictos para logging
   if (remoteStats) {
-    if (localState.xp !== remoteStats.total_xp) {
+    if (localState.xp !== remoteStats.total_xp_earned) {
       conflicts.push({
         field: 'xp',
         localValue: localState.xp,
-        remoteValue: remoteStats.total_xp,
-        resolvedValue: resolvedState.total_xp,
+        remoteValue: remoteStats.total_xp_earned,
+        resolvedValue: resolvedState.total_xp_earned,
       });
     }
     if (localState.streak !== remoteStats.current_streak) {
@@ -175,7 +176,7 @@ function resolveGamificationConflicts(
 async function upsertGamificationState(
   userId: string,
   resolvedState: Record<string, unknown>
-): Promise<{ error: any }> {
+): Promise<{ error: Error | null }> {
   if (!supabase) {
     return { error: null };
   }
@@ -190,7 +191,7 @@ async function upsertGamificationState(
       onConflict: 'user_id',
     });
 
-  return { error };
+  return { error: error || null };
 }
 
 /**
@@ -235,7 +236,7 @@ export async function syncGamification(
   try {
     const { data: remoteStats, error: fetchError } = await fetchRemoteGamificationState(userId);
 
-    if (fetchError && fetchError.code !== 'PGRST116') {
+    if (fetchError && 'code' in fetchError && fetchError.code !== 'PGRST116') {
       throw fetchError;
     }
 

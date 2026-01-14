@@ -103,7 +103,7 @@ function createNewProgress(
 }
 
 function updateExistingProgress(
-  existingProgress: any,
+  existingProgress: LessonProgress,
   exerciseId: string,
   isCorrect: boolean
 ): LessonProgress {
