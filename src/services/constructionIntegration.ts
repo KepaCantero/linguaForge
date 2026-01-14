@@ -42,7 +42,7 @@ export interface TopicToMaterialMapping {
   topicType: string;
   materials: {
     materialId: string;
-    dropRate: number; // 0-1
+    dropRate: number;
     baseAmount: number;
     maxAmount: number;
   }[];
@@ -69,7 +69,6 @@ export interface ConstructionSession {
 // CONSTANTES DE CONFIGURACIÓN
 // ============================================
 
-// Multiplicadores de rareza para recompensas
 const RARITY_MULTIPLIERS: Record<MaterialRarity, number> = {
   common: 1.0,
   uncommon: 1.5,
@@ -78,7 +77,6 @@ const RARITY_MULTIPLIERS: Record<MaterialRarity, number> = {
   legendary: 8.0,
 };
 
-// Tasas de drop por rareza
 const RARITY_DROP_RATES: Record<MaterialRarity, number> = {
   common: 0.6,
   uncommon: 0.25,
@@ -87,7 +85,6 @@ const RARITY_DROP_RATES: Record<MaterialRarity, number> = {
   legendary: 0.01,
 };
 
-// Bonificaciones por racha
 const STREAK_BONUSES = [
   { days: 3, xpMultiplier: 1.1, materialBonus: 0.1 },
   { days: 7, xpMultiplier: 1.25, materialBonus: 0.2 },
@@ -95,7 +92,6 @@ const STREAK_BONUSES = [
   { days: 30, xpMultiplier: 2.0, materialBonus: 0.5 },
 ];
 
-// Mapeo de tipos de contenido a materiales
 const TOPIC_MATERIAL_MAPPING: TopicToMaterialMapping[] = [
   {
     topicType: 'vocabulary',
@@ -172,33 +168,27 @@ export function calculateTopicRewards(
     achievements: [],
   };
 
-  // XP base por nivel
   const baseXP = 20 + userLevel * 5;
   rewards.xp = baseXP;
-
-  // Coins base
   rewards.coins = Math.round(baseXP * 0.5);
 
-  // Calcular materiales
   const mapping = TOPIC_MATERIAL_MAPPING.find((m) => m.topicType === topicType);
   if (mapping) {
     rewards.materials = calculateMaterialDrops(mapping, userLevel, accuracy);
   }
 
-  // Aplicar bonificaciones
   const bonuses = calculateBonuses(streakDays, accuracy, timeBonus);
   rewards.bonuses = bonuses;
 
-  // Aplicar multiplicadores de bonificación
   const totalMultiplier = bonuses.reduce((mult, b) => mult * b.multiplier, 1);
   rewards.xp = Math.round(rewards.xp * totalMultiplier);
   rewards.coins = Math.round(rewards.coins * totalMultiplier);
 
-  // Gems por precisión perfecta o racha larga
   if (accuracy === 100) {
     rewards.gems = 1;
     rewards.achievements.push('perfect_accuracy');
   }
+  
   if (streakDays >= 7) {
     rewards.gems += Math.floor(streakDays / 7);
   }
@@ -228,7 +218,6 @@ function calculateMaterialDrops(
         mat.baseAmount + Math.floor(Math.random() * (mat.maxAmount - mat.baseAmount + 1))
       );
 
-      // Verificar si es drop bonus (roll muy bajo)
       const isBonus = roll < adjustedDropRate * 0.2;
 
       drops.push({
@@ -252,7 +241,6 @@ function calculateBonuses(
 ): BonusReward[] {
   const bonuses: BonusReward[] = [];
 
-  // Bonus por racha
   for (let i = STREAK_BONUSES.length - 1; i >= 0; i--) {
     if (streakDays >= STREAK_BONUSES[i].days) {
       bonuses.push({
@@ -264,7 +252,6 @@ function calculateBonuses(
     }
   }
 
-  // Bonus por precisión perfecta
   if (accuracy === 100) {
     bonuses.push({
       type: 'perfect',
@@ -273,7 +260,6 @@ function calculateBonuses(
     });
   }
 
-  // Bonus por velocidad
   if (timeBonus) {
     bonuses.push({
       type: 'speed',
@@ -307,12 +293,10 @@ export function calculateBuildRewards(
     achievements: [],
   };
 
-  // Bonus por nivel
   const levelMultiplier = 1 + (userLevel - 1) * 0.05;
   rewards.xp = Math.round(rewards.xp * levelMultiplier);
   rewards.coins = Math.round(rewards.coins * levelMultiplier);
 
-  // Bonus por racha
   const streakBonus = STREAK_BONUSES.find((b) => streakDays >= b.days);
   if (streakBonus) {
     rewards.bonuses.push({
@@ -323,7 +307,6 @@ export function calculateBuildRewards(
     rewards.xp = Math.round(rewards.xp * streakBonus.xpMultiplier);
   }
 
-  // Gems por elementos raros
   const rarity = getMaterialRarityFromElement(element);
   if (rarity === 'epic' || rarity === 'legendary') {
     rewards.gems = rarity === 'legendary' ? 5 : 2;
@@ -370,7 +353,7 @@ export function calculateBuildCost(elementId: string): {
     return {
       materialId: req.materialId,
       amount: req.amount,
-      available: false, // Se verificará con el store
+      available: false,
     };
   });
 
@@ -378,7 +361,7 @@ export function calculateBuildCost(elementId: string): {
     materials,
     totalXPCost,
     totalCoinCost,
-    canBuild: true, // Se verificará con el store
+    canBuild: true,
   };
 }
 
@@ -395,7 +378,6 @@ export function canUnlockElement(
     return { canUnlock: false, reason: 'Elemento no encontrado' };
   }
 
-  // Verificar nivel
   if (userLevel < element.unlockLevel) {
     return {
       canUnlock: false,
@@ -403,7 +385,6 @@ export function canUnlockElement(
     };
   }
 
-  // Verificar temas completados (estimación: 5 temas por nivel)
   const requiredTopics = element.unlockLevel * 5;
   if (topicsCompleted < requiredTopics) {
     return {
@@ -530,32 +511,75 @@ export function calculateCollectionValue(
   return { totalXPValue, totalCoinValue, rarityBreakdown };
 }
 
+// ============================================
+// FUNCIONES DE DETERMINACIÓN DE RARIDAD
+// ============================================
+
+interface RarityThresholds {
+  legendary?: number;
+  epic?: number;
+  rare?: number;
+  uncommon?: number;
+}
+
+// Helper: Obtener umbrales para tipo de evento
+function getRarityThresholds(eventType: 'daily' | 'weekly' | 'special'): RarityThresholds {
+  if (eventType === 'special') {
+    return { legendary: 0.1, epic: 0.3, rare: 0.6 };
+  }
+  
+  if (eventType === 'weekly') {
+    return { epic: 0.05, rare: 0.2, uncommon: 0.5 };
+  }
+  
+  return { rare: 0.1, uncommon: 0.35 };
+}
+
+// Helper: Determinar rareza para evento especial
+function determineSpecialRarity(roll: number): MaterialRarity {
+  const thresholds = getRarityThresholds('special');
+  
+  if (thresholds.legendary && roll < thresholds.legendary) return 'legendary';
+  if (thresholds.epic && roll < thresholds.epic) return 'epic';
+  if (thresholds.rare && roll < thresholds.rare) return 'rare';
+  
+  return 'uncommon';
+}
+
+// Helper: Determinar rareza para evento semanal
+function determineWeeklyRarity(roll: number): MaterialRarity {
+  const thresholds = getRarityThresholds('weekly');
+  
+  if (thresholds.epic && roll < thresholds.epic) return 'epic';
+  if (thresholds.rare && roll < thresholds.rare) return 'rare';
+  if (thresholds.uncommon && roll < thresholds.uncommon) return 'uncommon';
+  
+  return 'common';
+}
+
+// Helper: Determinar rareza para evento diario
+function determineDailyRarity(roll: number): MaterialRarity {
+  const thresholds = getRarityThresholds('daily');
+  
+  if (thresholds.rare && roll < thresholds.rare) return 'rare';
+  if (thresholds.uncommon && roll < thresholds.uncommon) return 'uncommon';
+  
+  return 'common';
+}
+
 /**
  * Determina la rareza de material basada en evento y roll
  */
 function determineEventRarity(eventType: 'daily' | 'weekly' | 'special', roll: number): MaterialRarity {
-  const SPECIAL_THRESHOLDS = { legendary: 0.1, epic: 0.3, rare: 0.6 };
-  const WEEKLY_THRESHOLDS = { epic: 0.05, rare: 0.2, uncommon: 0.5 };
-  const DAILY_THRESHOLDS = { rare: 0.1, uncommon: 0.35 };
-
   if (eventType === 'special') {
-    if (roll < SPECIAL_THRESHOLDS.legendary) return 'legendary';
-    if (roll < SPECIAL_THRESHOLDS.epic) return 'epic';
-    if (roll < SPECIAL_THRESHOLDS.rare) return 'rare';
-    return 'uncommon';
+    return determineSpecialRarity(roll);
   }
-
+  
   if (eventType === 'weekly') {
-    if (roll < WEEKLY_THRESHOLDS.epic) return 'epic';
-    if (roll < WEEKLY_THRESHOLDS.rare) return 'rare';
-    if (roll < WEEKLY_THRESHOLDS.uncommon) return 'uncommon';
-    return 'common';
+    return determineWeeklyRarity(roll);
   }
-
-  // Daily
-  if (roll < DAILY_THRESHOLDS.rare) return 'rare';
-  if (roll < DAILY_THRESHOLDS.uncommon) return 'uncommon';
-  return 'common';
+  
+  return determineDailyRarity(roll);
 }
 
 /**
@@ -577,7 +601,6 @@ export function generateEventRewards(
     achievements: eventType === 'special' ? ['special_event_completed'] : [],
   };
 
-  // Generar drops de materiales con rareza ajustada
   const materialCount = 1 + Math.floor(Math.random() * (multiplier + 1));
   const allMaterials = Object.values(MATERIALS);
 
@@ -604,30 +627,19 @@ export function generateEventRewards(
 // ============================================
 
 const constructionIntegrationAPI = {
-  // Constantes
   RARITY_MULTIPLIERS,
   RARITY_DROP_RATES,
   STREAK_BONUSES,
   TOPIC_MATERIAL_MAPPING,
-
-  // Funciones de recompensas
   calculateTopicRewards,
   calculateBuildRewards,
   calculateBuildCost,
-
-  // Funciones de desbloqueo
   canUnlockElement,
   getUnlockableElements,
-
-  // Funciones de hitos
   checkMilestones,
-
-  // Funciones de conversión
   convertXPToMaterials,
   convertCoinsToMaterials,
   calculateCollectionValue,
-
-  // Funciones de eventos
   generateEventRewards,
 };
 
