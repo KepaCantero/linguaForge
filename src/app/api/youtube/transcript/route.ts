@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { DEFAULT_SRS_LANGUAGE } from '@/types/srs';
 
 /**
  * API Route para obtener transcripciones de YouTube
@@ -63,14 +64,15 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       videoId,
       title: `Video ${videoId}`, // Se puede obtener con otra llamada si es necesario
-      language: 'fr',
+      language: DEFAULT_SRS_LANGUAGE,
       phrases,
     });
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     const errorStack = error instanceof Error ? error.stack : undefined;
 
-    // TODO: Add proper logging service for API errors
+    // TODO-20250114-001: Add proper logging service for API errors
+    // Ver: /docs/TODO.md
     return NextResponse.json(
       {
         error: 'Failed to fetch transcript',

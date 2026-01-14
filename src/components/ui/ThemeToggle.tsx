@@ -12,7 +12,7 @@ import { CALM_EASING } from '@/lib/animations';
  * Diseño calm, no agresivo, con animaciones suaves
  */
 export function ThemeToggle() {
-  const { theme, setTheme, resolvedTheme, mounted } = useTheme();
+  const { theme, setTheme, mounted } = useTheme();
 
   // Evitar render hasta que el componente esté montado (prevenir FOUC)
   if (!mounted) {

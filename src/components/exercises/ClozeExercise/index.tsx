@@ -46,7 +46,7 @@ export function ClozeExercise({ phrase, block, onComplete }: ClozeExerciseProps)
 
   const handleToggleTranslation = useCallback(() => {
     if (soundEnabled) {
-      play('whoosh' as any);
+      play('whoosh');
     }
     toggleTranslation();
   }, [soundEnabled, play, toggleTranslation]);

@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { ServiceWorkerRegistration } from '@/components/pwa/ServiceWorkerRegistration';
 import { AnalyticsProvider } from '@/components/analytics';
+import { SyncProvider } from '@/components/providers/SyncProvider';
 import { initConstructionRewards } from '@/services/constructionRewards';
 
 export function Providers({ children }: { children: React.ReactNode }) {
@@ -15,8 +16,10 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <AuthProvider>
       <AnalyticsProvider>
-        {children}
-        <ServiceWorkerRegistration />
+        <SyncProvider>
+          {children}
+          <ServiceWorkerRegistration />
+        </SyncProvider>
       </AnalyticsProvider>
     </AuthProvider>
   );

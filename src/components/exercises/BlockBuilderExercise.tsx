@@ -17,7 +17,7 @@ interface BlockBuilderExerciseProps {
 export function BlockBuilderExercise({ exercise, onComplete }: BlockBuilderExerciseProps) {
   // Use shared hooks
   const { grantReward } = useExerciseGamification();
-  const { feedback, showFeedback, hideFeedback } = useExerciseUI();
+  const { showFeedback, hideFeedback } = useExerciseUI();
 
   // Local state
   const [selectedComponents, setSelectedComponents] = useState<string[]>([]);

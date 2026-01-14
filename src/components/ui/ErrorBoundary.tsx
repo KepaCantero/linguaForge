@@ -31,7 +31,8 @@ export class AAAErrorBoundary extends Component<Props, State> {
   componentDidCatch(_error: Error, _errorInfo: React.ErrorInfo) {
     // Log errores a consola en desarrollo
 
-    // TODO: Implementar integración con servicio de error tracking
+    // TODO-20250114-002: Implementar integración con servicio de error tracking
+    // Ver: /docs/TODO.md
     // Issue: #42 - Integrar Sentry o LogRocket para producción
     // Referencia: https://docs.sentry.io/platforms/javascript/guides/nextjs/
     //

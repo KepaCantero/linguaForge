@@ -12,6 +12,11 @@ import { radialGlow } from '@/constants/colors';
 import { TextInputSection } from '@/components/input/TextInputSection';
 import { LoadedTextView } from '@/components/input/LoadedTextView';
 import { useTextStats } from '@/hooks/useTextStats';
+import { BRANCH_COLORS } from '@/lib/constants';
+
+// Colores para input de texto - usando BRANCH_COLORS[4] (Alojamiento - Cyan 500)
+const TEXT_INPUT_COLOR = BRANCH_COLORS[4]; // #06B6D4
+const TEXT_INPUT_COLOR_DARK = '#0891B2';
 
 export default function TextInputPage() {
   const router = useRouter();
@@ -56,8 +61,8 @@ export default function TextInputPage() {
       <TextInputOrbitalHUD
         textStats={textStats}
         icon="📖"
-        colorStart="#06B6D4"
-        colorEnd="#0891B2"
+        colorStart={TEXT_INPUT_COLOR}
+        colorEnd={TEXT_INPUT_COLOR_DARK}
       />
 
       {/* Input Section with Orbital Design */}
@@ -99,7 +104,7 @@ export default function TextInputPage() {
           onClick={handleImport}
           className="relative w-16 h-16 rounded-full"
           style={{
-            background: 'radial-gradient(circle at 30% 30%, #06B6D4, #0891B2)',
+            background: `radial-gradient(circle at 30% 30%, ${TEXT_INPUT_COLOR}, ${TEXT_INPUT_COLOR_DARK})`,
           }}
           whileHover={{ scale: 1.1, rotate: 90 }}
           whileTap={{ scale: 0.95 }}

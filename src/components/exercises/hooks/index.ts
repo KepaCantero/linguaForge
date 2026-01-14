@@ -45,5 +45,6 @@ export {
 
 // Existing specialized hooks
 export { useJanusKeyboardNavigation } from './useJanusKeyboardNavigation';
+export { useJanusComposer } from './useJanusComposer';
 export { useInteractiveSpeechFlow } from './useInteractiveSpeechFlow';
 export { useMemoryBankSession } from './useMemoryBankSession';

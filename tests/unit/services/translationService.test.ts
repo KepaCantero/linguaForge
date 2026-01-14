@@ -1,12 +1,17 @@
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
 import {
-  translateToSpanish,
   translateWords,
   preloadCommonTranslations,
   getCacheStats,
   clearTranslationCache,
+  translate,
 } from '@/services/translationService';
 import { RateLimiter } from '@/services/rateLimiter';
+import { SUPPORTED_LANGUAGES, UI_LANGUAGES } from '@/lib/constants';
+
+// Constantes para tests - usar valores de constantes reales
+const TEST_SOURCE_LANG = SUPPORTED_LANGUAGES[2]; // 'fr'
+const TEST_TARGET_LANG = UI_LANGUAGES[0]; // 'es'
 
 // Mock global fetch
 const mockFetch = vi.fn();
@@ -38,22 +43,22 @@ describe('translationService', () => {
     vi.clearAllMocks();
   });
 
-  describe('translateToSpanish', () => {
+  describe('translate', () => {
     it('debería retornar traducción desde API', async () => {
       mockFetch.mockResolvedValueOnce({
         ok: true,
         json: async () => ({ translatedText: 'hola mundo' }),
       });
 
-      const result = await translateToSpanish('bonjour monde');
+      const result = await translate('bonjour monde', TEST_SOURCE_LANG, TEST_TARGET_LANG);
       expect(result).toBe('hola mundo');
       expect(mockFetch).toHaveBeenCalledWith('/api/translate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           text: 'bonjour monde',
-          targetLang: 'es',
-          sourceLang: 'fr',
+          targetLang: TEST_TARGET_LANG,
+          sourceLang: TEST_SOURCE_LANG,
         }),
       });
     });
@@ -61,7 +66,7 @@ describe('translationService', () => {
     it('debería retornar texto original si API falla', async () => {
       mockFetch.mockRejectedValueOnce(new Error('API Error'));
 
-      const result = await translateToSpanish('bonjour monde');
+      const result = await translate('bonjour monde', TEST_SOURCE_LANG, TEST_TARGET_LANG);
       expect(result).toBe('bonjour monde');
     });
 
@@ -71,11 +76,12 @@ describe('translationService', () => {
         json: async () => ({ translatedText: 'hola mundo' }),
       });
 
-      await translateToSpanish('bonjour monde');
+      await translate('bonjour monde', TEST_SOURCE_LANG, TEST_TARGET_LANG);
 
+      // La clave de cache ahora incluye los idiomas origen-destino
       expect(mockLocalStorage.setItem).toHaveBeenCalledWith(
         'linguaforge-translation-cache',
-        expect.stringContaining('"bonjour monde":{"translation":"hola mundo"')
+        expect.stringContaining(`"${TEST_SOURCE_LANG}-${TEST_TARGET_LANG}:bonjour monde`)
       );
     });
   });
@@ -221,7 +227,7 @@ describe('rate limiting', () => {
 
     // Traducir 5 palabras rápidamente
     const promises = Array(5).fill('').map((_, i) =>
-      translateToSpanish(`palabra${i + 1}`)
+      translate(`palabra${i + 1}`)
     );
 
     const results = await Promise.all(promises);

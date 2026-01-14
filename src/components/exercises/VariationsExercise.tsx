@@ -3,7 +3,6 @@
 import { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Phrase, Variation, ConversationalBlock } from '@/types';
-import { useTTS } from '@/services/ttsService';
 import { XP_RULES } from '@/lib/constants';
 import {
   useExerciseGamification,
@@ -40,7 +39,7 @@ export function VariationsExercise({ phrase, block, onComplete }: VariationsExer
     currentIndex,
     goToStep,
     markStepComplete,
-    completedSteps,
+    completedSteps: _completedSteps,
   } = useExerciseSteps(allVariations.length);
 
   // Local state

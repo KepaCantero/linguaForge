@@ -211,7 +211,8 @@ export function WordSelector({
 
       alert(`✓ ${cardsToCreate.length} ${cardsToCreate.length === 1 ? 'palabra añadida' : 'palabras añadidas'} al deck`);
     } catch (_error) {
-      // TODO: Add proper logging service for card creation errors
+      // TODO-20250114-003: Add proper logging service for card creation errors
+      // Ver: /docs/TODO.md
       alert('Error al crear las cards');
     } finally {
       setIsCreating(false);

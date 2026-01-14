@@ -1,7 +1,8 @@
 import es from './es.json';
 import en from './en.json';
+import type { UILanguage } from '@/lib/constants';
 
-export type AppLanguage = 'es' | 'en';
+export type AppLanguage = UILanguage;
 
 export type TranslationKeys = typeof es;
 

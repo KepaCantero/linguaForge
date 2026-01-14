@@ -3,6 +3,11 @@ import { act } from '@testing-library/react';
 import * as zustand from 'zustand';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { SUPPORTED_LANGUAGES, UI_LANGUAGES } from '@/lib/constants';
+
+// Constantes para tests - usar valores de constantes reales
+const TEST_APP_LANGUAGE = UI_LANGUAGES[0]; // 'es'
+const TEST_TARGET_LANGUAGE = SUPPORTED_LANGUAGES[2]; // 'fr'
 
 // Mock localStorage
 const mockLocalStorage = {
@@ -384,7 +389,7 @@ describe('Zustand Stores - Integration with Real Stores', () => {
     const mockUserStore = create<MockUserState>()(
       persist(
         (set) => ({
-          appLanguage: 'es',
+          appLanguage: TEST_APP_LANGUAGE,
           mode: 'guided',
           hasCompletedOnboarding: false,
           setAppLanguage: (lang) => set({ appLanguage: lang }),
@@ -400,12 +405,12 @@ describe('Zustand Stores - Integration with Real Stores', () => {
     // Test the functionality
     const { setAppLanguage, setMode, completeOnboarding } = mockUserStore.getState();
 
-    setAppLanguage('fr');
+    setAppLanguage(TEST_TARGET_LANGUAGE as unknown as string); // Cast para compatibilidad con test
     setMode('autonomous');
     completeOnboarding();
 
     const state = mockUserStore.getState();
-    expect(state.appLanguage).toBe('fr');
+    expect(state.appLanguage).toBe(TEST_TARGET_LANGUAGE as unknown as string);
     expect(state.mode).toBe('autonomous');
     expect(state.hasCompletedOnboarding).toBe(true);
   });

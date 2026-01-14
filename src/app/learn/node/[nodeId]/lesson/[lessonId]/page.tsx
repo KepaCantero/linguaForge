@@ -5,6 +5,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useLesson } from '@/hooks/useLesson';
 import { useGamificationStore } from '@/store/useGamificationStore';
+import { useProgressStore } from '@/store/useProgressStore';
 import { WarmupGate } from '@/components/warmups';
 import type { Difficulty, MissionType } from '@/schemas/warmup';
 
@@ -254,9 +255,12 @@ export default function LessonPage() {
   const nodeId = params.nodeId as string;
   const lessonId = params.lessonId as string;
 
+  // Obtener idioma y nivel activos del store
+  const { activeLanguage } = useProgressStore();
+
   // Load lesson content
   const level = lessonId.startsWith('nodo-0-') ? 'A0' : 'A1';
-  const { lessonContent, leaf, loading, error } = useLesson(lessonId, 'fr', level);
+  const { lessonContent, leaf, loading, error } = useLesson(lessonId, activeLanguage, level);
   const { addXP } = useGamificationStore();
 
   // State

@@ -3,8 +3,15 @@
  * Usa la API de Google Translate o alternativa con cache en localStorage
  */
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { RateLimitPresets, withRateLimit } from './rateLimiter';
+import { SUPPORTED_LANGUAGES, UI_LANGUAGES } from '@/lib/constants';
+
+// Tipos para idiomas de traducción
+export type SourceLanguage = (typeof SUPPORTED_LANGUAGES)[number];
+export type TargetUILanguage = (typeof UI_LANGUAGES)[number];
+
+// Constantes para traducción por defecto (francés → español)
+const DEFAULT_SOURCE_LANG: SourceLanguage = SUPPORTED_LANGUAGES[2]; // 'fr'
+const DEFAULT_TARGET_LANG: TargetUILanguage = UI_LANGUAGES[0]; // 'es'
 
 // ============================================================
 // CACHE DE TRADUCCIONES
@@ -104,12 +111,17 @@ export function clearTranslationCache(): void {
 }
 
 /**
- * Traduce texto de francés a español usando Google Translate API
- * Con cache y rate limiting para evitar abusos
+ * Traduce texto usando idiomas explícitos
+ * Función genérica para traducir entre cualquier par de idiomas
  */
-export async function translateToSpanish(text: string): Promise<string> {
+export async function translate(
+  text: string,
+  sourceLang: SourceLanguage = DEFAULT_SOURCE_LANG,
+  targetLang: TargetUILanguage = DEFAULT_TARGET_LANG
+): Promise<string> {
   // Verificar cache primero
-  const cached = getCachedTranslation(text);
+  const cacheKey = `${sourceLang}-${targetLang}:${text}`;
+  const cached = getCachedTranslation(cacheKey);
   if (cached) {
     return cached;
   }
@@ -123,8 +135,8 @@ export async function translateToSpanish(text: string): Promise<string> {
       },
       body: JSON.stringify({
         text,
-        targetLang: 'es',
-        sourceLang: 'fr',
+        targetLang,
+        sourceLang,
       }),
     });
 
@@ -135,8 +147,8 @@ export async function translateToSpanish(text: string): Promise<string> {
     const data = await response.json();
     const translation = data.translatedText || text;
 
-    // Guardar en cache
-    cacheTranslation(text, translation);
+    // Guardar en cache con key que incluye idiomas
+    cacheTranslation(cacheKey, translation);
 
     return translation;
   } catch {
@@ -173,7 +185,7 @@ export async function translateWords(words: string[]): Promise<Record<string, st
   for (let i = 0; i < wordsToTranslate.length; i += batchSize) {
     const batch = wordsToTranslate.slice(i, i + batchSize);
     const promises = batch.map(async (word) => {
-      const translation = await translateToSpanish(word);
+      const translation = await translate(word, DEFAULT_SOURCE_LANG, DEFAULT_TARGET_LANG);
       return { word, translation };
     });
 

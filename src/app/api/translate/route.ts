@@ -1,13 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { SUPPORTED_LANGUAGES, UI_LANGUAGES } from '@/lib/constants';
 
 /**
  * API Route para traducción usando Google Translate API
  * En producción, configurar GOOGLE_TRANSLATE_API_KEY en .env.local
  */
 
+// Defaults para traducción (origen: francés, destino: español)
+const DEFAULT_SOURCE_LANG = SUPPORTED_LANGUAGES[2]; // 'fr'
+const DEFAULT_TARGET_LANG = UI_LANGUAGES[0]; // 'es'
+
 export async function POST(request: NextRequest) {
   try {
-    const { text, targetLang = 'es', sourceLang = 'fr' } = await request.json();
+    const { text, targetLang = DEFAULT_TARGET_LANG, sourceLang = DEFAULT_SOURCE_LANG } = await request.json();
 
     if (!text || typeof text !== 'string') {
       return NextResponse.json(

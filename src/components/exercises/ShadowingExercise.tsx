@@ -3,7 +3,6 @@
 import { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Phrase } from '@/types';
-import { useTTS } from '@/services/ttsService';
 import { XP_RULES, SHADOWING_CONFIG } from '@/lib/constants';
 import {
   useExercisePhase,

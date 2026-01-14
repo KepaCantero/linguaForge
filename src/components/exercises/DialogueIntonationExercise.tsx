@@ -8,7 +8,6 @@ import { evaluateIntonationTurn, getNativePattern as getNativePatternService } f
 import {
   useExercisePhase,
   useExerciseGamification,
-  useAudioElement,
 } from './hooks';
 import { PreviewPhase } from './intonation/PreviewPhase';
 import { PracticingPhase } from './intonation/PracticingPhase';

@@ -3,8 +3,7 @@
 import { useState, useCallback, useEffect, useMemo } from 'react';
 import { useHaptic } from '@/lib/haptic';
 import { useSoundEngine } from '@/lib/soundEngine';
-import type { MemoryBankCard } from '../MemoryBank/MemoryBankSession';
-import type { SessionMetrics } from '../MemoryBank/MemoryBankSession';
+import type { MemoryBankCard, SessionMetrics } from '../MemoryBank/types';
 
 /**
  * Hook específico para Memory Bank Session

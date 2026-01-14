@@ -147,6 +147,7 @@ export {
 export type {
   SupportedLanguage,
   SupportedLevel,
+  UILanguage,
   HunterRank,
   HunterRankInfo,
 } from '@/lib/constants';

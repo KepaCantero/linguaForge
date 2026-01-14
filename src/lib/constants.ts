@@ -2,9 +2,13 @@
 // CONSTANTS.TS - Todas las reglas del sistema
 // ============================================================
 
-// Idiomas soportados
-export const SUPPORTED_LANGUAGES = ['fr', 'de'] as const;
+// Idiomas de aprendizaje soportados (target languages)
+export const SUPPORTED_LANGUAGES = ['de', 'en', 'es', 'fr', 'it'] as const;
 export type SupportedLanguage = (typeof SUPPORTED_LANGUAGES)[number];
+
+// Idiomas de la interfaz de usuario (UI)
+export const UI_LANGUAGES = ['es', 'en'] as const;
+export type UILanguage = (typeof UI_LANGUAGES)[number];
 
 // Niveles soportados
 export const SUPPORTED_LEVELS = ['A0', 'A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const;

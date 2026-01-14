@@ -1,15 +1,12 @@
 'use client';
 
-import { useState, useCallback, useMemo, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { useSRSStore } from '@/store/useSRSStore';
-import { useGamificationStore } from '@/store/useGamificationStore';
-import { useProgressStore } from '@/store/useProgressStore';
-import { useWordDictionaryStore } from '@/store/useWordDictionaryStore';
-import { translateWords } from '@/services/translationService';
+import { usePhraseSelectionPanel } from './hooks/usePhraseSelectionPanel';
 import { SelectedPhrase } from './TranscriptSelector';
 import { ContentSource } from '@/types/srs';
-import { extractKeywordsFromPhrases, type ExtractedWord } from '@/services/wordExtractor';
+import { useWordDictionaryStore } from '@/store/useWordDictionaryStore';
+import type { ExtractedWord } from '@/services/wordExtractor';
+
 // Iconos simples usando emojis y símbolos
 const IconX = () => <span>✕</span>;
 const IconPlus = () => <span>+</span>;
@@ -21,7 +18,10 @@ interface PhraseSelectionPanelProps {
   onPhrasesAdded?: (count: number) => void;
 }
 
-// Helper function to get type labels
+// ============================================================
+// CONSTANTS & HELPERS
+// ============================================================
+
 function getTypeLabel(type: string): string {
   const labels: Record<string, string> = {
     verb: 'Verbos',
@@ -33,7 +33,6 @@ function getTypeLabel(type: string): string {
   return labels[type] || type;
 }
 
-// Helper function to get type colors
 function getTypeColor(type: string): string {
   const colors: Record<string, string> = {
     verb: 'bg-sky-100 dark:bg-sky-900/30 border-sky-300 dark:border-sky-700',
@@ -45,7 +44,18 @@ function getTypeColor(type: string): string {
   return colors[type] || colors.other;
 }
 
-// WordItem subcomponent
+function pluralize(word: string, count: number): string {
+  return count === 1 ? word : `${word}s`;
+}
+
+function formatCountMessage(count: number, singular: string, plural: string): string {
+  return `${count} ${count === 1 ? singular : plural}`;
+}
+
+// ============================================================
+// SUBCOMPONENTS
+// ============================================================
+
 interface WordItemProps {
   word: ExtractedWord;
   selectedPhrases: SelectedPhrase[];
@@ -104,7 +114,6 @@ function WordItem({ word, selectedPhrases, translations, isTranslating, isWordSt
   );
 }
 
-// WordTypeGroup subcomponent
 interface WordTypeGroupProps {
   type: string;
   words: ExtractedWord[];
@@ -141,19 +150,9 @@ function WordTypeGroup({ type, words, selectedPhrases, translations, isTranslati
   );
 }
 
-/**
- * Retorna la forma plural o singular de una palabra según el count
- */
-function pluralize(word: string, count: number): string {
-  return count === 1 ? word : `${word}s`;
-}
-
-/**
- * Formatea un mensaje de cantidad con pluralización
- */
-function formatCountMessage(count: number, singular: string, plural: string): string {
-  return `${count} ${count === 1 ? singular : plural}`;
-}
+// ============================================================
+// MAIN COMPONENT
+// ============================================================
 
 export function PhraseSelectionPanel({
   selectedPhrases,
@@ -161,171 +160,28 @@ export function PhraseSelectionPanel({
   onClose,
   onPhrasesAdded,
 }: PhraseSelectionPanelProps) {
-  const { addCards } = useSRSStore();
-  const { addXP } = useGamificationStore();
-  const { activeLanguage, activeLevel } = useProgressStore();
-  const { getNewWords, addWord, isWordStudied } = useWordDictionaryStore();
+  const [data, actions] = usePhraseSelectionPanel({
+    selectedPhrases,
+    source,
+    onPhrasesAdded,
+  });
 
-  const [translations, setTranslations] = useState<Record<string, string>>({});
-  const [isCreating, setIsCreating] = useState(false);
-  const [isTranslating, setIsTranslating] = useState(false);
-  const [showWordExtraction, setShowWordExtraction] = useState(true);
+  const { isWordStudied } = useWordDictionaryStore();
 
-  // Extraer palabras clave de las frases seleccionadas
-  const extractedWords = useMemo(() => {
-    const phrases = selectedPhrases.map(p => p.text);
-    return extractKeywordsFromPhrases(phrases);
-  }, [selectedPhrases]);
+  const {
+    translations,
+    isCreating,
+    isTranslating,
+    showWordExtraction,
+    newWords,
+    wordsByType,
+    canCreateCards,
+    totalStudiedWords,
+    newWordsCount,
+    extractedWordsCount,
+  } = data;
 
-  // Filtrar solo palabras nuevas (no estudiadas)
-  const newWords = useMemo(() => {
-    const wordStrings = extractedWords.map(w => w.normalized);
-    const newWordStrings = getNewWords(wordStrings);
-    return extractedWords.filter(w => newWordStrings.includes(w.normalized));
-  }, [extractedWords, getNewWords]);
-
-  // Agrupar palabras por tipo
-  const wordsByType = useMemo(() => {
-    const grouped: Record<string, ExtractedWord[]> = {
-      verb: [],
-      noun: [],
-      adverb: [],
-      adjective: [],
-      other: [],
-    };
-
-    newWords.forEach(word => {
-      grouped[word.type].push(word);
-    });
-
-    return grouped;
-  }, [newWords]);
-
-  // Traducir automáticamente las palabras nuevas cuando cambian
-  const newWordsKeys = useMemo(() =>
-    newWords.map(w => w.normalized).sort().join(','),
-    [newWords]
-  );
-
-  useEffect(() => {
-    if (newWords.length === 0) return;
-
-    const translateNewWords = async () => {
-      setIsTranslating(true);
-      try {
-        const wordsToTranslate = newWords
-          .filter(word => !translations[word.normalized])
-          .map(word => word.word);
-
-        if (wordsToTranslate.length === 0) return;
-
-        const newTranslations = await translateWords(wordsToTranslate);
-
-        // Mapear traducciones usando normalized como key
-        const normalizedTranslations: Record<string, string> = {};
-        newWords.forEach(word => {
-          if (newTranslations[word.word]) {
-            normalizedTranslations[word.normalized] = newTranslations[word.word];
-          }
-        });
-
-        setTranslations(prev => ({
-          ...prev,
-          ...normalizedTranslations,
-        }));
-      } catch (_error) {
-        // TODO: Add proper logging service for translation errors
-      } finally {
-        setIsTranslating(false);
-      }
-    };
-
-    translateNewWords();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newWordsKeys]); // Solo cuando cambian las palabras nuevas
-
-  // Encontrar frase original para una palabra
-  const findOriginalPhrase = useCallback((word: ExtractedWord) => {
-    return selectedPhrases.find(p =>
-      p.text.toLowerCase().includes(word.word.toLowerCase())
-    ) || selectedPhrases[0];
-  }, [selectedPhrases]);
-
-  // Crear datos de card para una palabra
-  const createCardData = useCallback((word: ExtractedWord) => {
-    const originalPhrase = findOriginalPhrase(word);
-    const examplePhrase = originalPhrase.text;
-    const sourceTypeTag = source.type === 'video' || source.type === 'audio' ? source.type : 'text';
-
-    // Construir contexto de manera legible
-    const CONTEXT_PREFIX = '...';
-    const CONTEXT_SUFFIX = '...';
-    const contextBefore = originalPhrase.contextBefore
-      ? `${CONTEXT_PREFIX}${originalPhrase.contextBefore} `
-      : '';
-    const contextAfter = originalPhrase.contextAfter
-      ? ` ${originalPhrase.contextAfter}${CONTEXT_SUFFIX}`
-      : '';
-    const context = `${contextBefore}[${examplePhrase}]${contextAfter}`;
-
-    return {
-      phrase: word.word,
-      translation: translations[word.normalized]?.trim() || word.word,
-      source: {
-        ...source,
-        context: `Ejemplo: "${examplePhrase}"`,
-        timestamp: originalPhrase.start ?? source.timestamp,
-      },
-      languageCode: activeLanguage,
-      levelCode: activeLevel,
-      tags: [sourceTypeTag, 'transcript', 'word', word.type],
-      notes: `Tipo: ${word.type}. Contexto: ${context}`,
-    };
-  }, [findOriginalPhrase, translations, source, activeLanguage, activeLevel]);
-
-  const handleCreateCards = useCallback(async () => {
-    if (newWords.length === 0) {
-      alert('No hay palabras nuevas para estudiar. Todas las palabras clave ya están en tu diccionario.');
-      return;
-    }
-
-    setIsCreating(true);
-
-    try {
-      const cardsToCreate = newWords.map(createCardData);
-
-      if (cardsToCreate.length === 0) {
-        alert('No hay palabras nuevas para crear cards');
-        setIsCreating(false);
-        return;
-      }
-
-      const createdCards = addCards(cardsToCreate);
-
-      createdCards.forEach((card, index) => {
-        const word = newWords[index];
-        if (word) {
-          addWord(word.word, word.type, card.id);
-        }
-      });
-
-      addXP(cardsToCreate.length * 15);
-      onPhrasesAdded?.(cardsToCreate.length);
-      setTranslations({});
-
-      alert(`✓ ${formatCountMessage(cardsToCreate.length, 'palabra nueva añadida', 'palabras nuevas añadidas')} al deck`);
-    } catch (_error) {
-      // TODO: Add proper logging service for card creation errors
-      alert('Error al crear las cards. Por favor, intenta de nuevo.');
-    } finally {
-      setIsCreating(false);
-    }
-  }, [newWords, createCardData, addCards, addXP, addWord, onPhrasesAdded]);
-
-  // Todas las palabras nuevas tienen traducción automática
-  const canCreateCards = newWords.length > 0 && !isTranslating;
-
-  const totalStudiedWords = extractedWords.filter(w => isWordStudied(w.normalized)).length;
+  const { setShowWordExtraction, handleCreateCards } = actions;
 
   return (
     <motion.div
@@ -341,7 +197,7 @@ export function PhraseSelectionPanel({
             Palabras clave extraídas
           </h3>
           <p className="text-xs text-calm-text-muted dark:text-calm-text-muted mt-1">
-            {newWords.length} nuevas • {totalStudiedWords} ya estudiadas • {extractedWords.length} total
+            {newWordsCount} nuevas • {totalStudiedWords} ya estudiadas • {extractedWordsCount} total
           </p>
         </div>
         {onClose && (
@@ -417,4 +273,3 @@ export function PhraseSelectionPanel({
     </motion.div>
   );
 }
-

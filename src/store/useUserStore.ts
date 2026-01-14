@@ -1,10 +1,12 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { AppLanguage } from '@/i18n';
+import { SupportedLanguage, UI_LANGUAGES } from '@/lib/constants';
+import { DEFAULT_SRS_LANGUAGE } from '@/types/srs';
 
 // Tipos
 export type LearningMode = 'guided' | 'autonomous';
-export type TargetLanguage = 'fr'; // MVP: solo francés, extensible
+export type TargetLanguage = SupportedLanguage;
 
 interface UserState {
   // Configuración de la app
@@ -40,8 +42,8 @@ interface UserActions {
 type UserStore = UserState & UserActions;
 
 const initialState: UserState = {
-  appLanguage: 'es',
-  targetLanguage: 'fr',
+  appLanguage: UI_LANGUAGES[0], // 'es'
+  targetLanguage: DEFAULT_SRS_LANGUAGE, // 'de' (primer idioma soportado)
   mode: 'guided',
   hasCompletedOnboarding: false,
   dailyGoal: 10,

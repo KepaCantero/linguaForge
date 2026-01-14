@@ -124,6 +124,211 @@ const initialState: CognitiveLoadState = {
 };
 
 // ============================================================
+// HELPER FUNCTIONS FOR STORE ACTIONS
+// ============================================================
+
+/**
+ * Factory para acciones de gestión de carga
+ */
+const createLoadActions = (
+  set: (partial: Partial<CognitiveLoadStore> | ((state: CognitiveLoadStore) => Partial<CognitiveLoadStore>)) => void,
+  get: () => CognitiveLoadStore
+) => ({
+  updateIntrinsicLoad: (value: number, _reason?: string) => {
+    const clamped = Math.max(0, Math.min(100, value));
+    set((state) => {
+      const newLoad = { ...state.currentLoad, intrinsic: clamped };
+      const total = get().calculateTotalLoad();
+      return { currentLoad: { ...newLoad, total } };
+    });
+  },
+
+  updateExtraneousLoad: (value: number, _reason?: string) => {
+    const clamped = Math.max(0, Math.min(100, value));
+    const { focusMode, focusLevel } = get();
+
+    // Aplicar modificador de focus
+    const modifier = focusMode ? FOCUS_LEVEL_MODIFIERS[focusLevel] : 1;
+    const adjustedValue = clamped * modifier;
+
+    set((state) => {
+      const newLoad = { ...state.currentLoad, extraneous: adjustedValue };
+      const total = get().calculateTotalLoad();
+      return { currentLoad: { ...newLoad, total } };
+    });
+  },
+
+  updateGermaneLoad: (value: number, _reason?: string) => {
+    const clamped = Math.max(0, Math.min(100, value));
+    set((state) => {
+      const newLoad = { ...state.currentLoad, germane: clamped };
+      const total = get().calculateTotalLoad();
+      return { currentLoad: { ...newLoad, total } };
+    });
+  },
+
+  calculateTotalLoad: () => {
+    const { currentLoad } = get();
+    const total =
+      currentLoad.intrinsic * LOAD_WEIGHTS.intrinsic +
+      currentLoad.extraneous * LOAD_WEIGHTS.extraneous -
+      currentLoad.germane * LOAD_WEIGHTS.germane * 0.5;
+    return Math.max(0, Math.min(100, total));
+  },
+
+  resetLoad: () => {
+    set({
+      currentLoad: {
+        intrinsic: 30,
+        extraneous: 20,
+        germane: 50,
+        total: 0,
+      },
+    });
+  },
+});
+
+/**
+ * Factory para acciones de modo focus
+ */
+const createFocusActions = (
+  set: (partial: Partial<CognitiveLoadStore> | ((state: CognitiveLoadStore) => Partial<CognitiveLoadStore>)) => void,
+  get: () => CognitiveLoadStore
+) => ({
+  enterFocusMode: (level: FocusLevel = 'focused') => {
+    set({
+      focusMode: true,
+      focusLevel: level,
+      focusStartTime: Date.now(),
+    });
+
+    const { currentLoad } = get();
+    const modifier = FOCUS_LEVEL_MODIFIERS[level];
+    set((state) => ({
+      currentLoad: {
+        ...state.currentLoad,
+        extraneous: currentLoad.extraneous * modifier,
+      },
+    }));
+  },
+
+  exitFocusMode: () => {
+    set({
+      focusMode: false,
+      focusLevel: 'normal',
+      focusStartTime: null,
+    });
+  },
+
+  toggleFocusMode: () => {
+    const { focusMode } = get();
+    if (focusMode) {
+      get().exitFocusMode();
+    } else {
+      get().enterFocusMode();
+    }
+  },
+
+  setAutoFocus: (enabled: boolean) => {
+    set({ autoFocusEnabled: enabled });
+  },
+});
+
+/**
+ * Factory para acciones de sesión
+ */
+const createSessionActions = (
+  set: (partial: Partial<CognitiveLoadStore> | ((state: CognitiveLoadStore) => Partial<CognitiveLoadStore>)) => void,
+  get: () => CognitiveLoadStore
+) => ({
+  startSession: () => {
+    set({
+      session: {
+        startTime: Date.now(),
+        exercisesCompleted: 0,
+        correctAnswers: 0,
+        totalAttempts: 0,
+        averageResponseTime: 0,
+        peakLoad: 0,
+        loadHistory: [],
+      },
+    });
+  },
+
+  endSession: () => {
+    const { session } = get();
+    if (!session) return null;
+
+    const finalSession = { ...session };
+    set({ session: null });
+    return finalSession;
+  },
+
+  recordExerciseCompletion: (correct: boolean, responseTime: number) => {
+    const { session, currentLoad } = get();
+    if (!session) return;
+
+    const newTotal = session.totalAttempts + 1;
+    const newAvgTime = (session.averageResponseTime * session.totalAttempts + responseTime) / newTotal;
+    const total = get().calculateTotalLoad();
+
+    set({
+      session: {
+        ...session,
+        exercisesCompleted: session.exercisesCompleted + 1,
+        correctAnswers: session.correctAnswers + (correct ? 1 : 0),
+        totalAttempts: newTotal,
+        averageResponseTime: newAvgTime,
+        peakLoad: Math.max(session.peakLoad, total),
+        loadHistory: [...session.loadHistory, total],
+      },
+    });
+
+    // Ajustar carga germana basada en performance
+    if (correct && responseTime < 3000) {
+      get().updateGermaneLoad(Math.min(100, currentLoad.germane + 5), 'quick correct answer');
+    } else if (!correct) {
+      get().updateIntrinsicLoad(Math.min(100, currentLoad.intrinsic + 3), 'incorrect answer');
+    }
+  },
+});
+
+/**
+ * Factory para funciones helper de análisis
+ */
+const createHelperActions = (
+  _set: (partial: Partial<CognitiveLoadStore> | ((state: CognitiveLoadStore) => Partial<CognitiveLoadStore>)) => void,
+  get: () => CognitiveLoadStore
+) => ({
+  getLoadStatus: (): 'low' | 'optimal' | 'high' | 'overload' => {
+    const total = get().calculateTotalLoad();
+    if (total <= LOAD_THRESHOLDS.low) return 'low';
+    if (total <= LOAD_THRESHOLDS.optimal) return 'optimal';
+    if (total <= LOAD_THRESHOLDS.high) return 'high';
+    return 'overload';
+  },
+
+  shouldReduceComplexity: () => {
+    const status = get().getLoadStatus();
+    return status === 'high' || status === 'overload';
+  },
+
+  getRecommendedBreak: () => {
+    const { session } = get();
+    if (!session) return 0;
+
+    const duration = (Date.now() - session.startTime) / 1000 / 60; // minutos
+    const status = get().getLoadStatus();
+
+    if (duration > 30 && status === 'overload') return 10;
+    if (duration > 25 && status === 'high') return 5;
+    if (duration > 45) return 5;
+
+    return 0;
+  },
+});
+
+// ============================================================
 // STORE
 // ============================================================
 
@@ -132,209 +337,17 @@ export const useCognitiveLoadStore = create<CognitiveLoadStore>()(
     (set, get) => ({
       ...initialState,
 
-      // ========================================
       // Gestión de carga
-      // ========================================
+      ...createLoadActions(set, get),
 
-      updateIntrinsicLoad: (value, reason) => {
-        const clamped = Math.max(0, Math.min(100, value));
-        set((state) => {
-          const newLoad = { ...state.currentLoad, intrinsic: clamped };
-          const total = get().calculateTotalLoad();
-
-          return { currentLoad: { ...newLoad, total } };
-        });
-      },
-
-      updateExtraneousLoad: (value, reason) => {
-        const clamped = Math.max(0, Math.min(100, value));
-        const { focusMode, focusLevel } = get();
-
-        // Aplicar modificador de focus
-        const modifier = focusMode ? FOCUS_LEVEL_MODIFIERS[focusLevel] : 1;
-        const adjustedValue = clamped * modifier;
-
-        set((state) => {
-          const newLoad = { ...state.currentLoad, extraneous: adjustedValue };
-          const total = get().calculateTotalLoad();
-
-          return { currentLoad: { ...newLoad, total } };
-        });
-      },
-
-      updateGermaneLoad: (value, reason) => {
-        const clamped = Math.max(0, Math.min(100, value));
-        set((state) => {
-          const newLoad = { ...state.currentLoad, germane: clamped };
-          const total = get().calculateTotalLoad();
-
-          return { currentLoad: { ...newLoad, total } };
-        });
-      },
-
-      calculateTotalLoad: () => {
-        const { currentLoad } = get();
-        // Germane es positivo, así que lo restamos (queremos maximizarlo)
-        const total =
-          currentLoad.intrinsic * LOAD_WEIGHTS.intrinsic +
-          currentLoad.extraneous * LOAD_WEIGHTS.extraneous -
-          (currentLoad.germane * LOAD_WEIGHTS.germane * 0.5); // Reduce carga efectiva
-
-        return Math.max(0, Math.min(100, total));
-      },
-
-      resetLoad: () => {
-        set({
-          currentLoad: {
-            intrinsic: 30,
-            extraneous: 20,
-            germane: 50,
-            total: 0,
-          },
-        });
-      },
-
-      // ========================================
       // Modo Focus
-      // ========================================
+      ...createFocusActions(set, get),
 
-      enterFocusMode: (level = 'focused') => {
-        set({
-          focusMode: true,
-          focusLevel: level,
-          focusStartTime: Date.now(),
-        });
-
-        // Reducir carga extraña inmediatamente
-        const { currentLoad } = get();
-        const modifier = FOCUS_LEVEL_MODIFIERS[level];
-        set((state) => ({
-          currentLoad: {
-            ...state.currentLoad,
-            extraneous: currentLoad.extraneous * modifier,
-          },
-        }));
-      },
-
-      exitFocusMode: () => {
-        const { focusStartTime } = get();
-        const duration = focusStartTime ? (Date.now() - focusStartTime) / 1000 : 0;
-
-        set({
-          focusMode: false,
-          focusLevel: 'normal',
-          focusStartTime: null,
-        });
-      },
-
-      toggleFocusMode: () => {
-        const { focusMode } = get();
-        if (focusMode) {
-          get().exitFocusMode();
-        } else {
-          get().enterFocusMode();
-        }
-      },
-
-      setAutoFocus: (enabled) => {
-        set({ autoFocusEnabled: enabled });
-      },
-
-      // ========================================
       // Sesión
-      // ========================================
+      ...createSessionActions(set, get),
 
-      startSession: () => {
-        set({
-          session: {
-            startTime: Date.now(),
-            exercisesCompleted: 0,
-            correctAnswers: 0,
-            totalAttempts: 0,
-            averageResponseTime: 0,
-            peakLoad: 0,
-            loadHistory: [],
-          },
-        });
-      },
-
-      endSession: () => {
-        const { session } = get();
-        if (!session) return null;
-
-        const duration = (Date.now() - session.startTime) / 1000;
-        const accuracy = session.totalAttempts > 0
-          ? (session.correctAnswers / session.totalAttempts) * 100
-          : 0;
-
-        const finalSession = { ...session };
-        set({ session: null });
-
-        return finalSession;
-      },
-
-      recordExerciseCompletion: (correct, responseTime) => {
-        const { session, currentLoad } = get();
-        if (!session) return;
-
-        const newTotal = session.totalAttempts + 1;
-        const newAvgTime = (session.averageResponseTime * session.totalAttempts + responseTime) / newTotal;
-        const total = get().calculateTotalLoad();
-
-        set({
-          session: {
-            ...session,
-            exercisesCompleted: session.exercisesCompleted + 1,
-            correctAnswers: session.correctAnswers + (correct ? 1 : 0),
-            totalAttempts: newTotal,
-            averageResponseTime: newAvgTime,
-            peakLoad: Math.max(session.peakLoad, total),
-            loadHistory: [...session.loadHistory, total],
-          },
-        });
-
-        // Ajustar carga germana basada en performance
-        if (correct && responseTime < 3000) {
-          // Respuesta rápida y correcta = alto procesamiento germano
-          get().updateGermaneLoad(Math.min(100, currentLoad.germane + 5), 'quick correct answer');
-        } else if (!correct) {
-          // Error = posible sobrecarga, aumentar intrínseca
-          get().updateIntrinsicLoad(Math.min(100, currentLoad.intrinsic + 3), 'incorrect answer');
-        }
-      },
-
-      // ========================================
       // Helpers
-      // ========================================
-
-      getLoadStatus: () => {
-        const total = get().calculateTotalLoad();
-
-        if (total <= LOAD_THRESHOLDS.low) return 'low';
-        if (total <= LOAD_THRESHOLDS.optimal) return 'optimal';
-        if (total <= LOAD_THRESHOLDS.high) return 'high';
-        return 'overload';
-      },
-
-      shouldReduceComplexity: () => {
-        const status = get().getLoadStatus();
-        return status === 'high' || status === 'overload';
-      },
-
-      getRecommendedBreak: () => {
-        const { session } = get();
-        if (!session) return 0;
-
-        const duration = (Date.now() - session.startTime) / 1000 / 60; // minutos
-        const status = get().getLoadStatus();
-
-        // Recomendar descanso basado en duración y carga
-        if (duration > 30 && status === 'overload') return 10;
-        if (duration > 25 && status === 'high') return 5;
-        if (duration > 45) return 5;
-
-        return 0;
-      },
+      ...createHelperActions(set, get),
     }),
     {
       name: 'linguaforge-cognitive-load',

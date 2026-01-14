@@ -5,7 +5,7 @@
  */
 
 import { createClient } from '@/lib/supabase/client';
-import type { UserStats, LessonProgress } from '@/schemas/supabase';
+import type { UserStats } from '@/schemas/supabase';
 
 const supabase = createClient();
 
@@ -37,22 +37,38 @@ export interface LocalGamificationState {
   longestStreak: number;
 }
 
-export interface LocalSRSData {
-  cards: Array<{
-    id: string;
-    front: string;
-    back: string;
-    interval: number;
-    easeFactor: number;
-    dueDate: string;
-    repetitions: number;
-  }>;
-}
-
 export interface LocalProgressData {
   completedLeaves: string[];
   activeBranch: string | null;
   activeLeaf: string | null;
+}
+
+export interface LocalSRSData {
+  cards: Array<{
+    id: string;
+    phrase: string;
+    translation: string;
+    status: string;
+    nextReviewDate: string;
+    reviewHistory: Array<{
+      date: string;
+      response: string;
+      timeSpentMs: number;
+    }>;
+    fsrs?: {
+      due: string;
+      stability: number;
+      difficulty: number;
+      elapsed_days: number;
+      scheduled_days: number;
+      reps: number;
+      lapses: number;
+      state: string;
+      last_review?: string;
+    };
+  }>;
+  reviewedToday: string[];
+  lastReviewDate: string | null;
 }
 
 // ============================================================
@@ -331,7 +347,126 @@ export async function syncProgress(
       }),
     };
   } catch (error) {
-    // TODO: Add proper logging service for sync errors
+    // TODO-20250114-008: Add proper logging service for sync errors
+    // Ver: /docs/TODO.md
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Unknown error',
+    };
+  }
+}
+
+// ============================================================
+// SYNC SRS
+// ============================================================
+
+export interface SRSCardData {
+  id: string;
+  user_id: string;
+  phrase: string;
+  translation: string;
+  language_code: string;
+  level_code: string;
+  status: string;
+  next_review_date: string;
+  review_history: Array<{
+    date: string;
+    response: string;
+    time_spent_ms: number;
+  }>;
+  fsrs_data: unknown;
+  source_type: string;
+  source_id: string;
+  created_at: string;
+  updated_at: string;
+}
+
+/**
+ * Sincroniza las tarjetas SRS con Supabase
+ */
+export async function syncSRS(
+  userId: string,
+  localSRS: LocalSRSData
+): Promise<SyncResult> {
+  if (!supabase) {
+    return { success: true };
+  }
+
+  if (!isOnline()) {
+    return { success: false, error: 'Offline' };
+  }
+
+  try {
+    // Obtener tarjetas remotas
+    const { data: remoteCards, error: fetchError } = await supabase
+      .from('srs_cards')
+      .select('*')
+      .eq('user_id', userId);
+
+    if (fetchError) throw fetchError;
+
+    const remoteCardMap = new Map((remoteCards || []).map(c => [c.id, c]));
+    const localCardMap = new Map(localSRS.cards.map(c => [c.id, c]));
+
+    // Tarjetas nuevas o actualizadas localmente
+    const toUpload: SRSCardData[] = [];
+    localCardMap.forEach((localCard) => {
+      const remoteCard = remoteCardMap.get(localCard.id);
+      const localUpdated = localCard.reviewHistory.length > 0
+        ? localCard.reviewHistory[localCard.reviewHistory.length - 1].date
+        : localCard.nextReviewDate;
+
+      if (!remoteCard || new Date(localUpdated) > new Date(remoteCard.updated_at)) {
+        toUpload.push({
+          id: localCard.id,
+          user_id: userId,
+          phrase: localCard.phrase,
+          translation: localCard.translation,
+          language_code: 'de', // TODO-20250114-007: Get language_code from card
+          level_code: 'A1', // TODO-20250114-007: Get level_code from card
+          // Ver: /docs/TODO.md
+          status: localCard.status,
+          next_review_date: localCard.nextReviewDate,
+          review_history: localCard.reviewHistory.map(r => ({
+            date: r.date,
+            response: r.response,
+            time_spent_ms: r.timeSpentMs,
+          })),
+          fsrs_data: localCard.fsrs || null,
+          source_type: 'text',
+          source_id: 'manual',
+          created_at: remoteCard?.created_at || new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        });
+      }
+    });
+
+    if (toUpload.length > 0) {
+      const { error: upsertError } = await supabase
+        .from('srs_cards')
+        .upsert(toUpload, {
+          onConflict: 'id',
+        });
+
+      if (upsertError) throw upsertError;
+    }
+
+    // Tarjetas en remoto que no están en local
+    const fromRemote = (remoteCards || []).filter(
+      rc => !localCardMap.has(rc.id)
+    );
+
+    const syncedAt = new Date().toISOString();
+    setLastSyncTime(syncedAt);
+
+    return {
+      success: true,
+      syncedAt,
+      ...(fromRemote.length > 0 && {
+        conflicts: [{ field: 'srsCards', localValue: localSRS.cards.length, remoteValue: remoteCards.length, resolvedValue: localSRS.cards.length + fromRemote.length }],
+      }),
+    };
+  } catch (error) {
     return {
       success: false,
       error: error instanceof Error ? error.message : 'Unknown error',
@@ -347,6 +482,7 @@ export interface FullSyncOptions {
   userId: string;
   gamification?: LocalGamificationState;
   progress?: LocalProgressData;
+  srs?: LocalSRSData;
 }
 
 /**
@@ -371,6 +507,11 @@ export async function fullSync(options: FullSyncOptions): Promise<SyncResult> {
   if (options.progress) {
     const progResult = await syncProgress(options.userId, options.progress);
     results.push(progResult);
+  }
+
+  if (options.srs) {
+    const srsResult = await syncSRS(options.userId, options.srs);
+    results.push(srsResult);
   }
 
   // Agregar resultados

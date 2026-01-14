@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { LanguageCode, LevelCode, WorldProgress, JanusProgress } from '@/types';
+import { DEFAULT_SRS_LANGUAGE, DEFAULT_SRS_LEVEL } from '@/types/srs';
 
 interface ProgressStore {
   // Estado
@@ -20,8 +21,8 @@ interface ProgressStore {
 }
 
 const initialState = {
-  activeLanguage: 'fr' as LanguageCode,
-  activeLevel: 'A1' as LevelCode,
+  activeLanguage: DEFAULT_SRS_LANGUAGE as LanguageCode,
+  activeLevel: DEFAULT_SRS_LEVEL as LevelCode,
   worldProgress: {} as Record<string, WorldProgress>,
 };
 

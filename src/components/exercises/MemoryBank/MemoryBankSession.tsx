@@ -16,26 +16,14 @@ import { type LearningContext, getTextureForContext } from '@/lib/textures';
 import { useHaptic } from '@/lib/haptic';
 import { X } from 'lucide-react';
 import { useMemoryBankSession } from '../hooks/useMemoryBankSession';
+import type { MemoryBankCard, SessionMetrics } from './types';
 
 // ============================================
 // TIPOS
 // ============================================
 
-export interface MemoryBankCard extends EpisodicCardContent {
-  isKnown?: boolean;
-  reviewCount: number;
-  lastReviewedAt?: string;
-}
-
-export interface SessionMetrics {
-  totalCards: number;
-  cardsReviewed: number;
-  correctAnswers: number;
-  incorrectAnswers: number;
-  averageResponseTime: number;
-  sessionDuration: number;
-  accuracy: number;
-}
+// Re-exportamos los tipos para compatibilidad hacia atrás
+export type { MemoryBankCard, SessionMetrics } from './types';
 
 export interface MemoryBankSessionProps {
   cards: MemoryBankCard[];

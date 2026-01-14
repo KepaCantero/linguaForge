@@ -10,6 +10,11 @@ import { WordSelector } from '@/components/transcript/WordSelector';
 import { QuickReviewButton } from '@/components/transcript/QuickReviewButton';
 import { radialGlow } from '@/constants/colors';
 import { ContentSource } from '@/types/srs';
+import { BRANCH_COLORS } from '@/lib/constants';
+
+// Colores para input de video - usando BRANCH_COLORS[9] (Comunicación - Pink 500)
+const VIDEO_COLOR_PRIMARY = BRANCH_COLORS[9]; // #EC4899
+const VIDEO_COLOR_DARK = '#DB2777'; // Pink 700
 
 // ============================================
 // HELPER FUNCTIONS - Reduce component complexity
@@ -248,8 +253,11 @@ export default function VideoInputPage() {
   const [showManualTranscript, setShowManualTranscript] = useState(false);
   const startTimeRef = useRef<number | null>(null);
 
+  // Extract events array for useMemo dependency
+  const inputEvents = (inputStore as unknown as { events: unknown[] }).events as import('@/types').InputEvent[];
+
   // Calcular estadísticas de video - using helper function
-  const videoStats = useMemo(() => calculateVideoStats((inputStore as unknown as { events: unknown[] }).events as import('@/types').InputEvent[]), [(inputStore as unknown as { events: unknown[] }).events]);
+  const videoStats = useMemo(() => calculateVideoStats(inputEvents), [inputEvents]);
 
   const handleLoadVideo = useCallback(async () => {
     if (!youtubeUrl.trim()) return;
@@ -440,7 +448,7 @@ export default function VideoInputPage() {
                 style={{
                   background: !youtubeUrl.trim()
                     ? 'radial-gradient(circle at 30% 30%, #4B5563, #374151)'
-                    : 'radial-gradient(circle at 30% 30%, #EC4899, #DB2777)',
+                    : `radial-gradient(circle at 30% 30%, ${VIDEO_COLOR_PRIMARY}, ${VIDEO_COLOR_DARK})`,
                 }}
               >
                 <motion.div
@@ -488,7 +496,7 @@ export default function VideoInputPage() {
             >
               <div className="relative w-28 h-28 rounded-full"
                 style={{
-                  background: 'radial-gradient(circle at 30% 30%, #EC4899, #DB2777)',
+                  background: `radial-gradient(circle at 30% 30%, ${VIDEO_COLOR_PRIMARY}, ${VIDEO_COLOR_DARK})`,
                 }}
               >
                 <motion.div
@@ -551,7 +559,7 @@ export default function VideoInputPage() {
             onClick={handleImport}
             className="relative w-16 h-16 rounded-full"
             style={{
-              background: 'radial-gradient(circle at 30% 30%, #EC4899, #DB2777)',
+              background: `radial-gradient(circle at 30% 30%, ${VIDEO_COLOR_PRIMARY}, ${VIDEO_COLOR_DARK})`,
             }}
             whileHover={{ scale: 1.1, rotate: 90 }}
             whileTap={{ scale: 0.95 }}

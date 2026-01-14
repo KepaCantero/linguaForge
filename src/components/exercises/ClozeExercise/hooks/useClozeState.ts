@@ -4,7 +4,7 @@ import { useState, useCallback, useEffect } from 'react';
 import { Phrase, ClozeOption, ConversationalBlock } from '@/types';
 import { XP_RULES } from '@/lib/constants';
 import type { SoundId } from '@/lib/soundEffects';
-import { useExerciseGamification, useExerciseUI, useKeyboardShortcuts, useExerciseAudio } from '../../hooks';
+import { useExerciseGamification, useExerciseUI, useKeyboardShortcuts } from '../../hooks';
 
 interface ClozeState {
   selectedOption: ClozeOption | null;
@@ -27,7 +27,6 @@ interface ClozeDerivedState {
 
 const AUTO_CONTINUE_DELAY = 2000;
 const CORRECT_AUDIO_DELAY = 500;
-const KEYBOARD_OPTIONS = 4;
 
 interface UseClozeStateOptions {
   phrase: Phrase;

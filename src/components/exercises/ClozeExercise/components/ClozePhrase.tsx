@@ -47,7 +47,7 @@ export function ClozePhrase({
     <div className={getContainerClassName()}>
       <p className={getTextClassName()}>
         {parts.map((part, index, array) => (
-          <Fragment key={`part-${index}-${part.slice(0, 10)}`}>
+          <Fragment key={`${part.slice(0, 20)}-${index}`}>
             {part}
             {index < array.length - 1 && (
               <ClozeInput

@@ -1,13 +1,11 @@
 'use client';
 
-import { useState, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useMissionStore, type Mission } from '@/store/useMissionStore';
-import { useCognitiveLoad } from '@/store/useCognitiveLoadStore';
 import { useGamificationStore } from '@/store/useGamificationStore';
-import { suggestMissionOrder, shouldTakeBreak } from '@/services/missionGenerator';
+import { type Mission } from '@/store/useMissionStore';
 import { WarmupGate } from '@/components/warmups';
 import type { MissionType as WarmupMissionType, Difficulty } from '@/schemas/warmup';
+import { useMissionFeed } from './hooks/useMissionFeed';
 
 interface MissionFeedProps {
   onMissionStart?: (mission: Mission) => void;
@@ -31,138 +29,29 @@ export function MissionFeed({
   compact = false,
   sessionMinutes = 0,
 }: MissionFeedProps) {
-  const { dailyMissions } = useMissionStore();
-  const { status: loadStatus } = useCognitiveLoad();
   const { level } = useGamificationStore();
-  const [expandedMission, setExpandedMission] = useState<string | null>(null);
-  const [activeMission, setActiveMission] = useState<Mission | null>(null);
-  const [showWarmupGate, setShowWarmupGate] = useState(false);
 
-  // Ordenar misiones por carga cognitiva óptima
-  const sortedMissions = useMemo(
-    () => suggestMissionOrder(dailyMissions),
-    [dailyMissions]
-  );
+  // Consolidate all mission feed logic in a single custom hook
+  const {
+    expandedMission,
+    activeMission,
+    showWarmupGate,
+    sortedMissions,
+    stats,
+    allMissionsComplete,
+    breakSuggestion,
+    handleMissionClick,
+    handleStartWithWarmup,
+    handleStartMission,
+    handleWarmupComplete,
+    handleWarmupSkip,
+    handleMissionStartAfterWarmup,
+    getLoadColor,
+    getMissionIcon,
+    getDifficultyColor,
+  } = useMissionFeed({ sessionMinutes, onMissionStart });
 
-  // Calcular estadísticas
-  const stats = useMemo(() => {
-    const completed = dailyMissions.filter((m) => m.completed).length;
-    const total = dailyMissions.length;
-    const totalXP = dailyMissions.reduce((acc, m) => acc + m.reward.xp, 0);
-    const earnedXP = dailyMissions
-      .filter((m) => m.completed)
-      .reduce((acc, m) => acc + m.reward.xp, 0);
-    const estimatedMinutes = dailyMissions
-      .filter((m) => !m.completed)
-      .reduce((acc, m) => acc + (m.estimatedMinutes || 0), 0);
-
-    return { completed, total, totalXP, earnedXP, estimatedMinutes };
-  }, [dailyMissions]);
-
-  // Verificar si todas las misiones están completadas
-  const allMissionsComplete = useMemo(() => {
-    return dailyMissions.length > 0 && dailyMissions.every((m) => m.completed);
-  }, [dailyMissions]);
-
-  // Verificar si debería tomar descanso
-  const breakSuggestion = useMemo(() => {
-    const completedCount = dailyMissions.filter((m) => m.completed).length;
-    const currentLoad = loadStatus === 'overload' ? 90 : loadStatus === 'high' ? 75 : 50;
-    return shouldTakeBreak(completedCount, sessionMinutes, currentLoad);
-  }, [dailyMissions, sessionMinutes, loadStatus]);
-
-  // Manejar click en misión
-  const handleMissionClick = useCallback(
-    (mission: Mission) => {
-      if (mission.completed) return;
-
-      if (expandedMission === mission.id) {
-        // Si ya está expandida, expandir detalles pero no iniciar
-        // El inicio se hace con los botones
-      } else {
-        // Expandir para ver detalles
-        setExpandedMission(mission.id);
-      }
-    },
-    [expandedMission]
-  );
-
-  // Manejar inicio de warmup (antes de la misión)
-  const handleStartWithWarmup = useCallback(
-    (mission: Mission) => {
-      setActiveMission(mission);
-      setShowWarmupGate(true);
-    },
-    []
-  );
-
-  // Manejar inicio directo de misión (sin warmup)
-  const handleStartMission = useCallback(
-    (mission: Mission) => {
-      setActiveMission(null);
-      setShowWarmupGate(false);
-      onMissionStart?.(mission);
-    },
-    [onMissionStart]
-  );
-
-  // Manejar completar warmup
-  const handleWarmupComplete = useCallback(
-    (_score: number) => {
-      // Score is saved in store, no additional action needed
-    },
-    []
-  );
-
-  // Manejar saltar warmup
-  const handleWarmupSkip = useCallback(() => {
-    // Warmup skipped - no action needed
-  }, []);
-
-  // Manejar comenzar misión después de warmup
-  const handleMissionStartAfterWarmup = useCallback(() => {
-    if (activeMission) {
-      setShowWarmupGate(false);
-      onMissionStart?.(activeMission);
-      setActiveMission(null);
-    }
-  }, [activeMission, onMissionStart]);
-
-  // Obtener color de carga cognitiva
-  const getLoadColor = (load: number) => {
-    if (load <= 30) return 'bg-accent-500';
-    if (load <= 50) return 'bg-sky-500';
-    if (load <= 70) return 'bg-amber-500';
-    return 'bg-semantic-error';
-  };
-
-  // Obtener icono de tipo de misión
-  const getMissionIcon = (type: Mission['type']) => {
-    const icons: Record<string, string> = {
-      input: '🎧',
-      exercises: '📝',
-      janus: '🔀',
-      forgeMandate: '⚔️',
-      streak: '🔥',
-    };
-    return icons[type] || '📌';
-  };
-
-  // Obtener color de dificultad
-  const getDifficultyColor = (difficulty?: 'low' | 'medium' | 'high') => {
-    switch (difficulty) {
-      case 'low':
-        return 'text-accent-400';
-      case 'medium':
-        return 'text-amber-400';
-      case 'high':
-        return 'text-semantic-error';
-      default:
-        return 'text-calm-text-muted';
-    }
-  };
-
-  if (dailyMissions.length === 0) {
+  if (sortedMissions.length === 0) {
     return (
       <div className="p-6 text-center text-calm-text-muted">
         <p>No hay misiones disponibles.</p>

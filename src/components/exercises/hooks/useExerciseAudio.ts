@@ -49,7 +49,7 @@ export interface SilenceDetectionOptions {
  * ```
  */
 export function useExerciseAudio(options: AudioPlaybackOptions = {}): AudioPlaybackReturn {
-  const { autoPlay = false, onPlayStart, onPlayEnd, onError } = options;
+  const { autoPlay: _autoPlay = false, onPlayStart, onPlayEnd, onError } = options;
   const { speak, isSpeaking, isAvailable } = useTTS();
 
   const [isPlaying, setIsPlaying] = useState(false);
@@ -312,14 +312,12 @@ export function useAudioElement(src: string) {
  */
 export function useAudioSequence(audioUrls: string[]) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
 
   const currentUrl = audioUrls[currentIndex];
   const audio = useAudioElement(currentUrl);
 
   // Play all audio files in sequence
   const playAll = useCallback(async () => {
-    setIsPlaying(true);
     setCurrentIndex(0);
 
     for (let i = 0; i < audioUrls.length; i++) {
@@ -329,8 +327,6 @@ export function useAudioSequence(audioUrls: string[]) {
       // In practice, you'd need to wait for each audio to complete
       await new Promise(resolve => setTimeout(resolve, 1000));
     }
-
-    setIsPlaying(false);
   }, [audioUrls]);
 
   // Play next audio in sequence

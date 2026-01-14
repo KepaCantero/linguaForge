@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { WordInfo, WordDictionaryStore } from '@/types/wordDictionary';
 import { normalizeWord } from '@/services/wordExtractor';
+import { DEFAULT_SRS_LANGUAGE, DEFAULT_SRS_LEVEL } from '@/types/srs';
 
 const initialState = {
   words: {} as Record<string, WordInfo>,
@@ -24,8 +25,8 @@ function createNewWordInfo(word: string, normalized: string, type: string, cardI
     timesSeen: 1,
     isStudied: !!cardId,
     isMastered: false,
-    languageCode: 'fr',
-    levelCode: 'A1',
+    languageCode: DEFAULT_SRS_LANGUAGE,
+    levelCode: DEFAULT_SRS_LEVEL,
   };
 }
 

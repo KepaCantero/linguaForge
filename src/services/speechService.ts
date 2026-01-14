@@ -83,7 +83,14 @@ function detectRhythmPattern(channelData: Float32Array, sampleRate: number): Rhy
     const energy = calculateWindowEnergy(window);
 
     if (energy > THRESHOLD) {
-      const result = handleSpeechSegment(inSpeech, currentPause, currentSegment, windowSize, sampleRate, pauses);
+      const result = handleSpeechSegment({
+        inSpeech,
+        currentPause,
+        currentSegment,
+        windowSize,
+        sampleRate,
+        pauses,
+      });
       inSpeech = result.inSpeech;
       currentPause = result.currentPause;
       currentSegment = result.currentSegment;
@@ -114,25 +121,36 @@ function calculateWindowEnergy(window: Float32Array): number {
 }
 
 /**
+ * Opciones para manejar un segmento de habla
+ */
+interface HandleSpeechSegmentOptions {
+  inSpeech: boolean;
+  currentPause: number;
+  currentSegment: number;
+  windowSize: number;
+  sampleRate: number;
+  pauses: number[];
+}
+
+/**
  * Maneja un segmento de habla
  */
 function handleSpeechSegment(
-  inSpeech: boolean,
-  currentPause: number,
-  currentSegment: number,
-  windowSize: number,
-  sampleRate: number,
-  pauses: number[]
+  options: HandleSpeechSegmentOptions
 ): { inSpeech: boolean; currentPause: number; currentSegment: number } {
-  if (inSpeech) {
-    return { inSpeech: true, currentPause, currentSegment: currentSegment + windowSize };
+  if (options.inSpeech) {
+    return {
+      inSpeech: true,
+      currentPause: options.currentPause,
+      currentSegment: options.currentSegment + options.windowSize
+    };
   }
 
-  if (currentPause > 0) {
-    pauses.push((currentPause / sampleRate) * 1000);
+  if (options.currentPause > 0) {
+    options.pauses.push((options.currentPause / options.sampleRate) * 1000);
   }
 
-  return { inSpeech: true, currentPause: 0, currentSegment: windowSize };
+  return { inSpeech: true, currentPause: 0, currentSegment: options.windowSize };
 }
 
 /**

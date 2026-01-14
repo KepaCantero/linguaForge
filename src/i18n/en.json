@@ -60,6 +60,26 @@
     "analyze": "Analyze",
     "createNode": "Create Node"
   },
+  "input": {
+    "video": {
+      "title": "Video",
+      "description": "YouTube videos with transcript",
+      "views": "Views",
+      "totalHours": "Total hours"
+    },
+    "audio": {
+      "title": "Audio",
+      "description": "Podcasts and dialogues with text",
+      "listened": "Audios listened",
+      "totalHours": "Total hours"
+    },
+    "text": {
+      "title": "Text",
+      "description": "Readings with generated audio",
+      "read": "Texts read",
+      "wordsRead": "Words read"
+    }
+  },
   "profile": {
     "title": "Profile",
     "appLanguage": "App language",

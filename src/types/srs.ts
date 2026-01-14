@@ -1,8 +1,13 @@
 import { z } from 'zod';
+import { SUPPORTED_LANGUAGES, SUPPORTED_LEVELS } from '@/lib/constants';
 
 // ============================================
 // ENUMS Y CONSTANTES
 // ============================================
+
+// Idioma por defecto para nuevas tarjetas SRS (primer idioma soportado)
+export const DEFAULT_SRS_LANGUAGE = SUPPORTED_LANGUAGES[0]; // 'de'
+export const DEFAULT_SRS_LEVEL = SUPPORTED_LEVELS[1]; // 'A1'
 
 export const ReviewResponseValues = ['again', 'hard', 'good', 'easy'] as const;
 export type ReviewResponse = (typeof ReviewResponseValues)[number];
@@ -67,8 +72,8 @@ export const SRSCardSchema = z.object({
 
   // Metadatos de creación
   createdAt: z.string(), // ISO date
-  languageCode: z.string().default('fr'),
-  levelCode: z.string().default('A1'),
+  languageCode: z.enum(SUPPORTED_LANGUAGES).default(DEFAULT_SRS_LANGUAGE),
+  levelCode: z.enum(SUPPORTED_LEVELS).default(DEFAULT_SRS_LEVEL),
 
   // Estado SM-2 (legacy, mantener para compatibilidad)
   status: z.enum(CardStatusValues).default('new'),
@@ -128,8 +133,8 @@ export const CreateSRSCardInputSchema = z.object({
   translation: z.string().min(1),
   audioUrl: z.string().optional(),
   source: ContentSourceSchema,
-  languageCode: z.string().default('fr'),
-  levelCode: z.string().default('A1'),
+  languageCode: z.enum(SUPPORTED_LANGUAGES).default(DEFAULT_SRS_LANGUAGE),
+  levelCode: z.enum(SUPPORTED_LEVELS).default(DEFAULT_SRS_LEVEL),
   tags: z.array(z.string()).optional(),
   notes: z.string().optional(),
 });

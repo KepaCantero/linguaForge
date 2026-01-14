@@ -1,5 +1,8 @@
 import { useMemo } from 'react';
 import type { InputHubStats } from './useInputHubStats';
+import { BRANCH_COLORS } from '@/lib/constants';
+import { useUserStore } from '@/store/useUserStore';
+import { getTranslations } from '@/i18n';
 
 export interface InputOption {
   id: string;
@@ -12,46 +15,63 @@ export interface InputOption {
   color: string;
 }
 
+// Colores para cada tipo de input - usando BRANCH_COLORS
+const INPUT_COLORS = {
+  video: BRANCH_COLORS[9], // #EC4899 - Comunicación (Pink 500)
+  audio: BRANCH_COLORS[5], // #10B981 - Comida (Emerald 500)
+  text: BRANCH_COLORS[4],  // #06B6D4 - Alojamiento (Cyan 500)
+} as const;
+
+// Gradientes para cada tipo de input
+const INPUT_GRADIENTS = {
+  video: `radial-gradient(circle at 30% 30%, ${INPUT_COLORS.video}, #DB2777)`,
+  audio: `radial-gradient(circle at 30% 30%, ${INPUT_COLORS.audio}, #059669)`,
+  text: `radial-gradient(circle at 30% 30%, ${INPUT_COLORS.text}, #0891B2)`,
+} as const;
+
 export function useInputOptions(stats: InputHubStats): InputOption[] {
+  const { appLanguage } = useUserStore();
+  const t = getTranslations(appLanguage);
+
   return useMemo(() => [
     {
       id: 'video',
       href: '/input/video',
       icon: '🎬',
-      title: 'Video',
-      description: 'Videos de YouTube con transcripción',
+      title: t.input.video.title,
+      description: t.input.video.description,
       stats: [
-        { label: 'Visualizaciones', value: stats.videoViews },
-        { label: 'Horas totales', value: `${stats.videoHours}h` },
+        { label: t.input.video.views, value: stats.videoViews },
+        { label: t.input.video.totalHours, value: `${stats.videoHours}h` },
       ],
-      gradient: 'radial-gradient(circle at 30% 30%, #EC4899, #DB2777)',
-      color: '#EC4899',
+      gradient: INPUT_GRADIENTS.video,
+      color: INPUT_COLORS.video,
     },
     {
       id: 'audio',
       href: '/input/audio',
       icon: '🎧',
-      title: 'Audio',
-      description: 'Podcasts y diálogos con texto',
+      title: t.input.audio.title,
+      description: t.input.audio.description,
       stats: [
-        { label: 'Audios escuchados', value: stats.audioCount },
-        { label: 'Horas totales', value: `${stats.audioHours}h` },
+        { label: t.input.audio.listened, value: stats.audioCount },
+        { label: t.input.audio.totalHours, value: `${stats.audioHours}h` },
       ],
-      gradient: 'radial-gradient(circle at 30% 30%, #10B981, #059669)',
-      color: '#10B981',
+      gradient: INPUT_GRADIENTS.audio,
+      color: INPUT_COLORS.audio,
     },
     {
       id: 'text',
       href: '/input/text',
       icon: '📖',
-      title: 'Texto',
-      description: 'Lecturas con audio generado',
+      title: t.input.text.title,
+      description: t.input.text.description,
       stats: [
-        { label: 'Textos leídos', value: stats.textCount },
-        { label: 'Palabras leídas', value: stats.wordsRead.toLocaleString() },
+        { label: t.input.text.read, value: stats.textCount },
+        { label: t.input.text.wordsRead, value: stats.wordsRead.toLocaleString() },
       ],
-      gradient: 'radial-gradient(circle at 30% 30%, #06B6D4, #0891B2)',
-      color: '#06B6D4',
+      gradient: INPUT_GRADIENTS.text,
+      color: INPUT_COLORS.text,
     },
-  ], [stats]);
+  ], [stats, t]);
 }

@@ -3,6 +3,8 @@
  * Extracted to avoid circular dependencies
  */
 
+import { BRANCH_COLORS, APP_COLORS } from '@/lib/constants';
+
 export interface UnifiedTopic {
   id: string;
   type: 'a0-course' | 'imported' | 'coming-soon';
@@ -27,14 +29,50 @@ export interface UnifiedTopic {
   };
 }
 
-// Category definitions with colors
+// Category definitions with colors - usando BRANCH_COLORS y APP_COLORS
 export const CATEGORIES = [
-  { id: 'basics', name: 'Fundamentos', icon: '🎯', color: '#6366F1', gradient: 'linear-gradient(135deg, #6366F1, #4F46E5)' },
-  { id: 'communication', name: 'Comunicación', icon: '💬', color: '#3B82F6', gradient: 'linear-gradient(135deg, #3B82F6, #2563EB)' },
-  { id: 'food', name: 'Comida', icon: '🍽️', color: '#F59E0B', gradient: 'linear-gradient(135deg, #F59E0B, #D97706)' },
-  { id: 'travel', name: 'Viajes', icon: '✈️', color: '#10B981', gradient: 'linear-gradient(135deg, #10B981, #059669)' },
-  { id: 'health', name: 'Salud', icon: '🏥', color: '#EF4444', gradient: 'linear-gradient(135deg, #EF4444, #DC2626)' },
-  { id: 'imported', name: 'Importado', icon: '📁', color: '#8B5CF6', gradient: 'linear-gradient(135deg, #8B5CF6, #7C3AED)' },
+  {
+    id: 'basics',
+    name: 'Fundamentos',
+    icon: '🎯',
+    color: BRANCH_COLORS[1], // #6366F1 - Identidad
+    gradient: `linear-gradient(135deg, ${BRANCH_COLORS[1]}, ${APP_COLORS.primaryDark})`
+  },
+  {
+    id: 'communication',
+    name: 'Comunicación',
+    icon: '💬',
+    color: BRANCH_COLORS[2], // #3B82F6 - Tiempo
+    gradient: `linear-gradient(135deg, ${BRANCH_COLORS[2]}, ${APP_COLORS.info})`
+  },
+  {
+    id: 'food',
+    name: 'Comida',
+    icon: '🍽️',
+    color: BRANCH_COLORS[7], // #F59E0B - Personas
+    gradient: `linear-gradient(135deg, ${BRANCH_COLORS[7]}, ${APP_COLORS.warningDark})`
+  },
+  {
+    id: 'travel',
+    name: 'Viajes',
+    icon: '✈️',
+    color: BRANCH_COLORS[5], // #10B981 - Comida
+    gradient: `linear-gradient(135deg, ${BRANCH_COLORS[5]}, ${APP_COLORS.successDark})`
+  },
+  {
+    id: 'health',
+    name: 'Salud',
+    icon: '🏥',
+    color: BRANCH_COLORS[8], // #EF4444 - Trabajo
+    gradient: `linear-gradient(135deg, ${BRANCH_COLORS[8]}, ${APP_COLORS.errorDark})`
+  },
+  {
+    id: 'imported',
+    name: 'Importado',
+    icon: '📁',
+    color: BRANCH_COLORS[10], // #8B5CF6 - Pasado/Futuro
+    gradient: `linear-gradient(135deg, ${BRANCH_COLORS[10]}, #7C3AED)`
+  },
 ] as const;
 
 // A0 Course nodes (structured content from the app)

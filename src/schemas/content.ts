@@ -4,7 +4,7 @@ import { z } from 'zod';
 // ENUMS Y CONSTANTES
 // ============================================================
 
-export const LanguageCodeSchema = z.enum(['fr', 'de', 'es', 'it', 'pt']);
+export const LanguageCodeSchema = z.enum(['de', 'en', 'es', 'fr', 'it']);
 export const LevelCodeSchema = z.enum(['A0', 'A1', 'A2', 'B1', 'B2', 'C1', 'C2']);
 export const InputTypeSchema = z.enum(['audio', 'video', 'text']);
 export const NodeStatusSchema = z.enum(['locked', 'active', 'completed']);

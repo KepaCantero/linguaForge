@@ -448,7 +448,7 @@ export class ValidationDebugger {
   static logValidationErrors<T>(
     schema: ZodSchema<T>,
     data: unknown,
-    context?: string
+    _context?: string
   ) {
     if (process.env.NODE_ENV !== 'development') return;
 

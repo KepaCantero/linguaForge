@@ -6,6 +6,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useUserStore, type LearningMode } from '@/store/useUserStore';
 import { useProgressStore } from '@/store/useProgressStore';
 import { getTranslations, type AppLanguage } from '@/i18n';
+import { DEFAULT_SRS_LANGUAGE, DEFAULT_SRS_LEVEL } from '@/types/srs';
+import { UI_LANGUAGES } from '@/lib/constants';
 
 type Step = 'language' | 'mode';
 
@@ -21,7 +23,7 @@ export default function OnboardingPage() {
   const { appLanguage, setAppLanguage, setMode, completeOnboarding } = useUserStore();
   const { setActiveLanguage, setActiveLevel } = useProgressStore();
   const [step, setStep] = useState<Step>('language');
-  const [selectedLang, setSelectedLang] = useState<AppLanguage>('es');
+  const [selectedLang, setSelectedLang] = useState<AppLanguage>(UI_LANGUAGES[0]); // 'es'
   const [isHydrated, setIsHydrated] = useState(false);
 
   // Esperar a que el store se hidrate desde localStorage
@@ -33,7 +35,7 @@ export default function OnboardingPage() {
         try {
           const parsed = JSON.parse(stored);
           if (parsed.state) {
-            setSelectedLang(parsed.state.appLanguage || 'es');
+            setSelectedLang(parsed.state.appLanguage || UI_LANGUAGES[0]);
           }
         } catch {
           // Si hay error, usar el valor del store
@@ -51,9 +53,9 @@ export default function OnboardingPage() {
   const handleLanguageSelect = (lang: AppLanguage) => {
     setSelectedLang(lang);
     setAppLanguage(lang);
-    // También guardar el idioma de aprendizaje (francés por defecto)
-    setActiveLanguage('fr');
-    setActiveLevel('A1');
+    // Guardar el idioma de aprendizaje (usar constante por defecto)
+    setActiveLanguage(DEFAULT_SRS_LANGUAGE);
+    setActiveLevel(DEFAULT_SRS_LEVEL);
   };
 
   const handleContinue = () => {
@@ -66,8 +68,8 @@ export default function OnboardingPage() {
     // Guardar todas las preferencias antes de completar onboarding
     setMode(mode);
     // Asegurar que el idioma y nivel estén guardados
-    setActiveLanguage('fr');
-    setActiveLevel('A1');
+    setActiveLanguage(DEFAULT_SRS_LANGUAGE);
+    setActiveLevel(DEFAULT_SRS_LEVEL);
     // Completar onboarding y redirigir
     completeOnboarding();
 
@@ -113,25 +115,18 @@ export default function OnboardingPage() {
               </h2>
 
               <div className="space-y-3">
-                <button
-                  onClick={() => handleLanguageSelect('es')}
-                  className={getLanguageButtonClasses(selectedLang, 'es')}
-                >
-                  <span className="text-3xl">🇪🇸</span>
-                  <span className="text-lg font-medium text-calm-text-primary">
-                    Español
-                  </span>
-                </button>
-
-                <button
-                  onClick={() => handleLanguageSelect('en')}
-                  className={getLanguageButtonClasses(selectedLang, 'en')}
-                >
-                  <span className="text-3xl">🇬🇧</span>
-                  <span className="text-lg font-medium text-calm-text-primary">
-                    English
-                  </span>
-                </button>
+                {UI_LANGUAGES.map((lang) => (
+                  <button
+                    key={lang}
+                    onClick={() => handleLanguageSelect(lang)}
+                    className={getLanguageButtonClasses(selectedLang, lang)}
+                  >
+                    <span className="text-3xl">{lang === 'es' ? '🇪🇸' : '🇬🇧'}</span>
+                    <span className="text-lg font-medium text-calm-text-primary">
+                      {lang === 'es' ? 'Español' : 'English'}
+                    </span>
+                  </button>
+                ))}
               </div>
 
               <button

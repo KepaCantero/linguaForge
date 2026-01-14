@@ -3,6 +3,10 @@ import { AudioStatOrb } from "./AudioStatOrb";
 import type { AudioStats } from "../hooks/useAudioStats";
 import { borderAlpha } from "@/constants/colors";
 
+// Colores para input de audio - usando BRANCH_COLORS[5] (Comida - Emerald 500)
+const AUDIO_COLOR_LIGHT = '#34D399'; // Emerald 400
+const AUDIO_COLOR_LIGHTER = '#6EE7B7'; // Emerald 300
+
 interface AudioOrbitalHUDProps {
   audioStats: AudioStats;
 }
@@ -87,7 +91,7 @@ export function AudioOrbitalHUD({ audioStats }: AudioOrbitalHUDProps) {
         value={`${audioStats.totalHours}h`}
         label="Horas"
         icon="⏱️"
-        color="#34D399"
+        color={AUDIO_COLOR_LIGHT}
         angle={30}
         distance={120}
         delay={0.1}
@@ -97,7 +101,7 @@ export function AudioOrbitalHUD({ audioStats }: AudioOrbitalHUDProps) {
         value={audioStats.wordsHeard.toLocaleString()}
         label="Palabras"
         icon="📝"
-        color="#6EE7B7"
+        color={AUDIO_COLOR_LIGHTER}
         angle={150}
         distance={120}
         delay={0.2}
@@ -109,7 +113,7 @@ export function AudioOrbitalHUD({ audioStats }: AudioOrbitalHUDProps) {
           key={`audio-particle-${i}`}
           className="absolute w-2 h-2 rounded-full opacity-70"
           style={{
-            background: i % 2 === 0 ? "var(--accent-500)" : "#34D399",
+            background: i % 2 === 0 ? "var(--accent-500)" : AUDIO_COLOR_LIGHT,
             left: `${25 + (i * 8) % 50}%`,
             top: `${15 + (i * 10) % 70}%`,
           }}

@@ -38,7 +38,7 @@ export function ConversationalEchoExercise({
   className = '',
 }: ConversationalEchoExerciseProps) {
   const { grantReward } = useExerciseGamification();
-  const { phase, setPhase, isPhase } = useExercisePhase<ExercisePhase>('listening');
+  const { phase: _phase, setPhase, isPhase } = useExercisePhase<ExercisePhase>('listening');
 
   const [audioProgress, setAudioProgress] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);

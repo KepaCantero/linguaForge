@@ -26,7 +26,6 @@ export {
 
 // Translation Service
 export {
-  translateToSpanish,
   translateWords,
   preloadCommonTranslations,
   getCacheStats,

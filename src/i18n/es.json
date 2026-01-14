@@ -60,6 +60,26 @@
     "analyze": "Analizar",
     "createNode": "Crear Nodo"
   },
+  "input": {
+    "video": {
+      "title": "Video",
+      "description": "Videos de YouTube con transcripción",
+      "views": "Visualizaciones",
+      "totalHours": "Horas totales"
+    },
+    "audio": {
+      "title": "Audio",
+      "description": "Podcasts y diálogos con texto",
+      "listened": "Audios escuchados",
+      "totalHours": "Horas totales"
+    },
+    "text": {
+      "title": "Texto",
+      "description": "Lecturas con audio generado",
+      "read": "Textos leídos",
+      "wordsRead": "Palabras leídas"
+    }
+  },
   "profile": {
     "title": "Perfil",
     "appLanguage": "Idioma de la app",

@@ -62,34 +62,6 @@ export const viewport: Viewport = {
   viewportFit: 'cover',
 };
 
-// Script inline para prevenir FOUC (Flash of Unstyled Content)
-// Solo se ejecuta en el cliente, no durante SSR
-const themeScript = `
-(function() {
-  try {
-    const THEME_KEY = 'linguaforge-theme';
-    const theme = localStorage.getItem(THEME_KEY) || 'system';
-    const isDark =
-      theme === 'dark' ||
-      (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
-
-    if (isDark) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.add('light');
-    }
-  } catch (e) {
-    // Fallback durante SSR o si localStorage no está disponible
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    if (prefersDark) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.add('light');
-    }
-  }
-})();
-`;
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -102,8 +74,8 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
-        {/* Script para prevenir FOUC - se ejecuta inmediatamente en el cliente */}
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        {/* Script para prevenir FOUC - se ejecuta inmediatamente durante el parseo */}
+        <script src="/scripts/theme-init.js" defer />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="icon" href="/icons/icon-192x192.svg" type="image/svg+xml" />

@@ -1,74 +1,96 @@
 /**
  * Text-to-Speech Service using Web Speech API
- * Provides high-quality French pronunciation
+ * Multi-language support with voice selection per language
  */
+
+import type { SupportedLanguage } from '@/lib/constants';
+import { getLanguageConfig } from '@/lib/languageConfig';
+import { useProgressStore } from '@/store/useProgressStore';
 
 type TTSCallback = () => void;
 
-class TTSService {
+export class TTSService {
   private synth: SpeechSynthesis | null = null;
-  private frenchVoice: SpeechSynthesisVoice | null = null;
+  private currentLanguage: SupportedLanguage;
+  private currentVoice: SpeechSynthesisVoice | null = null;
   private isInitialized = false;
 
-  constructor() {
+  constructor(language: SupportedLanguage = 'de') {
+    this.currentLanguage = language;
+
     if (typeof window !== 'undefined') {
       this.synth = window.speechSynthesis;
       this.initVoice();
     }
   }
 
+  /**
+   * Cambia el idioma actual del servicio TTS
+   * @param language - Nuevo idioma a usar
+   */
+  setLanguage(language: SupportedLanguage): void {
+    this.currentLanguage = language;
+    this.currentVoice = null;
+    this.isInitialized = false;
+    this.selectBestVoice();
+  }
+
+  /**
+   * Obtiene el idioma actual
+   */
+  getLanguage(): SupportedLanguage {
+    return this.currentLanguage;
+  }
+
   private initVoice() {
     if (!this.synth) return;
 
     // Try to get voices immediately
-    this.selectBestFrenchVoice();
+    this.selectBestVoice();
 
     // Also listen for voiceschanged event (needed for some browsers)
     this.synth.onvoiceschanged = () => {
-      this.selectBestFrenchVoice();
+      this.selectBestVoice();
     };
   }
 
-  private selectBestFrenchVoice() {
+  /**
+   * Selecciona la mejor voz disponible para el idioma actual
+   */
+  private selectBestVoice() {
     if (!this.synth) return;
 
     const voices = this.synth.getVoices();
-
-    // Priority order for French voices (best quality first)
-    const preferredVoices = [
-      'Google français',           // Google (Chrome)
-      'Thomas',                    // macOS premium
-      'Amelie',                    // macOS premium
-      'Marie',                     // macOS
-      'Microsoft Paul - French',   // Windows
-      'Microsoft Julie - French',  // Windows
-    ];
+    const config = getLanguageConfig(this.currentLanguage);
 
     // Try to find a preferred voice
-    for (const preferred of preferredVoices) {
+    for (const preferred of config.voice.preferredVoices) {
       const voice = voices.find(v => v.name.includes(preferred));
       if (voice) {
-        this.frenchVoice = voice;
+        this.currentVoice = voice;
         this.isInitialized = true;
         return;
       }
     }
 
-    // Fallback: any French voice
-    const frenchVoice = voices.find(v =>
-      v.lang.startsWith('fr') ||
-      v.lang === 'fr-FR' ||
-      v.lang === 'fr-CA'
+    // Fallback: any voice matching the language codes
+    const voice = voices.find(v =>
+      config.voice.langCodes.some(code =>
+        v.lang.startsWith(code) || v.lang === code
+      )
     );
 
-    if (frenchVoice) {
-      this.frenchVoice = frenchVoice;
+    if (voice) {
+      this.currentVoice = voice;
       this.isInitialized = true;
     }
   }
 
   /**
-   * Speak text in French
+   * Speak text in the current language
+   * @param text - Text to speak
+   * @param onEnd - Callback when speech ends
+   * @param onStart - Callback when speech starts
    */
   speak(text: string, onEnd?: TTSCallback, onStart?: TTSCallback): void {
     if (!this.synth) {
@@ -80,15 +102,16 @@ class TTSService {
     this.synth.cancel();
 
     const utterance = new SpeechSynthesisUtterance(text);
+    const config = getLanguageConfig(this.currentLanguage);
 
-    // Set French voice if available
-    if (this.frenchVoice) {
-      utterance.voice = this.frenchVoice;
+    // Set voice if available
+    if (this.currentVoice) {
+      utterance.voice = this.currentVoice;
     }
 
-    // Configure for natural French speech
-    utterance.lang = 'fr-FR';
-    utterance.rate = 0.9;      // Slightly slower for learners
+    // Configure for natural speech
+    utterance.lang = config.voice.ttsLang;
+    utterance.rate = config.voice.rate;      // Language-specific rate
     utterance.pitch = 1.0;
     utterance.volume = 1.0;
 
@@ -101,7 +124,8 @@ class TTSService {
     };
 
     utterance.onerror = (_event) => {
-      // TODO: Add proper logging service for TTS errors
+      // TODO-20250114-006: Add proper logging service for TTS errors
+      // Ver: /docs/TODO.md
       onEnd?.();
     };
 
@@ -110,6 +134,8 @@ class TTSService {
 
   /**
    * Speak with a Promise interface
+   * @param text - Text to speak
+   * @returns Promise that resolves when speech ends
    */
   speakAsync(text: string): Promise<void> {
     return new Promise((resolve) => {
@@ -125,34 +151,97 @@ class TTSService {
   }
 
   /**
-   * Check if TTS is available and has a French voice
+   * Check if TTS is available and has a voice for current language
    */
   isAvailable(): boolean {
-    return this.isInitialized && this.frenchVoice !== null;
+    return this.isInitialized && this.currentVoice !== null;
   }
 
   /**
    * Get the current voice name
    */
   getVoiceName(): string {
-    return this.frenchVoice?.name || 'Default';
+    return this.currentVoice?.name || 'Default';
+  }
+
+  /**
+   * Get available voices for the current language
+   */
+  getAvailableVoices(): SpeechSynthesisVoice[] {
+    if (!this.synth) return [];
+    const config = getLanguageConfig(this.currentLanguage);
+    return this.synth.getVoices().filter(v =>
+      config.voice.langCodes.some(code =>
+        v.lang.startsWith(code) || v.lang === code
+      )
+    );
   }
 }
 
-// Singleton instance
-export const tts = new TTSService();
+// ============================================
+// SINGLETON CON INSTANCIA POR IDIOMA
+// ============================================
 
-// React hook for TTS
+class TTSManager {
+  private instances: Map<string, TTSService> = new Map();
+
+  /**
+   * Obtiene o crea una instancia de TTSService para un idioma específico
+   * @param language - Idioma deseado
+   * @returns Instancia de TTSService para el idioma
+   */
+  getService(language: SupportedLanguage = 'de'): TTSService {
+    if (!this.instances.has(language)) {
+      this.instances.set(language, new TTSService(language));
+    }
+    return this.instances.get(language)!;
+  }
+
+  /**
+   * Obtiene el servicio TTS para el idioma actual del usuario
+   * @param userLanguage - Idioma del usuario
+   * @returns Instancia de TTSService
+   */
+  getServiceForLanguage(userLanguage: SupportedLanguage): TTSService {
+    return this.getService(userLanguage);
+  }
+
+  /**
+   * Limpia todas las instancias
+   */
+  clear(): void {
+    this.instances.forEach(service => service.stop());
+    this.instances.clear();
+  }
+}
+
+// Manager singleton
+const ttsManager = new TTSManager();
+
+// Export default service (usando 'de' como idioma por defecto - primer idioma soportado)
+export const tts = ttsManager.getService();
+
+// Export manager para acceso multi-idioma
+export { ttsManager };
+
+// ============================================
+// REACT HOOK PARA TTS
+// ============================================
+
 import { useState, useCallback, useEffect } from 'react';
 
-export function useTTS() {
+export function useTTS(language?: SupportedLanguage) {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isAvailable, setIsAvailable] = useState(false);
+  const [currentLanguage, setCurrentLanguage] = useState<SupportedLanguage>(language || 'de');
+
+  // Obtener servicio para el idioma especificado
+  const service = ttsManager.getService(currentLanguage);
 
   useEffect(() => {
     // Check availability after mount (client-side only)
     const checkAvailability = () => {
-      setIsAvailable(tts.isAvailable());
+      setIsAvailable(service.isAvailable());
     };
 
     checkAvailability();
@@ -160,33 +249,51 @@ export function useTTS() {
     // Re-check when voices load
     const timer = setTimeout(checkAvailability, 1000);
     return () => clearTimeout(timer);
-  }, []);
+  }, [service, currentLanguage]);
 
   const speak = useCallback((text: string) => {
-    tts.speak(
+    service.speak(
       text,
       () => setIsSpeaking(false),
       () => setIsSpeaking(true)
     );
-  }, []);
+  }, [service]);
 
   const speakAsync = useCallback(async (text: string) => {
     setIsSpeaking(true);
-    await tts.speakAsync(text);
+    await service.speakAsync(text);
     setIsSpeaking(false);
-  }, []);
+  }, [service]);
 
   const stop = useCallback(() => {
-    tts.stop();
+    service.stop();
     setIsSpeaking(false);
+  }, [service]);
+
+  const changeLanguage = useCallback((newLanguage: SupportedLanguage) => {
+    setCurrentLanguage(newLanguage);
+    const newService = ttsManager.getService(newLanguage);
+    setIsAvailable(newService.isAvailable());
   }, []);
 
   return {
     speak,
     speakAsync,
     stop,
+    changeLanguage,
     isSpeaking,
     isAvailable,
-    voiceName: tts.getVoiceName(),
+    currentLanguage,
+    voiceName: service.getVoiceName(),
+    availableVoices: service.getAvailableVoices(),
   };
+}
+
+/**
+ * Hook para TTS con idioma del store de progreso
+ * Útil para componentes que necesitan usar el idioma activo del usuario
+ */
+export function useTTSWithProgress() {
+  const { activeLanguage } = useProgressStore();
+  return useTTS(activeLanguage as SupportedLanguage);
 }

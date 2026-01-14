@@ -80,6 +80,7 @@ export interface FSRSCardState {
   lapses: number;
   state: State;
   last_review?: Date;
+  learning_steps: number;
 }
 
 export interface FSRSReviewResult {
@@ -155,15 +156,37 @@ export function fsrsRatingToResponse(rating: Rating): ReviewResponse {
 }
 
 /**
+ * Convierte FSRSCardState a Card de ts-fsrs para review
+ */
+function fsrsCardStateToCard(cardState: FSRSCardState): Card {
+  return {
+    due: cardState.due,
+    stability: cardState.stability,
+    difficulty: cardState.difficulty,
+    elapsed_days: cardState.elapsed_days,
+    scheduled_days: cardState.scheduled_days,
+    reps: cardState.reps,
+    lapses: cardState.lapses,
+    state: cardState.state,
+    last_review: cardState.last_review,
+    learning_steps: 0, // Valor por defecto para FSRS
+  } as unknown as Card;
+}
+
+/**
  * Revisa una tarjeta y calcula el próximo estado
  */
 export function reviewFSRSCard(
-  card: Card,
+  card: Card | FSRSCardState,
   response: ReviewResponse,
   now: Date = new Date()
 ): FSRSReviewResult {
   const grade = responseToFSRSGrade(response);
-  const scheduling = fsrs.repeat(card, now);
+  // Convertir FSRSCardState a Card si es necesario
+  const fsrsCard = 'due' in card && 'state' in card && typeof card.state !== 'string'
+    ? card as Card
+    : fsrsCardStateToCard(card as FSRSCardState);
+  const scheduling = fsrs.repeat(fsrsCard, now);
   const result = scheduling[grade];
 
   return {
@@ -177,6 +200,7 @@ export function reviewFSRSCard(
       lapses: result.card.lapses,
       state: result.card.state,
       last_review: result.card.last_review,
+      learning_steps: (result.card as any).learning_steps || 0,
     },
     nextReviewDate: result.card.due.toISOString(),
     interval: result.card.scheduled_days,

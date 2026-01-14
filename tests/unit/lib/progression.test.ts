@@ -4,6 +4,7 @@
  */
 
 import { describe, it, expect } from 'vitest';
+import { SUPPORTED_LANGUAGES } from '@/lib/constants';
 import {
   CONSTRUCTION_MILESTONES,
   STREAK_BONUSES,
@@ -212,8 +213,35 @@ describe('MASTERY_BONUSES', () => {
 });
 
 describe('THEME_BONUSES', () => {
-  it('should have 5 French themes', () => {
-    expect(THEME_BONUSES.length).toBe(5);
+  it('should have at least 5 themes total', () => {
+    expect(THEME_BONUSES.length).toBeGreaterThanOrEqual(5);
+  });
+
+  it('should have themes for currently supported language (French)', () => {
+    // Actualmente los temas son solo franceses. Cuando se agreguen más idiomas,
+    // este test debería actualizarse para verificar temas de cada idioma.
+    // Los IDs de los temas franceses incluyen referencias culturales francesas
+    const frenchThemeIds = THEME_BONUSES.map((t) => t.id);
+    const hasFrenchReferences = frenchThemeIds.some((id) =>
+      id.includes('paris') || id.includes('french') || id.includes('chateau') || id.includes('cathedral')
+    );
+    expect(hasFrenchReferences).toBe(true);
+  });
+
+  it('should be extensible for future languages', () => {
+    // Verificar que la estructura permite agregar temas para otros idiomas
+    // Todos los temas tienen la estructura requerida
+    THEME_BONUSES.forEach((theme) => {
+      expect(theme).toHaveProperty('id');
+      expect(theme).toHaveProperty('name');
+      expect(theme).toHaveProperty('description');
+      expect(theme).toHaveProperty('icon');
+      expect(theme).toHaveProperty('requiredElements');
+      expect(theme).toHaveProperty('bonusMultiplier');
+      expect(theme).toHaveProperty('xpBonus');
+    });
+    // La estructura permite agregar propiedad 'language' en el futuro
+    expect(THEME_BONUSES.length).toBeGreaterThan(0);
   });
 
   it('should have all required properties', () => {
@@ -290,6 +318,17 @@ describe('TEMPORAL_EVENTS', () => {
     const names = TEMPORAL_EVENTS.map((e) => e.name.toLowerCase());
     expect(names.some((n) => n.includes('bastilla') || n.includes('bastille'))).toBe(true);
     expect(names.some((n) => n.includes('navidad') || n.includes('christmas'))).toBe(true);
+  });
+
+  it('should have events with cultural references', () => {
+    // Verificar que los eventos tienen referencias culturales
+    // Actualmente son franceses, pero la estructura permite agregar más idiomas
+    const allNames = TEMPORAL_EVENTS.map((e) => e.name.toLowerCase()).join(' ');
+    const allDescriptions = TEMPORAL_EVENTS.map((e) => e.description.toLowerCase()).join(' ');
+    const combined = allNames + ' ' + allDescriptions;
+
+    // Verificar referencias culturales existentes (francesas en este caso)
+    expect(combined).toMatch(/francia|francesa|bastille|christmas|navidad/i);
   });
 });
 

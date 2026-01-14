@@ -6,6 +6,7 @@
  */
 
 import type { SRSCard, ReviewResponse, CreateSRSCardInput } from '@/types/srs';
+import { DEFAULT_SRS_LANGUAGE, DEFAULT_SRS_LEVEL } from '@/types/srs';
 import {
   createFSRSCard,
   reviewFSRSCard,
@@ -18,6 +19,7 @@ import {
   type Card as FSRSCard,
   type FSRSCardState,
 } from '@/lib/fsrs';
+import type { SupportedLanguage, SupportedLevel } from '@/lib/constants';
 
 // ============================================
 // CONSTANTES
@@ -144,8 +146,8 @@ export function createCard(
   source: CreateSRSCardInput['source'],
   options: {
     audioUrl?: string;
-    languageCode?: string;
-    levelCode?: string;
+    languageCode?: SupportedLanguage;
+    levelCode?: SupportedLevel;
     tags?: string[];
     notes?: string;
   } = {}
@@ -160,8 +162,8 @@ export function createCard(
     audioUrl: options.audioUrl,
     source,
     createdAt: now,
-    languageCode: options.languageCode || 'fr',
-    levelCode: options.levelCode || 'A1',
+    languageCode: options.languageCode || DEFAULT_SRS_LANGUAGE,
+    levelCode: options.levelCode || DEFAULT_SRS_LEVEL,
     tags: options.tags || [],
     notes: options.notes,
 
