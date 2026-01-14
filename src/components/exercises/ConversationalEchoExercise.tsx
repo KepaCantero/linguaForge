@@ -4,8 +4,10 @@ import { useState, useCallback, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { ConversationalEcho } from '@/schemas/content';
 import type { EchoEvaluationResult, SpeechRecordingResult } from '@/types';
-import { useGamificationStore } from '@/store/useGamificationStore';
 import { evaluateConversationalEcho, createTimeoutResult } from '@/services/exerciseEvaluationService';
+import { useExerciseGamification } from './hooks/useExerciseGamification';
+import { useSilenceDetection } from './hooks/useExerciseAudio';
+import { useExercisePhase } from './hooks/useExerciseState';
 import { SystemPhraseCard } from './conversational/SystemPhraseCard';
 import { RespondingPhase } from './conversational/RespondingPhase';
 import { RecordingPhase } from './conversational/RecordingPhase';
@@ -19,7 +21,14 @@ interface ConversationalEchoExerciseProps {
   className?: string;
 }
 
-type ExercisePhase = 'listening' | 'responding' | 'recording' | 'feedback';
+const PHASES = {
+  listening: 'listening' as const,
+  responding: 'responding' as const,
+  recording: 'recording' as const,
+  feedback: 'feedback' as const,
+};
+
+export type ExercisePhase = keyof typeof PHASES;
 
 export function ConversationalEchoExercise({
   exercise,
@@ -28,17 +37,14 @@ export function ConversationalEchoExercise({
   showHints = true,
   className = '',
 }: ConversationalEchoExerciseProps) {
-  const { addXP, addGems } = useGamificationStore();
+  const { grantReward } = useExerciseGamification();
+  const { phase, setPhase, isPhase } = useExercisePhase<ExercisePhase>('listening');
 
-  const [phase, setPhase] = useState<ExercisePhase>('listening');
   const [audioProgress, setAudioProgress] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [evaluationResult, setEvaluationResult] = useState<EchoEvaluationResult | null>(null);
-  const [silenceTimer, setSilenceTimer] = useState<number | null>(null);
-  const [showHint, setShowHint] = useState(false);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const silenceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const config = exercise.config || {
     maxRecordingTime: 5,
@@ -46,20 +52,24 @@ export function ConversationalEchoExercise({
     showHint: true,
   };
 
+  // Silencio detection hook
+  const silenceDetection = useSilenceDetection({
+    silenceTimeout: config.silenceTimeout,
+    onSilenceTimeout: () => {
+      const result = createTimeoutResult();
+      setEvaluationResult(result);
+      setPhase('feedback');
+    },
+  });
+
+  // Cleanup timeout on unmount
   useEffect(() => {
     return () => {
-      if (silenceTimeoutRef.current) {
-        clearTimeout(silenceTimeoutRef.current);
-      }
+      silenceDetection.stop();
     };
-  }, []);
+  }, [silenceDetection]);
 
-  const handleTimeout = useCallback(() => {
-    const result = createTimeoutResult();
-    setEvaluationResult(result);
-    setPhase('feedback');
-  }, []);
-
+  // Play system audio
   const playSystemAudio = useCallback(() => {
     if (audioRef.current) {
       audioRef.current.currentTime = 0;
@@ -68,6 +78,7 @@ export function ConversationalEchoExercise({
     }
   }, []);
 
+  // Handle audio time update
   const handleAudioTimeUpdate = useCallback(() => {
     if (audioRef.current) {
       const progress = (audioRef.current.currentTime / audioRef.current.duration) * 100;
@@ -75,67 +86,48 @@ export function ConversationalEchoExercise({
     }
   }, []);
 
+  // Handle audio ended - start silence detection
   const handleAudioEnded = useCallback(() => {
     setIsPlaying(false);
     setAudioProgress(100);
     setPhase('responding');
+    silenceDetection.start();
+  }, [setPhase, silenceDetection]);
 
-    if (silenceTimeoutRef.current) {
-      clearTimeout(silenceTimeoutRef.current);
-    }
-
-    let countdown = config.silenceTimeout;
-    setSilenceTimer(countdown);
-
-    const tick = () => {
-      countdown--;
-      setSilenceTimer(countdown);
-
-      if (countdown <= 0) {
-        handleTimeout();
-      } else {
-        silenceTimeoutRef.current = setTimeout(tick, 1000);
-      }
-    };
-
-    silenceTimeoutRef.current = setTimeout(tick, 1000);
-  }, [config.silenceTimeout, handleTimeout]);
-
+  // Handle recording start - stop silence detection
   const handleRecordingStart = useCallback(() => {
-    if (silenceTimeoutRef.current) {
-      clearTimeout(silenceTimeoutRef.current);
-      silenceTimeoutRef.current = null;
-    }
-    setSilenceTimer(null);
+    silenceDetection.stop();
     setPhase('recording');
-  }, []);
+  }, [silenceDetection, setPhase]);
 
+  // Handle recording complete
   const handleRecordingComplete = useCallback((recording: SpeechRecordingResult) => {
     const result = evaluateConversationalEcho(recording, exercise);
     setEvaluationResult(result);
     setPhase('feedback');
 
     if (result.xpEarned > 0) {
-      addXP(result.xpEarned);
-      if (result.feedback.type === 'perfect') {
-        addGems(2);
-      }
+      grantReward({
+        baseXP: result.xpEarned,
+        gems: result.feedback.type === 'perfect' ? 2 : 0,
+      });
     }
-  }, [exercise, addXP, addGems]);
+  }, [exercise, grantReward, setPhase]);
 
+  // Handle continue
   const handleContinue = useCallback(() => {
     if (evaluationResult) {
       onComplete(evaluationResult);
     }
   }, [evaluationResult, onComplete]);
 
+  // Handle retry
   const handleRetry = useCallback(() => {
     setPhase('listening');
     setAudioProgress(0);
     setEvaluationResult(null);
-    setSilenceTimer(null);
-    setShowHint(false);
-  }, []);
+    silenceDetection.stop();
+  }, [setPhase, silenceDetection]);
 
   return (
     <div className={`max-w-lg mx-auto ${className}`}>
@@ -163,7 +155,7 @@ export function ConversationalEchoExercise({
       />
 
       <AnimatePresence mode="wait">
-        {(phase === 'listening' || phase === 'responding') && (
+        {(isPhase('listening') || isPhase('responding')) && (
           <motion.div
             key="listening"
             initial={{ opacity: 0, y: 20 }}
@@ -178,20 +170,20 @@ export function ConversationalEchoExercise({
               onPlayAudio={playSystemAudio}
             />
 
-            {phase === 'responding' && (
+            {isPhase('responding') && (
               <RespondingPhase
                 exercise={exercise}
-                silenceTimer={silenceTimer}
-                showHint={showHint}
+                silenceTimer={silenceDetection.timeUntilTimeout}
+                showHint={false}
                 showHints={showHints}
                 config={config}
                 onRecordingStart={handleRecordingStart}
                 onRecordingComplete={handleRecordingComplete}
-                onToggleHint={() => setShowHint(!showHint)}
+                onToggleHint={() => {}}
               />
             )}
 
-            {phase === 'listening' && !isPlaying && audioProgress === 0 && (
+            {isPhase('listening') && !isPlaying && audioProgress === 0 && (
               <div className="text-center">
                 <button
                   onClick={playSystemAudio}
@@ -204,9 +196,9 @@ export function ConversationalEchoExercise({
           </motion.div>
         )}
 
-        {phase === 'recording' && <RecordingPhase />}
+        {isPhase('recording') && <RecordingPhase />}
 
-        {phase === 'feedback' && evaluationResult && (
+        {isPhase('feedback') && evaluationResult && (
           <FeedbackDisplay
             evaluationResult={evaluationResult}
             onRetry={handleRetry}
@@ -215,7 +207,7 @@ export function ConversationalEchoExercise({
         )}
       </AnimatePresence>
 
-      {onSkip && phase !== 'feedback' && (
+      {onSkip && !isPhase('feedback') && (
         <div className="mt-6 text-center">
           <button
             onClick={onSkip}

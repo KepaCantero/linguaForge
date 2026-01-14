@@ -4,6 +4,7 @@ import { useState, useCallback, useEffect } from 'react';
 import { Phrase, ClozeOption, ConversationalBlock } from '@/types';
 import { XP_RULES } from '@/lib/constants';
 import type { SoundId } from '@/lib/soundEffects';
+import { useExerciseGamification, useExerciseUI, useKeyboardShortcuts, useExerciseAudio } from '../../hooks';
 
 interface ClozeState {
   selectedOption: ClozeOption | null;
@@ -33,7 +34,6 @@ interface UseClozeStateOptions {
   block?: ConversationalBlock;
   onComplete: (correct: boolean) => void;
   speak: (text: string) => void;
-  addXP: (amount: number) => void;
   soundEnabled: boolean;
   play: (soundId: SoundId) => void;
   playCorrect: () => void;
@@ -45,18 +45,19 @@ export function useClozeState({
   block,
   onComplete,
   speak,
-  addXP,
   soundEnabled,
   play,
   playCorrect,
   playIncorrect,
 }: UseClozeStateOptions): ClozeState & ClozeActions & ClozeDerivedState {
-  const [state, setState] = useState<ClozeState>({
-    selectedOption: null,
-    showResult: false,
-    isCorrect: false,
-    showTranslation: false,
-  });
+  // Use shared hooks
+  const { grantReward } = useExerciseGamification();
+  const { showTranslation, toggleTranslation } = useExerciseUI();
+
+  // Local state
+  const [selectedOption, setSelectedOption] = useState<ClozeOption | null>(null);
+  const [showResult, setShowResult] = useState(false);
+  const [isCorrect, setIsCorrect] = useState(false);
 
   // Derived state
   const textWithGap = phrase.text.replace(phrase.clozeWord, '______');
@@ -69,7 +70,7 @@ export function useClozeState({
   // Handle option selection
   const selectOption = useCallback(
     (option: ClozeOption) => {
-      if (state.showResult) return;
+      if (showResult) return;
 
       // Haptic feedback on mobile
       if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {
@@ -83,12 +84,9 @@ export function useClozeState({
 
       const isCorrectOption = option.isCorrect;
 
-      setState((prev) => ({
-        ...prev,
-        selectedOption: option,
-        isCorrect: isCorrectOption,
-        showResult: true,
-      }));
+      setSelectedOption(option);
+      setIsCorrect(isCorrectOption);
+      setShowResult(true);
 
       // Correct/incorrect sound
       if (soundEnabled) {
@@ -99,54 +97,44 @@ export function useClozeState({
         }
       }
 
-      // Award XP
-      addXP(isCorrectOption ? XP_RULES.clozeCorrect : XP_RULES.clozeIncorrect);
+      // Grant rewards using shared hook
+      grantReward({
+        baseXP: isCorrectOption ? XP_RULES.clozeCorrect : XP_RULES.clozeIncorrect,
+      });
 
       // Auto-continue after delay
       setTimeout(() => {
         onComplete(isCorrectOption);
       }, AUTO_CONTINUE_DELAY);
     },
-    [state.showResult, soundEnabled, play, playCorrect, playIncorrect, addXP, onComplete]
+    [showResult, soundEnabled, play, playCorrect, playIncorrect, grantReward, onComplete]
   );
 
-  // Toggle translation
-  const toggleTranslation = useCallback(() => {
-    setState((prev) => ({ ...prev, showTranslation: !prev.showTranslation }));
-  }, []);
-
-  // Keyboard shortcuts (1-4 for options, SPACE for audio)
-  useEffect(() => {
-    if (state.showResult) return;
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      const keyNum = Number.parseInt(e.key, 10);
-      if (
-        keyNum >= 1 &&
-        keyNum <= KEYBOARD_OPTIONS &&
-        phrase.clozeOptions[keyNum - 1]
-      ) {
-        e.preventDefault();
-        selectOption(phrase.clozeOptions[keyNum - 1]);
-      }
-    };
-
-    globalThis.addEventListener('keydown', handleKeyDown);
-    return () => globalThis.removeEventListener('keydown', handleKeyDown);
-  }, [state.showResult, phrase.clozeOptions, selectOption]);
+  // Keyboard shortcuts (1-4 for options)
+  useKeyboardShortcuts(
+    phrase.clozeOptions.map((option, index) => ({
+      key: String(index + 1),
+      handler: () => selectOption(option),
+      description: `Select option ${index + 1}`,
+      enabled: !showResult,
+    }))
+  );
 
   // Auto-play audio on correct answer
   useEffect(() => {
-    if (state.showResult && state.isCorrect) {
+    if (showResult && isCorrect) {
       const timer = setTimeout(() => {
         speak(fullBlockText);
       }, CORRECT_AUDIO_DELAY);
       return () => clearTimeout(timer);
     }
-  }, [state.showResult, state.isCorrect, speak, fullBlockText]);
+  }, [showResult, isCorrect, speak, fullBlockText]);
 
   return {
-    ...state,
+    selectedOption,
+    showResult,
+    isCorrect,
+    showTranslation,
     selectOption,
     toggleTranslation,
     textWithGap,

@@ -3,8 +3,11 @@
 import { useState, useCallback, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { BlockBuilder } from '@/types';
-import { useGamificationStore } from '@/store/useGamificationStore';
 import { XP_RULES } from '@/lib/constants';
+import {
+  useExerciseGamification,
+  useExerciseUI,
+} from './hooks';
 
 interface BlockBuilderExerciseProps {
   exercise: BlockBuilder;
@@ -12,7 +15,11 @@ interface BlockBuilderExerciseProps {
 }
 
 export function BlockBuilderExercise({ exercise, onComplete }: BlockBuilderExerciseProps) {
-  const { addXP } = useGamificationStore();
+  // Use shared hooks
+  const { grantReward } = useExerciseGamification();
+  const { feedback, showFeedback, hideFeedback } = useExerciseUI();
+
+  // Local state
   const [selectedComponents, setSelectedComponents] = useState<string[]>([]);
   const [showResult, setShowResult] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
@@ -56,17 +63,22 @@ export function BlockBuilderExercise({ exercise, onComplete }: BlockBuilderExerc
     setIsCorrect(isOrderCorrect);
     setShowResult(true);
 
-    // Calcular XP
-    if (isOrderCorrect) {
-      addXP(XP_RULES.clozeCorrect || 20);
-    } else {
-      addXP(XP_RULES.clozeIncorrect || 5);
-    }
+    // Grant rewards using shared hook
+    grantReward({
+      baseXP: isOrderCorrect ? (XP_RULES.clozeCorrect || 20) : (XP_RULES.clozeIncorrect || 5),
+    });
+
+    // Show feedback
+    showFeedback(
+      isOrderCorrect ? 'success' : 'info',
+      isOrderCorrect ? '¡Orden correcto!' : 'Inténtalo de nuevo'
+    );
 
     setTimeout(() => {
+      hideFeedback();
       onComplete(isOrderCorrect);
     }, 2000);
-  }, [selectedComponents, exercise.components, addXP, onComplete]);
+  }, [selectedComponents, exercise.components, grantReward, showFeedback, hideFeedback, onComplete]);
 
   const getComponentById = useCallback((id: string) => {
     return [...exercise.components, ...(exercise.distractors || [])].find((c) => c.id === id);

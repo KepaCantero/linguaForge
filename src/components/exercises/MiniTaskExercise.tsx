@@ -3,9 +3,13 @@
 import { useState, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MiniTask } from '@/types';
-import { useGamificationStore } from '@/store/useGamificationStore';
 import { useInputStore } from '@/store/useInputStore';
 import { XP_RULES, MINITASK_CONFIG } from '@/lib/constants';
+import {
+  useExerciseGamification,
+  useExerciseUI,
+  useFeedbackAnimation,
+} from './hooks';
 
 interface MiniTaskExerciseProps {
   miniTask: MiniTask;
@@ -96,12 +100,16 @@ export function MiniTaskExercise({
   levelCode,
   onComplete,
 }: MiniTaskExerciseProps) {
-  const { addXP, addCoins } = useGamificationStore();
+  // Use shared hooks
+  const { grantReward } = useExerciseGamification();
+  const { showHint, toggleHint } = useExerciseUI();
+  const { showFeedback } = useFeedbackAnimation();
+
+  // Local state
   const { addWordsSpoken } = useInputStore();
   const [userInput, setUserInput] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [result, setResult] = useState<ExerciseResult | null>(null);
-  const [showExample, setShowExample] = useState(false);
 
   const checkKeywords = useMemo(() => {
     if (!userInput.trim()) return [];
@@ -117,15 +125,18 @@ export function MiniTaskExercise({
   }, [userInput]);
 
   const handleSuccess = useCallback(() => {
-    addXP(XP_RULES.miniTaskComplete);
-    addCoins(20);
+    grantReward({
+      baseXP: XP_RULES.miniTaskComplete,
+      coins: 20,
+    });
     addWordsSpoken(
       languageCode as 'fr' | 'de',
       levelCode as 'A1' | 'A2',
       wordCount
     );
+    showFeedback('success', `¡Excelente trabajo! +${XP_RULES.miniTaskComplete} XP y +20 monedas`);
     setTimeout(() => onComplete(true), COMPLETE_DELAY);
-  }, [addXP, addCoins, addWordsSpoken, languageCode, levelCode, wordCount, onComplete]);
+  }, [grantReward, addWordsSpoken, languageCode, levelCode, wordCount, onComplete, showFeedback]);
 
   const handleFailure = useCallback(() => {
     setTimeout(() => onComplete(false), COMPLETE_DELAY);
@@ -243,10 +254,10 @@ export function MiniTaskExercise({
 
           <div className="flex gap-3">
             <button
-              onClick={() => setShowExample(!showExample)}
+              onClick={toggleHint}
               className="px-4 py-3 bg-calm-bg-secondary dark:bg-calm-bg-tertiary text-calm-text-secondary dark:text-calm-text-tertiary rounded-2xl hover:bg-calm-bg-tertiary dark:hover:bg-calm-bg-tertiary transition-all"
             >
-              {showExample ? 'Ocultar ejemplo' : 'Ver ejemplo'}
+              {showHint ? 'Ocultar ejemplo' : 'Ver ejemplo'}
             </button>
             <button
               onClick={handleSubmit}
@@ -258,7 +269,7 @@ export function MiniTaskExercise({
           </div>
 
           <AnimatePresence>
-            {showExample && (
+            {showHint && (
               <motion.div
                 className="bg-sky-50 dark:bg-accent-900/30 border border-accent-200 dark:border-accent-800 rounded-2xl p-4"
                 initial={{ opacity: 0, height: 0 }}

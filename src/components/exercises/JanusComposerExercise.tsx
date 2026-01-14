@@ -5,7 +5,7 @@ import { AnimatePresence } from 'framer-motion';
 import type { JanusComposer } from '@/schemas/content';
 import type { JanusCompositionResult, SpeechRecordingResult } from '@/types';
 import { generateConjugatedPhrase } from '@/services/conjugationService';
-import { useGamificationStore } from '@/store/useGamificationStore';
+import { useExerciseGamification } from './hooks/useExerciseGamification';
 import { useJanusKeyboardNavigation, type ColumnSelection } from './hooks/useJanusKeyboardNavigation';
 import { JanusHeader } from './janus/JanusHeader';
 import { KeyboardHints } from './janus/KeyboardHints';
@@ -38,23 +38,12 @@ const XP_VALUES = {
   dialogueBonus: 5,
 };
 
-// ============================================
-// COMPONENTE PRINCIPAL
-// ============================================
-
-export function JanusComposerExercise({
-  exercise,
-  onComplete,
-  onSkip,
-  className = '',
-}: JanusComposerExerciseProps) {
-  const { addXP, addGems } = useGamificationStore();
-
-  const [phase, setPhase] = useState<Phase>('composing');
+// Hook específico para Janus Composer - maneja selecciones y frases
+function useJanusComposer(exercise: JanusComposer) {
   const [selections, setSelections] = useState<Record<string, ColumnSelection>>({});
   const [currentDialogueIndex, setCurrentDialogueIndex] = useState(0);
-  const [dialoguesCompleted, setDialoguesCompleted] = useState(0);
   const [phrasesCreated, setPhrasesCreated] = useState(0);
+  const [dialoguesCompleted, setDialoguesCompleted] = useState(0);
 
   // Ordenar columnas: Subject > Verb > Complement > Time
   const orderedColumns = useMemo(() => {
@@ -146,13 +135,84 @@ export function JanusComposerExercise({
     setSelections({});
   }, []);
 
-  // Confirmar composición
-  const handleConfirmComposition = useCallback(() => {
-    if (!generatedPhrase) return;
-    addXP(XP_VALUES.composition);
+  // Nueva combinación
+  const handleNewCombination = useCallback(() => {
+    setSelections({});
+  }, []);
+
+  // Incrementar frases creadas
+  const incrementPhrasesCreated = useCallback(() => {
     setPhrasesCreated(prev => prev + 1);
-    setPhase('preview');
-  }, [generatedPhrase, addXP]);
+  }, []);
+
+  // Completar diálogo actual
+  const handleCompleteDialogue = useCallback(() => {
+    setDialoguesCompleted(prev => prev + 1);
+
+    if (currentDialogueIndex < (exercise.practiceDialogues?.length || 0) - 1) {
+      setCurrentDialogueIndex(prev => prev + 1);
+    }
+  }, [currentDialogueIndex, exercise.practiceDialogues]);
+
+  // Resetear diálogo
+  const resetDialogue = useCallback(() => {
+    setCurrentDialogueIndex(0);
+    setDialoguesCompleted(0);
+  }, []);
+
+  return {
+    selections,
+    orderedColumns,
+    generatedPhrase,
+    generatedTranslation,
+    allRequiredSelected,
+    currentDialogueIndex,
+    phrasesCreated,
+    dialoguesCompleted,
+    handleSelectOption,
+    handleClearSelection,
+    handleReset,
+    handleNewCombination,
+    incrementPhrasesCreated,
+    handleCompleteDialogue,
+    resetDialogue,
+    setCurrentDialogueIndex,
+  };
+}
+
+// ============================================
+// COMPONENTE PRINCIPAL
+// ============================================
+
+export function JanusComposerExercise({
+  exercise,
+  onComplete,
+  onSkip,
+  className = '',
+}: JanusComposerExerciseProps) {
+  // Hooks compartidos
+  const { grantReward } = useExerciseGamification();
+  const [phase, setPhase] = useState<Phase>('composing');
+
+  // Hook específico de Janus
+  const janus = useJanusComposer(exercise);
+
+  // Navegación por teclado
+  const keyboardNav = useJanusKeyboardNavigation({
+    phase,
+    columns: janus.orderedColumns,
+    selections: janus.selections,
+    generatedPhrase: janus.generatedPhrase || '',
+    onSelectOption: janus.handleSelectOption,
+    onClearSelection: janus.handleClearSelection,
+    onReset: janus.handleReset,
+    onConfirmComposition: () => {
+      if (!janus.generatedPhrase) return;
+      grantReward({ baseXP: XP_VALUES.composition });
+      janus.incrementPhrasesCreated();
+      setPhase('preview');
+    },
+  });
 
   // Comenzar práctica
   const handleStartPractice = useCallback(() => {
@@ -162,109 +222,100 @@ export function JanusComposerExercise({
   // Completar ejercicio
   const handleComplete = useCallback(() => {
     setPhase('complete');
-    addGems(dialoguesCompleted > 0 ? 3 : 1);
+    grantReward({
+      baseXP: 0,
+      gems: janus.dialoguesCompleted > 0 ? 3 : 1,
+    });
 
     const result: JanusCompositionResult = {
       selectedOptions: Object.fromEntries(
-        Object.entries(selections).map(([k, v]) => [k, v.optionId])
+        Object.entries(janus.selections).map(([k, v]) => [k, v.optionId])
       ),
-      generatedPhrase: generatedPhrase || '',
-      conjugatedPhrase: generatedPhrase || '',
-      translation: generatedTranslation || '',
+      generatedPhrase: janus.generatedPhrase || '',
+      conjugatedPhrase: janus.generatedPhrase || '',
+      translation: janus.generatedTranslation || '',
       isGrammaticallyCorrect: true,
     };
 
     setTimeout(() => {
       onComplete(result);
     }, 1500);
-  }, [selections, generatedPhrase, generatedTranslation, dialoguesCompleted, addGems, onComplete]);
+  }, [janus, grantReward, onComplete]);
 
   // Manejar grabación completada
   const handleRecordingComplete = useCallback((_recording: SpeechRecordingResult) => {
-    addXP(XP_VALUES.practiceSuccess);
+    grantReward({ baseXP: XP_VALUES.practiceSuccess });
 
     if (exercise.practiceDialogues && exercise.practiceDialogues.length > 0) {
-      setCurrentDialogueIndex(0);
+      janus.resetDialogue();
       setPhase('dialogue');
     } else {
       handleComplete();
     }
-  }, [exercise.practiceDialogues, addXP, handleComplete]);
+  }, [exercise.practiceDialogues, grantReward, janus, handleComplete]);
 
   // Completar diálogo actual
-  const handleCompleteDialogue = useCallback(() => {
-    addXP(XP_VALUES.dialogueBonus);
-    setDialoguesCompleted(prev => prev + 1);
+  const handleDialogueComplete = useCallback(() => {
+    grantReward({ baseXP: XP_VALUES.dialogueBonus });
+    janus.handleCompleteDialogue();
 
-    if (currentDialogueIndex < (exercise.practiceDialogues?.length || 0) - 1) {
-      setCurrentDialogueIndex(prev => prev + 1);
-    } else {
+    if (janus.currentDialogueIndex >= (exercise.practiceDialogues?.length || 0) - 1) {
       handleComplete();
     }
-  }, [currentDialogueIndex, exercise.practiceDialogues, addXP, handleComplete]);
+  }, [grantReward, janus, exercise.practiceDialogues, handleComplete]);
 
-  // Nueva combinación
-  const handleNewCombination = useCallback(() => {
-    setSelections({});
-    setPhase('composing');
-  }, []);
-
-  // Navegación por teclado - custom hook
-  const keyboardNav = useJanusKeyboardNavigation({
-    phase,
-    columns: orderedColumns,
-    selections,
-    generatedPhrase: generatedPhrase || '',
-    onSelectOption: handleSelectOption,
-    onClearSelection: handleClearSelection,
-    onReset: handleReset,
-    onConfirmComposition: handleConfirmComposition,
-  });
-
-  const currentDialogue = exercise.practiceDialogues?.[currentDialogueIndex];
+  const currentDialogue = exercise.practiceDialogues?.[janus.currentDialogueIndex];
 
   return (
     <div className={`max-w-2xl mx-auto ${className}`}>
-      <JanusHeader phrasesCreated={phrasesCreated} />
+      <JanusHeader phrasesCreated={janus.phrasesCreated} />
 
       {phase === 'composing' && <KeyboardHints />}
 
       <AnimatePresence mode="wait">
         {phase === 'composing' && (
           <ComposingPhase
-            columns={orderedColumns}
-            selections={selections}
-            generatedPhrase={generatedPhrase}
-            generatedTranslation={generatedTranslation}
-            allRequiredSelected={allRequiredSelected}
+            columns={janus.orderedColumns}
+            selections={janus.selections}
+            generatedPhrase={janus.generatedPhrase}
+            generatedTranslation={janus.generatedTranslation}
+            allRequiredSelected={janus.allRequiredSelected}
             keyboardFocus={keyboardNav.keyboardFocus}
             hoveredTranslation={keyboardNav.hoveredTranslation}
             columnRefs={keyboardNav.columnRefs}
             optionRefs={keyboardNav.optionRefs}
-            onSelectOption={handleSelectOption}
-            onClearSelection={handleClearSelection}
-            onReset={handleReset}
-            onConfirmComposition={handleConfirmComposition}
+            onSelectOption={janus.handleSelectOption}
+            onClearSelection={janus.handleClearSelection}
+            onReset={janus.handleReset}
+            onConfirmComposition={() => {
+              if (!janus.generatedPhrase) return;
+              grantReward({ baseXP: XP_VALUES.composition });
+              janus.incrementPhrasesCreated();
+              setPhase('preview');
+            }}
             onHoverTranslation={keyboardNav.setHoveredTranslation}
           />
         )}
 
-        {phase === 'preview' && generatedPhrase && (
+        {phase === 'preview' && janus.generatedPhrase && (
           <PreviewPhase
-            generatedPhrase={generatedPhrase}
-            generatedTranslation={generatedTranslation}
-            selections={selections}
-            columns={orderedColumns}
+            generatedPhrase={janus.generatedPhrase}
+            generatedTranslation={janus.generatedTranslation}
+            selections={janus.selections}
+            columns={janus.orderedColumns}
             conjugationRules={exercise.conjugationRules}
-            onNewCombination={handleNewCombination}
+            onNewCombination={() => {
+              janus.handleNewCombination();
+              setPhase('composing');
+            }}
             onStartPractice={handleStartPractice}
           />
         )}
 
-        {phase === 'practice' && generatedPhrase && (
+        {phase === 'practice' && janus.generatedPhrase && (
           <PracticePhase
-            generatedPhrase={generatedPhrase}
-            generatedTranslation={generatedTranslation}
+            generatedPhrase={janus.generatedPhrase}
+            generatedTranslation={janus.generatedTranslation}
             onRecordingComplete={handleRecordingComplete}
           />
         )}
@@ -272,18 +323,18 @@ export function JanusComposerExercise({
         {phase === 'dialogue' && currentDialogue && (
           <DialoguePhase
             currentDialogue={currentDialogue}
-            currentDialogueIndex={currentDialogueIndex}
+            currentDialogueIndex={janus.currentDialogueIndex}
             totalDialogues={exercise.practiceDialogues?.length || 0}
-            generatedPhrase={generatedPhrase}
-            generatedTranslation={generatedTranslation}
-            onCompleteDialogue={handleCompleteDialogue}
+            generatedPhrase={janus.generatedPhrase}
+            generatedTranslation={janus.generatedTranslation}
+            onCompleteDialogue={handleDialogueComplete}
           />
         )}
 
         {phase === 'complete' && (
           <CompletePhase
-            generatedPhrase={generatedPhrase}
-            totalXP={XP_VALUES.composition + XP_VALUES.practiceSuccess + (dialoguesCompleted * XP_VALUES.dialogueBonus)}
+            generatedPhrase={janus.generatedPhrase}
+            totalXP={XP_VALUES.composition + XP_VALUES.practiceSuccess + (janus.dialoguesCompleted * XP_VALUES.dialogueBonus)}
           />
         )}
       </AnimatePresence>

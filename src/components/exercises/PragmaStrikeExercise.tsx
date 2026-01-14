@@ -3,10 +3,14 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PragmaStrike, PragmaStrikeOption } from '@/types';
-import { useGamificationStore } from '@/store/useGamificationStore';
 import { XP_RULES } from '@/lib/constants';
 import Image from 'next/image';
 import { COLORS } from '@/constants/colors';
+import {
+  useExerciseGamification,
+  useExerciseTimer,
+  useExerciseUI,
+} from './hooks';
 
 interface PragmaStrikeExerciseProps {
   exercise: PragmaStrike;
@@ -15,25 +19,26 @@ interface PragmaStrikeExerciseProps {
 }
 
 export function PragmaStrikeExercise({ exercise, onComplete, mode = 'desafio' }: PragmaStrikeExerciseProps) {
-  const { addXP } = useGamificationStore();
+  // Use shared hooks
+  const { grantReward } = useExerciseGamification();
+  const { showFeedback } = useExerciseUI();
+
+  // Use shared timer for challenge mode
+  const timerEnabled = mode === 'desafio';
+  const timer = useExerciseTimer({
+    duration: timerEnabled ? exercise.timeLimit : 0,
+    autoStart: true,
+  });
+
+  // Local state
   const [selectedOption, setSelectedOption] = useState<PragmaStrikeOption | null>(null);
   const [showResult, setShowResult] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
-  const timerEnabled = mode === 'desafio';
-  const [timeRemaining, setTimeRemaining] = useState(timerEnabled ? exercise.timeLimit : 0);
-  const [timeSpent, setTimeSpent] = useState(0);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
   const startTimeRef = useRef<number>(Date.now());
 
   const calculateXPEarned = useCallback((isCorrect: boolean, finalTime: number): number => {
     if (!isCorrect) return XP_RULES.pragmaStrikeIncorrect;
     return finalTime < 3 ? XP_RULES.pragmaStrikeFast : XP_RULES.pragmaStrikeNormal;
-  }, []);
-
-  const stopTimer = useCallback(() => {
-    if (timerRef.current) {
-      clearInterval(timerRef.current);
-    }
   }, []);
 
   const handleOptionSelect = useCallback((option: PragmaStrikeOption) => {
@@ -45,48 +50,40 @@ export function PragmaStrikeExercise({ exercise, onComplete, mode = 'desafio' }:
     setSelectedOption(option);
     setIsCorrect(option.isCorrect);
     setShowResult(true);
-    setTimeSpent(finalTime);
-    setTimeRemaining(0);
-    stopTimer();
-    addXP(xpEarned);
+
+    // Stop timer and grant rewards
+    timer.stop();
+    grantReward({
+      baseXP: xpEarned,
+    });
+
+    // Show feedback
+    if (option.isCorrect) {
+      showFeedback('success', `¡Correcto! +${xpEarned} XP`);
+    } else {
+      showFeedback('info', `Aprendiste algo nuevo! +${xpEarned} XP`);
+    }
 
     setTimeout(() => {
       onComplete(option.isCorrect, finalTime);
     }, 2000);
-  }, [showResult, calculateXPEarned, stopTimer, addXP, onComplete]);
+  }, [showResult, calculateXPEarned, timer, grantReward, showFeedback, onComplete]);
 
-  // Timer countdown (solo en modo desafío)
+  // Auto-select on timeout (challenge mode only)
   useEffect(() => {
     if (showResult) return;
 
-    startTimeRef.current = Date.now();
-
-    // Maneja el tick del timer en modo desafío
-    const tickChallengeTimer = () => {
-      setTimeRemaining((prev) => {
-        const shouldAutoSelect = prev <= 0.1 && !selectedOption;
-        if (shouldAutoSelect) {
-          handleOptionSelect(exercise.options[0]);
-        }
-        return prev <= 0.1 ? 0 : prev - 0.1;
-      });
-      setTimeSpent((Date.now() - startTimeRef.current) / 1000);
-    };
-
-    // Maneja el tick del timer en modo academia
-    const tickAcademiaTimer = () => {
-      setTimeSpent((Date.now() - startTimeRef.current) / 1000);
-    };
-
-    const startTimer = timerEnabled ? tickChallengeTimer : tickAcademiaTimer;
-    timerRef.current = setInterval(startTimer, 100);
-
-    return stopTimer;
-  }, [showResult, exercise.options, selectedOption, handleOptionSelect, timerEnabled, stopTimer]);
+    // Check if timer expired in challenge mode
+    if (timerEnabled && timer.isComplete && !selectedOption) {
+      handleOptionSelect(exercise.options[0]);
+    }
+  }, [showResult, timerEnabled, timer.isComplete, selectedOption, exercise.options, handleOptionSelect]);
 
   const correctOption = exercise.options.find(o => o.isCorrect);
 
-  // Presión visual del timer (solo en modo desafío)
+  // Use timer values from shared hook
+  const timeRemaining = timer.timeRemaining;
+  const timeSpent = timer.timeElapsed;
   const timerPressure = timerEnabled ? timeRemaining / exercise.timeLimit : 1;
   const isUrgent = timerEnabled && timerPressure < 0.3;
 

@@ -3,9 +3,14 @@
 import { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Phrase } from '@/types';
-import { useGamificationStore } from '@/store/useGamificationStore';
 import { useTTS } from '@/services/ttsService';
 import { XP_RULES, SHADOWING_CONFIG } from '@/lib/constants';
+import {
+  useExercisePhase,
+  useExerciseGamification,
+  useExerciseUI,
+  useExerciseAudio,
+} from './hooks';
 
 interface ShadowingExerciseProps {
   phrase: Phrase;
@@ -15,35 +20,23 @@ interface ShadowingExerciseProps {
 type ShadowingPhase = 'intro' | 'listening' | 'shadowing' | 'complete';
 
 export function ShadowingExercise({ phrase, onComplete }: ShadowingExerciseProps) {
-  const { addXP } = useGamificationStore();
-  const { speak, isSpeaking, isAvailable } = useTTS();
-  const [phase, setPhase] = useState<ShadowingPhase>('intro');
-  const [listenCount, setListenCount] = useState(0);
-  const [showTranslation, setShowTranslation] = useState(false);
+  // Use shared hooks
+  const { phase, setPhase } = useExercisePhase<ShadowingPhase>('intro');
+  const { grantReward } = useExerciseGamification();
+  const { showTranslation, toggleTranslation } = useExerciseUI();
+  const { isPlaying, play } = useExerciseAudio();
 
-  // Reproducir audio con TTS real
+  // Local state
+  const [listenCount, setListenCount] = useState(0);
+
+  // Reproducir audio usando shared hook
   const playAudio = useCallback(() => {
-    if (isAvailable) {
-      speak(phrase.text);
-      // Incrementar contador cuando termine de hablar
-      const checkSpeaking = setInterval(() => {
-        if (!isSpeaking) {
-          clearInterval(checkSpeaking);
-          setListenCount(prev => prev + 1);
-        }
-      }, 200);
-      // Fallback timeout
-      setTimeout(() => {
-        clearInterval(checkSpeaking);
-        setListenCount(prev => prev + 1);
-      }, 5000);
-    } else {
-      // Fallback si TTS no está disponible
-      setTimeout(() => {
-        setListenCount(prev => prev + 1);
-      }, 2000);
-    }
-  }, [isAvailable, speak, isSpeaking, phrase.text]);
+    play(phrase.text);
+    // Incrementar contador cuando termine de hablar
+    setTimeout(() => {
+      setListenCount(prev => prev + 1);
+    }, 2000);
+  }, [play, phrase.text]);
 
   const startListening = useCallback(() => {
     setPhase('listening');
@@ -60,12 +53,14 @@ export function ShadowingExercise({ phrase, onComplete }: ShadowingExerciseProps
 
   const completeShadowing = useCallback(() => {
     setPhase('complete');
-    addXP(XP_RULES.shadowingComplete);
+    grantReward({
+      baseXP: XP_RULES.shadowingComplete,
+    });
 
     setTimeout(() => {
       onComplete();
     }, 1500);
-  }, [addXP, onComplete]);
+  }, [grantReward, onComplete, setPhase]);
 
   return (
     <div className="space-y-6">
@@ -76,10 +71,10 @@ export function ShadowingExercise({ phrase, onComplete }: ShadowingExerciseProps
         {phase === 'listening' && (
           <ListeningPhase
             phrase={phrase}
-            isSpeaking={isSpeaking}
+            isSpeaking={isPlaying}
             listenCount={listenCount}
             showTranslation={showTranslation}
-            onToggleTranslation={() => setShowTranslation(!showTranslation)}
+            onToggleTranslation={toggleTranslation}
             onPlayAudio={playAudio}
             onStartShadowing={startShadowing}
           />
@@ -88,7 +83,7 @@ export function ShadowingExercise({ phrase, onComplete }: ShadowingExerciseProps
           <ShadowingPhase
             phrase={phrase}
             showTranslation={showTranslation}
-            onToggleTranslation={() => setShowTranslation(!showTranslation)}
+            onToggleTranslation={toggleTranslation}
             onComplete={completeShadowing}
           />
         )}

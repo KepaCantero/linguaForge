@@ -3,9 +3,14 @@
 import { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Phrase, Variation, ConversationalBlock } from '@/types';
-import { useGamificationStore } from '@/store/useGamificationStore';
 import { useTTS } from '@/services/ttsService';
 import { XP_RULES } from '@/lib/constants';
+import {
+  useExerciseGamification,
+  useExerciseUI,
+  useExerciseSteps,
+  useExerciseAudio,
+} from './hooks';
 
 interface VariationsExerciseProps {
   phrase: Phrase;
@@ -14,14 +19,13 @@ interface VariationsExerciseProps {
 }
 
 export function VariationsExercise({ phrase, block, onComplete }: VariationsExerciseProps) {
-  const { addXP } = useGamificationStore();
-  const { speak, isSpeaking } = useTTS();
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [readVariations, setReadVariations] = useState<Set<string>>(new Set());
-  const [showTranslation, setShowTranslation] = useState(false);
+  // Use shared hooks
+  const { grantReward } = useExerciseGamification();
+  const { showTranslation, toggleTranslation } = useExerciseUI();
+  const { isPlaying, play } = useExerciseAudio();
 
+  // Calculate all variations
   const allVariations: Variation[] = [
-    // La frase original como primera variación
     {
       id: 'original',
       text: phrase.text,
@@ -30,6 +34,17 @@ export function VariationsExercise({ phrase, block, onComplete }: VariationsExer
     },
     ...phrase.variations,
   ];
+
+  // Use shared steps hook for navigation
+  const {
+    currentIndex,
+    goToStep,
+    markStepComplete,
+    completedSteps,
+  } = useExerciseSteps(allVariations.length);
+
+  // Local state
+  const [readVariations, setReadVariations] = useState<Set<string>>(new Set());
 
   const currentVariation = allVariations[currentIndex];
 
@@ -41,32 +56,37 @@ export function VariationsExercise({ phrase, block, onComplete }: VariationsExer
     ? block.phrases.map(p => p.text).join(" ")
     : phrase.text;
 
-  // Reproducir audio con TTS
+  // Reproducir audio usando shared hook
   const playAudio = useCallback(() => {
-    speak(currentVariation.text);
-  }, [speak, currentVariation.text]);
+    play(currentVariation.text);
+  }, [play, currentVariation.text]);
 
   // Reproducir bloque completo
   const playBlockAudio = useCallback(() => {
-    speak(fullBlockText);
-  }, [speak, fullBlockText]);
+    play(fullBlockText);
+  }, [play, fullBlockText]);
 
   const markAsRead = useCallback(() => {
     setReadVariations(prev => new Set([...Array.from(prev), currentVariation.id]));
-    addXP(XP_RULES.variationRead);
+    markStepComplete(currentIndex);
+
+    // Grant rewards using shared hook
+    grantReward({
+      baseXP: XP_RULES.variationRead,
+    });
 
     if (currentIndex < allVariations.length - 1) {
-      setCurrentIndex(prev => prev + 1);
+      goToStep(currentIndex + 1);
     } else if (readVariations.size + 1 >= allVariations.length) {
       setTimeout(() => {
         onComplete();
       }, 1000);
     }
-  }, [currentVariation.id, currentIndex, allVariations.length, readVariations.size, addXP, onComplete]);
+  }, [currentVariation.id, currentIndex, allVariations.length, readVariations.size, grantReward, onComplete, markStepComplete, goToStep]);
 
   const goToVariation = useCallback((index: number) => {
-    setCurrentIndex(index);
-  }, []);
+    goToStep(index);
+  }, [goToStep]);
 
   return (
     <div className="space-y-6">
@@ -84,8 +104,8 @@ export function VariationsExercise({ phrase, block, onComplete }: VariationsExer
         currentIndex={currentIndex}
         readVariations={readVariations}
         showTranslation={showTranslation}
-        isSpeaking={isSpeaking}
-        onToggleTranslation={() => setShowTranslation(!showTranslation)}
+        isSpeaking={isPlaying}
+        onToggleTranslation={toggleTranslation}
         onPlayAudio={playAudio}
         onPlayBlockAudio={playBlockAudio}
         hasBlock={!!block}

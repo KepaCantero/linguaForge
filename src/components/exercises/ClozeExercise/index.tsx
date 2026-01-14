@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect } from 'react';
 import { Phrase, ConversationalBlock } from '@/types';
-import { useGamificationStore } from '@/store/useGamificationStore';
 import { useTTS } from '@/services/ttsService';
 import { useSoundEffects, useSoundEffectsInit } from '@/hooks/useSoundEffects';
 import { useClozeState } from './hooks/useClozeState';
@@ -18,7 +17,6 @@ interface ClozeExerciseProps {
 }
 
 export function ClozeExercise({ phrase, block, onComplete }: ClozeExerciseProps) {
-  const { addXP } = useGamificationStore();
   const { speak, isSpeaking } = useTTS();
   const { play, playCorrect, playIncorrect, enabled: soundEnabled } = useSoundEffects();
 
@@ -40,7 +38,6 @@ export function ClozeExercise({ phrase, block, onComplete }: ClozeExerciseProps)
     block,
     onComplete,
     speak,
-    addXP,
     soundEnabled,
     play,
     playCorrect,

@@ -4,8 +4,12 @@ import { useState, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { DialogueIntonation } from '@/schemas/content';
 import type { IntonationEvaluationResult, SpeechRecordingResult } from '@/types';
-import { useGamificationStore } from '@/store/useGamificationStore';
 import { evaluateIntonationTurn, getNativePattern as getNativePatternService } from '@/services/intonationEvaluationService';
+import {
+  useExercisePhase,
+  useExerciseGamification,
+  useAudioElement,
+} from './hooks';
 import { PreviewPhase } from './intonation/PreviewPhase';
 import { PracticingPhase } from './intonation/PracticingPhase';
 import { ComparingPhase } from './intonation/ComparingPhase';
@@ -25,9 +29,11 @@ export function DialogueIntonationExercise({
   onSkip,
   className = '',
 }: DialogueIntonationExerciseProps) {
-  const { addXP, addGems } = useGamificationStore();
+  // Use shared hooks
+  const { phase, setPhase } = useExercisePhase<Phase>('preview');
+  const { grantReward } = useExerciseGamification();
 
-  const [phase, setPhase] = useState<Phase>('preview');
+  // Local state
   const [currentTurnIndex, setCurrentTurnIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [turnResults, setTurnResults] = useState<IntonationEvaluationResult[]>([]);
@@ -142,14 +148,15 @@ export function DialogueIntonationExercise({
       turnIndex: userTurnIndices[currentTurnIndex],
     };
 
-    addXP(result.xpEarned);
-    if (result.rhythmAnalysis.overallSimilarity >= 0.8) {
-      addGems(2);
-    }
+    // Grant rewards using shared hook
+    grantReward({
+      baseXP: result.xpEarned,
+      gems: result.rhythmAnalysis.overallSimilarity >= 0.8 ? 2 : 0,
+    });
 
     setTurnResults(prev => [...prev, result]);
     setPhase('comparing');
-  }, [getCurrentUserTurn, getNativePattern, currentTurnIndex, userTurnIndices, addXP, addGems]);
+  }, [getCurrentUserTurn, getNativePattern, currentTurnIndex, userTurnIndices, grantReward, setPhase]);
 
   const handleContinue = useCallback(() => {
     if (currentTurnIndex < userTurnIndices.length - 1) {
