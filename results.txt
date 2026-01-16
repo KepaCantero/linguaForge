@@ -8,14 +8,14 @@
 ║                                                                      ║
 ╚══════════════════════════════════════════════════════════════════════╝
 [0m
-2026-01-14 17:44:47
+2026-01-16 18:13:48
 
 [0;34m🔍 Ejecutando análisis estático...[0m
        → TypeScript strict check...
 [0;32m✅ TypeScript: OK (strict mode)[0m
        → ESLint analysis...
 [0;32m✅ ESLint: OK (0
-0 errores, 172 warnings) [0m
+0 errores, 259 warnings) [0m
        → Security audit...
 [1;33m⚠️  Vulnerabilidades de seguridad detectadas (revisar .quality-temp/audit.log)[0m
 
@@ -24,7 +24,9 @@
 [0;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
 
 [0;34m🔍 Buscando uso de 'any' no justificado...[0m
-[0;32m✅ Sin uso de 'any' injustificado[0m
+[0;31m❌ Uso de 'any' detectado:[0m
+src/app/input/audio/page.tsx:32:function calculateAudioStats(events: any[]) {
+src/app/input/audio/page.tsx:450:  const inputEvents = (inputStore as unknown as { events: any[] }).events;
 
 [0;34m🔍 Buscando @ts-ignore/@ts-nocheck...[0m
 [0;32m✅ Sin @ts-ignore/@ts-nocheck[0m
@@ -78,18 +80,23 @@ src/lib/progression/construction.ts: 1245 líneas
 src/lib/sound/construction.ts: 1581 líneas
 src/lib/animations/construction.ts: 983 líneas
 src/services/conjugationService.ts: 883 líneas
-total: 75585 líneas
+total: 94206 líneas
 
 [0;34m🔍 Analizando tamaño de funciones...[0m
 [1;33m⚠️  Funciones largas detectadas:[0m
+/Users/kepa.cantero/Projects/lingua-forge/src/app/api/tts/download/route.ts: line 241, col 8, Error - Async function 'POST' has too many lines (185). Maximum allowed is 80. (max-lines-per-function)
 /Users/kepa.cantero/Projects/lingua-forge/src/app/import/components/YouTubeContentStep.tsx: line 16, col 8, Error - Function 'YouTubeContentStep' has too many lines (132). Maximum allowed is 80. (max-lines-per-function)
 /Users/kepa.cantero/Projects/lingua-forge/src/app/import/hooks/useImportFlow.ts: line 19, col 8, Error - Function 'useImportFlow' has too many lines (121). Maximum allowed is 80. (max-lines-per-function)
 /Users/kepa.cantero/Projects/lingua-forge/src/app/import/page.tsx: line 13, col 1, Error - Function 'ImportPageContent' has too many lines (83). Maximum allowed is 80. (max-lines-per-function)
 /Users/kepa.cantero/Projects/lingua-forge/src/app/input/audio/components/AudioInputSection.tsx: line 20, col 8, Error - Function 'AudioInputSection' has too many lines (187). Maximum allowed is 80. (max-lines-per-function)
-/Users/kepa.cantero/Projects/lingua-forge/src/app/input/audio/components/AudioOrbitalHUD.tsx: line 14, col 8, Error - Function 'AudioOrbitalHUD' has too many lines (117). Maximum allowed is 80. (max-lines-per-function)
 
 [0;34m🔍 Analizando complejidad ciclomática...[0m
-[0;32m✅ Complejidad dentro del límite[0m
+[1;33m⚠️  Funciones complejas detectadas:[0m
+/Users/kepa.cantero/Projects/lingua-forge/src/app/api/tts/download/route.ts: line 241, col 8, Error - Async function 'POST' has a complexity of 21. Maximum allowed is 15. (complexity)
+/Users/kepa.cantero/Projects/lingua-forge/src/app/input/text/page.tsx: line 43, col 16, Error - Function 'TextInputPage' has a complexity of 22. Maximum allowed is 15. (complexity)
+/Users/kepa.cantero/Projects/lingua-forge/src/components/input/text/BlockSelector.tsx: line 50, col 8, Error - Function 'BlockSelector' has a complexity of 19. Maximum allowed is 15. (complexity)
+/Users/kepa.cantero/Projects/lingua-forge/src/components/input/text/IntonationSelector.tsx: line 71, col 8, Error - Function 'IntonationSelector' has a complexity of 30. Maximum allowed is 15. (complexity)
+/Users/kepa.cantero/Projects/lingua-forge/src/components/input/text/TTSQualitySelector.tsx: line 130, col 8, Error - Function 'TTSQualitySelector' has a complexity of 21. Maximum allowed is 15. (complexity)
 
 [0;34m🔍 Analizando profundidad de anidamiento...[0m
 [0;32m✅ Profundidad de anidamiento OK[0m
@@ -114,25 +121,30 @@ src/components/construction/MaterialGallery.tsx: 16 hooks
 src/components/exercises/BlockBuilderExercise.tsx: 13 hooks
 src/components/exercises/ClozeExercise/index.tsx: 11 hooks
 src/components/exercises/ConversationalEchoExercise.tsx: 19 hooks
-src/components/exercises/DialogueIntonationExercise.tsx: 19 hooks
+src/components/exercises/DialogueIntonationExercise.tsx: 18 hooks
 src/components/exercises/JanusComposerExercise.tsx: 12 hooks
 src/components/exercises/MemoryBank/EpisodicCard.tsx: 15 hooks
 src/components/exercises/MiniTaskExercise.tsx: 17 hooks
 src/components/exercises/PragmaStrikeExercise.tsx: 14 hooks
-src/components/exercises/ShadowingExercise.tsx: 15 hooks
-src/components/exercises/VariationsExercise.tsx: 15 hooks
+src/components/exercises/ShadowingExercise.tsx: 14 hooks
+src/components/exercises/VariationsExercise.tsx: 14 hooks
 src/components/focus/FocusMode.tsx: 16 hooks
 src/components/help/HelpButton.tsx: 13 hooks
 src/components/help/KeyboardShortcuts.tsx: 11 hooks
+src/components/input/audio/AudioPlayer.tsx: 20 hooks
+src/components/input/text/TextEditor.tsx: 13 hooks
+src/components/input/video/VideoPlayer.tsx: 28 hooks
 src/components/input/YouTubePlayer.tsx: 11 hooks
 src/components/learn/InfiniteCourseMap.tsx: 13 hooks
 src/components/learn/LessonPlayer.tsx: 16 hooks
+src/components/learn/ThemeSelector.tsx: 14 hooks
 src/components/onboarding/WelcomeModal.tsx: 19 hooks
 src/components/shared/MicroInteractions.tsx: 18 hooks
 src/components/shared/SpeechRecorder.tsx: 19 hooks
 src/components/srs/SwipeableSRSCard.tsx: 16 hooks
 src/components/transcript/TranscriptSelector.tsx: 11 hooks
 src/components/transcript/WordSelector.tsx: 15 hooks
+src/components/transcript/WordSelectorWithContext.tsx: 19 hooks
 src/components/tutorial/TutorialProvider.tsx: 16 hooks
 src/components/visualization/SynapticDensity.tsx: 12 hooks
 src/components/warmups/RhythmSequenceWarmup.tsx: 20 hooks
@@ -158,21 +170,17 @@ src/components/visualization/ColorPaletteSystem.tsx-313-            <div
 
 [0;34m🔍 Verificando separación de concerns...[0m
 [1;33m⚠️  Posible lógica de negocio en componentes:[0m
-src/components/input/YouTubePlayer.tsx:31:    tag.src = 'https://www.youtube.com/iframe_api';
-src/components/input/YouTubePlayer.tsx:115:          enablejsapi: 1,
-src/components/construction/BuilderInventory.tsx:192:      <p className="text-xs text-calm-text-muted capitalize">
-src/components/construction/BuilderInventory.tsx:547:        <p className="text-sm text-calm-text-muted capitalize">{RARITY_LABELS[material.rarity]} • {material.texture}</p>
-src/components/construction/BuilderInventory.tsx:578:          <p className="text-sm text-calm-text-muted capitalize">{element.type} • Nivel {element.unlockLevel}</p>
+src/components/input/YouTubePlayer.tsx:33:    tag.src = 'https://www.youtube.com/iframe_api';
+src/components/input/YouTubePlayer.tsx:121:          enablejsapi: 1,
+src/components/input/video/VideoPlayer.tsx:95:      tag.src = 'https://www.youtube.com/iframe_api';
+src/components/input/text/VoiceSelector.tsx:97:    const fetchVoices = async () => {
+src/components/input/text/VoiceSelector.tsx:102:        const response = await fetch('/api/tts/generate');
 
 [0;34m🔍 Buscando archivos potencialmente no usados...[0m
 [1;33m⚠️  ts-prune no instalado - omitiendo detección de archivos muertos[0m
 
 [0;34m🔍 Buscando dependencias circulares...[0m
-[0;31m❌ Dependencias circulares detectadas:[0m
-npm warn Unknown user config "email". This will stop working in the next major version of npm.
-npm warn Unknown user config "always-auth". This will stop working in the next major version of npm.
-- Finding files
-✔ No circular dependency found!
+[0;32m✅ Sin dependencias circulares[0m
 
 [0;34m🔍 Validando reglas arquitectónicas (dependency-cruiser)...[0m
 [0;32m✅ Reglas arquitectónicas respetadas[0m
@@ -191,7 +199,7 @@ npm warn Unknown user config "always-auth". This will stop working in the next m
 [1;33m⚠️  Gitleaks no está instalado, omitiendo escaneo de secretos[0m
 
 [0;34m🔍 Buscando archivos sin tests...[0m
-       Archivos testeables: [0;36m     251[0m
+       Archivos testeables: [0;36m     280[0m
        Archivos de tests: [0;36m       0[0m
 [1;33m⚠️  Baja cobertura de archivos con tests[0m
 
@@ -225,12 +233,12 @@ npm warn Unknown user config "always-auth". This will stop working in the next m
 [0;36m                      RESUMEN DE AUDITORÍA                        [0m
 [0;36m═══════════════════════════════════════════════════════════════[0m
 
-       [0;31m❌ ESTADO: REQUIERE ATENCIÓN - 1 errores, 14 advertencias[0m
+       [0;31m❌ ESTADO: REQUIERE ATENCIÓN - 1 errores, 15 advertencias[0m
 
 [0;36mMétricas:[0m
-       • Total de problemas: 10
+       • Total de problemas: 11
        • Errores críticos:   [0;31m1[0m
-       • Advertencias:      [1;33m14[0m
+       • Advertencias:      [1;33m15[0m
 
 [0;36mCategorías auditadas:[0m
        ✓ Code Smells (any, ts-ignore, console.log)

@@ -4,10 +4,6 @@ import { STREAK_CONFIG, HP_CONFIG } from '@/lib/constants';
 import { useGamificationStore } from './useGamificationStore';
 import type { MissionType as WarmupMissionType } from '@/schemas/warmup';
 
-// ============================================================
-// CONSTANTS (CLT - Cognitive Load Theory)
-// ============================================================
-
 export const COGNITIVE_LOAD_THRESHOLDS = {
   LOW: 30,
   MEDIUM: 50,
@@ -22,10 +18,6 @@ export const WARMUP_BY_MISSION_TYPE: Record<Mission['type'], WarmupMissionType> 
   streak: 'mixed',
   forgeMandate: 'mixed',
 } as const;
-
-// ============================================================
-// TYPES
-// ============================================================
 
 export type MissionType =
   | { type: 'input'; targetMinutes: number; currentMinutes: number }
@@ -83,10 +75,6 @@ interface MissionStore {
   setWarmupForMission: (missionId: string, warmupId: string, warmupMissionType: WarmupMissionType) => void;
 }
 
-// ============================================================
-// HELPER FUNCTIONS
-// ============================================================
-
 function getDateString(date: Date): string {
   const adjusted = new Date(date);
   adjusted.setHours(adjusted.getHours() - STREAK_CONFIG.resetHour);
@@ -94,7 +82,7 @@ function getDateString(date: Date): string {
 }
 
 function generateMissionId(type: string, index: number): string {
-  return `mission-${type}-${Date.now()}-${index}`;
+  return 'mission-' + type + '-' + Date.now() + '-' + index;
 }
 
 function getMissionDifficulty(userLevel: number): 'low' | 'medium' | 'high' {
@@ -137,17 +125,13 @@ function calculateHPPenalty(incompleteCount: number): number {
   return incompleteCount * HP_CONFIG.dailyMissionHP;
 }
 
-// ============================================================
-// MISSION GENERATORS
-// ============================================================
-
 function generateInputMission(index: number, userLevel: number, difficulty: 'low' | 'medium' | 'high'): Mission {
   const targetMinutes = 5 + userLevel * 2;
   return {
     id: generateMissionId('input', index),
     type: 'input',
-    title: 'Consumir Input Comprensible',
-    description: `Escucha o lee ${targetMinutes} minutos de contenido`,
+    title: 'Forge Mandate: Consume Input',
+    description: 'Consume ' + targetMinutes + ' minutos de input comprensible',
     target: targetMinutes,
     current: 0,
     reward: { xp: 25, coins: 10 },
@@ -156,46 +140,6 @@ function generateInputMission(index: number, userLevel: number, difficulty: 'low
     difficulty,
     cognitiveLoadTarget: COGNITIVE_LOAD_THRESHOLDS.LOW,
     estimatedMinutes: targetMinutes,
-    requiresFocus: true,
-  };
-}
-
-function generateExercisesMission(index: number, userLevel: number, difficulty: 'low' | 'medium' | 'high'): Mission {
-  const targetCount = 3 + Math.floor(userLevel / 2);
-  return {
-    id: generateMissionId('exercises', index),
-    type: 'exercises',
-    title: 'Completar Ejercicios',
-    description: `Completa ${targetCount} ejercicios`,
-    target: targetCount,
-    current: 0,
-    reward: { xp: 30, coins: 15 },
-    completed: false,
-    warmupMissionType: WARMUP_BY_MISSION_TYPE.exercises,
-    difficulty,
-    cognitiveLoadTarget: COGNITIVE_LOAD_THRESHOLDS.MEDIUM,
-    estimatedMinutes: targetCount * 2,
-    requiresFocus: true,
-  };
-}
-
-function generateJanusMission(index: number, userLevel: number): Mission | null {
-  if (userLevel < 2) return null;
-
-  const targetCombinations = 5 + userLevel;
-  return {
-    id: generateMissionId('janus', index),
-    type: 'janus',
-    title: 'Combinaciones Janus',
-    description: `Crea ${targetCombinations} combinaciones en la matriz Janus`,
-    target: targetCombinations,
-    current: 0,
-    reward: { xp: 20, coins: 10 },
-    completed: false,
-    warmupMissionType: WARMUP_BY_MISSION_TYPE.janus,
-    difficulty: userLevel <= 4 ? 'medium' : 'high',
-    cognitiveLoadTarget: COGNITIVE_LOAD_THRESHOLDS.HIGH,
-    estimatedMinutes: Math.ceil(targetCombinations * 0.5),
     requiresFocus: true,
   };
 }
@@ -223,20 +167,10 @@ function generateAllMissions(userLevel: number): Mission[] {
   const difficulty = getMissionDifficulty(userLevel);
 
   missions.push(generateInputMission(0, userLevel, difficulty));
-  missions.push(generateExercisesMission(1, userLevel, difficulty));
-
-  const janusMission = generateJanusMission(2, userLevel);
-  if (janusMission) {
-    missions.push(janusMission);
-  }
-
-  missions.push(generateForgeMandateMission(missions.length));
+  missions.push(generateForgeMandateMission(1));
+  
   return missions;
 }
-
-// ============================================================
-// STORE
-// ============================================================
 
 export const useMissionStore = create<MissionStore>()(
   persist(

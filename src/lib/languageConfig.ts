@@ -576,5 +576,5 @@ export function getLanguageConfig(languageCode: string): LanguageConfig {
  * @returns true si el idioma está soportado
  */
 export function isLanguageSupported(languageCode: string): boolean {
-  return SUPPORTED_LANGUAGES.includes(languageCode as any);
+  return SUPPORTED_LANGUAGES.some(lang => lang === languageCode);
 }

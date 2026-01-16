@@ -200,7 +200,7 @@ export function reviewFSRSCard(
       lapses: result.card.lapses,
       state: result.card.state,
       last_review: result.card.last_review,
-      learning_steps: (result.card as any).learning_steps || 0,
+      learning_steps: (result.card as { learning_steps?: number }).learning_steps || 0,
     },
     nextReviewDate: result.card.due.toISOString(),
     interval: result.card.scheduled_days,

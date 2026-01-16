@@ -13,7 +13,6 @@ import {
   isDue,
   getRetention,
   getCollectionStats,
-  sortByReviewPriority,
   migrateFromSM2,
   State,
   type Card as FSRSCard,
@@ -113,24 +112,6 @@ function fsrsToStorageFormat(fsrsState: FSRSCardState) {
     state: stateToString(fsrsState.state),
     last_review: fsrsState.last_review?.toISOString(),
   };
-}
-
-/**
- * Obtiene el estado de tarjeta a partir del estado FSRS
- * Mapea estados FSRS a estados SRSCard compatibles
- */
-function getStatusFromFSRS(fsrsState: FSRSCardState): 'new' | 'learning' | 'review' | 'graduated' {
-  switch (fsrsState.state) {
-    case State.New:
-      return 'new';
-    case State.Learning:
-    case State.Relearning:
-      return 'learning';
-    case State.Review:
-      return 'graduated';
-    default:
-      return 'new';
-  }
 }
 
 // ============================================

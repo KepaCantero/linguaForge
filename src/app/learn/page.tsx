@@ -24,8 +24,8 @@ export default function LearnPage() {
   // UI State
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-  const [showOnlyAvailable, setShowOnlyAvailable] = useState(false);
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [showOnlyAvailable, setShowOnlyAvailable] = useState(true);
 
   useEffect(() => {
     setIsMounted(true);
@@ -65,25 +65,24 @@ export default function LearnPage() {
     });
 
     // 2. Add Coming Soon Courses (placeholders)
-    COMING_SOON_COURSES.forEach((course) => {
-      const categoryInfo = CATEGORIES.find(c => c.id === course.category) || CATEGORIES[0];
-
-      topics.push({
-        id: course.id,
-        type: 'coming-soon',
-        title: course.title,
-        description: course.description,
-        icon: course.icon,
-        category: categoryInfo.id,
-        level: 'A0',
-        progress: 0,
-        isLocked: true,
-        isCompleted: false,
-        color: categoryInfo.color,
-        gradient: categoryInfo.gradient,
-        href: '#',
-      });
-    });
+    // COMING_SOON_COURSES.forEach((course) => {
+    //   const categoryInfo = CATEGORIES.find(c => c.id === course.category) || CATEGORIES[0];
+    //   topics.push({
+    //     id: course.id,
+    //     type: 'coming-soon',
+    //     title: course.title,
+    //     description: course.description,
+    //     icon: course.icon,
+    //     category: categoryInfo.id,
+    //     level: 'A0',
+    //     progress: 0,
+    //     isLocked: true,
+    //     isCompleted: false,
+    //     color: categoryInfo.color,
+    //     gradient: categoryInfo.gradient,
+    //     href: '#',
+    //   });
+    // });
 
     // 3. Add Imported Content
     importedNodes.forEach((node) => {

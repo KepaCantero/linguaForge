@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useRef, useState, useCallback } from 'react';
+import type { YTPlayer, YTPlayerEvent } from '@/types/youtube';
+import { YTPlayerState } from '@/types/youtube';
 
 interface YouTubePlayerProps {
   videoId: string;
@@ -53,7 +55,7 @@ export function YouTubePlayer({
   onEnd,
 }: YouTubePlayerProps) {
   const playerRef = useRef<HTMLDivElement>(null);
-  const playerInstanceRef = useRef<YT.Player | null>(null);
+  const playerInstanceRef = useRef<YTPlayer | null>(null);
   const [isReady, setIsReady] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -105,7 +107,11 @@ export function YouTubePlayer({
     }
 
     try {
-      const player = new window.YT.Player(playerRef.current, {
+      if (!window.YT) {
+      return;
+    }
+
+    const player = new window.YT.Player(playerRef.current, {
         videoId,
         playerVars: {
           autoplay: 0,
@@ -132,12 +138,12 @@ export function YouTubePlayer({
               }
             }, 1000);
           },
-          onStateChange: (event: YT.OnStateChangeEvent) => {
-            if (event.data === YT.PlayerState.PLAYING) {
+          onStateChange: (event: YTPlayerEvent) => {
+            if (event.data === YTPlayerState.PLAYING) {
               handlePlay();
-            } else if (event.data === YT.PlayerState.PAUSED) {
+            } else if (event.data === YTPlayerState.PAUSED) {
               handlePause();
-            } else if (event.data === YT.PlayerState.ENDED) {
+            } else if (event.data === YTPlayerState.ENDED) {
               handleEnd();
             }
           },
@@ -173,13 +179,5 @@ export function YouTubePlayer({
       <div ref={playerRef} className="w-full h-full" />
     </div>
   );
-}
-
-// Extender Window interface para TypeScript
-declare global {
-  interface Window {
-    YT: typeof YT;
-    onYouTubeIframeAPIReady: () => void;
-  }
 }
 

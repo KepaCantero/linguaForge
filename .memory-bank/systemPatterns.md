@@ -1,6 +1,6 @@
 # System Patterns — Arquitectura y Patrones del Sistema
 
-> Última actualización: 2025-01-XX
+> Última actualización: 2026-01-14 (Code Quality Improvements)
 
 ## Arquitectura General
 
@@ -99,7 +99,218 @@ export const useSRSStore = create<SRSStore>()(
 - Sin dependencias de React
 - Fáciles de testear
 
-### 3. AAA Accessibility Pattern
+### 3. Custom Hooks Pattern (Domain-Specific Logic Extraction)
+
+**Patrón:** Extraer lógica de componentes en hooks personalizados con patrón `[data, actions]`
+
+**Ejemplo:** `usePhraseSelectionPanel` (21 hooks → 2 hooks, 90% reducción)
+
+```typescript
+// src/components/transcript/hooks/usePhraseSelectionPanel.ts
+export interface PhraseSelectionPanelData {
+  translations: Record<string, string>;
+  isCreating: boolean;
+  isTranslating: boolean;
+  showWordExtraction: boolean;
+  newWords: ExtractedWord[];
+  wordsByType: Record<string, ExtractedWord[]>;
+  canCreateCards: boolean;
+  totalStudiedWords: number;
+  newWordsCount: number;
+  extractedWordsCount: number;
+}
+
+export interface PhraseSelectionPanelActions {
+  setShowWordExtraction: (show: boolean) => void;
+  handleCreateCards: () => Promise<void>;
+}
+
+export function usePhraseSelectionPanel(
+  selectedPhrases: SelectedPhrase[],
+  source: ContentSource,
+  onPhrasesAdded?: (count: number) => void
+): [PhraseSelectionPanelData, PhraseSelectionPanelActions] {
+  // State hooks
+  const [translations, setTranslations] = useState<Record<string, string>>({});
+  const [isCreating, setIsCreating] = useState(false);
+  const [isTranslating, setIsTranslating] = useState(false);
+  const [showWordExtraction, setShowWordExtraction] = useState(true);
+
+  // Memoized values
+  const extractedWords = useMemo(() => {
+    const phrases = selectedPhrases.map(p => p.text);
+    return extractKeywordsFromPhrases(phrases);
+  }, [selectedPhrases]);
+
+  // Actions
+  const handleCreateCards = useCallback(async () => {
+    // Implementation...
+  }, [newWords, createCardData, addCards, addXP, addWord, onPhrasesAdded]);
+
+  // Return [data, actions] tuple
+  const data: PhraseSelectionPanelData = {
+    translations,
+    isCreating,
+    isTranslating,
+    showWordExtraction,
+    extractedWords,
+    newWords,
+    wordsByType,
+    canCreateCards,
+    totalStudiedWords,
+    newWordsCount: newWords.length,
+    extractedWordsCount: extractedWords.length,
+  };
+
+  const actions: PhraseSelectionPanelActions = {
+    setShowWordExtraction,
+    handleCreateCards,
+  };
+
+  return [data, actions];
+}
+```
+
+**Uso en Componente:**
+```typescript
+// src/components/transcript/PhraseSelectionPanel.tsx
+export function PhraseSelectionPanel({
+  selectedPhrases,
+  source,
+  onClose,
+  onPhrasesAdded,
+}: PhraseSelectionPanelProps) {
+  const [data, actions] = usePhraseSelectionPanel({
+    selectedPhrases,
+    source,
+    onPhrasesAdded,
+  });
+
+  const {
+    translations,
+    isCreating,
+    isTranslating,
+    showWordExtraction,
+    newWords,
+    wordsByType,
+    canCreateCards,
+    totalStudiedWords,
+    newWordsCount,
+    extractedWordsCount,
+  } = data;
+
+  const { setShowWordExtraction, handleCreateCards } = actions;
+
+  // Component JSX...
+}
+```
+
+**Hooks Implementados:**
+- `useJanusComposer` - Lógica de composición Janus (27 hooks → 5 hooks)
+- `usePhraseSelectionPanel` - Lógica de selección de frases (21 hooks → 2 hooks)
+- `useMissionFeed` - Lógica de feed de misiones (22 hooks → 1 hook)
+
+**Características:**
+- Retorna tupla `[data, actions]` para separar datos de acciones
+- Interfaces TypeScript explícitas para data y actions
+- Usa `useMemo` para valores computados
+- Usa `useCallback` para handlers de eventos
+- Separa concerns de lógica de negocio de UI
+
+### 4. Factory Functions Pattern (Zustand Stores)
+
+**Patrón:** Organizar acciones de stores Zustand con funciones factory
+
+**Ejemplo:** `useCognitiveLoadStore` refactorizado
+
+```typescript
+// src/store/useCognitiveLoadStore.ts
+const createLoadActions = (
+  set: (partial: Partial<CognitiveLoadStore>) => void,
+  get: () => CognitiveLoadStore
+) => ({
+  updateIntrinsicLoad: (value: number, reason?: string) => {
+    set({ intrinsicLoad: clamp(value, 0, 100) });
+  },
+  updateExtraneousLoad: (value: number, reason?: string) => {
+    set({ extraneousLoad: clamp(value, 0, 100) });
+  },
+  updateGermaneLoad: (value: number, reason?: string) => {
+    set({ germaneLoad: clamp(value, 0, 100) });
+  },
+});
+
+const createFocusActions = (
+  set: (partial: Partial<CognitiveLoadStore>) => void,
+  get: () => CognitiveLoadStore
+) => ({
+  setFocusTarget: (target: FocusTarget) => {
+    set({ currentFocusTarget: target });
+  },
+  updateFocusQuality: (quality: number) => {
+    set({ focusQuality: clamp(quality, 0, 1) });
+  },
+});
+
+export const useCognitiveLoadStore = create<CognitiveLoadStore>()(
+  persist(
+    (set, get) => ({
+      ...initialState,
+      ...createLoadActions(set, get),
+      ...createFocusActions(set, get),
+      ...createSessionActions(set, get),
+      ...createHelperActions(set, get),
+    }),
+    { name: 'cognitive-load-storage' }
+  )
+);
+```
+
+**Características:**
+- Agrupa acciones relacionadas en funciones factory
+- Reduce complejidad de funciones largas
+- Mejora mantenibilidad y legibilidad
+- Mantiene compatibilidad con Zustand persist
+
+### 5. Repository Pattern (BaseRepository)
+
+**Patrón:** Abstracción sobre Supabase con tipos TypeScript estrictos
+
+**Ejemplo:** `baseRepository.ts` con `unknown` en lugar de `any`
+
+```typescript
+// src/services/repository/baseRepository.ts
+export class BaseRepository<T> {
+  private applyFilters(builder: unknown, where?: string | null): unknown {
+    if (!where) return builder;
+
+    const parts = where.split(' ').filter(Boolean);
+    parts.forEach((part, i) => {
+      const column = i % 2 === 0 ? part : null;
+      // Safe type assertion where needed
+      return (builder as { filter: (c: string, op: string, v: unknown) => unknown })
+        .filter(column, 'eq', value);
+    });
+
+    return builder;
+  }
+
+  async findOne(
+    where?: string | null,
+    orderBy?: OrderByOptions
+  ): Promise<T | null> {
+    // Implementation...
+  }
+}
+```
+
+**Características:**
+- Usa `unknown` en lugar de `any` con type assertions seguros
+- Valida datos con Zod schemas antes de retornar
+- Manejo de errores consistente
+- Sin dependencias de React
+
+### 6. AAA Accessibility Pattern
 
 **Patrón:** Accesibilidad WCAG AAA integrada en componentes
 

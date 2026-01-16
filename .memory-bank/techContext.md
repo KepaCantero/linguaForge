@@ -1,6 +1,6 @@
 # Tech Context — Contexto Técnico
 
-> Última actualización: 2025-01-XX
+> Última actualización: 2026-01-14 (Code Quality Improvements)
 
 ## Stack Tecnológico
 
@@ -136,6 +136,40 @@
 - **Datos:** Sistema de construcción 3D
 - **Elementos:** 15 materiales, 14 elementos constructivos, 57 hitos
 - **Modos:** 'guided' | 'autonomous'
+
+## Custom Hooks (Domain-Specific Logic)
+
+### useJanusComposer (2026-01-14)
+- **Ubicación:** `src/components/exercises/hooks/useJanusComposer.ts`
+- **Propósito:** Lógica de composición Janus (constructor de frases)
+- **Reducción:** 27 hooks → 5 hooks (81% reducción)
+- **Retorna:** `{ selections, orderedColumns, generatedPhrase, generatedTranslation, allRequiredSelected, currentDialogueIndex, phrasesCreated, dialoguesCompleted, handlers }`
+
+### usePhraseSelectionPanel (2026-01-14)
+- **Ubicación:** `src/components/transcript/hooks/usePhraseSelectionPanel.ts`
+- **Propósito:** Lógica de selección de frases y extracción de palabras
+- **Reducción:** 21 hooks → 2 hooks (90% reducción)
+- **Patrón:** `[data, actions]` tuple
+- **Retorna:**
+  - `data`: `{ translations, isCreating, isTranslating, showWordExtraction, newWords, wordsByType, canCreateCards, totalStudiedWords, counts }`
+  - `actions`: `{ setShowWordExtraction, handleCreateCards }`
+
+### useMissionFeed (2026-01-14)
+- **Ubicación:** `src/components/missions/hooks/useMissionFeed.ts`
+- **Propósito:** Lógica de feed de misiones diarias
+- **Reducción:** 22 hooks → 1 hook (95% reducción)
+- **Retorna:** `{ state, computedValues, handlers, utilityFunctions }`
+
+### Shared Exercise Hooks
+- **Ubicación:** `src/components/exercises/hooks/`
+- **Hooks:**
+  - `useExerciseState` - Estado de ejercicios
+  - `useExercisePhase` - Fases de ejercicios
+  - `useExerciseTimer` - Temporizadores
+  - `useExerciseGamification` - XP y recompensas
+  - `useExerciseAudio` - Audio y TTS
+  - `useExerciseUI` - Estados UI
+  - `useKeyboardShortcuts` - Atajos de teclado
 
 ## Servicios Principales
 

@@ -1,0 +1,35 @@
+[0;36m
+╔══════════════════════════════════════════════════════════════════════╗
+║                                                                      ║
+║   🗺️  LINGUAFORGE - QUALITY GATE DEFINITIVO                         ║
+║   Auditoría de Calidad de Código AAA                                   ║
+║                                                                      ║
+║   French Learning App • Next.js 14 • React 18                        ║
+║                                                                      ║
+╚══════════════════════════════════════════════════════════════════════╝
+[0m
+2026-01-16 13:33:57
+
+[0;34m🔍 Ejecutando análisis estático...[0m
+       → TypeScript strict check...
+[0;31m❌ TypeScript check falló[0m
+      Type 'ArrayBufferLike' is not assignable to type 'ArrayBuffer'.
+        Type 'SharedArrayBuffer' is missing the following properties from type 'ArrayBuffer': resizable, resize, detached, transfer, transferToFixedLength
+tests/setup.ts(539,9): error TS2322: Type 'MockAudioBuffer' is not assignable to type 'AudioBuffer'.
+  The types returned by 'getChannelData(...)' are incompatible between these types.
+    Type 'Float32Array<ArrayBufferLike>' is not assignable to type 'Float32Array<ArrayBuffer>'.
+      Type 'ArrayBufferLike' is not assignable to type 'ArrayBuffer'.
+        Type 'SharedArrayBuffer' is missing the following properties from type 'ArrayBuffer': resizable, resize, detached, transfer, transferToFixedLength
+tests/setup.ts(583,7): error TS2322: Type 'MockAudioBuffer' is not assignable to type 'AudioBuffer'.
+  The types returned by 'getChannelData(...)' are incompatible between these types.
+    Type 'Float32Array<ArrayBufferLike>' is not assignable to type 'Float32Array<ArrayBuffer>'.
+      Type 'ArrayBufferLike' is not assignable to type 'ArrayBuffer'.
+        Type 'SharedArrayBuffer' is missing the following properties from type 'ArrayBuffer': resizable, resize, detached, transfer, transferToFixedLength
+tests/setup.ts(620,5): error TS2322: Type 'Promise<MockAudioBuffer>' is not assignable to type 'Promise<AudioBuffer>'.
+  Type 'MockAudioBuffer' is not assignable to type 'AudioBuffer'.
+    The types returned by 'getChannelData(...)' are incompatible between these types.
+      Type 'Float32Array<ArrayBufferLike>' is not assignable to type 'Float32Array<ArrayBuffer>'.
+        Type 'ArrayBufferLike' is not assignable to type 'ArrayBuffer'.
+          Type 'SharedArrayBuffer' is missing the following properties from type 'ArrayBuffer': resizable, resize, detached, transfer, transferToFixedLength
+tests/unit/hooks/useExerciseFlow.test.ts(73,5): error TS2322: Type '"text"' is not assignable to type '"podcast" | "article" | "youtube"'.
+tests/unit/hooks/useExerciseFlow.test.ts(75,5): error TS2322: Type 'number' is not assignable to type 'string'.

@@ -34,7 +34,7 @@ export function ExerciseMenu({
         animate={{ opacity: 1, y: 0 }}
         className="text-center mb-8"
       >
-        <h2 className="text-3xl font-bold text-white mb-2">
+        <h2 className="text-3xl font-bold text-calm-text-primary mb-2">
           Ejercicios
         </h2>
         <p className="text-calm-text-muted">
@@ -81,7 +81,7 @@ export function ExerciseMenu({
 
                 {/* Title and info */}
                 <div className="text-left">
-                  <h3 className="font-semibold text-white">
+                  <h3 className="font-semibold text-calm-text-primary">
                     {exercise.title}
                   </h3>
                   <p className="text-sm text-calm-text-muted/70">

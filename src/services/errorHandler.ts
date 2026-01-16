@@ -208,10 +208,18 @@ export async function withRetry<T>(
     try {
       return await fn();
     } catch (error) {
-      const appError = createAppError(
-        `Operation failed (attempt ${attempt}/${config.maxAttempts})`,
-        error
-      );
+      // Preserve original AppError message if it exists
+      let appError: AppError;
+      if (isAppError(error)) {
+        // Already an AppError, preserve its properties
+        appError = error;
+      } else {
+        // Create new AppError from generic error
+        appError = createAppError(
+          `Operation failed (attempt ${attempt}/${config.maxAttempts})`,
+          error
+        );
+      }
 
       lastError = appError;
 

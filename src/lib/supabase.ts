@@ -88,9 +88,9 @@ export const formatSupabaseError = (error: unknown): string => {
 
 // Función helper para logging de operaciones
 export const logSupabaseOperation = (
-  operation: string,
-  table: string,
-  details?: Record<string, unknown>
+  _operation: string,
+  _table: string,
+  _details?: Record<string, unknown>
 ): void => {
 };
 

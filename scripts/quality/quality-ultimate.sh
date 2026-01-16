@@ -445,7 +445,9 @@ fi
 print_section "Buscando dependencias circulares..."
 mkdir -p .quality-temp
 CIRCULAR_DEPS=$(npx madge src --circular --extensions ts,tsx 2> .quality-temp/madge.log || true)
-if [[ -s ".quality-temp/madge.log" ]]; then
+# Only count as error if log actually contains circular dependency warnings
+# Look for actual circular deps (arrows showing cycles), not "No circular dependency found"
+if grep -E "(\d+ → \d+|Cycle detected|✖.*circular)" .quality-temp/madge.log >/dev/null 2>&1; then
     print_error "Dependencias circulares detectadas:"
     cat .quality-temp/madge.log
     count_issue

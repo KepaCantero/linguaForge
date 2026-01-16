@@ -1,6 +1,6 @@
 # Active Context — Contexto Activo
 
-> Última actualización: 2026-01-10 (Auditoría de Producción + Roadmap Monetización)
+> Última actualización: 2026-01-14 (Code Quality Improvements - ESLint Cleanup)
 
 ## Estado Actual
 
@@ -89,6 +89,52 @@ Click en nodo importado
         ├── 📚 Academia / ⚡ Desafío (toggle en header)
         └── Lista de ejercicios
 ```
+
+---
+
+## 🔧 Code Quality Improvements (2026-01-14)
+
+**Commit:** `5c0049d` - refactor: Comprehensive code quality improvements and ESLint cleanup
+
+### What Changed
+
+**ESLint & TypeScript Fixes:**
+- ✅ Replace all `any` types with `unknown` and safe type assertions in baseRepository.ts
+- ✅ Fix XSS vulnerability by moving inline theme script to external file (`/public/scripts/theme-init.js`)
+- ✅ Add centralized TODO documentation with unique IDs in `/docs/TODO.md`
+- ✅ Remove all unused imports, variables, and parameters across the codebase
+- ✅ Fix React hooks dependency warnings
+
+**Custom Hooks Extraction (82-95% hook count reduction):**
+- ✅ `useJanusComposer` - Janus composer logic (27 hooks → 5 hooks)
+- ✅ `usePhraseSelectionPanel` - Phrase selection logic (21 hooks → 2 hooks)
+- ✅ `useMissionFeed` - Mission feed logic (22 hooks → 1 hook)
+
+**Dead Code Removal (~2,000 lines removed):**
+- ✅ Delete `ClozeExercise.tsx.backup` (357 lines)
+- ✅ Delete unused `exerciseCategorizer.ts` service (459 lines)
+- ✅ Remove deprecated `translateToSpanish()` function
+- ✅ Remove duplicate `ThemeToggle` component
+
+**Zustand Store Refactoring:**
+- ✅ Refactor `useCognitiveLoadStore` with factory functions pattern
+- ✅ Fix max-lines-per-function violations with better code organization
+
+### Files Modified
+- 74 files changed, 5007 insertions(+), 2039 deletions(-)
+- New custom hooks: `useJanusComposer.ts`, `usePhraseSelectionPanel.ts`, `useMissionFeed.ts`
+- New tests: `fsrs.test.ts`, `languageConfig.test.ts`, `srsAdapter.test.ts`, `ttsService.test.ts`
+
+### Test Results
+- ✅ Build: Passing
+- ✅ Tests: 746/749 passing (3 pre-existing unrelated failures)
+- ✅ ESLint: Reduced from 187+ warnings to ~161 warnings
+
+### Technical Debt Addressed
+- ✅ Fixed all TypeScript strict mode violations in repository layer
+- ✅ Eliminated XSS risk from dangerouslySetInnerHTML
+- ✅ Centralized TODO tracking with unique identifiers (format: TODO-YYYYMMDD-NNN)
+- ✅ Reduced ESLint warnings (remaining are mostly architectural `max-lines-per-function` warnings)
 
 ---
 

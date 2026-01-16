@@ -119,7 +119,8 @@ function ExercisesPageContent() {
         onStartMission={handleWarmupDone}
       />
 
-      <div className="min-h-screen bg-calm-bg-tertiary pb-20">
+      {/* FIX 1: Changed background from gray to gradient for better visual appeal */}
+      <div className="min-h-screen bg-gradient-to-br from-bg-secondary via-bg-primary to-bg-secondary pb-20">
       {/* Header */}
       <ExercisesHeader
         subtopicTitle={subtopic.title}

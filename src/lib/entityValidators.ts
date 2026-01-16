@@ -257,7 +257,7 @@ export class EntityValidator {
   /**
    * Validate form data for entity creation
    */
-  static validateCreateEntity<T>(schema: z.ZodSchema<T>, data: unknown, entityName: string) {
+  static validateCreateEntity<T>(schema: z.ZodSchema<T>, data: unknown, _entityName: string) {
     const result = ZodValidator.validate(schema, data);
 
     if (!result.success) {

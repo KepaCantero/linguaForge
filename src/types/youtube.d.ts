@@ -1,5 +1,23 @@
 // TypeScript definitions for YouTube IFrame API
 
+declare global {
+  interface Window {
+    onYouTubeIframeAPIReady?: () => void;
+    YT?: {
+      Player: unknown; // eslint-disable-line @typescript-eslint/no-explicit-any
+      PlayerState: {
+        UNSTARTED: -1;
+        ENDED: 0;
+        PLAYING: 1;
+        PAUSED: 2;
+        BUFFERING: 3;
+        CUED: 5;
+      };
+    };
+  }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 declare namespace YT {
   interface PlayerState {
     UNSTARTED: -1;
@@ -66,4 +84,6 @@ declare const YT: {
   Player: typeof YT.Player;
   PlayerState: typeof YT.PlayerState;
 };
+
+export {};
 

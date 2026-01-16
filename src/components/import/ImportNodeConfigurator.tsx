@@ -24,11 +24,6 @@ interface ImportNodeConfiguratorProps {
   onCreateNode: () => void;
 }
 
-/**
- * Import Node Configurator Component
- * Step 3 of the import wizard - configure node details (title, icon, subtopics)
- * Reduces complexity of main import page component
- */
 export function ImportNodeConfigurator({
   topicTitle,
   selectedIcon,
@@ -43,6 +38,18 @@ export function ImportNodeConfigurator({
   onBack,
   onCreateNode,
 }: ImportNodeConfiguratorProps) {
+  const handleCreateClick = () => {
+    if (!topicTitle.trim()) {
+      alert('El nombre del tema es obligatorio. Por favor, ingresa un nombre para continuar.');
+      return;
+    }
+    if (subtopics.length === 0) {
+      alert('Debes crear al menos un subtópico antes de continuar.');
+      return;
+    }
+    onCreateNode();
+  };
+
   return (
     <motion.div
       key="configure"
@@ -60,12 +67,11 @@ export function ImportNodeConfigurator({
         >
           ←
         </motion.button>
-        <h2 className="text-2xl font-bold text-white">
+        <h2 className="text-2xl font-bold text-calm-text-primary">
           Configura tu nodo
         </h2>
       </div>
 
-      {/* Nombre del tópico */}
       <div className="relative overflow-hidden rounded-xl bg-calm-bg-secondary backdrop-blur-md border border-calm-warm-100/30 p-4">
         <motion.div
           className="absolute inset-0 bg-gradient-to-br to-accent-500/10 to-sky-500/10"
@@ -73,8 +79,8 @@ export function ImportNodeConfigurator({
           transition={{ duration: 4, repeat: Infinity }}
         />
         <div className="relative">
-          <label htmlFor="topic-title" className="block text-sm font-medium text-white mb-2">
-            Nombre del tópico
+          <label htmlFor="topic-title" className="block text-sm font-medium text-calm-text-primary mb-2">
+            Nombre del tópico <span className="text-semantic-error">*</span>
           </label>
           <input
             id="topic-title"
@@ -82,12 +88,15 @@ export function ImportNodeConfigurator({
             value={topicTitle}
             onChange={(e) => onTopicTitleChange(e.target.value)}
             placeholder="Ej: En el restaurante, Viaje a París..."
-            className="w-full px-4 py-3 rounded-xl bg-calm-bg-tertiary/30 border border-calm-warm-100/30 text-white placeholder:text-calm-text-muted focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+            className="w-full px-4 py-3 rounded-xl bg-calm-bg-tertiary/30 border border-calm-warm-100/30 text-calm-text-primary placeholder:text-calm-text-muted focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+            required
           />
+          {!topicTitle.trim() && (
+            <p className="text-xs text-semantic-error mt-1">Este campo es obligatorio</p>
+          )}
         </div>
       </div>
 
-      {/* Icono */}
       <div className="relative overflow-hidden rounded-xl bg-calm-bg-secondary backdrop-blur-md border border-calm-warm-100/30 p-4">
         <motion.div
           className="absolute inset-0 bg-gradient-to-br from-sky-500/10 to-amber-500/10"
@@ -96,7 +105,7 @@ export function ImportNodeConfigurator({
         />
         <div className="relative">
           <fieldset className="border-0 p-0 m-0">
-            <legend className="block text-sm font-medium text-white mb-3">
+            <legend className="block text-sm font-medium text-calm-text-primary mb-3">
               Icono
             </legend>
             <div className="flex flex-wrap gap-2">
@@ -104,23 +113,22 @@ export function ImportNodeConfigurator({
                 <motion.button
                   key={icon}
                   onClick={() => onIconSelect(icon)}
-                whileHover={{ scale: 1.1, rotate: 5 }}
-                whileTap={{ scale: 0.9 }}
-                className={`w-12 h-12 rounded-xl text-2xl flex items-center justify-center transition-all border-2 ${
-                  selectedIcon === icon
-                    ? 'bg-gradient-to-br to-accent-500 to-sky-500 border-accent-500 shadow-calm-md'
-                    : 'bg-calm-bg-secondary backdrop-blur-md border-calm-warm-100/30 hover:border-calm-warm-100/50'
-                }`}
-              >
-                {icon}
-              </motion.button>
-            ))}
+                  whileHover={{ scale: 1.1, rotate: 5 }}
+                  whileTap={{ scale: 0.9 }}
+                  className={"w-12 h-12 rounded-xl text-2xl flex items-center justify-center transition-all border-2 " + (
+                    selectedIcon === icon
+                      ? 'bg-gradient-to-br to-accent-500 to-sky-500 border-accent-500 shadow-calm-md'
+                      : 'bg-calm-bg-secondary backdrop-blur-md border-calm-warm-100/30 hover:border-calm-warm-100/50'
+                  )}
+                >
+                  {icon}
+                </motion.button>
+              ))}
             </div>
           </fieldset>
         </div>
       </div>
 
-      {/* Subtópicos */}
       <div className="relative overflow-hidden rounded-xl bg-calm-bg-secondary backdrop-blur-md border border-calm-warm-100/30 p-4">
         <motion.div
           className="absolute inset-0 bg-gradient-to-br from-amber-500/10 to-accent-500/10"
@@ -128,7 +136,7 @@ export function ImportNodeConfigurator({
           transition={{ duration: 4, repeat: Infinity, delay: 2 }}
         />
         <div className="relative">
-          <label className="block text-sm font-medium text-white mb-2">
+          <label className="block text-sm font-medium text-calm-text-primary mb-2">
             Subtópicos ({subtopics.length})
           </label>
           {extractedPhrases.length > 0 && subtopics.length === 0 && (
@@ -151,7 +159,7 @@ export function ImportNodeConfigurator({
                 className="flex items-center justify-between p-3 rounded-xl bg-calm-bg-tertiary/20 border border-calm-warm-100/20"
               >
                 <div>
-                  <span className="font-medium text-white">
+                  <span className="font-medium text-calm-text-primary">
                     {subtopic.title}
                   </span>
                   <span className="text-sm text-calm-text-muted ml-2">
@@ -170,14 +178,13 @@ export function ImportNodeConfigurator({
             ))}
           </div>
 
-          {/* Agregar subtópico */}
           <div className="flex gap-2">
             <input
               type="text"
               value={newSubtopicTitle}
               onChange={(e) => onSubtopicTitleChange(e.target.value)}
               placeholder={subtopics.length === 0 ? "Ej: Vocabulario, Gramática..." : "Nuevo subtópico..."}
-              className="flex-1 px-4 py-2.5 rounded-xl bg-calm-bg-tertiary/30 border border-calm-warm-100/30 text-white placeholder:text-calm-text-muted focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+              className="flex-1 px-4 py-2.5 rounded-xl bg-calm-bg-tertiary/30 border border-calm-warm-100/30 text-calm-text-primary placeholder:text-calm-text-muted focus:ring-2 focus:ring-amber-500 focus:border-transparent"
               onKeyDown={(e) => e.key === 'Enter' && onAddSubtopic()}
             />
             <motion.button
@@ -193,7 +200,6 @@ export function ImportNodeConfigurator({
         </div>
       </div>
 
-      {/* Preview */}
       <div className="relative overflow-hidden rounded-xl bg-amber-500/10 backdrop-blur-md border border-amber-500/30 p-4">
         <motion.div
           className="absolute inset-0 bg-gradient-to-br from-amber-500/10 to-accent-500/10"
@@ -213,7 +219,7 @@ export function ImportNodeConfigurator({
               {selectedIcon}
             </motion.div>
             <div className="flex-1">
-              <p className="font-semibold text-white">
+              <p className="font-semibold text-calm-text-primary">
                 {topicTitle || 'Sin título'}
               </p>
               <p className="text-sm text-calm-text-muted">
@@ -226,13 +232,12 @@ export function ImportNodeConfigurator({
       </div>
 
       <motion.button
-        onClick={onCreateNode}
-        disabled={!topicTitle.trim() || subtopics.length === 0}
+        onClick={handleCreateClick}
         whileHover={{ scale: 1.02, y: -2 }}
         whileTap={{ scale: 0.98 }}
-        className="w-full py-4 rounded-xl bg-gradient-to-r to-accent-500 to-sky-500 text-white font-bold shadow-calm-lg hover:shadow-calm-md disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+        className="w-full py-4 rounded-xl bg-gradient-to-r to-accent-500 to-sky-500 text-white font-bold shadow-calm-lg hover:shadow-calm-md transition-all"
       >
-        {subtopics.length === 0 ? 'Crea al menos un subtópico' : 'Crear nodo →'}
+        Crear nodo →
       </motion.button>
     </motion.div>
   );

@@ -80,7 +80,8 @@ export function useYouTubeImport(): YouTubeImportState & YouTubeImportActions {
           setTopicTitle(videoInfo.title);
         }
       }
-    } catch (error) {
+    } catch {
+      // Error silently ignored
     } finally {
       setState((prev) => ({ ...prev, isLoadingTranscript: false }));
     }
@@ -125,7 +126,7 @@ export function useYouTubeImport(): YouTubeImportState & YouTubeImportActions {
     } finally {
       setState((prev) => ({ ...prev, isLoadingTranscript: false }));
     }
-  }, [state.youtubeUrl, setVideoId, setTranscript, setContent, setTopicTitle]);
+  }, [state, setVideoId, setTranscript, setContent, setTopicTitle]);
 
   const reset = useCallback(() => {
     setState(initialState);

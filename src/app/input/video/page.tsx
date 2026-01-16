@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { useInputStore } from '@/store/useInputStore';
 import { useProgressStore } from '@/store/useProgressStore';
 import { YouTubePlayer } from '@/components/input/YouTubePlayer';
+import { VideoPlayer } from '@/components/input/video/VideoPlayer';
 import { convertTranscriptToPhrases, extractVideoId, getYouTubeTranscript, type YouTubeTranscript } from '@/services/youtubeTranscriptService';
 import { WordSelector } from '@/components/transcript/WordSelector';
 import { QuickReviewButton } from '@/components/transcript/QuickReviewButton';
@@ -115,34 +116,26 @@ function VideoPlayerSection({
   onEnd,
   onMarkAsWatched,
 }: VideoPlayerSectionProps) {
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
-
   return (
-    <div className="rounded-2xl p-6 bg-calm-bg-secondary backdrop-blur-md border border-calm-warm-100/20 mb-6">
-      <YouTubePlayer
+    <div className="rounded-2xl p-4 bg-calm-bg-secondary backdrop-blur-md border border-calm-warm-100/20 mb-6">
+      {/* Nuevo VideoPlayer con controles premium */}
+      <VideoPlayer
         videoId={videoId}
-        onTimeUpdate={onTimeUpdate}
-        onPlay={onPlay}
-        onPause={onPause}
-        onEnd={onEnd}
+        startTime={currentTime}
+        onTimeUpdate={(time) => onTimeUpdate(time, duration)}
+        onEnded={onEnd}
       />
+
+      {/* Título del video */}
       {videoTitle && (
         <p className="text-sm text-calm-text-primary/70 mt-4">{videoTitle}</p>
       )}
-      {duration > 0 && (
-        <div className="mt-4 flex items-center justify-between text-sm text-calm-text-primary/60 mb-4">
-          <span>{formatTime(currentTime)}</span>
-          <span>{formatTime(duration)}</span>
-        </div>
-      )}
+
+      {/* Botón de marcar como visto */}
       <motion.button
         onClick={onMarkAsWatched}
         disabled={duration === 0}
-        className="w-full py-4 rounded-2xl font-bold text-calm-text-primary flex items-center justify-center gap-3"
+        className="w-full mt-4 py-4 rounded-2xl font-bold text-calm-text-primary flex items-center justify-center gap-3"
         style={{
           background: duration === 0
             ? 'radial-gradient(circle at 30% 30%, #4B5563, #374151)'

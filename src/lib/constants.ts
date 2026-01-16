@@ -174,6 +174,107 @@ export const APP_COLORS = {
   locked: '#64748B',        // Slate 500 - Mejor contraste
 } as const;
 
+// Colores del sistema INPUT - Centralizados para evitar hardcode
+// Cada tipo de input tiene su paleta de colores consistente
+export const INPUT_COLORS = {
+  // Tipo Text (Emerald)
+  text: {
+    primary: 'emerald',
+    hex: '#10B981',
+    gradient: 'from-emerald-500/20 to-emerald-600/10',
+    borderColor: 'border-emerald-500/30',
+    hoverBorder: 'hover:border-emerald-400',
+    textColor: 'text-emerald-400',
+    textHover: 'hover:text-emerald-300',
+    textDark: 'text-emerald-600',
+    bg: 'bg-emerald-500/20',
+    bgDark: 'bg-emerald-600',
+    bgSubtle: 'bg-emerald-900/20',
+    bgLight: 'bg-emerald-500/10',
+    iconGlow: 'shadow-emerald-500/50',
+    focusRing: 'shadow-emerald-500/10',
+    statusReady: 'bg-green-400',
+    statusReadyShadow: 'shadow-green-400/50',
+  },
+  // Tipo Video (Sky)
+  video: {
+    primary: 'sky',
+    hex: '#0EA5E9',
+    gradient: 'from-sky-500/20 to-sky-600/10',
+    borderColor: 'border-sky-500/30',
+    hoverBorder: 'hover:border-sky-400',
+    textColor: 'text-sky-400',
+    textHover: 'hover:text-sky-300',
+    textDark: 'text-sky-600',
+    bg: 'bg-sky-500/20',
+    bgDark: 'bg-sky-600',
+    bgSubtle: 'bg-sky-900/20',
+    bgLight: 'bg-sky-500/10',
+    iconGlow: 'shadow-sky-500/50',
+    focusRing: 'shadow-sky-500/10',
+    statusReady: 'bg-green-400',
+    statusReadyShadow: 'shadow-green-400/50',
+  },
+  // Tipo Audio (Amber)
+  audio: {
+    primary: 'amber',
+    hex: '#F59E0B',
+    gradient: 'from-amber-500/20 to-amber-600/10',
+    borderColor: 'border-amber-500/30',
+    hoverBorder: 'hover:border-amber-400',
+    textColor: 'text-amber-400',
+    textHover: 'hover:text-amber-300',
+    textDark: 'text-amber-600',
+    bg: 'bg-amber-500/20',
+    bgDark: 'bg-amber-600',
+    bgSubtle: 'bg-amber-900/20',
+    bgLight: 'bg-amber-500/10',
+    iconGlow: 'shadow-amber-500/50',
+    focusRing: 'shadow-amber-500/10',
+    statusReady: 'bg-green-400',
+    statusReadyShadow: 'shadow-green-400/50',
+  },
+} as const;
+
+export type InputTypeColor = keyof typeof INPUT_COLORS;
+
+// Colores de dificultad (para TextPreview)
+export const DIFFICULTY_COLORS = {
+  beginner: {
+    label: 'Principiante',
+    color: 'text-emerald-400',
+    bgColor: 'bg-emerald-500/20',
+    borderColor: 'border-emerald-500/30',
+    icon: '🌱',
+  },
+  intermediate: {
+    label: 'Intermedio',
+    color: 'text-amber-400',
+    bgColor: 'bg-amber-500/20',
+    borderColor: 'border-amber-500/30',
+    icon: '📚',
+  },
+  advanced: {
+    label: 'Avanzado',
+    color: 'text-rose-400',
+    bgColor: 'bg-rose-500/20',
+    borderColor: 'border-rose-500/30',
+    icon: '🚀',
+  },
+} as const;
+
+export type DifficultyLevel = keyof typeof DIFFICULTY_COLORS;
+
+// Colores de estado para controles de progreso
+export const PROGRESS_COLORS = {
+  normal: 'bg-emerald-500',
+  warning: 'bg-amber-500',
+  error: 'bg-red-500',
+  textNormal: 'text-calm-text-muted',
+  textWarning: 'text-amber-400',
+  textError: 'text-red-400',
+} as const;
+
 // Colores de las ramas del árbol de tópicos - Sistema Armónico Mejorado
 // Agrupación temática basada en teoría del color y significado psicológico
 export const BRANCH_COLORS = {

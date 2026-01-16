@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import type { SupportedLanguage } from '@/lib/constants';
 
 // Tipos
 export interface TranscriptPhrase {
@@ -12,6 +13,12 @@ export interface ImportedSubtopic {
   id: string;
   title: string;
   phrases: string[]; // Frases extraídas del texto
+  language?: SupportedLanguage; // Idioma de las frases (opcional, por defecto 'fr')
+  // Metadatos para ejercicios cloze manuales (cuando se seleccionan palabras individuales)
+  clozeMetadata?: {
+    targetWordIndices: number[][]; // Índices de palabras objetivo en cada frase
+    isManualSelection: boolean; // true si se creó desde selección manual de palabras
+  };
 }
 
 export interface ImportedNode {
