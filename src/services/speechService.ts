@@ -1,12 +1,11 @@
 /**
  * Speech Service
  * Análisis de voz para ejercicios conversacionales
+ * Evalúa ritmo, fluidez y patrón de entonación general
  * NO evalúa pronunciación fonética estricta
  */
 
-// TODO: Re-enable when audioAnalysis is fully implemented
-// Issue: #43 - Re-enable audioAnalysis when fully implemented
-// import { analyzeIntonation, calculateIntonationSimilarity } from "@/lib/audioAnalysis";
+import { analyzeIntonation, calculateIntonationSimilarity } from "@/lib/audioAnalysis";
 
 export interface RhythmPattern {
   segments: number[]; // Duración de cada segmento en ms

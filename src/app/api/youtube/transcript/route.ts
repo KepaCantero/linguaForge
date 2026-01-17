@@ -71,15 +71,16 @@ export async function GET(request: NextRequest) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     const errorStack = error instanceof Error ? error.stack : undefined;
 
-    // TODO-20250114-001: Add proper logging service for API errors
-    // Ver: /docs/TODO.md
+    // Log error with centralized service
+    const { logger } = await import('@/services/logger');
+    logger.apiError('Failed to fetch transcript', error, `/api/youtube/transcript?videoId=${videoId}`);
+
     return NextResponse.json(
       {
         error: 'Failed to fetch transcript',
         details: errorMessage,
-        message: errorMessage, // Usar el mensaje específico del error
+        message: errorMessage,
         videoId,
-        // En desarrollo, incluir más detalles
         ...(process.env.NODE_ENV === 'development' && {
           stack: errorStack?.substring(0, 500),
           errorName: error instanceof Error ? error.name : 'Unknown',

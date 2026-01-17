@@ -129,9 +129,10 @@ export function usePhraseSelectionPanel({
           ...prev,
           ...normalizedTranslations,
         }));
-      } catch (_error) {
-        // TODO-20250114-004: Add proper logging service for translation errors
-        // Ver: /docs/TODO.md
+      } catch (error) {
+        import('@/services/logger').then(({ logger }) => {
+          logger.serviceError('usePhraseSelectionPanel', 'Error translating new words', error);
+        });
       } finally {
         setIsTranslating(false);
       }
@@ -212,9 +213,10 @@ export function usePhraseSelectionPanel({
       const singular = 'palabra nueva añadida';
       const plural = 'palabras nuevas añadidas';
       alert(`✓ ${cardsToCreate.length} ${cardsToCreate.length === 1 ? singular : plural} al deck`);
-    } catch (_error) {
-      // TODO-20250114-005: Add proper logging service for card creation errors
-      // Ver: /docs/TODO.md
+    } catch (error) {
+      import('@/services/logger').then(({ logger }) => {
+        logger.serviceError('usePhraseSelectionPanel', 'Error al crear las cards', error);
+      });
       alert('Error al crear las cards. Por favor, intenta de nuevo.');
     } finally {
       setIsCreating(false);

@@ -8,7 +8,26 @@
 // ============================================
 
 export type Subject = 'je' | 'tu' | 'il' | 'elle' | 'on' | 'nous' | 'vous' | 'ils' | 'elles';
-export type Tense = 'present' | 'passe_compose' | 'futur_proche' | 'imparfait';
+export type Tense =
+  | 'present'
+  | 'passe_compose'
+  | 'futur_proche'
+  | 'imparfait'
+  | 'passé compose'
+  | 'plus-que-parfait'
+  | 'futur simple'
+  | 'futur antérieur'
+  | 'conditionnel présent'
+  | 'conditionnel passé'
+  | 'impératif';
+
+export type Mood =
+  | 'indicatif'
+  | 'subjonctif'
+  | 'conditionnel'
+  | 'impératif'
+  | 'infinitif'
+  | 'participe';
 
 interface ConjugationTable {
   je: string;
@@ -19,11 +38,14 @@ interface ConjugationTable {
   'ils/elles': string;
 }
 
+export type Person = 'je' | 'tu' | 'il/elle/on' | 'nous' | 'vous' | 'ils/elles';
+
 interface VerbData {
   infinitive: string;
   group: 1 | 2 | 3; // Grupo verbal
   auxiliary: 'avoir' | 'être'; // Auxiliar para passé composé
   participle: string; // Participio pasado
+  irregular?: boolean; // Indica si el verbo es irregular
   conjugations: {
     present: ConjugationTable;
     imparfait?: ConjugationTable;
@@ -872,12 +894,109 @@ export function getAvailableVerbs(): string[] {
 }
 
 // ============================================
-// TODO: Completar exportación de funciones auxiliares
-// Issue: #44 - Exportar funciones de conjugación auxiliares
+// Exportación de funciones auxiliares
 // ============================================
 
-export {
-  VERB_DATABASE,
-  type VerbData,
-  type ConjugationTable,
-};
+// Types and database (already exported at definition)
+export { VERB_DATABASE };
+
+// Helper functions (new functions exported at declaration site)
+
+/**
+ * Get all available tenses
+ */
+export function getAvailableTenses(): Tense[] {
+  return [
+    'present',
+    'passé compose',
+    'imparfait',
+    'plus-que-parfait',
+    'futur simple',
+    'futur antérieur',
+    'conditionnel présent',
+    'conditionnel passé',
+    'impératif',
+  ];
+}
+
+/**
+ * Get all available moods
+ */
+export function getAvailableMoods(): Mood[] {
+  return [
+    'indicatif',
+    'subjonctif',
+    'conditionnel',
+    'impératif',
+    'infinitif',
+    'participe',
+  ];
+}
+
+/**
+ * Get a random verb from the database
+ */
+export function getRandomVerb(): string {
+  const verbs = getAvailableVerbs();
+  return verbs[Math.floor(Math.random() * verbs.length)];
+}
+
+/**
+ * Check if a conjugation is correct
+ */
+export function checkConjugation(
+  verb: string,
+  tense: Tense,
+  subject: Subject,
+  userAnswer: string
+): { correct: boolean; correctAnswer: string } {
+  const conjugation = conjugate(verb, subject, tense);
+  return {
+    correct: conjugation.toLowerCase() === userAnswer.toLowerCase().trim(),
+    correctAnswer: conjugation,
+  };
+}
+
+/**
+ * Find the verb ending (er, ir, re, or irregular)
+ */
+export function findVerbEnding(verb: string): string {
+  const infinitive = verb.trim().toLowerCase();
+
+  // Check for irregular verbs first
+  if (VERB_DATABASE[infinitive] && VERB_DATABASE[infinitive].irregular) {
+    return 'irregular';
+  }
+
+  if (infinitive.endsWith('er')) return 'er';
+  if (infinitive.endsWith('ir')) return 'ir';
+  if (infinitive.endsWith('re')) return 're';
+
+  return 'unknown';
+}
+
+/**
+ * Get the verb group (1er, 2ème, 3ème)
+ */
+export function getVerbGroup(verb: string): 1 | 2 | 3 | 0 {
+  const ending = findVerbEnding(verb);
+
+  if (ending === 'er') return 1;
+  if (ending === 'ir') return 2;
+  if (ending === 're') return 3;
+  if (ending === 'irregular') {
+    // Most irregular verbs are 3rd group
+    return 3;
+  }
+
+  return 0; // Unknown
+}
+
+/**
+ * Check if a verb is irregular
+ */
+export function isIrregular(verb: string): boolean {
+  const infinitive = verb.trim().toLowerCase();
+  const verbData = VERB_DATABASE[infinitive];
+  return verbData?.irregular || false;
+}

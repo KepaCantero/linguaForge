@@ -50,6 +50,8 @@ export interface LocalSRSData {
     translation: string;
     status: string;
     nextReviewDate: string;
+    language_code?: string;
+    level_code?: string;
     reviewHistory: Array<{
       date: string;
       response: string;
@@ -347,8 +349,9 @@ export async function syncProgress(
       }),
     };
   } catch (error) {
-    // TODO-20250114-008: Add proper logging service for sync errors
-    // Ver: /docs/TODO.md
+    import('@/services/logger').then(({ logger }) => {
+      logger.serviceError('syncService', 'Error syncing progress', error);
+    });
     return {
       success: false,
       error: error instanceof Error ? error.message : 'Unknown error',
@@ -422,9 +425,8 @@ export async function syncSRS(
           user_id: userId,
           phrase: localCard.phrase,
           translation: localCard.translation,
-          language_code: 'de', // TODO-20250114-007: Get language_code from card
-          level_code: 'A1', // TODO-20250114-007: Get level_code from card
-          // Ver: /docs/TODO.md
+          language_code: localCard.language_code || 'fr', // Default to French for LinguaForge
+          level_code: localCard.level_code || 'A1', // Default to beginner level
           status: localCard.status,
           next_review_date: localCard.nextReviewDate,
           review_history: localCard.reviewHistory.map(r => ({

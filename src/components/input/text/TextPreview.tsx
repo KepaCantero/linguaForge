@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import type { TextImportData, DifficultyLevel } from '@/hooks/input/useTextImport';
-import { DIFFICULTY_COLORS, PROGRESS_COLORS } from '@/lib/constants';
+import { DIFFICULTY_COLORS } from '@/lib/constants';
 import { INPUT_COLORS } from '@/config/input';
 
 // ============================================================
@@ -55,78 +55,29 @@ export function TextPreview({
 
   return (
     <div className="w-full space-y-4">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-white">Análisis del Texto</h2>
-        {showAnalyzeButton && onAnalyze && (
-          <motion.button
-            onClick={onAnalyze}
-            disabled={isLoading}
-            className={`px-4 py-2 ${INPUT_COLORS.text.bgDark} hover:bg-sky-700 disabled:bg-slate-600 disabled:cursor-not-allowed text-white rounded-lg text-sm font-medium transition-colors`}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            {isLoading ? 'Analizando...' : 'Analizar'}
-          </motion.button>
-        )}
-      </div>
+      <TextPreviewHeader
+        showAnalyzeButton={showAnalyzeButton}
+        onAnalyze={onAnalyze}
+        isLoading={isLoading}
+      />
 
-      {/* Loading State */}
-      {isLoading && (
-        <LoadingState />
-      )}
+      {isLoading && <LoadingState />}
 
-      {/* Error State */}
       <AnimatePresence>
-        {error && !isLoading && (
-          <ErrorState message={error} />
-        )}
+        {error && !isLoading && <ErrorState message={error} />}
       </AnimatePresence>
 
-      {/* Empty State */}
       <AnimatePresence>
-        {!hasData && !isLoading && !error && (
-          <EmptyState />
-        )}
+        {!hasData && !isLoading && !error && <EmptyState />}
       </AnimatePresence>
 
-      {/* Analysis Results */}
       <AnimatePresence>
-        {hasData && !isLoading && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-            className="space-y-4"
-          >
-            {/* Main Stats Grid */}
-            <StatsGrid
-              wordCount={data.wordCount}
-              phraseCount={data.phraseCount}
-              readingTime={readingTime}
-              blockCount={data.blocks.length}
-            />
-
-            {/* Difficulty Badge */}
-            {difficulty && (
-              <DifficultyBadge
-                difficulty={data.difficulty}
-                config={difficulty}
-              />
-            )}
-
-            {/* Language and Title */}
-            <MetadataSection
-              language={data.language}
-              suggestedTitle={data.suggestedTitle}
-            />
-
-            {/* Blocks Preview */}
-            {data.blocks.length > 0 && (
-              <BlocksPreview blocks={data.blocks} />
-            )}
-          </motion.div>
+        {hasData && !isLoading && data && (
+          <AnalysisResults
+            data={data}
+            readingTime={readingTime}
+            difficulty={difficulty}
+          />
         )}
       </AnimatePresence>
     </div>
@@ -136,6 +87,72 @@ export function TextPreview({
 // ============================================================
 // SUBCOMPONENTS
 // ============================================================
+
+interface TextPreviewHeaderProps {
+  showAnalyzeButton: boolean;
+  onAnalyze?: () => void;
+  isLoading: boolean;
+}
+
+function TextPreviewHeader({ showAnalyzeButton, onAnalyze, isLoading }: TextPreviewHeaderProps) {
+  return (
+    <div className="flex items-center justify-between">
+      <h2 className="text-lg font-semibold text-white">Análisis del Texto</h2>
+      {showAnalyzeButton && onAnalyze && (
+        <motion.button
+          onClick={onAnalyze}
+          disabled={isLoading}
+          className={`px-4 py-2 ${INPUT_COLORS.text.bgDark} hover:bg-sky-700 disabled:bg-slate-600 disabled:cursor-not-allowed text-white rounded-lg text-sm font-medium transition-colors`}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          {isLoading ? 'Analizando...' : 'Analizar'}
+        </motion.button>
+      )}
+    </div>
+  );
+}
+
+interface AnalysisResultsProps {
+  data: TextImportData;
+  readingTime: number;
+  difficulty: ReturnType<typeof getDifficultyConfig> | null;
+}
+
+function AnalysisResults({ data, readingTime, difficulty }: AnalysisResultsProps) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.3 }}
+      className="space-y-4"
+    >
+      <StatsGrid
+        wordCount={data.wordCount}
+        phraseCount={data.phraseCount}
+        readingTime={readingTime}
+        blockCount={data.blocks.length}
+      />
+
+      {difficulty && (
+        <DifficultyBadge
+          difficulty={data.difficulty}
+          config={difficulty}
+        />
+      )}
+
+      <MetadataSection
+        language={data.language}
+        suggestedTitle={data.suggestedTitle}
+      />
+
+      {data.blocks.length > 0 && (
+        <BlocksPreview blocks={data.blocks} />
+      )}
+    </motion.div>
+  );
+}
 
 function LoadingState() {
   return (
@@ -233,7 +250,6 @@ function StatsGrid({ wordCount, phraseCount, readingTime, blockCount }: StatsGri
 }
 
 function DifficultyBadge({
-  difficulty,
   config,
 }: {
   difficulty: DifficultyLevel;

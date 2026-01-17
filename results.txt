@@ -8,14 +8,14 @@
 ║                                                                      ║
 ╚══════════════════════════════════════════════════════════════════════╝
 [0m
-2026-01-16 18:13:48
+2026-01-17 09:36:35
 
 [0;34m🔍 Ejecutando análisis estático...[0m
        → TypeScript strict check...
 [0;32m✅ TypeScript: OK (strict mode)[0m
        → ESLint analysis...
 [0;32m✅ ESLint: OK (0
-0 errores, 259 warnings) [0m
+0 errores, 253 warnings) [0m
        → Security audit...
 [1;33m⚠️  Vulnerabilidades de seguridad detectadas (revisar .quality-temp/audit.log)[0m
 
@@ -24,9 +24,7 @@
 [0;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
 
 [0;34m🔍 Buscando uso de 'any' no justificado...[0m
-[0;31m❌ Uso de 'any' detectado:[0m
-src/app/input/audio/page.tsx:32:function calculateAudioStats(events: any[]) {
-src/app/input/audio/page.tsx:450:  const inputEvents = (inputStore as unknown as { events: any[] }).events;
+[0;32m✅ Sin uso de 'any' injustificado[0m
 
 [0;34m🔍 Buscando @ts-ignore/@ts-nocheck...[0m
 [0;32m✅ Sin @ts-ignore/@ts-nocheck[0m
@@ -41,13 +39,7 @@ src/app/input/audio/page.tsx:450:  const inputEvents = (inputStore as unknown as
 [0;32m✅ Sin uso de innerHTML[0m
 
 [0;34m🔍 Buscando TODO/FIXME sin referencia...[0m
-[1;33m⚠️  TODO/FIXME sin referencia de issue:[0m
-src/app/api/youtube/transcript/route.ts:74:    // TODO-20250114-001: Add proper logging service for API errors
-src/app/api/youtube/transcript/route.ts:75:    // Ver: /docs/TODO.md
-src/components/ui/ErrorBoundary.tsx:34:    // TODO-20250114-002: Implementar integración con servicio de error tracking
-src/components/ui/ErrorBoundary.tsx:35:    // Ver: /docs/TODO.md
-src/components/transcript/WordSelector.tsx:214:      // TODO-20250114-003: Add proper logging service for card creation errors
-... (35 más)
+[0;32m✅ Sin TODO/FIXME sin seguimiento[0m
 
 [0;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
 [0;35m  📋 DUPLICACIÓN DE CÓDIGO[0m
@@ -79,24 +71,24 @@ src/schemas/content.ts: 852 líneas
 src/lib/progression/construction.ts: 1245 líneas
 src/lib/sound/construction.ts: 1581 líneas
 src/lib/animations/construction.ts: 983 líneas
-src/services/conjugationService.ts: 883 líneas
-total: 94206 líneas
+src/services/conjugationService.ts: 1002 líneas
+total: 94834 líneas
 
 [0;34m🔍 Analizando tamaño de funciones...[0m
 [1;33m⚠️  Funciones largas detectadas:[0m
-/Users/kepa.cantero/Projects/lingua-forge/src/app/api/tts/download/route.ts: line 241, col 8, Error - Async function 'POST' has too many lines (185). Maximum allowed is 80. (max-lines-per-function)
 /Users/kepa.cantero/Projects/lingua-forge/src/app/import/components/YouTubeContentStep.tsx: line 16, col 8, Error - Function 'YouTubeContentStep' has too many lines (132). Maximum allowed is 80. (max-lines-per-function)
 /Users/kepa.cantero/Projects/lingua-forge/src/app/import/hooks/useImportFlow.ts: line 19, col 8, Error - Function 'useImportFlow' has too many lines (121). Maximum allowed is 80. (max-lines-per-function)
 /Users/kepa.cantero/Projects/lingua-forge/src/app/import/page.tsx: line 13, col 1, Error - Function 'ImportPageContent' has too many lines (83). Maximum allowed is 80. (max-lines-per-function)
 /Users/kepa.cantero/Projects/lingua-forge/src/app/input/audio/components/AudioInputSection.tsx: line 20, col 8, Error - Function 'AudioInputSection' has too many lines (187). Maximum allowed is 80. (max-lines-per-function)
+/Users/kepa.cantero/Projects/lingua-forge/src/app/input/audio/components/AudioOrbitalHUD.tsx: line 14, col 8, Error - Function 'AudioOrbitalHUD' has too many lines (117). Maximum allowed is 80. (max-lines-per-function)
 
 [0;34m🔍 Analizando complejidad ciclomática...[0m
 [1;33m⚠️  Funciones complejas detectadas:[0m
-/Users/kepa.cantero/Projects/lingua-forge/src/app/api/tts/download/route.ts: line 241, col 8, Error - Async function 'POST' has a complexity of 21. Maximum allowed is 15. (complexity)
 /Users/kepa.cantero/Projects/lingua-forge/src/app/input/text/page.tsx: line 43, col 16, Error - Function 'TextInputPage' has a complexity of 22. Maximum allowed is 15. (complexity)
 /Users/kepa.cantero/Projects/lingua-forge/src/components/input/text/BlockSelector.tsx: line 50, col 8, Error - Function 'BlockSelector' has a complexity of 19. Maximum allowed is 15. (complexity)
-/Users/kepa.cantero/Projects/lingua-forge/src/components/input/text/IntonationSelector.tsx: line 71, col 8, Error - Function 'IntonationSelector' has a complexity of 30. Maximum allowed is 15. (complexity)
 /Users/kepa.cantero/Projects/lingua-forge/src/components/input/text/TTSQualitySelector.tsx: line 130, col 8, Error - Function 'TTSQualitySelector' has a complexity of 21. Maximum allowed is 15. (complexity)
+/Users/kepa.cantero/Projects/lingua-forge/src/components/input/text/TextEditor.tsx: line 58, col 8, Error - Function 'TextEditor' has a complexity of 25. Maximum allowed is 15. (complexity)
+/Users/kepa.cantero/Projects/lingua-forge/src/components/input/text/TextPreview.tsx: line 45, col 8, Error - Function 'TextPreview' has a complexity of 16. Maximum allowed is 15. (complexity)
 
 [0;34m🔍 Analizando profundidad de anidamiento...[0m
 [0;32m✅ Profundidad de anidamiento OK[0m
@@ -199,7 +191,7 @@ src/components/input/text/VoiceSelector.tsx:102:        const response = await f
 [1;33m⚠️  Gitleaks no está instalado, omitiendo escaneo de secretos[0m
 
 [0;34m🔍 Buscando archivos sin tests...[0m
-       Archivos testeables: [0;36m     280[0m
+       Archivos testeables: [0;36m     281[0m
        Archivos de tests: [0;36m       0[0m
 [1;33m⚠️  Baja cobertura de archivos con tests[0m
 
@@ -233,12 +225,12 @@ src/components/input/text/VoiceSelector.tsx:102:        const response = await f
 [0;36m                      RESUMEN DE AUDITORÍA                        [0m
 [0;36m═══════════════════════════════════════════════════════════════[0m
 
-       [0;31m❌ ESTADO: REQUIERE ATENCIÓN - 1 errores, 15 advertencias[0m
+       [1;33m⚠️  ESTADO: ACEPTABLE - 14 advertencias[0m
 
 [0;36mMétricas:[0m
-       • Total de problemas: 11
-       • Errores críticos:   [0;31m1[0m
-       • Advertencias:      [1;33m15[0m
+       • Total de problemas: 9
+       • Errores críticos:   [0;31m0[0m
+       • Advertencias:      [1;33m14[0m
 
 [0;36mCategorías auditadas:[0m
        ✓ Code Smells (any, ts-ignore, console.log)
@@ -257,5 +249,5 @@ src/components/input/text/VoiceSelector.tsx:102:        const response = await f
 
 [0;36m═══════════════════════════════════════════════════════════════[0m
 
-[0;31m❌ QUALITY GATE FALLADO[0m
-[0;31m   Corrige los 1 errores críticos antes de continuar[0m
+[1;33m⚠️  QUALITY GATE CON ADVERTENCIAS[0m
+[1;33m   Se recomienda revisar las 14 advertencias[0m

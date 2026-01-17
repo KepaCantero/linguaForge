@@ -76,7 +76,9 @@ export async function saveExerciseCompletion(
 
     return { error: null };
   } catch (error) {
-    // TODO: Add proper logging service for exercise completion errors
+    import('@/services/logger').then(({ logger }) => {
+      logger.serviceError('progressService', 'Error marking exercise as completed', error);
+    });
     return { error: error instanceof Error ? error : new Error('Unknown error') };
   }
 }
@@ -148,7 +150,9 @@ export async function getLessonProgress(
 
     return { data: data || null, error: null };
   } catch (error) {
-    // TODO: Add proper logging service for lesson progress errors
+    import('@/services/logger').then(({ logger }) => {
+      logger.serviceError('progressService', 'Error fetching lesson progress', error);
+    });
     return {
       data: null,
       error: error instanceof Error ? error : new Error('Unknown error'),
@@ -178,7 +182,9 @@ export async function getUserProgress(
 
     return { data: data || [], error: null };
   } catch (error) {
-    // TODO: Add proper logging service for user progress errors
+    import('@/services/logger').then(({ logger }) => {
+      logger.serviceError('progressService', 'Error fetching user progress', error);
+    });
     return {
       data: [],
       error: error instanceof Error ? error : new Error('Unknown error'),
@@ -219,7 +225,9 @@ export async function completeLesson(
 
     return { error: null };
   } catch (error) {
-    // TODO: Add proper logging service for lesson completion errors
+    import('@/services/logger').then(({ logger }) => {
+      logger.serviceError('progressService', 'Error completing lesson', error);
+    });
     return { error: error instanceof Error ? error : new Error('Unknown error') };
   }
 }
@@ -260,7 +268,9 @@ export async function addXP(userId: string, amount: number): Promise<{ error: Er
 
     return { error: null };
   } catch (error) {
-    // TODO: Add proper logging service for XP errors
+    import('@/services/logger').then(({ logger }) => {
+      logger.serviceError('progressService', 'Error adding XP', error);
+    });
     return { error: error instanceof Error ? error : new Error('Unknown error') };
   }
 }
@@ -324,7 +334,9 @@ export async function updateStreak(userId: string): Promise<{ error: Error | nul
 
     return { error: null };
   } catch (error) {
-    // TODO: Add proper logging service for streak errors
+    import('@/services/logger').then(({ logger }) => {
+      logger.serviceError('progressService', 'Error updating streak', error);
+    });
     return { error: error instanceof Error ? error : new Error('Unknown error') };
   }
 }
@@ -359,7 +371,9 @@ export async function incrementLessonsCompleted(userId: string): Promise<{ error
 
     return { error: null };
   } catch (error) {
-    // TODO: Add proper logging service for lessons completed errors
+    import('@/services/logger').then(({ logger }) => {
+      logger.serviceError('progressService', 'Error incrementing lessons completed', error);
+    });
     return { error: error instanceof Error ? error : new Error('Unknown error') };
   }
 }
@@ -388,7 +402,9 @@ export async function getUserStats(
 
     return { data: data || null, error: null };
   } catch (error) {
-    // TODO: Add proper logging service for user stats errors
+    import('@/services/logger').then(({ logger }) => {
+      logger.serviceError('progressService', 'Error fetching user stats', error);
+    });
     return {
       data: null,
       error: error instanceof Error ? error : new Error('Unknown error'),
@@ -442,7 +458,9 @@ export async function syncProgressToSupabase(
 
     return { error: null };
   } catch (error) {
-    // TODO: Add proper logging service for sync errors
+    import('@/services/logger').then(({ logger }) => {
+      logger.serviceError('progressService', 'Error syncing progress to Supabase', error);
+    });
     return { error: error instanceof Error ? error : new Error('Unknown error') };
   }
 }

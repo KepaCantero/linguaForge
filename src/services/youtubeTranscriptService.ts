@@ -82,7 +82,9 @@ export async function getVideoInfo(originalVideoId: string): Promise<{ title: st
     }
   ).then(async (result) => {
     if (!result.success) {
-      // TODO: Add proper logging service for video info errors
+      import('@/services/logger').then(({ logger }) => {
+        logger.serviceError('youtubeTranscriptService', 'Failed to fetch video info', result.error, { videoId: originalVideoId });
+      });
       return {
         title: `Video ${originalVideoId}`,
         duration: 300,
@@ -156,7 +158,9 @@ export async function getYouTubeTranscript(videoId: string): Promise<YouTubeTran
       }
 
       const errorMessage = errorData.message || errorData.error || `Failed to fetch transcript: ${response.status} ${response.statusText}`;
-      // TODO: Add proper logging service for transcript API errors
+      import('@/services/logger').then(({ logger }) => {
+        logger.apiError(errorMessage, errorData, `/api/youtube/transcript?videoId=${videoId}`);
+      });
       throw new Error(errorMessage);
     }
 

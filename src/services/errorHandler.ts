@@ -182,12 +182,19 @@ function calculateBackoff(
 }
 
 /**
- * Log de error - TODO: Replace with proper logging service
+ * Log de error - Centralized logging service
  */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function logError(error: AppError): void {
-  // TODO: Add proper logging service for application errors
-  // Error logging should be sent to a monitoring service in production
+async function logError(error: AppError): Promise<void> {
+  const { logger } = await import('./logger');
+
+  // Include full error context for debugging
+  logger.error(error.message, error.originalError || error, {
+    category: error.category,
+    code: error.code,
+    severity: error.severity,
+    context: error.context,
+    retryable: error.retryable,
+  }, 'errorHandler');
 }
 
 // ============================================
@@ -227,7 +234,8 @@ export async function withRetry<T>(
       if (options.onError) {
         options.onError(appError);
       } else {
-        logError(appError);
+        // Log error asynchronously without waiting
+        void logError(appError);
       }
 
       // Si no es reintentable o es el último intento, lanzar

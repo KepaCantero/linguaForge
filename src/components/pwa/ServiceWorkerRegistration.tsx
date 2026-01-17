@@ -71,8 +71,10 @@ async function registerServiceWorker(
     
     const messageHandler = createMessageHandler();
     navigator.serviceWorker.addEventListener('message', messageHandler);
-  } catch {
-    // TODO: Add proper logging service for SW registration errors
+  } catch (error) {
+    import('@/services/logger').then(({ logger }) => {
+      logger.componentError('ServiceWorkerRegistration', 'Service worker registration failed', error);
+    });
   }
 }
 

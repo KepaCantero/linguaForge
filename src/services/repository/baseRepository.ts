@@ -132,7 +132,9 @@ export abstract class BaseRepository<T extends Record<string, unknown>> {
         {
           onError: (error) => {
             if (isAuthError(error)) {
-              // TODO: Add proper logging service for auth errors
+              import('@/services/logger').then(({ logger }) => {
+                logger.serviceError('baseRepository', 'Authentication error in findById', error);
+              });
             }
           },
         }

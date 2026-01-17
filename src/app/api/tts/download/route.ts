@@ -235,211 +235,141 @@ function getEstimatedMetrics(
 }
 
 // ============================================================
-// POST HANDLER - GENERATE AND DOWNLOAD AUDIO
+// REQUEST PARSING AND VALIDATION
 // ============================================================
 
-export async function POST(request: NextRequest) {
-  try {
-    // Rate limiting
-    const clientIp = getClientIp(request);
-    if (!checkRateLimit(clientIp)) {
-      return NextResponse.json(
+interface ParsedRequest {
+  text: string;
+  voice: OpenAIVoice;
+  rate: number;
+  format: 'mp3' | 'wav';
+  model: 'tts-1' | 'tts-1-hd';
+  useIntonation: boolean;
+  language: string;
+  ssml?: string;
+}
+
+async function parseAndValidateRequest(request: NextRequest): Promise<
+  | { success: true; data: ParsedRequest }
+  | { success: false; response: NextResponse }
+> {
+  // Rate limiting
+  const clientIp = getClientIp(request);
+  if (!checkRateLimit(clientIp)) {
+    return {
+      success: false,
+      response: NextResponse.json(
         {
           success: false,
           error: 'Rate limit exceeded. Please try again later.',
         } satisfies TTSDownloadResponse,
         { status: 429 }
-      );
-    }
+      ),
+    };
+  }
 
-    // Parse and validate request body
-    let body: unknown;
-    try {
-      body = await request.json();
-    } catch (parseError) {
-      return NextResponse.json(
+  // Parse JSON body
+  let body: unknown;
+  try {
+    body = await request.json();
+  } catch {
+    return {
+      success: false,
+      response: NextResponse.json(
         {
           success: false,
           error: 'Invalid JSON in request body',
         } satisfies TTSDownloadResponse,
         { status: 400 }
-      );
-    }
+      ),
+    };
+  }
 
-    const validationResult = TTSDownloadSchema.safeParse(body);
-
-    if (!validationResult.success) {
-      const errorMessages = validationResult.error.issues
-        .map((issue) => issue.message)
-        .join(', ');
-      return NextResponse.json(
+  // Validate with schema
+  const validationResult = TTSDownloadSchema.safeParse(body);
+  if (!validationResult.success) {
+    const errorMessages = validationResult.error.issues
+      .map((issue) => issue.message)
+      .join(', ');
+    return {
+      success: false,
+      response: NextResponse.json(
         {
           success: false,
           error: `Validation error: ${errorMessages}`,
         } satisfies TTSDownloadResponse,
         { status: 400 }
-      );
-    }
+      ),
+    };
+  }
 
-    // Apply quality preset if specified
-    const processedRequest = applyQualityPreset(validationResult.data);
+  // Apply quality preset
+  const processedRequest = applyQualityPreset(validationResult.data);
+  return {
+    success: true,
+    data: {
+      text: processedRequest.text,
+      voice: (processedRequest.voice || 'alloy') as OpenAIVoice,
+      rate: processedRequest.rate ?? 1.0,
+      format: (processedRequest.format || 'mp3') as 'mp3' | 'wav',
+      model: (processedRequest.model || 'tts-1') as 'tts-1' | 'tts-1-hd',
+      useIntonation: processedRequest.useIntonation ?? false,
+      language: processedRequest.language ?? 'fr',
+      ssml: processedRequest.ssml,
+    },
+  };
+}
 
-    const {
-      text,
-      voice,
-      rate = 1.0,
-      format = 'mp3',
-      model = 'tts-1',
-      useIntonation = false,
-      language = 'fr',
-      ssml,
-    } = processedRequest;
+// ============================================================
+// AUDIO GENERATION
+// ============================================================
 
-    // Validate OpenAI API key
-    const apiKey = process.env.OPENAI_API_KEY;
-    if (!apiKey) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'OpenAI API key not configured',
-        } satisfies TTSDownloadResponse,
-        { status: 500 }
-      );
-    }
+interface GeneratedAudio {
+  buffer: Buffer;
+  duration: number;
+  filename: string;
+  ssml?: string;
+}
 
-    // Initialize OpenAI client
-    const openai = new OpenAI({ apiKey });
+async function generateAudio(
+  text: string,
+  voice: OpenAIVoice,
+  rate: number,
+  format: 'mp3' | 'wav',
+  model: 'tts-1' | 'tts-1-hd',
+  ssml?: string
+): Promise<NextResponse | GeneratedAudio> {
+  // Validate API key
+  const apiKey = process.env.OPENAI_API_KEY;
+  if (!apiKey) {
+    return NextResponse.json(
+      {
+        success: false,
+        error: 'OpenAI API key not configured',
+      } satisfies TTSDownloadResponse,
+      { status: 500 }
+    );
+  }
 
-    // Generate speech using OpenAI TTS API
-    // Note: OpenAI TTS supports SSML input for advanced prosody control
-    // When SSML is provided, use it; otherwise use plain text
-    // Note: OpenAI TTS doesn't support rate/pitch adjustments directly in SSML
-    // We use the speed parameter for rate approximation
-    const inputText = ssml || text;
-    const isSSML = ssml !== undefined;
+  const openai = new OpenAI({ apiKey });
 
+  try {
     const mp3 = await openai.audio.speech.create({
-      model: model as 'tts-1' | 'tts-1-hd',
-      voice: voice as OpenAIVoice,
-      input: inputText,
+      model,
+      voice,
+      input: ssml || text,
       speed: Math.max(0.25, Math.min(4.0, rate)),
       response_format: format,
     });
 
-    // Convert to buffer
     const buffer = Buffer.from(await mp3.arrayBuffer());
     const duration = estimateDuration(text.length, rate);
-
-    // Generate filename
     const filename = generateFilename(text, format);
 
-    // Generate SSML for response if intonation was used
-    let responseSSML: string | undefined;
-    if (ssml) {
-      responseSSML = ssml;
-    }
-
-    // ============================================================
-    // AAA QUALITY VALIDATION - REAL ANALYSIS
-    // ============================================================
-
-    let validation: AudioQualityValidation;
-    let metrics: AudioQualityMetrics;
-
-    try {
-      // Attempt real audio analysis using decoded audio buffer
-      const realMetrics = await analyzeAudioData(buffer, format, useIntonation, model);
-
-      if (realMetrics) {
-        metrics = realMetrics;
-        const validationResult = validateAAAInternal(metrics);
-        validation = validationResult;
-
-        // If validation fails, return error response
-        if (!validation.passed) {
-          return NextResponse.json(
-            {
-              success: false,
-              error: 'Audio no cumple estándares AAA',
-              validation: {
-                passed: false,
-                metrics,
-                thresholds: validationResult.thresholds,
-                failures: validationResult.failures,
-                warnings: validationResult.warnings,
-              },
-            } satisfies TTSDownloadResponse & { validation?: AudioQualityValidation },
-            { status: 400 }
-          );
-        }
-      } else {
-        // Fallback to estimated metrics if real analysis is not available
-        console.warn('Real audio analysis not available, using estimated metrics');
-        metrics = getEstimatedMetrics(model, useIntonation);
-        validation = {
-          passed: true,
-          metrics,
-          thresholds: AAA_THRESHOLDS_DEFAULT,
-          failures: [],
-          warnings: ['Análisis AAA no disponible, usando métricas estimadas'],
-        };
-      }
-    } catch (analysisError) {
-      console.error('AAA quality analysis failed:', analysisError);
-      // Fall back to estimated metrics if analysis fails
-      metrics = getEstimatedMetrics(model, useIntonation);
-      validation = {
-        passed: true,
-        metrics,
-        thresholds: AAA_THRESHOLDS_DEFAULT,
-        failures: [],
-        warnings: ['Error en análisis AAA, usando métricas estimadas'],
-      };
-    }
-
-    // Serializar métricas para headers
-    const metricsHeader = JSON.stringify({
-      clarity: metrics.clarity,
-      prosodyScore: metrics.prosodyScore,
-      snrRatio: metrics.snrRatio,
-      artifactScore: metrics.artifactScore,
-      dynamicRange: metrics.dynamicRange,
-      spectralCentroid: metrics.spectralCentroid,
-      zeroCrossingRate: metrics.zeroCrossingRate,
-    });
-
-    const validationHeader = JSON.stringify({
-      passed: validation.passed,
-      aaaCompliant: validation.passed,
-      thresholds: validation.thresholds,
-      failures: validation.failures,
-      warnings: validation.warnings,
-    });
-
-    // Return audio file with quality metrics in headers
-    return new NextResponse(buffer, {
-      status: 200,
-      headers: {
-        'Content-Type': format === 'mp3' ? 'audio/mpeg' : 'audio/wav',
-        'Content-Disposition': `attachment; filename="${filename}"`,
-        'Content-Length': buffer.length.toString(),
-        'X-Audio-Duration': duration.toString(),
-        'X-Audio-Filename': filename,
-        'X-Audio-Quality-Metrics': encodeURIComponent(metricsHeader),
-        'X-Audio-Quality-Validation': encodeURIComponent(validationHeader),
-        'X-Audio-AAA-Compliant': validation.passed ? 'true' : 'false',
-        'X-Audio-SSML': responseSSML ? encodeURIComponent(responseSSML) : '',
-        'X-Audio-Intonation-Enabled': useIntonation ? 'true' : 'false',
-        'Cache-Control': 'public, max-age=86400', // Cache for 24 hours
-      },
-    });
-
+    return { buffer, duration, filename, ssml };
   } catch (error) {
-    console.error('TTS download error:', error);
-
-    // Handle OpenAI API errors
     if (error && typeof error === 'object' && 'status' in error) {
-      const apiError = error as { status?: number; message?: string };
+      const apiError = error as { status?: number };
       if (apiError.status === 401) {
         return NextResponse.json(
           {
@@ -459,15 +389,174 @@ export async function POST(request: NextRequest) {
         );
       }
     }
-
-    return NextResponse.json(
-      {
-        success: false,
-        error: error instanceof Error ? error.message : 'Failed to generate audio',
-      } satisfies TTSDownloadResponse,
-      { status: 500 }
-    );
+    throw error;
   }
+}
+
+// ============================================================
+// QUALITY VALIDATION
+// ============================================================
+
+interface ValidationResult {
+  metrics: AudioQualityMetrics;
+  validation: AudioQualityValidation;
+  errorResponse?: NextResponse;
+}
+
+async function validateAudioQuality(
+  buffer: Buffer,
+  format: 'mp3' | 'wav',
+  useIntonation: boolean,
+  model: 'tts-1' | 'tts-1-hd'
+): Promise<ValidationResult> {
+  try {
+    const realMetrics = await analyzeAudioData(buffer, format, useIntonation, model);
+
+    if (realMetrics) {
+      const validationResult = validateAAAInternal(realMetrics);
+
+      if (!validationResult.passed) {
+        return {
+          metrics: realMetrics,
+          validation: validationResult,
+          errorResponse: NextResponse.json(
+            {
+              success: false,
+              error: 'Audio no cumple estándares AAA',
+              validation: {
+                passed: false,
+                metrics: realMetrics,
+                thresholds: validationResult.thresholds,
+                failures: validationResult.failures,
+                warnings: validationResult.warnings,
+              },
+            } satisfies TTSDownloadResponse & { validation?: AudioQualityValidation },
+            { status: 400 }
+          ),
+        };
+      }
+
+      return {
+        metrics: realMetrics,
+        validation: validationResult,
+      };
+    }
+
+    // Fallback to estimated metrics
+    console.warn('Real audio analysis not available, using estimated metrics');
+    const estimatedMetrics = getEstimatedMetrics(model, useIntonation);
+    return {
+      metrics: estimatedMetrics,
+      validation: {
+        passed: true,
+        metrics: estimatedMetrics,
+        thresholds: AAA_THRESHOLDS_DEFAULT,
+        failures: [],
+        warnings: ['Análisis AAA no disponible, usando métricas estimadas'],
+      },
+    };
+  } catch (analysisError) {
+    console.error('AAA quality analysis failed:', analysisError);
+    const estimatedMetrics = getEstimatedMetrics(model, useIntonation);
+    return {
+      metrics: estimatedMetrics,
+      validation: {
+        passed: true,
+        metrics: estimatedMetrics,
+        thresholds: AAA_THRESHOLDS_DEFAULT,
+        failures: [],
+        warnings: ['Error en análisis AAA, usando métricas estimadas'],
+      },
+    };
+  }
+}
+
+// ============================================================
+// RESPONSE BUILDERS
+// ============================================================
+
+function buildAudioResponse(
+  audio: GeneratedAudio,
+  metrics: AudioQualityMetrics,
+  validation: AudioQualityValidation,
+  format: string,
+  useIntonation: boolean
+): NextResponse {
+  const metricsHeader = JSON.stringify({
+    clarity: metrics.clarity,
+    prosodyScore: metrics.prosodyScore,
+    snrRatio: metrics.snrRatio,
+    artifactScore: metrics.artifactScore,
+    dynamicRange: metrics.dynamicRange,
+    spectralCentroid: metrics.spectralCentroid,
+    zeroCrossingRate: metrics.zeroCrossingRate,
+  });
+
+  const validationHeader = JSON.stringify({
+    passed: validation.passed,
+    aaaCompliant: validation.passed,
+    thresholds: validation.thresholds,
+    failures: validation.failures,
+    warnings: validation.warnings,
+  });
+
+  return new NextResponse(audio.buffer.buffer as BodyInit, {
+    status: 200,
+    headers: {
+      'Content-Type': format === 'mp3' ? 'audio/mpeg' : 'audio/wav',
+      'Content-Disposition': `attachment; filename="${audio.filename}"`,
+      'Content-Length': audio.buffer.length.toString(),
+      'X-Audio-Duration': audio.duration.toString(),
+      'X-Audio-Filename': audio.filename,
+      'X-Audio-Quality-Metrics': encodeURIComponent(metricsHeader),
+      'X-Audio-Quality-Validation': encodeURIComponent(validationHeader),
+      'X-Audio-AAA-Compliant': validation.passed ? 'true' : 'false',
+      'X-Audio-SSML': audio.ssml ? encodeURIComponent(audio.ssml) : '',
+      'X-Audio-Intonation-Enabled': useIntonation ? 'true' : 'false',
+      'Cache-Control': 'public, max-age=86400',
+    },
+  });
+}
+
+// ============================================================
+// POST HANDLER - GENERATE AND DOWNLOAD AUDIO
+// ============================================================
+
+export async function POST(request: NextRequest) {
+  // Parse and validate request
+  const parseResult = await parseAndValidateRequest(request);
+  if (!parseResult.success) {
+    return parseResult.response;
+  }
+
+  const { text, voice, rate, format, model, useIntonation, ssml } = parseResult.data;
+
+  // Generate audio
+  const audioResult = await generateAudio(text, voice, rate, format, model, ssml);
+  if (audioResult instanceof NextResponse) {
+    return audioResult;
+  }
+
+  // Validate audio quality
+  const qualityResult = await validateAudioQuality(
+    audioResult.buffer,
+    format,
+    useIntonation,
+    model
+  );
+
+  if (qualityResult.errorResponse) {
+    return qualityResult.errorResponse;
+  }
+
+  // Build and return response
+  return buildAudioResponse(
+    audioResult,
+    qualityResult.metrics,
+    qualityResult.validation,
+    format,
+    useIntonation
+  );
 }
 
 // ============================================================

@@ -123,9 +123,10 @@ export class TTSService {
       onEnd?.();
     };
 
-    utterance.onerror = (_event) => {
-      // TODO-20250114-006: Add proper logging service for TTS errors
-      // Ver: /docs/TODO.md
+    utterance.onerror = (event) => {
+      import('@/services/logger').then(({ logger }) => {
+        logger.serviceError('ttsService', 'TTS speech error', event, { text });
+      });
       onEnd?.();
     };
 

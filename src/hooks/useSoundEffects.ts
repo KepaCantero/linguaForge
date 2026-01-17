@@ -109,8 +109,10 @@ export function useSoundEffectsInit() {
     const handleUserInteraction = () => {
       if (!hasInteracted) {
         setHasInteracted(true);
-        initSoundEffects().catch(() => {
-          // TODO: Add proper logging service for sound initialization errors
+        initSoundEffects().catch((error) => {
+          import('@/services/logger').then(({ logger }) => {
+            logger.serviceError('useSoundEffectsInit', 'Sound initialization failed', error);
+          });
         });
       }
     };

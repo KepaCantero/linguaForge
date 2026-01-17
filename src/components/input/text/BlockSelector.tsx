@@ -1,9 +1,25 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { TextBlock } from '@/hooks/input/useTextImport';
-import { INPUT_COLORS, INPUT_TYPE_COLORS } from '@/config/input';
+import { INPUT_COLORS } from '@/config/input';
+import {
+  getSelectedBlocks,
+  isAllSelected,
+  isSomeSelected,
+  canSelectMoreBlocks,
+  calculateTotalExercises,
+  calculateTotalWords,
+  calculateBlockExerciseCount,
+  getDisplayedBlocks,
+  hasMoreBlocks as hasMoreBlocksUtil,
+  toggleBlockSelection,
+  toggleAllSelection,
+  getSelectAllText,
+  getSelectionSummaryText,
+  type SelectionState,
+} from '@/lib/blockSelectorUtils';
 
 // ============================================================
 // TYPES
@@ -17,15 +33,10 @@ export interface BlockSelectorProps {
   disabled?: boolean;
 }
 
-export interface SelectionState {
-  [blockId: string]: boolean;
-}
-
 // ============================================================
 // CONSTANTS
 // ============================================================
 
-// Exercise config using centralized colors
 const EXERCISE_CONFIG = {
   cloze: { label: 'Espacios en blanco', icon: '🔤', color: INPUT_COLORS.sky[400] },
   variations: { label: 'Variaciones', icon: '🔄', color: INPUT_COLORS.sky[400] },
@@ -57,64 +68,36 @@ export function BlockSelector({
   const [selection, setSelection] = useState<SelectionState>({});
   const [showAll, setShowAll] = useState(false);
 
-  // Calcular bloques seleccionados
-  const selectedBlocks = useMemo(() => {
-    return blocks.filter(block => selection[block.id]);
-  }, [blocks, selection]);
-
+  const selectedBlocks = useMemo(() => getSelectedBlocks(blocks, selection), [blocks, selection]);
   const selectedCount = selectedBlocks.length;
-  const isAllSelected = selectedCount === blocks.length && blocks.length > 0;
-  const isSomeSelected = selectedCount > 0 && selectedCount < blocks.length;
-  const canSelectMore = !maxSelectable || selectedCount < maxSelectable;
+  const allSelected = isAllSelected(blocks, selection);
+  const someSelected = isSomeSelected(blocks, selection);
+  const canSelectMore = canSelectMoreBlocks(blocks, selection, maxSelectable);
 
-  // Calcular ejercicios totales
-  const totalExercises = useMemo(() => {
-    return selectedBlocks.reduce((sum, block) => {
-      return sum + Math.ceil(block.wordCount / 10); // ~1 ejercicio cada 10 palabras
-    }, 0);
-  }, [selectedBlocks]);
+  const totalExercises = useMemo(() => calculateTotalExercises(selectedBlocks), [selectedBlocks]);
+  const totalWords = useMemo(() => calculateTotalWords(selectedBlocks), [selectedBlocks]);
 
-  // Manejar cambio de selección individual
-  const handleToggleBlock = (blockId: string) => {
+  const displayedBlocks = getDisplayedBlocks(blocks, showAll);
+  const hasMoreBlocks = hasMoreBlocksUtil(blocks, showAll);
+
+  const handleToggleBlock = useCallback((blockId: string) => {
     if (disabled) return;
 
-    const wasSelected = selection[blockId];
-    if (wasSelected) {
-      // Deseleccionar
-      const newSelection = { ...selection, [blockId]: false };
-      setSelection(newSelection);
-      onSelectionChange(blocks.filter(b => newSelection[b.id]));
-    } else if (canSelectMore) {
-      // Seleccionar
-      const newSelection = { ...selection, [blockId]: true };
-      setSelection(newSelection);
-      onSelectionChange(blocks.filter(b => newSelection[b.id]));
-    }
-  };
+    const { newSelection, newSelectedBlocks } = toggleBlockSelection(blocks, selection, blockId, maxSelectable);
+    setSelection(newSelection);
+    onSelectionChange(newSelectedBlocks);
+  }, [blocks, selection, maxSelectable, disabled, onSelectionChange]);
 
-  // Manejar "select all"
-  const handleToggleAll = () => {
+  const handleToggleAll = useCallback(() => {
     if (disabled) return;
 
-    if (isAllSelected || isSomeSelected) {
-      // Deseleccionar todos
-      setSelection({});
-      onSelectionChange([]);
-    } else {
-      // Seleccionar todos (respetando maxSelectable)
-      const limit = maxSelectable || blocks.length;
-      const newSelection: SelectionState = {};
-      blocks.slice(0, limit).forEach(block => {
-        newSelection[block.id] = true;
-      });
-      setSelection(newSelection);
-      onSelectionChange(blocks.slice(0, limit));
-    }
-  };
+    const { newSelection, newSelectedBlocks } = toggleAllSelection(blocks, selection, maxSelectable);
+    setSelection(newSelection);
+    onSelectionChange(newSelectedBlocks);
+  }, [blocks, selection, maxSelectable, disabled, onSelectionChange]);
 
-  // Bloques a mostrar (con opción de "ver más")
-  const displayedBlocks = showAll ? blocks : blocks.slice(0, 5);
-  const hasMoreBlocks = blocks.length > 5;
+  const selectAllText = getSelectAllText(allSelected, someSelected);
+  const selectionSummaryText = getSelectionSummaryText(selectedCount, blocks.length);
 
   return (
     <div className="w-full space-y-4">
@@ -125,9 +108,7 @@ export function BlockSelector({
             Seleccionar Bloques
           </h3>
           <p className="text-sm text-calm-text-muted">
-            {selectedCount > 0
-              ? `${selectedCount} de ${blocks.length} bloques seleccionados`
-              : `${blocks.length} bloques disponibles`}
+            {selectionSummaryText}
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -138,7 +119,7 @@ export function BlockSelector({
               disabled={disabled}
               className={`
                 px-4 py-2 rounded-lg text-sm font-medium transition-colors
-                ${isAllSelected || isSomeSelected
+                ${allSelected || someSelected
                   ? `${INPUT_COLORS.amber[600]} text-white`
                   : 'bg-calm-bg-elevated hover:bg-calm-warm-200/20 text-calm-text-primary border border-calm-warm-200/50'
                 }
@@ -147,7 +128,7 @@ export function BlockSelector({
               whileHover={{ scale: disabled ? 1 : 1.02 }}
               whileTap={{ scale: disabled ? 1 : 0.98 }}
             >
-              {isAllSelected ? '✓ Todos' : isSomeSelected ? '✓ Algunos' : 'Seleccionar todos'}
+              {selectAllText}
             </motion.button>
           )}
         </div>
@@ -158,7 +139,7 @@ export function BlockSelector({
         {selectedCount > 0 && (
           <SelectionSummary
             selectedCount={selectedCount}
-            totalWords={selectedBlocks.reduce((sum, b) => sum + b.wordCount, 0)}
+            totalWords={totalWords}
             totalExercises={totalExercises}
           />
         )}
@@ -223,7 +204,7 @@ function SelectionSummary({ selectedCount, totalWords, totalExercises }: Selecti
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
-      className={`p-4 ${INPUT_TYPE_COLORS.video.bgDark.replace('bg-sky-500/10', 'bg-sky-900/20')} border ${INPUT_COLORS.sky[500].replace('bg-sky-500', 'border-sky-500/30')} rounded-xl`}
+      className={`p-4 bg-calm-bg-elevated/80 backdrop-blur-md border border-calm-warm-100/30 rounded-xl`}
     >
       <div className="grid grid-cols-3 gap-4 text-center">
         <div>
@@ -253,8 +234,7 @@ interface BlockCardProps {
 }
 
 function BlockCard({ block, isSelected, onToggle, showExercisePreview, disabled, index }: BlockCardProps) {
-  // Estimar ejercicios para este bloque
-  const exerciseCount = Math.ceil(block.wordCount / 10);
+  const exerciseCount = calculateBlockExerciseCount(block);
 
   return (
     <motion.div

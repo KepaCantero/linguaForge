@@ -151,8 +151,10 @@ export async function translate(
     cacheTranslation(cacheKey, translation);
 
     return translation;
-  } catch {
-    // TODO: Add proper logging service for translation errors
+  } catch (error) {
+    import('@/services/logger').then(({ logger }) => {
+      logger.serviceError('translationService', 'Translation failed', error, { text, sourceLang, targetLang });
+    });
     // Fallback: retornar el texto original si falla la traducción
     return text;
   }

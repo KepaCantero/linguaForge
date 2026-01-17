@@ -153,44 +153,16 @@ export function IntonationSelector({
   return (
     <div className="w-full space-y-4">
       {/* Header con toggle */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <h3 className="text-lg font-semibold text-white">
-            Entonación Contextualizada
-          </h3>
-          {hasContent && totalSentences > 0 && (
-            <span className="text-sm text-calm-text-muted">
-              {totalSentences} oración{totalSentences > 1 ? 'es' : ''} detectada{totalSentences > 1 ? 's' : ''}
-            </span>
-          )}
-        </div>
-
-        <motion.button
-          onClick={handleToggle}
-          disabled={disabled}
-          className={`
-            relative px-6 py-2 rounded-full font-semibold transition-all duration-200
-            ${disabled
-              ? 'bg-calm-bg-elevated/50 text-calm-text-muted cursor-not-allowed'
-              : isEnabled
-                ? `${INPUT_COLORS.text.bg} ${INPUT_COLORS.text.textColor} shadow-lg`
-                : 'bg-calm-bg-elevated/50 text-calm-text-primary hover:bg-calm-warm-200/20'
-            }
-          `}
-          whileHover={disabled ? {} : { scale: 1.02 }}
-          whileTap={disabled ? {} : { scale: 0.98 }}
-        >
-          {isEnabled ? '✓ Activada' : 'Desactivada'}
-        </motion.button>
-      </div>
+      <IntonationHeader
+        isEnabled={isEnabled}
+        hasContent={hasContent}
+        totalSentences={totalSentences}
+        disabled={disabled}
+        onToggle={handleToggle}
+      />
 
       {/* Descripción */}
-      <p className="text-sm text-calm-text-muted">
-        {isEnabled
-          ? 'La entonación se ajustará automáticamente según el tipo de oración (pregunta, declarativo, exclamación, imperativo).'
-          : 'El audio se generará con entonación plana (sin variaciones).'
-        }
-      </p>
+      <IntonationDescription isEnabled={isEnabled} />
 
       {/* Análisis de oraciones */}
       <AnimatePresence>
@@ -204,195 +176,344 @@ export function IntonationSelector({
           >
             {/* Resumen de tipos detectados */}
             {totalSentences > 0 && (
-              <div className={`p-4 rounded-xl border ${INPUT_COLORS.text.bgSubtle} ${INPUT_COLORS.text.borderColor}`}>
-                <h4 className="text-sm font-semibold text-white mb-3">
-                  Tipos de oración detectados
-                </h4>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                  {SENTENCE_TYPE_CARDS.map((card) => {
-                    const colorConfig = INTONATION_COLORS[card.type];
-                    const count = typeCounts[card.type] || 0;
-                    const percentage = totalSentences > 0 ? (count / totalSentences) * 100 : 0;
-
-                    return (
-                      <div
-                        key={card.type}
-                        className={`
-                          p-3 rounded-lg border transition-all duration-200
-                          ${count > 0
-                            ? `${colorConfig.bg} ${colorConfig.color} border-current`
-                            : 'bg-calm-bg-elevated/30 border-calm-warm-200/30 opacity-50'
-                          }
-                        `}
-                      >
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="text-lg">{colorConfig.icon}</span>
-                          <span className="text-xs font-medium">
-                            {colorConfig.label}
-                          </span>
-                        </div>
-                        <div className="text-xs text-calm-text-muted">
-                          {count > 0 ? `${count} (${percentage.toFixed(0)}%)` : '0%'}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
+              <SentenceTypeSummary
+                typeCounts={typeCounts}
+                totalSentences={totalSentences}
+              />
             )}
 
             {/* Lista de oraciones analizadas */}
             {totalSentences > 0 && (
-              <div className={`p-4 rounded-xl border ${INPUT_COLORS.text.bgSubtle} ${INPUT_COLORS.text.borderColor}`}>
-                <div className="flex items-center justify-between mb-3">
-                  <h4 className="text-sm font-semibold text-white">
-                    Análisis detallado
-                  </h4>
-                  <button
-                    onClick={() => setShowDetails(!showDetails)}
-                    className={`text-xs ${INPUT_COLORS.text.textColor} ${INPUT_COLORS.text.textHover} transition-colors`}
-                  >
-                    {showDetails ? '↑ Ocultar' : '↓ Ver detalles'}
-                  </button>
-                </div>
-
-                <AnimatePresence>
-                  {showDetails && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.3 }}
-                      className="space-y-2 max-h-[300px] overflow-y-auto"
-                    >
-                      {analyzedSentences.map((sentence, index) => {
-                        const colorConfig = INTONATION_COLORS[sentence.type];
-
-                        return (
-                          <div
-                            key={index}
-                            className={`
-                              p-3 rounded-lg border transition-all duration-200
-                              ${colorConfig.bg} ${colorConfig.color} border-current
-                            `}
-                          >
-                            <div className="flex items-start justify-between gap-3">
-                              <div className="flex-1 min-w-0">
-                                <div className="flex items-center gap-2 mb-1">
-                                  <span>{colorConfig.icon}</span>
-                                  <span className="text-xs font-medium">
-                                    {intonationService.getSentenceTypeName(sentence.type)}
-                                  </span>
-                                  <span className="text-xs px-1.5 py-0.5 rounded bg-calm-bg-tertiary text-calm-text-muted">
-                                    {intonationService.getProfileName(sentence.intonation.intonationProfile)}
-                                  </span>
-                                </div>
-                                <p className="text-sm text-calm-text-primary line-clamp-2">
-                                  {sentence.text}
-                                </p>
-                                <p className="text-xs text-calm-text-muted mt-1">
-                                  Pitch: {sentence.ssmlProsody.pitch} | Rate: {sentence.ssmlProsody.rate} | Volume: {sentence.ssmlProsody.volume}
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
+              <SentenceAnalysisDetails
+                sentences={analyzedSentences}
+                showDetails={showDetails}
+                onToggleDetails={() => setShowDetails(!showDetails)}
+              />
             )}
 
             {/* Previews de cada tipo */}
-            <div className={`p-4 rounded-xl border ${INPUT_COLORS.text.bgSubtle} ${INPUT_COLORS.text.borderColor}`}>
-              <h4 className="text-sm font-semibold text-white mb-3">
-                Previsualizar tipos de entonación
-              </h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                {SENTENCE_TYPE_CARDS.map((card) => {
-                  const colorConfig = INTONATION_COLORS[card.type];
-
-                  return (
-                    <motion.button
-                      key={card.type}
-                      onClick={() => handleTypePreview(card.type)}
-                      disabled={disabled || isPreviewing}
-                      className={`
-                        p-3 rounded-lg border text-left transition-all duration-200
-                        ${disabled || isPreviewing
-                          ? 'opacity-50 cursor-not-allowed'
-                          : 'hover:scale-[1.02] active:scale-[0.98] cursor-pointer'
-                        }
-                        ${colorConfig.bg} ${colorConfig.color} border-current
-                    `}
-                    whileHover={disabled || isPreviewing ? {} : { scale: 1.02 }}
-                    whileTap={disabled || isPreviewing ? {} : { scale: 0.98 }}
-                  >
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="text-lg">{colorConfig.icon}</span>
-                      <span className="text-xs font-medium">
-                        {colorConfig.label}
-                      </span>
-                    </div>
-                    <p className="text-xs text-calm-text-primary mb-1">
-                      {EXAMPLE_TEXTS[card.type]}
-                    </p>
-                    <p className="text-xs text-calm-text-muted">
-                      {card.description}
-                    </p>
-                  </motion.button>
-                  );
-                })}
-              </div>
-            </div>
+            <IntonationTypePreviews
+              disabled={disabled}
+              isPreviewing={isPreviewing}
+              onTypePreview={handleTypePreview}
+            />
 
             {/* Botón de preview del texto completo */}
-            <motion.button
-              onClick={handlePreview}
-              disabled={disabled || isPreviewing || !text}
-              className={`w-full px-6 py-4 rounded-xl font-semibold transition-all duration-200 ${
-                disabled || isPreviewing || !text
-                  ? 'bg-calm-bg-elevated text-calm-text-muted cursor-not-allowed'
-                  : `${INPUT_COLORS.text.bgDark} ${INPUT_COLORS.text.textColor} hover:scale-[1.02] active:scale-[0.98]`
-              }`}
-              whileHover={disabled || isPreviewing || !text ? undefined : { scale: 1.02 }}
-              whileTap={disabled || isPreviewing || !text ? undefined : { scale: 0.98 }}
-            >
-              {isPreviewing ? (
-                <span className="flex items-center justify-center gap-2">
-                  <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-                    className="w-5 h-5 border-2 border-current border-t-transparent rounded-full"
-                  />
-                  Generando preview con entonación...
-                </span>
-              ) : (
-                <span className="flex items-center justify-center gap-2">
-                  🔊 Escuchar texto completo con entonación
-                </span>
-              )}
-            </motion.button>
+            <FullTextPreviewButton
+              disabled={disabled}
+              isPreviewing={isPreviewing}
+              hasText={!!text}
+              onPreview={handlePreview}
+            />
           </motion.div>
         )}
       </AnimatePresence>
 
       {/* Indicador de análisis en curso */}
-      {isAnalyzing && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="flex items-center gap-2 text-sm text-calm-text-muted"
+      {isAnalyzing && <AnalysisIndicator />}
+    </div>
+  );
+}
+
+// ============================================================
+// SUBCOMPONENTS
+// ============================================================
+
+interface IntonationHeaderProps {
+  isEnabled: boolean;
+  hasContent: boolean;
+  totalSentences: number;
+  disabled: boolean;
+  onToggle: () => void;
+}
+
+function IntonationHeader({
+  isEnabled,
+  hasContent,
+  totalSentences,
+  disabled,
+  onToggle,
+}: IntonationHeaderProps) {
+  return (
+    <div className="flex items-center justify-between">
+      <div className="flex items-center gap-3">
+        <h3 className="text-lg font-semibold text-white">
+          Entonación Contextualizada
+        </h3>
+        {hasContent && totalSentences > 0 && (
+          <span className="text-sm text-calm-text-muted">
+            {totalSentences} oración{totalSentences > 1 ? 'es' : ''} detectada{totalSentences > 1 ? 's' : ''}
+          </span>
+        )}
+      </div>
+
+      <motion.button
+        onClick={onToggle}
+        disabled={disabled}
+        className={`
+          relative px-6 py-2 rounded-full font-semibold transition-all duration-200
+          ${disabled
+            ? 'bg-calm-bg-elevated/50 text-calm-text-muted cursor-not-allowed'
+            : isEnabled
+              ? `${INPUT_COLORS.text.bg} ${INPUT_COLORS.text.textColor} shadow-lg`
+              : 'bg-calm-bg-elevated/50 text-calm-text-primary hover:bg-calm-warm-200/20'
+          }
+        `}
+        whileHover={disabled ? {} : { scale: 1.02 }}
+        whileTap={disabled ? {} : { scale: 0.98 }}
+      >
+        {isEnabled ? '✓ Activada' : 'Desactivada'}
+      </motion.button>
+    </div>
+  );
+}
+
+interface IntonationDescriptionProps {
+  isEnabled: boolean;
+}
+
+function IntonationDescription({ isEnabled }: IntonationDescriptionProps) {
+  return (
+    <p className="text-sm text-calm-text-muted">
+      {isEnabled
+        ? 'La entonación se ajustará automáticamente según el tipo de oración (pregunta, declarativo, exclamación, imperativo).'
+        : 'El audio se generará con entonación plana (sin variaciones).'
+      }
+    </p>
+  );
+}
+
+interface SentenceTypeSummaryProps {
+  typeCounts: Record<SentenceType, number>;
+  totalSentences: number;
+}
+
+function SentenceTypeSummary({ typeCounts, totalSentences }: SentenceTypeSummaryProps) {
+  return (
+    <div className={`p-4 rounded-xl border ${INPUT_COLORS.text.bgSubtle} ${INPUT_COLORS.text.borderColor}`}>
+      <h4 className="text-sm font-semibold text-white mb-3">
+        Tipos de oración detectados
+      </h4>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+        {SENTENCE_TYPE_CARDS.map((card) => {
+          const colorConfig = INTONATION_COLORS[card.type];
+          const count = typeCounts[card.type] || 0;
+          const percentage = totalSentences > 0 ? (count / totalSentences) * 100 : 0;
+
+          return (
+            <div
+              key={card.type}
+              className={`
+                p-3 rounded-lg border transition-all duration-200
+                ${count > 0
+                  ? `${colorConfig.bg} ${colorConfig.color} border-current`
+                  : 'bg-calm-bg-elevated/30 border-calm-warm-200/30 opacity-50'
+                }
+              `}
+            >
+              <div className="flex items-center gap-2 mb-1">
+                <span className="text-lg">{colorConfig.icon}</span>
+                <span className="text-xs font-medium">
+                  {colorConfig.label}
+                </span>
+              </div>
+              <div className="text-xs text-calm-text-muted">
+                {count > 0 ? `${count} (${percentage.toFixed(0)}%)` : '0%'}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+interface SentenceAnalysisDetailsProps {
+  sentences: AnalyzedSentence[];
+  showDetails: boolean;
+  onToggleDetails: () => void;
+}
+
+function SentenceAnalysisDetails({
+  sentences,
+  showDetails,
+  onToggleDetails,
+}: SentenceAnalysisDetailsProps) {
+  return (
+    <div className={`p-4 rounded-xl border ${INPUT_COLORS.text.bgSubtle} ${INPUT_COLORS.text.borderColor}`}>
+      <div className="flex items-center justify-between mb-3">
+        <h4 className="text-sm font-semibold text-white">
+          Análisis detallado
+        </h4>
+        <button
+          onClick={onToggleDetails}
+          className={`text-xs ${INPUT_COLORS.text.textColor} ${INPUT_COLORS.text.textHover} transition-colors`}
         >
+          {showDetails ? '↑ Ocultar' : '↓ Ver detalles'}
+        </button>
+      </div>
+
+      <AnimatePresence>
+        {showDetails && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+            className="space-y-2 max-h-[300px] overflow-y-auto"
+          >
+            {sentences.map((sentence, index) => {
+              const colorConfig = INTONATION_COLORS[sentence.type];
+
+              return (
+                <div
+                  key={index}
+                  className={`
+                    p-3 rounded-lg border transition-all duration-200
+                    ${colorConfig.bg} ${colorConfig.color} border-current
+                  `}
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span>{colorConfig.icon}</span>
+                        <span className="text-xs font-medium">
+                          {intonationService.getSentenceTypeName(sentence.type)}
+                        </span>
+                        <span className="text-xs px-1.5 py-0.5 rounded bg-calm-bg-tertiary text-calm-text-muted">
+                          {intonationService.getProfileName(sentence.intonation.intonationProfile)}
+                        </span>
+                      </div>
+                      <p className="text-sm text-calm-text-primary line-clamp-2">
+                        {sentence.text}
+                      </p>
+                      <p className="text-xs text-calm-text-muted mt-1">
+                        Pitch: {sentence.ssmlProsody.pitch} | Rate: {sentence.ssmlProsody.rate} | Volume: {sentence.ssmlProsody.volume}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+interface IntonationTypePreviewsProps {
+  disabled: boolean;
+  isPreviewing: boolean;
+  onTypePreview: (type: SentenceType) => void;
+}
+
+function IntonationTypePreviews({
+  disabled,
+  isPreviewing,
+  onTypePreview,
+}: IntonationTypePreviewsProps) {
+  return (
+    <div className={`p-4 rounded-xl border ${INPUT_COLORS.text.bgSubtle} ${INPUT_COLORS.text.borderColor}`}>
+      <h4 className="text-sm font-semibold text-white mb-3">
+        Previsualizar tipos de entonación
+      </h4>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+        {SENTENCE_TYPE_CARDS.map((card) => {
+          const colorConfig = INTONATION_COLORS[card.type];
+
+          return (
+            <motion.button
+              key={card.type}
+              onClick={() => onTypePreview(card.type)}
+              disabled={disabled || isPreviewing}
+              className={`
+                p-3 rounded-lg border text-left transition-all duration-200
+                ${disabled || isPreviewing
+                  ? 'opacity-50 cursor-not-allowed'
+                  : 'hover:scale-[1.02] active:scale-[0.98] cursor-pointer'
+                }
+                ${colorConfig.bg} ${colorConfig.color} border-current
+              `}
+              whileHover={disabled || isPreviewing ? {} : { scale: 1.02 }}
+              whileTap={disabled || isPreviewing ? {} : { scale: 0.98 }}
+            >
+              <div className="flex items-center gap-2 mb-1">
+                <span className="text-lg">{colorConfig.icon}</span>
+                <span className="text-xs font-medium">
+                  {colorConfig.label}
+                </span>
+              </div>
+              <p className="text-xs text-calm-text-primary mb-1">
+                {EXAMPLE_TEXTS[card.type]}
+              </p>
+              <p className="text-xs text-calm-text-muted">
+                {card.description}
+              </p>
+            </motion.button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+interface FullTextPreviewButtonProps {
+  disabled: boolean;
+  isPreviewing: boolean;
+  hasText: boolean;
+  onPreview: () => void;
+}
+
+function FullTextPreviewButton({
+  disabled,
+  isPreviewing,
+  hasText,
+  onPreview,
+}: FullTextPreviewButtonProps) {
+  return (
+    <motion.button
+      onClick={onPreview}
+      disabled={disabled || isPreviewing || !hasText}
+      className={`w-full px-6 py-4 rounded-xl font-semibold transition-all duration-200 ${
+        disabled || isPreviewing || !hasText
+          ? 'bg-calm-bg-elevated text-calm-text-muted cursor-not-allowed'
+          : `${INPUT_COLORS.text.bgDark} ${INPUT_COLORS.text.textColor} hover:scale-[1.02] active:scale-[0.98]`
+      }`}
+      whileHover={disabled || isPreviewing || !hasText ? undefined : { scale: 1.02 }}
+      whileTap={disabled || isPreviewing || !hasText ? undefined : { scale: 0.98 }}
+    >
+      {isPreviewing ? (
+        <span className="flex items-center justify-center gap-2">
           <motion.div
             animate={{ rotate: 360 }}
             transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-            className="w-4 h-4 border-2 border-current border-t-transparent rounded-full"
+            className="w-5 h-5 border-2 border-current border-t-transparent rounded-full"
           />
-          Analizando entonación...
-        </motion.div>
+          Generando preview con entonación...
+        </span>
+      ) : (
+        <span className="flex items-center justify-center gap-2">
+          🔊 Escuchar texto completo con entonación
+        </span>
       )}
-    </div>
+    </motion.button>
+  );
+}
+
+function AnalysisIndicator() {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="flex items-center gap-2 text-sm text-calm-text-muted"
+    >
+      <motion.div
+        animate={{ rotate: 360 }}
+        transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+        className="w-4 h-4 border-2 border-current border-t-transparent rounded-full"
+      />
+      Analizando entonación...
+    </motion.div>
   );
 }

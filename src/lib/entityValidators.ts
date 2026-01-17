@@ -257,11 +257,13 @@ export class EntityValidator {
   /**
    * Validate form data for entity creation
    */
-  static validateCreateEntity<T>(schema: z.ZodSchema<T>, data: unknown, _entityName: string) {
+  static validateCreateEntity<T>(schema: z.ZodSchema<T>, data: unknown, entityName: string) {
     const result = ZodValidator.validate(schema, data);
 
     if (!result.success) {
-      // TODO: Add proper logging service for validation errors
+      import('@/services/logger').then(({ logger }) => {
+        logger.validationError(`Validation failed for ${entityName}`, result.errors, entityName);
+      });
     }
 
     return result;
@@ -270,13 +272,14 @@ export class EntityValidator {
   /**
    * Validate form data for entity update
    */
-  static validateUpdateEntity<T>(schema: z.ZodSchema<T>, data: unknown, // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    entityName: string) {
+  static validateUpdateEntity<T>(schema: z.ZodSchema<T>, data: unknown, entityName: string) {
     const partialSchema = (schema as any).partial(); // eslint-disable-line @typescript-eslint/no-explicit-any
     const result = ZodValidator.validate(partialSchema, data);
 
     if (!result.success) {
-      // TODO: Add proper logging service for validation errors
+      import('@/services/logger').then(({ logger }) => {
+        logger.validationError(`Update validation failed for ${entityName}`, result.errors, entityName);
+      });
     }
 
     return result;
@@ -297,7 +300,9 @@ export class EntityValidator {
     const result = DataSanitizer.sanitizeAndValidate(schema, data, sanitizeOptions);
 
     if (!result.success) {
-      // TODO: Add proper logging service for validation errors
+      import('@/services/logger').then(({ logger }) => {
+        logger.validationError('Sanitization validation failed', result.errors, 'unknown');
+      });
     }
 
     return result;
